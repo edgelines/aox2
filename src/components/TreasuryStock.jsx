@@ -135,9 +135,7 @@ export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
     }
     const 업종선택했을때테이블변경 = () => {
         let filtered = [...orignData];
-        if (취득처분선택 !== 'All') { filtered = filtered.filter(item => item.취득처분 === 업종선택.keyword); }
-        filtered = filtered.filter(item => item.시장 === 업종선택.시장);
-        filtered = filtered.filter(item => item.업종명 === 업종선택.업종명);
+        filtered = filtered.filter(item => item.취득처분 === 업종선택.keyword && item.업종명 === 업종선택.업종명 && item.시장 === 업종선택.시장);
         filtered = filtered.map((item, index) => { return { ...item, 순번: index + 1 }; });
         setTreasuryStock(filtered);
         // let 
@@ -446,7 +444,7 @@ const CutomTable = ({ data, title, 업종명을상위컴포넌트로전달 }) =>
                 </TableRow>
                 {data.map(item => (
                     <TableRow key={item.업종명} onClick={() => 업종선택(item)}>
-                        <TableCell sx={{ color: '#efe9e9ed', fontSize: '12px' }}>{item.업종명}</TableCell>
+                        <TableCell sx={{ color: '#efe9e9ed', fontSize: '12px' }}>{(item.업종명).slice(0, 6)}</TableCell>
                         <TableCell sx={{ color: '#efe9e9ed', fontSize: '12px', width: '20px' }}>{item.갯수}</TableCell>
                     </TableRow>
                 ))}
