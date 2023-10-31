@@ -443,7 +443,7 @@ const CutomTable = ({ data, title, 업종명을상위컴포넌트로전달 }) =>
                     </TableCell>
                 </TableRow>
                 {data.map(item => (
-                    <TableRow key={item.업종명} onClick={() => 업종선택(item)} style={{ cursor : "pointer" }}>
+                    <TableRow key={item.업종명} onClick={() => 업종선택(item)} sx={{ cursor : "pointer" }}>
                         <TableCell sx={{ color: '#efe9e9ed', fontSize: '12px' }}>{(item.업종명).slice(0, 6)}</TableCell>
                         <TableCell sx={{ color: '#efe9e9ed', fontSize: '12px', width: '20px' }}>{item.갯수}</TableCell>
                     </TableRow>
