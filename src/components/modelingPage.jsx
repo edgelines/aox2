@@ -275,7 +275,12 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
                                             <span>Vix : </span>
                                             <span style={{ color: 'tomato' }}> {Vix.value} ( + {Vix.net} )</span>
                                         </>
-                                        : <span style={{ color: 'deepskyblue' }}> {Vix.value} ( {Vix.net} )</span>
+                                        :
+                                        <>
+                                        <span>Vix : </span>
+                                        <span style={{ color: 'deepskyblue' }}> {Vix.value} ( {Vix.net} )</span>
+                                        </> 
+                                        
                                     }
                                 </Grid>
                                 : <Skeleton variant="rounded" height={20} animation="wave" />}
