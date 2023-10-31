@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Grid, Typography, RadioGroup, Radio, FormLabel, FormControlLabel, Box, Table, TableBody, TableRow, TableCell } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-// import { useTheme, styled } from '@mui/material/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import StockChart from './SectorsPage/stockChart'
-import SectorChart from './SectorsPage/sectorChart';
 import { SectorsName15 } from './util/util';
 import { API, JSON } from './util/config';
+import CSS from './TreasuryStock.module.css'
 
 export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
     const [orignData, setOrignData] = useState([]);
@@ -313,7 +312,7 @@ export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
                     >
                         <FormLabel sx={{ textAlign: 'start', fontWeight: 660, color: '#efe9e9ed' }}>Filter by 취득/처분</FormLabel>
                         {['All', '취득', '처분'].map((item) => (
-                            <FormControlLabel value={item} control={<Radio size='small' />} label={item} key={item} sx={{ '.MuiFormControlLabel-label': labelStyle }} />
+                            <FormControlLabel value={item} control={<Radio size='small' />} label={item} key={item} className={CSS.listGroupitem} sx={{ '.MuiFormControlLabel-label': labelStyle }} />
                         ))}
                     </RadioGroup>
                 </Grid>
@@ -326,7 +325,7 @@ export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
                     >
                         <FormLabel sx={{ textAlign: 'start', fontWeight: 660, color: '#efe9e9ed' }}>Filter by 코스피/코스닥</FormLabel>
                         {['All', '코스피', '코스닥'].map((item) => (
-                            <FormControlLabel value={item} control={<Radio size='small' />} label={item} key={item} sx={{ '.MuiFormControlLabel-label': labelStyle }} />
+                            <FormControlLabel value={item} control={<Radio size='small' />} label={item} key={item} className={CSS.listGroupitem} sx={{ '.MuiFormControlLabel-label': labelStyle }} />
                         ))}
                     </RadioGroup>
                 </Grid>
@@ -443,7 +442,7 @@ const CutomTable = ({ data, title, 업종명을상위컴포넌트로전달 }) =>
                     </TableCell>
                 </TableRow>
                 {data.map(item => (
-                    <TableRow key={item.업종명} onClick={() => 업종선택(item)} sx={{ cursor : "pointer" }}>
+                    <TableRow key={item.업종명} onClick={() => 업종선택(item)} className={CSS.listGroupitem} >
                         <TableCell sx={{ color: '#efe9e9ed', fontSize: '12px' }}>{(item.업종명).slice(0, 6)}</TableCell>
                         <TableCell sx={{ color: '#efe9e9ed', fontSize: '12px', width: '20px' }}>{item.갯수}</TableCell>
                     </TableRow>

@@ -1,0 +1,6 @@
+.listGroupitem:hover {
+    cursor : pointer;
+    transform: scale(1.05);
+    z-index: 100;
+    background-color: #999;
+}
