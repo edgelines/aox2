@@ -579,11 +579,11 @@ function App() {
                 onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
-                <SwiperSlide style={swiperSlideStyle} >
-                    <TreasuryStockPage swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
-                </SwiperSlide>
-
                 {/* <SwiperSlide style={swiperSlideStyle} >
+                    <TreasuryStockPage swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
+                </SwiperSlide> */}
+
+                <SwiperSlide style={swiperSlideStyle} >
                     <SchedulePage swiperRef={swiperRef} />
                 </SwiperSlide>
 
@@ -645,7 +645,7 @@ function App() {
                     <WeightAvgPage3 swiperRef={swiperRef} ELW_monthTable={ELW_monthTable} ELW_CallPutRatio_Maturity={ELW_CallPutRatio_Maturity} ElwWeightedAvgCheck={ElwWeightedAvgCheck} Exchange={Exchange} MarketDetail={MarketDetail} />
                 </SwiperSlide>
 
-                <SwiperSlide style={swiperSlideStyle} > <CtpPage swiperRef={swiperRef} /> </SwiperSlide> */}
+                <SwiperSlide style={swiperSlideStyle} > <CtpPage swiperRef={swiperRef} /> </SwiperSlide>
             </Swiper>
         </div >
     );
