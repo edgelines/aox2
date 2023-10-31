@@ -103,10 +103,11 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
                 return [Highcharts.dateFormat('%y.%m.%d', this.x)].concat(
                     this.points ?
                         this.points.map(function (point) {
-
                             if (point.series.options.isCandle) {
-                                return `${timeSeries}<br/> 종가 : ${numberWithCommas(point.point.close)}`;
-
+                                return `종가 : ${numberWithCommas(point.point.close)}`;
+                                // return `${timeSeries}<br/> 종가 : ${numberWithCommas(point.point.close)}`;
+                            } else if (point.series.options.isPercent) {
+                                return `${point.series.name} : ${parseInt(point.y)} %`;
                             } else {
                                 return ''
                             }
@@ -289,14 +290,14 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
                 lineWidth: 0.5,
                 params: { index: 2, period: 36 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
             }, {
-                type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+                type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true, isPercent: true,
                 color: 'tomato',
                 dashStyle: 'shortdash',
                 name: 'W-5', id: 'williamsr',
                 lineWidth: 1,
                 params: { index: 3, period: 5 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
             }, {
-                type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+                type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true, isPercent: true,
                 color: 'dodgerblue',
                 dashStyle: 'shortdash',
                 name: 'W-7', id: 'williamsr2',
@@ -317,7 +318,7 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
                 name: '100',
                 lineWidth: 0.5
             }, {
-                type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+                type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true, isPercent: true,
                 color: 'tomato',
                 dashStyle: 'shortdash',
                 name: 'W-14', id: 'williamsr',

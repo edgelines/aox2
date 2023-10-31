@@ -5,10 +5,20 @@
 
 ## Todo / Bug
 - 새 검색식
-  - BackEnd : 종목별 실시간 윌리엄스(3개), DMI (1,2,3)  
+  - BackEnd : 종목별 실시간 윌리엄스(3개), DMI (1,2,3)
+
 
 ### 2023.10.31
+{master}
 - DetailPage : MarketDetail={MarketDetail} 추가
+- Highcharts-Stock 마우스 휠로 기간 조절 > 원위치
+- 깃 히스토리 삭제
+- dist > 서버에서 자동 build
+- 모델링페이지
+  - 윌리엄스 수치, tooltip 위치조절
+- 자기주식취득처분
+  - Stock Chart 윌리엄스 수치 표기
+  - 클릭이밴트 위치 조정
 
 ### 2023.10.30
 {main}
@@ -26,7 +36,7 @@
 - 모델링페이지
   - ADR 조정, 윌리엄스 조정 구분, 현재값 표기
   - Vix, 환율,  지수 숫자 표기
-  - reduce : Exchange, MarketDetail
+- reduce : Exchange, MarketDetail
 - Highcharts-Stock 마우스 휠로 기간 조절
 
 ### 2023.10.28

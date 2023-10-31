@@ -155,21 +155,21 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
             type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
             color: 'tomato',
             dashStyle: 'shortdash',
-            name: 'Williams-R-1', id: 'williamsr',
+            name: 'W-R-1', id: 'williamsr',
             lineWidth: 1,
             params: { index: 3, period: williamsNum }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }, {
             type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
             color: 'dodgerblue',
             dashStyle: 'shortdash',
-            name: 'Williams-R-2', id: 'williamsr2',
+            name: 'W-R-2', id: 'williamsr2',
             lineWidth: 1,
             params: { index: 3, period: williamsNum2 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }, {
             type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
             color: 'gold',
             dashStyle: 'shortdash',
-            name: 'Williams-R-3', id: 'williamsr3',
+            name: 'W-R-3', id: 'williamsr3',
             lineWidth: 1,
             params: { index: 3, period: williamsNum3 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         },
@@ -252,9 +252,9 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
         { name: `ADR1`, value: `ADR ( ${adrNum1} )`, color: "silver" },
         { name: `ADR2`, value: `ADR ( ${adrNum2} )`, color: "orange" },
         { name: `ADR3`, value: `ADR ( ${adrNum3} )`, color: "greenyellow" },
-        { name: `WillamsR`, value: `WillamsR1 ( ${williamsNum} )`, color: "tomato" },
-        { name: `WillamsR2`, value: `WillamsR2 ( ${williamsNum2} )`, color: "dodgerblue" },
-        { name: `WillamsR3`, value: `WillamsR3 ( ${williamsNum3} )`, color: "gold" }
+        { name: `WillamsR`, value: `W-R-1 ( ${williamsNum} )`, color: "tomato" },
+        { name: `WillamsR2`, value: `W-R-2 ( ${williamsNum2} )`, color: "dodgerblue" },
+        { name: `WillamsR3`, value: `W-R-3 ( ${williamsNum3} )`, color: "gold" }
     ]
     const ADR_list = [
         { name: `ADR ( ${adrNum1} )`, value: adrLastValue1, color: "silver" },

@@ -91,17 +91,17 @@ export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
             return acc;
         }, {})
     }
-    const convertToArray = (obj, keyword) => { return Object.entries(obj).map(([key, val]) => { return { 업종명: key, 갯수: val.갯수, 총액: val.총액, keyword: keyword } }) };
+    const convertToArray = (obj, keyword, 시장) => { return Object.entries(obj).map(([key, val]) => { return { 업종명: key, 갯수: val.갯수, 총액: val.총액, keyword: keyword, 시장: 시장 } }) };
     const 업종명전처리 = () => {
         if (orignData && orignData.length > 0) {
             const 코스피취득 = orignData.filter(item => item.취득처분 === '취득' && item.시장 === 'K');
             const 코스닥취득 = orignData.filter(item => item.취득처분 === '취득' && item.시장 === 'D');
             const 코스피처분 = orignData.filter(item => item.취득처분 === '처분' && item.시장 === 'K');
             const 코스닥처분 = orignData.filter(item => item.취득처분 === '처분' && item.시장 === 'D');
-            const 코스피취득업종카운트 = convertToArray(업종명카운트(코스피취득), '취득');
-            const 코스닥취득업종카운트 = convertToArray(업종명카운트(코스닥취득), '취득');
-            const 코스피처분업종카운트 = convertToArray(업종명카운트(코스피처분), '처분');
-            const 코스닥처분업종카운트 = convertToArray(업종명카운트(코스닥처분), '처분');
+            const 코스피취득업종카운트 = convertToArray(업종명카운트(코스피취득), '취득', 'K');
+            const 코스닥취득업종카운트 = convertToArray(업종명카운트(코스닥취득), '취득', 'D');
+            const 코스피처분업종카운트 = convertToArray(업종명카운트(코스피처분), '처분', 'K');
+            const 코스닥처분업종카운트 = convertToArray(업종명카운트(코스닥처분), '처분', 'D');
             set업종Top3({
                 코스피취득: 코스피취득업종카운트.sort((a, b) => {
                     if (b.갯수 !== a.갯수) {
@@ -136,7 +136,7 @@ export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
     const 업종선택했을때테이블변경 = () => {
         let filtered = [...orignData];
         if (취득처분선택 !== 'All') { filtered = filtered.filter(item => item.취득처분 === 업종선택.keyword); }
-        // if (시장선택 !== 'All') { filtered = filtered.filter(item => item.시장 === 시장선택); }
+        filtered = filtered.filter(item => item.시장 === 업종선택.시장);
         filtered = filtered.filter(item => item.업종명 === 업종선택.업종명);
         filtered = filtered.map((item, index) => { return { ...item, 순번: index + 1 }; });
         setTreasuryStock(filtered);
@@ -305,7 +305,7 @@ export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
     const labelStyle = { fontSize: '14px', textAlign: 'start' }
     return (
         <Grid container>
-            <Grid item xs={1.5}>
+            <Grid item xs={1.8}>
                 <Grid container>
                     <RadioGroup
                         aria-labelledby="radio-buttons-group-label"
@@ -376,7 +376,7 @@ export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid item xs={5.3}>
+            <Grid item xs={5}>
                 <div style={{ height: "100svh" }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
@@ -447,7 +447,7 @@ const CutomTable = ({ data, title, 업종명을상위컴포넌트로전달 }) =>
                 {data.map(item => (
                     <TableRow key={item.업종명} onClick={() => 업종선택(item)}>
                         <TableCell sx={{ color: '#efe9e9ed', fontSize: '12px' }}>{item.업종명}</TableCell>
-                        <TableCell sx={{ color: '#efe9e9ed', fontSize: '12px' }}>{item.갯수}</TableCell>
+                        <TableCell sx={{ color: '#efe9e9ed', fontSize: '12px', width: '20px' }}>{item.갯수}</TableCell>
                     </TableRow>
                 ))}
             </TableBody>
