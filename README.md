@@ -7,6 +7,12 @@
 - 새 검색식
   - BackEnd : 종목별 실시간 윌리엄스(3개), DMI (1,2,3)ß
 
+### 2023.11.01
+{master}
+- 1st Commit
+  - marketCurrentValue 
+    - 조건문 오타
+
 ### 2023.10.31
 {master}
 - DetailPage : MarketDetail={MarketDetail} 추가

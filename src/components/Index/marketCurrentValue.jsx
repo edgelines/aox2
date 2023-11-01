@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Skeleton } from '@mui/material';
-import axios from 'axios';
-import { API } from '../util/config.jsx';
+// import axios from 'axios';
+// import { API } from '../util/config.jsx';
 
 export default function Kospi200CurrentValue({ valueFont, valueTitle, MarketDetail }) {
-    const [kospi200, setKospi200] = useState({ net: null, value: null });
-    const [kospi, setKospi] = useState({ net: null, value: null });
-    const [kosdaq, setKosdaq] = useState({ net: null, value: null });
+    // const [kospi200, setKospi200] = useState({ net: null, value: null });
+    // const [kospi, setKospi] = useState({ net: null, value: null });
+    // const [kosdaq, setKosdaq] = useState({ net: null, value: null });
 
     // const fetchData = async () => {
 
@@ -58,7 +58,7 @@ export default function Kospi200CurrentValue({ valueFont, valueTitle, MarketDeta
                 {
                     MarketDetail && MarketDetail.length > 0 ?
                         <>
-                            {kospi.net > 0 ?
+                            {MarketDetail[1].전일대비 > 0 ?
                                 <span style={{ color: 'tomato', fontSize: valueFont ? valueFont : '24px', fontWeight: 'bolder' }}> {`${MarketDetail[1].지수.toFixed(2)} ( ${MarketDetail[1].전일대비} % )`} </span>
                                 : <span style={{ color: 'deepskyblue', fontSize: valueFont ? valueFont : '24px', fontWeight: 'bolder' }}> {`${MarketDetail[1].지수.toFixed(2)} ( ${MarketDetail[1].전일대비} % )`} </span>}
                         </>
@@ -70,7 +70,7 @@ export default function Kospi200CurrentValue({ valueFont, valueTitle, MarketDeta
                 {
                     MarketDetail && MarketDetail.length > 0 ?
                         <>
-                            {kosdaq.net > 0 ?
+                            {MarketDetail[2].전일대비 ?
                                 <span style={{ color: 'tomato', fontSize: valueFont ? valueFont : '24px', fontWeight: 'bolder' }}> {`${MarketDetail[2].지수.toFixed(2)} ( ${MarketDetail[2].전일대비} % )`} </span>
                                 : <span style={{ color: 'deepskyblue', fontSize: valueFont ? valueFont : '24px', fontWeight: 'bolder' }}> {`${MarketDetail[2].지수.toFixed(2)} ( ${MarketDetail[2].전일대비} % )`} </span>}
                         </>
