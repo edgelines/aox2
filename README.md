@@ -9,12 +9,15 @@
 
 ### 2023.11.06
 {master}
-- 1st Commit
+- Commit.1
   - PutCallPage 
     - TypeError : value.날짜.slice is not a function 해결
-- 2nd Commit
+- Commit.2
   - Modeling Page 
     - Kospi200 Tooltip Remove
+- Commit.3
+  - Stock API 변경
+  - CtpPage, weightAvgPage : Box vh -> px로 변경
 
 ### 2023.11.01
 {master}

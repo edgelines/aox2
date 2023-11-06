@@ -112,7 +112,7 @@ export default function CtpPage({ swiperRef }) {
                 <React.Fragment key={index}>
                     <Grid item xs={4}>
                         <ELW_BarChart data={data} height={465} />
-                        <Box sx={{ fontSize: '1.2rem', fontWeight: 600, position: 'absolute', transform: 'translate(2.8vw, -22vh)', textAlign: 'left', backgroundColor: 'rgba(0, 0, 0, 0.2)', p: 1 }}>
+                        <Box sx={{ fontSize: '1.2rem', fontWeight: 600, position: 'absolute', transform: 'translate(2.8vw, -200px)', textAlign: 'left', backgroundColor: 'rgba(0, 0, 0, 0.2)', p: 1 }}>
                             {
                                 elwWeightedAvg && elwWeightedAvg.length > index ?
                                     <>

@@ -185,7 +185,7 @@ export default function WeightAvgPage1({ swiperRef, ELW_monthTable, ELW_CallPutR
                     <WeightAvgCheck ElwWeightedAvgCheck={ElwWeightedAvgCheck} />
                 </Box>
 
-                <Box sx={{ position: 'absolute', transform: 'translate(3vw, 63vh)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)', width: '25vw' }}>
+                <Box sx={{ position: 'absolute', transform: 'translate(45px, 605px)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)', width: '25vw' }}>
                     {table2 && table2.length > 0 ?
                         <Table sx={{ fontSize: '0.8rem', borderBottom: '1px solid #efe9e9ed', }}>
                             <thead>
@@ -271,12 +271,12 @@ export default function WeightAvgPage1({ swiperRef, ELW_monthTable, ELW_CallPutR
                 <Box sx={{ position: 'absolute', transform: 'translate(27.6vw, 5vh)', zIndex: 5, justifyItems: 'right', p: 1 }}>
                     <WeightAvgCheck ElwWeightedAvgCheck={ElwWeightedAvgCheck} />
                 </Box>
-                <Box sx={{ position: 'absolute', transform: 'translate(3vw, 5vh)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+                <Box sx={{ position: 'absolute', transform: 'translate(3vw, 60px)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
                     <MarketCurrentValue MarketDetail={MarketDetail} />
                 </Box>
                 <MonthChart data={month2Data.series} height={840} categories={month2Data.categories} min={month2Data.min} credit={updateD} />
 
-                <Box sx={{ position: 'absolute', transform: 'translate(2.6vw, -30vh)', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}><MonthTable ELW_monthTable={ELW_monthTable} ELW_CallPutRatio_Maturity={ELW_CallPutRatio_Maturity} /></Box>
+                <Box sx={{ position: 'absolute', transform: 'translate(2.6vw, -280px)', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}><MonthTable ELW_monthTable={ELW_monthTable} ELW_CallPutRatio_Maturity={ELW_CallPutRatio_Maturity} /></Box>
 
                 <Grid container justifyContent="flex-end" alignItems="center">
                     {month1Value && month1Value.length > 0 ?

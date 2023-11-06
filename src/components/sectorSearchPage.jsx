@@ -18,7 +18,7 @@ import StockChart from './SectorsPage/stockChart';
 import SectorChart from './SectorsPage/sectorChart';
 import TreeMap from './SectorsPage/treeMap';
 import ColumnChart from './SectorsPage/columnChart';
-import { API, JSON } from './util/config';
+import { API, JSON, STOCK } from './util/config';
 
 export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, StockSectorsThemes, StockThemeByItem, StockSectorByItem, StockPrice, SearchInfo, SectorsChartData, SectorsRanksThemes, ScheduleItemEvent }) {
 
@@ -255,7 +255,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
     };
     const stockItemSelected = (selectedStockItem) => { // 종목 클릭시
         setStockItem(selectedStockItem.종목명);
-        axios.get(`${API}/StockData/${selectedStockItem.종목코드}`)
+        axios.get(`${STOCK}/${selectedStockItem.종목코드}`)
             .then(response => {
                 const stockData = [];
                 const volumeData = [];

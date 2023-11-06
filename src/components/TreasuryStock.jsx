@@ -5,7 +5,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import StockChart from './SectorsPage/stockChart'
 import { SectorsName15 } from './util/util';
-import { API, JSON } from './util/config';
+import { API, JSON, STOCK } from './util/config';
 import CSS from './TreasuryStock.module.css'
 
 export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
@@ -181,7 +181,7 @@ export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
         set최소값(selectedStockItem.최소값)
         set평균단가(selectedStockItem.평균단가)
         setStockName(selectedStockItem.종목명);
-        axios.get(`${API}/StockData/${selectedStockItem.종목코드}`)
+        axios.get(`${STOCK}/${selectedStockItem.종목코드}`)
             .then(response => {
                 const stockData = [];
                 const volumeData = [];
