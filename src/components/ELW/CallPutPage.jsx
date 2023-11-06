@@ -66,9 +66,12 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
             response.data.forEach((value, index, array) => {
                 var 콜비율 = parseFloat((value.콜_거래대금 / (value.콜_거래대금 + value.풋_거래대금) * 100).toFixed(2))
                 var 풋비율 = parseFloat((value.풋_거래대금 / (value.콜_거래대금 + value.풋_거래대금) * 100).toFixed(2))
+                // '날짜' 값을 문자열로 변환
+                var 날짜문자열 = String(value['날짜']);
                 data1.push(콜비율);
                 data2.push(풋비율);
-                category.push(value['날짜'].slice(4, 6) + '.' + value['날짜'].slice(6, 8) + '<br><span style="color:#FCAB2F">' + 콜비율 + ' %</span><br><span style="color:#00F3FF">' + 풋비율 + ' %</span>');
+                category.push(날짜문자열.slice(4, 6) + '.' + 날짜문자열.slice(6, 8) + '<br><span style="color:#FCAB2F">' + 콜비율 + ' %</span><br><span style="color:#00F3FF">' + 풋비율 + ' %</span>');
+                // category.push(value['날짜'].slice(4, 6).toString() + '.' + value['날짜'].slice(6, 8).toString() + '<br><span style="color:#FCAB2F">' + 콜비율 + ' %</span><br><span style="color:#00F3FF">' + 풋비율 + ' %</span>');
             })
             setElwRatioData({
                 series: [
