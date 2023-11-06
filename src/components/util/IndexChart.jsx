@@ -62,7 +62,8 @@ export default function Chart({ data = [], height, name, hidenLegend, rangeSelec
                                 }
                             } else if (name === 'Modeling') {
                                 if (point.series.options.isCandle) {
-                                    return `${point.series.name}<br/>시가 : ${point.point.open}<br/> 고가 : ${point.point.high}<br/> 저가 : ${point.point.low}<br/> 종가 : ${point.point.close}`;
+                                    return ``;
+                                    // return `${point.series.name}<br/>시가 : ${point.point.open}<br/> 고가 : ${point.point.high}<br/> 저가 : ${point.point.low}<br/> 종가 : ${point.point.close}`;
                                 } else if (point.series.options.isPercent) {
                                     return point.series.name + ' : ' + parseInt(point.y) + '%';
                                 } else if (point.series.options.isADR) {

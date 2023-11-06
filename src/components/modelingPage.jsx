@@ -149,8 +149,8 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
         const adr3 = getRollingADR(res2, adrNum3, 'ADR3');
 
         const newKospi200 = [{
-            name: '코스피200', id: 'candlestick', isCandle: true,
-            data: Kospi200, type: 'candlestick', yAxis: 0, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false, isCandle: true,
+            name: '코스피200', id: 'candlestick',
+            data: Kospi200, type: 'candlestick', yAxis: 0, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false,
         }, {
             type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
             color: 'tomato',
@@ -277,10 +277,10 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
                                         </>
                                         :
                                         <>
-                                        <span>Vix : </span>
-                                        <span style={{ color: 'deepskyblue' }}> {Vix.value} ( {Vix.net} )</span>
-                                        </> 
-                                        
+                                            <span>Vix : </span>
+                                            <span style={{ color: 'deepskyblue' }}> {Vix.value} ( {Vix.net} )</span>
+                                        </>
+
                                     }
                                 </Grid>
                                 : <Skeleton variant="rounded" height={20} animation="wave" />}

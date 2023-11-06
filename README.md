@@ -8,8 +8,13 @@
   - BackEnd : 종목별 실시간 윌리엄스(3개), DMI (1,2,3)
 
 ### 2023.11.06
-- PutCallPage 
-  - TypeError : value.날짜.slice is not a function 해결
+{master}
+- 1st Commit
+  - PutCallPage 
+    - TypeError : value.날짜.slice is not a function 해결
+- 2nd Commit
+  - Modeling Page 
+    - Kospi200 Tooltip Remove
 
 ### 2023.11.01
 {master}

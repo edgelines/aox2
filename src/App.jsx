@@ -580,7 +580,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <CallPutPage swiperRef={swiperRef} Vix={Vix} VixMA={VixMA} IndexMA={IndexMA} Kospi200={Kospi200} Kospi={Kospi} Kosdaq={Kosdaq} Invers={Invers} MarketKospi200={MarketKospi200} MarketDetail={MarketDetail} />
+                    <ModelingPage swiperRef={swiperRef} Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
