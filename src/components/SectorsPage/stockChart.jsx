@@ -21,7 +21,7 @@ Highcharts.setOptions({
     }
 });
 
-const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, 평균단가, height }) => {
+const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, 평균단가, height, indicators }) => {
     const [전일대비, set전일대비] = useState(null);
     const [chartOptions, setChartOptions] = useState({
         chart: { animation: false, height: height ? height : 360, },
@@ -134,7 +134,7 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
         inputEnabled: false,
         buttons: [{
             type: 'month',
-            count: 7,
+            count: 6,
             text: '일봉',
             // title: 'View 3 months'
         }],
@@ -340,7 +340,7 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
     };
 
     useEffect(() => {
-        if (거래일datetime) {
+        if (거래일datetime || indicators) {
             setChartOptions({
                 rangeSelector: rangeSelect ? 주봉 : 일봉,
                 series: getSeriesData(rangeSelect),

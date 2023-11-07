@@ -613,13 +613,16 @@ export const VixMA = createSlice({
 
 export const MarketDetail = createSlice({
     name: "MarketDetail",
-    initialState: {},
+    initialState: { data: [], status: 'idle', error: null },
     reducers: {},
     extraReducers: {
         [getMarketDetail.pending]: (state) => {
             state.status = 'loading';
         },
-        [getMarketDetail.fulfilled]: (state, { payload }) => [...payload],
+        [getMarketDetail.fulfilled]: (state, { payload }) => {
+            state.data = payload; // payload로 배열 데이터를 업데이트
+            state.status = 'succeeded'; // 상태를 성공으로 변경
+        },
         [getMarketDetail.rejected]: (state, action) => {
             state.status = 'failed';
             state.error = action.error.message;
