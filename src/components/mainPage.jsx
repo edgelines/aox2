@@ -559,7 +559,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
 
                 <Grid container sx={{ mt: '1vh' }}>
                     <Grid item xs={12}>
-                        <MarketTrendTable TrendData={TrendData} />
+                        <MarketTrendTable TrendData={TrendData} fontSize={'0.7rem'} />
                         {/* {table2 && table2.length > 0 ?
                             <Table sx={{ fontSize: '0.7rem', borderBottom: '1px solid #efe9e9ed', }}>
                                 <thead>

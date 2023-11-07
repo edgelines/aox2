@@ -23,6 +23,9 @@
           [getVix.fulfilled]: (state, { payload }) => { state.data = payload; state.status = 'succeeded'; }, // get 성공시 status 추가
     }, 
     ```
+  - mainPage > marketTrend(Table) fontSize 추가
+- Commit.2
+  - mainPage > marketTrend(Table) > Reduce에서 데이터 새로 받을때 재랜더링되는 이슈 제거
 
 ### 2023.11.06
 {master}

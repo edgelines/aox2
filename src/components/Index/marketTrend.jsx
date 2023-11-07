@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { numberWithCommas } from '../util/util';
 import { Box, Skeleton, Table } from '@mui/material';
 
-export default function MarketTrendData({ TrendData }) {
+export default function MarketTrendData({ TrendData, fontSize }) {
     const 매매동향당일누적스타일 = { borderRight: '1px solid #757575' }
+    const [tableData, setData] = useState()
+    useEffect(() => {
+        if (TrendData.status === 'succeeded') {
+            setData(TrendData)
+        }
+    }, [TrendData])
     return (
         <>
-            {TrendData.status === 'succeeded' ?
-                <Table sx={{ fontSize: '0.8rem', borderBottom: '1px solid #efe9e9ed', }}>
+            {tableData && tableData.status === 'succeeded' ?
+                <Table sx={{ fontSize: fontSize ? fontSize : '0.8rem', borderBottom: '1px solid #efe9e9ed', }}>
                     <thead>
                         <tr>
                             <th></th>
@@ -26,7 +32,7 @@ export default function MarketTrendData({ TrendData }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {TrendData.data.map((value, index) => (
+                        {tableData.data.map((value, index) => (
                             <tr key={index}>
                                 {value.구분 === '코스피200' ?
                                     <td style={{ color: 'greenyellow', ...매매동향당일누적스타일 }}>{value.구분}</td> : <td style={매매동향당일누적스타일}>{String(value.구분).replace('단위:', '')}</td>
