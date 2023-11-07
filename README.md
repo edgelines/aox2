@@ -24,8 +24,9 @@
     }, 
     ```
   - mainPage > marketTrend(Table) fontSize 추가
-- Commit.2
+- Commit.2+3
   - mainPage > marketTrend(Table) > Reduce에서 데이터 새로 받을때 재랜더링되는 이슈 제거
+  - App.jsx > Swiper
 
 ### 2023.11.06
 {master}
