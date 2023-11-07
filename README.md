@@ -4,8 +4,24 @@
     - npm run build: "webpack --config webpack.prod.js"
 
 ## Todo / Bug
-- 새 검색식
-  - BackEnd : 종목별 실시간 윌리엄스(3개), DMI (1,2,3)
+
+
+### 2023.11.07
+{master}
+- Git 되돌림
+  - 일부 데이터들을 reduce에서 되돌아올때 재랜더링이됨
+{dev-stockSearch2}
+- Store.js
+  - indexData.js > MarketDetail ```initialState: { data: [], status: 'idle', error: null },```
+  - stockSearch.js > indicators 추가
+- StockSearch.jsx 진행중.
+  - [x] Chart Copy
+  - [x] Table
+  - [ ] Filters
+    - [x] DMI 
+    - [ ] Williams
+  - Mac > 종목별 실시간 윌리엄스(3개), DMI (1,2,3) > stock-mac 참고
+- marketCurrentValue.jsx > MarketDetil reduce 파라미터 수정
 
 ### 2023.11.06
 {master}

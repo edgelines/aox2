@@ -503,8 +503,8 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                         </Box>
                     </Grid>
                     {
-                        MarketDetail && MarketDetail.length > 0 ?
-                            <Grid item xs={5} sx={{ border: MarketDetail[0].전일대비 > 0 ? '2px solid tomato' : '2px solid deepskyblue', borderRadius: '10px' }}>
+                        MarketDetail.status === 'succeeded' ?
+                            <Grid item xs={5} sx={{ border: MarketDetail.data[0].전일대비 > 0 ? '2px solid tomato' : '2px solid deepskyblue', borderRadius: '10px' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'right' }}>
                                     <img src={kospi200Img} style={{ width: '100%' }} />
                                 </Box>
@@ -535,7 +535,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                 </Grid>
 
                 <Grid item xs={12}>
-                    {MarketDetail && MarketDetail.length > 0 ?
+                    {MarketDetail.status === 'succeeded' ?
                         <Table sx={{ fontSize: '0.7rem', borderBottom: '1px solid #efe9e9ed', mt: 1 }}>
                             <thead>
                                 <tr style={{ borderBottom: '1px solid #efe9e9ed' }}>
@@ -549,7 +549,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                                 </tr>
                             </thead>
                             <tbody>
-                                {MarketDetail.map((value, index) => (
+                                {MarketDetail.data.map((value, index) => (
                                     <tr key={index}>
                                         {value.업종명 === 'Kospi200' ?
                                             <td style={{ color: 'greenyellow' }}>코스피200</td> : value.업종명 === 'Kospi' ?
@@ -569,7 +569,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                                 )}
                             </tbody>
                         </Table>
-                        : <Skeleton variant="rounded" height={300} animation="wave" />
+                        : <Skeleton variant="rounded" height={100} animation="wave" />
                     }
                 </Grid>
 

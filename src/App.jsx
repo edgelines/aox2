@@ -10,6 +10,7 @@ import { getABC1, getABC2 } from "./store/AxBxC.js";
 import { getStockThemeByItem, getStockSectorByItem, getSearchInfo, getScheduleItemEvent } from "./store/info.js";
 import { getIndexMA, getVixMA, getVix, getMarketDetail, getKospi200, getKospi, getKosdaq, getInvers, getMarketKospi200, getExchange } from './store/indexData.js';
 import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvg, getElwWeightedAvgCheck } from './store/ELW.js';
+import { getStockSearch } from './store/stockSearch';
 // Components
 import SchedulePage from './components/schedulePage.jsx';
 import SectorsChartPage from './components/sectorsChartPage.jsx';
@@ -19,6 +20,7 @@ import CallPutPage from './components/ELW/CallPutPage.jsx'
 import DetailPage from './components/ELW/detailPage.jsx'
 import MainPage from './components/mainPage.jsx'
 import TreasuryStockPage from './components/TreasuryStock.jsx'
+import StockSearchPage from './components/StockSearch';
 import CtpPage from './components/ELW/CtpPage.jsx'
 import ModelingPage from './components/modelingPage.jsx';
 import WeightAvgPage1 from './components/ELW/weightAvgPage1.jsx';
@@ -43,6 +45,7 @@ function App() {
     const StockThemes = useSelector((state) => state.StockThemes);
     const StockThemeByItem = useSelector((state) => state.StockThemeByItem);
     const StockSectorByItem = useSelector((state) => state.StockSectorByItem);
+    const StockSearch = useSelector((state) => state.StockSearch);
     const SearchInfo = useSelector((state) => state.SearchInfo);
     const ABC1 = useSelector((state) => state.ABC1);
     const ABC2 = useSelector((state) => state.ABC2);
@@ -244,6 +247,7 @@ function App() {
         await dispatch(getInvers());
         await dispatch(getMarketKospi200());
         await dispatch(getExchange());
+        await dispatch(getStockSearch());
     }
     // 하루 주기
     const fetchData1Day = async () => {
@@ -580,12 +584,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <SectorSearchPage
-                        StockSectors={StockSectors} swiperRef={swiperRef} ABC1={ABC1} ABC2={ABC2}
-                        StockSectorsThemes={StockSectorsThemes} StockThemeByItem={StockThemeByItem} StockSectorByItem={StockSectorByItem}
-                        StockPrice={StockPrice} SearchInfo={SearchInfo}
-                        SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
-                    />
+                    <StockSearchPage swiperRef={swiperRef} StockSearch={StockSearch} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -622,6 +621,10 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <TreasuryStockPage swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <StockSearchPage swiperRef={swiperRef} StockSearch={StockSearch} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
