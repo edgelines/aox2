@@ -4,6 +4,7 @@ import { Grid, Box, Table, Skeleton, Modal, Backdrop, ToggleButton, ToggleButton
 // import { styled } from '@mui/material/styles';
 import CoreChart from './util/CoreChart';
 import { numberWithCommas, StyledToggleButton } from './util/util';
+import MarketTrendTable from './Index/marketTrend'
 import Kospi200CurrentValue from './Index/kospi200CurrentValue';
 import NewKospi200Group, { BubbleChartLegend } from './util/BubbleChart'
 import WeightAvgCheck from './ELW/weightAvgCheck';
@@ -15,7 +16,7 @@ import { parseInt } from 'lodash';
 import { API, JSON } from './util/config';
 HighchartsMore(Highcharts)
 SolidGauge(Highcharts)
-export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200BubbleCategory, MarketDetail, ElwWeightedAvgCheck, Exchange }) {
+export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200BubbleCategory, MarketDetail, ElwWeightedAvgCheck, Exchange, TrendData }) {
     // const updateA = 'Updates-10m'
     // const updateB = 'Updates-5m'
     const updateC = 'Update - 2m'
@@ -26,18 +27,15 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
 
     const [gisuDayImg, setGisuDayImg] = useState(null);
     const [kospi200Img, setKospi200Img] = useState(null);
-    // const [exchange, setExchange] = useState({});
+
     const [market, setMarket] = useState({});
     const [marketAct, setMarketAct] = useState({});
-    const [table2, setTable2] = useState([]);
 
     const [bubbleDataPage, setBubbleDataPage] = useState('B');
     const [trendData, setTrendData] = useState({});
     const [foreigner, setForeigner] = useState({});
     const [institutional, setInstitutional] = useState({});
     const [individual, setIndividual] = useState({});
-    //trendDataBar
-    // const [trendDataBar, setTrendDataBar] = useState({ kospi200: [], kospi: [], kosdaq: [], futures: [], call: [], put: [] })
 
     const [today, setToday] = useState(null);
     const [time, setTime] = useState(null);
@@ -155,20 +153,6 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
             });
         });
 
-        await axios.get(API + "/MarketDetail").then((response) => {
-            setMarketAct({
-                kospi200: response.data[0]['상승%'] * 100,
-                kospi: response.data[1]['상승%'] * 100,
-                kosdaq: response.data[2]['상승%'] * 100,
-                name: ['200', 'Kospi', 'Kosdaq']
-            });
-        });
-        // await axios.get(JSON + "/exchange").then((response) => {
-        //     var value = response.data[0].환율
-        //     var net = response.data[0].증감
-        //     var comparison = response.data[0].변동
-        //     setExchange({ value: value, comparison: comparison, net: net })
-        // });
         await axios.get(API + "/TrendData").then((res) => {
             const data = res.data
             setForeigner({
@@ -183,17 +167,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                 당일: [data[data.length - 1].개인_코스피200, data[data.length - 1].개인_코스피, data[data.length - 1].개인_코스닥, data[data.length - 1].개인_선물, data[data.length - 1].개인_콜옵션, data[data.length - 1].개인_풋옵션],
                 누적: [data[data.length - 1].개인_코스피200_누적, data[data.length - 1].개인_코스피_누적, data[data.length - 1].개인_코스닥_누적, data[data.length - 1].개인_선물_누적, data[data.length - 1].개인_콜옵션_누적, data[data.length - 1].개인_풋옵션_누적],
             })
-            setTable2(
-                [{ 구분: '코스피200', 외국인: data[data.length - 1].외국인_코스피200, 외국인_누적: data[data.length - 1].외국인_코스피200_누적, 기관: data[data.length - 1].기관_코스피200, 기관_누적: data[data.length - 1].기관_코스피200_누적, 개인: data[data.length - 1].개인_코스피200, 개인_누적: data[data.length - 1].개인_코스피200_누적 },
-                { 구분: '코스피', 외국인: data[data.length - 1].외국인_코스피, 외국인_누적: data[data.length - 1].외국인_코스피_누적, 기관: data[data.length - 1].기관_코스피, 기관_누적: data[data.length - 1].기관_코스피_누적, 개인: data[data.length - 1].개인_코스피, 개인_누적: data[data.length - 1].개인_코스피_누적 },
-                { 구분: '코스닥', 외국인: data[data.length - 1].외국인_코스닥, 외국인_누적: data[data.length - 1].외국인_코스닥_누적, 기관: data[data.length - 1].기관_코스닥, 기관_누적: data[data.length - 1].기관_코스닥_누적, 개인: data[data.length - 1].개인_코스닥, 개인_누적: data[data.length - 1].개인_코스닥_누적 },
-                { 구분: '선물', 외국인: data[data.length - 1].외국인_선물, 외국인_누적: data[data.length - 1].외국인_선물_누적, 기관: data[data.length - 1].기관_선물, 기관_누적: data[data.length - 1].기관_선물_누적, 개인: data[data.length - 1].개인_선물, 개인_누적: data[data.length - 1].개인_선물_누적 },
-                { 구분: '콜옵션', 외국인: data[data.length - 1].외국인_콜옵션, 외국인_누적: data[data.length - 1].외국인_콜옵션_누적, 기관: data[data.length - 1].기관_콜옵션, 기관_누적: data[data.length - 1].기관_콜옵션_누적, 개인: data[data.length - 1].개인_콜옵션, 개인_누적: data[data.length - 1].개인_콜옵션_누적 },
-                { 구분: '풋옵션', 외국인: data[data.length - 1].외국인_풋옵션, 외국인_누적: data[data.length - 1].외국인_풋옵션_누적, 기관: data[data.length - 1].기관_풋옵션, 기관_누적: data[data.length - 1].기관_풋옵션_누적, 개인: data[data.length - 1].개인_풋옵션, 개인_누적: data[data.length - 1].개인_풋옵션_누적 },]
-            )
 
-
-            // console.log(trendDataBar);
             const tmp = data.slice(-35);
             const 외국인 = [];
             const 기관 = [];
@@ -315,6 +289,16 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
         setToday(date);
         setTime(time);
     }
+    useEffect(() => {
+        if (MarketDetail.status === 'succeeded') {
+            setMarketAct({
+                kospi200: MarketDetail.data[0]['상승%'] * 100,
+                kospi: MarketDetail.data[1]['상승%'] * 100,
+                kosdaq: MarketDetail.data[2]['상승%'] * 100,
+                name: ['200', 'Kospi', 'Kosdaq']
+            });
+        }
+    }, [MarketDetail])
     useEffect(() => {
         fetchData();
         setDate();
@@ -483,17 +467,17 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                             <Grid item xs={12} >{time}</Grid>
                             <Grid item xs={12} sx={{ fontSize: '0.7rem' }}>KRX/USD : </Grid>
                             <Grid item xs={12} sx={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
-                                {Exchange.value ?
+                                {Exchange.status === 'succeeded' ?
                                     <>
-                                        {Exchange.comparison === '상승' ?
-                                            <span style={{ color: 'tomato' }}> {Exchange.value} 원 ( + {Exchange.net} )</span> : Exchange.comparison === '하락' ?
-                                                <span style={{ color: 'deepskyblue' }}> {Exchange.value} 원 ( - {Exchange.net} )</span> : <span style={{ color: 'deepskyblue' }}> {Exchange.value} 원 ( {Exchange.net} )</span>}
+                                        {Exchange.data.comparison === '상승' ?
+                                            <span style={{ color: 'tomato' }}> {Exchange.data.value} 원 ( + {Exchange.data.net} )</span> : Exchange.data.comparison === '하락' ?
+                                                <span style={{ color: 'deepskyblue' }}> {Exchange.data.value} 원 ( - {Exchange.data.net} )</span> : <span style={{ color: 'deepskyblue' }}> {Exchange.data.value} 원 ( {Exchange.data.net} )</span>}
                                     </>
                                     : <Skeleton variant="rounded" height={20} animation="wave" />}
                             </Grid>
                             <Grid item xs={12} sx={{ fontSize: '0.7rem' }}>VIX :</Grid>
                             <Grid item xs={12} sx={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
-                                {Vix.value ?
+                                {Vix.status === 'succeeded' ?
                                     <>
                                         {Vix.net > 0 ?
                                             <span style={{ color: 'tomato' }}> {Vix.value} ( + {Vix.net} )</span> : <span style={{ color: 'deepskyblue' }}> {Vix.value} ( {Vix.net} )</span>}
@@ -503,8 +487,8 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                         </Box>
                     </Grid>
                     {
-                        MarketDetail && MarketDetail.length > 0 ?
-                            <Grid item xs={5} sx={{ border: MarketDetail[0].전일대비 > 0 ? '2px solid tomato' : '2px solid deepskyblue', borderRadius: '10px' }}>
+                        MarketDetail.status === 'succeeded' ?
+                            <Grid item xs={5} sx={{ border: MarketDetail.data[0].전일대비 > 0 ? '2px solid tomato' : '2px solid deepskyblue', borderRadius: '10px' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'right' }}>
                                     <img src={kospi200Img} style={{ width: '100%' }} />
                                 </Box>
@@ -535,7 +519,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                 </Grid>
 
                 <Grid item xs={12}>
-                    {MarketDetail && MarketDetail.length > 0 ?
+                    {MarketDetail.status === 'succeeded' ?
                         <Table sx={{ fontSize: '0.7rem', borderBottom: '1px solid #efe9e9ed', mt: 1 }}>
                             <thead>
                                 <tr style={{ borderBottom: '1px solid #efe9e9ed' }}>
@@ -549,7 +533,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                                 </tr>
                             </thead>
                             <tbody>
-                                {MarketDetail.map((value, index) => (
+                                {MarketDetail.data.map((value, index) => (
                                     <tr key={index}>
                                         {value.업종명 === 'Kospi200' ?
                                             <td style={{ color: 'greenyellow' }}>코스피200</td> : value.업종명 === 'Kospi' ?
@@ -575,7 +559,8 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
 
                 <Grid container sx={{ mt: '1vh' }}>
                     <Grid item xs={12}>
-                        {table2 && table2.length > 0 ?
+                        <MarketTrendTable TrendData={TrendData} />
+                        {/* {table2 && table2.length > 0 ?
                             <Table sx={{ fontSize: '0.7rem', borderBottom: '1px solid #efe9e9ed', }}>
                                 <thead>
                                     <tr>
@@ -624,10 +609,6 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                                                 <td style={{ color: '#FCAB2F' }}>{numberWithCommas(value.개인_누적)}</td>
                                                 : <td style={{ color: '#00F3FF' }}>{numberWithCommas(value.개인_누적)}</td>
                                             }
-                                            {/* {value.프로그램 > 0 ?
-                                                <td style={{ color: '#FCAB2F' }}>{value.프로그램.toLocaleString('ko-KR')}</td>
-                                                : <td style={{ color: '#00F3FF' }}>{value.프로그램.toLocaleString('ko-KR')}</td>
-                                            } */}
                                         </tr>
                                     )
                                     )}
@@ -635,7 +616,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                             </Table>
                             : <Skeleton variant="rounded" height={300} animation="wave" />
                         }
-                        <Box sx={{ textAlign: 'right' }}>단위 : 콜/풋옵션 백만원, 그외 억원</Box>
+                        <Box sx={{ textAlign: 'right' }}>단위 : 콜/풋옵션 백만원, 그외 억원</Box> */}
                     </Grid>
                     <Box sx={{ position: 'absolute', transform: 'translate(23.6vw, 17.5vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
                         {updateC}

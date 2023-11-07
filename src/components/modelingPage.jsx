@@ -25,8 +25,6 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
     const [williamsNum2, setWilliamsNum2] = useState(7);
     const [williamsNum3, setWilliamsNum3] = useState(14);
     const [williamsValue, setWilliamsValue] = useState([]);
-    // const [rsiNum, setRsiNum] = useState(14);
-    // const [dmiNum, setDmiNum] = useState(14);
 
     const getWilliamsValue = (item) => { setWilliamsValue(item) };
     const handleValueChange = (type, direction) => {
@@ -134,7 +132,7 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
     const fetchData = async () => {
         const res = await axios.get(`${API}/ALL/Kospi200`);
         const Kospi200Cendle = res.data.slice(-1500)
-        const Kospi200 = [], date = [], highs = [], lows = [], closings = [];
+        const Kospi200 = [];
         Kospi200Cendle.forEach((value) => {
             Kospi200.push([new Date(value.날짜).getTime(), value.시가, value.고가, value.저가, value.종가]);
         });
@@ -268,7 +266,7 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
                 <Box sx={{ position: 'absolute', transform: 'translate(41vw, 85px)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)', p: 1, width: '800px' }}>
                     <Grid container>
                         <Grid item xs={6} sx={{ fontWeight: 600, fontSize: '24px' }}>
-                            {Vix.value ?
+                            {Vix.status === 'succeeded' ?
                                 <Grid container>
                                     {Vix.net > 0 ?
                                         <>
@@ -285,12 +283,12 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
                                 </Grid>
                                 : <Skeleton variant="rounded" height={20} animation="wave" />}
 
-                            {Exchange.value ?
+                            {Exchange.status === 'succeeded' ?
                                 <Grid container>
                                     <span>KRX/USD : </span>
-                                    {Exchange.comparison === '상승' ?
-                                        <span style={{ color: 'tomato' }}> {Exchange.value} 원 ( + {Exchange.net} )</span> : Exchange.comparison === '하락' ?
-                                            <span style={{ color: 'deepskyblue' }}> {Exchange.value} 원 ( - {Exchange.net} )</span> : <span style={{ color: 'deepskyblue' }}> {Exchange.value} 원 ( {Exchange.net} )</span>}
+                                    {Exchange.data.comparison === '상승' ?
+                                        <span style={{ color: 'tomato' }}> {Exchange.data.value} 원 ( + {Exchange.data.net} )</span> : Exchange.data.comparison === '하락' ?
+                                            <span style={{ color: 'deepskyblue' }}> {Exchange.data.value} 원 ( - {Exchange.data.net} )</span> : <span style={{ color: 'deepskyblue' }}> {Exchange.data.value} 원 ( {Exchange.data.net} )</span>}
                                 </Grid>
                                 : <Skeleton variant="rounded" height={20} animation="wave" />}
                         </Grid>

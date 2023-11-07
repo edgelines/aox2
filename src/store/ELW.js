@@ -1,77 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { API } from '../components/util/config'
-export const getELW_monthTable = createAsyncThunk("GET/ELW_monthTable", async () => {
-    const res = await axios.get(`${API}/elwMonthTable`)
-    return res.data.slice(-6);
-});
 
-export const getELWx = createAsyncThunk("GET/ELWx", async () => {
-    const res = await axios.get(`${API}/ELWx`)
-    var Month1_1일 = [], Month1_2일 = [], Month1_3일 = [], Month1_5일 = [], Month1 = [],
-        Month2_1일 = [], Month2_2일 = [], Month2_3일 = [], Month2_5일 = [], Month2 = [],
-        Month3_1일 = [], Month3_2일 = [], Month3_3일 = [], Month3_5일 = [], Month3 = [];
-    res.data.map((value, index, array) => {
-        Month1_1일.push(value['Month1_1일']);
-        Month1_2일.push(value['Month1_2일'])
-        Month1_3일.push(value['Month1_3일'])
-        Month1_5일.push(value['Month1_5일'])
-        Month2_1일.push(value['Month2_1일'])
-        Month2_2일.push(value['Month2_2일'])
-        Month2_3일.push(value['Month2_3일'])
-        Month2_5일.push(value['Month2_5일'])
-        Month3_1일.push(value['Month3_1일'])
-        Month3_2일.push(value['Month3_2일'])
-        Month3_3일.push(value['Month3_3일'])
-        Month3_5일.push(value['Month3_5일'])
-    })
-    Month1 = Month1.concat(Month1_1일, Month1_2일, Month1_3일, Month1_5일)
-    Month2 = Month2.concat(Month2_1일, Month2_2일, Month2_3일, Month2_5일)
-    Month3 = Month2.concat(Month3_1일, Month3_2일, Month3_3일, Month3_5일)
-    let Month1Min = Math.min(...Month1)
-    let Month2Min = Math.min(...Month2)
-    let Month3Min = Math.min(...Month3)
-    const M1 = {
-        series: [
-            {
-                zIndex: 3, name: "1일", color: "tomato", data: Month1_1일,
-            }, {
-                name: "2일", color: "gold", data: Month1_2일,
-            }, {
-                name: "3일", color: "greenyellow", data: Month1_3일,
-            }, {
-                name: "5일", color: "dodgerblue", data: Month1_5일, visible: false,
-            }
-        ], min: Month1Min
-    }
-    const M2 = {
-        series: [
-            {
-                zIndex: 3, name: "1일", color: "tomato", data: Month2_1일,
-            }, {
-                name: "2일", color: "gold", data: Month2_2일,
-            }, {
-                name: "3일", color: "greenyellow", data: Month2_3일,
-            }, {
-                name: "5일", color: "dodgerblue", data: Month2_5일, visible: false,
-            }
-        ], min: Month2Min
-    }
-    const M3 = {
-        series: [
-            {
-                zIndex: 3, name: "1일", color: "tomato", data: Month3_1일,
-            }, {
-                name: "2일", color: "gold", data: Month3_2일,
-            }, {
-                name: "3일", color: "greenyellow", data: Month3_3일,
-            }, {
-                name: "5일", color: "dodgerblue", data: Month3_5일, visible: false,
-            }
-        ], min: Month3Min
-    }
-    return { M1: M1, M2: M2, M3: M3, }
-});
 
 export const getELW_CallPutRatio_Maturity = createAsyncThunk("GET/ELW_CallPutRatio_Maturity", async () => {
     // const res = await axios.get(API + "ELWx")
@@ -121,7 +51,7 @@ export const ElwWeightedAvgCheck = createSlice({
         [getElwWeightedAvgCheck.pending]: (state) => {
             state.status = 'loading';
         },
-        [getElwWeightedAvgCheck.fulfilled]: (state, { payload }) => { state.Mean = payload.Mean; state.CTP1 = payload.CTP1; state.CTP15 = payload.CTP15; state.CTP2 = payload.CTP2; },
+        [getElwWeightedAvgCheck.fulfilled]: (state, { payload }) => { state.Mean = payload.Mean; state.CTP1 = payload.CTP1; state.CTP15 = payload.CTP15; state.CTP2 = payload.CTP2; state.status = 'succeeded'; },
         [getElwWeightedAvgCheck.rejected]: (state, action) => {
             state.status = 'failed';
             state.error = action.error.message;
@@ -129,12 +59,12 @@ export const ElwWeightedAvgCheck = createSlice({
     },
 });
 
-export const getElwWeightedAvg = createAsyncThunk("GET/elwWeightedAvg", async () => {
-    const res = await axios.get(`${API}/elwWeightedAvg`)
-    return { data: res.data };
+export const getELW_monthTable = createAsyncThunk("GET/ELW_monthTable", async () => {
+    const res = await axios.get(`${API}/elwMonthTable`)
+    return res.data.slice(-6);
 });
-export const ElwWeightedAvg = createSlice({
-    name: "elwWeightedAvg",
+export const ELW_monthTable = createSlice({
+    name: "ELW_monthTable",
     initialState: {
         data: [],
         status: 'idle',
@@ -142,54 +72,19 @@ export const ElwWeightedAvg = createSlice({
     },
     reducers: {},
     extraReducers: {
-        [getElwWeightedAvg.pending]: (state) => {
-            state.status = 'loading';
-        },
-        [getElwWeightedAvg.fulfilled]: (state, { payload }) => { state.data = payload.data; },
-        [getElwWeightedAvg.rejected]: (state, action) => {
+        [getELW_monthTable.pending]: (state) => { state.status = 'loading'; },
+        [getELW_monthTable.fulfilled]: (state, { payload }) => { state.data = payload; state.status = 'succeeded'; },
+        [getELW_monthTable.rejected]: (state, action) => {
             state.status = 'failed';
             state.error = action.error.message;
         }
-        // [getElwWeightedAvg.fulfilled]: (state, { payload }) => { return [...payload] },
     },
-});
-
-
-
-
-
-
-export const ELW_monthTable = createSlice({
-    name: "ELW_monthTable",
     initialState: {},
     reducers: {},
-    extraReducers: {
-        [getELW_monthTable.fulfilled]: (state, { payload }) => [...payload],
-    },
 });
-export const ELWx = createSlice({
-    name: "ELWx",
-    initialState: {
-        M1: [],
-        M2: [],
-        M3: [],
-        status: 'idle',
-        error: null
-    },
-    reducers: {},
-    extraReducers: {
-        [getELWx.pending]: (state) => {
-            state.status = 'loading';
-        },
-        [getELWx.fulfilled]: (state, { payload }) => { state.M1 = payload.M1; state.M2 = payload.M2; state.M3 = payload.M3; },
-        [getELWx.rejected]: (state, action) => {
-            state.status = 'failed';
-            state.error = action.error.message;
-        }
-    },
-});
+
 export const ELW_CallPutRatio_Maturity = createSlice({
-    name: "ELW_monthTable",
+    name: "ELW_CallPutRatio_Maturity",
     initialState: {
         M1: [],
         M2: [],
@@ -202,10 +97,59 @@ export const ELW_CallPutRatio_Maturity = createSlice({
         [getELW_CallPutRatio_Maturity.pending]: (state) => {
             state.status = 'loading';
         },
-        [getELW_CallPutRatio_Maturity.fulfilled]: (state, { payload }) => { state.M1 = payload.M1; state.M2 = payload.M2; state.M3 = payload.M3; },
+        [getELW_CallPutRatio_Maturity.fulfilled]: (state, { payload }) => { state.M1 = payload.M1; state.M2 = payload.M2; state.M3 = payload.M3; state.status = 'succeeded'; },
         [getELW_CallPutRatio_Maturity.rejected]: (state, action) => {
             state.status = 'failed';
             state.error = action.error.message;
         }
     },
 });
+
+
+export const getElwBarData = createAsyncThunk("GET/elwBarData", async () => {
+    const res = await axios.get(`${API}/elwBarData`)
+    return res.data
+});
+
+export const ElwBarData = createSlice({
+    name: "ElwBarData",
+    initialState: { data: [], status: 'idle', error: null },
+    reducers: {},
+    extraReducers: {
+        [getElwBarData.pending]: (state) => {
+            state.status = 'loading';
+        },
+        [getElwBarData.fulfilled]: (state, { payload }) => {
+            state.data = payload; // payload로 배열 데이터를 업데이트
+            state.status = 'succeeded'; // 상태를 성공으로 변경
+        },
+        [getElwBarData.rejected]: (state, action) => {
+            state.status = 'failed';
+            state.error = action.error.message;
+        }
+    },
+});
+
+export const getElwWeightedAvg = createAsyncThunk("GET/elwWeightedAvg", async () => {
+    const res = await axios.get(`${API}/elwWeightedAvg`)
+    return res.data;
+});
+export const ElwWeightedAvg = createSlice({
+    name: "elwWeightedAvg",
+    initialState: {
+        data: [],
+        status: 'idle',
+        error: null
+    },
+    reducers: {},
+    extraReducers: {
+        [getElwWeightedAvg.pending]: (state) => { state.status = 'loading'; },
+        [getElwWeightedAvg.fulfilled]: (state, { payload }) => { state.data = payload; state.status = 'succeeded' },
+        [getElwWeightedAvg.rejected]: (state, action) => {
+            state.status = 'failed';
+            state.error = action.error.message;
+        }
+
+    },
+});
+

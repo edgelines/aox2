@@ -58,10 +58,7 @@ export default function SchedulePage({ swiperRef }) {
             setFomcDate(res.data[0]['data-endtime']);
         })
     }
-
-    useEffect(() => {
-        fetchData();
-    }, [])
+    useEffect(() => { fetchData(); }, [])
 
     useEffect(() => {
         axios.get(`${JSON}/scheduleWeek${page}`).then(response => {
@@ -276,7 +273,7 @@ function Schedule({ schedule, date, handlePageChange, ipoSubPage, swiperRef }) {
                 <Box sx={{
                     position: 'fixed',
                     width: '20vw',
-                    transform: 'translate(71vw, 6vh)'
+                    transform: 'translate(71vw, 90px)'
                 }}>
                     {ipoSubPage === '국내외지표이슈' && <ImageUpdater />}
                 </Box>

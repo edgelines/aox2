@@ -5,7 +5,7 @@ import ELW_BarChart from './BarChart.jsx';
 import { API } from '../util/config.jsx';
 
 
-export default function CtpPage({ swiperRef }) {
+export default function CtpPage({ swiperRef, ElwBarData, ElwWeightedAvg }) {
 
     const [ELW_data1, setELW_data1] = useState([])
     const [ELW_data2, setELW_data2] = useState([])
@@ -16,15 +16,15 @@ export default function CtpPage({ swiperRef }) {
     const [elwWeightedAvg, setElwWeightedAvg] = useState([])
     const ELW_data = [ELW_data1, ELW_data2, ELW_data3, ELW_data4, ELW_data5, ELW_data6]
 
-    const fetchData = async () => {
-        await axios.get(API + "/elwWeightedAvg").then((res) => { setElwWeightedAvg(res.data); })
-        await axios.get(`${API}/elwBarData`).then((res) => {
-            var data1 = res.data.filter(item => item.월구분 === '1')
-            var data2 = res.data.filter(item => item.월구분 === '2')
-            var data3 = res.data.filter(item => item.월구분 === '3')
-            var data4 = res.data.filter(item => item.월구분 === '4')
-            var data5 = res.data.filter(item => item.월구분 === '5')
-            var data6 = res.data.filter(item => item.월구분 === '6')
+
+    useEffect(() => {
+        if (ElwBarData.status === 'succeeded') {
+            var data1 = ElwBarData.data.filter(item => item.월구분 === '1')
+            var data2 = ElwBarData.data.filter(item => item.월구분 === '2')
+            var data3 = ElwBarData.data.filter(item => item.월구분 === '3')
+            var data4 = ElwBarData.data.filter(item => item.월구분 === '4')
+            var data5 = ElwBarData.data.filter(item => item.월구분 === '5')
+            var data6 = ElwBarData.data.filter(item => item.월구분 === '6')
             const dataFilter = (data) => {
                 var tmp1 = [], tmp2 = [], tmp3 = [], tmp4 = [], tmp5 = [], tmp6 = [], tmp7 = []
                 data.forEach((value) => {
@@ -50,61 +50,11 @@ export default function CtpPage({ swiperRef }) {
             setELW_data4(dataFilter(data4));
             setELW_data5(dataFilter(data5));
             setELW_data6(dataFilter(data6));
-            // console.log(dataFilter(data1));
-        })
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, [])
-
-    // 30초 주기 업데이트
-    useEffect(() => {
-        const now = new Date();
-        const hour = now.getHours();
-        const minutes = now.getMinutes();
-        const seconds = now.getSeconds();
-        // 현재 시간이 9시 1분 이전이라면, 9시 1분까지 남은 시간 계산
-        let delay;
-        if (hour < 9 || (hour === 9 && minutes < 1)) {
-            delay = ((9 - hour - 1) * 60 + (61 - minutes)) * 60 - seconds;
-        } else {
-            // 이미 9시 1분 이후라면, 다음 5분 간격 시작까지 대기 (예: 9시 3분이라면 9시 6분까지 대기)
-            delay = (5 - (minutes - 1) % 5) * 60 - seconds;
         }
-        // 9시 정각이나 그 이후의 다음 분 시작부터 1분 주기로 데이터 업데이트
-        const startUpdates = () => {
-            const intervalId = setInterval(() => {
-                const now = new Date();
-                const hour = now.getHours();
-                const dayOfWeek = now.getDay();
-                if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
-                    fetchData();
-                } else if (hour >= 16) {
-                    // 3시 30분 이후라면 인터벌 종료
-                    clearInterval(intervalId);
-                }
-            }, 1000 * 60 * 5);
-            return intervalId;
-        };
-        // 첫 업데이트 시작
-        const timeoutId = setTimeout(() => {
-            startUpdates();
-        }, delay * 1000);
-
-        return () => clearTimeout(timeoutId); // 컴포넌트가 unmount될 때 타이머 제거
-        // const intervalId = setInterval(() => {
-        //     const now = new Date();
-        //     const hour = now.getHours();
-        //     const dayOfWeek = now.getDay();
-
-        //     if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 8 && hour < 16) {
-        //         fetchData();
-        //     }
-
-        // }, 1000 * 60 * 5);
-        // return () => clearInterval(intervalId);
-    }, [])
+        if (ElwWeightedAvg.status === 'succeeded') {
+            setElwWeightedAvg(ElwWeightedAvg.data);
+        }
+    }, [ElwBarData, ElwWeightedAvg])
 
     return (
         <Grid container spacing={1}>

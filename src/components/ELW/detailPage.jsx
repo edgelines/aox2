@@ -7,7 +7,7 @@ import ELW_BarChart from './BarChart.jsx';
 import MarketCurrentValue from '../Index/marketCurrentValue.jsx';
 import { API, JSON } from '../util/config.jsx';
 
-export default function DetailPage({ swiperRef, Vix, MarketDetail }) {
+export default function DetailPage({ swiperRef, Vix, MarketDetail, ElwBarData, ElwWeightedAvg }) {
     // const updateA = 'Start - 9:2, Update - 지수분봉'
     // const updateB = 'Updates-5m'
     // const updateC = 'Updates-2m'
@@ -27,40 +27,8 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail }) {
     const [dataUS, setDataUS] = useState({});
     const [selectedUS, setSeletedUS] = useState({});
     const [OnUS, setOnUS] = useState(false);
-    // const [openModal, setOpenModal] = useState(false);
-    // const handleOpen = () => setOpenModal(true);
-    // const handleClose = () => setOpenModal(false);
 
     const fetchData = async () => {
-        await axios.get(API + "/elwWeightedAvg").then((res) => { setElwWeightedAvg(res.data); })
-        await axios.get(`${API}/elwBarData`).then((res) => {
-            var data1 = res.data.filter(item => item.월구분 === '1')
-            var data2 = res.data.filter(item => item.월구분 === '2')
-            var data3 = res.data.filter(item => item.월구분 === '3')
-            const dataFilter = (data) => {
-                var tmp1 = [], tmp2 = [], tmp3 = [], tmp4 = [], tmp5 = [], tmp6 = [], tmp7 = []
-                data.forEach((value) => {
-                    tmp1.push(parseFloat(value.콜_5일평균거래대금));
-                    tmp2.push(parseFloat(value.콜_거래대금));
-                    tmp3.push(parseFloat(value.풋_5일평균거래대금));
-                    tmp4.push(parseFloat(value.풋_거래대금));
-                    tmp5.push(parseFloat(value.행사가));
-                    tmp6.push(parseFloat(Math.abs(value.콜_거래대금)));
-                    tmp7.push(parseFloat(Math.abs(value.풋_거래대금)));
-                })
-                var title = data[0].잔존만기;
-                var sum1 = tmp6.reduce(function add(sum, currValue) { return sum + currValue; }, 0);
-                var sum2 = tmp7.reduce(function add(sum, currValue) { return sum + currValue; }, 0);
-                var 비율 = ' [ C : <span style="color:greenyellow;">' + (sum1 / (sum1 + sum2)).toFixed(2) + '</span>, P : <span style="color:greenyellow;">' + (sum2 / (sum1 + sum2)).toFixed(2) + '</span> ]';
-                var 콜범주 = 'Call ( ' + "<span style='color:greenyellow;'>" + parseInt(sum1 / 100000000).toLocaleString('ko-KR') + "</span>" + ' 억 )';
-                var 풋범주 = 'Put ( ' + "<span style='color:greenyellow;'>" + parseInt(sum2 / 100000000).toLocaleString('ko-KR') + "</span>" + ' 억 )';
-                return { title: title, 콜5일: tmp1, 콜: tmp2, 풋5일: tmp3, 풋: tmp4, 행사가: tmp5, 비율: 비율, 콜범주: 콜범주, 풋범주: 풋범주, 콜비율: (sum1 / (sum1 + sum2)).toFixed(2), 풋비율: (sum2 / (sum1 + sum2)).toFixed(2) }
-            }
-            setELW_data1(dataFilter(data1));
-            setELW_data2(dataFilter(data2));
-            setELW_data3(dataFilter(data3));
-            // console.log(dataFilter(data1));
-        })
         await axios.get(JSON + "/Kospi200_GPOchart").then((response) => { setKospi200(response.data.data); });
 
         await axios.get(JSON + "/exNow_KR").then((response) => {
@@ -148,9 +116,7 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail }) {
         })
     };
 
-    useEffect(() => {
-        fetchData();
-    }, [])
+    useEffect(() => { fetchData(); }, [])
     useEffect(() => {
         const now = new Date();
         const hour = now.getHours();
@@ -188,6 +154,38 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail }) {
 
     }, [])
     useEffect(() => {
+        if (ElwBarData.status === 'succeeded') {
+            var data1 = ElwBarData.data.filter(item => item.월구분 === '1')
+            var data2 = ElwBarData.data.filter(item => item.월구분 === '2')
+            var data3 = ElwBarData.data.filter(item => item.월구분 === '3')
+            const dataFilter = (data) => {
+                var tmp1 = [], tmp2 = [], tmp3 = [], tmp4 = [], tmp5 = [], tmp6 = [], tmp7 = []
+                data.forEach((value) => {
+                    tmp1.push(parseFloat(value.콜_5일평균거래대금));
+                    tmp2.push(parseFloat(value.콜_거래대금));
+                    tmp3.push(parseFloat(value.풋_5일평균거래대금));
+                    tmp4.push(parseFloat(value.풋_거래대금));
+                    tmp5.push(parseFloat(value.행사가));
+                    tmp6.push(parseFloat(Math.abs(value.콜_거래대금)));
+                    tmp7.push(parseFloat(Math.abs(value.풋_거래대금)));
+                })
+                var title = data[0].잔존만기;
+                var sum1 = tmp6.reduce(function add(sum, currValue) { return sum + currValue; }, 0);
+                var sum2 = tmp7.reduce(function add(sum, currValue) { return sum + currValue; }, 0);
+                var 비율 = ' [ C : <span style="color:greenyellow;">' + (sum1 / (sum1 + sum2)).toFixed(2) + '</span>, P : <span style="color:greenyellow;">' + (sum2 / (sum1 + sum2)).toFixed(2) + '</span> ]';
+                var 콜범주 = 'Call ( ' + "<span style='color:greenyellow;'>" + parseInt(sum1 / 100000000).toLocaleString('ko-KR') + "</span>" + ' 억 )';
+                var 풋범주 = 'Put ( ' + "<span style='color:greenyellow;'>" + parseInt(sum2 / 100000000).toLocaleString('ko-KR') + "</span>" + ' 억 )';
+                return { title: title, 콜5일: tmp1, 콜: tmp2, 풋5일: tmp3, 풋: tmp4, 행사가: tmp5, 비율: 비율, 콜범주: 콜범주, 풋범주: 풋범주, 콜비율: (sum1 / (sum1 + sum2)).toFixed(2), 풋비율: (sum2 / (sum1 + sum2)).toFixed(2) }
+            }
+            setELW_data1(dataFilter(data1));
+            setELW_data2(dataFilter(data2));
+            setELW_data3(dataFilter(data3));
+        }
+        if (ElwWeightedAvg.status === 'succeeded') {
+            setElwWeightedAvg(ElwWeightedAvg.data);
+        }
+    }, [ElwBarData, ElwWeightedAvg])
+    useEffect(() => {
         if (OnUS) {
             setSeletedUS(dataUS)
         } else {
@@ -196,10 +194,7 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail }) {
             setSeletedUS(emptyArr);
         }
     }, [OnUS])
-    const handleOnUS = (event) => {
-        setOnUS(event.target.checked);
-    }
-
+    const handleOnUS = (event) => { setOnUS(event.target.checked); }
 
     return (
         <Grid container spacing={1} >

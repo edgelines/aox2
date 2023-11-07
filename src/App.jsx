@@ -8,18 +8,20 @@ import { getStockThemes } from "./store/stockThemes.js";
 import { getStockPrice, getStockSectorsThemes } from "./store/stockPrice.js";
 import { getABC1, getABC2 } from "./store/AxBxC.js";
 import { getStockThemeByItem, getStockSectorByItem, getSearchInfo, getScheduleItemEvent } from "./store/info.js";
-import { getIndexMA, getVixMA, getVix, getMarketDetail, getKospi200, getKospi, getKosdaq, getInvers, getMarketKospi200, getExchange } from './store/indexData.js';
-import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvg, getElwWeightedAvgCheck } from './store/ELW.js';
+import { getIndexMA, getVixMA, getVix, getMarketDetail, getKospi200, getKospi, getKosdaq, getInvers, getMarketKospi200, getExchange, getTrendData } from './store/indexData.js';
+import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvg, getElwWeightedAvgCheck, getElwBarData } from './store/ELW.js';
+import { getStockSearch } from './store/stockSearch'
 // Components
 import SchedulePage from './components/schedulePage.jsx';
 import SectorsChartPage from './components/sectorsChartPage.jsx';
 import SectorSearchPage from './components/sectorSearchPage.jsx';
-import OldAoxStockPage from './components/OldAoX/stockPage.jsx'
-import CallPutPage from './components/ELW/CallPutPage.jsx'
-import DetailPage from './components/ELW/detailPage.jsx'
-import MainPage from './components/mainPage.jsx'
-import TreasuryStockPage from './components/TreasuryStock.jsx'
-import CtpPage from './components/ELW/CtpPage.jsx'
+import OldAoxStockPage from './components/OldAoX/stockPage.jsx';
+import CallPutPage from './components/ELW/CallPutPage.jsx';
+import DetailPage from './components/ELW/detailPage.jsx';
+import MainPage from './components/mainPage.jsx';
+import TreasuryStockPage from './components/TreasuryStock.jsx';
+import StockSearchPage from './components/StockSearchPage';
+import CtpPage from './components/ELW/CtpPage.jsx';
 import ModelingPage from './components/modelingPage.jsx';
 import WeightAvgPage1 from './components/ELW/weightAvgPage1.jsx';
 import WeightAvgPage2 from './components/ELW/weightAvgPage2.jsx';
@@ -43,16 +45,20 @@ function App() {
     const StockThemes = useSelector((state) => state.StockThemes);
     const StockThemeByItem = useSelector((state) => state.StockThemeByItem);
     const StockSectorByItem = useSelector((state) => state.StockSectorByItem);
+    const StockSearch = useSelector((state) => state.StockSearch)
     const SearchInfo = useSelector((state) => state.SearchInfo);
     const ABC1 = useSelector((state) => state.ABC1);
     const ABC2 = useSelector((state) => state.ABC2);
+
+    // ELW Data
     const ELW_monthTable = useSelector((state) => state.ELW_monthTable);
     const ELW_CallPutRatio_Maturity = useSelector((state) => state.ELW_CallPutRatio_Maturity);
     const ElwWeightedAvg = useSelector((state) => state.ElwWeightedAvg);
     const ElwWeightedAvgCheck = useSelector((state) => state.ElwWeightedAvgCheck);
-    const MarketDetail = useSelector((state) => state.MarketDetail);
+    const ElwBarData = useSelector((state) => state.ElwBarData);
 
     // index Data
+    const MarketDetail = useSelector((state) => state.MarketDetail);
     const IndexMA = useSelector((state) => state.IndexMA);
     const VixMA = useSelector((state) => state.VixMA);
     const Vix = useSelector((state) => state.Vix);
@@ -63,6 +69,7 @@ function App() {
     const MarketKospi200 = useSelector((state) => state.MarketKospi200);
     const ScheduleItemEvent = useSelector((state) => state.ScheduleItemEvent);
     const Exchange = useSelector((state) => state.Exchange);
+    const TrendData = useSelector((state) => state.TrendData);
     const swiperRef = useRef(null);
 
     // sectorsChartPage State
@@ -230,6 +237,7 @@ function App() {
         dispatch(getStockThemes());
         dispatch(getABC1());
         dispatch(getABC2());
+        dispatch(getTrendData());
     }
     // 5분 주기 ( Index Data )
     const fetchData5Min = async () => {
@@ -244,6 +252,8 @@ function App() {
         await dispatch(getInvers());
         await dispatch(getMarketKospi200());
         await dispatch(getExchange());
+        await dispatch(getStockSearch());
+        await dispatch(getElwBarData());
     }
     // 하루 주기
     const fetchData1Day = async () => {
@@ -586,6 +596,19 @@ function App() {
                         StockPrice={StockPrice} SearchInfo={SearchInfo}
                         SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
                     />
+                    <SectorsChartPage
+                        filteredChartData={filteredChartData} sectorsRanksThemes={sectorsRanksThemes}
+                        Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop}
+                        checkboxStatusUp={checkboxStatusUp}
+                        checkboxStatusDown={checkboxStatusDown}
+                        checkboxStatusTup={checkboxStatusTup}
+                        checkboxAll={checkboxAll}
+                        onCheckboxStatusUp={handleCheckboxStatusUp}
+                        onCheckboxStatusDown={handleCheckboxStatusDown}
+                        onCheckboxStatusTup={handleCheckboxStatusTup}
+                        onCheckboxAll={handleCheckboxStatusAll}
+                    />
+
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -625,11 +648,11 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <MainPage Vix={Vix} Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop} Kospi200BubbleCategory={Kospi200BubbleCategory} MarketDetail={MarketDetail} ElwWeightedAvgCheck={ElwWeightedAvgCheck} Exchange={Exchange} />
+                    <MainPage Vix={Vix} Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop} Kospi200BubbleCategory={Kospi200BubbleCategory} MarketDetail={MarketDetail} ElwWeightedAvgCheck={ElwWeightedAvgCheck} Exchange={Exchange} TrendData={TrendData} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <DetailPage Vix={Vix} MarketDetail={MarketDetail} />
+                    <DetailPage Vix={Vix} MarketDetail={MarketDetail} ElwBarData={ElwBarData} ElwWeightedAvg={ElwWeightedAvg} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -641,7 +664,7 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <WeightAvgPage1 swiperRef={swiperRef} ELW_monthTable={ELW_monthTable} ELW_CallPutRatio_Maturity={ELW_CallPutRatio_Maturity} ElwWeightedAvgCheck={ElwWeightedAvgCheck} MarketDetail={MarketDetail} />
+                    <WeightAvgPage1 swiperRef={swiperRef} ELW_monthTable={ELW_monthTable} ELW_CallPutRatio_Maturity={ELW_CallPutRatio_Maturity} ElwWeightedAvgCheck={ElwWeightedAvgCheck} MarketDetail={MarketDetail} TrendData={TrendData} />
                 </SwiperSlide>
                 <SwiperSlide style={swiperSlideStyle} >
                     <WeightAvgPage2 swiperRef={swiperRef} ELW_monthTable={ELW_monthTable} ELW_CallPutRatio_Maturity={ELW_CallPutRatio_Maturity} ElwWeightedAvgCheck={ElwWeightedAvgCheck} MarketDetail={MarketDetail} />
@@ -650,7 +673,7 @@ function App() {
                     <WeightAvgPage3 swiperRef={swiperRef} ELW_monthTable={ELW_monthTable} ELW_CallPutRatio_Maturity={ELW_CallPutRatio_Maturity} ElwWeightedAvgCheck={ElwWeightedAvgCheck} Exchange={Exchange} MarketDetail={MarketDetail} />
                 </SwiperSlide>
 
-                <SwiperSlide style={swiperSlideStyle} > <CtpPage swiperRef={swiperRef} /> </SwiperSlide>
+                <SwiperSlide style={swiperSlideStyle} > <CtpPage swiperRef={swiperRef} ElwBarData={ElwBarData} ElwWeightedAvg={ElwWeightedAvg} /> </SwiperSlide>
             </Swiper>
         </div >
     );

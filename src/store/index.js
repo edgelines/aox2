@@ -5,8 +5,9 @@ import { StockPrice, StockSectorsThemes } from "./stockPrice.js";
 import { StockThemes } from "./stockThemes.js";
 import { ABC1, ABC2 } from "./AxBxC.js";
 import { StockThemeByItem, StockSectorByItem, SearchInfo, ScheduleItemEvent } from "./info.js";
-import { IndexMA, VixMA, Vix, MarketDetail, Kospi200, Kospi, Kosdaq, Invers, MarketKospi200, Exchange } from "./indexData.js";
-import { ELW_monthTable, ELW_CallPutRatio_Maturity, ElwWeightedAvg, ElwWeightedAvgCheck } from "./ELW.js";
+import { IndexMA, VixMA, Vix, MarketDetail, Kospi200, Kospi, Kosdaq, Invers, MarketKospi200, Exchange, TrendData } from "./indexData.js";
+import { ELW_monthTable, ELW_CallPutRatio_Maturity, ElwWeightedAvg, ElwWeightedAvgCheck, ElwBarData } from "./ELW.js";
+import { StockSearch } from "./stockSearch.js"
 
 export default configureStore({
     reducer: {
@@ -19,8 +20,11 @@ export default configureStore({
         StockThemes: StockThemes.reducer,
         ABC1: ABC1.reducer,
         ABC2: ABC2.reducer,
+
         StockThemeByItem: StockThemeByItem.reducer,
         StockSectorByItem: StockSectorByItem.reducer,
+        StockSearch: StockSearch.reducer,
+
         SearchInfo: SearchInfo.reducer,
         ScheduleItemEvent: ScheduleItemEvent.reducer,
         IndexMA: IndexMA.reducer,
@@ -31,6 +35,7 @@ export default configureStore({
         ELW_CallPutRatio_Maturity: ELW_CallPutRatio_Maturity.reducer,
         ElwWeightedAvg: ElwWeightedAvg.reducer,
         ElwWeightedAvgCheck: ElwWeightedAvgCheck.reducer,
+        ElwBarData: ElwBarData.reducer,
 
         MarketDetail: MarketDetail.reducer,
         Kospi200: Kospi200.reducer,
@@ -39,6 +44,7 @@ export default configureStore({
         Invers: Invers.reducer,
         MarketKospi200: MarketKospi200.reducer,
         Exchange: Exchange.reducer,
+        TrendData: TrendData.reducer
 
     }
 })

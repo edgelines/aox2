@@ -202,13 +202,15 @@ export const getVix = createAsyncThunk("GET/Vix", async () => {
 // 오브젝트로 리턴할땐 바꿔줘야함.
 export const Vix = createSlice({
     name: "Vix",
-    initialState: {},
+    initialState: { value: [], net: [], status: 'idle', error: null },
     reducers: {},
     extraReducers: {
-        [getVix.pending]: (state) => {
-            state.status = 'loading';
+        [getVix.pending]: (state) => { state.status = 'loading'; },
+        [getVix.rejected]: (state, action) => {
+            state.status = 'failed';
+            state.error = action.error.message;
         },
-        [getVix.fulfilled]: (state, { payload }) => { state.value = payload.value; state.net = payload.net; },
+        [getVix.fulfilled]: (state, { payload }) => { state.value = payload.value; state.net = payload.net; state.status = 'succeeded'; },
     },
 });
 
@@ -222,14 +224,29 @@ export const getExchange = createAsyncThunk("GET/Exchange", async () => {
 // 오브젝트로 리턴할땐 바꿔줘야함.
 export const Exchange = createSlice({
     name: "Exchange",
-    initialState: {},
+
+    initialState: { data: [], status: 'idle', error: null },
     reducers: {},
     extraReducers: {
-        [getExchange.pending]: (state) => {
-            state.status = 'loading';
+        [getExchange.fulfilled]: (state, { payload }) => {
+            state.data = payload; // payload로 배열 데이터를 업데이트
+            state.status = 'succeeded'; // 상태를 성공으로 변경
         },
-        [getExchange.fulfilled]: (state, { payload }) => { state.value = payload.value; state.net = payload.net; state.comparison = payload.comparison; },
+        [getExchange.pending]: (state) => {
+            state.status = 'loading'; // 로딩 상태 설정
+        },
+        [getExchange.rejected]: (state, action) => {
+            state.status = 'failed'; // 실패 상태 설정
+            state.error = action.error.message; // 에러 메시지 저장
+        }
     },
+
+    // extraReducers: {
+    //     [getExchange.pending]: (state) => {
+    //         state.status = 'loading';
+    //     },
+    //     [getExchange.fulfilled]: (state, { payload }) => { state.value = payload.value; state.net = payload.net; state.comparison = payload.comparison; },
+    // },
 });
 
 
@@ -613,14 +630,50 @@ export const VixMA = createSlice({
 
 export const MarketDetail = createSlice({
     name: "MarketDetail",
-    initialState: {},
+    initialState: { data: [], status: 'idle', error: null },
     reducers: {},
     extraReducers: {
         [getMarketDetail.pending]: (state) => {
             state.status = 'loading';
         },
-        [getMarketDetail.fulfilled]: (state, { payload }) => [...payload],
+        [getMarketDetail.fulfilled]: (state, { payload }) => {
+            state.data = payload; // payload로 배열 데이터를 업데이트
+            state.status = 'succeeded'; // 상태를 성공으로 변경
+        },
         [getMarketDetail.rejected]: (state, action) => {
+            state.status = 'failed';
+            state.error = action.error.message;
+        }
+    },
+});
+
+
+
+export const getTrendData = createAsyncThunk("GET/TrendData", async () => {
+    const response = await axios.get(`${API}/TrendData`);
+    const data = response.data
+
+    const result = [{ 구분: '코스피200', 외국인: data[data.length - 1].외국인_코스피200, 외국인_누적: data[data.length - 1].외국인_코스피200_누적, 기관: data[data.length - 1].기관_코스피200, 기관_누적: data[data.length - 1].기관_코스피200_누적, 개인: data[data.length - 1].개인_코스피200, 개인_누적: data[data.length - 1].개인_코스피200_누적 },
+    { 구분: '코스피', 외국인: data[data.length - 1].외국인_코스피, 외국인_누적: data[data.length - 1].외국인_코스피_누적, 기관: data[data.length - 1].기관_코스피, 기관_누적: data[data.length - 1].기관_코스피_누적, 개인: data[data.length - 1].개인_코스피, 개인_누적: data[data.length - 1].개인_코스피_누적 },
+    { 구분: '코스닥', 외국인: data[data.length - 1].외국인_코스닥, 외국인_누적: data[data.length - 1].외국인_코스닥_누적, 기관: data[data.length - 1].기관_코스닥, 기관_누적: data[data.length - 1].기관_코스닥_누적, 개인: data[data.length - 1].개인_코스닥, 개인_누적: data[data.length - 1].개인_코스닥_누적 },
+    { 구분: '선물', 외국인: data[data.length - 1].외국인_선물, 외국인_누적: data[data.length - 1].외국인_선물_누적, 기관: data[data.length - 1].기관_선물, 기관_누적: data[data.length - 1].기관_선물_누적, 개인: data[data.length - 1].개인_선물, 개인_누적: data[data.length - 1].개인_선물_누적 },
+    { 구분: '콜옵션', 외국인: data[data.length - 1].외국인_콜옵션, 외국인_누적: data[data.length - 1].외국인_콜옵션_누적, 기관: data[data.length - 1].기관_콜옵션, 기관_누적: data[data.length - 1].기관_콜옵션_누적, 개인: data[data.length - 1].개인_콜옵션, 개인_누적: data[data.length - 1].개인_콜옵션_누적 },
+    { 구분: '풋옵션', 외국인: data[data.length - 1].외국인_풋옵션, 외국인_누적: data[data.length - 1].외국인_풋옵션_누적, 기관: data[data.length - 1].기관_풋옵션, 기관_누적: data[data.length - 1].기관_풋옵션_누적, 개인: data[data.length - 1].개인_풋옵션, 개인_누적: data[data.length - 1].개인_풋옵션_누적 },]
+
+    return result
+});
+
+export const TrendData = createSlice({
+    name: "TrendData",
+    initialState: { data: [], status: 'idle', error: null },
+    reducers: {},
+    extraReducers: {
+        [getTrendData.fulfilled]: (state, { payload }) => {
+            state.data = payload;
+            state.status = 'succeeded';
+        },
+        [getTrendData.pending]: (state) => { state.status = 'loading'; },
+        [getTrendData.rejected]: (state, action) => {
             state.status = 'failed';
             state.error = action.error.message;
         }

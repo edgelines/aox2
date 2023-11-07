@@ -7,6 +7,23 @@
 - 새 검색식
   - BackEnd : 종목별 실시간 윌리엄스(3개), DMI (1,2,3)
 
+### 2023.11.07
+{dev-stockSearch}
+- Commit.1
+  - marketCurrentValue.jsx : 주석 제거
+  - Store.js 리팩토링 
+    ``` javascript 
+      initialState: { data: [], status: 'idle', error: null },  // initialState 지정
+      extraReducers: {
+          [getVix.pending]: (state) => { state.status = 'loading'; },
+          [getVix.rejected]: (state, action) => {
+              state.status = 'failed';
+              state.error = action.error.message;
+          },
+          [getVix.fulfilled]: (state, { payload }) => { state.data = payload; state.status = 'succeeded'; }, // get 성공시 status 추가
+    }, 
+    ```
+
 ### 2023.11.06
 {master}
 - Commit.1

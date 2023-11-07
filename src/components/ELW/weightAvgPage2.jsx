@@ -9,18 +9,13 @@ import WeightAvgCheck from './weightAvgCheck';
 import { API } from '../util/config';
 
 export default function WeightAvgPage2({ swiperRef, ELW_monthTable, ELW_CallPutRatio_Maturity, ElwWeightedAvgCheck, MarketDetail }) {
-    // const updateA = 'Start - 9:2, Update - 지수분봉'
-    // const updateB = 'Updates-5m'
-    // const updateC = 'Updates-2m'
     const updateD = 'Start - 9:20, Update - 5m'
-    // const updateE = 'Update - 1Day'
-    // const [month1Data, setMonth1Data] = useState({});
     const [month1X, setMonth1X] = useState({});
     const [month2X, setMonth2X] = useState({});
     const [month3X, setMonth3X] = useState({});
     const [month2Data, setMonth2Data] = useState({});
     const [month1Value, setMonth1Value] = useState([]);
-    const month = ELW_monthTable && ELW_monthTable[0] ? [parseInt(ELW_monthTable[0].최종거래일.split('/')[1]), parseInt(ELW_monthTable[1].최종거래일.split('/')[1]), parseInt(ELW_monthTable[2].최종거래일.split('/')[1])] : ['', '', '']
+    const month = ELW_monthTable.status === 'succeeded' ? [parseInt(ELW_monthTable.data[0].최종거래일.split('/')[1]), parseInt(ELW_monthTable.data[1].최종거래일.split('/')[1]), parseInt(ELW_monthTable.data[2].최종거래일.split('/')[1])] : ['', '', '']
     const monthTitle = { fontSize: '16px' }
     const categories = ['B6', 'B5', 'B4', 'B3', 'B2', 'B1', '09:20'];
     var HH = 9, MM = 20
@@ -153,10 +148,7 @@ export default function WeightAvgPage2({ swiperRef, ELW_monthTable, ELW_CallPutR
         })
     };
 
-    useEffect(() => {
-        fetchData();
-
-    }, [])
+    useEffect(() => { fetchData(); }, [])
 
     // 30초 주기 업데이트
     useEffect(() => {
@@ -253,95 +245,7 @@ export default function WeightAvgPage2({ swiperRef, ELW_monthTable, ELW_CallPutR
                         }) : <Skeleton variant="rectangular" animation="wave" />
                     }
                 </Grid>
-                {/* <Grid container justifyContent="flex-end" alignItems="center" onMouseLeave={handlePopoverCloseAll}>
-                    {month2Data.categories && month2Row && month2Row.length > 0 ?
-                        month2Data.categories.map((value, index) => {
-                            return <>
-                                <Grid item xs={1.15} key={index}>
-                                    <Typography
-                                        aria-owns={openPopover2[index] ? 'mouse-over-popover' : undefined}
-                                        aria-haspopup="true"
-                                        onMouseEnter={(event) => handlePopoverOpen2(event, index)}
-                                        onMouseLeave={() => handlePopoverClose2(index)}
-                                        sx={{ fontSize: '10px', color: '#efe9e9ed', cursor: 'pointer' }}
-                                    >{value.slice(3, 5)}</Typography>
-                                    <Popover
-                                        id="mouse-over-popover"
-                                        sx={{
-                                            pointerEvents: 'none',
-                                        }}
-                                        open={openPopover2[index]}
-                                        anchorEl={anchorEl2[index]}
-                                        anchorOrigin={{
-                                            vertical: 'bottom',
-                                            horizontal: 'left',
-                                        }}
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'left',
-                                        }}
-                                        onClose={() => handlePopoverClose2(index)}
-                                        disableRestoreFocus
-                                    >
-                                        <Typography>
-                                            <Table size="small" sx={{ fontSize: '10px' }}>
-                                                <TableHead>
-                                                    <TableRow>
-                                                        <TableCell>권리유형</TableCell>
-                                                        <TableCell>행사가</TableCell>
-                                                        <TableCell>종목명</TableCell>
-                                                        <TableCell>최종거래일</TableCell>
-                                                        <TableCell>3일평균거래대금</TableCell>
-                                                    </TableRow>
-                                                </TableHead>
-                                                <TableBody>
-                                                    {
-                                                        month2Row.map((rowvalue) => {
-                                                            if (rowvalue.월구분 === index + 1) {
-                                                                const color = rowvalue.권리유형 === '콜' ? '#fee0b4' : '#b3fbff'
-                                                                const 거래대금 = rowvalue['3일평균거래대금'] >= 100000000 ? `${numberWithCommas(parseInt(rowvalue['3일평균거래대금'] / 100000000))} 억원` : `${numberWithCommas(rowvalue['3일평균거래대금'])} 원`
-                                                                return (
-                                                                    <TableRow key={rowvalue.종목코드} sx={{ backgroundColor: color }}>
-                                                                        <TableCell>{rowvalue.권리유형}</TableCell>
-                                                                        <TableCell>{rowvalue.행사가}</TableCell>
-                                                                        <TableCell>{rowvalue.종목명}</TableCell>
-                                                                        <TableCell>{rowvalue.최종거래일}</TableCell>
-                                                                        <TableCell>{거래대금}</TableCell>
-                                                                    </TableRow>
-                                                                );
-                                                            }
-                                                            return null; // 월구분이 일치하지 않는 경우 null 반환
-                                                        }
-                                                        )
-                                                    }
-                                                </TableBody>
-                                            </Table>
-                                        </Typography>
-                                    </Popover>
-                                </Grid>
-                            </>
-                        })
-                        : <Skeleton variant="rounded" animation="wave" />
-                    }
-                </Grid> */}
             </Grid>
         </Grid>
     )
 }
-
-
-
-
-{/* <Box sx={{ fontSize: '2rem' }}>
-                    - 작업중
-                </Box>
-                <Box sx={{ fontSize: '1.5rem', textAlign: 'left', mt: '10vh' }}>
-                    <ul>1. 데이터는 8월 4일 종가 기준</ul>
-                    <ul>2. 2일평균거래대금의 top10 들의 call, put 가중평균</ul>
-                    <ul>3. 단순X :  (Call_mean + Put_mean) / 2 </ul>
-                    <ul> 가중X : Call과 Put의 가중평균 </ul>
-                    <ul>4. 1일 : CTP 전체 데이터 가중평균 </ul>
-                    <ul>5. 1.5일 : (1일 + 2일 ) /2 </ul>
-                    <ul>6. 2일 : CTP데이터에서 2일평균거래대금으로 Call과 Put 전체데이터 가중평균 </ul>
-                    <ul>7. 페이지 하단 08, 09, ... 06까지 마우스올려두면 리얼데이터가 나타남 </ul>
-                </Box> */}

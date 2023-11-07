@@ -1,15 +1,14 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, } from 'react';
 import axios from 'axios';
-import { Grid, Box, Table, TableHead, TableBody, TableRow, TableCell, Skeleton, Popover, Typography } from '@mui/material';
+import { Grid, Box, Skeleton } from '@mui/material';
 import MonthChart from './monthChart';
 import MarketCurrentValue from '../Index/marketCurrentValue'
+import MarketTrendTable from '../Index/marketTrend'
 import MonthTable from './weightAvgTable'
-import { numberWithCommas } from '../util/util';
 import WeightAvgCheck from './weightAvgCheck';
 import { API } from '../util/config';
 
-export default function WeightAvgPage1({ swiperRef, ELW_monthTable, ELW_CallPutRatio_Maturity, ElwWeightedAvgCheck, MarketDetail }) {
-    const 매매동향당일누적스타일 = { borderRight: '1px solid #757575' }
+export default function WeightAvgPage1({ swiperRef, ELW_monthTable, ELW_CallPutRatio_Maturity, ElwWeightedAvgCheck, MarketDetail, TrendData }) {
     // const updateA = 'Start - 9:2, Update - 지수분봉'
     // const updateB = 'Updates-5m'
     // const updateC = 'Updates-2m'
@@ -18,8 +17,6 @@ export default function WeightAvgPage1({ swiperRef, ELW_monthTable, ELW_CallPutR
     const [month1Data, setMonth1Data] = useState({});
     const [month2Data, setMonth2Data] = useState({});
     const [month1Value, setMonth1Value] = useState([]);
-    const [table2, setTable2] = useState([]);
-
 
     const fetchData = async () => {
         await axios.get(`${API}/elwMonth1`).then((res) => {
@@ -103,23 +100,9 @@ export default function WeightAvgPage1({ swiperRef, ELW_monthTable, ELW_CallPutR
             }
             setMonth2Data(month);
         })
-        await axios.get(API + "/TrendData").then((res) => {
-            const data = res.data
-            setTable2(
-                [{ 구분: '코스피200', 외국인: data[data.length - 1].외국인_코스피200, 외국인_누적: data[data.length - 1].외국인_코스피200_누적, 기관: data[data.length - 1].기관_코스피200, 기관_누적: data[data.length - 1].기관_코스피200_누적, 개인: data[data.length - 1].개인_코스피200, 개인_누적: data[data.length - 1].개인_코스피200_누적 },
-                { 구분: '코스피', 외국인: data[data.length - 1].외국인_코스피, 외국인_누적: data[data.length - 1].외국인_코스피_누적, 기관: data[data.length - 1].기관_코스피, 기관_누적: data[data.length - 1].기관_코스피_누적, 개인: data[data.length - 1].개인_코스피, 개인_누적: data[data.length - 1].개인_코스피_누적 },
-                { 구분: '코스닥', 외국인: data[data.length - 1].외국인_코스닥, 외국인_누적: data[data.length - 1].외국인_코스닥_누적, 기관: data[data.length - 1].기관_코스닥, 기관_누적: data[data.length - 1].기관_코스닥_누적, 개인: data[data.length - 1].개인_코스닥, 개인_누적: data[data.length - 1].개인_코스닥_누적 },
-                { 구분: '선물', 외국인: data[data.length - 1].외국인_선물, 외국인_누적: data[data.length - 1].외국인_선물_누적, 기관: data[data.length - 1].기관_선물, 기관_누적: data[data.length - 1].기관_선물_누적, 개인: data[data.length - 1].개인_선물, 개인_누적: data[data.length - 1].개인_선물_누적 },
-                { 구분: '콜옵션', 외국인: data[data.length - 1].외국인_콜옵션, 외국인_누적: data[data.length - 1].외국인_콜옵션_누적, 기관: data[data.length - 1].기관_콜옵션, 기관_누적: data[data.length - 1].기관_콜옵션_누적, 개인: data[data.length - 1].개인_콜옵션, 개인_누적: data[data.length - 1].개인_콜옵션_누적 },
-                { 구분: '풋옵션', 외국인: data[data.length - 1].외국인_풋옵션, 외국인_누적: data[data.length - 1].외국인_풋옵션_누적, 기관: data[data.length - 1].기관_풋옵션, 기관_누적: data[data.length - 1].기관_풋옵션_누적, 개인: data[data.length - 1].개인_풋옵션, 개인_누적: data[data.length - 1].개인_풋옵션_누적 },]
-            )
-        });
     };
 
-    useEffect(() => {
-        fetchData();
-
-    }, [])
+    useEffect(() => { fetchData(); }, [])
 
     // 30초 주기 업데이트
     useEffect(() => {
@@ -186,65 +169,7 @@ export default function WeightAvgPage1({ swiperRef, ELW_monthTable, ELW_CallPutR
                 </Box>
 
                 <Box sx={{ position: 'absolute', transform: 'translate(45px, 605px)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)', width: '25vw' }}>
-                    {table2 && table2.length > 0 ?
-                        <Table sx={{ fontSize: '0.8rem', borderBottom: '1px solid #efe9e9ed', }}>
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th colSpan={2} style={매매동향당일누적스타일}>외국인</th>
-                                    <th colSpan={2} style={매매동향당일누적스타일}>기관</th>
-                                    <th colSpan={2} >개인</th>
-                                </tr>
-                                <tr style={{ borderBottom: '1px solid #efe9e9ed' }}>
-                                    <th style={매매동향당일누적스타일} >거래소</th>
-                                    <th style={매매동향당일누적스타일} >당일</th>
-                                    <th style={매매동향당일누적스타일} >누적</th>
-                                    <th style={매매동향당일누적스타일} >당일</th>
-                                    <th style={매매동향당일누적스타일} >누적</th>
-                                    <th style={매매동향당일누적스타일} >당일</th>
-                                    <th >누적</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {table2.map((value, index) => (
-                                    <tr key={index}>
-                                        {value.구분 === '코스피200' ?
-                                            <td style={{ color: 'greenyellow', ...매매동향당일누적스타일 }}>{value.구분}</td> : <td style={매매동향당일누적스타일}>{String(value.구분).replace('단위:', '')}</td>
-                                        }
-                                        {value.외국인 > 0 ?
-                                            <td style={{ color: '#FCAB2F', ...매매동향당일누적스타일 }}>{numberWithCommas(value.외국인)}</td>
-                                            : <td style={{ color: '#00F3FF', ...매매동향당일누적스타일 }}>{numberWithCommas(value.외국인)}</td>
-                                        }
-                                        {value.외국인_누적 > 0 ?
-                                            <td style={{ color: '#FCAB2F', ...매매동향당일누적스타일 }}>{numberWithCommas(value.외국인_누적)}</td>
-                                            : <td style={{ color: '#00F3FF', ...매매동향당일누적스타일 }}>{numberWithCommas(value.외국인_누적)}</td>
-                                        }
-                                        {value.기관 > 0 ?
-                                            <td style={{ color: '#FCAB2F', ...매매동향당일누적스타일 }}>{numberWithCommas(value.기관)}</td>
-                                            : <td style={{ color: '#00F3FF', ...매매동향당일누적스타일 }}>{numberWithCommas(value.기관)}</td>
-                                        }
-                                        {value.기관_누적 > 0 ?
-                                            <td style={{ color: '#FCAB2F', ...매매동향당일누적스타일 }}>{numberWithCommas(value.기관_누적)}</td>
-                                            : <td style={{ color: '#00F3FF', ...매매동향당일누적스타일 }}>{numberWithCommas(value.기관_누적)}</td>
-                                        }
-                                        {value.개인 > 0 ?
-                                            <td style={{ color: '#FCAB2F', ...매매동향당일누적스타일 }}>{numberWithCommas(value.개인)}</td>
-                                            : <td style={{ color: '#00F3FF', ...매매동향당일누적스타일 }}>{numberWithCommas(value.개인)}</td>
-                                        }
-                                        {value.개인_누적 > 0 ?
-                                            <td style={{ color: '#FCAB2F' }}>{numberWithCommas(value.개인_누적)}</td>
-                                            : <td style={{ color: '#00F3FF' }}>{numberWithCommas(value.개인_누적)}</td>
-                                        }
-
-                                    </tr>
-                                )
-                                )}
-                            </tbody>
-                        </Table>
-                        : <Skeleton variant="rounded" height={300} animation="wave" />
-                    }
-                    <Box sx={{ textAlign: 'right' }}>단위 : 콜/풋옵션 백만원, 그외 억원</Box>
-
+                    <MarketTrendTable TrendData={TrendData} />
                 </Box>
                 <MonthChart data={month1Data.series} height={840} categories={month1Data.categories} min={month1Data.min} />
                 <Grid container justifyContent="flex-end" alignItems="center">
@@ -258,8 +183,8 @@ export default function WeightAvgPage1({ swiperRef, ELW_monthTable, ELW_CallPutR
                         }) : <Skeleton variant="rectangular" animation="wave" />
                     }
                 </Grid>
-
             </Grid>
+
             <Grid item xs={6}>
                 <Box sx={{ fontSize: '1.5rem', fontWeight: 'bold' }} >
                     <span style={{ color: 'greenyellow' }}> WA2</span>

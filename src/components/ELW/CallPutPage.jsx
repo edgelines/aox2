@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Grid, Box, ToggleButtonGroup } from '@mui/material';
+import { Grid, Box, ToggleButtonGroup, Skeleton } from '@mui/material';
 import IndexChart from '../util/IndexChart.jsx';
 import CoreChart from '../util/CoreChart.jsx';
 import { StyledToggleButton } from '../util/util.jsx'
@@ -135,8 +135,7 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
     }
     const handleFormat = (event, newFormats) => { setFormats(newFormats); };
     const handleMainData = (event, newAlignment) => { setMainData(newAlignment); };
-    const handleAdrNumUp = () => { if (adrNum < 40) { setAdrNum(prev => prev + 1); } };
-    const handleAdrNumDown = () => { if (adrNum > 1) { setAdrNum(prev => prev - 1); } };
+
     const getRollingADR = (data) => {
         const adrValues = rolling_adr(data, adrNum);
         const ADR = data.map((data, index) => {
@@ -231,10 +230,7 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
     if (formats.includes('MA112')) {
         chartData = [...chartData, ...IndexMA.MA112]
     }
-    // if (formats.includes('ADR')) {
-    //     // ADR에 따른 데이터 변형 로직
-    //     chartData = [...chartData, ...adrData]
-    // }
+
     return (
         <Grid container spacing={1} >
             <Grid item xs={12} >
@@ -254,9 +250,11 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
                 <Grid container>
                     <Grid item xs={5.6}>
                         <div style={{ fontSize: '4em', position: 'absolute', transform: 'translate(1.5vw, 9vh)', backgroundColor: 'rgba(0, 0, 0, 0.2)', p: 2 }}> VIX :
-                            {Vix.net > 0 ?
-                                <span style={{ color: 'tomato' }}> {`${Vix.value} ( + ${Vix.net} )`} </span> :
-                                <span style={{ color: 'deepskyblue' }}> {`${Vix.value} ( ${Vix.net} )`} </span>
+                            {Vix.status === 'succeeded' ?
+                                Vix.net > 0 ?
+                                    <span style={{ color: 'tomato' }}> {`${Vix.value} ( + ${Vix.net} )`} </span> :
+                                    <span style={{ color: 'deepskyblue' }}> {`${Vix.value} ( ${Vix.net} )`} </span>
+                                : <Skeleton variant="rounded" height={20} animation="wave" />
                             }
                         </div>
                         <Box sx={{ position: 'absolute', transform: 'translate(27vw, 9vh)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)', p: 1 }}>
@@ -290,14 +288,8 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
                             >
                                 <StyledToggleButton aria-label="MA50" value="MA50">MA50</StyledToggleButton>
                                 <StyledToggleButton aria-label="MA112" value="MA112">MA112</StyledToggleButton>
-                                {/* <StyledToggleButton aria-label="ADR" value="ADR">ADR</StyledToggleButton> */}
                             </ToggleButtonGroup>
                         </Box>
-                        {/* <Box sx={{ height: '10vh', mt: 3 }}>
-                            <StyledButton onClick={handleAdrNumUp}>UP</StyledButton>
-                            {adrNum}
-                            <StyledButton onClick={handleAdrNumDown}>Down</StyledButton>
-                        </Box> */}
                     </Grid>
                     <Grid item xs={6}>
 

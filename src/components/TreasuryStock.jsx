@@ -16,7 +16,7 @@ export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
     const [stockItemData, setStockItemData] = useState([]);
     const [stockVolumeData, setStockVolumeData] = useState([]);
     const [SectorsName, setSectorsName] = useState('');
-    const [SectorsChartDataSelected, setSectorsChartDataSelected] = useState([]);
+    // const [SectorsChartDataSelected, setSectorsChartDataSelected] = useState([]);
     const [취득처분선택, set취득처분선택] = useState('취득');
     const [거래일datetime, set거래일datetime] = useState(null);
     const [최대값, set최대값] = useState(null);
@@ -213,7 +213,7 @@ export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
     const sectorSelected = (sector) => { // 업종 클릭시 
         const name = SectorsName15(sector.업종명)
         setSectorsName(sector.업종명);
-        if (name !== '없음') { setSectorsChartDataSelected(SectorsChartData[name]); }
+        // if (name !== '없음') { setSectorsChartDataSelected(SectorsChartData[name]); }
     }
     // 업종 선택시
     const sectorNameSelected = (item) => { set업종선택(item) }

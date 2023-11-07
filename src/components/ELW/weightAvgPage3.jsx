@@ -264,11 +264,11 @@ export default function WeightAvgPage3({ swiperRef, ELW_monthTable, ELW_CallPutR
             <Box sx={{ fontSize: '3rem', position: 'absolute', transform: 'translate(97vw, 1vh)' }} >3</Box>
             <Grid item xs={6}>
                 <Box sx={{ fontSize: '1.3rem', fontWeight: 'bold', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)', position: 'absolute', transform: 'translate(37vw, 97px)' }}>
-                    {Exchange.value ?
+                    {Exchange.status === 'succeeded' ?
                         <>
-                            {Exchange.comparison === '상승' ?
-                                <span style={{ color: 'tomato' }}> {Exchange.value} 원 ( + {Exchange.net} )</span> : Exchange.comparison === '하락' ?
-                                    <span style={{ color: 'deepskyblue' }}> {Exchange.value} 원 ( - {Exchange.net} )</span> : <span style={{ color: 'deepskyblue' }}> {Exchange.value} 원 ( {Exchange.net} )</span>}
+                            {Exchange.data.comparison === '상승' ?
+                                <span style={{ color: 'tomato' }}> {Exchange.data.value} 원 ( + {Exchange.data.net} )</span> : Exchange.data.comparison === '하락' ?
+                                    <span style={{ color: 'deepskyblue' }}> {Exchange.data.value} 원 ( - {Exchange.data.net} )</span> : <span style={{ color: 'deepskyblue' }}> {Exchange.data.value} 원 ( {Exchange.data.net} )</span>}
                         </>
                         : <Skeleton variant="rounded" height={20} animation="wave" />}
 
