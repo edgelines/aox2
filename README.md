@@ -3,10 +3,9 @@
     - npm run dev: "webpack --config webpack.dev.js",
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
-- DMI 3,4,5,6,7 || 0 ~ 10
-- Williams || -100 ~ -90
-- 
-- 
+
+
+### 2023.11.08
 {dev-stockSearch2}
 - Commit.1
   - 일부 데이터들을 reduce에서 되돌아올때 재랜더링이됨
@@ -17,7 +16,11 @@
   - stockSearch.js
     - DMI_6,7 추가
     - 소숫점 1자리
+- Commit.3 
   - StockSearch.jsx
+    - DMI 3,4,5,6,7 || 0 ~ 10
+    - Williams || -100 ~ -90
+    -[x] Filter
 
 ### 2023.11.07
 {master}
