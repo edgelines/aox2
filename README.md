@@ -2,16 +2,22 @@
     - npm run start: "webpack-dev-server --config webpack.dev.js",
     - npm run dev: "webpack --config webpack.dev.js",
     - npm run build: "webpack --config webpack.prod.js"
-
 ## Todo / Bug
-
-### 2023.11.08
+- DMI 3,4,5,6,7 || 0 ~ 10
+- Williams || -100 ~ -90
+- 
+- 
 {dev-stockSearch2}
 - Commit.1
   - 일부 데이터들을 reduce에서 되돌아올때 재랜더링이됨
     - 원인은 status === 'succeeded'의 조건문일때 재랜더링 이슈가 생김
     - 기존처럼 state.data && state.data.lengh > 0  의 조건문일 경우 값만 바뀜
     - Store.js 전체 다 다시 작업
+- Commit.2 || MacBook 작업
+  - stockSearch.js
+    - DMI_6,7 추가
+    - 소숫점 1자리
+  - StockSearch.jsx
 
 ### 2023.11.07
 {master}

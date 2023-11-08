@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Grid, Typography, RadioGroup, Radio, FormLabel, FormControlLabel, Box, Table, TableBody, TableRow, TableCell, Slider } from '@mui/material';
+import { Grid, Typography, RadioGroup, Radio, FormLabel, FormControlLabel, Box, Table, TableBody, TableRow, TableCell, Slider, TextField } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import StockChart from './SectorsPage/stockChart'
@@ -11,9 +11,14 @@ export default function StockSearchPage({ swiperRef, StockSearch }) {
     const [data, setData] = useState([]);
 
     // Filter State
-    const [dmi3Range, setDmi3Range] = useState([0, 100]);
-    const [dmi4Range, setDmi4Range] = useState([0, 100]);
-    const [dmi5Range, setDmi5Range] = useState([0, 100]);
+    const [dmi3Range, setDmi3Range] = useState([0, 10]);
+    const [dmi4Range, setDmi4Range] = useState([0, 10]);
+    const [dmi5Range, setDmi5Range] = useState([0, 10]);
+    const [willR5Range, setWillR5Range] = useState([-100, -90]);
+    const [willR7Range, setWillR7Range] = useState([-100, -90]);
+    const [willR14Range, setWillR14Range] = useState([-100, -90]);
+    const [willR20Range, setWillR20Range] = useState([-100, -90]);
+    const [willR33Range, setWillR33Range] = useState([-100, -90]);
 
     // Chart Data
     const [stockName, setStockName] = useState(null);
@@ -59,9 +64,8 @@ export default function StockSearchPage({ swiperRef, StockSearch }) {
             });
         sectorSelected(selectedStockItem)
     };
-    const sectorSelected = (sector) => { // 업종 클릭시 
-        setSectorsName(sector.업종명);
-    }
+    // 업종 클릭시 
+    const sectorSelected = (sector) => { setSectorsName(sector.업종명); }
 
     // handler
     const handleSliderChange = (event, newValue, sliderName) => {
@@ -105,20 +109,28 @@ export default function StockSearchPage({ swiperRef, StockSearch }) {
                 );
             }
         },
-        { field: 'willR_5', headerName: 'willR_5', width: 60, align: 'right', },
-        { field: 'willR_7', headerName: 'willR_7', width: 60, align: 'right', },
-        { field: 'willR_14', headerName: 'willR_14', width: 60, align: 'right', },
-        { field: 'willR_20', headerName: 'willR_20', width: 60, align: 'right', },
-        { field: 'willR_33', headerName: 'willR_33', width: 60, align: 'right', },
-        { field: 'DMI_3', headerName: 'DMI_3', width: 40, align: 'right', },
-        { field: 'DMI_4', headerName: 'DMI_4', width: 40, align: 'right', },
-        { field: 'DMI_5', headerName: 'DMI_5', width: 40, align: 'right', },
+        { field: 'willR_5', headerName: 'willR_5', width: 55, align: 'right', },
+        { field: 'willR_7', headerName: 'willR_7', width: 55, align: 'right', },
+        { field: 'willR_14', headerName: 'willR_14', width: 55, align: 'right', },
+        { field: 'willR_20', headerName: 'willR_20', width: 55, align: 'right', },
+        { field: 'willR_33', headerName: 'willR_33', width: 55, align: 'right', },
+        { field: 'DMI_3', headerName: 'DMI_3', width: 55, align: 'right', },
+        { field: 'DMI_4', headerName: 'DMI_4', width: 55, align: 'right', },
+        { field: 'DMI_5', headerName: 'DMI_5', width: 55, align: 'right', },
+        { field: 'DMI_6', headerName: 'DMI_6', width: 55, align: 'right', },
+        { field: 'DMI_7', headerName: 'DMI_7', width: 55, align: 'right', },
     ]
     const labelStyle = { fontSize: '14px', textAlign: 'start' }
     return (
         <Grid container>
             <Grid item xs={1.8} sx={{ paddingRight: '30px' }}>
                 <Grid container >
+                    <TextField
+                        variant="filled"
+                        size="small"
+                        value={dmi3Range[0]}
+                        onChange={(event, newValue) => handleSliderChange(event, newValue, 'DMI3')}
+                    />
                     <label style={labelStyle}>DMI3 범위: {dmi3Range[0]} - {dmi3Range[1]}</label>
                     <Slider
                         min={0}
