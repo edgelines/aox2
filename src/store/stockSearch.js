@@ -7,14 +7,16 @@ export const getStockSearch = createAsyncThunk("GET/STOCKSEARCH", async () => {
     const data = response.data.map((item, index) => ({
         ...item,
         id: index,
-        willR_5: item.willR_5.toFixed(2),
-        willR_7: item.willR_7.toFixed(2),
-        willR_14: item.willR_14.toFixed(2),
-        willR_20: item.willR_20.toFixed(2),
-        willR_33: item.willR_33.toFixed(2),
-        DMI_3: item.DMI_3.toFixed(2),
-        DMI_4: item.DMI_4.toFixed(2),
-        DMI_5: item.DMI_5.toFixed(2),
+        willR_5: item.willR_5.toFixed(1),
+        willR_7: item.willR_7.toFixed(1),
+        willR_14: item.willR_14.toFixed(1),
+        willR_20: item.willR_20.toFixed(1),
+        willR_33: item.willR_33.toFixed(1),
+        DMI_3: item.DMI_3.toFixed(1),
+        DMI_4: item.DMI_4.toFixed(1),
+        DMI_5: item.DMI_5.toFixed(1),
+        DMI_6: item.DMI_6.toFixed(1),
+        DMI_7: item.DMI_7.toFixed(1),
     }))
     return data;
 });
