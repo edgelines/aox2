@@ -5,6 +5,13 @@
 
 ## Todo / Bug
 
+### 2023.11.08
+{dev-stockSearch2}
+- Commit.1
+  - 일부 데이터들을 reduce에서 되돌아올때 재랜더링이됨
+    - 원인은 status === 'succeeded'의 조건문일때 재랜더링 이슈가 생김
+    - 기존처럼 state.data && state.data.lengh > 0  의 조건문일 경우 값만 바뀜
+    - Store.js 전체 다 다시 작업
 
 ### 2023.11.07
 {master}

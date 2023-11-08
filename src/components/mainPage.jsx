@@ -464,7 +464,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
 
                 <CoreChart data={market.series} height={350} name={'market'} categories={market.categories} lengendX={1} LengendY={0} />
 
-                <Box sx={{ position: 'absolute', transform: 'translate(11vw, 28vh)', }}  >
+                <Box sx={{ position: 'absolute', transform: 'translate(11vw, 290px)', }}  >
                     <Kospi200CurrentValue hiddenTitle={true} valueFont={'2.7rem'} />
                 </Box>
 
@@ -503,7 +503,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                         </Box>
                     </Grid>
                     {
-                        MarketDetail.status === 'succeeded' ?
+                        MarketDetail.data && MarketDetail.data.length > 0 ?
                             <Grid item xs={5} sx={{ border: MarketDetail.data[0].전일대비 > 0 ? '2px solid tomato' : '2px solid deepskyblue', borderRadius: '10px' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'right' }}>
                                     <img src={kospi200Img} style={{ width: '100%' }} />
@@ -535,7 +535,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                 </Grid>
 
                 <Grid item xs={12}>
-                    {MarketDetail.status === 'succeeded' ?
+                    {MarketDetail.data && MarketDetail.data.length > 0 ?
                         <Table sx={{ fontSize: '0.7rem', borderBottom: '1px solid #efe9e9ed', mt: 1 }}>
                             <thead>
                                 <tr style={{ borderBottom: '1px solid #efe9e9ed' }}>

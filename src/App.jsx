@@ -584,7 +584,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <StockSearchPage swiperRef={swiperRef} StockSearch={StockSearch} />
+                    <MainPage Vix={Vix} Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop} Kospi200BubbleCategory={Kospi200BubbleCategory} MarketDetail={MarketDetail} ElwWeightedAvgCheck={ElwWeightedAvgCheck} Exchange={Exchange} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
