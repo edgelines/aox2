@@ -11,9 +11,9 @@ const CustomTextField = styled(TextField)({
     '& .MuiInputBase-input': { color: '#efe9e9ed' }
 });
 
-export default function StockSearchPage({ swiperRef, StockSearch }) {
-    const [originData, setOriginData] = useState([]);
+export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTracking }) {
     const [data, setData] = useState([]);
+    const [StockSearchTrackingData, setStockSearchTrackingData] = useState([]);
 
     // Filter State
     const [dmi3Range, setDmi3Range] = useState([0, 10]);
@@ -34,11 +34,12 @@ export default function StockSearchPage({ swiperRef, StockSearch }) {
     const [SectorsName, setSectorsName] = useState('');
 
     // Fetch Data
-
-    useEffect(() => { if (StockSearch.status === 'succeeded') { setOriginData(StockSearch.data); } }, [StockSearch])
     useEffect(() => {
+        // if (StockSearch.status === 'succeeded') {
+        //     setOriginData(StockSearch.data);
+        // }
         // 공통 필터링 로직을 사용할 수 있습니다.
-        const newFilteredData = originData.filter((item) => {
+        const newFilteredData = StockSearch.data.filter((item) => {
             const dmi3Value = parseFloat(item.DMI_3);
             const dmi4Value = parseFloat(item.DMI_4);
             const dmi5Value = parseFloat(item.DMI_5);
@@ -65,7 +66,7 @@ export default function StockSearchPage({ swiperRef, StockSearch }) {
         });
         setData(newFilteredData);
     }, [StockSearch, dmi3Range, dmi4Range, dmi5Range, dmi6Range, dmi7Range, willR5Range, willR7Range, willR14Range, willR20Range, willR33Range])
-
+    useEffect(() => { if (StockSearchTracking.status === 'succeeded') { setStockSearchTrackingData(StockSearchTracking.data); } }, [StockSearchTracking])
     // function
     // 종목 선택시
     const stockItemSelected = (selectedStockItem) => { // 종목 클릭시
@@ -195,6 +196,51 @@ export default function StockSearchPage({ swiperRef, StockSearch }) {
         { field: 'DMI_6', headerName: 'DMI_6', width: 55, align: 'right', },
         { field: 'DMI_7', headerName: 'DMI_7', width: 55, align: 'right', },
     ]
+    const TrackingColumns = [
+        {
+            field: '조건일', headerName: '검색일자', width: 100,
+            renderCell: (params) => params.value.split('T')[0]
+        },
+        { field: '업종명', headerName: '업종명', width: 100, },
+        { field: '종목명', headerName: '종목명', width: 100, },
+        {
+            field: '종가', headerName: '검색종가', width: 70, align: 'right',
+            renderCell: (params) => params.value.toLocaleString('kr')
+        },
+        {
+            field: '현재가', headerName: '현재가', width: 70, align: 'right',
+            renderCell: (params) => {
+                const 현재가 = parseInt(params.value);
+                const 종가 = parseInt(params.row.종가);
+                let color, fontWeight;
+                if (현재가 < 종가) {
+                    color = 'dodgerblue';
+                } else { color = 'tomato'; }
+                return (
+                    <span style={{ color: color, fontWeight: fontWeight }}>
+                        {현재가.toLocaleString('kr')}
+                    </span>
+                );
+            }
+        },
+        {
+            field: '등락률', headerName: '등락률(%)', width: 70, align: 'right',
+            renderCell: (params) => {
+                const 현재가 = parseInt(params.row.현재가);
+                const 종가 = parseInt(params.row.종가);
+                let color, fontWeight;
+                if (현재가 < 종가) {
+                    color = 'dodgerblue';
+                } else { color = 'tomato'; }
+                return (
+                    <span style={{ color: color, fontWeight: fontWeight }}>
+                        {`${params.value} %`}
+                    </span>
+                );
+            }
+        },
+    ]
+
     const labelStyle = { fontSize: '14px', textAlign: 'start' }
     const DmiTextFields = DmiFilter([dmi3Range, dmi4Range, dmi5Range, dmi6Range, dmi7Range], handleFilterChange);
     const WillrTextFields = WillrFilter([willR5Range, willR7Range, willR14Range, willR20Range, willR33Range], handleFilterChange);
@@ -219,12 +265,46 @@ export default function StockSearchPage({ swiperRef, StockSearch }) {
 
             </Grid>
             <Grid item xs={5}>
-                <div style={{ height: "95svh" }}
+                <div style={{ height: "45svh" }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
+                    <Typography align='start'>
+                        Monitoring
+                    </Typography>
                     <ThemeProvider theme={customTheme}>
                         <DataGrid rows={data} rowHeight={25} columns={StockColumns}
+                            sx={{
+                                color: '#efe9e9ed', border: 'none',
+                                '.MuiDataGrid-columnHeaders': {
+                                    minHeight: '30px !important',  // 원하는 높이 값으로 설정
+                                    maxHeight: '30px !important',  // 원하는 높이 값으로 설정
+                                    lineHeight: '30px !important',  // 원하는 높이 값으로 설정
+                                    backgroundColor: 'rgba(230, 230, 230, 0.1)'
+                                },
+                                '.MuiTablePagination-root': { color: '#efe9e9ed' },
+                                '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
+                                '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
+                                '[data-field="종목명"]': { backgroundColor: '#6E6E6E' },
+                            }}
+                            onCellClick={(params, event) => {
+                                stockItemSelected({
+                                    종목코드: params.row.티커, 종목명: params.row.종목명, 업종명: params.row.업종명
+                                });
+                                setStockName(params.row.종목명)
+                            }}
+                        />
+                    </ThemeProvider>
+                </div>
+                <div style={{ height: "50svh", mt: 1 }}
+                    onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                    onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+                >
+                    <Typography align='start'>
+                        Tracking
+                    </Typography>
+                    <ThemeProvider theme={customTheme}>
+                        <DataGrid rows={StockSearchTrackingData} rowHeight={25} columns={TrackingColumns}
                             sx={{
                                 color: '#efe9e9ed', border: 'none',
                                 '.MuiDataGrid-columnHeaders': {

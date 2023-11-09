@@ -10,7 +10,7 @@ import { getABC1, getABC2 } from "./store/AxBxC.js";
 import { getStockThemeByItem, getStockSectorByItem, getSearchInfo, getScheduleItemEvent } from "./store/info.js";
 import { getIndexMA, getVixMA, getVix, getMarketDetail, getKospi200, getKospi, getKosdaq, getInvers, getMarketKospi200, getExchange } from './store/indexData.js';
 import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvg, getElwWeightedAvgCheck } from './store/ELW.js';
-import { getStockSearch } from './store/stockSearch';
+import { getStockSearch, getStockSearchTracking } from './store/stockSearch';
 // Components
 import SchedulePage from './components/schedulePage.jsx';
 import SectorsChartPage from './components/sectorsChartPage.jsx';
@@ -46,6 +46,7 @@ function App() {
     const StockThemeByItem = useSelector((state) => state.StockThemeByItem);
     const StockSectorByItem = useSelector((state) => state.StockSectorByItem);
     const StockSearch = useSelector((state) => state.StockSearch);
+    const StockSearchTracking = useSelector((state) => state.StockSearchTracking)
     const SearchInfo = useSelector((state) => state.SearchInfo);
     const ABC1 = useSelector((state) => state.ABC1);
     const ABC2 = useSelector((state) => state.ABC2);
@@ -248,6 +249,7 @@ function App() {
         await dispatch(getMarketKospi200());
         await dispatch(getExchange());
         await dispatch(getStockSearch());
+        await dispatch(getStockSearchTracking());
     }
     // 하루 주기
     const fetchData1Day = async () => {
@@ -584,7 +586,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <StockSearchPage swiperRef={swiperRef} StockSearch={StockSearch} />
+                    <StockSearchPage swiperRef={swiperRef} StockSearch={StockSearch} StockSearchTracking={StockSearchTracking} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >

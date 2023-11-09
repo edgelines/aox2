@@ -4,6 +4,15 @@
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
 
+### 2023.11.09
+{master}
+- Commit.1
+  - StockSearch.jsx
+    - Monitoring | Tracking 구분
+    - Tracking 
+      - 현재가는 검색당시 종가 비교 후 색 표시
+      - 등락률 표시 ( (item.현재가 - item.종가) / item.종가 ) 
+    - Hook 조정
 
 ### 2023.11.08
 {dev-stockSearch2}

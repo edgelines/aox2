@@ -7,7 +7,7 @@ import { ABC1, ABC2 } from "./AxBxC.js";
 import { StockThemeByItem, StockSectorByItem, SearchInfo, ScheduleItemEvent } from "./info.js";
 import { IndexMA, VixMA, Vix, MarketDetail, Kospi200, Kospi, Kosdaq, Invers, MarketKospi200, Exchange } from "./indexData.js";
 import { ELW_monthTable, ELW_CallPutRatio_Maturity, ElwWeightedAvg, ElwWeightedAvgCheck } from "./ELW.js";
-import { StockSearch } from './stockSearch.js';
+import { StockSearch, StockSearchTracking } from './stockSearch.js';
 
 export default configureStore({
     reducer: {
@@ -23,6 +23,7 @@ export default configureStore({
         StockThemeByItem: StockThemeByItem.reducer,
         StockSectorByItem: StockSectorByItem.reducer,
         StockSearch: StockSearch.reducer,
+        StockSearchTracking: StockSearchTracking.reducer,
         SearchInfo: SearchInfo.reducer,
         ScheduleItemEvent: ScheduleItemEvent.reducer,
         IndexMA: IndexMA.reducer,
