@@ -66,7 +66,7 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
         });
         setData(newFilteredData);
     }, [StockSearch, dmi3Range, dmi4Range, dmi5Range, dmi6Range, dmi7Range, willR5Range, willR7Range, willR14Range, willR20Range, willR33Range])
-    useEffect(() => { if (StockSearchTracking.status === 'succeeded') { setStockSearchTrackingData(StockSearchTracking.data); } }, [StockSearchTracking])
+    useEffect(() => { console.log(StockSearchTracking); if (StockSearchTracking.status === 'succeeded') { setStockSearchTrackingData(StockSearchTracking.data); } }, [StockSearchTracking])
     // function
     // 종목 선택시
     const stockItemSelected = (selectedStockItem) => { // 종목 클릭시

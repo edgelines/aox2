@@ -4,6 +4,12 @@
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
 
+### 2023.11.10
+{master}
+- Commit.1
+  - StockSearch.jsx
+    - props 누락 수정
+
 ### 2023.11.09
 {master}
 - Commit.1

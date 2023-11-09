@@ -626,7 +626,7 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <StockSearchPage swiperRef={swiperRef} StockSearch={StockSearch} />
+                    <StockSearchPage swiperRef={swiperRef} StockSearch={StockSearch} StockSearchTracking={StockSearchTracking} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
