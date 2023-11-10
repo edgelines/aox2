@@ -185,11 +185,11 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
                 );
             }
         },
-        { field: 'willR_5', headerName: 'willR_5', width: 55, align: 'right', },
-        { field: 'willR_7', headerName: 'willR_7', width: 55, align: 'right', },
-        { field: 'willR_14', headerName: 'willR_14', width: 55, align: 'right', },
-        { field: 'willR_20', headerName: 'willR_20', width: 55, align: 'right', },
-        { field: 'willR_33', headerName: 'willR_33', width: 55, align: 'right', },
+        { field: 'willR_5', headerName: 'willR_5', width: 62, align: 'right', },
+        { field: 'willR_7', headerName: 'willR_7', width: 62, align: 'right', },
+        { field: 'willR_14', headerName: 'willR_14', width: 62, align: 'right', },
+        { field: 'willR_20', headerName: 'willR_20', width: 62, align: 'right', },
+        { field: 'willR_33', headerName: 'willR_33', width: 62, align: 'right', },
         { field: 'DMI_3', headerName: 'DMI_3', width: 55, align: 'right', },
         { field: 'DMI_4', headerName: 'DMI_4', width: 55, align: 'right', },
         { field: 'DMI_5', headerName: 'DMI_5', width: 55, align: 'right', },
@@ -198,11 +198,11 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
     ]
     const TrackingColumns = [
         {
-            field: '조건일', headerName: '검색일자', width: 100,
+            field: '조건일', headerName: '검색일자', width: 95,
             renderCell: (params) => params.value.split('T')[0]
         },
         { field: '업종명', headerName: '업종명', width: 100, },
-        { field: '종목명', headerName: '종목명', width: 100, },
+        { field: '종목명', headerName: '종목명', width: 120, },
         {
             field: '종가', headerName: '검색종가', width: 70, align: 'right',
             renderCell: (params) => params.value.toLocaleString('kr')
