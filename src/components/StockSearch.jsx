@@ -239,9 +239,36 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
                 );
             }
         },
+        {
+            field: '유보율', headerName: '유보율', width: 75, align: 'right',
+            renderCell: (params) => {
+                let color, fontWeight;
+                if (params.value < 200) {
+                    color = 'dodgerblue';
+                } else { color = 'tomato'; }
+                return (
+                    <span style={{ color: color, fontWeight: fontWeight }}>
+                        {`${params.value} %`}
+                    </span>
+                );
+            }
+        },
+        {
+            field: '부채비율', headerName: '부채비율', width: 75, align: 'right',
+            renderCell: (params) => {
+                let color, fontWeight;
+                if (params.value > 200) {
+                    color = 'dodgerblue';
+                } else { color = 'tomato'; }
+                return (
+                    <span style={{ color: color, fontWeight: fontWeight }}>
+                        {`${params.value} %`}
+                    </span>
+                );
+            }
+        },
     ]
 
-    const labelStyle = { fontSize: '14px', textAlign: 'start' }
     const DmiTextFields = DmiFilter([dmi3Range, dmi4Range, dmi5Range, dmi6Range, dmi7Range], handleFilterChange);
     const WillrTextFields = WillrFilter([willR5Range, willR7Range, willR14Range, willR20Range, willR33Range], handleFilterChange);
 
@@ -282,6 +309,7 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
                                     lineHeight: '30px !important',  // 원하는 높이 값으로 설정
                                     backgroundColor: 'rgba(230, 230, 230, 0.1)'
                                 },
+                                '.MuiDataGrid-columnSeparator': { display: 'none', },
                                 '.MuiTablePagination-root': { color: '#efe9e9ed' },
                                 '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
                                 '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
@@ -313,6 +341,7 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
                                     lineHeight: '30px !important',  // 원하는 높이 값으로 설정
                                     backgroundColor: 'rgba(230, 230, 230, 0.1)'
                                 },
+                                '.MuiDataGrid-columnSeparator': { display: 'none', },
                                 '.MuiTablePagination-root': { color: '#efe9e9ed' },
                                 '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
                                 '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },

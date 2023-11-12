@@ -46,6 +46,8 @@ export const getStockSearchTracking = createAsyncThunk("GET/STOCKSEARCHTRACKING"
         ...item,
         id: index,
         등락률: ((item.현재가 - item.종가) / item.종가 * 100).toFixed(1),
+        유보율: parseInt(item.유보율),
+        부채비율: parseInt(item.부채비율),
     }))
     return data;
 });
