@@ -39,7 +39,7 @@ export default function StockSearchMonitoringPage({ swiperRef, StockSearchTracki
             renderCell: (params) => `${params.value} %`
         },
         {
-            field: '상승갯수', headerName: '상승갯수', width: 62, align: 'right',
+            field: '상승갯수', headerName: '상승/전체', width: 62, align: 'right',
         },
         {
             field: '윌리엄스_5', headerName: 'W-R-5', width: 58, align: 'right',
