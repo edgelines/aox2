@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { API, MAC } from '../components/util/config'
+import dayjs from 'dayjs';
 
 export const getStockSearch = createAsyncThunk("GET/STOCKSEARCH", async () => {
     const response = await axios.get(`${API}/StockSearch`);
@@ -65,6 +66,56 @@ export const StockSearchTracking = createSlice({
             state.status = 'loading'; // 로딩 상태 설정
         },
         [getStockSearchTracking.rejected]: (state, action) => {
+            state.status = 'failed'; // 실패 상태 설정
+            state.error = action.error.message; // 에러 메시지 저장
+        }
+    },
+});
+
+export const getStockSearchTrackingStatistics = createAsyncThunk("GET/StockSearchTrackingStatistics", async () => {
+    const response = await axios.get(`${API}/TrackingStatistics`);
+    const today = dayjs();
+    const data = response.data.map((item, index) => {
+        const conditionDate = dayjs(item.트래킹통계.조건일);
+        const dDay = today.diff(conditionDate, 'day'); // 'day' 단위로 차이 계산
+
+        return {
+            id: index,
+            조건일: item.트래킹통계.조건일,
+            현재평균: item.트래킹통계.등락률평균,
+            상승: parseInt(item.트래킹통계.상승 / item.트래킹통계.전체 * 100),
+            상승갯수: `${item.트래킹통계.상승} / ${item.트래킹통계.전체}`,
+            D_Day: dDay,
+            윌리엄스_5: `${item.최소값.윌리엄스_5} - ${item.최대값.윌리엄스_5}`,
+            윌리엄스_7: `${item.최소값.윌리엄스_7} - ${item.최대값.윌리엄스_7}`,
+            윌리엄스_14: `${item.최소값.윌리엄스_14} - ${item.최대값.윌리엄스_14}`,
+            코스피200_7: `${item.최소값.코스피200_7} - ${item.최대값.코스피200_7}`,
+            코스피200_14: `${item.최소값.코스피200_14} - ${item.최대값.코스피200_14}`,
+            코스피200_20: `${item.최소값.코스피200_20} - ${item.최대값.코스피200_20}`,
+            코스피_7: `${item.최소값.코스피_7} - ${item.최대값.코스피_7}`,
+            코스피_14: `${item.최소값.코스피_14} - ${item.최대값.코스피_14}`,
+            코스피_20: `${item.최소값.코스피_20} - ${item.최대값.코스피_20}`,
+            코스닥_7: `${item.최소값.코스닥_7} - ${item.최대값.코스닥_7}`,
+            코스닥_14: `${item.최소값.코스닥_14} - ${item.최대값.코스닥_14}`,
+            코스닥_20: `${item.최소값.코스닥_20} - ${item.최대값.코스닥_20}`,
+        }
+    })
+    return data;
+});
+
+export const StockSearchTrackingStatistics = createSlice({
+    name: "StockSearchTrackingStatistics",
+    initialState: { data: [], status: 'idle', error: null },
+    reducers: {},
+    extraReducers: {
+        [getStockSearchTrackingStatistics.fulfilled]: (state, { payload }) => {
+            state.data = payload; // payload로 배열 데이터를 업데이트
+            state.status = 'succeeded'; // 상태를 성공으로 변경
+        },
+        [getStockSearchTrackingStatistics.pending]: (state) => {
+            state.status = 'loading'; // 로딩 상태 설정
+        },
+        [getStockSearchTrackingStatistics.rejected]: (state, action) => {
             state.status = 'failed'; // 실패 상태 설정
             state.error = action.error.message; // 에러 메시지 저장
         }
