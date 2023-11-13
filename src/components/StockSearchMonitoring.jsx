@@ -10,7 +10,12 @@ import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import StockChart from './SectorsPage/stockChart'
 import { STOCK, MAC } from './util/config';
 
-export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTracking }) {
+const CustomTextField = styled(TextField)({
+    '& .MuiFormLabel-root': { color: '#efe9e9ed' },
+    '& .MuiInputBase-input': { color: '#efe9e9ed' }
+});
+
+export default function StockSearchMonitoringPage({ swiperRef, StockSearch, StockSearchTracking }) {
     const [data, setData] = useState([]);
     const [StockSearchTrackingData, setStockSearchTrackingData] = useState([]);
 
@@ -302,9 +307,9 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
                     {WillrTextFields}
                 </Grid>
 
-                <Grid container sx={{ mt: '20px' }}>
+                <Grid container sx={{ mt: '20px', backgroundColor: '#efe9e9ed' }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <CustomDateCalendar
+                        <DateCalendar style={{ color: '#404040' }}
                             onChange={handleTrackingData}
                             shouldDisableDate={disablePastDatesAndWeekends}
                         />
@@ -464,15 +469,7 @@ const WillrFilter = (ranges, handleFilterChange) => {
         );
     });
 }
-const CustomTextField = styled(TextField)({
-    '& .MuiFormLabel-root': { color: '#efe9e9ed' },
-    '& .MuiInputBase-input': { color: '#efe9e9ed' }
-});
 
-const CustomDateCalendar = styled(DateCalendar)({
-    '& .MuiButtonBase-root': { color: '#efe9e9ed' },
-    '& .MuiTypography-root': { color: '#efe9e9ed' },
-});
 
 const customTheme = createTheme({
     components: {

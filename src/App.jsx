@@ -21,6 +21,7 @@ import DetailPage from './components/ELW/detailPage.jsx'
 import MainPage from './components/mainPage.jsx'
 import TreasuryStockPage from './components/TreasuryStock.jsx'
 import StockSearchPage from './components/StockSearch';
+import StockSearchMonitoringPage from './components/StockSearchMonitoring';
 import CtpPage from './components/ELW/CtpPage.jsx'
 import ModelingPage from './components/modelingPage.jsx';
 import WeightAvgPage1 from './components/ELW/weightAvgPage1.jsx';
@@ -249,7 +250,6 @@ function App() {
         await dispatch(getMarketKospi200());
         await dispatch(getExchange());
         await dispatch(getStockSearch());
-        await dispatch(getStockSearchTracking());
     }
     // 하루 주기
     const fetchData1Day = async () => {
@@ -260,6 +260,7 @@ function App() {
         await dispatch(getIndexMA());
         await dispatch(getVixMA());
         await dispatch(getVix());
+        await dispatch(getStockSearchTracking());
     }
 
     // 첫 랜더링
