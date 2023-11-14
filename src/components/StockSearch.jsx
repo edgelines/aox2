@@ -187,7 +187,8 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
             setSeverity('warning');
         }
     }
-    // Etc.
+
+    // DataTable Columns.
     const StockColumns = [
         { field: '종목명', headerName: '종목명', width: 100, },
         {
@@ -206,11 +207,81 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
         { field: 'willR_14', headerName: 'willR_14', width: 62, align: 'right', },
         { field: 'willR_20', headerName: 'willR_20', width: 62, align: 'right', },
         { field: 'willR_33', headerName: 'willR_33', width: 62, align: 'right', },
-        { field: 'DMI_3', headerName: 'DMI_3', width: 55, align: 'right', },
-        { field: 'DMI_4', headerName: 'DMI_4', width: 55, align: 'right', },
-        { field: 'DMI_5', headerName: 'DMI_5', width: 55, align: 'right', },
-        { field: 'DMI_6', headerName: 'DMI_6', width: 55, align: 'right', },
-        { field: 'DMI_7', headerName: 'DMI_7', width: 55, align: 'right', },
+        {
+            field: 'DMI_3', headerName: 'DMI_3', width: 55, align: 'right',
+            renderCell: (params) => {
+                const 현재가 = parseInt(params.value);
+                let color;
+                if (현재가 < 0.1) {
+                    color = 'greenyellow';
+                } else { color = '#efe9e9ed'; }
+                return (
+                    <span style={{ color: color }}>
+                        {현재가.toLocaleString('kr')}
+                    </span>
+                );
+            }
+        },
+        {
+            field: 'DMI_4', headerName: 'DMI_4', width: 55, align: 'right',
+            renderCell: (params) => {
+                const 현재가 = parseInt(params.value);
+                let color;
+                if (현재가 < 0.1) {
+                    color = 'greenyellow';
+                } else { color = '#efe9e9ed'; }
+                return (
+                    <span style={{ color: color }}>
+                        {현재가.toLocaleString('kr')}
+                    </span>
+                );
+            }
+        },
+        {
+            field: 'DMI_5', headerName: 'DMI_5', width: 55, align: 'right',
+            renderCell: (params) => {
+                const 현재가 = parseInt(params.value);
+                let color;
+                if (현재가 < 0.1) {
+                    color = 'greenyellow';
+                } else { color = '#efe9e9ed'; }
+                return (
+                    <span style={{ color: color }}>
+                        {현재가.toLocaleString('kr')}
+                    </span>
+                );
+            }
+        },
+        {
+            field: 'DMI_6', headerName: 'DMI_6', width: 55, align: 'right',
+            renderCell: (params) => {
+                const 현재가 = parseInt(params.value);
+                let color;
+                if (현재가 < 0.1) {
+                    color = 'greenyellow';
+                } else { color = '#efe9e9ed'; }
+                return (
+                    <span style={{ color: color }}>
+                        {현재가.toLocaleString('kr')}
+                    </span>
+                );
+            }
+        },
+        {
+            field: 'DMI_7', headerName: 'DMI_7', width: 55, align: 'right',
+            renderCell: (params) => {
+                const 현재가 = parseInt(params.value);
+                let color;
+                if (현재가 < 0.1) {
+                    color = 'greenyellow';
+                } else { color = '#efe9e9ed'; }
+                return (
+                    <span style={{ color: color }}>
+                        {현재가.toLocaleString('kr')}
+                    </span>
+                );
+            }
+        },
     ]
     const TrackingColumns = [
         {

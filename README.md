@@ -4,6 +4,12 @@
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
 
+### 2023.11.15
+{master}
+- Commit.1
+  - StockSearch.jsx
+    - Monitoring Table DMI 0 일경우 greenyellow
+
 ### 2023.11.14
 {master}
 - Commit.1
