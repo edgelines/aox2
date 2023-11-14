@@ -253,31 +253,31 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
         },
         {
             field: '유보율', headerName: '유보율', width: 75, align: 'right',
-            renderCell: (params) => {
-                let color, fontWeight;
-                if (params.value < 200) {
-                    color = 'dodgerblue';
-                } else { color = 'tomato'; }
-                return (
-                    <span style={{ color: color, fontWeight: fontWeight }}>
-                        {`${params.value} %`}
-                    </span>
-                );
-            }
+            // renderCell: (params) => {
+            //     let color, fontWeight;
+            //     if (params.value < 200) {
+            //         color = 'dodgerblue';
+            //     } else { color = 'tomato'; }
+            //     return (
+            //         <span style={{ color: color, fontWeight: fontWeight }}>
+            //             {`${params.value} %`}
+            //         </span>
+            //     );
+            // }
         },
         {
             field: '부채비율', headerName: '부채비율', width: 75, align: 'right',
-            renderCell: (params) => {
-                let color, fontWeight;
-                if (params.value > 200) {
-                    color = 'dodgerblue';
-                } else { color = 'tomato'; }
-                return (
-                    <span style={{ color: color, fontWeight: fontWeight }}>
-                        {`${params.value} %`}
-                    </span>
-                );
-            }
+            // renderCell: (params) => {
+            //     let color, fontWeight;
+            //     if (params.value > 200) {
+            //         color = 'dodgerblue';
+            //     } else { color = 'tomato'; }
+            //     return (
+            //         <span style={{ color: color, fontWeight: fontWeight }}>
+            //             {`${params.value} %`}
+            //         </span>
+            //     );
+            // }
         },
     ]
 

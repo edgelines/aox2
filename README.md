@@ -9,6 +9,11 @@
 - Commit.1
   - StcokSearchMonitoring.jsx
     - 보조지표 컬럼 value 오류 수정
+- Commit.2
+  - StcokSearchMonitoring.jsx
+    - 컬럼크기 일부 수정
+  - StockSearch.jsx
+    - 유보율, 부채비율 색 제거
 
 ### 2023.11.13
 {master}
