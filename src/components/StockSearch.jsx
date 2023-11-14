@@ -217,7 +217,7 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
                 } else { color = '#efe9e9ed'; }
                 return (
                     <span style={{ color: color }}>
-                        {현재가.toLocaleString('kr')}
+                        {현재가}
                     </span>
                 );
             }
@@ -232,7 +232,7 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
                 } else { color = '#efe9e9ed'; }
                 return (
                     <span style={{ color: color }}>
-                        {현재가.toLocaleString('kr')}
+                        {현재가}
                     </span>
                 );
             }
@@ -247,7 +247,7 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
                 } else { color = '#efe9e9ed'; }
                 return (
                     <span style={{ color: color }}>
-                        {현재가.toLocaleString('kr')}
+                        {현재가}
                     </span>
                 );
             }
@@ -262,7 +262,7 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
                 } else { color = '#efe9e9ed'; }
                 return (
                     <span style={{ color: color }}>
-                        {현재가.toLocaleString('kr')}
+                        {현재가}
                     </span>
                 );
             }
@@ -277,7 +277,7 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
                 } else { color = '#efe9e9ed'; }
                 return (
                     <span style={{ color: color }}>
-                        {현재가.toLocaleString('kr')}
+                        {현재가}
                     </span>
                 );
             }

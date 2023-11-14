@@ -9,6 +9,9 @@
 - Commit.1
   - StockSearch.jsx
     - Monitoring Table DMI 0 일경우 greenyellow
+- Commit.2
+  - StockSearch.jsx
+    - Monitoring Table DMI 0 일경우 greenyellow > 소숫점 원복
 
 ### 2023.11.14
 {master}
