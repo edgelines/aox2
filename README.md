@@ -14,6 +14,11 @@
     - 컬럼크기 일부 수정
   - StockSearch.jsx
     - 유보율, 부채비율 색 제거
+- Commit.3
+  - StockSearch.jsx
+    - Preset 기능 추가
+    - useMemo 활용.
+    - Tracking > 검색일자 선택시 > 등락률 순으로 정렬
 
 ### 2023.11.13
 {master}

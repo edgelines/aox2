@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
-import { Grid, Typography, Box, TextField } from '@mui/material';
+import { Grid, Typography, Box, TextField, InputLabel, MenuItem, FormControl, Select, Button, Snackbar, Alert } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -8,37 +8,68 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import dayjs from 'dayjs';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import StockChart from './SectorsPage/stockChart'
-import { STOCK, MAC } from './util/config';
+import { STOCK, MAC, API } from './util/config';
 
 export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTracking }) {
+    const [snackbar, setSnackbar] = useState(false);
+    const [severity, setSeverity] = useState('success');
+
     const [data, setData] = useState([]);
     const [StockSearchTrackingData, setStockSearchTrackingData] = useState([]);
+    const [presetName, setPresetName] = useState('Default');
+    const [presetList, setPresetList] = useState([]);
+    const [presetData, setPresetData] = useState([]);
 
     // Filter State
-    const [dmi3Range, setDmi3Range] = useState([0, 10]);
-    const [dmi4Range, setDmi4Range] = useState([0, 10]);
-    const [dmi5Range, setDmi5Range] = useState([0, 10]);
-    const [dmi6Range, setDmi6Range] = useState([0, 10]);
-    const [dmi7Range, setDmi7Range] = useState([0, 10]);
-    const [willR5Range, setWillR5Range] = useState([-100, -90]);
-    const [willR7Range, setWillR7Range] = useState([-100, -90]);
-    const [willR14Range, setWillR14Range] = useState([-100, -90]);
-    const [willR20Range, setWillR20Range] = useState([-100, -90]);
-    const [willR33Range, setWillR33Range] = useState([-100, -90]);
-
+    const [filters, setFilters] = useState({
+        dmi3Range: [0, 10],
+        dmi4Range: [0, 10],
+        dmi5Range: [0, 10],
+        dmi6Range: [0, 10],
+        dmi7Range: [0, 10],
+        willR5Range: [-100, -90],
+        willR7Range: [-100, -90],
+        willR14Range: [-100, -90],
+        willR20Range: [-100, -90],
+        willR33Range: [-100, -90],
+    });
+    // Form
+    const [form, setForm] = useState({ name: '', presets: '' });
     // Chart Data
     const [stockName, setStockName] = useState(null);
     const [stockItemData, setStockItemData] = useState([]);
     const [stockVolumeData, setStockVolumeData] = useState([]);
     const [SectorsName, setSectorsName] = useState('');
-
+    const vertical = 'bottom';
+    const horizontal = 'center';
     // Fetch Data
-    useEffect(() => {
-        // if (StockSearch.status === 'succeeded') {
-        //     setOriginData(StockSearch.data);
-        // }
-        // 공통 필터링 로직을 사용할 수 있습니다.
-        const newFilteredData = StockSearch.data.filter((item) => {
+    const fetchData = async () => {
+        const res = await axios.get(`${API}/indicator/preset`);
+        const tmp = [];
+        res.data.map(item => { tmp.push(item.name) });
+        setPresetList(tmp);
+        setPresetName(tmp[0]);
+        setPresetData(res.data);
+    };
+    const setupIndicator = () => {
+        if (presetData && presetData.length > 0) {
+            const tmp = presetData.find(item => item.name === presetName);
+            setFilters({
+                dmi3Range: tmp.presets.dmi3Range,
+                dmi4Range: tmp.presets.dmi4Range,
+                dmi5Range: tmp.presets.dmi5Range,
+                dmi6Range: tmp.presets.dmi6Range,
+                dmi7Range: tmp.presets.dmi7Range,
+                willR5Range: tmp.presets.willR5Range,
+                willR7Range: tmp.presets.willR7Range,
+                willR14Range: tmp.presets.willR14Range,
+                willR20Range: tmp.presets.willR20Range,
+                willR33Range: tmp.presets.willR33Range
+            })
+        }
+    }
+    const filterData = (data, filters) => {
+        return data.filter((item) => {
             const dmi3Value = parseFloat(item.DMI_3);
             const dmi4Value = parseFloat(item.DMI_4);
             const dmi5Value = parseFloat(item.DMI_5);
@@ -50,22 +81,30 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
             const willR20Value = parseFloat(item.willR_20);
             const willR33Value = parseFloat(item.willR_33);
             return (
-                dmi3Value >= dmi3Range[0] && dmi3Value <= dmi3Range[1] &&
-                dmi4Value >= dmi4Range[0] && dmi4Value <= dmi4Range[1] &&
-                dmi5Value >= dmi5Range[0] && dmi5Value <= dmi5Range[1] &&
-                dmi6Value >= dmi6Range[0] && dmi6Value <= dmi6Range[1] &&
-                dmi7Value >= dmi7Range[0] && dmi7Value <= dmi7Range[1] &&
+                dmi3Value >= filters.dmi3Range[0] && dmi3Value <= filters.dmi3Range[1] &&
+                dmi4Value >= filters.dmi4Range[0] && dmi4Value <= filters.dmi4Range[1] &&
+                dmi5Value >= filters.dmi5Range[0] && dmi5Value <= filters.dmi5Range[1] &&
+                dmi6Value >= filters.dmi6Range[0] && dmi6Value <= filters.dmi6Range[1] &&
+                dmi7Value >= filters.dmi7Range[0] && dmi7Value <= filters.dmi7Range[1] &&
 
-                willR5Value >= willR5Range[0] && willR5Value <= willR5Range[1] &&
-                willR7Value >= willR7Range[0] && willR7Value <= willR7Range[1] &&
-                willR14Value >= willR14Range[0] && willR14Value <= willR14Range[1] &&
-                willR20Value >= willR20Range[0] && willR20Value <= willR20Range[1] &&
-                willR33Value >= willR33Range[0] && willR33Value <= willR33Range[1]
+                willR5Value >= filters.willR5Range[0] && willR5Value <= filters.willR5Range[1] &&
+                willR7Value >= filters.willR7Range[0] && willR7Value <= filters.willR7Range[1] &&
+                willR14Value >= filters.willR14Range[0] && willR14Value <= filters.willR14Range[1] &&
+                willR20Value >= filters.willR20Range[0] && willR20Value <= filters.willR20Range[1] &&
+                willR33Value >= filters.willR33Range[0] && willR33Value <= filters.willR33Range[1]
             );
         });
-        setData(newFilteredData);
-    }, [StockSearch, dmi3Range, dmi4Range, dmi5Range, dmi6Range, dmi7Range, willR5Range, willR7Range, willR14Range, willR20Range, willR33Range])
+    };
+    const filteredData = useMemo(() => filterData(StockSearch.data, filters), [StockSearch, filters]);
+    useEffect(() => {
+        setData(filteredData); setForm(prevForm => ({
+            ...prevForm,
+            presets: filters
+        }));
+    }, [StockSearch, filters]);
     useEffect(() => { if (StockSearchTracking.status === 'succeeded') { setStockSearchTrackingData(StockSearchTracking.data); } }, [StockSearchTracking])
+    useEffect(() => { fetchData(); }, [])
+    useEffect(() => { setupIndicator() }, [presetName])
     // function
     // 종목 선택시
     const stockItemSelected = (selectedStockItem) => { // 종목 클릭시
@@ -103,86 +142,51 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
     const sectorSelected = (sector) => { setSectorsName(sector.업종명); }
 
     // handler
-    const handleFilterChange = (event, newValue, sliderName) => {
-        switch (sliderName) {
-            case 'DMI-3-Min':
-                setDmi3Range([newValue, dmi3Range[1]]);
-                break;
-            case 'DMI-3-Max':
-                setDmi3Range([dmi3Range[0], newValue]);
-                break;
-            case 'DMI-4-Min':
-                setDmi4Range([newValue, dmi4Range[1]]);
-                break;
-            case 'DMI-4-Max':
-                setDmi4Range([dmi4Range[0], newValue]);
-                break;
-            case 'DMI-5-Min':
-                setDmi5Range([newValue, dmi5Range[1]]);
-                break;
-            case 'DMI-5-Max':
-                setDmi5Range([dmi5Range[0], newValue]);
-                break;
-            case 'DMI-6-Min':
-                setDmi6Range([newValue, dmi6Range[1]]);
-                break;
-            case 'DMI-6-Max':
-                setDmi6Range([dmi6Range[0], newValue]);
-                break;
-            case 'DMI-7-Min':
-                setDmi7Range([newValue, dmi7Range[1]]);
-                break;
-            case 'DMI-7-Max':
-                setDmi7Range([dmi7Range[0], newValue]);
-                break;
-
-            case 'W-5-Min':
-                setWillR5Range([newValue, willR5Range[1]]);
-                break;
-            case 'W-5-Max':
-                setWillR5Range([willR5Range[0], newValue]);
-                break;
-            case 'W-7-Min':
-                setWillR7Range([newValue, willR7Range[1]]);
-                break;
-            case 'W-7-Max':
-                setWillR7Range([willR7Range[0], newValue]);
-                break;
-            case 'W-14-Min':
-                setWillR14Range([newValue, willR14Range[1]]);
-                break;
-            case 'W-14-Max':
-                setWillR14Range([willR14Range[0], newValue]);
-                break;
-            case 'W-20-Min':
-                setWillR20Range([newValue, willR20Range[1]]);
-                break;
-            case 'W-20-Max':
-                setWillR20Range([willR20Range[0], newValue]);
-                break;
-            case 'W-33-Min':
-                setWillR33Range([newValue, willR33Range[1]]);
-                break;
-            case 'W-33-Max':
-                setWillR33Range([willR33Range[0], newValue]);
-                break;
-
-        }
+    const handleFilterChange = (newValue, rangeName, minOrMax) => {
+        setFilters(prevRanges => ({
+            ...prevRanges,
+            [rangeName]: minOrMax === 'Min' ? [parseInt(newValue), prevRanges[rangeName][1]] : [prevRanges[rangeName][0], parseInt(newValue)]
+        }));
     };
 
+    const handleFormChange = (event, value, label) => {
+        setForm(prevForm => ({
+            ...prevForm,
+            [label]: value
+        }));
+    }
     const handleTrackingData = async (event) => {
         const getDate = `${event.$y}-${event.$M + 1}-${event.$D}`
         const response = await axios.get(`${MAC}/StockSearch/Tracking?date=${getDate}`);
-        const data = response.data.map((item, index) => ({
+        let data = response.data.map((item, index) => ({
             ...item,
             id: index,
             등락률: ((item.현재가 - item.종가) / item.종가 * 100).toFixed(1),
             유보율: parseInt(item.유보율),
             부채비율: parseInt(item.부채비율),
         }))
+        data = data.sort((a, b) => b.등락률 - a.등락률);
         setStockSearchTrackingData(data)
     }
-
+    const handlePresetNameChange = (event) => { setPresetName(event.target.value); }
+    const handleClose = (event, reason) => { if (reason === 'clickaway') { return; } setSnackbar(false); }; // 알림창 닫기
+    const handleSave = async () => {
+        if (form.name) {
+            console.log(form);
+            try {
+                await axios.post(`${API}/indicator/postPreset`, form);
+                setSnackbar(true);
+                setSeverity('success');
+            } catch (error) {
+                setSnackbar(true);
+                setSeverity('error');
+                console.error(error);
+            }
+        } else {
+            setSnackbar(true);
+            setSeverity('warning');
+        }
+    }
     // Etc.
     const StockColumns = [
         { field: '종목명', headerName: '종목명', width: 100, },
@@ -236,7 +240,7 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
             }
         },
         {
-            field: '등락률', headerName: '등락률(%)', width: 70, align: 'right',
+            field: '등락률', headerName: '등락률(%)', width: 70, align: 'right', sort: 'desc',
             renderCell: (params) => {
                 const 현재가 = parseInt(params.row.현재가);
                 const 종가 = parseInt(params.row.종가);
@@ -253,6 +257,7 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
         },
         {
             field: '유보율', headerName: '유보율', width: 75, align: 'right',
+            renderCell: (params) => params.value.toLocaleString('kr')
             // renderCell: (params) => {
             //     let color, fontWeight;
             //     if (params.value < 200) {
@@ -267,6 +272,7 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
         },
         {
             field: '부채비율', headerName: '부채비율', width: 75, align: 'right',
+            renderCell: (params) => params.value.toLocaleString('kr')
             // renderCell: (params) => {
             //     let color, fontWeight;
             //     if (params.value > 200) {
@@ -281,11 +287,22 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
         },
     ]
 
-    const DmiTextFields = DmiFilter([dmi3Range, dmi4Range, dmi5Range, dmi6Range, dmi7Range], handleFilterChange);
-    const WillrTextFields = WillrFilter([willR5Range, willR7Range, willR14Range, willR20Range, willR33Range], handleFilterChange);
+    const DmiTextFields = DmiFilter([filters.dmi3Range, filters.dmi4Range, filters.dmi5Range, filters.dmi6Range, filters.dmi7Range], handleFilterChange);
+    const WillrTextFields = WillrFilter([filters.willR5Range, filters.willR7Range, filters.willR14Range, filters.willR20Range, filters.willR33Range], handleFilterChange);
 
     return (
         <Grid container>
+            <Snackbar
+                anchorOrigin={{ vertical, horizontal }}
+                open={snackbar}
+                onClose={handleClose}
+                autoHideDuration={2000}
+            >
+                <Alert severity={severity} elevation={6} onClose={handleClose}>
+                    {severity === 'success' ? '변경 사항을 저장했어요.' : severity === 'error' ? '에러가 발생했어요. 잠시후 다시 시도해주세요.' : 'No Preset Name! Plz enter'}
+                </Alert>
+            </Snackbar>
+
             <Grid item xs={1.8} sx={{ paddingRight: '30px' }}>
                 <Grid container >
                     <Typography sx={{ p: 1 }}>
@@ -294,12 +311,40 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
 
                     {DmiTextFields}
                 </Grid>
-                <Grid container sx={{ mt: '20px' }}>
+                <Grid container>
                     <Typography sx={{ p: 1 }}>
                         Willams
                     </Typography>
 
                     {WillrTextFields}
+                </Grid>
+                <FormControl fullWidth size="small" sx={{ mt: '10px' }}>
+                    <InputLabel id="demo-simple-select-label" sx={{ color: '#efe9e9ed' }}>Preset</InputLabel>
+                    <CustomSelect
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={presetName}
+                        label="Preset"
+                        onChange={handlePresetNameChange}
+                    >
+                        {presetList && presetList.length > 0 ?
+                            presetList.map(item => (
+                                <MenuItem key={item} value={item} sx={{ fontSize: '13px' }}>{item}</MenuItem>
+                            ))
+                            : <div>Loading...</div>
+                        }
+
+                    </CustomSelect>
+                </FormControl>
+                <Grid container>
+                    <CustomTextField
+                        variant="filled"
+                        size="small"
+                        value={form.name}
+                        label={'Preset Name'}
+                        onChange={(event) => handleFormChange(event, event.target.value, 'name')}
+                    />
+                    <Button onClick={handleSave}>Save</Button>
                 </Grid>
 
                 <Grid container sx={{ mt: '20px' }}>
@@ -382,12 +427,12 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
                 <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: 'translate(18px, 30px)', zIndex: 100 }}>
                     <Grid container sx={{ width: '400px' }}>
                         <Grid item xs={6}>
-                            <Typography align='left' sx={{ color: 'black', fontSize: '18px' }}>
+                            <Typography align='start' sx={{ color: 'black', fontSize: '18px' }}>
                                 종목명 : {stockName}
                             </Typography>
                         </Grid>
                         <Grid item xs={6}>
-                            <Typography align='left' sx={{ color: 'black', fontSize: '18px' }}>
+                            <Typography align='start' sx={{ color: 'black', fontSize: '18px' }}>
                                 업종명 : {SectorsName}
                             </Typography>
                         </Grid>
@@ -404,6 +449,7 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
 
 const DmiFilter = (ranges, handleFilterChange) => {
     return ranges.map((range, index) => {
+        const label = `dmi${index + 3}Range`; // DMI-3, DMI-4, DMI-5 등의 라벨을 생성합니다.
         const labelPrefix = `DMI-${index + 3}`; // DMI-3, DMI-4, DMI-5 등의 라벨을 생성합니다.
         return (
             <Grid container>
@@ -414,7 +460,8 @@ const DmiFilter = (ranges, handleFilterChange) => {
                         value={range[0]}
                         type="number"
                         label={`${labelPrefix} Min`}
-                        onChange={(event) => handleFilterChange(event, event.target.value, `${labelPrefix}-Min`)}
+                        // onChange={(event) => handleFilterChange(event, event.target.value, `${labelPrefix}-Min`)}
+                        onChange={(event) => handleFilterChange(event.target.value, `${label}`, 'Min')}
                     />
                 </Grid>
                 <Grid item xs={1}></Grid>
@@ -425,7 +472,8 @@ const DmiFilter = (ranges, handleFilterChange) => {
                         value={range[1]}
                         type="number"
                         label={`${labelPrefix} Max`}
-                        onChange={(event) => handleFilterChange(event, event.target.value, `${labelPrefix}-Max`)}
+                        // onChange={(event) => handleFilterChange(event, event.target.value, `${labelPrefix}-Max`)}
+                        onChange={(event) => handleFilterChange(event.target.value, `${label}`, 'Max')}
                     />
                 </Grid>
             </Grid>
@@ -434,8 +482,8 @@ const DmiFilter = (ranges, handleFilterChange) => {
 }
 const WillrFilter = (ranges, handleFilterChange) => {
     const williamsLabels = [5, 7, 14, 20, 33]; // 윌리엄스 %R 지표의 레이블 값을 나타내는 배열
-
     return ranges.map((range, index) => {
+        const label = `willR${williamsLabels[index]}Range`;
         const labelPrefix = `W-${williamsLabels[index]}`;
         return (
             <Grid container>
@@ -446,7 +494,7 @@ const WillrFilter = (ranges, handleFilterChange) => {
                         type="number"
                         value={range[0]}
                         label={`${labelPrefix} Min`}
-                        onChange={(event) => handleFilterChange(event, event.target.value, `${labelPrefix}-Min`)}
+                        onChange={(event) => handleFilterChange(event.target.value, `${label}`, 'Min')}
                     />
                 </Grid>
                 <Grid item xs={1}></Grid>
@@ -457,7 +505,7 @@ const WillrFilter = (ranges, handleFilterChange) => {
                         type="number"
                         value={range[1]}
                         label={`${labelPrefix} Max`}
-                        onChange={(event) => handleFilterChange(event, event.target.value, `${labelPrefix}-Max`)}
+                        onChange={(event) => handleFilterChange(event.target.value, `${label}`, 'Max')}
                     />
                 </Grid>
             </Grid>
@@ -465,7 +513,8 @@ const WillrFilter = (ranges, handleFilterChange) => {
     });
 }
 const CustomTextField = styled(TextField)({
-    '& .MuiFormLabel-root': { color: '#efe9e9ed' },
+    '& .MuiFormLabel-root': { color: '#efe9e9ed', fontSize: '13px' },
+    '& .MuiInputBase-root': { fontSize: '13px' },
     '& .MuiInputBase-input': { color: '#efe9e9ed' }
 });
 
@@ -473,6 +522,8 @@ const CustomDateCalendar = styled(DateCalendar)({
     '& .MuiButtonBase-root': { color: '#efe9e9ed' },
     '& .MuiTypography-root': { color: '#efe9e9ed' },
 });
+
+const CustomSelect = styled(Select)({ '& .MuiSelect-select': { height: '20px', minHeight: '20px', fontSize: '12px', color: '#efe9e9ed' } })
 
 const customTheme = createTheme({
     components: {
