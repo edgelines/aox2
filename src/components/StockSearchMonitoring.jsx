@@ -43,27 +43,27 @@ export default function StockSearchMonitoringPage({ swiperRef, StockSearchTracki
         },
         {
             field: '윌리엄스_5', headerName: 'W-R-5', width: 58, align: 'right',
-            renderCell: (params) => parseInt(params.value)
+
         },
         {
             field: '윌리엄스_7', headerName: 'W-R-7', width: 58, align: 'right',
-            renderCell: (params) => parseInt(params.value)
+
         },
         {
             field: '윌리엄스_14', headerName: 'W-R-14', width: 58, align: 'right',
-            renderCell: (params) => parseInt(params.value)
+
         },
         {
             field: '코스피200_7', headerName: 'ADR-7', width: 58, align: 'right',
-            renderCell: (params) => parseInt(params.value)
+
         },
         {
             field: '코스피200_14', headerName: 'ADR-14', width: 58, align: 'right',
-            renderCell: (params) => parseInt(params.value)
+
         },
         {
             field: '코스피200_20', headerName: 'ADR-20', width: 58, align: 'right',
-            renderCell: (params) => parseInt(params.value)
+
         },
     ]
 

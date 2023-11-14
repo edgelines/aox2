@@ -4,12 +4,11 @@
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
 
-- NewPage
-  |윌리엄스-5|윌리엄스-7|윌리엄스-14|ADR-7|ADR-14|ADR-20|D+Day|검색날짜|현재평균|상승%|상승갯수/전체갯수|
-  |-80~-60 |-80~-60 |-80~-60 |100~110|........|Day 4|2023.11.09|0.5%|80%|80/100| 
-  윌리엄스, ADR : 지수 보조지표
-  범위는 검색당일의 최소값과 최대값의 범위
-  D+Day는 검색당일과 현재간의 차이
+### 2023.11.14
+{master}
+- Commit.1
+  - StcokSearchMonitoring.jsx
+    - 보조지표 컬럼 value 오류 수정
 
 ### 2023.11.13
 {master}
