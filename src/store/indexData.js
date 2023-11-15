@@ -16,23 +16,23 @@ export const getIndexMA = createAsyncThunk("GET/IndexMA", async () => {
     })
 
     const MA50 = [{
-        name: '코스피 MA50 %', isPercent: true,
+        name: '코스피 MA50 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
         data: Kospi_MA50, type: 'spline', color: 'tomato', yAxis: 0, zIndex: 3, lineWidth: 1
     }, {
-        name: '코스닥 MA50 %', isPercent: true,
+        name: '코스닥 MA50 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
         data: Kosdaq_MA50, type: 'spline', color: 'dodgerblue', yAxis: 0, zIndex: 3, lineWidth: 1
     }, {
-        name: '코스피200 MA50 %', isPercent: true,
+        name: '코스피200 MA50 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
         data: Kospi200_MA50, type: 'spline', color: 'gold', yAxis: 0, zIndex: 3, lineWidth: 1
     }]
     const MA112 = [{
-        name: '코스피 MA112 %', isPercent: true,
+        name: '코스피 MA112 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
         data: Kospi_MA112, type: 'spline', color: 'magenta', yAxis: 0, zIndex: 3, dashStyle: 'ShortDash', lineWidth: 1
     }, {
-        name: '코스닥 MA112 %', isPercent: true,
+        name: '코스닥 MA112 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
         data: Kosdaq_MA112, type: 'spline', color: 'greenyellow', yAxis: 0, zIndex: 3, dashStyle: 'ShortDash', lineWidth: 1
     }, {
-        name: '코스피200 MA112 %', isPercent: true,
+        name: '코스피200 MA112 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
         data: Kospi200_MA112, type: 'spline', color: '#efe9e9ed', yAxis: 0, zIndex: 3, dashStyle: 'ShortDash', lineWidth: 1
     }]
     return { MA50: MA50, MA112: MA112 };
@@ -103,7 +103,7 @@ export const getVixMA = createAsyncThunk("GET/VixMA", async () => {
         MA112.push([value.Date, value.MA112])
         MA224.push([value.Date, value.MA224])
     })
-    const lineStyle = { type: 'spline', yAxis: 0, animation: false, zIndex: 3, }
+    const lineStyle = { type: 'spline', yAxis: 0, animation: false, zIndex: 3, marker: { enabled: false, states: { hover: { enabled: false } } }, }
     const hidenStyle = { dashStyle: 'shortdash', visible: false }
     return [{
         name: 'Vix',
@@ -248,72 +248,72 @@ export const getInvers = createAsyncThunk("GET/Invers", async () => {
         name: '인버스', id: 'candlestick', isCandle: true,
         data: Invers, type: 'candlestick', yAxis: 1, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false, isCandle: true,
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: '#efe9e9ed',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '3 저지',
         lineWidth: 1,
         params: { index: 2, period: 3 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true, visible: false,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, visible: false,
         color: 'coral',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '9',
         lineWidth: 1,
         params: { index: 2, period: 9 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: 'dodgerblue',
         name: '18',
         lineWidth: 1,
         params: { index: 2, period: 18 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true, visible: false,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, visible: false,
         color: 'skyblue',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '27',
         lineWidth: 1,
         params: { index: 2, period: 27 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: 'mediumseagreen',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '36',
         lineWidth: 1,
         params: { index: 2, period: 36 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: 'red',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '66',
         lineWidth: 1,
         params: { index: 2, period: 66 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "orange",
         name: '112',
         lineWidth: 2,
         params: { index: 2, period: 112 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "forestgreen",
         name: '224',
         lineWidth: 2,
         params: { index: 2, period: 224 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "pink",
         name: '336',
         lineWidth: 2,
         params: { index: 2, period: 336 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "magenta",
         name: '448',
         lineWidth: 2,
         params: { index: 2, period: 448 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "skyblue",
         name: '560',
         lineWidth: 2,
@@ -338,72 +338,72 @@ export const getKospi = createAsyncThunk("GET/Kospi", async () => {
         name: '코스피', id: 'candlestick', isCandle: true,
         data: Kospi, type: 'candlestick', yAxis: 1, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false, isCandle: true,
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: '#efe9e9ed',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '3 저지',
         lineWidth: 1,
         params: { index: 2, period: 3 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true, visible: false,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, visible: false,
         color: 'coral',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '9',
         lineWidth: 1,
         params: { index: 2, period: 9 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: 'dodgerblue',
         name: '18',
         lineWidth: 1,
         params: { index: 2, period: 18 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true, visible: false,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, visible: false,
         color: 'skyblue',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '27',
         lineWidth: 1,
         params: { index: 2, period: 27 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: 'mediumseagreen',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '36',
         lineWidth: 1,
         params: { index: 2, period: 36 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: 'red',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '66',
         lineWidth: 1,
         params: { index: 2, period: 66 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "orange",
         name: '112',
         lineWidth: 2,
         params: { index: 2, period: 112 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "forestgreen",
         name: '224',
         lineWidth: 2,
         params: { index: 2, period: 224 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "pink",
         name: '336',
         lineWidth: 2,
         params: { index: 2, period: 336 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "magenta",
         name: '448',
         lineWidth: 2,
         params: { index: 2, period: 448 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "skyblue",
         name: '560',
         lineWidth: 2,
@@ -428,72 +428,72 @@ export const getKosdaq = createAsyncThunk("GET/Kosdaq", async () => {
         name: '코스닥', id: 'candlestick', isCandle: true,
         data: Kosdaq, type: 'candlestick', yAxis: 1, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false, isCandle: true,
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: '#efe9e9ed',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '3 저지',
         lineWidth: 1,
         params: { index: 2, period: 3 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true, visible: false,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, visible: false,
         color: 'coral',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '9',
         lineWidth: 1,
         params: { index: 2, period: 9 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: 'dodgerblue',
         name: '18',
         lineWidth: 1,
         params: { index: 2, period: 18 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true, visible: false,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, visible: false,
         color: 'skyblue',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '27',
         lineWidth: 1,
         params: { index: 2, period: 27 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: 'mediumseagreen',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '36',
         lineWidth: 1,
         params: { index: 2, period: 36 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: 'red',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '66',
         lineWidth: 1,
         params: { index: 2, period: 66 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "orange",
         name: '112',
         lineWidth: 2,
         params: { index: 2, period: 112 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "forestgreen",
         name: '224',
         lineWidth: 2,
         params: { index: 2, period: 224 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "pink",
         name: '336',
         lineWidth: 2,
         params: { index: 2, period: 336 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "magenta",
         name: '448',
         lineWidth: 2,
         params: { index: 2, period: 448 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "skyblue",
         name: '560',
         lineWidth: 2,
@@ -518,72 +518,72 @@ export const getKospi200 = createAsyncThunk("GET/Kospi200", async () => {
         name: '코스피200', id: 'candlestick', isCandle: true,
         data: Kospi200, type: 'candlestick', yAxis: 1, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false, isCandle: true,
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: '#efe9e9ed',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '3 저지',
         lineWidth: 1,
         params: { index: 2, period: 3 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true, visible: false,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, visible: false,
         color: 'coral',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '9',
         lineWidth: 1,
         params: { index: 2, period: 9 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: 'dodgerblue',
         name: '18',
         lineWidth: 1,
         params: { index: 2, period: 18 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true, visible: false,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, visible: false,
         color: 'skyblue',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '27',
         lineWidth: 1,
         params: { index: 2, period: 27 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: 'mediumseagreen',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '36',
         lineWidth: 1,
         params: { index: 2, period: 36 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: 'red',
         dashStyle: 'shortdash',//라인 스타일 지정 옵션
         name: '66',
         lineWidth: 1,
         params: { index: 2, period: 66 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "orange",
         name: '112',
         lineWidth: 2,
         params: { index: 2, period: 112 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "forestgreen",
         name: '224',
         lineWidth: 2,
         params: { index: 2, period: 224 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "pink",
         name: '336',
         lineWidth: 2,
         params: { index: 2, period: 336 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "magenta",
         name: '448',
         lineWidth: 2,
         params: { index: 2, period: 448 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
     }, {
-        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+        type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: "skyblue",
         name: '560',
         lineWidth: 2,

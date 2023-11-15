@@ -18,7 +18,10 @@
 - Commit.4
   - StcokSearchMonitoring.jsx
     - Columns Width 조절
-
+- Commit.5
+  - stockChart.jsx
+    - 주봉에서 일부 이평선 제외
+    - 툴팁시 마커제거, distance: 55,
 
 ### 2023.11.14
 {master}

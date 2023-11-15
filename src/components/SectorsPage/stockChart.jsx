@@ -97,6 +97,7 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
         tooltip: {
             crosshairs: true,
             hideDelay: 2,
+            distance: 55,
             backgroundColor: 'rgba(255, 255, 255, 0.5)',
             style: { fontSize: '10px', },
             formatter: function () {
@@ -128,7 +129,6 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
             usePreallocated: true,
         },
     })
-    const chartRef = useRef(null)
     const 일봉 = {
         selected: 0,
         inputEnabled: false,
@@ -159,10 +159,7 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
     }
     // date, open, high, low, close
     const lows = stockItemData.map(data => { return data[3]; })
-    var tmp31 = trima(31, lows);
-    const 저삼31 = stockItemData.map((data, index) => { return [data[0], tmp31[index]]; });
-    var tmp41 = trima(41, lows);
-    const 저삼41 = stockItemData.map((data, index) => { return [data[0], tmp41[index]]; });
+
     var tmp51 = trima(51, lows);
     const 저삼51 = stockItemData.map((data, index) => { return [data[0], tmp51[index]]; });
     var tmp90 = trima(90, lows);
@@ -173,122 +170,56 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
     const getSeriesData = (rangeSelect) => {
         // 겹치는 데이터를 먼저 생성합니다.
         let seriesData = [{
-            data: stockItemData, name: timeSeries, showInLegend: false, isCandle: true,
+            data: stockItemData, name: timeSeries, showInLegend: false, isCandle: true, marker: { enabled: false, states: { hover: { enabled: false } } },
             id: 'candlestick', type: 'candlestick', upLineColor: "orangered", upColor: "orangered", lineColor: "dodgerblue", color: "dodgerblue",
         }, {
             type: 'column', id: 'volume', name: 'volume', showInLegend: false,
             data: volumeData, animation: false, yAxis: 1,
-            // }, {
-            //     type: 'spline', animation: false, yAxis: 0, linkedTo: 'candlestick', dashStyle: 'shortdash',//라인 스타일 지정 옵션
-            //     color: "red",
-            //     name: '31',
-            //     data: 저삼31,
-            //     lineWidth: 0.5
         }, {
-            type: 'sma', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false },
+            type: 'sma', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } },
             color: "green",
             name: '20 저단',
             lineWidth: 0.5,
             params: { index: 2, period: 20 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }, {
-            type: 'sma', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false },
+            type: 'sma', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } },
             color: "blue",
             name: '26 저단',
             lineWidth: 0.5,
             params: { index: 2, period: 26 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }, {
-            type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false },
+            type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } },
             color: "brown",
             name: '112 저지',
             lineWidth: 1,
             params: { index: 2, period: 112 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }, {
-            type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false },
+            type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } },
             color: "forestgreen",
             name: '224 저지',
             lineWidth: 1,
             params: { index: 2, period: 224 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }, {
-            type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false },
+            type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } },
             color: "deeppink",
             name: '336 저지',
             lineWidth: 1,
             params: { index: 2, period: 336 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }, {
-            type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false },
+            type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } },
             color: "darkviolet",
             name: '448 저지',
             lineWidth: 1,
             params: { index: 2, period: 448 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }];
-        // const williamsDay = [{
-        //     type: 'williamsr', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
-        //     color: 'tomato',
-        //     dashStyle: 'shortdash',
-        //     name: 'Williams-R-1', id: 'williamsr',
-        //     lineWidth: 1,
-        //     params: { index: 3, period: 14 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        // }];
-        // const williamsWeek = [{
-        //     type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
-        //     color: 'tomato',
-        //     dashStyle: 'shortdash',
-        //     name: 'Williams-R-1', id: 'williamsr',
-        //     lineWidth: 1,
-        //     params: { index: 3, period: 5 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        // }, {
-        //     type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
-        //     color: 'dodgerblue',
-        //     dashStyle: 'shortdash',
-        //     name: 'Williams-R-2', id: 'williamsr2',
-        //     lineWidth: 1,
-        //     params: { index: 3, period: 7 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        // }];
-        // rangeSelect 값에 따라 추가적인 데이터를 생성합니다.
 
         if (rangeSelect === 4) {
             seriesData.push({
-                type: 'spline', animation: false, yAxis: 0, linkedTo: 'candlestick', dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                color: "red",
-                name: '31',
-                data: 저삼31,
-                lineWidth: 0.5
-            }, {
-                type: 'spline', animation: false, yAxis: 0, linkedTo: 'candlestick', dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                data: 저삼41,
-                color: "green",
-                name: '41',
-                lineWidth: 0.5
-            }, {
-                type: 'spline', animation: false, linkedTo: 'candlestick', yAxis: 0,
+                type: 'spline', animation: false, linkedTo: 'candlestick', yAxis: 0, marker: { enabled: false, states: { hover: { enabled: false } } },
                 data: 저삼51,
                 color: "blue",
                 name: '51',
                 lineWidth: 0.5
-            }, {
-                type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false },
-                color: "black",
-                name: '9 저지',
-                lineWidth: 0.5,
-                params: { index: 2, period: 9 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-            }, {
-                type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false },
-                color: "black",
-                name: '18 저지',
-                lineWidth: 0.5,
-                params: { index: 2, period: 18 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-            }, {
-                type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false },
-                color: "black",
-                name: '27 저지',
-                lineWidth: 0.5,
-                params: { index: 2, period: 27 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-            }, {
-                type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false },
-                color: "black",
-                name: '36 저지',
-                lineWidth: 0.5,
-                params: { index: 2, period: 36 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
             }, {
                 type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true, isPercent: true,
                 color: 'tomato',
@@ -306,19 +237,19 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
             });
         } else if (!rangeSelect) {
             seriesData.push({
-                type: 'spline', animation: false, yAxis: 0, linkedTo: 'candlestick',
+                type: 'spline', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } },
                 data: 저삼90,
                 color: "peru",
                 name: '90',
                 lineWidth: 0.5
             }, {
-                type: 'spline', animation: false, yAxis: 0, linkedTo: 'candlestick',
+                type: 'spline', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } },
                 data: 저삼100,
                 color: "purple",
                 name: '100',
                 lineWidth: 0.5
             }, {
-                type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true, isPercent: true,
+                type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
                 color: 'tomato',
                 dashStyle: 'shortdash',
                 name: 'W-14', id: 'williamsr',
@@ -326,15 +257,6 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
                 params: { index: 3, period: 14 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
             })
         }
-
-        // if (거래일datetime && !rangeSelect) {
-        //     seriesData.push(williamsDay)
-        // } else if (거래일datetime && rangeSelect === 4) {
-
-        //     console.log(거래일datetime);
-        //     seriesData.push(williamsWeek)
-
-        // }
 
         return seriesData;
     };
