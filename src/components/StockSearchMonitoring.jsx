@@ -35,28 +35,25 @@ export default function StockSearchMonitoringPage({ swiperRef, StockSearchTracki
             }
         },
         {
-            field: '상승', headerName: '상승', width: 62, align: 'right',
+            field: '상승', headerName: '상승', width: 50, align: 'right',
             renderCell: (params) => `${params.value} %`
         },
         {
-            field: '상승갯수', headerName: '상승/전체', width: 70, align: 'right',
+            field: '상승갯수', headerName: '상승/전체', width: 80, align: 'right',
         },
-        { field: '윌리엄스_5', headerName: 'W-R-5', width: 70, align: 'right', },
-        { field: '윌리엄스_7', headerName: 'W-R-7', width: 70, align: 'right', },
-        { field: '윌리엄스_14', headerName: 'W-R-14', width: 70, align: 'right', },
-        { field: '코스피200_7', headerName: 'ADR-7', width: 70, align: 'right', },
-        { field: '코스피200_14', headerName: 'ADR-14', width: 70, align: 'right', },
-        { field: '코스피200_20', headerName: 'ADR-20', width: 70, align: 'right', },
+        { field: '윌리엄스_5', headerName: 'W-R-5', width: 80, align: 'right', },
+        { field: '윌리엄스_7', headerName: 'W-R-7', width: 80, align: 'right', },
+        { field: '윌리엄스_14', headerName: 'W-R-14', width: 80, align: 'right', },
+        { field: '코스피200_7', headerName: 'ADR-7', width: 80, align: 'right', },
+        { field: '코스피200_14', headerName: 'ADR-14', width: 80, align: 'right', },
+        { field: '코스피200_20', headerName: 'ADR-20', width: 80, align: 'right', },
     ]
 
 
 
     return (
         <Grid container>
-            <Grid item xs={2} sx={{ paddingRight: '30px' }}>
-
-            </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={7} sx={{ paddingRight: '30px' }}>
                 <div style={{ height: "45svh" }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}

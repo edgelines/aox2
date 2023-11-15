@@ -15,6 +15,9 @@
 - Commit.3
   - StockSearch.jsx
     - Preset 저장 후 Preset 재호출
+- Commit.4
+  - StcokSearchMonitoring.jsx
+    - Columns Width 조절
 
 
 ### 2023.11.14
