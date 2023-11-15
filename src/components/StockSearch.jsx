@@ -210,14 +210,13 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
         {
             field: 'DMI_3', headerName: 'DMI_3', width: 55, align: 'right',
             renderCell: (params) => {
-                const 현재가 = parseInt(params.value);
                 let color;
-                if (현재가 < 0.1) {
+                if (params.value < 0.1) {
                     color = 'greenyellow';
                 } else { color = '#efe9e9ed'; }
                 return (
                     <span style={{ color: color }}>
-                        {현재가}
+                        {params.value}
                     </span>
                 );
             }
@@ -225,14 +224,13 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
         {
             field: 'DMI_4', headerName: 'DMI_4', width: 55, align: 'right',
             renderCell: (params) => {
-                const 현재가 = parseInt(params.value);
                 let color;
-                if (현재가 < 0.1) {
+                if (params.value < 0.1) {
                     color = 'greenyellow';
                 } else { color = '#efe9e9ed'; }
                 return (
                     <span style={{ color: color }}>
-                        {현재가}
+                        {params.value}
                     </span>
                 );
             }
@@ -240,14 +238,13 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
         {
             field: 'DMI_5', headerName: 'DMI_5', width: 55, align: 'right',
             renderCell: (params) => {
-                const 현재가 = parseInt(params.value);
                 let color;
-                if (현재가 < 0.1) {
+                if (params.value < 0.1) {
                     color = 'greenyellow';
                 } else { color = '#efe9e9ed'; }
                 return (
                     <span style={{ color: color }}>
-                        {현재가}
+                        {params.value}
                     </span>
                 );
             }
@@ -255,14 +252,13 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
         {
             field: 'DMI_6', headerName: 'DMI_6', width: 55, align: 'right',
             renderCell: (params) => {
-                const 현재가 = parseInt(params.value);
                 let color;
-                if (현재가 < 0.1) {
+                if (params.value < 0.1) {
                     color = 'greenyellow';
                 } else { color = '#efe9e9ed'; }
                 return (
                     <span style={{ color: color }}>
-                        {현재가}
+                        {params.value}
                     </span>
                 );
             }
@@ -270,14 +266,13 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
         {
             field: 'DMI_7', headerName: 'DMI_7', width: 55, align: 'right',
             renderCell: (params) => {
-                const 현재가 = parseInt(params.value);
                 let color;
-                if (현재가 < 0.1) {
+                if (params.value < 0.1) {
                     color = 'greenyellow';
                 } else { color = '#efe9e9ed'; }
                 return (
                     <span style={{ color: color }}>
-                        {현재가}
+                        {params.value}
                     </span>
                 );
             }
