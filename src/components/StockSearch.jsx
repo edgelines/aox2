@@ -172,11 +172,16 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
     const handleClose = (event, reason) => { if (reason === 'clickaway') { return; } setSnackbar(false); }; // 알림창 닫기
     const handleSave = async () => {
         if (form.name) {
-            console.log(form);
             try {
                 await axios.post(`${API}/indicator/postPreset`, form);
                 setSnackbar(true);
                 setSeverity('success');
+                const res = await axios.get(`${API}/indicator/preset`);
+                const tmp = [];
+                res.data.map(item => { tmp.push(item.name) });
+                setPresetList(tmp);
+                setPresetName(form.name);
+                setPresetData(res.data);
             } catch (error) {
                 setSnackbar(true);
                 setSeverity('error');

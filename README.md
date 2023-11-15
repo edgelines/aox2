@@ -12,6 +12,10 @@
 - Commit.2
   - StockSearch.jsx
     - Monitoring Table DMI 0 일경우 greenyellow > 소숫점 원복
+- Commit.3
+  - StockSearch.jsx
+    - Preset 저장 후 Preset 재호출
+
 
 ### 2023.11.14
 {master}
