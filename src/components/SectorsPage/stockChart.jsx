@@ -257,7 +257,7 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, stockD
                 params: { index: 3, period: 14 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
             })
         }
-        if (stockDmiData.dmi3 && stockDmiData.dmi3.length > 0) {
+        if (stockDmiData?.dmi3) {
             seriesData.push({
                 type: 'spline', animation: false, yAxis: 2, marker: { enabled: false, states: { hover: { enabled: false } } },
                 data: stockDmiData.dmi3,
@@ -407,7 +407,7 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, stockD
 
             <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: 'translate(10px, -290px)', zIndex: 100 }}>
                 {
-                    Object.entries(stockDmiData).length > 0 ?
+                    stockDmiData?.dmi3 ?
                         Object.entries(stockDmiData).filter(([key, _]) => key.startsWith('dmi')).map(([key, value]) => (
                             <Typography sx={{ color: 'black', fontWeight: 600 }} key={key}>
                                 {key.toUpperCase()} : {value[value.length - 1][1] + 100}

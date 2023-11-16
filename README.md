@@ -8,6 +8,8 @@
 {dev-stock-dmi}
 - Commit.1
   - StockChart > DMI 추가
+- Commit.2
+  - StockChart > StockDmiData 조건문 수정
 
 ### 2023.11.15
 {master}
