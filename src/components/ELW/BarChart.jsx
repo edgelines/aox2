@@ -24,7 +24,7 @@ export default function ELW_BarChart({ data, height, credit }) {
         },
         plotOptions: { series: { animation: false, } },
         tooltip: {
-            crosshairs: true,
+            crosshairs: true, distance: 55,
             formatter: function () {
                 return '<b>' + this.series.name + '<br/>행사가 : <span style="color:greenyellow;">' + this.point.category + '</b></span><br/>' +
                     '거래량: ' + Math.abs(this.point.y).toLocaleString('ko-KR');

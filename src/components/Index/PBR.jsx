@@ -148,7 +148,7 @@ const PbrChart = ({ data, height }) => {
 
         }],
         tooltip: {
-            split: true, crosshairs: true, hideDelay: 1, backgroundColor: '#404040', style: { color: '#fcfcfc' },
+            split: true, crosshairs: true, hideDelay: 1, backgroundColor: '#404040', distance: 55, style: { color: '#fcfcfc' },
             formatter: function () {
                 return [Highcharts.dateFormat('%y.%m.%d', this.x)].concat(
                     this.points ?
