@@ -4,6 +4,11 @@
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
 
+### 2023.11.16
+{dev-stock-dmi}
+- Commit.1
+  - StockChart > DMI 추가
+
 ### 2023.11.15
 {master}
 - Commit.1

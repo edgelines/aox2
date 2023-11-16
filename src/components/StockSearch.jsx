@@ -39,6 +39,7 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
     const [stockName, setStockName] = useState(null);
     const [stockItemData, setStockItemData] = useState([]);
     const [stockVolumeData, setStockVolumeData] = useState([]);
+    const [stockDmiData, setStockDmiData] = useState([]);
     const [SectorsName, setSectorsName] = useState('');
     const vertical = 'bottom';
     const horizontal = 'center';
@@ -111,8 +112,7 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
         setStockName(selectedStockItem.종목명);
         axios.get(`${STOCK}/${selectedStockItem.종목코드}`)
             .then(response => {
-                const stockData = [];
-                const volumeData = [];
+                const stockData = [], volumeData = [], dmi3Data = [], dmi4Data = [], dmi5Data = [], dmi6Data = [], dmi7Data = [];
                 response.data.forEach(item => {
                     const date = new Date(item.날짜);
                     const dateInMilliseconds = date.getTime();
@@ -132,10 +132,44 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
                         item.거래량 // 거래량
                     ];
                     volumeData.push(volumeItem);
+
+                    const dmi3Item = [
+                        dateInMilliseconds,
+                        item.DMI_3 === '-' ? 0 : item.DMI_3 - 100
+                    ]
+                    dmi3Data.push(dmi3Item);
+                    const dmi4Item = [
+                        dateInMilliseconds,
+                        item.DMI_4 === '-' ? 0 : item.DMI_4 - 100
+                    ]
+                    dmi4Data.push(dmi4Item);
+                    const dmi5Item = [
+                        dateInMilliseconds,
+                        item.DMI_5 === '-' ? 0 : item.DMI_5 - 100
+                    ]
+                    dmi5Data.push(dmi5Item);
+                    const dmi6Item = [
+                        dateInMilliseconds,
+                        item.DMI_6 === '-' ? 0 : item.DMI_6 - 100
+                    ]
+                    dmi6Data.push(dmi6Item);
+                    const dmi7Item = [
+                        dateInMilliseconds,
+                        item.DMI_7 === '-' ? 0 : item.DMI_7 - 100
+                    ]
+                    dmi7Data.push(dmi7Item);
                 });
                 setStockItemData(stockData);
                 setStockVolumeData(volumeData);
+                setStockDmiData({
+                    dmi3: dmi3Data,
+                    dmi4: dmi4Data,
+                    dmi5: dmi5Data,
+                    dmi6: dmi6Data,
+                    dmi7: dmi7Data,
+                });
             });
+
         sectorSelected(selectedStockItem)
     };
     // 업종 클릭시 
@@ -509,8 +543,8 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
                         </Grid>
                     </Grid>
                 </Box>
-                <StockChart stockItemData={stockItemData} volumeData={stockVolumeData} timeSeries={stockName} height={460} indicators={true} />
-                <StockChart stockItemData={stockItemData} volumeData={stockVolumeData} timeSeries={stockName} rangeSelect={4} height={460} indicators={true} />
+                <StockChart stockItemData={stockItemData} volumeData={stockVolumeData} stockDmiData={stockDmiData} timeSeries={stockName} height={460} indicators={true} />
+                <StockChart stockItemData={stockItemData} volumeData={stockVolumeData} stockDmiData={stockDmiData} timeSeries={stockName} rangeSelect={4} height={460} indicators={true} />
             </Grid>
 
         </Grid>
