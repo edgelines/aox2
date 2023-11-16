@@ -410,7 +410,7 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, stockD
                     stockDmiData?.dmi3 ?
                         Object.entries(stockDmiData).filter(([key, _]) => key.startsWith('dmi')).map(([key, value]) => (
                             <Typography sx={{ color: 'black', fontWeight: 600 }} key={key}>
-                                {key.toUpperCase()} : {value[value.length - 1][1] + 100}
+                                {key.toUpperCase()} : {(value[value.length - 1][1] + 100).toFixed(1)}
                             </Typography>
                         ))
                         : <></>
