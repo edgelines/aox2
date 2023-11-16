@@ -10,6 +10,8 @@
   - StockChart > DMI 추가
 - Commit.2
   - StockChart > StockDmiData 조건문 수정
+- Commit.3
+  - StockChart > Dmi 소수점 정리
 
 ### 2023.11.15
 {master}
