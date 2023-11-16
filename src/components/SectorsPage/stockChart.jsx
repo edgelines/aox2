@@ -21,7 +21,7 @@ Highcharts.setOptions({
     }
 });
 
-const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, 평균단가, height, indicators }) => {
+const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, stockDmiData, 거래일datetime, 최대값, 최소값, 평균단가, height, indicators }) => {
     const [전일대비, set전일대비] = useState(null);
     const [chartOptions, setChartOptions] = useState({
         chart: { animation: false, height: height ? height : 360, },
@@ -53,14 +53,14 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
         navigation: { buttonOptions: { enabled: false }, },
         yAxis: [{
             enabled: true,
-            height: '75%',
+            height: '50%',
             labels: {
                 style: { fontSize: '11px' }, formatter: function () {
                     return (this.value).toLocaleString('ko-KR');
                 },
             },
         }, {
-            top: '75%',
+            top: '25%',
             height: '25%',
             offset: 0,
             labels: {
@@ -250,11 +250,44 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
                 lineWidth: 0.5
             }, {
                 type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
-                color: 'tomato',
+                color: 'black',
                 dashStyle: 'shortdash',
                 name: 'W-14', id: 'williamsr',
                 lineWidth: 1,
                 params: { index: 3, period: 14 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            })
+        }
+        if (stockDmiData.dmi3 && stockDmiData.dmi3.length > 0) {
+            seriesData.push({
+                type: 'spline', animation: false, yAxis: 2, marker: { enabled: false, states: { hover: { enabled: false } } },
+                data: stockDmiData.dmi3,
+                color: "red",
+                name: 'DMI-3',
+                lineWidth: 0.5
+            }, {
+                type: 'spline', animation: false, yAxis: 2, marker: { enabled: false, states: { hover: { enabled: false } } },
+                data: stockDmiData.dmi4,
+                color: "orange",
+                name: 'D-4',
+                lineWidth: 0.5
+            }, {
+                type: 'spline', animation: false, yAxis: 2, marker: { enabled: false, states: { hover: { enabled: false } } },
+                data: stockDmiData.dmi5,
+                color: "green",
+                name: 'D-5',
+                lineWidth: 0.5
+            }, {
+                type: 'spline', animation: false, yAxis: 2, marker: { enabled: false, states: { hover: { enabled: false } } },
+                data: stockDmiData.dmi6,
+                color: "blue",
+                name: 'D-6',
+                lineWidth: 0.5
+            }, {
+                type: 'spline', animation: false, yAxis: 2, marker: { enabled: false, states: { hover: { enabled: false } } },
+                data: stockDmiData.dmi7,
+                color: "purple",
+                name: 'D-7',
+                lineWidth: 0.5
             })
         }
 
@@ -300,37 +333,25 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
                     title: { text: 'Volume' }
                 }, {
                     title: { enabled: false },
-                    labels: {
-                        align: 'left',
-                        x: -34, y: 4.5,
-                        style: {
-                            color: '#efe9e9ed',
-                            fontSize: '12px'
-                        }, formatter: function () {
-                            return `${this.value}%`;
-                        },
-                    },
                     gridLineWidth: 0.2,
                     top: '80%',
                     height: '20%',
+                    labels: {
+                        style: { fontSize: '0px' }
+                    },
                     plotLines: [{
-                        color: 'red',
+                        color: 'black',
                         width: 0.5,
-                        value: 120,
-                        dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                        // zIndex: 5,
-                    }, {
-                        color: '#efe9e9ed',
-                        width: 0.5,
-                        value: 100,
-                        dashStyle: 'shortdash',//라인 스타일 지정 옵션
+                        value: -100,
+                        label: { text: '-100', align: 'right', x: 0 }
+                        // dashStyle: 'shortdash',//라인 스타일 지정 옵션
                         // zIndex: 5,
                     }, {
                         color: 'skyblue',
                         width: 0.5,
-                        value: 70,
+                        value: -50,
                         dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                        // zIndex: 5,
+                        label: { text: '-50', align: 'right', x: 0 }
                     }, {
                         color: 'dodgerblue',
                         width: 0.5,
@@ -381,6 +402,18 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
                         </Typography>
                     </>
                     : <></>
+                }
+            </Box>
+
+            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: 'translate(10px, -290px)', zIndex: 100 }}>
+                {
+                    Object.entries(stockDmiData).length > 0 ?
+                        Object.entries(stockDmiData).filter(([key, _]) => key.startsWith('dmi')).map(([key, value]) => (
+                            <Typography sx={{ color: 'black', fontWeight: 600 }} key={key}>
+                                {key.toUpperCase()} : {value[value.length - 1][1] + 100}
+                            </Typography>
+                        ))
+                        : <></>
                 }
             </Box>
         </>
