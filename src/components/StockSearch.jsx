@@ -106,68 +106,40 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
     useEffect(() => { if (StockSearchTracking.status === 'succeeded') { setStockSearchTrackingData(StockSearchTracking.data); } }, [StockSearchTracking])
     useEffect(() => { fetchData(); }, [])
     useEffect(() => { setupIndicator() }, [presetName])
+
     // function
+    function processStockData(item) {
+        const dateInMilliseconds = new Date(item.날짜).getTime();
+        const stockItem = [dateInMilliseconds, item.시가, item.고가, item.저가, item.종가];
+        const volumeItem = [dateInMilliseconds, item.거래량];
+        return { stockItem, volumeItem };
+    }
+
+    function processDmiData(item) { return item === '-' ? 0 : item - 100; }
+
     // 종목 선택시
     const stockItemSelected = (selectedStockItem) => { // 종목 클릭시
         setStockName(selectedStockItem.종목명);
         axios.get(`${STOCK}/${selectedStockItem.종목코드}`)
             .then(response => {
-                const stockData = [], volumeData = [], dmi3Data = [], dmi4Data = [], dmi5Data = [], dmi6Data = [], dmi7Data = [];
-                response.data.forEach(item => {
-                    const date = new Date(item.날짜);
-                    const dateInMilliseconds = date.getTime();
-                    // Candle data
-                    const stockItem = [
-                        dateInMilliseconds, // 날짜
-                        item.시가, // 시가
-                        item.고가, // 고가
-                        item.저가,  // 저가
-                        item.종가 // 종가
-                    ];
-                    stockData.push(stockItem);
+                const stockData = [], volumeData = [];
+                const dmiData = { dmi3: [], dmi4: [], dmi5: [], dmi6: [], dmi7: [] };
 
-                    // Volume data
-                    const volumeItem = [
-                        dateInMilliseconds, // 날짜
-                        item.거래량 // 거래량
-                    ];
+                response.data.forEach(item => {
+                    const { stockItem, volumeItem } = processStockData(item);
+
+                    stockData.push(stockItem);
                     volumeData.push(volumeItem);
 
-                    const dmi3Item = [
-                        dateInMilliseconds,
-                        item.DMI_3 === '-' ? 0 : item.DMI_3 - 100
-                    ]
-                    dmi3Data.push(dmi3Item);
-                    const dmi4Item = [
-                        dateInMilliseconds,
-                        item.DMI_4 === '-' ? 0 : item.DMI_4 - 100
-                    ]
-                    dmi4Data.push(dmi4Item);
-                    const dmi5Item = [
-                        dateInMilliseconds,
-                        item.DMI_5 === '-' ? 0 : item.DMI_5 - 100
-                    ]
-                    dmi5Data.push(dmi5Item);
-                    const dmi6Item = [
-                        dateInMilliseconds,
-                        item.DMI_6 === '-' ? 0 : item.DMI_6 - 100
-                    ]
-                    dmi6Data.push(dmi6Item);
-                    const dmi7Item = [
-                        dateInMilliseconds,
-                        item.DMI_7 === '-' ? 0 : item.DMI_7 - 100
-                    ]
-                    dmi7Data.push(dmi7Item);
+                    Object.keys(dmiData).forEach((key, index) => {
+                        const dmiValue = processDmiData(item[`DMI_${index + 3}`], stockItem[0]);
+                        dmiData[key].push([stockItem[0], dmiValue]);
+                    });
                 });
+
                 setStockItemData(stockData);
                 setStockVolumeData(volumeData);
-                setStockDmiData({
-                    dmi3: dmi3Data,
-                    dmi4: dmi4Data,
-                    dmi5: dmi5Data,
-                    dmi6: dmi6Data,
-                    dmi7: dmi7Data,
-                });
+                setStockDmiData(dmiData);
             });
 
         sectorSelected(selectedStockItem)

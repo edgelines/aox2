@@ -12,7 +12,8 @@
   - StockChart > StockDmiData 조건문 수정
 - Commit.3
   - StockChart > Dmi 소수점 정리
-
+- Commit.4
+  - Chart Tooltip distance: 55, markerConfig 수정
 ### 2023.11.15
 {master}
 - Commit.1

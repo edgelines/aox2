@@ -5,7 +5,7 @@ import IndexChart from './util/IndexChart';
 import { StyledButton } from './util/util';
 import MarketCurrentValue from './Index/marketCurrentValue.jsx'
 // import { customRsi, williamsR } from 'indicatorts';
-import { API } from './util/config';
+import { API, markerConfig } from './util/config';
 
 export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail }) {
 
@@ -152,21 +152,21 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
             name: '코스피200', id: 'candlestick',
             data: Kospi200, type: 'candlestick', yAxis: 0, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false,
         }, {
-            type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+            type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: markerConfig, showInLegend: true,
             color: 'tomato',
             dashStyle: 'shortdash',
             name: 'W-R-1', id: 'williamsr',
             lineWidth: 1,
             params: { index: 3, period: williamsNum }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }, {
-            type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+            type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: markerConfig, showInLegend: true,
             color: 'dodgerblue',
             dashStyle: 'shortdash',
             name: 'W-R-2', id: 'williamsr2',
             lineWidth: 1,
             params: { index: 3, period: williamsNum2 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }, {
-            type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+            type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: markerConfig, showInLegend: true,
             color: 'gold',
             dashStyle: 'shortdash',
             name: 'W-R-3', id: 'williamsr3',
@@ -223,21 +223,21 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
             name: '코스피200', id: 'candlestick', isCandle: true,
             data: rawKospi200, type: 'candlestick', yAxis: 0, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false, isCandle: true,
         }, {
-            type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+            type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: markerConfig, showInLegend: true,
             color: 'tomato',
             dashStyle: 'shortdash',
             name: 'Williams-R-1', id: 'williamsr',
             lineWidth: 1,
             params: { index: 3, period: williamsNum }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }, {
-            type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+            type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: markerConfig, showInLegend: true,
             color: 'dodgerblue',
             dashStyle: 'shortdash',
             name: 'Williams-R-2', id: 'williamsr2',
             lineWidth: 1,
             params: { index: 3, period: williamsNum2 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }, {
-            type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false }, showInLegend: true,
+            type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: markerConfig, showInLegend: true,
             color: 'gold',
             dashStyle: 'shortdash',
             name: 'Williams-R-3', id: 'williamsr3',

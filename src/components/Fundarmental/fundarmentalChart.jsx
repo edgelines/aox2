@@ -34,6 +34,7 @@ export default function Chart({ data, height, name, lengendX }) {
             shared: true,
             crosshairs: true,
             hideDelay: 2,
+            distance: 55,
             formatter: function () {
                 return [Highcharts.dateFormat('%y.%m.%d', this.x)].concat(
                     this.points ?

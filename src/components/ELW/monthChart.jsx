@@ -12,7 +12,7 @@ export default function ELW_MonthChart({ data, height, categories, min, credit }
         credits: credit ? { enabled: true, text: credit, style: { fontSize: '0.8em' }, position: { verticalAlign: "top", x: -10, y: 36 } } : { enabled: false },
         exporting: { enabled: false },
         plotOptions: { series: { animation: false } },
-        tooltip: { shared: true, crosshairs: true, hideDelay: 1, backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#e8e3e3" }, },
+        tooltip: { shared: true, crosshairs: true, hideDelay: 1, distance: 55, backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#e8e3e3" }, },
         xAxis: [{ labels: { style: { color: "#efe9e9ed", fontSize: "11px" } }, plotBands: { color: "rgba(111,111,111,0.3)", from: 4.5, to: 5.5, } },],
         yAxis: [{ title: { enabled: false }, labels: { style: { color: "#efe9e9ed", fontSize: "12px" } }, gridLineWidth: 0.2, tickInterval: 5 },],
         legend: { align: "left", borderWidth: 0, margin: 0.8, verticalAlign: "top", symbolRadius: 0, symbolWidth: 10, symbolHeight: 10, itemDistance: 17, itemStyle: { color: "#efe9e9ed", fontSize: "12px" }, itemHiddenStyle: { color: "#000000" }, itemHoverStyle: { color: "gold" }, x: 30, y: 5, },
