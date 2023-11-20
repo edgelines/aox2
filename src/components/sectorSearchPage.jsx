@@ -18,7 +18,7 @@ import StockChart from './SectorsPage/stockChart';
 import SectorChart from './SectorsPage/sectorChart';
 import TreeMap from './SectorsPage/treeMap';
 import ColumnChart from './SectorsPage/columnChart';
-import { API, JSON, STOCK } from './util/config';
+import { API, myJSON, STOCK } from './util/config';
 
 export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, StockSectorsThemes, StockThemeByItem, StockSectorByItem, StockPrice, SearchInfo, SectorsChartData, SectorsRanksThemes, ScheduleItemEvent }) {
 
@@ -313,7 +313,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
     }
     const getThemeList = async (item) => { // 검색 컴포넌트에서 상위 컴포넌트로 object 전달
         // stockThemeRankInfo : 테마명, 등락률, 순위, 전일순위
-        const response = await axios.get(`${JSON}/stockThemeRankInfo`);
+        const response = await axios.get(`${myJSON}/stockThemeRankInfo`);
         const stockThemeRankInfo = response.data;
 
         const data = item.테마명.map((themeName, index) => {
@@ -643,7 +643,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                                 if (params.field === '업종명') {
                                     findSectorsByItem(params.value);
                                     setFilteredCheckName({ key: '업종', name: params.value })
-                                    axios.get(`${JSON}/stockSectorByThemes`).then(response => {
+                                    axios.get(`${myJSON}/stockSectorByThemes`).then(response => {
                                         const itemData = response.data.find(data => data.업종명 === params.value);
                                         getThemeList({ 테마명: [...new Set(itemData.테마명)] })
                                     });
@@ -682,7 +682,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                                 if (params.field === '업종명') {
                                     findSectorsByItem(params.value);
                                     setFilteredCheckName({ key: '업종', name: params.value })
-                                    axios.get(`${JSON}/stockSectorByThemes`).then(response => {
+                                    axios.get(`${myJSON}/stockSectorByThemes`).then(response => {
                                         const itemData = response.data.find(data => data.업종명 === params.value);
                                         getThemeList({ 테마명: [...new Set(itemData.테마명)] })
                                     });
@@ -861,7 +861,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                                             if (params.field === '종목명') {
                                                 stockItemSelected({ 종목코드: params.row.티커, 종목명: params.value, 업종명: params.row.업종명 });
                                                 setStockName(params.value)
-                                                axios.get(`${JSON}/stockItemByTheme`).then(response => {
+                                                axios.get(`${myJSON}/stockItemByTheme`).then(response => {
                                                     const itemData = response.data.find(data => data.종목명 === params.value);
                                                     getThemeList({ 테마명: [...new Set(itemData.테마명)] })
                                                 });
@@ -869,7 +869,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                                             if (params.field === '업종명') {
                                                 findSectorsByItem(params.value);
                                                 setFilteredCheckName({ key: '업종', name: params.value })
-                                                axios.get(`${JSON}/stockSectorByThemes`).then(response => {
+                                                axios.get(`${myJSON}/stockSectorByThemes`).then(response => {
                                                     const itemData = response.data.find(data => data.업종명 === params.value);
                                                     getThemeList({ 테마명: [...new Set(itemData.테마명)] })
                                                 });
@@ -1294,7 +1294,7 @@ export function Virtualize({ SearchInfo, getThemeList, stockName, onGetComponent
 
     useEffect(() => {
         if (selectedStockName) {
-            axios.get(`${JSON}/stockItemByTheme`).then(response => {
+            axios.get(`${myJSON}/stockItemByTheme`).then(response => {
                 const itemData = response.data.find(data => data.종목명 === selectedStockName);
                 // const itemData = response.data.find(data => data.종목명 === newValue.search);
                 getThemeList({ 테마명: [...new Set(itemData.테마명)] })

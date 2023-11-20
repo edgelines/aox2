@@ -4,14 +4,14 @@ import { Grid } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { JSON } from '../util/config';
+import { myJSON } from '../util/config';
 
 export default function IpoPage({ swiperRef }) {
 
     const [tableData, setTableData] = useState([]);
 
     useEffect(() => {
-        axios.get(`${JSON}/ipo`).then(response => {
+        axios.get(`${myJSON}/ipo`).then(response => {
             const data = response.data.map((item, index) => ({
                 ...item,
                 id: index

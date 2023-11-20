@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Grid } from '@mui/material';
 import Chart from './fundarmentalChart'
-import { JSON } from '../util/config';
+import { myJSON } from '../util/config';
 
 // 에너지, 비트코인, 금, 환율, 오일
 export default function FundarmentalPage1({ swiperRef }) {
@@ -14,7 +14,7 @@ export default function FundarmentalPage1({ swiperRef }) {
     const [moneyIndex, setMoneyIndex] = useState();
     const [UsdGold, setUsdGold] = useState();
     useEffect(() => {
-        axios.get(JSON + "/Energy").then((response) => {
+        axios.get(myJSON + "/Energy").then((response) => {
             var Oil = [], Wt = [], Gas = []
             response.data.forEach((value, index, array) => {
                 Oil.push([value.Date, value.Close, value.Open, value.High, value.Low])
@@ -54,7 +54,7 @@ export default function FundarmentalPage1({ swiperRef }) {
                 }]
             )
         });
-        axios.get(JSON + "/Metals").then((response) => {
+        axios.get(myJSON + "/Metals").then((response) => {
             var Gold = [], Silver = []
             response.data.forEach((value, index, array) => {
                 Gold.push([value.Date, value.Close, value.Open, value.High, value.Low])
@@ -82,7 +82,7 @@ export default function FundarmentalPage1({ swiperRef }) {
                 lineWidth: 1
             }])
         });
-        axios.get(JSON + "/UsdOil").then((response) => {
+        axios.get(myJSON + "/UsdOil").then((response) => {
             var USD = [], Oil = []
             response.data.forEach((value, index, array) => {
                 USD.push([value.Date, value.USD_Close, value.USD_Open, value.USD_High, value.USD_Low])
@@ -112,7 +112,7 @@ export default function FundarmentalPage1({ swiperRef }) {
                 animation: false,
             }],)
         });
-        axios.get(JSON + "/Cryptocurrency").then((response) => {
+        axios.get(myJSON + "/Cryptocurrency").then((response) => {
             var Btc = [], Eth = [], Xrp = []
             response.data.forEach((value, index, array) => {
                 Btc.push([value.Date, value.Close, value.Open, value.High, value.Low])
@@ -150,7 +150,7 @@ export default function FundarmentalPage1({ swiperRef }) {
                 lineWidth: 1
             }])
         });
-        axios.get(JSON + "/MoneyIndex").then((response) => {
+        axios.get(myJSON + "/MoneyIndex").then((response) => {
             var USD = [], EUR = [], CNY = []
             response.data.forEach((value, index, array) => {
                 USD.push([value.Date, value.Close, value.Open, value.High, value.Low])
@@ -188,7 +188,7 @@ export default function FundarmentalPage1({ swiperRef }) {
                 lineWidth: 1
             }])
         });
-        axios.get(JSON + "/UsdGold").then((response) => {
+        axios.get(myJSON + "/UsdGold").then((response) => {
             var USD = [], Gold = []
             response.data.forEach((value, index, array) => {
                 USD.push([value.Date, value.USD_Close, value.USD_Open, value.USD_High, value.USD_Low])

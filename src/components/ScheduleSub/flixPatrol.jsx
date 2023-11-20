@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Grid, Skeleton } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { JSON } from '../util/config';
+import { myJSON } from '../util/config';
 
 export default function FlixPatrol({ swiperRef }) {
 
@@ -14,7 +14,7 @@ export default function FlixPatrol({ swiperRef }) {
 
     const getData = async (name) => {
         try {
-            const res = await axios.get(`${JSON}/${name}`);
+            const res = await axios.get(`${myJSON}/${name}`);
             const data = res.data.map((item, index) => ({
                 ...item,
                 id: index

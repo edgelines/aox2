@@ -5,7 +5,7 @@ import CoreChart from '../util/CoreChart.jsx';
 import GpoChart from './GpoChart.jsx';
 import ELW_BarChart from './BarChart.jsx';
 import MarketCurrentValue from '../Index/marketCurrentValue.jsx';
-import { API, JSON } from '../util/config.jsx';
+import { API, myJSON } from '../util/config.jsx';
 
 export default function DetailPage({ swiperRef, Vix, MarketDetail }) {
     // const updateA = 'Start - 9:2, Update - 지수분봉'
@@ -61,9 +61,9 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail }) {
             setELW_data3(dataFilter(data3));
             // console.log(dataFilter(data1));
         })
-        await axios.get(JSON + "/Kospi200_GPOchart").then((response) => { setKospi200(response.data.data); });
+        await axios.get(myJSON + "/Kospi200_GPOchart").then((response) => { setKospi200(response.data.data); });
 
-        await axios.get(JSON + "/exNow_KR").then((response) => {
+        await axios.get(myJSON + "/exNow_KR").then((response) => {
             let data = response.data;
             let dataArray = Array.from({ length: 12 }, () => []); // 12개의 빈 배열을 생성
             let 지난달_47 = Array.from({ length: 12 }, () => null); // 17개의 null을 생성
@@ -105,7 +105,7 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail }) {
             };
             setExNow_KR(commitData);
         });
-        await axios.get(JSON + "/exNow_US").then((response) => {
+        await axios.get(myJSON + "/exNow_US").then((response) => {
             let data = response.data;
             let dataArray = Array.from({ length: 13 }, () => []); // 12개의 빈 배열을 생성
             let 지난달_47 = Array.from({ length: 13 }, () => null); // 17개의 null을 생성

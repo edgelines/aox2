@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { JSON } from '../components/util/config'
+import { myJSON } from '../components/util/config'
 
 export const getStockPrice = createAsyncThunk("GET/STOCKPRICE", async () => {
-    const response = await axios.get(`${JSON}/stockPrice`);
+    const response = await axios.get(`${myJSON}/stockPrice`);
     const data = response.data.map((item, index) => ({
         ...item,
         전일대비거래량: parseInt(item['거래량평균%']),
@@ -15,7 +15,7 @@ export const getStockPrice = createAsyncThunk("GET/STOCKPRICE", async () => {
 });
 
 export const getStockSectorsThemes = createAsyncThunk("GET/STOCKSECTORSTHEMES", async () => {
-    const response = await axios.get(`${JSON}/stockSectorsThemes`);
+    const response = await axios.get(`${myJSON}/stockSectorsThemes`);
     return response.data;
 });
 

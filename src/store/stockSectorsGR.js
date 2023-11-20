@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { JSON } from '../components/util/config'
+import { myJSON } from '../components/util/config'
 
 export const getStockSectorsGR = createAsyncThunk("GET/STOCKSECTORSGR", async () => {
-    const response = await axios.get(`${JSON}/stockSectorsGR`);
+    const response = await axios.get(`${myJSON}/stockSectorsGR`);
     const data = response.data.map((item) => ({
         업종명: item['업종명'],
         NOW: item['NOW'],

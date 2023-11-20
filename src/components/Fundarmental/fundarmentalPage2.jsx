@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Grid } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Chart from './fundarmentalChart'
-import { JSON } from '../util/config';
+import { myJSON } from '../util/config';
 // 에너지, 비트코인, 금, 환율, 오일
 export default function FundarmentalPage2({ swiperRef }) {
     const chartHeight = 470
@@ -13,7 +13,7 @@ export default function FundarmentalPage2({ swiperRef }) {
     const [deposit, setDeposit] = useState();
 
     useEffect(() => {
-        axios.get(JSON + "/mortgage").then((response) => {
+        axios.get(myJSON + "/mortgage").then((response) => {
             var FIXHAI = [], RHORUSQ156N = [], MDSP = []
             response.data.forEach((value, index, array) => {
                 FIXHAI.push([value.DATE, value.FIXHAI])
@@ -51,7 +51,7 @@ export default function FundarmentalPage2({ swiperRef }) {
                 }]
             )
         });
-        axios.get(JSON + "/NonMetals").then((response) => {
+        axios.get(myJSON + "/NonMetals").then((response) => {
             var Aluminium = [], Copper = []
             response.data.forEach((value, index, array) => {
                 Aluminium.push([value.Date, value.Aluminium])
@@ -77,7 +77,7 @@ export default function FundarmentalPage2({ swiperRef }) {
                 lineWidth: 1
             }])
         });
-        axios.get(JSON + "/interest_rate").then((response) => {
+        axios.get(myJSON + "/interest_rate").then((response) => {
             var 기준금리 = [], IORB = []
             response.data.forEach((value, index, array) => {
                 기준금리.push([value.DATE, value.기준금리])
@@ -101,7 +101,7 @@ export default function FundarmentalPage2({ swiperRef }) {
                 lineWidth: 1
             }])
         });
-        axios.get(JSON + "/deposit").then((response) => {
+        axios.get(myJSON + "/deposit").then((response) => {
             var 고객예탁금 = [], 신용잔고 = [], 전일대비 = '', 고객예탁금_전일대비 = '', 신용잔고_전일대비 = '';
             response.data.forEach((value, index, array) => {
                 고객예탁금.push([value.날짜, value.고객예탁금])

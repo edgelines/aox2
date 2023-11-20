@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { API, JSON } from '../components/util/config'
+import { API, myJSON } from '../components/util/config'
 
 // IndexMA : MA50, MA112
 export const getIndexMA = createAsyncThunk("GET/IndexMA", async () => {
@@ -80,7 +80,7 @@ export const MarketKospi200 = createSlice({
 });
 
 export const getVixMA = createAsyncThunk("GET/VixMA", async () => {
-    const response = await axios.get(`${JSON}/vix`);
+    const response = await axios.get(`${myJSON}/vix`);
     var VIX = [], MA2 = [], MA3 = [], MA4 = [], MA5 = [], MA6 = [], MA9 = [], MA10 = [], MA12 = [], MA15 = [], MA18 = [], MA20 = [], MA25 = [], MA27 = [], MA36 = [], MA45 = [], MA60 = [], MA112 = [], MA224 = []
     response.data.forEach((value, index, array) => {
         VIX.push([value.Date, value.Open, value.High, value.Low, value.Close])
@@ -193,7 +193,7 @@ export const getVixMA = createAsyncThunk("GET/VixMA", async () => {
 });
 
 export const getVix = createAsyncThunk("GET/Vix", async () => {
-    const response = await axios.get(`${JSON}/vix`);
+    const response = await axios.get(`${myJSON}/vix`);
     var tmp = response.data;
     var 전일대비 = tmp[tmp.length - 1].Close - tmp[tmp.length - 2].Close
     var 값 = tmp[tmp.length - 1].Close.toFixed(2)
@@ -213,7 +213,7 @@ export const Vix = createSlice({
 });
 
 export const getExchange = createAsyncThunk("GET/Exchange", async () => {
-    const response = await axios.get(`${JSON}/exchange`);
+    const response = await axios.get(`${myJSON}/exchange`);
     var value = response.data[0].환율
     var net = response.data[0].증감
     var comparison = response.data[0].변동

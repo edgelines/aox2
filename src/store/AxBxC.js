@@ -1,14 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { JSON } from '../components/util/config'
+import { myJSON } from '../components/util/config'
 
 // const JSON = process.env.REACT_APP_API_JSON_URL;
 export const getABC1 = createAsyncThunk("GET/ABC1", async () => {
-    const response = await axios.get(`${JSON}/main1_ThemeBySecByItem_df`);
+    const response = await axios.get(`${myJSON}/main1_ThemeBySecByItem_df`);
     return response.data;
 });
 export const getABC2 = createAsyncThunk("GET/ABC2", async () => {
-    const response = await axios.get(`${JSON}/main2_ThemeBySecByItem_df`);
+    const response = await axios.get(`${myJSON}/main2_ThemeBySecByItem_df`);
     return response.data;
 });
 

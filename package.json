@@ -51,6 +51,7 @@
     "react-social-icons": "^6.3.0",
     "react-virtuoso": "^4.5.1",
     "react-window": "^1.8.9",
+    "redux-saga": "^1.2.3",
     "styled-components": "^5.3.9",
     "swiper": "^10.3.1",
     "ta.js": "^1.16.3",

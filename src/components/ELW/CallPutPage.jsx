@@ -5,7 +5,7 @@ import IndexChart from '../util/IndexChart.jsx';
 import CoreChart from '../util/CoreChart.jsx';
 import { StyledToggleButton } from '../util/util.jsx'
 import MarketCurrentValue from '../Index/marketCurrentValue.jsx'
-import { API, JSON } from '../util/config.jsx';
+import { API, myJSON } from '../util/config.jsx';
 export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi, Kosdaq, Invers, IndexMA, MarketKospi200, MarketDetail }) {
     const [ElwPutCallRatioData, setElwPutCallRatioData] = useState(null);
     const [dayGr, setDayGr] = useState({ series: null, categories: null });
@@ -61,7 +61,7 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
                 }], categories: Day
             })
         })
-        await axios.get(JSON + "/ElwRatioData").then((response) => {
+        await axios.get(myJSON + "/ElwRatioData").then((response) => {
             var data1 = [], data2 = [], category = []
             response.data.forEach((value, index, array) => {
                 var 콜비율 = parseFloat((value.콜_거래대금 / (value.콜_거래대금 + value.풋_거래대금) * 100).toFixed(2))
@@ -93,7 +93,7 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
                 categories: category
             })
         });
-        await axios.get(JSON + "/ElwPutCallRatioData").then((response) => {
+        await axios.get(myJSON + "/ElwPutCallRatioData").then((response) => {
             var Day1 = [], Day2 = [], Day3 = [], Day4 = [], Day5 = [], Day20 = [], Day100 = []
             response.data.forEach((value, index, array) => {
                 Day1.push([value.날짜, (value.풋_거래대금 / value.콜_거래대금)]);

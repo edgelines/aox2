@@ -1,4 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
+// import createSagaMiddleware from 'redux-saga';
+// import rootSaga from './rootSaga';
+// import websocketReducer from './reducers/websocketReducer';
+
+
 import { StockSectors, Kospi200BubbleCategoryGruop, Kospi200BubbleCategory } from "./stockSectors.js";
 import { StockSectorsGR } from "./stockSectorsGR.js";
 import { StockPrice, StockSectorsThemes } from "./stockPrice.js";
@@ -8,6 +13,8 @@ import { StockThemeByItem, StockSectorByItem, SearchInfo, ScheduleItemEvent } fr
 import { IndexMA, VixMA, Vix, MarketDetail, Kospi200, Kospi, Kosdaq, Invers, MarketKospi200, Exchange } from "./indexData.js";
 import { ELW_monthTable, ELW_CallPutRatio_Maturity, ElwWeightedAvg, ElwWeightedAvgCheck } from "./ELW.js";
 import { StockSearch, StockSearchTracking, StockSearchTrackingStatistics } from './stockSearch.js';
+
+// const sagaMiddleware = createSagaMiddleware();
 
 export default configureStore({
     reducer: {
@@ -44,5 +51,7 @@ export default configureStore({
         MarketKospi200: MarketKospi200.reducer,
         Exchange: Exchange.reducer,
 
-    }
+        // WebSocket: websocketReducer,
+    },
+    // middleware: [sagaMiddleware]
 })

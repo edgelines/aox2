@@ -11,6 +11,9 @@ import { getStockThemeByItem, getStockSectorByItem, getSearchInfo, getScheduleIt
 import { getIndexMA, getVixMA, getVix, getMarketDetail, getKospi200, getKospi, getKosdaq, getInvers, getMarketKospi200, getExchange } from './store/indexData.js';
 import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvg, getElwWeightedAvgCheck } from './store/ELW.js';
 import { getStockSearch, getStockSearchTracking, getStockSearchTrackingStatistics } from './store/stockSearch';
+// Websokect
+import { websocketConnectWA1, websocketConnectWA2, } from './store/actions/websocketActions';
+
 // Components
 import SchedulePage from './components/schedulePage.jsx';
 import SectorsChartPage from './components/sectorsChartPage.jsx';
@@ -70,7 +73,8 @@ function App() {
     const ScheduleItemEvent = useSelector((state) => state.ScheduleItemEvent);
     const Exchange = useSelector((state) => state.Exchange);
     const swiperRef = useRef(null);
-
+    // const WA1 = useSelector(state => state.websocket.WA_1);
+    // const WA2 = useSelector(state => state.websocket.WA_2);
     // sectorsChartPage State
     const handleCheckboxStatusUp = (data) => { setCheckboxStatusUp(data) }
     const handleCheckboxStatusDown = (data) => { setCheckboxStatusDown(data) }
@@ -263,6 +267,8 @@ function App() {
         await dispatch(getVixMA());
         await dispatch(getVix());
         await dispatch(getStockSearchTracking());
+        // dispatch(websocketConnectWA1());
+        // dispatch(websocketConnectWA2());
     }
 
     // 첫 랜더링
@@ -576,6 +582,8 @@ function App() {
         }
     };
 
+
+
     return (
         <div className="App">
             <Swiper
@@ -589,9 +597,8 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <StockSearchPage swiperRef={swiperRef} StockSearch={StockSearch} StockSearchTracking={StockSearchTracking} />
-                </SwiperSlide>
-                    <TreasuryStockPage swiperRef={swiperRef} SectorsChartData={SectorsChartData} /> */}
+                    <MainPage Vix={Vix} Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop} Kospi200BubbleCategory={Kospi200BubbleCategory} MarketDetail={MarketDetail} ElwWeightedAvgCheck={ElwWeightedAvgCheck} Exchange={Exchange} />
+                </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <SchedulePage swiperRef={swiperRef} />
