@@ -9,7 +9,7 @@ import IndexChart from '../util/IndexChart'
 import WeightAvgCheck from './weightAvgCheck';
 // import Chart from '../Fundarmental/fundarmentalChart'
 import { StyledToggleButton } from '../util/util';
-import { API, JSON } from '../util/config';
+import { API, myJSON } from '../util/config';
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts/highstock'
 require('highcharts/indicators/indicators')(Highcharts)
@@ -74,7 +74,7 @@ export default function WeightAvgPage3({ swiperRef, ELW_monthTable, ELW_CallPutR
             setMonth2Data(month);
             setMonth1Value(CTP1)
         })
-        // await axios.get(JSON + "/exchange").then((response) => {
+        // await axios.get(myJSON + "/exchange").then((response) => {
         //     var value = response.data[0].환율
         //     var net = response.data[0].증감
         //     var comparison = response.data[0].변동
@@ -83,10 +83,10 @@ export default function WeightAvgPage3({ swiperRef, ELW_monthTable, ELW_CallPutR
     };
 
     const fetchData1Day = async () => {
-        await axios.get(JSON + "/index_kospi_PBR_Candle").then((response) => { setKospiPbr(response.data.data); });
-        await axios.get(JSON + "/index_kospi200_PBR_Candle").then((response) => { setKospi200Pbr(response.data.data); });
-        await axios.get(JSON + "/index_kosdaq_PBR_Candle").then((response) => { setKosdaqPbr(response.data.data); });
-        await axios.get(JSON + "/MoneyIndex").then((response) => {
+        await axios.get(myJSON + "/index_kospi_PBR_Candle").then((response) => { setKospiPbr(response.data.data); });
+        await axios.get(myJSON + "/index_kospi200_PBR_Candle").then((response) => { setKospi200Pbr(response.data.data); });
+        await axios.get(myJSON + "/index_kosdaq_PBR_Candle").then((response) => { setKosdaqPbr(response.data.data); });
+        await axios.get(myJSON + "/MoneyIndex").then((response) => {
             var USD = [], EUR = [], CNY = []
             response.data.forEach((value, index, array) => {
                 USD.push([value.Date, value.Close, value.Open, value.High, value.Low])

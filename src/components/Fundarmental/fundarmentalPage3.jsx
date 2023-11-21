@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Grid } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Chart from './fundarmentalChart'
-import { JSON } from '../util/config';
+import { myJSON } from '../util/config';
 // 에너지, 비트코인, 금, 환율, 오일
 export default function FundarmentalPage3({ swiperRef }) {
     const chartHeight = 470
@@ -12,7 +12,7 @@ export default function FundarmentalPage3({ swiperRef }) {
     const [cpi, setCPI] = useState();
     const [inventories, setInventories] = useState();
     useEffect(() => {
-        axios.get(JSON + "/bond").then((response) => {
+        axios.get(myJSON + "/bond").then((response) => {
             var bond10 = [], bond5 = [], bond1 = []
             response.data.forEach((value, index, array) => {
                 bond10.push([value.DATE, value.T10Y2Y])
@@ -48,7 +48,7 @@ export default function FundarmentalPage3({ swiperRef }) {
                 }]
             )
         });
-        axios.get(JSON + "/ppi").then((response) => {
+        axios.get(myJSON + "/ppi").then((response) => {
             var PPI = [], Median_CPI = []
             response.data.forEach((value, index, array) => {
                 PPI.push([value.DATE, value.PCUOMINOMIN])
@@ -74,7 +74,7 @@ export default function FundarmentalPage3({ swiperRef }) {
                 lineWidth: 1
             }])
         });
-        axios.get(JSON + "/cpi").then((response) => {
+        axios.get(myJSON + "/cpi").then((response) => {
             var CPI = []
             response.data.forEach((value, index, array) => {
                 CPI.push([value.DATE, value.STICKCPIM157SFRBATL])
@@ -90,7 +90,7 @@ export default function FundarmentalPage3({ swiperRef }) {
                 lineWidth: 1
             }])
         });
-        axios.get(JSON + "/inventories").then((response) => {
+        axios.get(myJSON + "/inventories").then((response) => {
             var ISRATIO = [], RETAILIMSA = [], RETAILIRSA = []
             response.data.forEach((value, index, array) => {
                 ISRATIO.push([value.DATE, value.ISRATIO])

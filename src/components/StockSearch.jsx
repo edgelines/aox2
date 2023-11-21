@@ -8,9 +8,11 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import dayjs from 'dayjs';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import StockChart from './SectorsPage/stockChart'
-import { STOCK, MAC, API } from './util/config';
-
+import { STOCK, MAC, API, MAC_WS } from './util/config';
+let ws = null; // 전역 또는 컴포넌트의 상태로 WebSocket 인스턴스를 관리합니다.
+let ws_tracking = null;
 export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTracking }) {
+
     const [snackbar, setSnackbar] = useState(false);
     const [severity, setSeverity] = useState('success');
 
@@ -104,7 +106,13 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
         }));
     }, [StockSearch, filters]);
     useEffect(() => { if (StockSearchTracking.status === 'succeeded') { setStockSearchTrackingData(StockSearchTracking.data); } }, [StockSearchTracking])
-    useEffect(() => { fetchData(); }, [])
+    useEffect(() => {
+        fetchData();
+        return () => {
+            if (ws) ws.close();
+            if (ws_tracking) ws_tracking.close();
+        };
+    }, [])
     useEffect(() => { setupIndicator() }, [presetName])
 
     // function
@@ -120,6 +128,50 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
     // 종목 선택시
     const stockItemSelected = (selectedStockItem) => { // 종목 클릭시
         setStockName(selectedStockItem.종목명);
+        // if (ws) {
+        //     ws.close();
+        //     ws = null;
+        // }
+
+        // ws = new WebSocket(`${MAC_WS}/${selectedStockItem.종목코드}`);
+        // ws.onopen = () => {
+        //     // 연결이 열리면 필요한 경우 서버에 데이터를 보낼 수 있습니다.
+        // };
+        // ws.onmessage = (event) => {
+        //     try {
+        //         const response = JSON.parse(event.data);
+
+        //         const stockData = [], volumeData = [];
+        //         const dmiData = { dmi3: [], dmi4: [], dmi5: [], dmi6: [], dmi7: [] };
+
+        //         response.forEach(item => {
+        //             const { stockItem, volumeItem } = processStockData(item);
+
+        //             stockData.push(stockItem);
+        //             volumeData.push(volumeItem);
+
+        //             Object.keys(dmiData).forEach((key, index) => {
+        //                 const dmiValue = processDmiData(item[`DMI_${index + 3}`], stockItem[0]);
+        //                 dmiData[key].push([stockItem[0], dmiValue]);
+        //             });
+        //         });
+
+        //         setStockItemData(stockData);
+        //         setStockVolumeData(volumeData);
+        //         setStockDmiData(dmiData);
+        //     } catch (err) {
+        //         console.error(event.data)
+        //     }
+        // };
+        // ws.onerror = (error) => {
+        //     console.log(error);
+        //     ws.close();
+        // };
+        // ws.onclose = () => {
+        //     ws.close();
+        //     // 연결 종료 처리
+        // };
+
         axios.get(`${STOCK}/${selectedStockItem.종목코드}`)
             .then(response => {
                 const stockData = [], volumeData = [];
@@ -173,6 +225,54 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
         }))
         data = data.sort((a, b) => b.등락률 - a.등락률);
         setStockSearchTrackingData(data)
+        // if (ws_tracking) {
+        //     ws_tracking.close();
+        //     ws_tracking = null;
+        // }
+
+        // ws_tracking = new WebSocket(`${MAC_WS}/Tracking?date=${getDate}`);
+        // ws_tracking.onopen = () => {
+        //     // 연결이 열리면 필요한 경우 서버에 데이터를 보낼 수 있습니다.
+        // };
+        // ws_tracking.onmessage = (event) => {
+        //     try {
+        //         const response = JSON.parse(event.data);
+
+        //         // 유니코드 한글 데이터를 정상적인 한글로 변환
+        //         let formattedResponse = response.map(item => {
+        //             const newItem = {};
+        //             for (let key in item) {
+        //                 newItem[key] = item[key].toString();
+        //             }
+        //             return newItem;
+        //         });
+
+        //         formattedResponse = formattedResponse.map((item, index) => ({
+        //             ...item,
+        //             id: index,
+        //             // 조건일: item.조건일,
+        //             등락률: ((parseInt(item.현재가) - parseInt(item.종가)) / parseInt(item.종가) * 100).toFixed(1),
+        //             유보율: parseInt(item.유보율),
+        //             부채비율: parseInt(item.부채비율),
+        //         }))
+        //         formattedResponse = formattedResponse.sort((a, b) => b.등락률 - a.등락률);
+        //         setStockSearchTrackingData(formattedResponse)
+        //     } catch (err) {
+        //         console.log(err)
+        //         // console.error(event.data)
+        //     }
+        // };
+        // ws_tracking.onerror = (error) => {
+        //     console.log(error);
+        //     ws_tracking.close();
+        // };
+        // ws_tracking.onclose = () => {
+        //     ws_tracking.close();
+        //     // 연결 종료 처리
+        // };
+
+
+
     }
     const handlePresetNameChange = (event) => { setPresetName(event.target.value); }
     const handleClose = (event, reason) => { if (reason === 'clickaway') { return; } setSnackbar(false); }; // 알림창 닫기
@@ -438,7 +538,7 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
-                    <Typography align='start'>
+                    <Typography align='left'>
                         Monitoring
                     </Typography>
                     <ThemeProvider theme={customTheme}>
@@ -470,7 +570,7 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
-                    <Typography align='start'>
+                    <Typography align='left'>
                         Tracking
                     </Typography>
                     <ThemeProvider theme={customTheme}>
@@ -504,12 +604,12 @@ export default function StockSearchPage({ swiperRef, StockSearch, StockSearchTra
                 <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: 'translate(18px, 30px)', zIndex: 100 }}>
                     <Grid container sx={{ width: '400px' }}>
                         <Grid item xs={6}>
-                            <Typography align='start' sx={{ color: 'black', fontSize: '18px' }}>
+                            <Typography align='left' sx={{ color: 'black', fontSize: '18px' }}>
                                 종목명 : {stockName}
                             </Typography>
                         </Grid>
                         <Grid item xs={6}>
-                            <Typography align='start' sx={{ color: 'black', fontSize: '18px' }}>
+                            <Typography align='left' sx={{ color: 'black', fontSize: '18px' }}>
                                 업종명 : {SectorsName}
                             </Typography>
                         </Grid>

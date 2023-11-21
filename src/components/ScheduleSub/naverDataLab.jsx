@@ -3,7 +3,7 @@ import axios from 'axios';
 import Highcharts from 'highcharts/highstock'
 import { Table, TableBody, TableCell, TableHead, TableRow, Grid, ToggleButton, ToggleButtonGroup, Skeleton, TableContainer } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { API, JSON } from '../util/config';
+import { API, myJSON } from '../util/config';
 require('highcharts/modules/accessibility')(Highcharts)
 
 const NaverDataLabPage = ({ swiperRef }) => {
@@ -57,7 +57,7 @@ const NaverDataLabPage = ({ swiperRef }) => {
 
             if (!loading) {
                 // console.log('mapping : ', mapping);
-                const response = await axios.get(`${JSON}/naverDataLab_${getKey}_${timeUnit}_${cid}`);
+                const response = await axios.get(`${myJSON}/naverDataLab_${getKey}_${timeUnit}_${cid}`);
                 setTableData(response.data);
                 // console.log('response.data[11].ranks[0].keyword : ', response.data[11].ranks[0].keyword);
                 // var key0 = getKeywordNum(response.data[11].ranks[0].keyword);

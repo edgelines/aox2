@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Grid, Skeleton } from '@mui/material';
 import PbrPerChart from './PbrPerChart'
-import { JSON } from '../util/config';
+import { myJSON } from '../util/config';
 import Highcharts from 'highcharts/highstock'
 import HighchartsReact from 'highcharts-react-official'
 require('highcharts/indicators/indicators')(Highcharts)
@@ -17,10 +17,10 @@ export default function PBR({ swiperRef }) {
     const [kospiPbrPer, setKospiPbrPer] = useState();
     const [kosdaqPbrPer, setKosdaqPbrPer] = useState();
     useEffect(() => {
-        axios.get(JSON + "/index_kospi_PBR_Candle").then((response) => {
+        axios.get(myJSON + "/index_kospi_PBR_Candle").then((response) => {
             setKospiPbr(response.data.data)
         });
-        axios.get(JSON + "/index_kospi_PER_PBR").then((response) => {
+        axios.get(myJSON + "/index_kospi_PER_PBR").then((response) => {
             var index = [], dataLength = response.data.length;
             let colors = ['red', 'peru', 'tomato', 'coral', 'wheat', 'orange', 'gold', 'yellow', 'greenyellow', 'pink', 'cyan', 'limegreen', 'deepskyblue', 'dodgerblue', 'mistyrose', 'skyblue', 'beige', 'lightsteelblue', 'lavender', 'plum', 'snow'];
 
@@ -45,7 +45,7 @@ export default function PBR({ swiperRef }) {
             });
             setKospiPbrPer(series)
         });
-        axios.get(JSON + "/index_kosdaq_PER_PBR").then((response) => {
+        axios.get(myJSON + "/index_kosdaq_PER_PBR").then((response) => {
             var index = [], dataLength = response.data.length;
             let colors = ['red', 'peru', 'tomato', 'coral', 'wheat', 'orange', 'gold', 'yellow', 'greenyellow', 'pink', 'cyan', 'limegreen', 'deepskyblue', 'dodgerblue', 'mistyrose', 'skyblue', 'beige', 'lightsteelblue', 'lavender', 'plum', 'snow', 'red', 'peru', 'wheat', 'greenyellow', 'pink', 'cyan', 'limegreen', 'tomato', 'yellow', 'lavender', 'plum', 'snow', 'beige'];
             var dataArr = Array.from({ length: dataLength }, () => []);

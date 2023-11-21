@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Box, Table } from '@mui/material';
+import { Grid } from '@mui/material';
 import axios from 'axios';
-import { API, JSON } from '../util/config';
+import { API } from '../util/config';
 
 export default function Kospi200CurrentValue({ hiddenTitle, valueFont, valueTitle }) {
     const [net, setNet] = useState(null);

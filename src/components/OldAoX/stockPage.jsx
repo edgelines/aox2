@@ -4,7 +4,7 @@ import { Grid, Box, Skeleton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 // import { useTheme, styled } from '@mui/material/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { JSON } from '../util/config';
+import { myJSON } from '../util/config';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import Highcharts from 'highcharts/highstock'
@@ -23,7 +23,7 @@ export default function OldStockPage({ swiperRef }) {
 
     const fetchData = async () => {
         await grStates.forEach((gr, i) => {
-            axios.get(`${JSON}/low_sector_Gr${i}`).then((response) => {
+            axios.get(`${myJSON}/low_sector_Gr${i}`).then((response) => {
                 var index = response.data.index;
                 var data1 = response.data.data[0];
                 var data2 = response.data.data[1];
@@ -35,24 +35,24 @@ export default function OldStockPage({ swiperRef }) {
             });
         });
 
-        await axios.get(JSON + "/low_sectors_rank_df").then((response) => {
+        await axios.get(myJSON + "/low_sectors_rank_df").then((response) => {
             var data = response.data.map((item, i) => ({ ...item, id: i }))
             setTableLeft(data)
         });
-        await axios.get(JSON + "/sectors_rank_df_4").then((response) => {
+        await axios.get(myJSON + "/sectors_rank_df_4").then((response) => {
             var data = response.data.map((item, i) => ({ ...item, id: i }))
             data = data.sort((a, b) => b.순위 - a.순위);
             setTableRight(data)
         });
-        await axios.get(JSON + "/low_sectors_rank_df_top3").then((response) => {
+        await axios.get(myJSON + "/low_sectors_rank_df_top3").then((response) => {
             var data = response.data.map((item, i) => ({ ...item, id: i }))
             setTableToday(data)
         });
-        await axios.get(JSON + "/low_sectors_rank_df_top3_b1").then((response) => {
+        await axios.get(myJSON + "/low_sectors_rank_df_top3_b1").then((response) => {
             var data = response.data.map((item, i) => ({ ...item, id: i }))
             setTableB1(data)
         });
-        await axios.get(JSON + "/low_sectors_rank_df_top3_b2").then((response) => {
+        await axios.get(myJSON + "/low_sectors_rank_df_top3_b2").then((response) => {
             var data = response.data.map((item, i) => ({ ...item, id: i }))
             setTableB2(data)
         });

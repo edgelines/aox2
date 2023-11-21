@@ -12,14 +12,18 @@ import HighchartsReact from 'highcharts-react-official'
 import HighchartsMore from 'highcharts/highcharts-more'
 import SolidGauge from "highcharts/modules/solid-gauge";
 import { parseInt } from 'lodash';
-import { API, JSON } from './util/config';
+import { API, myJSON, API_WS } from './util/config';
 HighchartsMore(Highcharts)
 SolidGauge(Highcharts)
+
+// export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200BubbleCategory, ElwWeightedAvgCheck, Exchange }) {
 export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200BubbleCategory, MarketDetail, ElwWeightedAvgCheck, Exchange }) {
     // const updateA = 'Updates-10m'
     // const updateB = 'Updates-5m'
+    let ws = null;
     const updateC = 'Update - 2m'
     const updateF = 'Start - 9:2, Update - 지수분봉'
+    // const [MarketDetail, setMarketDetail] = useState({ data: [], status: 'loading' });
     const [bubbleData, setBubbleData] = useState({});
     const [groupDataLine, setGroupDataLine] = useState({})
     const [groupData, setGroupData] = useState({})
@@ -262,7 +266,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
             };
             setTrendData(trendData);
         });
-        await axios.get(`${JSON}/kospi200GroupDayData`).then((res) => {
+        await axios.get(`${myJSON}/kospi200GroupDayData`).then((res) => {
             var Kospi200 = [], Kospi = [], Kosdaq = [], 그룹1 = [], 그룹2 = [], 그룹3 = [], 그룹4 = [], 그룹5 = [];
             res.data.forEach((value, index, array) => {
                 Kospi200.push(value.코스피200 * 100)
@@ -318,6 +322,8 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
     useEffect(() => {
         fetchData();
         setDate();
+        // connectWebsocket();
+        // return () => { if (ws) ws.close(); };
     }, [])
 
     // 60초 주기 업데이트
@@ -338,7 +344,6 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
             delay = 60 - seconds;
         }
 
-        // 9시 정각이나 그 이후의 다음 분 시작부터 1분 주기로 데이터 업데이트
         const startUpdates = () => {
             const intervalId = setInterval(() => {
                 const now = new Date();
@@ -359,18 +364,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
             startUpdates();
         }, delay * 1000);
 
-        return () => clearTimeout(timeoutId); // 컴포넌트가 unmount될 때 타이머 제거
-        // const intervalId = setInterval(() => {
-        //     const now = new Date();
-        //     const hour = now.getHours();
-        //     const dayOfWeek = now.getDay();
-
-        //     if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 8 && hour < 16) {
-        //         fetchData();
-        //     }
-
-        // }, 1000 * 60);
-        // return () => clearInterval(intervalId);
+        return () => clearTimeout(timeoutId);
     }, [])
 
     // 시계 1초마다
@@ -380,6 +374,39 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
         }, 1000);
         return () => clearInterval(timer);
     }, [])
+
+    // const connectWebsocket = () => {
+    //     if (ws) {
+    //         ws.close();
+    //         ws = null;
+    //     }
+
+    //     // ws = new WebSocket(`${API_WS}/MarketDetail`);
+    //     ws.onopen = () => {
+    //         // 연결이 열리면 필요한 경우 서버에 데이터를 보낼 수 있습니다.
+    //     };
+    //     ws.onmessage = (event) => {
+    //         try {
+    //             const response = JSON.parse(event.data);
+
+    //             console.log(response);
+    //             setMarketDetail({ data: response, status: 'succeeded' });
+
+    //         } catch (err) {
+    //             console.error(event.data)
+    //             console.log(err)
+    //         }
+    //     };
+    //     ws.onerror = (error) => {
+    //         console.log(error);
+    //         ws.close();
+    //     };
+    //     ws.onclose = () => {
+    //         ws.close();
+    //         // 연결 종료 처리
+    //     };
+    // }
+
 
     return (
         <Grid container spacing={1} >

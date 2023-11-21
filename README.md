@@ -4,6 +4,19 @@
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
 
+### 2023.11.21
+{dev-stock-dmi}
+- Commit.1
+  - stockSectorsGR.js
+    - extraReducers status 추가
+  - App.jsx
+    - 리팩토링
+
+### 2023.11.20
+{dev-stock-dmi}
+- Commit.1
+  - 웹소켓 실패
+
 ### 2023.11.16
 {dev-stock-dmi}
 - Commit.1
@@ -14,6 +27,7 @@
   - StockChart > Dmi 소수점 정리
 - Commit.4
   - Chart Tooltip distance: 55, markerConfig 수정
+
 ### 2023.11.15
 {master}
 - Commit.1

@@ -15,7 +15,7 @@ import FundarmentalPage2 from './Fundarmental/fundarmentalPage2';
 import FundarmentalPage3 from './Fundarmental/fundarmentalPage3';
 import Pbr from './Index/PBR';
 import { numberWithCommas } from './util/util';
-import { API, JSON } from './util/config';
+import { API, myJSON } from './util/config';
 
 export default function SchedulePage({ swiperRef }) {
 
@@ -64,7 +64,7 @@ export default function SchedulePage({ swiperRef }) {
     }, [])
 
     useEffect(() => {
-        axios.get(`${JSON}/scheduleWeek${page}`).then(response => {
+        axios.get(`${myJSON}/scheduleWeek${page}`).then(response => {
             const filteredEvents = response.data.map(day => {
                 const filteredDayEvents = selectedType
                     ? day.events.filter(event => event.type === selectedType)
