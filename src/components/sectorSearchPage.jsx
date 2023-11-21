@@ -19,6 +19,7 @@ import SectorChart from './SectorsPage/sectorChart';
 import TreeMap from './SectorsPage/treeMap';
 import ColumnChart from './SectorsPage/columnChart';
 import { API, myJSON, STOCK } from './util/config';
+import { SectorsName15 } from './util/util';
 
 export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, StockSectorsThemes, StockThemeByItem, StockSectorByItem, StockPrice, SearchInfo, SectorsChartData, SectorsRanksThemes, ScheduleItemEvent }) {
 
@@ -293,24 +294,24 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
         // if (SectorsChartData && Object.keys(SectorsChartData).length > 0) { // SectorsChartData 데이터가 다 불러져왔을때 실행
         // }
     }
-    const SectorsName15 = (name) => { // 업종명을 15개의 구분으로 전처리
-        if (['디스플레이장비및부품', '반도체와반도체장비', '자동차', '자동차부품', '화학'].includes(name)) return '반도체1';
-        if (['에너지장비및서비스', '전기장비', '전기제품', '전자장비와기기', '전자제품'].includes(name)) return '반도체2';
-        if (['IT서비스', '게임엔터테인먼트', '소프트웨어', '방송과엔터테인먼트', '핸드셋'].includes(name)) return 'IT1';
-        if (['컴퓨터와주변기기', '무역회사와판매업체', '무선통신서비스', '다각화된통신서비스', '디스플레이패널'].includes(name)) return 'IT2';
-        if (['복합기업', '기타금융', '손해보험', '생명보험'].includes(name)) return '보험';
-        if (['석유와가스', '가스유틸리티', '조선', '항공화물운송과물류', '해운사'].includes(name)) return '조선';
-        if (['건설', '건축자재', '건축제품', '기계', '철강'].includes(name)) return '건설1';
-        if (['운송인프라', '도로와철도운송', '비철금속', '우주항공과국방', '통신장비'].includes(name)) return '건설2';
-        if (['부동산', '상업서비스와공급품', '은행', '증권', '창업투자'].includes(name)) return '금융';
-        if (['가구', '가정용기기와용품', '인터넷과카탈로그소매', '가정용품', '판매업체'].includes(name)) return 'B2C';
-        if (['생명과학도구및서비스', '생물공학', '제약'].includes(name)) return 'BIO1';
-        if (['건강관리기술', '건강관리장비와용품', '건강관리업체및서비스'].includes(name)) return 'BIO2';
-        if (['식품', '식품과기본식료품소매', '음료', '종이와목재', '포장재'].includes(name)) return '식품';
-        if (['광고', '교육서비스', '양방향미디어와서비스', '화장품'].includes(name)) return '아웃도어1';
-        if (['레저용장비와제품', '백화점과일반상점', '섬유', '항공사', '호텔'].includes(name)) return '아웃도어2';
-        else return '없음';
-    }
+    // const SectorsName15 = (name) => { // 업종명을 15개의 구분으로 전처리
+    //     if (['디스플레이장비및부품', '반도체와반도체장비', '자동차', '자동차부품', '화학'].includes(name)) return '반도체1';
+    //     if (['에너지장비및서비스', '전기장비', '전기제품', '전자장비와기기', '전자제품'].includes(name)) return '반도체2';
+    //     if (['IT서비스', '게임엔터테인먼트', '소프트웨어', '방송과엔터테인먼트', '핸드셋'].includes(name)) return 'IT1';
+    //     if (['컴퓨터와주변기기', '무역회사와판매업체', '무선통신서비스', '다각화된통신서비스', '디스플레이패널'].includes(name)) return 'IT2';
+    //     if (['복합기업', '기타금융', '손해보험', '생명보험'].includes(name)) return '보험';
+    //     if (['석유와가스', '가스유틸리티', '조선', '항공화물운송과물류', '해운사'].includes(name)) return '조선';
+    //     if (['건설', '건축자재', '건축제품', '기계', '철강'].includes(name)) return '건설1';
+    //     if (['운송인프라', '도로와철도운송', '비철금속', '우주항공과국방', '통신장비'].includes(name)) return '건설2';
+    //     if (['부동산', '상업서비스와공급품', '은행', '증권', '창업투자'].includes(name)) return '금융';
+    //     if (['가구', '가정용기기와용품', '인터넷과카탈로그소매', '가정용품', '판매업체'].includes(name)) return 'B2C';
+    //     if (['생명과학도구및서비스', '생물공학', '제약'].includes(name)) return 'BIO1';
+    //     if (['건강관리기술', '건강관리장비와용품', '건강관리업체및서비스'].includes(name)) return 'BIO2';
+    //     if (['식품', '식품과기본식료품소매', '음료', '종이와목재', '포장재'].includes(name)) return '식품';
+    //     if (['광고', '교육서비스', '양방향미디어와서비스', '화장품'].includes(name)) return '아웃도어1';
+    //     if (['레저용장비와제품', '백화점과일반상점', '섬유', '항공사', '호텔'].includes(name)) return '아웃도어2';
+    //     else return '없음';
+    // }
     const getThemeList = async (item) => { // 검색 컴포넌트에서 상위 컴포넌트로 object 전달
         // stockThemeRankInfo : 테마명, 등락률, 순위, 전일순위
         const response = await axios.get(`${myJSON}/stockThemeRankInfo`);

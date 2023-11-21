@@ -23,7 +23,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
     let ws = null;
     const updateC = 'Update - 2m'
     const updateF = 'Start - 9:2, Update - 지수분봉'
-    const [MarketDetail, setMarketDetail] = useState({ data: [], status: 'loading' });
+    // const [MarketDetail, setMarketDetail] = useState({ data: [], status: 'loading' });
     const [bubbleData, setBubbleData] = useState({});
     const [groupDataLine, setGroupDataLine] = useState({})
     const [groupData, setGroupData] = useState({})
@@ -344,7 +344,6 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
             delay = 60 - seconds;
         }
 
-        // 9시 정각이나 그 이후의 다음 분 시작부터 1분 주기로 데이터 업데이트
         const startUpdates = () => {
             const intervalId = setInterval(() => {
                 const now = new Date();
@@ -365,18 +364,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
             startUpdates();
         }, delay * 1000);
 
-        return () => clearTimeout(timeoutId); // 컴포넌트가 unmount될 때 타이머 제거
-        // const intervalId = setInterval(() => {
-        //     const now = new Date();
-        //     const hour = now.getHours();
-        //     const dayOfWeek = now.getDay();
-
-        //     if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 8 && hour < 16) {
-        //         fetchData();
-        //     }
-
-        // }, 1000 * 60);
-        // return () => clearInterval(intervalId);
+        return () => clearTimeout(timeoutId);
     }, [])
 
     // 시계 1초마다

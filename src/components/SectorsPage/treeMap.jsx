@@ -90,25 +90,14 @@ const Treemap = ({ sectorsRanksThemes, backgroundColor, sliderColor, fontColor, 
                 },
             ],
         })
-
-        // if (chartRef.current) {
-
-
-        //     Highcharts.chart(chartRef.current, {
-
-
-        //     });
-        // }
     }, [sectorsRanksThemes, barValue]);
 
     return (
         <Grid container>
             <Grid item xs={11}>
-                {/* <div ref={chartRef} /> */}
                 <HighchartsReact
                     highcharts={Highcharts}
                     options={chartOptions}
-                // constructorType={'stockChart'}
                 />
             </Grid>
             <Grid item xs={1}>

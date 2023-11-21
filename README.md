@@ -4,6 +4,14 @@
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
 
+### 2023.11.21
+{dev-stock-dmi}
+- Commit.1
+  - stockSectorsGR.js
+    - extraReducers status 추가
+  - App.jsx
+    - 리팩토링
+
 ### 2023.11.20
 {dev-stock-dmi}
 - Commit.1

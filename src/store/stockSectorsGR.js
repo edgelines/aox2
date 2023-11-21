@@ -17,9 +17,20 @@ export const getStockSectorsGR = createAsyncThunk("GET/STOCKSECTORSGR", async ()
 
 export const StockSectorsGR = createSlice({
     name: "StockSectorsGR",
-    initialState: [],
+    initialState: { data: [], status: 'idle', error: null },
     reducers: {},
     extraReducers: {
-        [getStockSectorsGR.fulfilled]: (state, { payload }) => [...payload],
+        [getStockSectorsGR.fulfilled]: (state, { payload }) => {
+            state.data = payload; // payload로 배열 데이터를 업데이트
+            state.status = 'succeeded'; // 상태를 성공으로 변경
+        },
+        [getStockSectorsGR.pending]: (state) => {
+            state.status = 'loading'; // 로딩 상태 설정
+        },
+        [getStockSectorsGR.rejected]: (state, action) => {
+            state.status = 'failed'; // 실패 상태 설정
+            state.error = action.error.message; // 에러 메시지 저장
+        }
+        // [getStockSectorsGR.fulfilled]: (state, { payload }) => [...payload],
     },
 });
