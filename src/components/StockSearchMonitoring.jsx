@@ -49,7 +49,7 @@ export default function StockSearchMonitoringPage({ swiperRef, StockSearchTracki
         { field: '코스피200_20', headerName: 'ADR-20', width: 80, align: 'right', },
     ]
 
-
+    const text = `유보율 > 100%, 부채비율 < 500%,  500원 < 현재가 < 10만`
 
     return (
         <Grid container>
@@ -59,11 +59,16 @@ export default function StockSearchMonitoringPage({ swiperRef, StockSearchTracki
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
                     <Typography align='start' sx={{ mt: 1 }}>
-                        DMI 3,4,5 : 0 ~ 10
-
+                        DMI 3,4,5 : 3, 4, 5
+                    </Typography>
+                    <Typography align='start' sx={{ mt: 1 }}>
+                        DMI 6,7 : 0 ~ 10
+                    </Typography>
+                    <Typography align='start' sx={{ mt: 1 }}>
+                        윌리엄스 5,7,14,20,33 : -100 ~ -90
                     </Typography>
                     <Typography align='start' sx={{ mb: 3 }}>
-                        윌리엄스 5,7,14,20,33 : -100 ~ -90
+                        {text}
                     </Typography>
                     <ThemeProvider theme={customTheme}>
                         <DataGrid rows={data} rowHeight={25} columns={StockColumns}
