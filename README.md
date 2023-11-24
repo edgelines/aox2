@@ -4,6 +4,11 @@
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
 
+### 2023.11.24
+{master}
+- Commit.1
+  - StockSearchMonitoringPage, StockSearchPage 주석처리
+
 ### 2023.11.22
 {master}
 - Commit.1
