@@ -167,12 +167,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                 name: ['200', 'Kospi', 'Kosdaq']
             });
         });
-        // await axios.get(JSON + "/exchange").then((response) => {
-        //     var value = response.data[0].환율
-        //     var net = response.data[0].증감
-        //     var comparison = response.data[0].변동
-        //     setExchange({ value: value, comparison: comparison, net: net })
-        // });
+
         await axios.get(API + "/TrendData").then((res) => {
             const data = res.data
             setForeigner({
@@ -355,7 +350,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                     // 3시 30분 이후라면 인터벌 종료
                     clearInterval(intervalId);
                 }
-            }, 1000 * 60);
+            }, 1000 * 60 * 2);
             return intervalId;
         };
         // 첫 업데이트 시작
