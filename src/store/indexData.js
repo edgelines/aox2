@@ -4,36 +4,28 @@ import { API, myJSON } from '../components/util/config'
 
 // IndexMA : MA50, MA112
 export const getIndexMA = createAsyncThunk("GET/IndexMA", async () => {
-    const response = await axios.get(`${API}/IndexMA`);
-    var Kospi_MA50 = [], Kospi_MA112 = [], Kospi200_MA50 = [], Kospi200_MA112 = [], Kosdaq_MA50 = [], Kosdaq_MA112 = [];
-    response.data.forEach((value, index, array) => {
-        Kospi_MA50.push([new Date(value.날짜).getTime(), (value.코스피_위_MA50 / value.코스피_전체) * 100]);
-        Kospi_MA112.push([new Date(value.날짜).getTime(), (value.코스닥_위_MA50 / value.코스닥_전체) * 100]);
-        Kospi200_MA50.push([new Date(value.날짜).getTime(), (value.코스피200_위_MA50 / value.코스피200_전체) * 100]);
-        Kospi200_MA112.push([new Date(value.날짜).getTime(), (value.코스피_위_MA112 / value.코스피_전체) * 100]);
-        Kosdaq_MA50.push([new Date(value.날짜).getTime(), (value.코스닥_위_MA112 / value.코스닥_전체) * 100]);
-        Kosdaq_MA112.push([new Date(value.날짜).getTime(), (value.코스피200_위_MA112 / value.코스피200_전체) * 100]);
-    })
+
+    const res = await axios.get(`${API}/indexData/IndexMA`);
 
     const MA50 = [{
         name: '코스피 MA50 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-        data: Kospi_MA50, type: 'spline', color: 'tomato', yAxis: 0, zIndex: 3, lineWidth: 1
+        data: res.data.Kospi_MA50, type: 'spline', color: 'tomato', yAxis: 0, zIndex: 3, lineWidth: 1
     }, {
         name: '코스닥 MA50 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-        data: Kosdaq_MA50, type: 'spline', color: 'dodgerblue', yAxis: 0, zIndex: 3, lineWidth: 1
+        data: res.data.Kosdaq_MA50, type: 'spline', color: 'dodgerblue', yAxis: 0, zIndex: 3, lineWidth: 1
     }, {
         name: '코스피200 MA50 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-        data: Kospi200_MA50, type: 'spline', color: 'gold', yAxis: 0, zIndex: 3, lineWidth: 1
+        data: res.data.Kospi200_MA50, type: 'spline', color: 'gold', yAxis: 0, zIndex: 3, lineWidth: 1
     }]
     const MA112 = [{
         name: '코스피 MA112 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-        data: Kospi_MA112, type: 'spline', color: 'magenta', yAxis: 0, zIndex: 3, dashStyle: 'ShortDash', lineWidth: 1
+        data: res.data.Kospi_MA112, type: 'spline', color: 'magenta', yAxis: 0, zIndex: 3, dashStyle: 'ShortDash', lineWidth: 1
     }, {
         name: '코스닥 MA112 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-        data: Kosdaq_MA112, type: 'spline', color: 'greenyellow', yAxis: 0, zIndex: 3, dashStyle: 'ShortDash', lineWidth: 1
+        data: res.data.Kosdaq_MA112, type: 'spline', color: 'greenyellow', yAxis: 0, zIndex: 3, dashStyle: 'ShortDash', lineWidth: 1
     }, {
         name: '코스피200 MA112 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-        data: Kospi200_MA112, type: 'spline', color: '#efe9e9ed', yAxis: 0, zIndex: 3, dashStyle: 'ShortDash', lineWidth: 1
+        data: res.data.Kospi200_MA112, type: 'spline', color: '#efe9e9ed', yAxis: 0, zIndex: 3, dashStyle: 'ShortDash', lineWidth: 1
     }]
     return { MA50: MA50, MA112: MA112 };
 });
@@ -80,34 +72,12 @@ export const MarketKospi200 = createSlice({
 });
 
 export const getVixMA = createAsyncThunk("GET/VixMA", async () => {
-    const response = await axios.get(`${myJSON}/vix`);
-    var VIX = [], MA2 = [], MA3 = [], MA4 = [], MA5 = [], MA6 = [], MA9 = [], MA10 = [], MA12 = [], MA15 = [], MA18 = [], MA20 = [], MA25 = [], MA27 = [], MA36 = [], MA45 = [], MA60 = [], MA112 = [], MA224 = []
-    response.data.forEach((value, index, array) => {
-        VIX.push([value.Date, value.Open, value.High, value.Low, value.Close])
-        MA2.push([value.Date, value.MA2])
-        MA3.push([value.Date, value.MA3])
-        MA4.push([value.Date, value.MA4])
-        MA5.push([value.Date, value.MA5])
-        MA6.push([value.Date, value.MA6])
-        MA9.push([value.Date, value.MA9])
-        MA10.push([value.Date, value.MA10])
-        MA12.push([value.Date, value.MA12])
-        MA15.push([value.Date, value.MA15])
-        MA18.push([value.Date, value.MA18])
-        MA20.push([value.Date, value.MA20])
-        MA25.push([value.Date, value.MA25])
-        MA27.push([value.Date, value.MA27])
-        MA36.push([value.Date, value.MA36])
-        MA45.push([value.Date, value.MA45])
-        MA60.push([value.Date, value.MA60])
-        MA112.push([value.Date, value.MA112])
-        MA224.push([value.Date, value.MA224])
-    })
+    const res = await axios.get(`${API}/indexData/VixMA`);
     const lineStyle = { type: 'spline', yAxis: 0, animation: false, zIndex: 3, marker: { enabled: false, states: { hover: { enabled: false } } }, }
     const hidenStyle = { dashStyle: 'shortdash', visible: false }
     return [{
         name: 'Vix',
-        data: VIX,
+        data: res.data.VIX,
         type: 'candlestick',
         yAxis: 0,
         upLineColor: "orangered",
@@ -118,77 +88,41 @@ export const getVixMA = createAsyncThunk("GET/VixMA", async () => {
         animation: false, isCandle: true,
 
     }, {
-        ...lineStyle, ...hidenStyle,
-        name: '2D', color: '#efe9e9ed',
-        data: MA2, lineWidth: 1.5,
+        ...lineStyle, ...hidenStyle, name: '2D', color: '#efe9e9ed', data: res.data.MA2, lineWidth: 1.5,
     }, {
-        ...lineStyle,
-        name: '3D', color: 'tomato',
-        data: MA3, lineWidth: 1.5
+        ...lineStyle, name: '3D', color: 'tomato', data: res.data.MA3, lineWidth: 1.5
     }, {
-        ...lineStyle, ...hidenStyle,
-        name: '4D', color: 'coral',
-        data: MA4, lineWidth: 1.5,
+        ...lineStyle, ...hidenStyle, name: '4D', color: 'coral', data: res.data.MA4, lineWidth: 1.5,
     }, {
-        ...lineStyle,
-        name: '5D', color: 'gold',
-        data: MA5, lineWidth: 1.5
+        ...lineStyle, name: '5D', color: 'gold', data: res.data.MA5, lineWidth: 1.5
     }, {
-        ...lineStyle, ...hidenStyle,
-        name: '6D', color: 'orange',
-        data: MA6, lineWidth: 1.5,
+        ...lineStyle, ...hidenStyle, name: '6D', color: 'orange', data: res.data.MA6, lineWidth: 1.5,
     }, {
-        ...lineStyle, ...hidenStyle,
-        name: '9D', color: 'lime',
-        data: MA9, lineWidth: 1.5,
+        ...lineStyle, ...hidenStyle, name: '9D', color: 'lime', data: res.data.MA9, lineWidth: 1.5,
     }, {
-        ...lineStyle, ...hidenStyle,
-        name: '10D', color: 'greenyellow',
-        data: MA10, lineWidth: 1,
+        ...lineStyle, ...hidenStyle, name: '10D', color: 'greenyellow', data: res.data.MA10, lineWidth: 1,
     }, {
-        ...lineStyle,
-        name: '12D', color: 'mediumseagreen',
-        data: MA12, lineWidth: 1
+        ...lineStyle, name: '12D', color: 'mediumseagreen', data: res.data.MA12, lineWidth: 1
     }, {
-        ...lineStyle, ...hidenStyle,
-        name: '15D', color: 'limegreen',
-        data: MA15, lineWidth: 1,
+        ...lineStyle, ...hidenStyle, name: '15D', color: 'limegreen', data: res.data.MA15, lineWidth: 1,
     }, {
-        ...lineStyle,
-        name: '18D', color: 'skyblue',
-        data: MA18, lineWidth: 1
+        ...lineStyle, name: '18D', color: 'skyblue', data: res.data.MA18, lineWidth: 1
     }, {
-        ...lineStyle, ...hidenStyle,
-        name: '20D', color: 'cadetblue',
-        data: MA20, lineWidth: 1,
+        ...lineStyle, ...hidenStyle, name: '20D', color: 'cadetblue', data: res.data.MA20, lineWidth: 1,
     }, {
-        ...lineStyle, ...hidenStyle,
-        name: '25D', color: 'violet',
-        data: MA25, lineWidth: 1,
+        ...lineStyle, ...hidenStyle, name: '25D', color: 'violet', data: res.data.MA25, lineWidth: 1,
     }, {
-        ...lineStyle,
-        name: '27D', color: 'dodgerblue',
-        data: MA27, lineWidth: 1
+        ...lineStyle, name: '27D', color: 'dodgerblue', data: res.data.MA27, lineWidth: 1
     }, {
-        ...lineStyle,
-        name: '36D', color: 'orchid',
-        data: MA36, lineWidth: 1
+        ...lineStyle, name: '36D', color: 'orchid', data: res.data.MA36, lineWidth: 1
     }, {
-        ...lineStyle,
-        name: '45D', color: 'pink',
-        data: MA45, lineWidth: 1
+        ...lineStyle, name: '45D', color: 'pink', data: res.data.MA45, lineWidth: 1
     }, {
-        ...lineStyle,
-        name: '60D', color: 'magenta',
-        data: MA60, lineWidth: 1
+        ...lineStyle, name: '60D', color: 'magenta', data: res.data.MA60, lineWidth: 1
     }, {
-        ...lineStyle,
-        name: '112D', color: 'brown',
-        data: MA112, lineWidth: 1
+        ...lineStyle, name: '112D', color: 'brown', data: res.data.MA112, lineWidth: 1
     }, {
-        ...lineStyle,
-        name: '224D', color: '#efe9e9ed',
-        data: MA224, lineWidth: 1
+        ...lineStyle, name: '224D', color: '#efe9e9ed', data: res.data.MA224, lineWidth: 1
     }];
 });
 

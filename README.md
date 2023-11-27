@@ -4,6 +4,14 @@
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
 
+### 2023.11.27
+{dev-api}
+- Commit.1
+  - CtpPage.jsx 
+  - CallPutPage.jsx
+  - detailPage.jsx
+  - weightAvgPage3.jsx
+
 ### 2023.11.24
 {master}
 - Commit.1

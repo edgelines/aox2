@@ -74,12 +74,6 @@ export default function WeightAvgPage3({ swiperRef, ELW_monthTable, ELW_CallPutR
             setMonth2Data(month);
             setMonth1Value(CTP1)
         })
-        // await axios.get(myJSON + "/exchange").then((response) => {
-        //     var value = response.data[0].환율
-        //     var net = response.data[0].증감
-        //     var comparison = response.data[0].변동
-        //     setExchange({ value: value, comparison: comparison, net: net })
-        // });
     };
 
     const fetchData1Day = async () => {
