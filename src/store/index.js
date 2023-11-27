@@ -11,7 +11,7 @@ import { StockThemes } from "./stockThemes.js";
 import { ABC1, ABC2 } from "./AxBxC.js";
 import { StockThemeByItem, StockSectorByItem, SearchInfo, ScheduleItemEvent } from "./info.js";
 import { IndexMA, VixMA, Vix, MarketDetail, Kospi200, Kospi, Kosdaq, Invers, MarketKospi200, Exchange } from "./indexData.js";
-import { ELW_monthTable, ELW_CallPutRatio_Maturity, ElwWeightedAvg, ElwWeightedAvgCheck } from "./ELW.js";
+import { ELW_monthTable, ELW_CallPutRatio_Maturity, ElwWeightedAvg, ElwWeightedAvgCheck, ElwBarData } from "./ELW.js";
 import { StockSearch, StockSearchTracking, StockSearchTrackingStatistics } from './stockSearch.js';
 
 // const sagaMiddleware = createSagaMiddleware();
@@ -42,6 +42,7 @@ export default configureStore({
         ELW_CallPutRatio_Maturity: ELW_CallPutRatio_Maturity.reducer,
         ElwWeightedAvg: ElwWeightedAvg.reducer,
         ElwWeightedAvgCheck: ElwWeightedAvgCheck.reducer,
+        ElwBarData: ElwBarData.reducer,
 
         MarketDetail: MarketDetail.reducer,
         Kospi200: Kospi200.reducer,

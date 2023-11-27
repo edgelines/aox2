@@ -9,7 +9,7 @@ import { getStockPrice, getStockSectorsThemes } from "./store/stockPrice.js";
 import { getABC1, getABC2 } from "./store/AxBxC.js";
 import { getStockThemeByItem, getStockSectorByItem, getSearchInfo, getScheduleItemEvent } from "./store/info.js";
 import { getIndexMA, getVixMA, getVix, getMarketDetail, getKospi200, getKospi, getKosdaq, getInvers, getMarketKospi200, getExchange } from './store/indexData.js';
-import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvg, getElwWeightedAvgCheck } from './store/ELW.js';
+import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvg, getElwWeightedAvgCheck, getElwBarData } from './store/ELW.js';
 // import { getStockSearch, getStockSearchTracking, getStockSearchTrackingStatistics } from './store/stockSearch';
 // Websokect
 // import { websocketConnectWA1, websocketConnectWA2, } from './store/actions/websocketActions';
@@ -57,7 +57,8 @@ function App() {
     const ABC2 = useSelector((state) => state.ABC2);
     const ELW_monthTable = useSelector((state) => state.ELW_monthTable);
     const ELW_CallPutRatio_Maturity = useSelector((state) => state.ELW_CallPutRatio_Maturity);
-    // const ElwWeightedAvg = useSelector((state) => state.ElwWeightedAvg);
+    const ElwBarData = useSelector((state) => state.ElwBarData)
+    const ElwWeightedAvg = useSelector((state) => state.ElwWeightedAvg);
     const ElwWeightedAvgCheck = useSelector((state) => state.ElwWeightedAvgCheck);
     const MarketDetail = useSelector((state) => state.MarketDetail);
 
@@ -197,7 +198,7 @@ function App() {
     const fetchData5Min = async () => {
         await dispatch(getELW_monthTable());
         await dispatch(getELW_CallPutRatio_Maturity());
-        // await dispatch(getElwWeightedAvg());
+        await dispatch(getElwWeightedAvg());
         await dispatch(getElwWeightedAvgCheck());
         await dispatch(getIndexMA());
         await dispatch(getKospi200());
@@ -206,8 +207,9 @@ function App() {
         await dispatch(getInvers());
         await dispatch(getMarketKospi200());
         await dispatch(getExchange());
+        await dispatch(getElwBarData());
         // await dispatch(getStockSearch());
-        // await dispatch(getStockSearchTrackingStatistics())
+        // await dispatch(getStockSearchTrackingStatistics());
     }
     // 하루 주기
     const fetchData1Day = async () => {
@@ -215,7 +217,6 @@ function App() {
         await dispatch(getStockSectorByItem());
         await dispatch(getSearchInfo());
         await dispatch(getScheduleItemEvent())
-        await dispatch(getIndexMA());
         await dispatch(getVixMA());
         await dispatch(getVix());
         // await dispatch(getStockSearchTracking());
@@ -447,7 +448,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <MainPage Vix={Vix} Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop} Kospi200BubbleCategory={Kospi200BubbleCategory} MarketDetail={MarketDetail} ElwWeightedAvgCheck={ElwWeightedAvgCheck} Exchange={Exchange} />
+                    <DetailPage Vix={Vix} MarketDetail={MarketDetail} ElwBarData={ElwBarData} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -486,20 +487,14 @@ function App() {
                     <TreasuryStockPage swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
                 </SwiperSlide>
 
-                {/* <SwiperSlide style={swiperSlideStyle} >
-                    <StockSearchPage swiperRef={swiperRef} StockSearch={StockSearch} StockSearchTracking={StockSearchTracking} />
-                </SwiperSlide>
 
-                <SwiperSlide style={swiperSlideStyle} >
-                    <StockSearchMonitoringPage swiperRef={swiperRef} StockSearchTrackingStatistics={StockSearchTrackingStatistics} />
-                </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <MainPage Vix={Vix} Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop} Kospi200BubbleCategory={Kospi200BubbleCategory} MarketDetail={MarketDetail} ElwWeightedAvgCheck={ElwWeightedAvgCheck} Exchange={Exchange} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <DetailPage Vix={Vix} MarketDetail={MarketDetail} />
+                    <DetailPage Vix={Vix} MarketDetail={MarketDetail} ElwBarData={ElwBarData} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -520,7 +515,9 @@ function App() {
                     <WeightAvgPage3 swiperRef={swiperRef} ELW_monthTable={ELW_monthTable} ELW_CallPutRatio_Maturity={ELW_CallPutRatio_Maturity} ElwWeightedAvgCheck={ElwWeightedAvgCheck} Exchange={Exchange} MarketDetail={MarketDetail} />
                 </SwiperSlide>
 
-                <SwiperSlide style={swiperSlideStyle} > <CtpPage swiperRef={swiperRef} /> </SwiperSlide>
+                <SwiperSlide style={swiperSlideStyle} >
+                    <CtpPage swiperRef={swiperRef} ElwBarData={ElwBarData} ElwWeightedAvg={ElwWeightedAvg} />
+                </SwiperSlide>
             </Swiper>
         </div >
     );
@@ -531,3 +528,11 @@ export default App;
 const swiperSlideStyle = { backgroundColor: "#404040", color: '#efe9e9ed', paddingLeft: '2vh', paddingRight: '2vh', paddingTop: '0.2vh' }
 
 
+
+{/* <SwiperSlide style={swiperSlideStyle} >
+                    <StockSearchPage swiperRef={swiperRef} StockSearch={StockSearch} StockSearchTracking={StockSearchTracking} />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <StockSearchMonitoringPage swiperRef={swiperRef} StockSearchTrackingStatistics={StockSearchTrackingStatistics} />
+                </SwiperSlide> */}

@@ -131,7 +131,7 @@ export const ElwWeightedAvgCheck = createSlice({
 
 export const getElwWeightedAvg = createAsyncThunk("GET/elwWeightedAvg", async () => {
     const res = await axios.get(`${API}/elwWeightedAvg`)
-    return { data: res.data };
+    return res.data;
 });
 export const ElwWeightedAvg = createSlice({
     name: "elwWeightedAvg",
@@ -145,7 +145,10 @@ export const ElwWeightedAvg = createSlice({
         [getElwWeightedAvg.pending]: (state) => {
             state.status = 'loading';
         },
-        [getElwWeightedAvg.fulfilled]: (state, { payload }) => { state.data = payload.data; },
+        [getElwWeightedAvg.fulfilled]: (state, { payload }) => {
+            state.data = payload;
+            state.status = 'succeeded';
+        },
         [getElwWeightedAvg.rejected]: (state, action) => {
             state.status = 'failed';
             state.error = action.error.message;
@@ -154,7 +157,32 @@ export const ElwWeightedAvg = createSlice({
     },
 });
 
-
+export const getElwBarData = createAsyncThunk("GET/ElwBarData", async () => {
+    const res = await axios.get(`${API}/elwData/CTP`)
+    return res.data;
+});
+export const ElwBarData = createSlice({
+    name: "ElwBarData",
+    initialState: {
+        data: [],
+        status: 'idle',
+        error: null
+    },
+    reducers: {},
+    extraReducers: {
+        [getElwBarData.pending]: (state) => {
+            state.status = 'loading';
+        },
+        [getElwBarData.fulfilled]: (state, { payload }) => {
+            state.data = payload; // payload로 배열 데이터를 업데이트
+            state.status = 'succeeded'; // 상태를 성공으로 변경
+        },
+        [getElwBarData.rejected]: (state, action) => {
+            state.status = 'failed';
+            state.error = action.error.message;
+        }
+    },
+});
 
 
 
