@@ -257,6 +257,7 @@ function App() {
                 const dayOfWeek = now.getDay();
                 if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
                     fetchData();
+                    // fetchData5Min();
                 } else if (hour >= 16) {
                     // 3시 30분 이후라면 인터벌 종료
                     clearInterval(intervalId);
@@ -448,7 +449,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <DetailPage Vix={Vix} MarketDetail={MarketDetail} ElwBarData={ElwBarData} />
+                    <OldAoxStockPage swiperRef={swiperRef} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >

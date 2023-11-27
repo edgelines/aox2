@@ -333,14 +333,12 @@ function ImageUpdater() {
 
     useEffect(() => {
         fetchData();
-
-
     }, []);
 
     useEffect(() => {
         const world = setInterval(() => {
             fetchData();
-        }, 1000 * 60);
+        }, 1000 * 60 * 10);
 
         return () => {
             clearInterval(world);

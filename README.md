@@ -11,6 +11,9 @@
   - CallPutPage.jsx
   - detailPage.jsx
   - weightAvgPage3.jsx
+- Commit.2
+  - detailPage.jsx
+    - exNow API 변경
 
 ### 2023.11.24
 {master}
