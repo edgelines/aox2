@@ -124,17 +124,46 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail, ElwBarData })
             // };
             // setExNow_US(commitData);
             // setDataUS({ ...dataArray.reduce((obj, item, index) => ({ ...obj, [`data${index}`]: item }), {}) })
+        });
+
+        await axios.get(`${API}/elwBarData`).then((res) => {
+            var data1 = res.data.filter(item => item.월구분 === '1')
+            var data2 = res.data.filter(item => item.월구분 === '2')
+            var data3 = res.data.filter(item => item.월구분 === '3')
+            const dataFilter = (data) => {
+                var tmp1 = [], tmp2 = [], tmp3 = [], tmp4 = [], tmp5 = [], tmp6 = [], tmp7 = []
+                data.forEach((value) => {
+                    tmp1.push(parseFloat(value.콜_5일평균거래대금));
+                    tmp2.push(parseFloat(value.콜_거래대금));
+                    tmp3.push(parseFloat(value.풋_5일평균거래대금));
+                    tmp4.push(parseFloat(value.풋_거래대금));
+                    tmp5.push(parseFloat(value.행사가));
+                    tmp6.push(parseFloat(Math.abs(value.콜_거래대금)));
+                    tmp7.push(parseFloat(Math.abs(value.풋_거래대금)));
+                })
+                var title = data[0].잔존만기;
+                var sum1 = tmp6.reduce(function add(sum, currValue) { return sum + currValue; }, 0);
+                var sum2 = tmp7.reduce(function add(sum, currValue) { return sum + currValue; }, 0);
+                var 비율 = ' [ C : <span style="color:greenyellow;">' + (sum1 / (sum1 + sum2)).toFixed(2) + '</span>, P : <span style="color:greenyellow;">' + (sum2 / (sum1 + sum2)).toFixed(2) + '</span> ]';
+                var 콜범주 = 'Call ( ' + "<span style='color:greenyellow;'>" + parseInt(sum1 / 100000000).toLocaleString('ko-KR') + "</span>" + ' 억 )';
+                var 풋범주 = 'Put ( ' + "<span style='color:greenyellow;'>" + parseInt(sum2 / 100000000).toLocaleString('ko-KR') + "</span>" + ' 억 )';
+                return { title: title, 콜5일: tmp1, 콜: tmp2, 풋5일: tmp3, 풋: tmp4, 행사가: tmp5, 비율: 비율, 콜범주: 콜범주, 풋범주: 풋범주, 콜비율: (sum1 / (sum1 + sum2)).toFixed(2), 풋비율: (sum2 / (sum1 + sum2)).toFixed(2) }
+            }
+            setELW_data1(dataFilter(data1));
+            setELW_data2(dataFilter(data2));
+            setELW_data3(dataFilter(data3));
+            // console.log(dataFilter(data1));
         })
     };
 
     useEffect(() => { fetchData(); }, [])
-    useEffect(() => {
-        if (ElwBarData.data && ElwBarData.data.length > 0) {
-            setELW_data1(ElwBarData.data[0]);
-            setELW_data2(ElwBarData.data[1]);
-            setELW_data3(ElwBarData.data[2]);
-        }
-    }, [ElwBarData])
+    // useEffect(() => {
+    //     if (ElwBarData.data && ElwBarData.data.length > 0) {
+    //         setELW_data1(ElwBarData.data[0]);
+    //         setELW_data2(ElwBarData.data[1]);
+    //         setELW_data3(ElwBarData.data[2]);
+    //     }
+    // }, [ElwBarData])
     useEffect(() => {
         const now = new Date();
         const hour = now.getHours();
