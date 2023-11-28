@@ -4,6 +4,11 @@
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
 
+### 2023.11.28
+{dev-api}
+- Commit.1
+  - CtpPage, detailPage  BarData 원위치
+
 ### 2023.11.27
 {dev-api}
 - Commit.1
