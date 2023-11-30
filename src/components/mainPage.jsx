@@ -12,7 +12,7 @@ import HighchartsReact from 'highcharts-react-official'
 import HighchartsMore from 'highcharts/highcharts-more'
 import SolidGauge from "highcharts/modules/solid-gauge";
 import { parseInt } from 'lodash';
-import { API, myJSON, API_WS } from './util/config';
+import { API, myJSON, API_WS, API_FILE } from './util/config';
 HighchartsMore(Highcharts)
 SolidGauge(Highcharts)
 
@@ -136,7 +136,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
         })
 
         const uniq = "?" + new Date().getTime();
-        setGisuDayImg(`${API}/image/gisu_kospi200${uniq}`)
+        setGisuDayImg(`${API_FILE}/image/gisu_kospi200${uniq}`)
         setKospi200Img(`https://t1.daumcdn.net/finance/chart/kr/daumstock/d/mini/K2G01P.png${uniq}`)
         await axios.get(`${API}/MarketDaily`).then((response) => {
             var tmp1 = [], tmp2 = [], tmp3 = [];

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, Skeleton } from '@mui/material';
 import axios from 'axios';
-import { API } from '../util/config';
+import { API, API_FILE } from '../util/config';
 import Highcharts from 'highcharts/highstock'
 require('highcharts/modules/accessibility')(Highcharts)
 
@@ -23,7 +23,7 @@ const WeatherChart = () => {
                     data2.push({
                         y: highTemp,
                         marker: {
-                            symbol: `url(${API}/icon/rainy)`
+                            symbol: `url(${API_FILE}/icon/rainy)`
                         },
                     });
                 } else if (data.Condition.includes('눈') || data.Condition.includes('폭설')) {
@@ -31,7 +31,7 @@ const WeatherChart = () => {
                     data2.push({
                         y: highTemp,
                         marker: {
-                            symbol: `url(${API}/icon/snow)`
+                            symbol: `url(${API_FILE}/icon/snow)`
                         },
                     });
                 } else {

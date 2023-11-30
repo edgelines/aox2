@@ -5,7 +5,7 @@ import IndexChart from '../util/IndexChart.jsx';
 import CoreChart from '../util/CoreChart.jsx';
 import { StyledToggleButton } from '../util/util.jsx'
 import MarketCurrentValue from '../Index/marketCurrentValue.jsx'
-import { API, myJSON } from '../util/config.jsx';
+import { API, myJSON, API_FILE } from '../util/config.jsx';
 export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi, Kosdaq, Invers, IndexMA, MarketDetail }) {
     const [ElwPutCallRatioData, setElwPutCallRatioData] = useState(null);
     const [dayGr, setDayGr] = useState({ series: null, categories: null });
@@ -20,7 +20,7 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
     const updateE = 'Update - 1Day'
 
     const fetchData = async () => {
-        await axios.get(`${API}/elwData/DayGr`).then((response) => {
+        await axios.get(`${API_FILE}/elwData/DayGr`).then((response) => {
             setDayGr({
                 series: [{
                     name: 'Call 잔존 : ' + response.data.call1,
@@ -43,7 +43,7 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
                 }], categories: response.data.Day
             })
         })
-        await axios.get(`${API}/elwData/ElwRatioData`).then((response) => {
+        await axios.get(`${API_FILE}/elwData/ElwRatioData`).then((response) => {
             setElwRatioData({
                 series: [
                     {
@@ -64,7 +64,7 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
                 categories: response.data.category
             })
         });
-        await axios.get(`${API}/elwData/ElwPutCallRatioData`).then((response) => {
+        await axios.get(`${API_FILE}/elwData/ElwPutCallRatioData`).then((response) => {
 
             setElwPutCallRatioData([{
                 name: '1-day Put/Call %',

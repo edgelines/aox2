@@ -5,7 +5,7 @@ import CoreChart from '../util/CoreChart.jsx';
 import GpoChart from './GpoChart.jsx';
 import ELW_BarChart from './BarChart.jsx';
 import MarketCurrentValue from '../Index/marketCurrentValue.jsx';
-import { API, myJSON } from '../util/config.jsx';
+import { API, myJSON, API_FILE } from '../util/config.jsx';
 
 export default function DetailPage({ swiperRef, Vix, MarketDetail, ElwBarData }) {
     // const updateA = 'Start - 9:2, Update - 지수분봉'
@@ -36,7 +36,7 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail, ElwBarData })
 
         await axios.get(myJSON + "/Kospi200_GPOchart").then((response) => { setKospi200(response.data.data); });
 
-        await axios.get(`${API}/indexData/exNow_KR`).then((res) => {
+        await axios.get(`${API_FILE}/indexData/exNow_KR`).then((res) => {
             // console.log(res.data)
             setExNow_KR(res.data);
             // await axios.get(myJSON + "/exNow_KR").then((response) => {
@@ -81,7 +81,7 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail, ElwBarData })
             // };
             // setExNow_KR(commitData);
         });
-        await axios.get(`${API}/indexData/exNow_US`).then((res) => {
+        await axios.get(`${API_FILE}/indexData/exNow_US`).then((res) => {
             setExNow_US(res.data.commitData);
             setDataUS(res.data.DataUS)
             // await axios.get(myJSON + "/exNow_US").then((response) => {

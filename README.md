@@ -4,6 +4,11 @@
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
 
+### 2023.11.30
+{dev-api}
+- Commit.1
+  - Mac Web Test
+
 ### 2023.11.28
 {dev-api}
 - Commit.1
