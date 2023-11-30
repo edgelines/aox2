@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Grid, Box, Table, TableContainer, TableBody, TableHead, Modal, Backdrop, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { API, myJSON } from '../util/config';
+import { API, myJSON, API_FILE } from '../util/config';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function TextNews({ swiperRef, handleImgClick }) {
@@ -49,7 +49,7 @@ export default function TextNews({ swiperRef, handleImgClick }) {
     const fetchData = async () => {
         await axios.get(`${myJSON}/scheduleNews`).then(response => { setNews(response.data); })
         const uniq = "?" + new Date().getTime();
-        const url = `${API}/image/finviz${uniq}`
+        const url = `${API_FILE}/image/finviz${uniq}`
         setFinvizImg(url);
         await axios.get(`${API}/WorldIndex`).then(res => {
             setWorldIndex(res.data);

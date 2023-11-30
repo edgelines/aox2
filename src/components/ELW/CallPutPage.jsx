@@ -5,7 +5,7 @@ import IndexChart from '../util/IndexChart.jsx';
 import CoreChart from '../util/CoreChart.jsx';
 import { StyledToggleButton } from '../util/util.jsx'
 import MarketCurrentValue from '../Index/marketCurrentValue.jsx'
-import { API, myJSON } from '../util/config.jsx';
+import { API, myJSON, API_FILE } from '../util/config.jsx';
 export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi, Kosdaq, Invers, IndexMA, MarketDetail }) {
     const [ElwPutCallRatioData, setElwPutCallRatioData] = useState(null);
     const [dayGr, setDayGr] = useState({ series: null, categories: null });
@@ -65,7 +65,6 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
             })
         });
         await axios.get(`${API}/elwData/ElwPutCallRatioData`).then((response) => {
-
             setElwPutCallRatioData([{
                 name: '1-day Put/Call %',
                 data: response.data.Day1, type: 'spline', color: 'tomato', yAxis: 0, animation: false, zIndex: 3, lineWidth: 1

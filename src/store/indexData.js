@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { API, myJSON } from '../components/util/config'
+import { API, myJSON, API_FILE } from '../components/util/config'
 
 // IndexMA : MA50, MA112
 export const getIndexMA = createAsyncThunk("GET/IndexMA", async () => {
@@ -72,7 +72,7 @@ export const MarketKospi200 = createSlice({
 });
 
 export const getVixMA = createAsyncThunk("GET/VixMA", async () => {
-    const res = await axios.get(`${API}/indexData/VixMA`);
+    const res = await axios.get(`${API_FILE}/indexData/VixMA`);
     const lineStyle = { type: 'spline', yAxis: 0, animation: false, zIndex: 3, marker: { enabled: false, states: { hover: { enabled: false } } }, }
     const hidenStyle = { dashStyle: 'shortdash', visible: false }
     return [{
