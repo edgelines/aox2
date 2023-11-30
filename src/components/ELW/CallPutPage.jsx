@@ -20,7 +20,7 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
     const updateE = 'Update - 1Day'
 
     const fetchData = async () => {
-        await axios.get(`${API_FILE}/elwData/DayGr`).then((response) => {
+        await axios.get(`${API}/elwData/DayGr`).then((response) => {
             setDayGr({
                 series: [{
                     name: 'Call 잔존 : ' + response.data.call1,
@@ -43,7 +43,7 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
                 }], categories: response.data.Day
             })
         })
-        await axios.get(`${API_FILE}/elwData/ElwRatioData`).then((response) => {
+        await axios.get(`${API}/elwData/ElwRatioData`).then((response) => {
             setElwRatioData({
                 series: [
                     {
@@ -64,8 +64,7 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
                 categories: response.data.category
             })
         });
-        await axios.get(`${API_FILE}/elwData/ElwPutCallRatioData`).then((response) => {
-
+        await axios.get(`${API}/elwData/ElwPutCallRatioData`).then((response) => {
             setElwPutCallRatioData([{
                 name: '1-day Put/Call %',
                 data: response.data.Day1, type: 'spline', color: 'tomato', yAxis: 0, animation: false, zIndex: 3, lineWidth: 1

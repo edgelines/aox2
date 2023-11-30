@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { API, API_FILE, myJSON } from '../components/util/config'
+import { API, myJSON, API_FILE } from '../components/util/config'
 
 // IndexMA : MA50, MA112
 export const getIndexMA = createAsyncThunk("GET/IndexMA", async () => {
 
-    const res = await axios.get(`${API_FILE}/indexData/IndexMA`);
+    const res = await axios.get(`${API}/indexData/IndexMA`);
 
     const MA50 = [{
         name: '코스피 MA50 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
