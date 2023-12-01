@@ -8,6 +8,9 @@
 {dev-api}
 - Commit.1
   - Gunicorn Test
+- Commit.2
+  - StockPage.jsx
+    - file => DB
 
 ### 2023.11.30
 {dev-api}

@@ -4,7 +4,7 @@ import { Grid, Box, Skeleton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 // import { useTheme, styled } from '@mui/material/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { myJSON } from '../util/config';
+import { API } from '../util/config';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import Highcharts from 'highcharts/highstock'
@@ -22,40 +22,63 @@ export default function OldStockPage({ swiperRef }) {
     const [grStates, setGrStates] = useState(Array(9).fill(''));
 
     const fetchData = async () => {
-        await grStates.forEach((gr, i) => {
-            axios.get(`${myJSON}/low_sector_Gr${i}`).then((response) => {
-                var index = response.data.index;
-                var data1 = response.data.data[0];
-                var data2 = response.data.data[1];
-                setGrStates(prevStates => {
-                    const newStates = [...prevStates];
-                    newStates[i] = { index, data1, data2 };
-                    return newStates;
-                });
-            });
+        await axios.get(`${API}/lowSectorGr`).then((res) => {
+            const newStates = res.data.map(item => {
+                const index = item.data.index
+                const data1 = item.data.data[0]
+                const data2 = item.data.data[1]
+                return { index, data1, data2 };
+            })
+            setGrStates(newStates);
+        })
+
+        // await grStates.forEach((gr, i) => {
+        //     axios.get(`${myJSON}/low_sector_Gr${i}`).then((response) => {
+        //         var index = response.data.index;
+        //         var data1 = response.data.data[0];
+        //         var data2 = response.data.data[1];
+        //         setGrStates(prevStates => {
+        //             const newStates = [...prevStates];
+        //             newStates[i] = { index, data1, data2 };
+        //             return newStates;
+        //         });
+        //     });
+        // });
+
+        await axios.get(`${API}/lowSectorsRankDf`).then((res) => {
+            setTableLeft(res.data)
+        });
+        // await axios.get(myJSON + "/low_sectors_rank_df").then((response) => {
+        //     var data = response.data.map((item, i) => ({ ...item, id: i }))
+        //     setTableLeft(data)
+        // });
+        // await axios.get(myJSON + "/sectors_rank_df_4").then((response) => {
+        //     var data = response.data.map((item, i) => ({ ...item, id: i }))
+        //     data = data.sort((a, b) => b.순위 - a.순위);
+        //     setTableRight(data)
+        // });
+        await axios.get(`${API}/sectorsRankDf4`).then((res) => {
+            setTableRight(res.data);
         });
 
-        await axios.get(myJSON + "/low_sectors_rank_df").then((response) => {
-            var data = response.data.map((item, i) => ({ ...item, id: i }))
-            setTableLeft(data)
+        await axios.get(`${API}/theme/lowSectorsRankDfTop3`).then((res) => {
+            setTableB2(res.data[0].data)
+            setTableB1(res.data[1].data)
+            setTableToday(res.data[2].data)
         });
-        await axios.get(myJSON + "/sectors_rank_df_4").then((response) => {
-            var data = response.data.map((item, i) => ({ ...item, id: i }))
-            data = data.sort((a, b) => b.순위 - a.순위);
-            setTableRight(data)
-        });
-        await axios.get(myJSON + "/low_sectors_rank_df_top3").then((response) => {
-            var data = response.data.map((item, i) => ({ ...item, id: i }))
-            setTableToday(data)
-        });
-        await axios.get(myJSON + "/low_sectors_rank_df_top3_b1").then((response) => {
-            var data = response.data.map((item, i) => ({ ...item, id: i }))
-            setTableB1(data)
-        });
-        await axios.get(myJSON + "/low_sectors_rank_df_top3_b2").then((response) => {
-            var data = response.data.map((item, i) => ({ ...item, id: i }))
-            setTableB2(data)
-        });
+
+        // await axios.get(myJSON + "/low_sectors_rank_df_top3").then((response) => {
+        //     var data = response.data.map((item, i) => ({ ...item, id: i }))
+        //     setTableToday(data)
+        // });
+        // await axios.get(myJSON + "/low_sectors_rank_df_top3_b1").then((response) => {
+        //     var data = response.data.map((item, i) => ({ ...item, id: i }))
+        //     setTableB1(data)
+        // });
+        // await axios.get(myJSON + "/low_sectors_rank_df_top3_b2").then((response) => {
+        //     var data = response.data.map((item, i) => ({ ...item, id: i }))
+        //     setTableB2(data)
+        // });
     }
 
     useEffect(() => {
