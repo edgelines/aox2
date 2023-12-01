@@ -455,16 +455,16 @@ function App() {
                 onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
-                <SwiperSlide style={swiperSlideStyle} >
+                {/* <SwiperSlide style={swiperSlideStyle} >
                     <SectorSearchPage
                         StockSectors={StockSectors} swiperRef={swiperRef} ABC1={ABC1} ABC2={ABC2}
                         StockSectorsThemes={StockSectorsThemes} StockThemeByItem={StockThemeByItem} StockSectorByItem={StockSectorByItem}
                         StockPrice={StockPrice} SearchInfo={SearchInfo}
                         SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
                     />
-                </SwiperSlide>
+                </SwiperSlide> */}
 
-                {/* <SwiperSlide style={swiperSlideStyle} >
+                <SwiperSlide style={swiperSlideStyle} >
                     <SchedulePage swiperRef={swiperRef} />
                 </SwiperSlide>
 
@@ -530,7 +530,7 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <CtpPage swiperRef={swiperRef} ElwBarData={ElwBarData} ElwWeightedAvg={ElwWeightedAvg} />
-                </SwiperSlide> */}
+                </SwiperSlide>
             </Swiper>
         </div >
     );
