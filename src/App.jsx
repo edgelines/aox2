@@ -449,9 +449,13 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <CallPutPage swiperRef={swiperRef} Vix={Vix} VixMA={VixMA} IndexMA={IndexMA} Kospi200={Kospi200} Kospi={Kospi} Kosdaq={Kosdaq} Invers={Invers} MarketKospi200={MarketKospi200} MarketDetail={MarketDetail} />
+                    <SectorSearchPage
+                        StockSectors={StockSectors} swiperRef={swiperRef} ABC1={ABC1} ABC2={ABC2}
+                        StockSectorsThemes={StockSectorsThemes} StockThemeByItem={StockThemeByItem} StockSectorByItem={StockSectorByItem}
+                        StockPrice={StockPrice} SearchInfo={SearchInfo}
+                        SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
+                    />
                 </SwiperSlide> */}
-
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <SchedulePage swiperRef={swiperRef} />
