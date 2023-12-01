@@ -6,7 +6,7 @@ import { getStockSectorsGR } from "./store/stockSectorsGR.js";
 import { getStockSectors, getKospi200BubbleCategoryGruop, getKospi200BubbleCategory } from "./store/stockSectors.js";
 import { getStockThemes } from "./store/stockThemes.js";
 import { getStockPrice, getStockSectorsThemes } from "./store/stockPrice.js";
-import { getABC1, getABC2 } from "./store/AxBxC.js";
+import { getABC } from "./store/AxBxC.js";
 import { getStockThemeByItem, getStockSectorByItem, getSearchInfo, getScheduleItemEvent } from "./store/info.js";
 import { getIndexMA, getVixMA, getVix, getMarketDetail, getKospi200, getKospi, getKosdaq, getInvers, getMarketKospi200, getExchange } from './store/indexData.js';
 import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvg, getElwWeightedAvgCheck, getElwBarData } from './store/ELW.js';
@@ -38,6 +38,8 @@ import { Mousewheel, Pagination } from "swiper/modules";
 
 function App() {
     const [SectorsChartData, setSectorsChartData] = useState([]);
+    const [ABC1, setABC1] = useState([]);
+    const [ABC2, setABC2] = useState([]);
 
     const dispatch = useDispatch();
     const StockSectorsGR = useSelector((state) => state.StockSectorsGR);
@@ -53,8 +55,9 @@ function App() {
     // const StockSearchTracking = useSelector((state) => state.StockSearchTracking)
     // const StockSearchTrackingStatistics = useSelector((state) => state.StockSearchTrackingStatistics)
     const SearchInfo = useSelector((state) => state.SearchInfo);
-    const ABC1 = useSelector((state) => state.ABC1);
-    const ABC2 = useSelector((state) => state.ABC2);
+    const ABC = useSelector((state) => state.ABC)
+    // const ABC1 = useSelector((state) => state.ABC1);
+    // const ABC2 = useSelector((state) => state.ABC2);
     const ELW_monthTable = useSelector((state) => state.ELW_monthTable);
     const ELW_CallPutRatio_Maturity = useSelector((state) => state.ELW_CallPutRatio_Maturity);
     const ElwBarData = useSelector((state) => state.ElwBarData)
@@ -191,8 +194,7 @@ function App() {
         await dispatch(getStockPrice());
         await dispatch(getStockSectorsThemes());
         await dispatch(getStockThemes());
-        await dispatch(getABC1());
-        await dispatch(getABC2());
+        await dispatch(getABC());
     }
     // 5분 주기 ( Index Data )
     const fetchData5Min = async () => {
@@ -434,7 +436,12 @@ function App() {
         }
     };
 
-
+    useEffect(() => {
+        if (ABC.status === 'succeeded') {
+            setABC1(ABC.data1.data)
+            setABC2(ABC.data2.data)
+        }
+    }, [ABC])
 
     return (
         <div className="App">
@@ -448,16 +455,16 @@ function App() {
                 onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
-                {/* <SwiperSlide style={swiperSlideStyle} >
+                <SwiperSlide style={swiperSlideStyle} >
                     <SectorSearchPage
                         StockSectors={StockSectors} swiperRef={swiperRef} ABC1={ABC1} ABC2={ABC2}
                         StockSectorsThemes={StockSectorsThemes} StockThemeByItem={StockThemeByItem} StockSectorByItem={StockSectorByItem}
                         StockPrice={StockPrice} SearchInfo={SearchInfo}
                         SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
                     />
-                </SwiperSlide> */}
+                </SwiperSlide>
 
-                <SwiperSlide style={swiperSlideStyle} >
+                {/* <SwiperSlide style={swiperSlideStyle} >
                     <SchedulePage swiperRef={swiperRef} />
                 </SwiperSlide>
 
@@ -523,7 +530,7 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <CtpPage swiperRef={swiperRef} ElwBarData={ElwBarData} ElwWeightedAvg={ElwWeightedAvg} />
-                </SwiperSlide>
+                </SwiperSlide> */}
             </Swiper>
         </div >
     );

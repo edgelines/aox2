@@ -8,7 +8,7 @@ import { StockSectors, Kospi200BubbleCategoryGruop, Kospi200BubbleCategory } fro
 import { StockSectorsGR } from "./stockSectorsGR.js";
 import { StockPrice, StockSectorsThemes } from "./stockPrice.js";
 import { StockThemes } from "./stockThemes.js";
-import { ABC1, ABC2 } from "./AxBxC.js";
+import { ABC } from "./AxBxC.js";
 import { StockThemeByItem, StockSectorByItem, SearchInfo, ScheduleItemEvent } from "./info.js";
 import { IndexMA, VixMA, Vix, MarketDetail, Kospi200, Kospi, Kosdaq, Invers, MarketKospi200, Exchange } from "./indexData.js";
 import { ELW_monthTable, ELW_CallPutRatio_Maturity, ElwWeightedAvg, ElwWeightedAvgCheck, ElwBarData } from "./ELW.js";
@@ -25,8 +25,9 @@ export default configureStore({
         StockPrice: StockPrice.reducer,
         StockSectorsThemes: StockSectorsThemes.reducer,
         StockThemes: StockThemes.reducer,
-        ABC1: ABC1.reducer,
-        ABC2: ABC2.reducer,
+        ABC: ABC.reducer,
+        // ABC1: ABC1.reducer,
+        // ABC2: ABC2.reducer,
         StockThemeByItem: StockThemeByItem.reducer,
         StockSectorByItem: StockSectorByItem.reducer,
         StockSearch: StockSearch.reducer,
