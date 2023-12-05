@@ -60,7 +60,6 @@ const Treemap = ({ sectorsRanksThemes, backgroundColor, sliderColor, fontColor, 
             colorValue: themeObj.fluctuation, // colorValue를 fluctuation으로 설정
             stocks: themeObj.stocks,
         }));
-
         return treemapData;
     };
 

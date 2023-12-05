@@ -23,7 +23,7 @@ import { SectorsName15 } from './util/util';
 
 export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, StockSectorsThemes, StockThemeByItem, StockSectorByItem, StockPrice, SearchInfo, SectorsChartData, SectorsRanksThemes, ScheduleItemEvent }) {
 
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
     const [repeatedKeyword, setRepeatedKeyword] = useState([]);
     const [filteredData, setFilteredData] = useState(StockPrice);
 
@@ -68,12 +68,17 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
     // Function
     // 테마에 연결된 종목들을 찾는 함수
     // 해당 키워드를 찾지 못한다면 빈 배열로 반환
-    const findItemsByTheme = (theme) => { return StockThemeByItem[0][theme] || []; }; // { 테마명 : [1,2,3,4,5]}
+    const findItemsByTheme = (theme) => {
+        if (StockThemeByItem.status === 'succeeded') {
+            const data = StockThemeByItem.data.find(item => item.테마명 === theme);
+            return data || [];
+        }
+    }
     const findItemsBySector = (Sector) => { return StockSectorByItem[0][Sector] || []; }; // {업종명 : [ㅁ,ㄴㅇ,ㄹ,] }
     // 등락률을 가져오는 함수
     const getChangeRateAndVolumn = (itemName) => {
         // 종목명이 일치하는 데이터를 찾습니다.
-        const itemData = StockSectorsThemes.find(data => data.종목명 === itemName);
+        const itemData = StockSectorsThemes.find(data => data.종목명 === itemName.종목명);
         // 데이터가 존재하면 등락률을 반환하고, 그렇지 않으면 0을 반환합니다.
         return itemData ? { changeRate: itemData.등락률, volume: itemData.전일대비거래량, 업종명: itemData.업종명, 종목코드: itemData.종목코드 } : { changeRate: 0, volume: 0, 업종명: '없음', 종목코드: null };
     };
@@ -328,13 +333,13 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
     // 가장 높은 등락률을 가진 종목들을 찾는 함수
     const findHighestChangeRateItems = (theme) => {
         // 해당 테마에 연결된 모든 종목들을 찾음
-        const items = findItemsByTheme(theme);
+        const items = findItemsByTheme(theme.theme);
         // 각 종목의 등락률과 전일대비거래량을 가져옴
-        const itemsWithRate = items.map(item => {
+
+        const itemsWithRate = items.data.map(item => {
             const { changeRate, volume, 업종명, 종목코드 } = getChangeRateAndVolumn(item);
             return { item, changeRate, volume, 업종명, 종목코드 };
         });
-
         // 등락률에 따라 내림차순으로 정렬
         const sortedItems = itemsWithRate.sort((a, b) => b.changeRate - a.changeRate);
 
@@ -375,44 +380,17 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
         setFilteredStockTable(result);
         // setHighchartRef(result);
     }
+
+    // 업종TOP10 
+    const 업종TOP10 = async () => {
+        const res = await axios.get(`${API}/themeTop10/Industry`);
+        setSectorsThemes(res.data)
+    }
+    // 종목TOP10
+
     useEffect(() => {
-        // 전일대비 0% 이상인 업종list
-        const sectorsList = StockSectors.filter((row) => row['전일대비'] > 0).map((row) => row['업종명']); // ['항공화물운송과물류', '식품과기본식료품소매', '건강관리기술', '조선', '운송인프라']
-        // 전일대비 0% 이상인 업종에 해당하는 데이터만 추출
-        const sectorsData = StockSectorsThemes.filter((row) => sectorsList.includes(row['업종명']));
-        const sectorsThemeTop10 = findThemeCount(sectorsData);
+        업종TOP10()
 
-        if (StockThemeByItem && Object.keys(StockThemeByItem).length > 0) { // StockThemeByItem 데이터가 다 불러져왔을때 실행
-            // 상위 10개 테마에 대해 가장 높은 등락률을 가진 종목들을 찾음
-            const result = sectorsThemeTop10.map(themeInfo => ({
-                theme: themeInfo.theme,
-                items: findHighestChangeRateItems(themeInfo.theme),
-                count: themeInfo.count,
-            }));
-            setSectorsThemes(result)
-        }
-
-        // 데이터 로드가 완료되면 loading 상태를 false로 설정
-        setLoading(false);
-
-        if (!loading) {
-            // 각각에 대해 중복 키워드 검색
-            let keywordCounts = {};
-            // 각 배열에 대해 순회를 시작
-            [ABC1, ABC2, topThemes, sectorsThemeTop10].forEach(arr => {
-                arr.forEach(item => {
-                    // 'theme' 또는 '테마' 키워드를 사용
-                    let keyword = item.theme || item.테마명;
-                    // 키워드가 keywordCounts에 이미 존재하면 값을 증가시키고, 그렇지 않으면 1로 설정
-                    keywordCounts[keyword] = (keywordCounts[keyword] || 0) + 1;
-                });
-            });
-            // console.log(keywordCounts) => {2차전지: 1}, {2019 하반기 상장: 2}, {2020 상반기 상장: 1}, {GTX: 3}, {건설 중소형: 4}
-
-            // 2번 이상 등장한 키워드만 선택.
-            let repeatedKeywords = Object.keys(keywordCounts).filter(keyword => keywordCounts[keyword] >= 2);
-            setRepeatedKeyword(repeatedKeywords)
-        }
         // 첫 랜더링시 StockPrice불러오는 시간차이 때문에 빈 배열만 불러옴. => StockPrice를 불러오고, 무한루프에 빠지지 않게 조건문을 넣음.
         if (StockPrice && StockPrice.length > 0) {
             const newVolumeMin = Math.min(...StockPrice.map((row) => row['거래량평균%']));
@@ -439,9 +417,10 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
         // 상위 10개 테마에 대해 가장 높은 등락률을 가진 종목들을 찾음
         const result = ABCtop10Themes.map(themeInfo => ({
             theme: themeInfo.theme,
-            items: findHighestChangeRateItems(themeInfo.theme),
+            items: findHighestChangeRateItems(themeInfo),
             count: themeInfo.count,
         }));
+
         setTopThemes(result);
 
         if (filteredStockTable && filteredStockTable.length > 0) {
@@ -453,6 +432,26 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                 setFilteredStockTable(filteredCheckName.name);
             }
         }
+
+        if (Array.isArray(ABC1) && Array.isArray(ABC2) && Array.isArray(topThemes) && Array.isArray(sectorsThemes)) {
+            // 각각에 대해 중복 키워드 검색
+            let keywordCounts = {};
+            // 각 배열에 대해 순회를 시작
+            [ABC1, ABC2, topThemes, sectorsThemes].forEach(arr => {
+                arr.forEach(item => {
+                    // 'theme' 또는 '테마' 키워드를 사용
+                    let keyword = item.theme || item.테마명;
+                    // 키워드가 keywordCounts에 이미 존재하면 값을 증가시키고, 그렇지 않으면 1로 설정
+                    keywordCounts[keyword] = (keywordCounts[keyword] || 0) + 1;
+                });
+            });
+            // console.log(keywordCounts) => {2차전지: 1}, {2019 하반기 상장: 2}, {2020 상반기 상장: 1}, {GTX: 3}, {건설 중소형: 4}
+
+            // 2번 이상 등장한 키워드만 선택.
+            let repeatedKeywords = Object.keys(keywordCounts).filter(keyword => keywordCounts[keyword] >= 2);
+            setRepeatedKeyword(repeatedKeywords)
+        }
+
     }, [StockSectors, ABC1, ABC2, StockSectorsThemes, volumeRange, StockPrice, reserveRatio, ratioRange, volumeMax, volumeMin, marketCap, volumeAvg]);
 
     const onSelectedStockName = (stockName) => {
@@ -492,7 +491,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                 return (
                     <Box sx={{ position: 'relative', mt: -2 }}>
                         <Box sx={{ position: 'absolute', zIndex: 1, marginLeft: 0.5 }}>
-                            {params.value} %
+                            {params.value.toFixed(2)} %
                         </Box>
                         <Box sx={{ position: 'absolute', zIndex: 0, width: 80, mt: -0.6, marginLeft: -0.5 }}>
                             {progress}
@@ -589,7 +588,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                 return (
                     <Box sx={{ position: 'relative', mt: -2 }}>
                         <Box sx={{ position: 'absolute', zIndex: 1, marginLeft: 0.5 }}>
-                            {params.value.toLocaleString('kr')} %
+                            {(parseInt(params.value)).toLocaleString('kr')} %
                         </Box>
                         <Box sx={{ position: 'absolute', zIndex: 0, width: 60, mt: -0.6, marginLeft: -0.5 }}>
                             {progress}
@@ -627,11 +626,9 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                                 if (params.field === '업종명') {
                                     findSectorsByItem(params.value);
                                     setFilteredCheckName({ key: '업종', name: params.value })
-                                    axios.get(`${myJSON}/stockSectorByThemes`).then(response => {
-                                        const itemData = response.data.find(data => data.업종명 === params.value);
-                                        getThemeList({ 테마명: [...new Set(itemData.테마명)] })
+                                    axios.get(`${API}/info/Search/IndustryThemes?IndustryName=${params.value}`).then(response => {
+                                        getThemeList({ 테마명: [...new Set(response.data[0].테마명)] })
                                     });
-                                    // sectorSelected({ 업종명: params.value });
                                 }
                             }}
                             getCellClassName={(params) => {
@@ -666,10 +663,13 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                                 if (params.field === '업종명') {
                                     findSectorsByItem(params.value);
                                     setFilteredCheckName({ key: '업종', name: params.value })
-                                    axios.get(`${myJSON}/stockSectorByThemes`).then(response => {
-                                        const itemData = response.data.find(data => data.업종명 === params.value);
-                                        getThemeList({ 테마명: [...new Set(itemData.테마명)] })
+                                    axios.get(`${API}/info/Search/IndustryThemes?IndustryName=${params.value}`).then(response => {
+                                        getThemeList({ 테마명: [...new Set(response.data[0].테마명)] })
                                     });
+                                    // axios.get(`${myJSON}/stockSectorByThemes`).then(response => {
+                                    //     const itemData = response.data.find(data => data.업종명 === params.value);
+                                    //     getThemeList({ 테마명: [...new Set(itemData.테마명)] })
+                                    // });
                                 }
                             }}
                             sx={DataTableStyleDefault} />
@@ -699,18 +699,18 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                                                     <>
                                                         <td style={tableStyles.itemName}
                                                             onClick={() => { stockItemSelected({ 종목코드: firstItem.종목코드, 종목명: firstItem.item, 업종명: firstItem.업종명 }); }}
-                                                        >{firstItem.item.slice(0, 6)}</td>
-                                                        <td style={tableStyles.itemChangeRate} >{firstItem.changeRate.toFixed(2)}</td>
-                                                        <td style={tableStyles.itemVolume} >{parseInt(firstItem.volume * 100).toLocaleString('kr')}</td>
+                                                        >{firstItem.종목명.slice(0, 6)}</td>
+                                                        <td style={tableStyles.itemChangeRate} >{firstItem.등락률.toFixed(2)}</td>
+                                                        <td style={tableStyles.itemVolume} >{parseInt(firstItem.전일대비거래량 * 100).toLocaleString('kr')}</td>
                                                     </>
                                                 )}
                                                 {secondItem && (
                                                     <>
                                                         <td style={tableStyles.itemName}
                                                             onClick={() => { stockItemSelected({ 종목코드: secondItem.종목코드, 종목명: secondItem.item, 업종명: secondItem.업종명 }); }}
-                                                        >{secondItem.item.slice(0, 6)}</td>
-                                                        <td style={tableStyles.itemChangeRate} >{secondItem.changeRate.toFixed(2)}</td>
-                                                        <td style={tableStyles.itemVolume} >{parseInt(secondItem.volume * 100).toLocaleString('kr')}</td>
+                                                        >{secondItem.종목명.slice(0, 6)}</td>
+                                                        <td style={tableStyles.itemChangeRate} >{secondItem.등락률.toFixed(2)}</td>
+                                                        <td style={tableStyles.itemVolume} >{parseInt(secondItem.전일대비거래량 * 100).toLocaleString('kr')}</td>
                                                     </>
                                                 )}
                                             </tr>
@@ -728,7 +728,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                         <SortItemTitle>종목 Top 10</SortItemTitle>
                         <table style={{ width: '100%' }}>
                             <tbody>
-                                {topThemes
+                                {Array.isArray(topThemes)
                                     ? topThemes.map((item, index) => (
                                         <tr key={index}>
                                             <td style={tableStyles.themeCount}>{item.count}</td>
@@ -736,13 +736,13 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                                                 onClick={() => { findThemeByItem(item.theme); setFilteredCheckName({ key: '테마', name: item.theme }) }}
                                             >{item.theme.slice(0, 6)}</td>
                                             <td style={tableStyles.itemName}
-                                                onClick={() => { stockItemSelected({ 종목코드: item.items[0].종목코드, 종목명: item.items[0].item, 업종명: item.items[0].업종명 }); }}
-                                            >{item.items[0].item.slice(0, 6)}</td>
+                                                onClick={() => { stockItemSelected({ 종목코드: item.items[0].종목코드, 종목명: item.items[0].item.종목명, 업종명: item.items[0].업종명 }); }}
+                                            >{item.items[0].item.종목명.slice(0, 6)}</td>
                                             <td style={tableStyles.itemChangeRate} >{item.items[0].changeRate.toFixed(2)}</td>
                                             <td style={tableStyles.itemVolume} >{parseInt(item.items[0].volume * 100).toLocaleString('kr')}</td>
                                             <td style={tableStyles.itemName}
-                                                onClick={() => { stockItemSelected({ 종목코드: item.items[1].종목코드, 종목명: item.items[1].item, 업종명: item.items[1].업종명 }); }}
-                                            >{item.items[1].item.slice(0, 6)}</td>
+                                                onClick={() => { stockItemSelected({ 종목코드: item.items[1].종목코드, 종목명: item.items[1].item.종목명, 업종명: item.items[1].업종명 }); }}
+                                            >{item.items[1].item.종목명.slice(0, 6)}</td>
                                             <td style={tableStyles.itemChangeRate} >{item.items[1].changeRate.toFixed(2)}</td>
                                             <td style={tableStyles.itemVolume} >{parseInt(item.items[1].volume * 100).toLocaleString('kr')}</td>
                                         </tr>
@@ -845,19 +845,16 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                                             if (params.field === '종목명') {
                                                 stockItemSelected({ 종목코드: params.row.티커, 종목명: params.value, 업종명: params.row.업종명 });
                                                 setStockName(params.value)
-                                                axios.get(`${myJSON}/stockItemByTheme`).then(response => {
-                                                    const itemData = response.data.find(data => data.종목명 === params.value);
-                                                    getThemeList({ 테마명: [...new Set(itemData.테마명)] })
-                                                });
+                                                const itemData = StockSectorsThemes.find(data => data.종목명 === params.value)
+                                                getThemeList({ 테마명: [...new Set(itemData.테마명)] })
                                             }
                                             if (params.field === '업종명') {
                                                 findSectorsByItem(params.value);
                                                 setFilteredCheckName({ key: '업종', name: params.value })
-                                                axios.get(`${myJSON}/stockSectorByThemes`).then(response => {
-                                                    const itemData = response.data.find(data => data.업종명 === params.value);
-                                                    getThemeList({ 테마명: [...new Set(itemData.테마명)] })
+                                                axios.get(`${API}/info/Search/IndustryThemes?IndustryName=${params.value}`).then(response => {
+                                                    getThemeList({ 테마명: [...new Set(response.data[0].테마명)] })
                                                 });
-                                                // sectorSelected({ 업종명: params.value });
+
                                             }
                                         }}
                                         sx={DataTableStyleDefault} />
@@ -900,6 +897,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                         <Virtualize SearchInfo={SearchInfo} getThemeList={getThemeList} stockName={stockName}
                             onGetComponentEvent={handleGetComponentEvent}
                             onSelectedStockName={onSelectedStockName}
+                            StockSectorsThemes={StockSectorsThemes}
                         // onSectorSelected={onSectorSelected}
                         />
                     </Grid>
@@ -1272,17 +1270,19 @@ const StyledPopper = styled(Popper)({
 });
 
 
-export function Virtualize({ SearchInfo, getThemeList, stockName, onGetComponentEvent, onSelectedStockName }) {
+export function Virtualize({ SearchInfo, getThemeList, stockName, onGetComponentEvent, onSelectedStockName, StockSectorsThemes }) {
     const [value, setValue] = useState(null);
     const [selectedStockName, setSelectedStockName] = useState(stockName);
 
     useEffect(() => {
         if (selectedStockName) {
-            axios.get(`${myJSON}/stockItemByTheme`).then(response => {
-                const itemData = response.data.find(data => data.종목명 === selectedStockName);
-                // const itemData = response.data.find(data => data.종목명 === newValue.search);
-                getThemeList({ 테마명: [...new Set(itemData.테마명)] })
-            });
+            const itemData = StockSectorsThemes.find(data => data.종목명 === selectedStockName);
+            getThemeList({ 테마명: [...new Set(itemData.테마명)] })
+            // axios.get(`${API}/abc/stockItemByTheme`).then(response => {
+            //     const itemData = response.data.find(data => data.종목명 === selectedStockName);
+            //     // const itemData = response.data.find(data => data.종목명 === newValue.search);
+            //     getThemeList({ 테마명: [...new Set(itemData.테마명)] })
+            // });
         }
     }, [selectedStockName])
 

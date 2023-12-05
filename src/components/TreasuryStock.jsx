@@ -31,7 +31,7 @@ export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
         const stock = await axios.get(`${API}/StockPriceDailyList`);
         const stockData = stock.data;
         const res = await axios.get(`${API}/TreasuryStock`);
-        const stockInfo = (await axios.get(`${myJSON}/StockYesterDayInfo`)).data;
+        const stockInfo = (await axios.get(`${myJSON}/StockYesterDayInfo`)).data; // 마감코드에서 저장함
         const data = res.data.map((item, index) => {
             const matchedStock = stockData.find(data => data.종목코드 === item.종목코드);
             const matchedStockInfo = stockInfo.find(data => data.티커 === item.종목코드);

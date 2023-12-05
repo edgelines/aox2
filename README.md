@@ -4,6 +4,15 @@
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
 
+### 2023.12.04 ~ 2023.12.05
+{dev-api}
+- Commit.1
+  - API 변경
+    - stockSector, ipo, TextNews, Vix
+  - sectorSearchPage.jsx 
+    - 업종/전일대비 Table 업종 클릭시 테마 반환 API 
+    - 업종 Top 10 완성
+
 ### 2023.12.01
 {dev-api}
 - Commit.1
@@ -13,6 +22,13 @@
     - file => DB
 - Commit.3
   - App.jsx : ABC 
+- Commit.4
+  - file => DB
+    - exchange
+    - stockItemByTheme
+    - stockSectorsThemes
+    - stockThemeRankInfo
+  - info.js => 업종정보 / 테마정보 json => DB (진행중 sectorSearchPage.jsx에서 크게 바꿔야함)
 
 ### 2023.11.30
 {dev-api}
