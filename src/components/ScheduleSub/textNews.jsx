@@ -51,7 +51,7 @@ export default function TextNews({ swiperRef, handleImgClick }) {
         const uniq = "?" + new Date().getTime();
         const url = `${API_FILE}/image/finviz${uniq}`
         setFinvizImg(url);
-        await axios.get(`${API}/WorldIndex`).then(res => {
+        await axios.get(`${API}/indices/WorldIndex`).then(res => {
             setWorldIndex(res.data);
         })
 

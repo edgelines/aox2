@@ -19,7 +19,15 @@ export default function Chart({ data = [], height, name, hidenLegend, rangeSelec
         },
         chart: { animation: false, height: height, backgroundColor: 'rgba(255, 255, 255, 0)', },
         credits: credit ? { enabled: true, text: credit, style: { fontSize: '0.8em' }, position: { verticalAlign: "top", x: creditsPositionX ? creditsPositionX : -12, y: creditsPositionY ? creditsPositionY : 40, align: 'right' } } : { enabled: false }, title: { text: null },
-        xAxis: { type: xAxisType ? xAxisType : 'datetime', labels: { style: { color: '#efe9e9ed', fontSize: '11px' }, format: "{value:%y-%m-%d}", }, tickInterval: false, lineColor: '#efe9e9ed', gridLineWidth: 0, tickWidth: 1, tickColor: '#cfcfcf', tickPosition: 'inside', },
+        xAxis: {
+            type: xAxisType ? xAxisType : 'datetime', labels: {
+                style: { color: '#efe9e9ed', fontSize: '11px' },
+                // formatter: function () {
+                //     return Highcharts.dateFormat('%y-%m-%d', this.value);
+                // }
+                format: "{value:%y-%m-%d}",
+            }, tickInterval: false, lineColor: '#efe9e9ed', gridLineWidth: 0, tickWidth: 1, tickColor: '#cfcfcf', tickPosition: 'inside',
+        },
         navigation: { buttonOptions: { enabled: false }, },
         navigator: {
             height: 15, margin: 12,

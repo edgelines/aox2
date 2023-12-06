@@ -186,7 +186,7 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
                             <MarketCurrentValue MarketDetail={MarketDetail} />
                         </Box>
 
-                        <IndexChart data={VixMA} height={580} name={'VixMA'} rangeSelector={0} credit={updateE} />
+                        <IndexChart data={VixMA} height={580} name={'VixMA'} rangeSelector={0} credit={updateE} xAxisType={'timestamp'} />
 
                     </Grid>
                     <Grid item xs={0.4}>

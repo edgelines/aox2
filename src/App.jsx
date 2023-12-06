@@ -458,7 +458,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <TreasuryStockPage swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
+                    <WeightAvgPage3 swiperRef={swiperRef} ELW_monthTable={ELW_monthTable} ELW_CallPutRatio_Maturity={ELW_CallPutRatio_Maturity} ElwWeightedAvgCheck={ElwWeightedAvgCheck} Exchange={Exchange} MarketDetail={MarketDetail} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -495,10 +495,6 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <TreasuryStockPage swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
-                </SwiperSlide>
-
-                <SwiperSlide style={swiperSlideStyle} >
                     <MainPage Vix={Vix} Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop} Kospi200BubbleCategory={Kospi200BubbleCategory} MarketDetail={MarketDetail} ElwWeightedAvgCheck={ElwWeightedAvgCheck} Exchange={Exchange} />
                 </SwiperSlide>
 
@@ -526,6 +522,10 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <CtpPage swiperRef={swiperRef} ElwBarData={ElwBarData} ElwWeightedAvg={ElwWeightedAvg} />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <TreasuryStockPage swiperRef={swiperRef} />
                 </SwiperSlide>
             </Swiper>
         </div >

@@ -3,7 +3,7 @@
     - npm run dev: "webpack --config webpack.dev.js",
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
-- Chart DMI 제거
+- fundamental 작업중 ( weightAvgPage3. MoneyIndex만 작업됨 )
 
 ### 2023.12.06
 {dev-api}
@@ -20,6 +20,18 @@
 - Commit.5
   - exNow_US 호출 1번으로 변경
   - TreasuryStock fetchData 로직 수정
+- Commit.6
+  - exNow_US 누락 수정
+- Commit.7
+  - TreasuryStock.jsx 
+    - 맨뒤로
+    - Dmi부분 제거
+  - schedulePage.jsx, textNews.jsx
+    - WorldIndex => API변경
+  - 종목 호출시 날짜/시/고/저/종 배열로 변경
+  - CallPutPage => Vix 날짜 API 수정
+  - indexData => indices로 명칭 변경
+
 
 ### 2023.12.04 ~ 2023.12.05
 {dev-api}
