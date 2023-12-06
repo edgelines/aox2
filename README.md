@@ -10,6 +10,9 @@
   - stockThemesRank 누락 수정
 - Commit.2
   - Vix, 업종명?=> 트리맵부분
+- Commit.3
+  - stockPrice => stockSectorsThemes API 변경
+  - sectorsChartPage > 프레셋 C로 변경
 
 ### 2023.12.04 ~ 2023.12.05
 {dev-api}
