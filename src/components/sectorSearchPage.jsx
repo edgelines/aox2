@@ -261,35 +261,39 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
     };
     const stockItemSelected = (selectedStockItem) => { // 종목 클릭시
         setStockItem(selectedStockItem.종목명);
-        axios.get(`${STOCK}/${selectedStockItem.종목코드}`)
-            .then(response => {
-                const stockData = [];
-                const volumeData = [];
-                console.log(response.data);
-                response.data.forEach(item => {
-                    const date = new Date(item.날짜);
-                    const dateInMilliseconds = date.getTime();
+        axios.get(`${STOCK}/${selectedStockItem.종목코드}`).then(res => {
+            setStockItemData(res.data.stock);
+            setStockVolumeData(res.data.volume);
+        });
+        // axios.get(`${STOCK}/${selectedStockItem.종목코드}`)
+        //     .then(response => {
+        //         const stockData = [];
+        //         const volumeData = [];
+        //         console.log(response.data);
+        //         response.data.forEach(item => {
+        //             const date = new Date(item.날짜);
+        //             const dateInMilliseconds = date.getTime();
 
-                    // Candle data
-                    const stockItem = [
-                        dateInMilliseconds, // 날짜
-                        item.시가, // 시가
-                        item.고가, // 고가
-                        item.저가,  // 저가
-                        item.종가 // 종가
-                    ];
-                    stockData.push(stockItem);
+        //             // Candle data
+        //             const stockItem = [
+        //                 dateInMilliseconds, // 날짜
+        //                 item.시가, // 시가
+        //                 item.고가, // 고가
+        //                 item.저가,  // 저가
+        //                 item.종가 // 종가
+        //             ];
+        //             stockData.push(stockItem);
 
-                    // Volume data
-                    const volumeItem = [
-                        dateInMilliseconds, // 날짜
-                        item.거래량 // 거래량
-                    ];
-                    volumeData.push(volumeItem);
-                });
-                setStockItemData(stockData);
-                setStockVolumeData(volumeData);
-            });
+        //             // Volume data
+        //             const volumeItem = [
+        //                 dateInMilliseconds, // 날짜
+        //                 item.거래량 // 거래량
+        //             ];
+        //             volumeData.push(volumeItem);
+        //         });
+        //         setStockItemData(stockData);
+        //         setStockVolumeData(volumeData);
+        //     });
         sectorSelected(selectedStockItem)
     };
     const sectorSelected = (sector) => { // 업종 클릭시 

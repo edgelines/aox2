@@ -80,16 +80,11 @@ export default function WeightAvgPage3({ swiperRef, ELW_monthTable, ELW_CallPutR
         await axios.get(myJSON + "/index_kospi_PBR_Candle").then((response) => { setKospiPbr(response.data.data); });
         await axios.get(myJSON + "/index_kospi200_PBR_Candle").then((response) => { setKospi200Pbr(response.data.data); });
         await axios.get(myJSON + "/index_kosdaq_PBR_Candle").then((response) => { setKosdaqPbr(response.data.data); });
-        await axios.get(myJSON + "/MoneyIndex").then((response) => {
-            var USD = [], EUR = [], CNY = []
-            response.data.forEach((value, index, array) => {
-                USD.push([value.Date, value.Close, value.Open, value.High, value.Low])
-                EUR.push([value.Date, value['USD/EUR']])
-                CNY.push([value.Date, value['USD/CNY']])
-            })
+        await axios.get(`${API}/fundamental/moneyIndex`).then((res) => {
+
             setMoneyIndex([{
                 name: "USD/KRW (Candle)",
-                data: USD,
+                data: res.data.USD,
                 type: 'candlestick',
                 yAxis: 0,
                 lineColor: "gold",
@@ -102,7 +97,7 @@ export default function WeightAvgPage3({ swiperRef, ELW_monthTable, ELW_CallPutR
                 isCandle: true,
             }, {
                 name: "USD/EUR",
-                data: EUR,
+                data: res.data.EUR,
                 type: 'spline',
                 yAxis: 1,
                 color: "silver",
@@ -112,7 +107,7 @@ export default function WeightAvgPage3({ swiperRef, ELW_monthTable, ELW_CallPutR
                 visible: false,
             }, {
                 name: "USD/CNY",
-                data: CNY,
+                data: res.data.CNY,
                 type: 'spline',
                 color: "lime",
                 yAxis: 2,

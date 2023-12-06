@@ -5,7 +5,7 @@ import { API } from '../components/util/config'
 // IndexMA : MA50, MA112
 export const getIndexMA = createAsyncThunk("GET/IndexMA", async () => {
 
-    const res = await axios.get(`${API}/indexData/IndexMA`);
+    const res = await axios.get(`${API}/indices/IndexMA`);
 
     const MA50 = [{
         name: '코스피 MA50 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
@@ -72,9 +72,10 @@ export const MarketKospi200 = createSlice({
 });
 
 export const getVixMA = createAsyncThunk("GET/VixMA", async () => {
-    const res = await axios.get(`${API}/indexData/VixMA`);
+    const res = await axios.get(`${API}/indices/VixMA`);
     const lineStyle = { type: 'spline', yAxis: 0, animation: false, zIndex: 3, marker: { enabled: false, states: { hover: { enabled: false } } }, }
     const hidenStyle = { dashStyle: 'shortdash', visible: false }
+
     return [{
         name: 'Vix',
         data: res.data.VIX,
@@ -127,7 +128,7 @@ export const getVixMA = createAsyncThunk("GET/VixMA", async () => {
 });
 
 export const getVix = createAsyncThunk("GET/Vix", async () => {
-    const response = await axios.get(`${API}/indexData/VixMA?last=ture`);
+    const response = await axios.get(`${API}/indices/VixMA?last=ture`);
     var tmp = response.data;
     // 최근데이터가 0, 전날이 1
     var 전일대비 = tmp[0].종가 - tmp[1].종가
@@ -174,14 +175,14 @@ export const getMarketDetail = createAsyncThunk("GET/MarketDetail", async () => 
     return response.data;
 });
 export const getInvers = createAsyncThunk("GET/Invers", async () => {
-    const response = await axios.get(`${API}/Invers`);
-    var Invers = []
-    response.data.forEach((value, index, array) => {
-        Invers.push([new Date(value.날짜).getTime(), value.시가, value.고가, value.저가, value.종가]);
-    })
+    const response = await axios.get(`${API}/indices/Invers`);
+    // var Invers = []
+    // response.data.forEach((value, index, array) => {
+    //     Invers.push([new Date(value.날짜).getTime(), value.시가, value.고가, value.저가, value.종가]);
+    // })
     return [{
         name: '인버스', id: 'candlestick', isCandle: true,
-        data: Invers, type: 'candlestick', yAxis: 1, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false, isCandle: true,
+        data: response.data, type: 'candlestick', yAxis: 1, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false, isCandle: true,
     }, {
         type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: '#efe9e9ed',
@@ -264,14 +265,15 @@ export const Invers = createSlice({
     },
 });
 export const getKospi = createAsyncThunk("GET/Kospi", async () => {
-    const response = await axios.get(`${API}/Kospi`);
-    var Kospi = []
-    response.data.forEach((value, index, array) => {
-        Kospi.push([new Date(value.날짜).getTime(), value.시가, value.고가, value.저가, value.종가]);
-    })
+    const response = await axios.get(`${API}/indices/Kospi`);
+    // var Kospi = []
+    // console.log(response.data);
+    // response.data.forEach((value, index, array) => {
+    //     Kospi.push([new Date(value.날짜).getTime(), value.시가, value.고가, value.저가, value.종가]);
+    // })
     return [{
         name: '코스피', id: 'candlestick', isCandle: true,
-        data: Kospi, type: 'candlestick', yAxis: 1, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false, isCandle: true,
+        data: response.data, type: 'candlestick', yAxis: 1, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false, isCandle: true,
     }, {
         type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: '#efe9e9ed',
@@ -354,14 +356,14 @@ export const Kospi = createSlice({
     },
 });
 export const getKosdaq = createAsyncThunk("GET/Kosdaq", async () => {
-    const response = await axios.get(`${API}/Kosdaq`);
-    var Kosdaq = []
-    response.data.forEach((value, index, array) => {
-        Kosdaq.push([new Date(value.날짜).getTime(), value.시가, value.고가, value.저가, value.종가]);
-    })
+    const response = await axios.get(`${API}/indices/Kosdaq`);
+    // var Kosdaq = []
+    // response.data.forEach((value, index, array) => {
+    //     Kosdaq.push([new Date(value.날짜).getTime(), value.시가, value.고가, value.저가, value.종가]);
+    // })
     return [{
         name: '코스닥', id: 'candlestick', isCandle: true,
-        data: Kosdaq, type: 'candlestick', yAxis: 1, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false, isCandle: true,
+        data: response.data, type: 'candlestick', yAxis: 1, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false, isCandle: true,
     }, {
         type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: '#efe9e9ed',
@@ -444,14 +446,14 @@ export const Kosdaq = createSlice({
     },
 });
 export const getKospi200 = createAsyncThunk("GET/Kospi200", async () => {
-    const response = await axios.get(`${API}/Kospi200`);
-    var Kospi200 = []
-    response.data.forEach((value, index, array) => {
-        Kospi200.push([new Date(value.날짜).getTime(), value.시가, value.고가, value.저가, value.종가]);
-    })
+    const response = await axios.get(`${API}/indices/Kospi200`);
+    // var Kospi200 = []
+    // response.data.forEach((value, index, array) => {
+    //     Kospi200.push([new Date(value.날짜).getTime(), value.시가, value.고가, value.저가, value.종가]);
+    // })
     return [{
         name: '코스피200', id: 'candlestick', isCandle: true,
-        data: Kospi200, type: 'candlestick', yAxis: 1, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false, isCandle: true,
+        data: response.data, type: 'candlestick', yAxis: 1, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false, isCandle: true,
     }, {
         type: 'ema', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
         color: '#efe9e9ed',

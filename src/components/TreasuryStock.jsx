@@ -15,7 +15,7 @@ export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
     const [stockName, setStockName] = useState(null);
     const [stockItemData, setStockItemData] = useState([]);
     const [stockVolumeData, setStockVolumeData] = useState([]);
-    const [stockDmiData, setStockDmiData] = useState([]);
+    // const [stockDmiData, setStockDmiData] = useState([]);
     const [SectorsName, setSectorsName] = useState('');
     // const [SectorsChartDataSelected, setSectorsChartDataSelected] = useState([]);
     const [취득처분선택, set취득처분선택] = useState('취득');
@@ -149,15 +149,6 @@ export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
 
     // function
     // 종목 선택시
-    function processStockData(item) {
-        const dateInMilliseconds = new Date(item.날짜).getTime();
-        const stockItem = [dateInMilliseconds, item.시가, item.고가, item.저가, item.종가];
-        const volumeItem = [dateInMilliseconds, item.거래량];
-        return { stockItem, volumeItem };
-    }
-
-    function processDmiData(item) { return item === '-' ? 0 : item - 100; }
-
     const stockItemSelected = (selectedStockItem) => { // 종목 클릭시
         const 거래일dateTime = new Date(selectedStockItem.거래일).getTime();
         set거래일datetime(거래일dateTime);
@@ -165,52 +156,15 @@ export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
         set최소값(selectedStockItem.최소값)
         set평균단가(selectedStockItem.평균단가)
         setStockName(selectedStockItem.종목명);
-        axios.get(`${STOCK}/${selectedStockItem.종목코드}`)
-            .then(response => {
-                const stockData = [], volumeData = [];
-                const dmiData = { dmi3: [], dmi4: [], dmi5: [], dmi6: [], dmi7: [] };
-                response.data.forEach(item => {
-                    const { stockItem, volumeItem } = processStockData(item);
-
-                    stockData.push(stockItem);
-                    volumeData.push(volumeItem);
-
-                    Object.keys(dmiData).forEach((key, index) => {
-                        const dmiValue = processDmiData(item[`DMI_${index + 3}`], stockItem[0]);
-                        dmiData[key].push([stockItem[0], dmiValue]);
-                    });
-                });
-
-                setStockItemData(stockData);
-                setStockVolumeData(volumeData);
-                setStockDmiData(dmiData);
-                // response.data.forEach(item => {
-                //     const date = new Date(item.날짜);
-                //     const dateInMilliseconds = date.getTime();
-                //     // Candle data
-                //     const stockItem = [
-                //         dateInMilliseconds, // 날짜
-                //         item.시가, // 시가
-                //         item.고가, // 고가
-                //         item.저가,  // 저가
-                //         item.종가 // 종가
-                //     ];
-                //     stockData.push(stockItem);
-
-                //     // Volume data
-                //     const volumeItem = [
-                //         dateInMilliseconds, // 날짜
-                //         item.거래량 // 거래량
-                //     ];
-                //     volumeData.push(volumeItem);
-                // });
-                // setStockItemData(stockData);
-                // setStockVolumeData(volumeData);
-            });
+        axios.get(`${STOCK}/${selectedStockItem.종목코드}`).then(res => {
+            setStockItemData(res.data.stock);
+            setStockVolumeData(res.data.volume);
+            console.log(res.data.stock);
+        });
         sectorSelected(selectedStockItem)
     };
     const sectorSelected = (sector) => { // 업종 클릭시 
-        const name = SectorsName15(sector.업종명)
+        // const name = SectorsName15(sector.업종명)
         setSectorsName(sector.업종명);
         // if (name !== '없음') { setSectorsChartDataSelected(SectorsChartData[name]); }
     }
@@ -420,8 +374,8 @@ export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
                     </Grid>
                 </Box>
 
-                <StockChart stockItemData={stockItemData} volumeData={stockVolumeData} stockDmiData={stockDmiData} timeSeries={stockName} 거래일datetime={거래일datetime} 최대값={최대값} 최소값={최소값} 평균단가={평균단가} height={460} />
-                <StockChart stockItemData={stockItemData} volumeData={stockVolumeData} stockDmiData={stockDmiData} timeSeries={stockName} rangeSelect={4} 거래일datetime={거래일datetime} 최대값={최대값} 최소값={최소값} 평균단가={평균단가} height={460} />
+                <StockChart stockItemData={stockItemData} volumeData={stockVolumeData} timeSeries={stockName} 거래일datetime={거래일datetime} 최대값={최대값} 최소값={최소값} 평균단가={평균단가} height={460} />
+                <StockChart stockItemData={stockItemData} volumeData={stockVolumeData} timeSeries={stockName} rangeSelect={4} 거래일datetime={거래일datetime} 최대값={최대값} 최소값={최소값} 평균단가={평균단가} height={460} />
 
 
             </Grid>

@@ -312,7 +312,7 @@ function ImageUpdater() {
 
     const fetchData = async () => {
         const uniq = "?" + new Date().getTime();
-        await axios.get(`${API}/WorldIndex`).then(res => {
+        await axios.get(`${API}/indices/WorldIndex`).then(res => {
             var 다우산업 = res.data.find(item => item.지수명 === '다우 산업');
             var 나스닥 = res.data.find(item => item.지수명 === '나스닥 종합');
             var 니케이 = res.data.find(item => item.지수명 === '니케이 225');
@@ -338,7 +338,7 @@ function ImageUpdater() {
     useEffect(() => {
         const world = setInterval(() => {
             fetchData();
-        }, 1000 * 60 * 10);
+        }, 1000 * 60 * 5);
 
         return () => {
             clearInterval(world);

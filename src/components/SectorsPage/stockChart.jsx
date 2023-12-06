@@ -70,11 +70,13 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, stockD
             title: { text: 'Volume' }
         }],
         xAxis: {
-            type: 'datetime',
+            // type: 'datetime',
             labels: {
-                style: { fontSize: '9px' }, y: 15, formatter: function () {
-                    return Highcharts.dateFormat('%m.%d', this.value);
-                }
+                style: { fontSize: '9px' }, y: 15,
+                // format: "{value:%y-%m-%d}",
+                // formatter: function () {
+                //     return Highcharts.dateFormat('%m.%d', this.value);
+                // }
             },
             tickLength: 6,
             crosshair: { width: 2, }
