@@ -8,6 +8,8 @@
 {dev-api}
 - Commit.1
   - stockThemesRank 누락 수정
+- Commit.2
+  - Vix, 업종명?=> 트리맵부분
 
 ### 2023.12.04 ~ 2023.12.05
 {dev-api}
