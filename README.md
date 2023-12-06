@@ -3,6 +3,7 @@
     - npm run dev: "webpack --config webpack.dev.js",
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
+- Chart DMI 제거
 
 ### 2023.12.06
 {dev-api}
@@ -13,6 +14,9 @@
 - Commit.3
   - stockPrice => stockSectorsThemes API 변경
   - sectorsChartPage > 프레셋 C로 변경
+- Commit.4
+  - ABC.stockPrice => 티커->종목코드
+  - App.jsx : sectorsChartPage > 프레셋 C로 변경
 
 ### 2023.12.04 ~ 2023.12.05
 {dev-api}

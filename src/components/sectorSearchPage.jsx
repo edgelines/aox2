@@ -843,7 +843,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                                     <DataGrid rows={sortedRows} columns={stockColumns} hideFooter rowHeight={28}
                                         onCellClick={(params, event) => {
                                             if (params.field === '종목명') {
-                                                stockItemSelected({ 종목코드: params.row.티커, 종목명: params.value, 업종명: params.row.업종명 });
+                                                stockItemSelected({ 종목코드: params.row.종목코드, 종목명: params.value, 업종명: params.row.업종명 });
                                                 setStockName(params.value)
                                                 const itemData = StockSectorsThemes.find(data => data.종목명 === params.value)
                                                 getThemeList({ 테마명: [...new Set(itemData.테마명)] })
