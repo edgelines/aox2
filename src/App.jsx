@@ -86,8 +86,9 @@ function App() {
     const handleCheckboxStatusAll = (data) => { setCheckboxAll(data) }
 
     const [checkboxStatusUp, setCheckboxStatusUp] = useState({ rank1: true, rank2: true, rank3: true, rank4: true }); // 전일대비 순위가 상승한 업종
-    const [checkboxStatusTup, setCheckboxStatusTup] = useState({ rank1: true, rank2: true, rank3: true, rank4: true }); // TOM 대비 순위가 상승한 업종
-    const [checkboxStatusDown, setCheckboxStatusDown] = useState({ rank1: false, rank2: false, rank3: false, rank4: false }); // 전일대비 순위가 하락한 업종
+    const [checkboxStatusTup, setCheckboxStatusTup] = useState({ rank1: false, rank2: false, rank3: false, rank4: false }); // TOM 대비 순위가 상승한 업종
+    const [checkboxStatusDown, setCheckboxStatusDown] = useState({ rank1: true, rank2: true, rank3: true, rank4: true }); // 전일대비 순위가 하락한 업종
+
     const [checkboxAll, setCheckboxAll] = useState({ up: false, down: false, tomUp: false, tomDown: false });
     const rankRange = { rank1: [1, 14], rank2: [15, 25], rank3: [26, 54], rank4: [55, 80] };
     const [filteredChartData, setFilteredChartData] = useState({
@@ -457,12 +458,17 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <SectorSearchPage
-                        StockSectors={StockSectors} swiperRef={swiperRef} ABC1={ABC1} ABC2={ABC2}
-                        StockSectorsThemes={StockSectorsThemes} StockThemeByItem={StockThemeByItem} StockSectorByItem={StockSectorByItem}
-                        StockPrice={StockPrice} SearchInfo={SearchInfo}
-                        SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
-                        StockThemes={StockThemes}
+                    <SectorsChartPage
+                        filteredChartData={filteredChartData} sectorsRanksThemes={sectorsRanksThemes}
+                        Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop}
+                        checkboxStatusUp={checkboxStatusUp}
+                        checkboxStatusDown={checkboxStatusDown}
+                        checkboxStatusTup={checkboxStatusTup}
+                        checkboxAll={checkboxAll}
+                        onCheckboxStatusUp={handleCheckboxStatusUp}
+                        onCheckboxStatusDown={handleCheckboxStatusDown}
+                        onCheckboxStatusTup={handleCheckboxStatusTup}
+                        onCheckboxAll={handleCheckboxStatusAll}
                     />
                 </SwiperSlide> */}
 
