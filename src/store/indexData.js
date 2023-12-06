@@ -129,8 +129,9 @@ export const getVixMA = createAsyncThunk("GET/VixMA", async () => {
 export const getVix = createAsyncThunk("GET/Vix", async () => {
     const response = await axios.get(`${API}/indexData/VixMA?last=ture`);
     var tmp = response.data;
-    var 전일대비 = tmp[tmp.length - 1].종가 - tmp[tmp.length - 2].종가
-    var 값 = tmp[tmp.length - 1].종가.toFixed(2)
+    // 최근데이터가 0, 전날이 1
+    var 전일대비 = tmp[0].종가 - tmp[1].종가
+    var 값 = tmp[0].종가.toFixed(2)
     return { value: 값, net: 전일대비.toFixed(2) };
 });
 // 오브젝트로 리턴할땐 바꿔줘야함.
