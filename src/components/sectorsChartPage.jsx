@@ -26,7 +26,7 @@ export default function SectorsChartPage({
 }) {
     const [togglePage, setTogglePage] = useState('Bubble');
     const [filteredStockTable, setFilteredStockTable] = useState([]); // 필터링된 종목 Table
-    const [preset, setPreset] = useState('A')
+    const [preset, setPreset] = useState('C')
     // togglePage BTN
     const handleTogglePage = (event, newAlignment) => {
         setTogglePage(newAlignment);
