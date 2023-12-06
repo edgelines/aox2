@@ -28,39 +28,13 @@ export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
     const [업종선택, set업종선택] = useState({});
     // Fetch Data
     const fetchData = async () => {
-        const stock = await axios.get(`${API}/StockPriceDailyList`);
-        const stockData = stock.data;
-        const res = await axios.get(`${API}/TreasuryStock`);
-        const stockInfo = (await axios.get(`${myJSON}/StockYesterDayInfo`)).data; // 마감코드에서 저장함
-        const data = res.data.map((item, index) => {
-            const matchedStock = stockData.find(data => data.종목코드 === item.종목코드);
-            const matchedStockInfo = stockInfo.find(data => data.티커 === item.종목코드);
-            const 현재가 = matchedStock ? matchedStock.현재가 : null;
-            const 업종명 = matchedStock ? matchedStock.업종명 : null;
-            const 등락률 = matchedStock ? matchedStock.등락률 : null;
-            const 수익률 = matchedStock && item.평균단가 > 0 ? (matchedStock.현재가 - item.평균단가) / item.평균단가 : null;
-            const 시장 = matchedStockInfo ? matchedStockInfo.시장 : null;
-            const 유보율 = matchedStockInfo ? matchedStockInfo.유보율 : null;
-            const 부채비율 = matchedStockInfo ? matchedStockInfo.부채비율 : null;
-            const PBR = matchedStockInfo ? matchedStockInfo.PBR : null;
-            return {
-                ...item,
-                현재가,
-                업종명,
-                등락률,
-                수익률: 수익률,
-                시장: 시장,
-                유보율: 유보율,
-                부채비율: 부채비율,
-                PBR: PBR,
-                id: index,
-            }
-        })
-        let origin = data.sort((a, b) => new Date(b.거래일) - new Date(a.거래일)).filter(item => (item.시장 === 'K' || item.시장 === 'D') && item.평균단가 > 0)
+
+        const res = await axios.get(`${API}/formula/treasury`);
+
+        let origin = res.data.sort((a, b) => new Date(b.거래일) - new Date(a.거래일)).filter(item => (item.시장 === 'K' || item.시장 === 'D') && item.평균단가 > 0)
+
         setOrignData(origin);
-        // let result = origin.filter(item => item.취득처분 === '취득' && item.시장 === 'D');
-        // result = result.map((item, index) => { return { ...item, 순번: index } });
-        // setTreasuryStock(result);
+
         set시장선택('D');
         set취득처분선택('취득');
     }
@@ -277,7 +251,7 @@ export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
         {
             field: '수익률', headerName: '수익률', width: 72, align: 'right',
             renderCell: (params) => {
-                const 수익률 = (params.value * 100).toFixed(2);
+                const 수익률 = params.value;
                 let color, fontWeight;
                 수익률 < 0 ? color = 'dodgerblue' : color = 'tomato';
                 return (

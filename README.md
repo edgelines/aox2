@@ -17,6 +17,9 @@
 - Commit.4
   - ABC.stockPrice => 티커->종목코드
   - App.jsx : sectorsChartPage > 프레셋 C로 변경
+- Commit.5
+  - exNow_US 호출 1번으로 변경
+  - TreasuryStock fetchData 로직 수정
 
 ### 2023.12.04 ~ 2023.12.05
 {dev-api}

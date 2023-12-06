@@ -457,22 +457,11 @@ function App() {
                 onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
-                {/* <SwiperSlide style={swiperSlideStyle} >
-                    <SectorsChartPage
-                        filteredChartData={filteredChartData} sectorsRanksThemes={sectorsRanksThemes}
-                        Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop}
-                        checkboxStatusUp={checkboxStatusUp}
-                        checkboxStatusDown={checkboxStatusDown}
-                        checkboxStatusTup={checkboxStatusTup}
-                        checkboxAll={checkboxAll}
-                        onCheckboxStatusUp={handleCheckboxStatusUp}
-                        onCheckboxStatusDown={handleCheckboxStatusDown}
-                        onCheckboxStatusTup={handleCheckboxStatusTup}
-                        onCheckboxAll={handleCheckboxStatusAll}
-                    />
-                </SwiperSlide> */}
-
                 <SwiperSlide style={swiperSlideStyle} >
+                    <TreasuryStockPage swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
+                </SwiperSlide>
+
+                {/* <SwiperSlide style={swiperSlideStyle} >
                     <SchedulePage swiperRef={swiperRef} />
                 </SwiperSlide>
 
@@ -537,7 +526,7 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <CtpPage swiperRef={swiperRef} ElwBarData={ElwBarData} ElwWeightedAvg={ElwWeightedAvg} />
-                </SwiperSlide>
+                </SwiperSlide> */}
             </Swiper>
         </div >
     );

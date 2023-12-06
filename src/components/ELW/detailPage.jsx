@@ -31,6 +31,13 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail, ElwBarData })
     // const handleOpen = () => setOpenModal(true);
     // const handleClose = () => setOpenModal(false);
 
+    const fetchData1st = async () => {
+        await axios.get(`${API_FILE}/indexData/exNow_US`).then((res) => {
+            setExNow_US(res.data.commitData);
+            setDataUS(res.data.DataUS)
+        });
+    }
+
     const fetchData = async () => {
         await axios.get(API + "/elwWeightedAvg").then((res) => { setElwWeightedAvg(res.data); })
 
@@ -38,10 +45,6 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail, ElwBarData })
 
         await axios.get(`${API_FILE}/indexData/exNow_KR`).then((res) => {
             setExNow_KR(res.data);
-        });
-        await axios.get(`${API_FILE}/indexData/exNow_US`).then((res) => {
-            setExNow_US(res.data.commitData);
-            setDataUS(res.data.DataUS)
         });
 
         await axios.get(`${API}/elwBarData`).then((res) => {
