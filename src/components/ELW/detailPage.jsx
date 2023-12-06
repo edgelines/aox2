@@ -77,7 +77,7 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail, ElwBarData })
         })
     };
 
-    useEffect(() => { fetchData(); }, [])
+    useEffect(() => { fetchData(); fetchData1st(); }, [])
 
     useEffect(() => {
         const now = new Date();
