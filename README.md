@@ -4,6 +4,11 @@
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
 
+### 2023.12.06
+{dev-api}
+- Commit.1
+  - stockThemesRank 누락 수정
+
 ### 2023.12.04 ~ 2023.12.05
 {dev-api}
 - Commit.1

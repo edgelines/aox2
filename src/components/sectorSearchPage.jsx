@@ -18,10 +18,10 @@ import StockChart from './SectorsPage/stockChart';
 import SectorChart from './SectorsPage/sectorChart';
 import TreeMap from './SectorsPage/treeMap';
 import ColumnChart from './SectorsPage/columnChart';
-import { API, myJSON, STOCK } from './util/config';
+import { API, STOCK } from './util/config';
 import { SectorsName15 } from './util/util';
 
-export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, StockSectorsThemes, StockThemeByItem, StockSectorByItem, StockPrice, SearchInfo, SectorsChartData, SectorsRanksThemes, ScheduleItemEvent }) {
+export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, StockSectorsThemes, StockThemeByItem, StockSectorByItem, StockPrice, SearchInfo, SectorsChartData, SectorsRanksThemes, ScheduleItemEvent, StockThemes }) {
 
     // const [loading, setLoading] = useState(true);
     const [repeatedKeyword, setRepeatedKeyword] = useState([]);
@@ -302,11 +302,11 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
 
     const getThemeList = async (item) => { // 검색 컴포넌트에서 상위 컴포넌트로 object 전달
         // stockThemeRankInfo : 테마명, 등락률, 순위, 전일순위
-        const response = await axios.get(`${myJSON}/stockThemeRankInfo`);
-        const stockThemeRankInfo = response.data;
+        // const response = await axios.get(`${API}/themes/rank`);
+        // const stockThemeRankInfo = StockThemes;
 
         const data = item.테마명.map((themeName, index) => {
-            const themeInfo = stockThemeRankInfo.find(info => info.테마명 === themeName);
+            const themeInfo = StockThemes.find(info => info.테마명 === themeName);
             const rankChange = themeInfo ? themeInfo.전일순위 - themeInfo.순위 : 0;
 
             return {

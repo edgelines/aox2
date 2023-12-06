@@ -37,93 +37,11 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail, ElwBarData })
         await axios.get(myJSON + "/Kospi200_GPOchart").then((response) => { setKospi200(response.data.data); });
 
         await axios.get(`${API_FILE}/indexData/exNow_KR`).then((res) => {
-            // console.log(res.data)
             setExNow_KR(res.data);
-            // await axios.get(myJSON + "/exNow_KR").then((response) => {
-            // let data = response.data;
-            // let dataArray = Array.from({ length: 12 }, () => []); // 12개의 빈 배열을 생성
-            // let 지난달_47 = Array.from({ length: 12 }, () => null); // 17개의 null을 생성
-            // let 지난달_43 = Array.from({ length: 12 }, () => null); // 17개의 null을 생성
-            // let 지난달_41 = Array.from({ length: 12 }, () => null); // 17개의 null을 생성
-            // let 지난달_39 = Array.from({ length: 12 }, () => null); // 17개의 null을 생성
-            // let 지난달_21 = Array.from({ length: 12 }, () => null); // 17개의 null을 생성
-            // let 지난달_10 = Array.from({ length: 12 }, () => null); // 17개의 null을 생성
-            // let 지난달_6 = Array.from({ length: 12 }, () => null); // 17개의 null을 생성
-            // let 지난달_만기 = Array.from({ length: 12 }, () => null); // 17개의 null을 생성
-            // let 지난달_만기월 = Array.from({ length: 12 }, () => null); // 17개의 null을 생성
-
-            // for (let i = 0; i < data.length; i++) {
-            //     for (let j = 0; j < 12; j++) {
-            //         dataArray[j].push([data[i].ts, data[i][`지난달${j}_Ref`]]);
-            //     }
-
-            //     for (let j = 0; j < 12; j++) { if (data[i][`지난달${j}`] == 47) { 지난달_47[j] = data[i].ts; } }
-            //     for (let j = 0; j < 12; j++) { if (data[i][`지난달${j}`] == 43) { 지난달_43[j] = data[i].ts; } }
-            //     for (let j = 0; j < 12; j++) { if (data[i][`지난달${j}`] == 41) { 지난달_41[j] = data[i].ts; } }
-            //     for (let j = 0; j < 12; j++) { if (data[i][`지난달${j}`] == 39) { 지난달_39[j] = data[i].ts; } }
-            //     for (let j = 0; j < 12; j++) { if (data[i][`지난달${j}`] == 21) { 지난달_21[j] = data[i].ts; } }
-            //     for (let j = 0; j < 12; j++) { if (data[i][`지난달${j}`] == 10) { 지난달_10[j] = data[i].ts; } }
-            //     for (let j = 0; j < 12; j++) { if (data[i][`지난달${j}`] == 6) { 지난달_6[j] = data[i].ts; } }
-            //     for (let j = 0; j < 12; j++) { if (data[i][`지난달${j}`] == 1) { 지난달_만기[j] = data[i].ts; 지난달_만기월[j] = (new Date(data[i].ts).getMonth() + 1 < 10 ? "0" : "") + (new Date(data[i].ts).getMonth() + 1); } }
-            // }
-
-            // let commitData = {
-            //     ...dataArray.reduce((obj, item, index) => ({ ...obj, [`data${index}`]: item }), {}),
-            //     ...지난달_47.reduce((obj, item, index) => ({ ...obj, [`지난달${index}_47`]: item }), {}),
-            //     ...지난달_43.reduce((obj, item, index) => ({ ...obj, [`지난달${index}_43`]: item }), {}),
-            //     ...지난달_41.reduce((obj, item, index) => ({ ...obj, [`지난달${index}_41`]: item }), {}),
-            //     ...지난달_39.reduce((obj, item, index) => ({ ...obj, [`지난달${index}_39`]: item }), {}),
-            //     ...지난달_21.reduce((obj, item, index) => ({ ...obj, [`지난달${index}_21`]: item }), {}),
-            //     ...지난달_10.reduce((obj, item, index) => ({ ...obj, [`지난달${index}_10`]: item }), {}),
-            //     ...지난달_6.reduce((obj, item, index) => ({ ...obj, [`지난달${index}_6`]: item }), {}),
-            //     ...지난달_만기.reduce((obj, item, index) => ({ ...obj, [`지난달${index}_만기`]: item }), {}),
-            //     ...지난달_만기월.reduce((obj, item, index) => ({ ...obj, [`지난달${index}_만기월`]: item }), {}),
-            // };
-            // setExNow_KR(commitData);
         });
         await axios.get(`${API_FILE}/indexData/exNow_US`).then((res) => {
             setExNow_US(res.data.commitData);
             setDataUS(res.data.DataUS)
-            // await axios.get(myJSON + "/exNow_US").then((response) => {
-            // let data = response.data;
-            // let dataArray = Array.from({ length: 13 }, () => []); // 12개의 빈 배열을 생성
-            // let 지난달_47 = Array.from({ length: 13 }, () => null); // 17개의 null을 생성
-            // let 지난달_43 = Array.from({ length: 13 }, () => null); // 17개의 null을 생성
-            // let 지난달_41 = Array.from({ length: 13 }, () => null); // 17개의 null을 생성
-            // let 지난달_39 = Array.from({ length: 13 }, () => null); // 17개의 null을 생성
-            // let 지난달_21 = Array.from({ length: 13 }, () => null); // 17개의 null을 생성
-            // let 지난달_10 = Array.from({ length: 13 }, () => null); // 17개의 null을 생성
-            // let 지난달_5 = Array.from({ length: 13 }, () => null); // 17개의 null을 생성
-            // let 지난달_만기 = Array.from({ length: 13 }, () => null); // 17개의 null을 생성
-            // let 지난달_만기월 = Array.from({ length: 13 }, () => null); // 17개의 null을 생성
-
-            // for (let i = 0; i < data.length; i++) {
-
-            //     for (let j = 0; j < 13; j++) { dataArray[j].push([data[i].ts, data[i][`지난달${j}_Ref`]]); }
-
-            //     for (let j = 0; j < 13; j++) { if (data[i][`지난달${j}`] == 47) { 지난달_47[j] = data[i].ts; } }
-            //     for (let j = 0; j < 13; j++) { if (data[i][`지난달${j}`] == 43) { 지난달_43[j] = data[i].ts; } }
-            //     for (let j = 0; j < 13; j++) { if (data[i][`지난달${j}`] == 41) { 지난달_41[j] = data[i].ts; } }
-            //     for (let j = 0; j < 13; j++) { if (data[i][`지난달${j}`] == 39) { 지난달_39[j] = data[i].ts; } }
-            //     for (let j = 0; j < 13; j++) { if (data[i][`지난달${j}`] == 16) { 지난달_21[j] = data[i].ts; } }
-            //     for (let j = 0; j < 13; j++) { if (data[i][`지난달${j}`] == 10) { 지난달_10[j] = data[i].ts; } }
-            //     for (let j = 0; j < 13; j++) { if (data[i][`지난달${j}`] == 5) { 지난달_5[j] = data[i].ts; } }
-            //     for (let j = 0; j < 13; j++) { if (data[i][`지난달${j}`] == 1) { 지난달_만기[j] = data[i].ts; 지난달_만기월[j] = (new Date(data[i].ts).getMonth() + 1 < 10 ? "0" : "") + (new Date(data[i].ts).getMonth() + 1); } }
-            // }
-
-            // let commitData = {
-            //     ...지난달_47.reduce((obj, item, index) => ({ ...obj, [`지난달${index}_47`]: item }), {}),
-            //     ...지난달_43.reduce((obj, item, index) => ({ ...obj, [`지난달${index}_43`]: item }), {}),
-            //     ...지난달_41.reduce((obj, item, index) => ({ ...obj, [`지난달${index}_41`]: item }), {}),
-            //     ...지난달_39.reduce((obj, item, index) => ({ ...obj, [`지난달${index}_39`]: item }), {}),
-            //     ...지난달_21.reduce((obj, item, index) => ({ ...obj, [`지난달${index}_21`]: item }), {}),
-            //     ...지난달_10.reduce((obj, item, index) => ({ ...obj, [`지난달${index}_10`]: item }), {}),
-            //     ...지난달_5.reduce((obj, item, index) => ({ ...obj, [`지난달${index}_5`]: item }), {}),
-            //     ...지난달_만기.reduce((obj, item, index) => ({ ...obj, [`지난달${index}_만기`]: item }), {}),
-            //     ...지난달_만기월.reduce((obj, item, index) => ({ ...obj, [`지난달${index}_만기월`]: item }), {}),
-            // };
-            // setExNow_US(commitData);
-            // setDataUS({ ...dataArray.reduce((obj, item, index) => ({ ...obj, [`data${index}`]: item }), {}) })
         });
 
         await axios.get(`${API}/elwBarData`).then((res) => {
@@ -157,13 +75,7 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail, ElwBarData })
     };
 
     useEffect(() => { fetchData(); }, [])
-    // useEffect(() => {
-    //     if (ElwBarData.data && ElwBarData.data.length > 0) {
-    //         setELW_data1(ElwBarData.data[0]);
-    //         setELW_data2(ElwBarData.data[1]);
-    //         setELW_data3(ElwBarData.data[2]);
-    //     }
-    // }, [ElwBarData])
+
     useEffect(() => {
         const now = new Date();
         const hour = now.getHours();

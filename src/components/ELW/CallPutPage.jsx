@@ -5,7 +5,7 @@ import IndexChart from '../util/IndexChart.jsx';
 import CoreChart from '../util/CoreChart.jsx';
 import { StyledToggleButton } from '../util/util.jsx'
 import MarketCurrentValue from '../Index/marketCurrentValue.jsx'
-import { API, myJSON, API_FILE } from '../util/config.jsx';
+import { API } from '../util/config.jsx';
 export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi, Kosdaq, Invers, IndexMA, MarketDetail }) {
     const [ElwPutCallRatioData, setElwPutCallRatioData] = useState(null);
     const [dayGr, setDayGr] = useState({ series: null, categories: null });

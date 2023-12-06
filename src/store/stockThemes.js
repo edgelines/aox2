@@ -3,7 +3,7 @@ import axios from 'axios';
 import { API } from '../components/util/config'
 
 export const getStockThemes = createAsyncThunk("GET/STOCKTHEMES", async () => {
-    const response = await axios.get(`${API}/abc/stockThemeRankInfo`);
+    const response = await axios.get(`${API}/themes/rank`);
     // const response = await axios.get(`${myJSON}/stockThemeRankInfo`);
     return response.data;
 });
