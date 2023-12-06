@@ -15,7 +15,7 @@ export const getStockPrice = createAsyncThunk("GET/STOCKPRICE", async () => {
 });
 
 export const getStockSectorsThemes = createAsyncThunk("GET/STOCKSECTORSTHEMES", async () => {
-    const response = await axios.get(`${myJSON}/stockSectorsThemes`);
+    const response = await axios.get(`${API}/abc/stockSectorsThemes`);
     return response.data;
 });
 

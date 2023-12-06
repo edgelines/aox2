@@ -4,14 +4,14 @@ import { Grid } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { myJSON } from '../util/config';
+import { API } from '../util/config';
 
 export default function IpoPage({ swiperRef }) {
 
     const [tableData, setTableData] = useState([]);
 
     useEffect(() => {
-        axios.get(`${myJSON}/ipo`).then(response => {
+        axios.get(`${API}/schedule/ipo`).then(response => {
             const data = response.data.map((item, index) => ({
                 ...item,
                 id: index
@@ -25,6 +25,7 @@ export default function IpoPage({ swiperRef }) {
                     return a[orderBy] > b[orderBy] ? -1 : 1;
                 }
             });
+
 
             setTableData(sortedRows);
         })

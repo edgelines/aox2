@@ -337,7 +337,8 @@ function App() {
 
     // sectorsChartPage Render
     useEffect(() => {
-        if (StockSectorsGR.data && StockSectorsGR.data.length > 0) {
+        if (StockSectorsGR.status === 'succeeded') {
+            // if (StockSectorsGR.data && StockSectorsGR.data.length > 0) {
             // if (StockSectorsGR.status === 'succeeded') {
             const stockSectorsChartData = 업종데이터전처리(StockSectorsGR.data);
             setSectorsChartData(stockSectorsChartData);
@@ -455,16 +456,17 @@ function App() {
                 onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
-                {/* <SwiperSlide style={swiperSlideStyle} >
+                <SwiperSlide style={swiperSlideStyle} >
                     <SectorSearchPage
                         StockSectors={StockSectors} swiperRef={swiperRef} ABC1={ABC1} ABC2={ABC2}
                         StockSectorsThemes={StockSectorsThemes} StockThemeByItem={StockThemeByItem} StockSectorByItem={StockSectorByItem}
                         StockPrice={StockPrice} SearchInfo={SearchInfo}
                         SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
+                        StockThemes={StockThemes}
                     />
-                </SwiperSlide> */}
+                </SwiperSlide>
 
-                <SwiperSlide style={swiperSlideStyle} >
+                {/* <SwiperSlide style={swiperSlideStyle} >
                     <SchedulePage swiperRef={swiperRef} />
                 </SwiperSlide>
 
@@ -474,6 +476,7 @@ function App() {
                         StockSectorsThemes={StockSectorsThemes} StockThemeByItem={StockThemeByItem} StockSectorByItem={StockSectorByItem}
                         StockPrice={StockPrice} SearchInfo={SearchInfo}
                         SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
+                        StockThemes={StockThemes}
                     />
                 </SwiperSlide>
 
@@ -499,8 +502,6 @@ function App() {
                 <SwiperSlide style={swiperSlideStyle} >
                     <TreasuryStockPage swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
                 </SwiperSlide>
-
-
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <MainPage Vix={Vix} Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop} Kospi200BubbleCategory={Kospi200BubbleCategory} MarketDetail={MarketDetail} ElwWeightedAvgCheck={ElwWeightedAvgCheck} Exchange={Exchange} />
@@ -530,7 +531,7 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <CtpPage swiperRef={swiperRef} ElwBarData={ElwBarData} ElwWeightedAvg={ElwWeightedAvg} />
-                </SwiperSlide>
+                </SwiperSlide> */}
             </Swiper>
         </div >
     );

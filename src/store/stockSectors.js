@@ -3,13 +3,8 @@ import axios from 'axios';
 import { API, myJSON } from '../components/util/config'
 
 export const getStockSectors = createAsyncThunk("GET/STOCKSECTORS", async () => {
-    const response = await axios.get(`${myJSON}/stockSectors`);
-    const data = response.data.map((item, index) => ({
-        업종명: item.업종명,
-        전일대비: item.전일대비,
-        id: index,
-    }))
-    return data;
+    const res = await axios.get(`${API}/industry/stockSectors`);
+    return res.data;
 });
 
 export const getKospi200BubbleCategory = createAsyncThunk("GET/Kospi200BubbleCategory", async () => {
