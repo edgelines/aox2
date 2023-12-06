@@ -458,18 +458,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <SectorsChartPage
-                        filteredChartData={filteredChartData} sectorsRanksThemes={sectorsRanksThemes}
-                        Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop}
-                        checkboxStatusUp={checkboxStatusUp}
-                        checkboxStatusDown={checkboxStatusDown}
-                        checkboxStatusTup={checkboxStatusTup}
-                        checkboxAll={checkboxAll}
-                        onCheckboxStatusUp={handleCheckboxStatusUp}
-                        onCheckboxStatusDown={handleCheckboxStatusDown}
-                        onCheckboxStatusTup={handleCheckboxStatusTup}
-                        onCheckboxAll={handleCheckboxStatusAll}
-                    />
+                    <TreasuryStockPage swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
