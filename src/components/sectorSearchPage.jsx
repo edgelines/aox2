@@ -157,7 +157,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
             M2: isM2,
         }
     })
-    console.log(sortedRows);
+    // console.log(sortedRows);
 
     // M1, M2, P# Table Filter
     const handleChangeVolume = (event, newValue, activeThumb) => {

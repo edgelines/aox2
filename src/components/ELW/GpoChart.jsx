@@ -92,7 +92,7 @@ export default function GpoChart({ data1, data2, data3, height, kospi200, credit
 
         let plotBands1 = [];
         // Kospi200
-        for (let i = 11; i > 0; i--) {
+        for (let i = 11; i > -1; i--) {
             const days = ['47', '43', '41', '39', '21', '10', '6', '만기']
             days.forEach((item) => {
                 const 만기월_key = `지난달${i}_만기월`;
@@ -143,7 +143,7 @@ export default function GpoChart({ data1, data2, data3, height, kospi200, credit
             })
         }
         // US
-        for (let i = 13; i > 0; i--) {
+        for (let i = 13; i > -1; i--) {
             const days = ['47', '43', '41', '39', '21', '10', '5', '만기']
             days.forEach((item) => {
                 const 만기월_key = `지난달${i}_만기월`;
