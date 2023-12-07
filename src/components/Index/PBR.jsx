@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Grid, Skeleton } from '@mui/material';
 import PbrPerChart from './PbrPerChart'
-import { myJSON } from '../util/config';
+import { API, myJSON } from '../util/config';
 import Highcharts from 'highcharts/highstock'
 import HighchartsReact from 'highcharts-react-official'
 require('highcharts/indicators/indicators')(Highcharts)
@@ -16,10 +16,15 @@ export default function PBR({ swiperRef }) {
     const [kospiPbr, setKospiPbr] = useState();
     const [kospiPbrPer, setKospiPbrPer] = useState();
     const [kosdaqPbrPer, setKosdaqPbrPer] = useState();
+
+    const fetchData = async () => {
+        const 코스피PBR = await axios.get(`${API}/indices/KospiPBR`);
+        setKospiPbr(코스피PBR.data)
+    }
+
     useEffect(() => {
-        axios.get(myJSON + "/index_kospi_PBR_Candle").then((response) => {
-            setKospiPbr(response.data.data)
-        });
+        fetchData()
+
         axios.get(myJSON + "/index_kospi_PER_PBR").then((response) => {
             var index = [], dataLength = response.data.length;
             let colors = ['red', 'peru', 'tomato', 'coral', 'wheat', 'orange', 'gold', 'yellow', 'greenyellow', 'pink', 'cyan', 'limegreen', 'deepskyblue', 'dodgerblue', 'mistyrose', 'skyblue', 'beige', 'lightsteelblue', 'lavender', 'plum', 'snow'];
