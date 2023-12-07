@@ -80,17 +80,13 @@ export default function WeightAvgPage3({ swiperRef, ELW_monthTable, ELW_CallPutR
         await axios.get(myJSON + "/index_kospi_PBR_Candle").then((response) => { setKospiPbr(response.data.data); });
         await axios.get(myJSON + "/index_kospi200_PBR_Candle").then((response) => { setKospi200Pbr(response.data.data); });
         await axios.get(myJSON + "/index_kosdaq_PBR_Candle").then((response) => { setKosdaqPbr(response.data.data); });
-        await axios.get(`${API}/fundamental/moneyIndex`).then((res) => {
-
+        await axios.get(`${API}/fundamental/moneyIndex?ta=true`).then((res) => {
             setMoneyIndex([{
                 name: "USD/KRW (Candle)",
                 data: res.data.USD,
                 type: 'candlestick',
                 yAxis: 0,
-                lineColor: "gold",
-                color: "gold",
-                upLineColor: "orangered",
-                upColor: "orangered",
+                lineColor: "gold", color: "gold", upLineColor: "orangered", upColor: "orangered",
                 zIndex: 2,
                 animation: false,
                 id: 'candlestick',
@@ -99,8 +95,8 @@ export default function WeightAvgPage3({ swiperRef, ELW_monthTable, ELW_CallPutR
                 name: "USD/EUR",
                 data: res.data.EUR,
                 type: 'spline',
-                yAxis: 1,
                 color: "silver",
+                yAxis: 1,
                 animation: false,
                 zIndex: 3,
                 lineWidth: 1,
@@ -116,76 +112,50 @@ export default function WeightAvgPage3({ swiperRef, ELW_monthTable, ELW_CallPutR
                 lineWidth: 1,
                 visible: false,
             }, {
-                type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
-                color: '#efe9e9ed',
-                dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                name: '3 저지',
-                lineWidth: 1,
-                params: { index: 2, period: 3 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+                name: '3 저지', lineWidth: 1, color: '#efe9e9ed', dashStyle: 'shortdash', animation: false, yAxis: 0,
+                marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
+                data: res.data.emaList[0],
             }, {
-                type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, visible: false,
-                color: 'coral',
-                dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                name: '9',
-                lineWidth: 1,
-                params: { index: 2, period: 9 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+                name: '9', lineWidth: 1, color: 'coral', dashStyle: 'shortdash', animation: false, yAxis: 0,
+                marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, visible: false,
+                data: res.data.emaList[1],
             }, {
-                type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
-                color: 'dodgerblue',
-                name: '18',
-                lineWidth: 1,
-                params: { index: 2, period: 18 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+                name: '18', lineWidth: 1, color: 'dodgerblue', animation: false, yAxis: 0,
+                marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
+                data: res.data.emaList[2],
             }, {
-                type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, visible: false,
-                color: 'skyblue',
-                dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                name: '27',
-                lineWidth: 1,
-                params: { index: 2, period: 27 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+                name: '27', lineWidth: 1, color: 'skyblue', dashStyle: 'shortdash', animation: false, yAxis: 0,
+                marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, visible: false,
+                data: res.data.emaList[3],
             }, {
-                type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
-                color: 'mediumseagreen',
-                dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                name: '36',
-                lineWidth: 1,
-                params: { index: 2, period: 36 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+                name: '36', lineWidth: 1, color: 'mediumseagreen', dashStyle: 'shortdash', animation: false, yAxis: 0,
+                marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
+                data: res.data.emaList[4],
             }, {
-                type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
-                color: 'red',
-                dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                name: '66',
-                lineWidth: 1,
-                params: { index: 2, period: 66 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+                name: '66', lineWidth: 1, color: 'red', dashStyle: 'shortdash', animation: false, yAxis: 0,
+                marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
+                data: res.data.emaList[5],
             }, {
-                type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
-                color: "orange",
-                name: '112',
-                lineWidth: 2,
-                params: { index: 2, period: 112 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+                name: '112', lineWidth: 2, color: "orange", animation: false, yAxis: 0,
+                marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
+                data: res.data.emaList[6],
             }, {
-                type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
-                color: "forestgreen",
-                name: '224',
-                lineWidth: 2,
-                params: { index: 2, period: 224 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+                name: '224', lineWidth: 2, color: "forestgreen", animation: false, yAxis: 0,
+                marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
+                data: res.data.emaList[7],
             }, {
-                type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
-                color: "pink",
-                name: '336',
-                lineWidth: 2,
-                params: { index: 2, period: 336 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+                name: '336', lineWidth: 2, color: "pink", animation: false, yAxis: 0,
+                marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
+                data: res.data.emaList[8],
             }, {
-                type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
-                color: "magenta",
-                name: '448',
-                lineWidth: 2,
-                params: { index: 2, period: 448 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+                name: '448', lineWidth: 2, color: "magenta",
+                animation: false, yAxis: 0, marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
+                data: res.data.emaList[9],
             }, {
-                type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
-                color: "skyblue",
-                name: '560',
-                lineWidth: 2,
-                params: { index: 2, period: 560 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+                name: '560', lineWidth: 2, color: "skyblue", animation: false, yAxis: 0,
+                marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
+                data: res.data.emaList[10],
+                // params: { index: 2, period: 560 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
             }])
         });
     }
@@ -436,14 +406,14 @@ const PbrChart = ({ data, height, credits, name }) => {
             }, {
                 type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
                 color: 'mediumseagreen',
-                dashStyle: 'shortdash',//라인 스타일 지정 옵션
+                dashStyle: 'shortdash',
                 name: '36',
                 lineWidth: 1,
                 params: { index: 2, period: 36 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
             }, {
                 type: 'ema', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true,
                 color: 'red',
-                dashStyle: 'shortdash',//라인 스타일 지정 옵션
+                dashStyle: 'shortdash',
                 name: '66',
                 lineWidth: 1,
                 params: { index: 2, period: 66 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음

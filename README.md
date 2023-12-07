@@ -8,9 +8,12 @@
 
 ### 2023.12.07
 {dev-api}
-- COmmit.1
+- Commit.1
   - sectorsSearchPage.jsx
     - 종목코드 에러 해결
+- Commit.2
+  - fundarmentalPage1.jsx => API 변경
+  - weightAvgPage3.jsx => MoneyIndex 이평 로직변경
 
 ### 2023.12.06
 {dev-api}
