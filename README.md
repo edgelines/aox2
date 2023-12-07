@@ -16,7 +16,8 @@
   - weightAvgPage3.jsx => MoneyIndex 이평 로직변경
 - Commit.3
   - PBR.jsx, weightAvgPage3.jsx > PBR API 변경
-  
+- Commit.4
+  - sectorSearchPage.jsx && TreeMap Loading 로직 수정
 
 ### 2023.12.06
 {dev-api}
