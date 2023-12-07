@@ -4,6 +4,13 @@
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
 - fundamental 작업중 ( weightAvgPage3. MoneyIndex만 작업됨 )
+- sectorsSearchPage.jsx 리뉴얼
+
+### 2023.12.07
+{dev-api}
+- COmmit.1
+  - sectorsSearchPage.jsx
+    - 종목코드 에러 해결
 
 ### 2023.12.06
 {dev-api}
