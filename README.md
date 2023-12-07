@@ -3,8 +3,8 @@
     - npm run dev: "webpack --config webpack.dev.js",
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
-- fundamental 작업중 ( weightAvgPage3. MoneyIndex만 작업됨 )
 - sectorsSearchPage.jsx 리뉴얼
+- 이평을 만들어서 보내거나 그대로 두거나 별차이 못느낌!!
 
 ### 2023.12.07
 {dev-api}
@@ -14,6 +14,9 @@
 - Commit.2
   - fundarmentalPage1.jsx => API 변경
   - weightAvgPage3.jsx => MoneyIndex 이평 로직변경
+- Commit.3
+  - PBR.jsx, weightAvgPage3.jsx > PBR API 변경
+  
 
 ### 2023.12.06
 {dev-api}

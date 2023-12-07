@@ -77,9 +77,12 @@ export default function WeightAvgPage3({ swiperRef, ELW_monthTable, ELW_CallPutR
     };
 
     const fetchData1Day = async () => {
-        await axios.get(myJSON + "/index_kospi_PBR_Candle").then((response) => { setKospiPbr(response.data.data); });
-        await axios.get(myJSON + "/index_kospi200_PBR_Candle").then((response) => { setKospi200Pbr(response.data.data); });
-        await axios.get(myJSON + "/index_kosdaq_PBR_Candle").then((response) => { setKosdaqPbr(response.data.data); });
+        const 코스피200PBR = await axios.get(`${API}/indices/Kospi200PBR`);
+        setKospi200Pbr(코스피200PBR.data);
+        const 코스피PBR = await axios.get(`${API}/indices/KospiPBR`);
+        setKospiPbr(코스피PBR.data);
+        const 코스닥PBR = await axios.get(`${API}/indices/KosdaqPBR`);
+        setKosdaqPbr(코스닥PBR.data);
         await axios.get(`${API}/fundamental/moneyIndex?ta=true`).then((res) => {
             setMoneyIndex([{
                 name: "USD/KRW (Candle)",
@@ -213,7 +216,7 @@ export default function WeightAvgPage3({ swiperRef, ELW_monthTable, ELW_CallPutR
         return (
             <Box sx={{ textAlign: 'left' }}>
                 <span>{label} : </span>
-                <span style={{ color: color }}> {마지막값} ( {sign} {차이.toFixed(2)} )</span>
+                <span style={{ color: color }}> {마지막값.toFixed(2)} ( {sign} {차이.toFixed(2)} )</span>
             </Box>
         );
     };
@@ -232,12 +235,12 @@ export default function WeightAvgPage3({ swiperRef, ELW_monthTable, ELW_CallPutR
                         : <Skeleton variant="rounded" height={20} animation="wave" />}
 
                 </Box>
-                <div
+                {/* <div
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
-                    <IndexChart data={moneyIndex} name={'moneyIndex'} height={455} rangeSelector={5} />
-                </div>
+                </div> */}
+                <IndexChart data={moneyIndex} name={'moneyIndex'} height={455} rangeSelector={5} />
 
                 <Box sx={{ position: 'absolute', transform: 'translate(19vw, 1vh)', zIndex: 10 }}>
                     <ToggleButtonGroup
@@ -262,17 +265,17 @@ export default function WeightAvgPage3({ swiperRef, ELW_monthTable, ELW_CallPutR
                         : <Skeleton variant="rounded" height={20} animation="wave" />}
                 </Box>
                 <Box sx={{ mt: 2.5 }}>
-                    <div
+                    {/* <div
                         onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                         onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                     >
-                        {page === 'Kospi200' && kospi200Pbr && kospi200Pbr.length > 0 ?
-                            <PbrChart data={kospi200Pbr} height={465} credits={updateE} name={'Kospi200'} /> :
-                            page === 'Kospi' ?
-                                <PbrChart data={kospiPbr} height={465} credits={updateE} name={'Kospi'} /> :
-                                <PbrChart data={kosdaqPbr} height={465} credits={updateE} name={'Kosdaq'} />
-                        }
-                    </div>
+                    </div> */}
+                    {page === 'Kospi200' && kospi200Pbr && kospi200Pbr.length > 0 ?
+                        <PbrChart data={kospi200Pbr} height={465} credits={updateE} name={'Kospi200'} /> :
+                        page === 'Kospi' ?
+                            <PbrChart data={kospiPbr} height={465} credits={updateE} name={'Kospi'} /> :
+                            <PbrChart data={kosdaqPbr} height={465} credits={updateE} name={'Kosdaq'} />
+                    }
                 </Box>
             </Grid>
 
