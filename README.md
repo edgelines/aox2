@@ -5,6 +5,15 @@
 ## Todo / Bug
 - sectorsSearchPage.jsx 리뉴얼
 - 이평을 만들어서 보내거나 그대로 두거나 별차이 못느낌!!
+- modelingPage
+  - Williams 빨 , 주(14색), 형광색, 파란색, 하얀색
+
+### 2023.12.08
+{dev-api}
+- Commit.1
+  - modelingPage.jsx
+    - Williams 빨 , 주(14색), 형광색, 파란색, 하얀색
+    - 보조지표 로직 수정
 
 ### 2023.12.07
 {dev-api}

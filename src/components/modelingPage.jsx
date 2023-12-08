@@ -9,101 +9,70 @@ import { API, markerConfig } from './util/config';
 
 export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail }) {
 
-    const [kospi200, setKospi200] = useState([]);
-    const [rawKospi200, setRawKospi200] = useState([]);
-    const [adrRaw, setAdrRaw] = useState([]);
-
-    const [adrLastValue1, setAdrLastValue1] = useState(null);
-    const [adrLastValue2, setAdrLastValue2] = useState(null);
-    const [adrLastValue3, setAdrLastValue3] = useState(null);
-
+    // const [kospi200, setKospi200] = useState([]);
+    // const [rawKospi200, setRawKospi200] = useState([]);
+    // const [adrRaw, setAdrRaw] = useState([]);
+    // const [adrLastValue1, setAdrLastValue1] = useState(null);
+    // const [adrLastValue2, setAdrLastValue2] = useState(null);
+    // const [adrLastValue3, setAdrLastValue3] = useState(null);
+    const [lastValue, setLastValue] = useState({ ADR1: '', ADR2: '', ADR3: '', WillR1: '', WillR2: '', WillR3: '', WillR4: '', WillR5: '' })
     const [adrNum1, setAdrNum1] = useState(7);
     const [adrNum2, setAdrNum2] = useState(14);
     const [adrNum3, setAdrNum3] = useState(20);
 
-    const [williamsNum, setWilliamsNum] = useState(5);
+    const [williamsNum1, setWilliamsNum1] = useState(5);
     const [williamsNum2, setWilliamsNum2] = useState(7);
     const [williamsNum3, setWilliamsNum3] = useState(14);
+    const [williamsNum4, setWilliamsNum4] = useState(22);
+    const [williamsNum5, setWilliamsNum5] = useState(33);
+
     const [williamsValue, setWilliamsValue] = useState([]);
-    // const [rsiNum, setRsiNum] = useState(14);
-    // const [dmiNum, setDmiNum] = useState(14);
 
     const getWilliamsValue = (item) => { setWilliamsValue(item) };
+
+    const [indexChartConfig, setIndexChartConfig] = useState({})
+
     const handleValueChange = (type, direction) => {
         if (type === "ADR1") {
-            if (direction === "UP" && adrNum1 < 40) {
-                setAdrNum1(prev => prev + 1);
-            } else if (direction === "DOWN" && adrNum1 > 1) {
-                setAdrNum1(prev => prev - 1);
-            }
+            setAdrNum1(prev => prev + (direction === "UP" ? 1 : -1))
         } else if (type === "ADR2") {
-            if (direction === "UP" && adrNum2 < 40) {
-                setAdrNum2(prev => prev + 1);
-            } else if (direction === "DOWN" && adrNum2 > 1) {
-                setAdrNum2(prev => prev - 1);
-            }
+            setAdrNum2(prev => prev + (direction === "UP" ? 1 : -1))
         } else if (type === "ADR3") {
-            if (direction === "UP" && adrNum3 < 40) {
-                setAdrNum3(prev => prev + 1);
-            } else if (direction === "DOWN" && adrNum3 > 1) {
-                setAdrNum3(prev => prev - 1);
-            }
-            // } else if (type === "RSI") {
-            //     if (direction === "UP" && rsiNum < 40) {
-            //         setRsiNum(prev => prev + 1);
-            //     } else if (direction === "DOWN" && rsiNum > 1) {
-            //         setRsiNum(prev => prev - 1);
-            //     }
-        } else if (type === "WillamsR") {
-            if (direction === "UP" && williamsNum < 80) {
-                setWilliamsNum(prev => prev + 1);
-            } else if (direction === "DOWN" && williamsNum > 1) {
-                setWilliamsNum(prev => prev - 1);
-            }
+            setAdrNum3(prev => prev + (direction === "UP" ? 1 : -1))
+        } else if (type === "WillamsR1") {
+            setWilliamsNum1(prev => prev + (direction === "UP" ? 1 : -1))
         } else if (type === "WillamsR2") {
-            if (direction === "UP" && williamsNum < 80) {
-                setWilliamsNum2(prev => prev + 1);
-            } else if (direction === "DOWN" && williamsNum > 1) {
-                setWilliamsNum2(prev => prev - 1);
-            }
+            setWilliamsNum2(prev => prev + (direction === "UP" ? 1 : -1))
         } else if (type === "WillamsR3") {
-            if (direction === "UP" && williamsNum < 80) {
-                setWilliamsNum3(prev => prev + 1);
-            } else if (direction === "DOWN" && williamsNum > 1) {
-                setWilliamsNum3(prev => prev - 1);
-            }
+            setWilliamsNum3(prev => prev + (direction === "UP" ? 1 : -1))
+        } else if (type === "WillamsR4") {
+            setWilliamsNum4(prev => prev + (direction === "UP" ? 1 : -1))
+        } else if (type === "WillamsR5") {
+            setWilliamsNum5(prev => prev + (direction === "UP" ? 1 : -1))
         }
     };
-
-    const getRollingADR = (data, adrNum, Name) => {
-        const adrValues = rolling_adr(data, adrNum);
-        const ADR = data.map((data, index) => {
-            const timestamp = new Date(data.날짜).getTime();
-            return [timestamp, adrValues[index]]
-        });
-
-        const colorMap = {
-            ADR1: 'silver',
-            ADR2: 'orange',
-            ADR3: 'greenyellow',
-        };
-
-        const lastValueSetters = {
-            ADR1: setAdrLastValue1,
-            ADR2: setAdrLastValue2,
-            ADR3: setAdrLastValue3,
-        };
-
-        if (ADR.length > 0) {
-            const lastValue = ADR.slice(-1)[0][1].toFixed(2);
-            lastValueSetters[Name](lastValue);
-        }
-
+    const colorMap = {
+        ADR1: 'silver',
+        ADR2: 'orange',
+        ADR3: 'greenyellow',
+        WillR1: 'tomato',
+        WillR2: 'orange',
+        WillR3: 'greenyellow',
+        WillR4: 'dodgerblue',
+        WillR5: 'silver',
+    };
+    const getADR = async (num, Name) => {
+        const res = await axios.get(`${API}/modeling/adr?num=${num}`);
+        const lastValue = res.data[res.data.length - 1][1];
+        setLastValue(prevLastValue => ({
+            ...prevLastValue,
+            [Name]: lastValue.toFixed(1),
+        }));
         return {
             name: Name,
             isADR: true,
             id: Name,
-            data: ADR,
+            data: res.data,
             type: 'spline',
             color: colorMap[Name],
             yAxis: 2,
@@ -111,74 +80,101 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
             dashStyle: 'ShortDash',
             lineWidth: 1
         };
-
     }
-    // ADR
-    const getADR = (df, num) => {
-        const advance = df.slice(-num).reduce((acc, curr) => acc + curr['상승'], 0);
-        const decline = df.slice(-num).reduce((acc, curr) => acc + curr['total'], 0) - advance;
-        return (advance / decline) * 100;
+    const getWillR = async (num, Name) => {
+        const res = await axios.get(`${API}/modeling/willr?num=${num}`);
+        const lastValue = res.data[res.data.length - 1][1];
+        setLastValue(prevLastValue => ({
+            ...prevLastValue,
+            [Name]: lastValue.toFixed(1),
+        }));
+        return {
+            name: Name,
+            isADR: true,
+            id: Name,
+            data: res.data,
+            type: 'spline',
+            color: colorMap[Name],
+            yAxis: 1,
+            zIndex: 3,
+            dashStyle: 'ShortDash',
+            lineWidth: 1,
+            marker: markerConfig, showInLegend: true,
+        };
     }
-    const rolling_adr = (df, num) => {
-        const adr_values = [];
-        for (let i = 0; i < df.length; i++) {
-            const subset = df.slice(Math.max(0, i - num + 1), i + 1);
-            const adr_value = getADR(subset, num);
-            adr_values.push(adr_value);
-        }
-        return adr_values;
-    }
-
-
     // Fetch Data
     const fetchData = async () => {
-        const res = await axios.get(`${API}/ALL/Kospi200`);
-        const Kospi200Cendle = res.data.slice(-1500)
-        const Kospi200 = [], date = [], highs = [], lows = [], closings = [];
-        Kospi200Cendle.forEach((value) => {
-            Kospi200.push([new Date(value.날짜).getTime(), value.시가, value.고가, value.저가, value.종가]);
-        });
-        setRawKospi200(Kospi200);
+        const resKospi200 = await axios.get(`${API}/modeling/Kospi200`);
+        // setRawKospi200(resKospi200.data);
 
-        const res2r = await axios.get(`${API}/ALL/MarketKospi200`)
-        const res2 = res2r.data.slice(-1500);
-        setAdrRaw(res2);
+        // // 변경된 ADR 데이터를 담는 빈 배열 생성
+        // const updatedAdrs = [];
 
-        const adr1 = getRollingADR(res2, adrNum1, 'ADR1');
-        const adr2 = getRollingADR(res2, adrNum2, 'ADR2');
-        const adr3 = getRollingADR(res2, adrNum3, 'ADR3');
+        // // 변경된 ADR 번호 확인
+        // if (adrNum1 !== 1) {
+        //     // ADR 데이터 가져오기
+        //     const adr1 = await getADR(adrNum1, 'ADR1');
+        //     // 변경된 ADR 데이터 배열에 추가
+        //     updatedAdrs.push(adr1);
+        // }
 
-        const newKospi200 = [{
-            name: '코스피200', id: 'candlestick',
-            data: Kospi200, type: 'candlestick', yAxis: 0, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false,
-        }, {
-            type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: markerConfig, showInLegend: true,
-            color: 'tomato',
-            dashStyle: 'shortdash',
-            name: 'W-R-1', id: 'williamsr',
-            lineWidth: 1,
-            params: { index: 3, period: williamsNum }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }, {
-            type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: markerConfig, showInLegend: true,
-            color: 'dodgerblue',
-            dashStyle: 'shortdash',
-            name: 'W-R-2', id: 'williamsr2',
-            lineWidth: 1,
-            params: { index: 3, period: williamsNum2 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }, {
-            type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: markerConfig, showInLegend: true,
-            color: 'gold',
-            dashStyle: 'shortdash',
-            name: 'W-R-3', id: 'williamsr3',
-            lineWidth: 1,
-            params: { index: 3, period: williamsNum3 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        },
-            adr1, adr2, adr3
+        // if (adrNum2 !== 1) {
+        //     const adr2 = await getADR(adrNum2, 'ADR2');
+        //     updatedAdrs.push(adr2);
+        // }
+
+        // if (adrNum3 !== 1) {
+        //     const adr3 = await getADR(adrNum3, 'ADR3');
+        //     updatedAdrs.push(adr3);
+        // }
+
+        // if (williamsNum1 !== 1) {
+        //     const WillR1 = await getWillR(williamsNum1, 'WillR1');
+        //     updatedAdrs.push(WillR1);
+        // }
+        // if (williamsNum2 !== 1) {
+        //     const WillR2 = await getWillR(williamsNum2, 'WillR2');
+        //     updatedAdrs.push(WillR2);
+        // }
+        // if (williamsNum3 !== 1) {
+        //     const WillR3 = await getWillR(williamsNum3, 'WillR3');
+        //     updatedAdrs.push(WillR3);
+        // }
+        // if (williamsNum4 !== 1) {
+        //     const WillR4 = await getWillR(williamsNum4, 'WillR4');
+        //     updatedAdrs.push(WillR4);
+        // }
+        // if (williamsNum5 !== 1) {
+        //     const WillR5 = await getWillR(williamsNum5, 'WillR5');
+        //     updatedAdrs.push(WillR5);
+        // }
+
+        // Promise 객체를 사용하여 모든 데이터 수집을 기다림
+        const promises = [];
+        promises.push(getADR(adrNum1, 'ADR1'));
+        promises.push(getADR(adrNum2, 'ADR2'));
+        promises.push(getADR(adrNum3, 'ADR3'));
+        promises.push(getWillR(williamsNum1, 'WillR1'));
+        promises.push(getWillR(williamsNum2, 'WillR2'));
+        promises.push(getWillR(williamsNum3, 'WillR3'));
+        promises.push(getWillR(williamsNum4, 'WillR4'));
+        promises.push(getWillR(williamsNum5, 'WillR5'));
+
+        const updatedData = await Promise.all(promises);
+        // Kospi200 데이터와 업데이트된 ADR 데이터를 병합
+        const newIndexChartConfig = [
+            {
+                name: '코스피200', id: 'candlestick',
+                type: 'candlestick', yAxis: 0, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false,
+                data: resKospi200.data
+            },
+            ...updatedData,
         ];
-        setKospi200(newKospi200);
-    }
+        setIndexChartConfig(newIndexChartConfig);
+    };
 
     useEffect(() => { fetchData(); }, [])
+    useEffect(() => { fetchData(); }, [adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5])
     useEffect(() => {
         const now = new Date();
         const hour = now.getHours();
@@ -214,52 +210,29 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
 
         return () => clearTimeout(timeoutId); // 컴포넌트가 unmount될 때 타이머 제거
     }, [])
-    useEffect(() => {
-        const adr1Data = getRollingADR(adrRaw, adrNum1, 'ADR1');
-        const adr2Data = getRollingADR(adrRaw, adrNum2, 'ADR2');
-        const adr3Data = getRollingADR(adrRaw, adrNum3, 'ADR3');
 
-        const newKospi200 = [{
-            name: '코스피200', id: 'candlestick', isCandle: true,
-            data: rawKospi200, type: 'candlestick', yAxis: 0, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false, isCandle: true,
-        }, {
-            type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: markerConfig, showInLegend: true,
-            color: 'tomato',
-            dashStyle: 'shortdash',
-            name: 'Williams-R-1', id: 'williamsr',
-            lineWidth: 1,
-            params: { index: 3, period: williamsNum }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }, {
-            type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: markerConfig, showInLegend: true,
-            color: 'dodgerblue',
-            dashStyle: 'shortdash',
-            name: 'Williams-R-2', id: 'williamsr2',
-            lineWidth: 1,
-            params: { index: 3, period: williamsNum2 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }, {
-            type: 'williamsr', animation: false, yAxis: 1, linkedTo: 'candlestick', marker: markerConfig, showInLegend: true,
-            color: 'gold',
-            dashStyle: 'shortdash',
-            name: 'Williams-R-3', id: 'williamsr3',
-            lineWidth: 1,
-            params: { index: 3, period: williamsNum3 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }, adr1Data, adr2Data, adr3Data
-        ];
-        setKospi200(newKospi200);
-    }, [adrRaw, adrNum1, adrNum2, adrNum3, williamsNum, williamsNum2, williamsNum3])
 
     const indicators = [
-        { name: `ADR1`, value: `ADR ( ${adrNum1} )`, color: "silver" },
-        { name: `ADR2`, value: `ADR ( ${adrNum2} )`, color: "orange" },
-        { name: `ADR3`, value: `ADR ( ${adrNum3} )`, color: "greenyellow" },
-        { name: `WillamsR`, value: `W-R-1 ( ${williamsNum} )`, color: "tomato" },
-        { name: `WillamsR2`, value: `W-R-2 ( ${williamsNum2} )`, color: "dodgerblue" },
-        { name: `WillamsR3`, value: `W-R-3 ( ${williamsNum3} )`, color: "gold" }
+        { name: `ADR1`, value: `ADR ( ${adrNum1} )`, color: colorMap.ADR1 },
+        { name: `ADR2`, value: `ADR ( ${adrNum2} )`, color: colorMap.ADR2 },
+        { name: `ADR3`, value: `ADR ( ${adrNum3} )`, color: colorMap.ADR3 },
+        { name: `WillamsR1`, value: `W-R-1 ( ${williamsNum1} )`, color: colorMap.WillR1 },
+        { name: `WillamsR2`, value: `W-R-2 ( ${williamsNum2} )`, color: colorMap.WillR2 },
+        { name: `WillamsR3`, value: `W-R-3 ( ${williamsNum3} )`, color: colorMap.WillR3 },
+        { name: `WillamsR4`, value: `W-R-4 ( ${williamsNum4} )`, color: colorMap.WillR4 },
+        { name: `WillamsR5`, value: `W-R-5 ( ${williamsNum5} )`, color: colorMap.WillR5 }
     ]
     const ADR_list = [
-        { name: `ADR ( ${adrNum1} )`, value: adrLastValue1, color: "silver" },
-        { name: `ADR ( ${adrNum2} )`, value: adrLastValue2, color: "orange" },
-        { name: `ADR ( ${adrNum3} )`, value: adrLastValue3, color: "greenyellow" },
+        { name: `ADR ( ${adrNum1} )`, value: lastValue.ADR1, color: colorMap.ADR1 },
+        { name: `ADR ( ${adrNum2} )`, value: lastValue.ADR2, color: colorMap.ADR2 },
+        { name: `ADR ( ${adrNum3} )`, value: lastValue.ADR3, color: colorMap.ADR3 },
+    ]
+    const WillR_list = [
+        { name: `W-R-1 ( ${williamsNum1} )`, value: lastValue.WillR1, color: colorMap.WillR1 },
+        { name: `W-R-2 ( ${williamsNum2} )`, value: lastValue.WillR2, color: colorMap.WillR2 },
+        { name: `W-R-3 ( ${williamsNum3} )`, value: lastValue.WillR3, color: colorMap.WillR3 },
+        { name: `W-R-4 ( ${williamsNum4} )`, value: lastValue.WillR4, color: colorMap.WillR4 },
+        { name: `W-R-5 ( ${williamsNum5} )`, value: lastValue.WillR5, color: colorMap.WillR5 },
     ]
 
     return (
@@ -300,7 +273,7 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
                     </Grid>
                 </Box>
 
-                <IndexChart data={kospi200} height={940} name={'Modeling'} rangeSelector={4} creditsPositionX={1} 상위컴포넌트로전달={getWilliamsValue} />
+                <IndexChart data={indexChartConfig} height={940} name={'Modeling'} rangeSelector={4} creditsPositionX={1} 상위컴포넌트로전달={getWilliamsValue} />
 
             </Grid>
             <Grid item xs={1.5} container sx={{ height: '940px' }}>
@@ -331,7 +304,7 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
                         </Grid>
                     ))}
                     <Grid container sx={{ mb: '140px' }}></Grid>
-                    {indicators.slice(3, 6).map(indicator => (
+                    {indicators.slice(3).map(indicator => (
                         <Grid container spacing={1} key={indicator.name}>
                             <Grid item xs={5.5}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'left', height: '100%', color: indicator.color, fontSize: '0.8rem' }}>
@@ -346,14 +319,18 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
                             </Grid>
                         </Grid>
                     ))}
-                    {williamsValue && williamsValue.length > 0 ?
-                        williamsValue.map(item => (
-                            <Typography key={item.name} sx={{ fontSize: '15px', color: item.color, mt: 1 }}>
-                                {item.name} : {item.value} %
-                            </Typography>
-                        )) :
-                        <Box>Loading</Box>
-                    }
+
+                    {WillR_list.map(item => (
+                        <Grid container key={item.name}>
+                            {item.value && item.value.length > 0 ?
+                                <Typography key={item.name} sx={{ fontSize: '15px', color: item.color, mt: 1 }}>
+                                    {item.name} : {item.value} %
+                                </Typography>
+                                : <Box>Loading</Box>
+                            }
+                        </Grid>
+                    ))}
+
                     <Grid container sx={{ mb: '60px' }}></Grid>
                 </Grid>
 
