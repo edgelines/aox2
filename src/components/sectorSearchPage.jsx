@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 import {
     Slider, Grid, IconButton, Switch, FormControl, FormControlLabel, Paper, Box, Divider, Stack, ListItem, ListItemText, Typography, TextField, useMediaQuery, ListSubheader, Popper,
@@ -20,12 +20,15 @@ import TreeMap from './SectorsPage/treeMap';
 import ColumnChart from './SectorsPage/columnChart';
 import { API, STOCK } from './util/config';
 import { SectorsName15 } from './util/util';
+import useInterval from './util/useInterval';
 
-export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, StockSectorsThemes, StockThemeByItem, StockSectorByItem, StockPrice, SearchInfo, SectorsChartData, SectorsRanksThemes, ScheduleItemEvent, StockThemes }) {
+export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, StockSectorsThemes, StockThemeByItem, StockSectorByItem, SearchInfo, SectorsChartData, SectorsRanksThemes, ScheduleItemEvent, StockThemes }) {
 
     // const [loading, setLoading] = useState(true);
     const [repeatedKeyword, setRepeatedKeyword] = useState([]);
-    const [filteredData, setFilteredData] = useState(StockPrice);
+    // const [filteredData, setFilteredData] = useState(StockPrice);
+
+    const [tableM1M2, setTableM1M2] = useState([]);
 
     const [filteredStockTable, setFilteredStockTable] = useState([]); // 필터링된 종목 Table
     const [filteredThemeTable, setFilteredThemeTable] = useState([]); // 필터링된 테마 Table
@@ -118,46 +121,26 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
         sectorSelected({ 업종명: sectorName });
     }
 
-    const filteredRows = filteredData.filter((row) => {
-        const volumePercent = parseInt(row['거래량평균%']);
-        const reserveRatioValue = row['유보율'];
-        const ratioValue = row['종목 등락률'];
-        const marketCapValue = row['시가총액'];
-        const debtRatio = row['부채비율']
-        return volumePercent >= volumeRange[0] && volumePercent <= volumeRange[1] &&
-            reserveRatioValue >= reserveRatio && ratioValue >= ratioRange[0] &&
-            ratioValue <= ratioRange[1] && row['5일 평균거래량'] >= volumeAvg &&
-            marketCapValue >= marketCap[0] && marketCapValue <= marketCap[1] && row['부채비율'] <= debtRatio
-    });
 
-    let sortedRows = [...filteredRows].sort((a, b) => {
-        if (order === 'asc') {
-            return a[orderBy] < b[orderBy] ? -1 : 1;
-        } else {
-            return a[orderBy] > b[orderBy] ? -1 : 1;
+    // // 2023.12.08 리팩토링
+    const getPost = async () => {
+        const postData = {
+            volumeRange: volumeRange,
+            reserveRatio: reserveRatio,
+            ratioRange: ratioRange,
+            volumeAvg: volumeAvg,
+            marketCap: marketCap,
+            debtRatio: debtRatio,
         }
-    });
-    sortedRows = sortedRows.map(row => {
-        let isM1 = '';
-        let isM2 = '';
-        [ABC1, ABC2].forEach((list, index) => {
-            list.forEach(obj => {
-                if (obj['주도주 1순위'] === row.종목명 || obj['주도주 2순위'] === row.종목명) {
-                    if (index === 0) {
-                        isM1 = 'O';
-                    } else {
-                        isM2 = 'O';
-                    }
-                }
-            });
-        });
-        return {
-            ...row,
-            M1: isM1,
-            M2: isM2,
-        }
-    })
-    // console.log(sortedRows);
+        const res = await axios.post(`${API}/industryChartData/getStocks`, postData)
+        setSectorsThemes(res.data.industryTop10);
+        setTopThemes(res.data.tableM1M2Themes);
+        setTableM1M2(res.data.tableM1M2);
+        setVolumeMin(res.data.volumeMin);
+        setVolumeMax(res.data.volumeMax);
+        // setVolumeRange(res.data.volumeRange);
+
+    }
 
     // M1, M2, P# Table Filter
     const handleChangeVolume = (event, newValue, activeThumb) => {
@@ -306,40 +289,40 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
             setFilteredCheckName({ key: '테마', name: item.value })
         }
     }
-    // 가장 높은 등락률을 가진 종목들을 찾는 함수
-    const findHighestChangeRateItems = (theme) => {
-        // 해당 테마에 연결된 모든 종목들을 찾음
-        const items = findItemsByTheme(theme.theme);
-        // 각 종목의 등락률과 전일대비거래량을 가져옴
+    // // 가장 높은 등락률을 가진 종목들을 찾는 함수
+    // const findHighestChangeRateItems = (theme) => {
+    //     // 해당 테마에 연결된 모든 종목들을 찾음
+    //     const items = findItemsByTheme(theme.theme);
+    //     // 각 종목의 등락률과 전일대비거래량을 가져옴
 
-        const itemsWithRate = items.data.map(item => {
-            const { changeRate, volume, 업종명, 종목코드 } = getChangeRateAndVolumn(item);
-            return { item, changeRate, volume, 업종명, 종목코드 };
-        });
-        // 등락률에 따라 내림차순으로 정렬
-        const sortedItems = itemsWithRate.sort((a, b) => b.changeRate - a.changeRate);
+    //     const itemsWithRate = items.data.map(item => {
+    //         const { changeRate, volume, 업종명, 종목코드 } = getChangeRateAndVolumn(item);
+    //         return { item, changeRate, volume, 업종명, 종목코드 };
+    //     });
+    //     // 등락률에 따라 내림차순으로 정렬
+    //     const sortedItems = itemsWithRate.sort((a, b) => b.changeRate - a.changeRate);
 
-        // 등락률이 가장 높은 2개의 종목을 반환
-        return sortedItems.slice(0, 2);
-    };
-    // 테마명 필터 빈도 계샨
-    const findThemeCount = (obj) => {
-        const themeCount = {};
-        obj.forEach((row) => {
-            row.테마명.forEach((theme) => {
-                if (!themeCount[theme]) {
-                    themeCount[theme] = 1;
-                } else {
-                    themeCount[theme]++;
-                }
-            });
-        });
-        // 테마명을 출현 빈도에 따라 내림차순 정렬
-        const sortedThemes = Object.entries(themeCount).sort((a, b) => b[1] - a[1]);
-        // 상위 10개 테마 추출
-        const top10Themes = sortedThemes.slice(0, 10).map(([theme, count]) => ({ theme, count }));
-        return top10Themes;
-    }
+    //     // 등락률이 가장 높은 2개의 종목을 반환
+    //     return sortedItems.slice(0, 2);
+    // };
+    // // 테마명 필터 빈도 계샨
+    // const findThemeCount = (obj) => {
+    //     const themeCount = {};
+    //     obj.forEach((row) => {
+    //         row.테마명.forEach((theme) => {
+    //             if (!themeCount[theme]) {
+    //                 themeCount[theme] = 1;
+    //             } else {
+    //                 themeCount[theme]++;
+    //             }
+    //         });
+    //     });
+    //     // 테마명을 출현 빈도에 따라 내림차순 정렬
+    //     const sortedThemes = Object.entries(themeCount).sort((a, b) => b[1] - a[1]);
+    //     // 상위 10개 테마 추출
+    //     const top10Themes = sortedThemes.slice(0, 10).map(([theme, count]) => ({ theme, count }));
+    //     return top10Themes;
+    // }
 
     // togglePage BTN
     const handleTogglePage = (event, newAlignment) => {
@@ -357,47 +340,64 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
         // setHighchartRef(result);
     }
 
-    // 업종TOP10 
-    const 업종TOP10 = async () => {
-        const res = await axios.get(`${API}/themeTop10/Industry`);
-        setSectorsThemes(res.data)
-    }
-    // 종목TOP10
+    const onSelectedStockName = (stockName) => {
+        setSearchItemPage(true);
+        const 종목코드 = StockSectorsThemes.find(data => data.종목명 === stockName).종목코드
+        stockItemSelected({ 종목명: stockName, 종목코드: 종목코드 });
+        const itemData = ScheduleItemEvent.find(data => data.item === stockName);
+        if (!itemData) {
+            console.log('no Data');
+        } else {
+            setSearchItemEvent(itemData ? { stockName: stockName, data: [itemData] } : []);
+        }
+    };
 
     useEffect(() => {
-        업종TOP10()
+        getPost();
+    }, [volumeRange, reserveRatio, ratioRange, marketCap, volumeAvg])
 
-        // 첫 랜더링시 StockPrice불러오는 시간차이 때문에 빈 배열만 불러옴. => StockPrice를 불러오고, 무한루프에 빠지지 않게 조건문을 넣음.
-        if (StockPrice && StockPrice.length > 0) {
-            const newVolumeMin = Math.min(...StockPrice.map((row) => row['거래량평균%']));
-            const newVolumeMax = Math.max(...StockPrice.map((row) => row['거래량평균%']));
+    // 5분 주기 업데이트
+    useInterval(getPost, 1000 * 60 * 5, {
+        startHour: 9,
+        endHour: 16,
+        daysOff: [0, 6], // 일요일(0)과 토요일(6)은 제외
+    });
+    // useEffect(() => {
+    //     const now = new Date();
+    //     const hour = now.getHours();
+    //     const minutes = now.getMinutes();
+    //     const seconds = now.getSeconds();
+    //     let delay;
+    //     if (hour < 9 || (hour === 9 && minutes < 1)) {
+    //         delay = ((9 - hour - 1) * 60 + (61 - minutes)) * 60 - seconds;
+    //     } else {
+    //         // 이미 9시 1분 이후라면, 다음 5분 간격 시작까지 대기 (예: 9시 3분이라면 9시 6분까지 대기)
+    //         delay = (5 - (minutes - 1) % 5) * 60 - seconds;
+    //     }
+    //     // 9시 정각이나 그 이후의 다음 분 시작부터 1분 주기로 데이터 업데이트
+    //     const startUpdates = () => {
+    //         const intervalId = setInterval(() => {
+    //             const now = new Date();
+    //             const hour = now.getHours();
+    //             const dayOfWeek = now.getDay();
+    //             if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
+    //                 getPost();
+    //             } else if (hour >= 16) {
+    //                 // 3시 30분 이후라면 인터벌 종료
+    //                 clearInterval(intervalId);
+    //             }
+    //         }, 1000 * 60 * 5);
+    //         return intervalId;
+    //     };
+    //     // 첫 업데이트 시작
+    //     const timeoutId = setTimeout(() => {
+    //         startUpdates();
+    //     }, delay * 1000);
 
-            if (newVolumeMin !== volumeMin || newVolumeMax !== volumeMax) {
-                setVolumeMin(newVolumeMin);
-                setVolumeMax(newVolumeMax);
-                setVolumeRange([newVolumeMin, newVolumeMax]);
-            }
-        }
+    //     return () => clearTimeout(timeoutId);
+    // }, [])
 
-        const filtered = StockPrice.filter(
-            (row) =>
-                row['거래량평균%'] >= volumeRange[0] && row['거래량평균%'] <= volumeRange[1] &&
-                row['유보율'] >= reserveRatio && row['종목 등락률'] >= ratioRange[0] && row['종목 등락률'] <= ratioRange[1] && row['5일 평균거래량'] >= volumeAvg &&
-                row['시가총액'] >= marketCap[0] && row['시가총액'] <= marketCap[1] && row['부채비율'] <= debtRatio
-        );
-        setFilteredData(filtered);
-
-        // 상위 10개 테마 추출
-        const ABCtop10Themes = findThemeCount(filtered)
-
-        // 상위 10개 테마에 대해 가장 높은 등락률을 가진 종목들을 찾음
-        const result = ABCtop10Themes.map(themeInfo => ({
-            theme: themeInfo.theme,
-            items: findHighestChangeRateItems(themeInfo),
-            count: themeInfo.count,
-        }));
-
-        setTopThemes(result);
+    useEffect(() => {
 
         if (filteredStockTable && filteredStockTable.length > 0) {
             if (filteredCheckName.key === '업종') {
@@ -428,19 +428,8 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
             setRepeatedKeyword(repeatedKeywords)
         }
 
-    }, [StockSectors, ABC1, ABC2, StockSectorsThemes, volumeRange, StockPrice, reserveRatio, ratioRange, volumeMax, volumeMin, marketCap, volumeAvg]);
+    }, [StockSectors, ABC1, ABC2, StockSectorsThemes]);
 
-    const onSelectedStockName = (stockName) => {
-        setSearchItemPage(true);
-        const 종목코드 = StockSectorsThemes.find(data => data.종목명 === stockName).종목코드
-        stockItemSelected({ 종목명: stockName, 종목코드: 종목코드 });
-        const itemData = ScheduleItemEvent.find(data => data.item === stockName);
-        if (!itemData) {
-            console.log('no Data');
-        } else {
-            setSearchItemEvent(itemData ? { stockName: stockName, data: [itemData] } : []);
-        }
-    };
     useEffect(() => {
         if (stockName && stockName.length > 0) {
             setSearchItemPage(true);
@@ -712,15 +701,15 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                                                 onClick={() => { findThemeByItem(item.theme); setFilteredCheckName({ key: '테마', name: item.theme }) }}
                                             >{item.theme.slice(0, 6)}</td>
                                             <td style={tableStyles.itemName}
-                                                onClick={() => { stockItemSelected({ 종목코드: item.items[0].종목코드, 종목명: item.items[0].item.종목명, 업종명: item.items[0].업종명 }); }}
-                                            >{item.items[0].item.종목명.slice(0, 6)}</td>
-                                            <td style={tableStyles.itemChangeRate} >{item.items[0].changeRate.toFixed(2)}</td>
-                                            <td style={tableStyles.itemVolume} >{parseInt(item.items[0].volume * 100).toLocaleString('kr')}</td>
+                                                onClick={() => { stockItemSelected({ 종목코드: item.items[0].종목코드, 종목명: item.items[0].종목명, 업종명: item.items[0].업종명 }); }}
+                                            >{item.items[0].종목명.slice(0, 6)}</td>
+                                            <td style={tableStyles.itemChangeRate} >{item.items[0].등락률.toFixed(2)}</td>
+                                            <td style={tableStyles.itemVolume} >{parseInt(item.items[0].전일대비거래량 * 100).toLocaleString('kr')}</td>
                                             <td style={tableStyles.itemName}
-                                                onClick={() => { stockItemSelected({ 종목코드: item.items[1].종목코드, 종목명: item.items[1].item.종목명, 업종명: item.items[1].업종명 }); }}
-                                            >{item.items[1].item.종목명.slice(0, 6)}</td>
-                                            <td style={tableStyles.itemChangeRate} >{item.items[1].changeRate.toFixed(2)}</td>
-                                            <td style={tableStyles.itemVolume} >{parseInt(item.items[1].volume * 100).toLocaleString('kr')}</td>
+                                                onClick={() => { stockItemSelected({ 종목코드: item.items[1].종목코드, 종목명: item.items[1].종목명, 업종명: item.items[1].업종명 }); }}
+                                            >{item.items[1].종목명.slice(0, 6)}</td>
+                                            <td style={tableStyles.itemChangeRate} >{item.items[1].등락률.toFixed(2)}</td>
+                                            <td style={tableStyles.itemVolume} >{parseInt(item.items[1].전일대비거래량 * 100).toLocaleString('kr')}</td>
                                         </tr>
                                     )) : <tr><td>Loading...</td></tr>
                                 }
@@ -816,7 +805,8 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                                 onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                             >
                                 <ThemeProvider theme={customTheme}>
-                                    <DataGrid rows={sortedRows} columns={stockColumns} hideFooter rowHeight={28}
+                                    <DataGrid rows={tableM1M2} columns={stockColumns} hideFooter rowHeight={28}
+                                        // <DataGrid rows={sortedRows} columns={stockColumns} hideFooter rowHeight={28}
                                         onCellClick={(params, event) => {
                                             if (params.field === '종목명') {
                                                 stockItemSelected({ 종목코드: params.row.종목코드, 종목명: params.value, 업종명: params.row.업종명 });

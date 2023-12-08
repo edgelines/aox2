@@ -7,7 +7,7 @@ require('highcharts/indicators/indicators-all')(Highcharts)
 require('highcharts/modules/exporting')(Highcharts)
 require('highcharts/modules/accessibility')(Highcharts)
 
-export default function Chart({ data = [], height, name, hidenLegend, rangeSelector, xAxisType, credit, creditsPositionX, creditsPositionY, 상위컴포넌트로전달 }) {
+export default function Chart({ data = [], height, name, hidenLegend, rangeSelector, xAxisType, credit, creditsPositionX, creditsPositionY }) {
     const chartRef = useRef(null);
     const [chartOptions, setChartOptions] = useState({
         rangeSelector: {
@@ -96,23 +96,7 @@ export default function Chart({ data = [], height, name, hidenLegend, rangeSelec
         boost: { enabled: true, useGPUTranslations: true },
         series: data,
     })
-    // const getWilliams = () => {
-    //     if (chartRef.current.chart.series && chartRef.current.chart.series.length > 0) {
-    //         상위컴포넌트로전달([{
-    //             name: chartRef.current.chart.series[1].name,
-    //             value: chartRef.current.chart.series[1].yData.length ? (chartRef.current.chart.series[1].yData[chartRef.current.chart.series[1].yData.length - 1]).toFixed(2) : null,
-    //             color: chartRef.current.chart.series[1].color
-    //         }, {
-    //             name: chartRef.current.chart.series[2].name,
-    //             value: chartRef.current.chart.series[2].yData.length ? (chartRef.current.chart.series[2].yData[chartRef.current.chart.series[2].yData.length - 1]).toFixed(2) : null,
-    //             color: chartRef.current.chart.series[2].color
-    //         }, {
-    //             name: chartRef.current.chart.series[3].name,
-    //             value: chartRef.current.chart.series[3].yData.length ? (chartRef.current.chart.series[3].yData[chartRef.current.chart.series[3].yData.length - 1]).toFixed(2) : null,
-    //             color: chartRef.current.chart.series[3].color
-    //         }])
-    //     }
-    // }
+
     useEffect(() => {
         const yAxisConfig = {
             VixMA: [{
@@ -302,10 +286,6 @@ export default function Chart({ data = [], height, name, hidenLegend, rangeSelec
             yAxis: yAxisConfig[name],
             series: data
         })
-
-        // if (name === 'Modeling') {
-        //     getWilliams()
-        // }
 
     }, [data]);
     return (
