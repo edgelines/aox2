@@ -99,8 +99,8 @@ function App() {
     // 각 구간별 CheckBox BTN을 통해 필터된 업종들
     const [sectorsRanksThemes, setSectorsRanksThemes] = useState([]);
     // 각 구간별 업종에서 테마 추출하기 위한 변수들
-    const 종목등락률 = 1;
-    const 추출테마수 = 10;
+    // const 종목등락률 = 1;
+    // const 추출테마수 = 10;
 
     // const 업종별데이터그룹화 = (data, 업종그룹) => {
     //     return 업종그룹.map(업종리스트 => {
@@ -480,18 +480,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <SectorsChartPage
-                        filteredChartData={filteredChartData} sectorsRanksThemes={sectorsRanksThemes}
-                        Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop}
-                        checkboxStatusUp={checkboxStatusUp}
-                        checkboxStatusDown={checkboxStatusDown}
-                        checkboxStatusTup={checkboxStatusTup}
-                        checkboxAll={checkboxAll}
-                        onCheckboxStatusUp={handleCheckboxStatusUp}
-                        onCheckboxStatusDown={handleCheckboxStatusDown}
-                        onCheckboxStatusTup={handleCheckboxStatusTup}
-                        onCheckboxAll={handleCheckboxStatusAll}
-                    />
+                    <ModelingPage swiperRef={swiperRef} Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
