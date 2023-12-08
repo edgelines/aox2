@@ -21,7 +21,7 @@ Highcharts.setOptions({
     }
 });
 
-const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, stockDmiData, 거래일datetime, 최대값, 최소값, 평균단가, height, indicators }) => {
+const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, 평균단가, height, indicators }) => {
     const [전일대비, set전일대비] = useState(null);
     const [chartOptions, setChartOptions] = useState({
         chart: { animation: false, height: height ? height : 360, },
@@ -53,21 +53,50 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, stockD
         navigation: { buttonOptions: { enabled: false }, },
         yAxis: [{
             enabled: true,
-            height: '50%',
+            height: '60%',
             labels: {
                 style: { fontSize: '11px' }, formatter: function () {
                     return (this.value).toLocaleString('ko-KR');
                 },
             },
         }, {
-            top: '25%',
-            height: '25%',
+            top: '60%',
+            height: '20%',
             offset: 0,
             labels: {
                 align: 'right',
                 x: -3
             },
             title: { text: 'Volume' }
+        }, {
+            title: { enabled: false },
+            gridLineWidth: 0.2,
+            top: '80%',
+            height: '20%',
+            labels: {
+                style: { fontSize: '0px' }
+            },
+            plotLines: [{
+                color: 'black',
+                width: 0.5,
+                value: -100,
+                label: { text: '-100', align: 'right', x: 0 }
+                // dashStyle: 'shortdash',//라인 스타일 지정 옵션
+                // zIndex: 5,
+            }, {
+                color: 'skyblue',
+                width: 0.5,
+                value: -50,
+                dashStyle: 'shortdash',//라인 스타일 지정 옵션
+                label: { text: '-50', align: 'right', x: 0 }
+            }, {
+                color: 'dodgerblue',
+                width: 0.5,
+                value: 60,
+                dashStyle: 'shortdash',//라인 스타일 지정 옵션
+                // zIndex: 5,
+            }],
+            crosshair: { width: 2, }
         }],
         xAxis: {
             // type: 'datetime',
@@ -259,39 +288,7 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, stockD
                 params: { index: 3, period: 14 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
             })
         }
-        if (stockDmiData?.dmi3) {
-            seriesData.push({
-                type: 'spline', animation: false, yAxis: 2, marker: { enabled: false, states: { hover: { enabled: false } } },
-                data: stockDmiData.dmi3,
-                color: "red",
-                name: 'DMI-3',
-                lineWidth: 0.5
-            }, {
-                type: 'spline', animation: false, yAxis: 2, marker: { enabled: false, states: { hover: { enabled: false } } },
-                data: stockDmiData.dmi4,
-                color: "orange",
-                name: 'D-4',
-                lineWidth: 0.5
-            }, {
-                type: 'spline', animation: false, yAxis: 2, marker: { enabled: false, states: { hover: { enabled: false } } },
-                data: stockDmiData.dmi5,
-                color: "green",
-                name: 'D-5',
-                lineWidth: 0.5
-            }, {
-                type: 'spline', animation: false, yAxis: 2, marker: { enabled: false, states: { hover: { enabled: false } } },
-                data: stockDmiData.dmi6,
-                color: "blue",
-                name: 'D-6',
-                lineWidth: 0.5
-            }, {
-                type: 'spline', animation: false, yAxis: 2, marker: { enabled: false, states: { hover: { enabled: false } } },
-                data: stockDmiData.dmi7,
-                color: "purple",
-                name: 'D-7',
-                lineWidth: 0.5
-            })
-        }
+
 
         return seriesData;
     };
@@ -407,7 +404,7 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, stockD
                 }
             </Box>
 
-            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: 'translate(10px, -290px)', zIndex: 100 }}>
+            {/* <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: 'translate(10px, -290px)', zIndex: 100 }}>
                 {
                     stockDmiData?.dmi3 ?
                         Object.entries(stockDmiData).filter(([key, _]) => key.startsWith('dmi')).map(([key, value]) => (
@@ -417,7 +414,7 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, stockD
                         ))
                         : <></>
                 }
-            </Box>
+            </Box> */}
         </>
         // <div ref={chartRef} />
     );

@@ -3,26 +3,23 @@ import { configureStore } from "@reduxjs/toolkit";
 // import rootSaga from './rootSaga';
 // import websocketReducer from './reducers/websocketReducer';
 
-
 import { StockSectors, Kospi200BubbleCategoryGruop, Kospi200BubbleCategory } from "./stockSectors.js";
-import { StockSectorsGR } from "./stockSectorsGR.js";
-import { StockPrice, StockSectorsThemes } from "./stockPrice.js";
+import { StockSectorsThemes } from "./stockPrice.js";
 import { StockThemes } from "./stockThemes.js";
 import { ABC } from "./AxBxC.js";
 import { StockThemeByItem, StockSectorByItem, SearchInfo, ScheduleItemEvent } from "./info.js";
 import { IndexMA, VixMA, Vix, MarketDetail, Kospi200, Kospi, Kosdaq, Invers, MarketKospi200, Exchange } from "./indexData.js";
 import { ELW_monthTable, ELW_CallPutRatio_Maturity, ElwWeightedAvg, ElwWeightedAvgCheck, ElwBarData } from "./ELW.js";
-import { StockSearch, StockSearchTracking, StockSearchTrackingStatistics } from './stockSearch.js';
+// import { StockSearch, StockSearchTracking, StockSearchTrackingStatistics } from './stockSearch.js';
 
 // const sagaMiddleware = createSagaMiddleware();
 
 export default configureStore({
     reducer: {
-        StockSectorsGR: StockSectorsGR.reducer,
         StockSectors: StockSectors.reducer,
         Kospi200BubbleCategoryGruop: Kospi200BubbleCategoryGruop.reducer,
         Kospi200BubbleCategory: Kospi200BubbleCategory.reducer,
-        StockPrice: StockPrice.reducer,
+        // StockPrice: StockPrice.reducer,
         StockSectorsThemes: StockSectorsThemes.reducer,
         StockThemes: StockThemes.reducer,
         ABC: ABC.reducer,
@@ -30,9 +27,9 @@ export default configureStore({
         // ABC2: ABC2.reducer,
         StockThemeByItem: StockThemeByItem.reducer,
         StockSectorByItem: StockSectorByItem.reducer,
-        StockSearch: StockSearch.reducer,
-        StockSearchTracking: StockSearchTracking.reducer,
-        StockSearchTrackingStatistics: StockSearchTrackingStatistics.reducer,
+        // StockSearch: StockSearch.reducer,
+        // StockSearchTracking: StockSearchTracking.reducer,
+        // StockSearchTrackingStatistics: StockSearchTrackingStatistics.reducer,
         SearchInfo: SearchInfo.reducer,
         ScheduleItemEvent: ScheduleItemEvent.reducer,
         IndexMA: IndexMA.reducer,

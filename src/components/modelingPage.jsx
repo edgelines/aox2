@@ -9,12 +9,6 @@ import { API, markerConfig } from './util/config';
 
 export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail }) {
 
-    // const [kospi200, setKospi200] = useState([]);
-    // const [rawKospi200, setRawKospi200] = useState([]);
-    // const [adrRaw, setAdrRaw] = useState([]);
-    // const [adrLastValue1, setAdrLastValue1] = useState(null);
-    // const [adrLastValue2, setAdrLastValue2] = useState(null);
-    // const [adrLastValue3, setAdrLastValue3] = useState(null);
     const [lastValue, setLastValue] = useState({ ADR1: '', ADR2: '', ADR3: '', WillR1: '', WillR2: '', WillR3: '', WillR4: '', WillR5: '' })
     const [adrNum1, setAdrNum1] = useState(7);
     const [adrNum2, setAdrNum2] = useState(14);
@@ -23,12 +17,8 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
     const [williamsNum1, setWilliamsNum1] = useState(5);
     const [williamsNum2, setWilliamsNum2] = useState(7);
     const [williamsNum3, setWilliamsNum3] = useState(14);
-    const [williamsNum4, setWilliamsNum4] = useState(22);
-    const [williamsNum5, setWilliamsNum5] = useState(33);
-
-    const [williamsValue, setWilliamsValue] = useState([]);
-
-    const getWilliamsValue = (item) => { setWilliamsValue(item) };
+    const [williamsNum4, setWilliamsNum4] = useState(24);
+    const [williamsNum5, setWilliamsNum5] = useState(47);
 
     const [indexChartConfig, setIndexChartConfig] = useState({})
 
@@ -59,7 +49,7 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
         WillR2: 'orange',
         WillR3: 'greenyellow',
         WillR4: 'dodgerblue',
-        WillR5: 'silver',
+        WillR5: 'white',
     };
     const getADR = async (num, Name) => {
         const res = await axios.get(`${API}/modeling/adr?num=${num}`);
@@ -98,56 +88,13 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
             yAxis: 1,
             zIndex: 3,
             dashStyle: 'ShortDash',
-            lineWidth: 1,
+            lineWidth: Name === 'WillR5' ? 1.5 : 1,
             marker: markerConfig, showInLegend: true,
         };
     }
     // Fetch Data
     const fetchData = async () => {
         const resKospi200 = await axios.get(`${API}/modeling/Kospi200`);
-        // setRawKospi200(resKospi200.data);
-
-        // // 변경된 ADR 데이터를 담는 빈 배열 생성
-        // const updatedAdrs = [];
-
-        // // 변경된 ADR 번호 확인
-        // if (adrNum1 !== 1) {
-        //     // ADR 데이터 가져오기
-        //     const adr1 = await getADR(adrNum1, 'ADR1');
-        //     // 변경된 ADR 데이터 배열에 추가
-        //     updatedAdrs.push(adr1);
-        // }
-
-        // if (adrNum2 !== 1) {
-        //     const adr2 = await getADR(adrNum2, 'ADR2');
-        //     updatedAdrs.push(adr2);
-        // }
-
-        // if (adrNum3 !== 1) {
-        //     const adr3 = await getADR(adrNum3, 'ADR3');
-        //     updatedAdrs.push(adr3);
-        // }
-
-        // if (williamsNum1 !== 1) {
-        //     const WillR1 = await getWillR(williamsNum1, 'WillR1');
-        //     updatedAdrs.push(WillR1);
-        // }
-        // if (williamsNum2 !== 1) {
-        //     const WillR2 = await getWillR(williamsNum2, 'WillR2');
-        //     updatedAdrs.push(WillR2);
-        // }
-        // if (williamsNum3 !== 1) {
-        //     const WillR3 = await getWillR(williamsNum3, 'WillR3');
-        //     updatedAdrs.push(WillR3);
-        // }
-        // if (williamsNum4 !== 1) {
-        //     const WillR4 = await getWillR(williamsNum4, 'WillR4');
-        //     updatedAdrs.push(WillR4);
-        // }
-        // if (williamsNum5 !== 1) {
-        //     const WillR5 = await getWillR(williamsNum5, 'WillR5');
-        //     updatedAdrs.push(WillR5);
-        // }
 
         // Promise 객체를 사용하여 모든 데이터 수집을 기다림
         const promises = [];
@@ -273,7 +220,7 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
                     </Grid>
                 </Box>
 
-                <IndexChart data={indexChartConfig} height={940} name={'Modeling'} rangeSelector={4} creditsPositionX={1} 상위컴포넌트로전달={getWilliamsValue} />
+                <IndexChart data={indexChartConfig} height={940} name={'Modeling'} rangeSelector={4} creditsPositionX={1} />
 
             </Grid>
             <Grid item xs={1.5} container sx={{ height: '940px' }}>

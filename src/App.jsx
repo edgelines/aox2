@@ -2,10 +2,9 @@ import './App.css';
 import React, { useState, useEffect, useRef } from "react";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { getStockSectorsGR } from "./store/stockSectorsGR.js";
 import { getStockSectors, getKospi200BubbleCategoryGruop, getKospi200BubbleCategory } from "./store/stockSectors.js";
 import { getStockThemes } from "./store/stockThemes.js";
-import { getStockPrice, getStockSectorsThemes } from "./store/stockPrice.js";
+import { getStockSectorsThemes } from "./store/stockPrice.js";
 import { getABC } from "./store/AxBxC.js";
 import { getStockThemeByItem, getStockSectorByItem, getSearchInfo, getScheduleItemEvent } from "./store/info.js";
 import { getIndexMA, getVixMA, getVix, getMarketDetail, getKospi200, getKospi, getKosdaq, getInvers, getMarketKospi200, getExchange } from './store/indexData.js';
@@ -44,11 +43,9 @@ function App() {
     const [ABC2, setABC2] = useState([]);
 
     const dispatch = useDispatch();
-    const StockSectorsGR = useSelector((state) => state.StockSectorsGR);
     const StockSectors = useSelector((state) => state.StockSectors);
     const Kospi200BubbleCategoryGruop = useSelector((state) => state.Kospi200BubbleCategoryGruop);
     const Kospi200BubbleCategory = useSelector((state) => state.Kospi200BubbleCategory);
-    const StockPrice = useSelector((state) => state.StockPrice);
     const StockSectorsThemes = useSelector((state) => state.StockSectorsThemes);
     const StockThemes = useSelector((state) => state.StockThemes);
     const StockThemeByItem = useSelector((state) => state.StockThemeByItem);
@@ -58,8 +55,7 @@ function App() {
     // const StockSearchTrackingStatistics = useSelector((state) => state.StockSearchTrackingStatistics)
     const SearchInfo = useSelector((state) => state.SearchInfo);
     const ABC = useSelector((state) => state.ABC)
-    // const ABC1 = useSelector((state) => state.ABC1);
-    // const ABC2 = useSelector((state) => state.ABC2);
+
     const ELW_monthTable = useSelector((state) => state.ELW_monthTable);
     const ELW_CallPutRatio_Maturity = useSelector((state) => state.ELW_CallPutRatio_Maturity);
     const ElwBarData = useSelector((state) => state.ElwBarData)
@@ -98,106 +94,16 @@ function App() {
     });
     // 각 구간별 CheckBox BTN을 통해 필터된 업종들
     const [sectorsRanksThemes, setSectorsRanksThemes] = useState([]);
-    // 각 구간별 업종에서 테마 추출하기 위한 변수들
-    // const 종목등락률 = 1;
-    // const 추출테마수 = 10;
 
-    // const 업종별데이터그룹화 = (data, 업종그룹) => {
-    //     return 업종그룹.map(업종리스트 => {
-    //         return 업종리스트.flatMap(업종명 => data.filter(item => item.업종명 === 업종명))
-    //     })
-    // }
-    // const 업종데이터전처리 = (data) => {
-    //     const 업종그룹 = [
-    //         ['디스플레이장비및부품', '반도체와반도체장비', '자동차', '자동차부품', '화학'],
-    //         ['에너지장비및서비스', '전기장비', '전기제품', '전자장비와기기', '전자제품'],
-    //         ['IT서비스', '게임엔터테인먼트', '소프트웨어', '방송과엔터테인먼트', '핸드셋'],
-    //         ['컴퓨터와주변기기', '무역회사와판매업체', '무선통신서비스', '다각화된통신서비스', '디스플레이패널'],
-    //         ['석유와가스', '가스유틸리티', '조선', '항공화물운송과물류', '해운사'],
-    //         ['건설', '건축자재', '건축제품', '기계', '철강'],
-    //         ['운송인프라', '도로와철도운송', '비철금속', '우주항공과국방', '통신장비'],
-    //         ['부동산', '상업서비스와공급품', '은행', '증권', '창업투자'],
-    //         ['가구', '가정용기기와용품', '인터넷과카탈로그소매', '가정용품', '판매업체'],
-    //         ['생명과학도구및서비스', '생물공학', '제약'],
-    //         ['건강관리기술', '건강관리장비와용품', '건강관리업체및서비스'],
-    //         ['식품', '식품과기본식료품소매', '음료', '종이와목재', '포장재'],
-    //         ['광고', '교육서비스', '양방향미디어와서비스', '화장품'],
-    //         ['레저용장비와제품', '백화점과일반상점', '섬유', '항공사', '호텔']
-    //     ]
-
-    //     const 그룹화된데이터 = 업종별데이터그룹화(data, 업종그룹);
-
-    //     const result = {
-    //         반도체1: 그룹화된데이터[0],
-    //         반도체2: 그룹화된데이터[1],
-    //         IT1: 그룹화된데이터[2],
-    //         IT2: 그룹화된데이터[3],
-    //         조선: 그룹화된데이터[4],
-    //         건설1: 그룹화된데이터[5],
-    //         건설2: 그룹화된데이터[6],
-    //         금융: 그룹화된데이터[7],
-    //         B2C: 그룹화된데이터[8],
-    //         BIO1: 그룹화된데이터[9],
-    //         BIO2: 그룹화된데이터[10],
-    //         식품: 그룹화된데이터[11],
-    //         아웃도어1: 그룹화된데이터[12],
-    //         아웃도어2: 그룹화된데이터[13],
-    //     }
-    //     return result;
-    // }
-
-    // 업종에 속한 테마 가져오기
-    // function getTop10Themes(rankName, StockSectorsThemes) {
-    //     const sectorsData = StockSectorsThemes.filter((row) =>
-    //         rankName.includes(row['업종명']) && row['등락률'] >= 종목등락률);
-
-    //     const themeRankInfoByTheme = {};
-    //     StockThemes.forEach((themeInfo) => {
-    //         themeRankInfoByTheme[themeInfo['테마명']] = themeInfo;
-    //     });
-
-    //     const themeStats = {};
-
-    //     sectorsData.forEach((row) => {
-    //         row.테마명.forEach((theme) => {
-    //             const themeFluctuation = themeRankInfoByTheme[theme] ? themeRankInfoByTheme[theme]['등락률'] : 0;
-
-    //             if (!themeStats[theme]) {
-    //                 themeStats[theme] = { count: 1, fluctuation: themeFluctuation, stocks: [{ item: row.종목명, changeRate: row.등락률, volume: row.전일대비거래량, 종목코드: row.종목코드, 업종명: row.업종명 }] };
-    //             } else {
-    //                 themeStats[theme].count++;
-    //                 themeStats[theme].stocks.push({ item: row.종목명, changeRate: row.등락률, volume: row.전일대비거래량, 종목코드: row.종목코드, 업종명: row.업종명 })
-    //             }
-    //         });
-    //     });
-
-    //     const sortedThemes = Object.entries(themeStats).sort((a, b) => {
-    //         if (b[1].count !== a[1].count) {
-    //             return b[1].count - a[1].count;
-    //         } else {
-    //             return b[1].fluctuation - a[1].fluctuation;
-    //         }
-    //     }).map(([theme, stats]) => [theme, stats.count, stats.fluctuation, stats.stocks]);
-
-    //     // const top10Themes = sortedThemes.slice(0, 추출테마수).map(([theme, count, fluctuation, stocks]) => ({ theme, count, fluctuation, stocks }));
-    //     const top10Themes = sortedThemes.slice(0, 추출테마수).map(([theme, count, fluctuation, stocks]) => {
-    //         stocks.sort((a, b) => b.changeRate - a.changeRate);  // 내림차순 정렬
-    //         return { theme, count, fluctuation, stocks };
-    //     });
-    //     return top10Themes;
-    // }
-
-    // 30초 주기
+    // 60초 주기
     const fetchData = async () => {
         await dispatch(getMarketDetail());
-        await dispatch(getStockSectorsGR());
         await dispatch(getStockSectors());
         await dispatch(getKospi200BubbleCategoryGruop());
         await dispatch(getKospi200BubbleCategory());
-        await dispatch(getStockPrice());
+        await dispatch(getABC());
         await dispatch(getStockSectorsThemes());
         await dispatch(getStockThemes());
-        await dispatch(getABC());
     }
     // 5분 주기 ( Index Data )
     const fetchData5Min = async () => {
@@ -231,6 +137,7 @@ function App() {
 
     // 첫 랜더링
     useEffect(() => {
+        postReq();
         fetchData();
         fetchData1Day();
         fetchData5Min();
@@ -354,101 +261,8 @@ function App() {
 
     // sectorsChartPage Render
     useEffect(() => {
-        // if (StockSectorsGR.status === 'succeeded') {
-        //     // if (StockSectorsGR.data && StockSectorsGR.data.length > 0) {
-        //     // if (StockSectorsGR.status === 'succeeded') {
-        //     const stockSectorsChartData = 업종데이터전처리(StockSectorsGR.data);
-        //     // setSectorsChartData(stockSectorsChartData);
-        //     let allSectorNames = new Set(); // 모든 Rank 구간에서 추출된 업종명을 저장할 Set
-        //     let sectorNames = {}; // 각 구간별로 필터된 업종명을 저장할 객체
-
-        //     let mergedFilteredData = {}
-        //     for (let rank in rankRange) {
-        //         let filteredDataUp = {};
-        //         let filteredDataDown = {};
-        //         let sectorNamesForRank = new Set(); // 이 Rank 구간에서 필터된 업종명을 저장할 Set. 중복 제거를 위해 Set을 사용합니다.
-
-        //         // TOM > NOW 체크박스와 다른 체크박스가 모두 체크된 경우에 대한 필터링
-        //         if (checkboxStatusUp[rank] && checkboxStatusTup[rank]) {
-        //             for (let key in stockSectorsChartData) {
-        //                 filteredDataUp[key] = (filteredDataUp[key] || []).concat(
-        //                     stockSectorsChartData[key].filter(item =>
-        //                         item['NOW'] >= rankRange[rank][0] &&
-        //                         item['NOW'] <= rankRange[rank][1] &&
-        //                         item['B1'] >= item['NOW'] &&
-        //                         item['TOM'] >= item['NOW']
-        //                     )
-        //                 );
-        //             }
-        //         } else if (checkboxStatusUp[rank]) { // 체크박스Up에 대한 필터링
-        //             for (let key in stockSectorsChartData) {
-        //                 filteredDataUp[key] = (filteredDataUp[key] || []).concat(
-        //                     stockSectorsChartData[key].filter(item =>
-        //                         item['NOW'] >= rankRange[rank][0] &&
-        //                         item['NOW'] <= rankRange[rank][1] &&
-        //                         item['B1'] >= item['NOW']
-        //                     )
-        //                 );
-        //             }
-        //         }
-
-        //         // 체크박스Down에 대한 필터링
-        //         if (checkboxStatusDown[rank] && checkboxStatusTup[rank]) {
-        //             for (let key in stockSectorsChartData) {
-        //                 filteredDataDown[key] = (filteredDataDown[key] || []).concat(
-        //                     stockSectorsChartData[key].filter(item =>
-        //                         item['NOW'] >= rankRange[rank][0] &&
-        //                         item['NOW'] <= rankRange[rank][1] &&
-        //                         item['B1'] < item['NOW'] &&
-        //                         item['TOM'] >= item['NOW']
-        //                     )
-        //                 );
-        //             }
-        //         } else if (checkboxStatusDown[rank]) {
-        //             for (let key in stockSectorsChartData) {
-        //                 filteredDataDown[key] = (filteredDataDown[key] || []).concat(
-        //                     stockSectorsChartData[key].filter(item =>
-        //                         item['NOW'] >= rankRange[rank][0] &&
-        //                         item['NOW'] <= rankRange[rank][1] &&
-        //                         item['B1'] < item['NOW']
-        //                     )
-        //                 );
-        //             }
-        //         }
-
-        //         for (let key in stockSectorsChartData) {
-        //             mergedFilteredData[key] = (mergedFilteredData[key] || []).concat(filteredDataUp[key] || [], filteredDataDown[key] || []);
-        //         }
-
-        //         for (let key in mergedFilteredData) {
-        //             let data = mergedFilteredData[key];
-        //             for (let item of data) {
-        //                 // '업종명'이 item에 있는지 확인하고 있다면 Set에 추가합니다.
-        //                 if ('업종명' in item) {
-        //                     sectorNamesForRank.add(item['업종명']);
-        //                 }
-        //             }
-        //         }
-        //         // 이전 Rank 구간에서 이미 포함된 업종명을 제외합니다.
-        //         let uniqueSectorNamesForRank = new Set([...sectorNamesForRank].filter(x => !allSectorNames.has(x)));
-
-        //         // Set을 배열로 변환하여 sectorNames에 저장합니다.
-        //         sectorNames[rank] = [...uniqueSectorNamesForRank];
-        //         // allSectorNames에 현재 Rank 구간에서 추출한 업종명을 추가합니다.
-        //         allSectorNames = new Set([...allSectorNames, ...sectorNamesForRank]);
-        //         console.log(allSectorNames)
-        //         const top10Themes = getTop10Themes([...uniqueSectorNamesForRank], StockSectorsThemes);
-        //         setSectorsRanksThemes(prevState => { return { ...prevState, [rank]: top10Themes } });
-        //     }
-        //     // setFilteredChartData(mergedFilteredData);
-        //     // console.log(mergedFilteredData);
-        // }
-
         postReq();
-
-
-
-    }, [StockSectorsGR, checkboxStatusUp, checkboxStatusDown, checkboxStatusTup, checkboxAll])
+    }, [checkboxStatusUp, checkboxStatusDown, checkboxStatusTup, checkboxAll])
 
     // Swiper Slider Bottom Page Number Style
     const handleSlideChange = (swiper) => {
@@ -480,7 +294,13 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <ModelingPage swiperRef={swiperRef} Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} />
+                    <SectorSearchPage
+                        StockSectors={StockSectors} swiperRef={swiperRef} ABC1={ABC1} ABC2={ABC2}
+                        StockSectorsThemes={StockSectorsThemes} StockThemeByItem={StockThemeByItem} StockSectorByItem={StockSectorByItem}
+                        SearchInfo={SearchInfo}
+                        SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
+                        StockThemes={StockThemes}
+                    />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -491,7 +311,7 @@ function App() {
                     <SectorSearchPage
                         StockSectors={StockSectors} swiperRef={swiperRef} ABC1={ABC1} ABC2={ABC2}
                         StockSectorsThemes={StockSectorsThemes} StockThemeByItem={StockThemeByItem} StockSectorByItem={StockSectorByItem}
-                        StockPrice={StockPrice} SearchInfo={SearchInfo}
+                        SearchInfo={SearchInfo}
                         SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
                         StockThemes={StockThemes}
                     />
