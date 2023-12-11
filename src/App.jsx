@@ -293,11 +293,11 @@ function App() {
                 onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
-                <SwiperSlide style={swiperSlideStyle} >
-                    <ModelingPage swiperRef={swiperRef} Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} />
-                </SwiperSlide>
-
                 {/* <SwiperSlide style={swiperSlideStyle} >
+                    <ModelingPage swiperRef={swiperRef} Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} />
+                </SwiperSlide> */}
+
+                <SwiperSlide style={swiperSlideStyle} >
                     <SchedulePage swiperRef={swiperRef} />
                 </SwiperSlide>
 
@@ -362,7 +362,7 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <TreasuryStockPage swiperRef={swiperRef} />
-                </SwiperSlide> */}
+                </SwiperSlide>
             </Swiper>
         </div >
     );
