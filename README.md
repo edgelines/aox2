@@ -6,6 +6,15 @@
 - util/useInterval.jsx 테스트
 
 
+### 2023.12.09 ~ 2023.12.11
+{dev-api}
+- Commit.1
+  - sectorsSearchPage.jsx
+    - useEffect ABC1, ABC2 의존성배열 재정의
+    - 전종목 2010년부터 저장, 거래정지된 종목들 0 뜨는 오류 해결
+  - modelingPage.jsx
+    - 코스피200, 코스피, 코스닥 작업중
+
 ### 2023.12.08
 {dev-api}
 - Commit.1
