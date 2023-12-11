@@ -139,7 +139,6 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
         setVolumeMin(res.data.volumeMin);
         setVolumeMax(res.data.volumeMax);
         // setVolumeRange(res.data.volumeRange);
-
     }
 
     // M1, M2, P# Table Filter
@@ -351,7 +350,6 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
             setSearchItemEvent(itemData ? { stockName: stockName, data: [itemData] } : []);
         }
     };
-
     useEffect(() => {
         getPost();
     }, [volumeRange, reserveRatio, ratioRange, marketCap, volumeAvg])
@@ -428,7 +426,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
             setRepeatedKeyword(repeatedKeywords)
         }
 
-    }, [StockSectors, ABC1, ABC2, StockSectorsThemes]);
+    }, [ABC1, ABC2, topThemes, sectorsThemes]);
 
     useEffect(() => {
         if (stockName && stockName.length > 0) {
@@ -864,7 +862,6 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                             onGetComponentEvent={handleGetComponentEvent}
                             onSelectedStockName={onSelectedStockName}
                             StockSectorsThemes={StockSectorsThemes}
-                        // onSectorSelected={onSectorSelected}
                         />
                     </Grid>
                     <Grid item xs={12} sx={{ fontSize: '11px', height: "44vh" }}>

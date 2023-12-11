@@ -72,7 +72,7 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
         };
     }
     const getWillR = async (num, Name) => {
-        const res = await axios.get(`${API}/modeling/willr?num=${num}`);
+        const res = await axios.get(`${API}/modeling/willr?num=${num}&dbName=Kospi200`);
         const lastValue = res.data[res.data.length - 1][1];
         setLastValue(prevLastValue => ({
             ...prevLastValue,
@@ -185,46 +185,54 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
     return (
         <Grid container spacing={1}>
             <Grid item xs={10.5}>
-                <Box sx={{ position: 'absolute', transform: 'translate(41vw, 85px)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)', p: 1, width: '800px' }}>
+                {/* <Box sx={{ position: 'absolute', transform: 'translate(41vw, 85px)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)', p: 1, width: '800px' }}>
                     <Grid container>
-                        <Grid item xs={6} sx={{ fontWeight: 600, fontSize: '24px' }}>
-                            {Vix.value ?
-                                <Grid container>
-                                    {Vix.net > 0 ?
-                                        <>
-                                            <span>Vix : </span>
-                                            <span style={{ color: 'tomato' }}> {Vix.value} ( + {Vix.net} )</span>
-                                        </>
-                                        :
-                                        <>
-                                            <span>Vix : </span>
-                                            <span style={{ color: 'deepskyblue' }}> {Vix.value} ( {Vix.net} )</span>
-                                        </>
 
-                                    }
-                                </Grid>
-                                : <Skeleton variant="rounded" height={20} animation="wave" />}
-
-                            {Exchange.value ?
-                                <Grid container>
-                                    <span>KRX/USD : </span>
-                                    {Exchange.comparison === '상승' ?
-                                        <span style={{ color: 'tomato' }}> {Exchange.value} 원 ( + {Exchange.net} )</span> : Exchange.comparison === '하락' ?
-                                            <span style={{ color: 'deepskyblue' }}> {Exchange.value} 원 ( - {Exchange.net} )</span> : <span style={{ color: 'deepskyblue' }}> {Exchange.value} 원 ( {Exchange.net} )</span>}
-                                </Grid>
-                                : <Skeleton variant="rounded" height={20} animation="wave" />}
-                        </Grid>
                         <Grid item xs={6}>
-                            <MarketCurrentValue MarketDetail={MarketDetail} />
+
                         </Grid>
                     </Grid>
-                </Box>
+                </Box> */}
 
-                <IndexChart data={indexChartConfig} height={940} name={'Modeling'} rangeSelector={4} creditsPositionX={1} />
+                <IndexChart data={indexChartConfig} height={940} name={'Modeling'} rangeSelector={3} creditsPositionX={1} />
 
             </Grid>
             <Grid item xs={1.5} container sx={{ height: '940px' }}>
+                <Grid item xs={12} container>
+
+                    <MarketCurrentValue MarketDetail={MarketDetail} valueFont={'15px'} valueTitle={'15px'} />
+                    <Grid item sx={{ fontWeight: 600, fontSize: '15px' }}>
+                        {Vix.value ?
+                            <Grid container>
+                                {Vix.net > 0 ?
+                                    <>
+                                        <span>Vix : </span>
+                                        <span style={{ color: 'tomato' }}> {Vix.value} ( + {Vix.net} )</span>
+                                    </>
+                                    :
+                                    <>
+                                        <span>Vix : </span>
+                                        <span style={{ color: 'deepskyblue' }}> {Vix.value} ( {Vix.net} )</span>
+                                    </>
+
+                                }
+                            </Grid>
+                            : <Skeleton variant="rounded" height={20} animation="wave" />}
+
+                        {Exchange.value ?
+                            <Grid container>
+                                <span>KRX/USD : </span>
+                                {Exchange.comparison === '상승' ?
+                                    <span style={{ color: 'tomato' }}> {Exchange.value} 원 ( + {Exchange.net} )</span> : Exchange.comparison === '하락' ?
+                                        <span style={{ color: 'deepskyblue' }}> {Exchange.value} 원 ( - {Exchange.net} )</span> : <span style={{ color: 'deepskyblue' }}> {Exchange.value} 원 ( {Exchange.net} )</span>}
+                            </Grid>
+                            : <Skeleton variant="rounded" height={20} animation="wave" />}
+                    </Grid>
+                </Grid>
+
                 <Grid item xs={12} container direction="column" justifyContent="flex-end" textAlign='start' >
+
+                    <Grid container sx={{ mb: '140px' }}></Grid>
                     {indicators.slice(0, 3).map(indicator => (
                         <Grid container spacing={1} key={indicator.name}>
                             <Grid item xs={5}>
@@ -240,6 +248,7 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
                             </Grid>
                         </Grid>
                     ))}
+
                     {ADR_list.map(item => (
                         <Grid container key={item.name}>
                             {item.value && item.value.length > 0 ?
@@ -250,7 +259,9 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
                             }
                         </Grid>
                     ))}
+
                     <Grid container sx={{ mb: '140px' }}></Grid>
+
                     {indicators.slice(3).map(indicator => (
                         <Grid container spacing={1} key={indicator.name}>
                             <Grid item xs={5.5}>
