@@ -6,7 +6,7 @@ import { getStockSectors, getKospi200BubbleCategoryGruop, getKospi200BubbleCateg
 import { getStockThemes } from "./store/stockThemes.js";
 import { getStockSectorsThemes } from "./store/stockPrice.js";
 import { getABC } from "./store/AxBxC.js";
-import { getStockThemeByItem, getStockSectorByItem, getSearchInfo, getScheduleItemEvent } from "./store/info.js";
+import { getSearchInfo, getScheduleItemEvent } from "./store/info.js";
 import { getIndexMA, getVixMA, getVix, getMarketDetail, getKospi200, getKospi, getKosdaq, getInvers, getMarketKospi200, getExchange } from './store/indexData.js';
 import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvg, getElwWeightedAvgCheck, getElwBarData } from './store/ELW.js';
 // import { getStockSearch, getStockSearchTracking, getStockSearchTrackingStatistics } from './store/stockSearch';
@@ -48,8 +48,8 @@ function App() {
     const Kospi200BubbleCategory = useSelector((state) => state.Kospi200BubbleCategory);
     const StockSectorsThemes = useSelector((state) => state.StockSectorsThemes);
     const StockThemes = useSelector((state) => state.StockThemes);
-    const StockThemeByItem = useSelector((state) => state.StockThemeByItem);
-    const StockSectorByItem = useSelector((state) => state.StockSectorByItem);
+    // const StockThemeByItem = useSelector((state) => state.StockThemeByItem);
+    // const StockSectorByItem = useSelector((state) => state.StockSectorByItem);
     // const StockSearch = useSelector((state) => state.StockSearch);
     // const StockSearchTracking = useSelector((state) => state.StockSearchTracking)
     // const StockSearchTrackingStatistics = useSelector((state) => state.StockSearchTrackingStatistics)
@@ -124,8 +124,8 @@ function App() {
     }
     // 하루 주기
     const fetchData1Day = async () => {
-        await dispatch(getStockThemeByItem());
-        await dispatch(getStockSectorByItem());
+        // await dispatch(getStockThemeByItem());
+        // await dispatch(getStockSectorByItem());
         await dispatch(getSearchInfo());
         await dispatch(getScheduleItemEvent())
         await dispatch(getVixMA());
@@ -293,25 +293,26 @@ function App() {
                 onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
-                {/* <SwiperSlide style={swiperSlideStyle} >
+                <SwiperSlide style={swiperSlideStyle} >
                     <SectorSearchPage
                         StockSectors={StockSectors} swiperRef={swiperRef} ABC1={ABC1} ABC2={ABC2}
-                        StockSectorsThemes={StockSectorsThemes} StockThemeByItem={StockThemeByItem} StockSectorByItem={StockSectorByItem}
+                        StockSectorsThemes={StockSectorsThemes}
+                        // StockThemeByItem={StockThemeByItem} StockSectorByItem={StockSectorByItem}
                         SearchInfo={SearchInfo}
                         SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
                         StockThemes={StockThemes}
                     />
-                </SwiperSlide> */}
+                </SwiperSlide>
                 {/* <ModelingPage swiperRef={swiperRef} Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} /> */}
 
-                <SwiperSlide style={swiperSlideStyle} >
+                {/* <SwiperSlide style={swiperSlideStyle} >
                     <SchedulePage swiperRef={swiperRef} />
                 </SwiperSlide>
 
                 <SwiperSlide>
                     <SectorSearchPage
                         StockSectors={StockSectors} swiperRef={swiperRef} ABC1={ABC1} ABC2={ABC2}
-                        StockSectorsThemes={StockSectorsThemes} StockThemeByItem={StockThemeByItem} StockSectorByItem={StockSectorByItem}
+                        StockSectorsThemes={StockSectorsThemes} 
                         SearchInfo={SearchInfo}
                         SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
                         StockThemes={StockThemes}
@@ -369,7 +370,7 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <TreasuryStockPage swiperRef={swiperRef} />
-                </SwiperSlide>
+                </SwiperSlide> */}
             </Swiper>
         </div >
     );

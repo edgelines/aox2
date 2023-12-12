@@ -22,7 +22,7 @@ import { API, STOCK } from './util/config';
 import { SectorsName15 } from './util/util';
 import useInterval from './util/useInterval';
 
-export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, StockSectorsThemes, StockThemeByItem, StockSectorByItem, SearchInfo, SectorsChartData, SectorsRanksThemes, ScheduleItemEvent, StockThemes }) {
+export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, StockSectorsThemes, SearchInfo, SectorsChartData, SectorsRanksThemes, ScheduleItemEvent, StockThemes }) {
 
     // const [loading, setLoading] = useState(true);
     const [repeatedKeyword, setRepeatedKeyword] = useState([]);
@@ -69,55 +69,18 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
     const [togglePage, setTogglePage] = useState('TreeMap');
 
     // Function
-    // 테마에 연결된 종목들을 찾는 함수
-    // 해당 키워드를 찾지 못한다면 빈 배열로 반환
-    const findItemsByTheme = (theme) => {
-        if (StockThemeByItem.status === 'succeeded') {
-            const data = StockThemeByItem.data.find(item => item.테마명 === theme);
-            return data || [];
-        }
-    }
-    const findItemsBySector = (Sector) => { return StockSectorByItem[0][Sector] || []; }; // {업종명 : [ㅁ,ㄴㅇ,ㄹ,] }
-    // 등락률을 가져오는 함수
-    const getChangeRateAndVolumn = (itemName) => {
-        // 종목명이 일치하는 데이터를 찾습니다.
-        const itemData = StockSectorsThemes.find(data => data.종목명 === itemName.종목명);
-        // 데이터가 존재하면 등락률을 반환하고, 그렇지 않으면 0을 반환합니다.
-        return itemData ? { changeRate: itemData.등락률, volume: itemData.전일대비거래량, 업종명: itemData.업종명, 종목코드: itemData.종목코드 } : { changeRate: 0, volume: 0, 업종명: '없음', 종목코드: null };
-    };
-
-
     // 테마를 눌렀을때 가운데 종목과 등락률/전일대비 가져오기
-    const findThemeByItem = (ThemeName) => {
-        setFilteredCheckName({ key: '테마', name: ThemeName })
-        // 해당 테마에 연결된 모든 종목들을 찾음
-        const items = findItemsByTheme(ThemeName);
-        // console.log(items);
-        // 각 종목의 등락률과 전일대비거래량을 가져옴
-        const itemsWithRate = items.map((item, index) => {
-            const { changeRate, volume, 업종명, 종목코드 } = getChangeRateAndVolumn(item);
-            return { id: index, item, changeRate, volume, 업종명, 종목코드 };
-        });
+    const findThemeByItem = async (ThemeName) => {
+        // setFilteredCheckName({ key: '테마', name: ThemeName })
+        const res = await axios.get(`${API}/industryChartData/findThemeStocks?name=${ThemeName}`)
+        setFilteredStockTable(res.data);
 
-        // 등락률에 따라 내림차순으로 정렬
-        const sortedItems = itemsWithRate.sort((a, b) => b.changeRate - a.changeRate);
-
-        // 등락률이 가장 높은 2개의 종목을 반환
-        setFilteredStockTable(sortedItems);
     }
     // 업종과 전일대비 Table에서 업종을 눌렀을때 가운데 종목과 등락률/전일대비 가져오기
-    const findSectorsByItem = (sectorName) => {
+    const findSectorsByItem = async (sectorName) => {
         // setFilteredCheckName({ key: '업종', name: sectorName })
-        const items = findItemsBySector(sectorName);
-        const itemsWithRate = items.map((item, index) => {
-            const { changeRate, volume, 업종명, 종목코드 } = getChangeRateAndVolumn(item);
-            return { id: index, item, changeRate, volume, 업종명, 종목코드 };
-        });
-
-        // 등락률에 따라 내림차순으로 정렬
-        const sortedItems = itemsWithRate.sort((a, b) => b.changeRate - a.changeRate);
-        // 등락률이 가장 높은 2개의 종목을 반환
-        setFilteredStockTable(sortedItems);
+        const res = await axios.get(`${API}/industryChartData/findIndustryStocks?name=${sectorName}`)
+        setFilteredStockTable(res.data);
         sectorSelected({ 업종명: sectorName });
     }
 
@@ -288,40 +251,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
             setFilteredCheckName({ key: '테마', name: item.value })
         }
     }
-    // // 가장 높은 등락률을 가진 종목들을 찾는 함수
-    // const findHighestChangeRateItems = (theme) => {
-    //     // 해당 테마에 연결된 모든 종목들을 찾음
-    //     const items = findItemsByTheme(theme.theme);
-    //     // 각 종목의 등락률과 전일대비거래량을 가져옴
 
-    //     const itemsWithRate = items.data.map(item => {
-    //         const { changeRate, volume, 업종명, 종목코드 } = getChangeRateAndVolumn(item);
-    //         return { item, changeRate, volume, 업종명, 종목코드 };
-    //     });
-    //     // 등락률에 따라 내림차순으로 정렬
-    //     const sortedItems = itemsWithRate.sort((a, b) => b.changeRate - a.changeRate);
-
-    //     // 등락률이 가장 높은 2개의 종목을 반환
-    //     return sortedItems.slice(0, 2);
-    // };
-    // // 테마명 필터 빈도 계샨
-    // const findThemeCount = (obj) => {
-    //     const themeCount = {};
-    //     obj.forEach((row) => {
-    //         row.테마명.forEach((theme) => {
-    //             if (!themeCount[theme]) {
-    //                 themeCount[theme] = 1;
-    //             } else {
-    //                 themeCount[theme]++;
-    //             }
-    //         });
-    //     });
-    //     // 테마명을 출현 빈도에 따라 내림차순 정렬
-    //     const sortedThemes = Object.entries(themeCount).sort((a, b) => b[1] - a[1]);
-    //     // 상위 10개 테마 추출
-    //     const top10Themes = sortedThemes.slice(0, 10).map(([theme, count]) => ({ theme, count }));
-    //     return top10Themes;
-    // }
 
     // togglePage BTN
     const handleTogglePage = (event, newAlignment) => {
@@ -431,9 +361,9 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
         },
     ];
     const filteredStockTableCol = [ // 가운데 종목/등락률/전일대비
-        { field: 'item', headerName: '종목명', width: 73 },
+        { field: '종목명', headerName: '종목명', width: 73 },
         {
-            field: 'changeRate', headerName: '등락률', width: 30,
+            field: '등락률', headerName: '등락률', width: 30,
             renderCell: (params) => {
                 const row = params.row;
                 const progress = renderProgress({ value: row.changeRate, valueON: true, val2: 5, color: '#e89191' })
@@ -450,7 +380,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
             }
         },
         {
-            field: 'volume', headerName: '전일대비', width: 55, renderCell: (params) => {
+            field: '전일대비거래량', headerName: '전일대비', width: 55, renderCell: (params) => {
                 const row = params.row;
                 const progress = renderProgress({ value: row.volume, valueON: true, val2: 5, color: '#91bde8' })
                 return (
@@ -528,7 +458,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
         }
     ];
     const themeTableCol = [ // 테마리스트 테마명/등락률/순위
-        { field: '테마명', headerName: '테마명', width: 200, minWidth: 5 },
+        { field: '테마명', headerName: '테마명', width: 190, minWidth: 5 },
         {
             field: '등락률', headerName: '등락률', width: 80, minWidth: 5, valueFormatter: (params) => {
                 if (params.value == null) {
@@ -537,7 +467,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                 return `${params.value.toFixed(2)} %`;
             }
         },
-        { field: '순위', headerName: '순위', width: 100, minWidth: 5 },
+        { field: '순위', headerName: '순위', width: 90, minWidth: 5 },
         // { field: '전일순위', headerName: '전일순위', width: 100, minWidth: 5 },
     ]
 
@@ -545,12 +475,12 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
         <Grid container spacing={1}>
             {/* 업종/전일대비 Table */}
             <Grid item xs={1}>
-                <div style={{ height: "69.4svh", width: "100%" }}
+                <div style={{ height: "74svh", width: "100%" }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
                     <ThemeProvider theme={customTheme}>
-                        <DataGrid rows={StockSectors.slice(0, StockSectors.length - 12)} hideFooter rowHeight={18} columns={sectorsTableColumns}
+                        <DataGrid rows={StockSectors.slice(0, StockSectors.length - 12)} hideFooter rowHeight={16} columns={sectorsTableColumns}
                             onCellClick={(params, event) => {
                                 if (params.field === '업종명') {
                                     findSectorsByItem(params.value);
@@ -582,12 +512,12 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                             }} />
                     </ThemeProvider>
                 </div>
-                <div style={{ height: "26.7svh", width: "100%", marginTop: '10px' }}
+                <div style={{ height: "24svh", width: "100%", marginTop: '10px' }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
                     <ThemeProvider theme={customTheme}>
-                        <DataGrid rows={StockSectors.slice(StockSectors.length - 12).sort((a, b) => a.전일대비 - b.전일대비)} columns={sectorsTableColumns} hideFooter rowHeight={18}
+                        <DataGrid rows={StockSectors.slice(StockSectors.length - 12).sort((a, b) => a.전일대비 - b.전일대비)} columns={sectorsTableColumns} hideFooter rowHeight={16}
                             onCellClick={(params, event) => {
                                 if (params.field === '업종명') {
                                     findSectorsByItem(params.value);
@@ -746,7 +676,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                             onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                         >
                             <ThemeProvider theme={customTheme}>
-                                <DataGrid rows={filteredStockTable} columns={filteredStockTableCol} hideFooter rowHeight={25}
+                                <DataGrid rows={filteredStockTable} columns={filteredStockTableCol} hideFooter rowHeight={16}
                                     onCellClick={(params, event) => {
                                         let item = params.row.item;
                                         let itemStr = "" + item;
@@ -765,7 +695,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                                 onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                             >
                                 <ThemeProvider theme={customTheme}>
-                                    <DataGrid rows={tableM1M2} columns={stockColumns} hideFooter rowHeight={28}
+                                    <DataGrid rows={tableM1M2} columns={stockColumns} hideFooter rowHeight={16}
                                         // <DataGrid rows={sortedRows} columns={stockColumns} hideFooter rowHeight={28}
                                         onCellClick={(params, event) => {
                                             if (params.field === '종목명') {
@@ -838,7 +768,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                                                 onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                                             >
                                                 <ThemeProvider theme={customTheme}>
-                                                    <DataGrid rows={filteredThemeTable} columns={themeTableCol} hideFooter rowHeight={25}
+                                                    <DataGrid rows={filteredThemeTable} columns={themeTableCol} hideFooter rowHeight={17}
                                                         sortModel={[{ field: '등락률', sort: 'desc', },]} sortingOrder={['desc', 'asc']}
                                                         onCellClick={(params, event) => {
                                                             if (params.field === '테마명') {
@@ -1089,11 +1019,11 @@ const SortItemTitle = styled('div')(({ theme }) => ({
 }));
 
 const tableStyles = {
-    themeCount: { width: 30, textAlign: 'center', borderBottom: '0.6px solid #ccc' },
-    themeName: { width: 80, borderBottom: '0.6px solid #ccc' },
-    itemName: { width: 94, paddingLeft: 5, borderLeft: '0.6px solid #ccc', borderBottom: '0.6px solid #ccc' },
-    itemChangeRate: { textAlign: 'right', borderBottom: '0.6px solid #ccc', backgroundColor: 'rgba(0, 0, 0, 0.015)' },
-    itemVolume: { width: 45, paddingRight: 5, textAlign: 'right', borderBottom: '0.6px solid #ccc' },
+    themeCount: { fontSize: '9.5px', width: 30, textAlign: 'center', borderBottom: '0.6px solid #ccc' },
+    themeName: { fontSize: '9.5px', width: 80, borderBottom: '0.6px solid #ccc' },
+    itemName: { fontSize: '9.5px', width: 94, paddingLeft: 5, borderLeft: '0.6px solid #ccc', borderBottom: '0.6px solid #ccc' },
+    itemChangeRate: { fontSize: '9.5px', textAlign: 'right', borderBottom: '0.6px solid #ccc', backgroundColor: 'rgba(0, 0, 0, 0.015)' },
+    itemVolume: { fontSize: '9.5px', width: 45, paddingRight: 5, textAlign: 'right', borderBottom: '0.6px solid #ccc' },
 }
 
 const customTheme = createTheme({
@@ -1102,19 +1032,19 @@ const customTheme = createTheme({
             styleOverrides: {
                 root: {
                     '& .MuiDataGrid-row': {
-                        fontSize: '10.5px', // 전체 폰트 크기를 원하는 값으로 설정합니다.
+                        fontSize: '9px', // 전체 폰트 크기를 원하는 값으로 설정합니다.
                     },
                 },
                 columnHeaderWrapper: {
-                    minHeight: '10px', // 헤더 높이를 원하는 값으로 설정합니다.
+                    minHeight: '9px', // 헤더 높이를 원하는 값으로 설정합니다.
                     // lineHeight: '20px',
                 },
                 columnHeader: {
-                    fontSize: '10.5px', // 헤더 폰트 크기를 원하는 값으로 설정합니다.
+                    fontSize: '10px', // 헤더 폰트 크기를 원하는 값으로 설정합니다.
                 },
             },
             defaultProps: {
-                headerHeight: 20,
+                headerHeight: 15,
             },
         },
     },
