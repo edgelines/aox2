@@ -4,8 +4,7 @@ import { configureStore } from "@reduxjs/toolkit";
 // import websocketReducer from './reducers/websocketReducer';
 
 import { StockSectors, Kospi200BubbleCategoryGruop, Kospi200BubbleCategory } from "./stockSectors.js";
-import { StockSectorsThemes } from "./stockPrice.js";
-import { StockThemes } from "./stockThemes.js";
+// import { StockSectorsThemes } from "./stockPrice.js";
 import { ABC } from "./AxBxC.js";
 import { SearchInfo, ScheduleItemEvent } from "./info.js";
 import { IndexMA, VixMA, Vix, MarketDetail, Kospi200, Kospi, Kosdaq, Invers, MarketKospi200, Exchange } from "./indexData.js";
@@ -20,8 +19,7 @@ export default configureStore({
         Kospi200BubbleCategoryGruop: Kospi200BubbleCategoryGruop.reducer,
         Kospi200BubbleCategory: Kospi200BubbleCategory.reducer,
         // StockPrice: StockPrice.reducer,
-        StockSectorsThemes: StockSectorsThemes.reducer,
-        StockThemes: StockThemes.reducer,
+        // StockSectorsThemes: StockSectorsThemes.reducer,
         ABC: ABC.reducer,
         // ABC1: ABC1.reducer,
         // ABC2: ABC2.reducer,

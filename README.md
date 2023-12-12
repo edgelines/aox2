@@ -18,6 +18,8 @@
   - sectorSearchPage.jsx
     - DataGrid FontSize adjust
     - 업종/테마 reduce 정보를 get 요청으로 변경
+- Commit.4
+  - 중복된 요청, reduce정보들 리팩토링
 
 ### 2023.12.09 ~ 2023.12.11
 {dev-api}
