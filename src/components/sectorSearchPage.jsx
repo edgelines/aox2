@@ -414,7 +414,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
         {
             field: "전일대비",
             headerName: "전일대비",
-            width: 80,
+            width: 60,
             renderCell: (params) => {
                 const progress = renderProgress({ value: params.value, valueON: true, color: '#e89191', val2: 8 })
                 return (
@@ -545,7 +545,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
         <Grid container spacing={1}>
             {/* 업종/전일대비 Table */}
             <Grid item xs={1}>
-                <div style={{ height: "68vh", width: "100%" }}
+                <div style={{ height: "69.4svh", width: "100%" }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
@@ -582,7 +582,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                             }} />
                     </ThemeProvider>
                 </div>
-                <div style={{ height: "28vh", width: "100%", marginTop: '10px' }}
+                <div style={{ height: "26.7svh", width: "100%", marginTop: '10px' }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
