@@ -360,40 +360,6 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
         endHour: 16,
         daysOff: [0, 6], // 일요일(0)과 토요일(6)은 제외
     });
-    // useEffect(() => {
-    //     const now = new Date();
-    //     const hour = now.getHours();
-    //     const minutes = now.getMinutes();
-    //     const seconds = now.getSeconds();
-    //     let delay;
-    //     if (hour < 9 || (hour === 9 && minutes < 1)) {
-    //         delay = ((9 - hour - 1) * 60 + (61 - minutes)) * 60 - seconds;
-    //     } else {
-    //         // 이미 9시 1분 이후라면, 다음 5분 간격 시작까지 대기 (예: 9시 3분이라면 9시 6분까지 대기)
-    //         delay = (5 - (minutes - 1) % 5) * 60 - seconds;
-    //     }
-    //     // 9시 정각이나 그 이후의 다음 분 시작부터 1분 주기로 데이터 업데이트
-    //     const startUpdates = () => {
-    //         const intervalId = setInterval(() => {
-    //             const now = new Date();
-    //             const hour = now.getHours();
-    //             const dayOfWeek = now.getDay();
-    //             if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
-    //                 getPost();
-    //             } else if (hour >= 16) {
-    //                 // 3시 30분 이후라면 인터벌 종료
-    //                 clearInterval(intervalId);
-    //             }
-    //         }, 1000 * 60 * 5);
-    //         return intervalId;
-    //     };
-    //     // 첫 업데이트 시작
-    //     const timeoutId = setTimeout(() => {
-    //         startUpdates();
-    //     }, delay * 1000);
-
-    //     return () => clearTimeout(timeoutId);
-    // }, [])
 
     useEffect(() => {
 
@@ -578,13 +544,13 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
     return (
         <Grid container spacing={1}>
             {/* 업종/전일대비 Table */}
-            <Grid item xs={1.2}>
+            <Grid item xs={1}>
                 <div style={{ height: "68vh", width: "100%" }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
                     <ThemeProvider theme={customTheme}>
-                        <DataGrid rows={StockSectors.slice(0, StockSectors.length - 12)} hideFooter rowHeight={25} columns={sectorsTableColumns}
+                        <DataGrid rows={StockSectors.slice(0, StockSectors.length - 12)} hideFooter rowHeight={18} columns={sectorsTableColumns}
                             onCellClick={(params, event) => {
                                 if (params.field === '업종명') {
                                     findSectorsByItem(params.value);
@@ -621,7 +587,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
                     <ThemeProvider theme={customTheme}>
-                        <DataGrid rows={StockSectors.slice(StockSectors.length - 12)} columns={sectorsTableColumns} hideFooter rowHeight={25}
+                        <DataGrid rows={StockSectors.slice(StockSectors.length - 12).sort((a, b) => a.전일대비 - b.전일대비)} columns={sectorsTableColumns} hideFooter rowHeight={18}
                             onCellClick={(params, event) => {
                                 if (params.field === '업종명') {
                                     findSectorsByItem(params.value);
@@ -629,10 +595,6 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                                     axios.get(`${API}/info/Search/IndustryThemes?IndustryName=${params.value}`).then(response => {
                                         getThemeList({ 테마명: [...new Set(response.data[0].테마명)] })
                                     });
-                                    // axios.get(`${myJSON}/stockSectorByThemes`).then(response => {
-                                    //     const itemData = response.data.find(data => data.업종명 === params.value);
-                                    //     getThemeList({ 테마명: [...new Set(itemData.테마명)] })
-                                    // });
                                 }
                             }}
                             sx={DataTableStyleDefault} />
@@ -642,7 +604,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
             </Grid>
 
             {/* Theme Top10/12 Tables */}
-            <Grid item xs={2.8} >
+            <Grid item xs={3} >
                 <Grid item>
                     <SortItem sx={{ marginTop: '7px' }}>
                         <SortItemTitle>업종 Top 10</SortItemTitle>

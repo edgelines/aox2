@@ -5,6 +5,11 @@
 ## Todo / Bug
 - util/useInterval.jsx 테스트
 
+### 2023.12.12
+{dev-api}
+- Commit.1
+  - sectorSearchPage.jsx 업종차트 요구사항
+    - rowHeigh, div Width 조절
 
 ### 2023.12.09 ~ 2023.12.11
 {dev-api}
