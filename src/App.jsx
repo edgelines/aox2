@@ -300,7 +300,7 @@ function App() {
                         SearchInfo={SearchInfo}
                         SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
                         StockThemes={StockThemes}
-                        />
+                    />
                 </SwiperSlide> */}
                 {/* <ModelingPage swiperRef={swiperRef} Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} /> */}
 

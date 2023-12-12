@@ -10,6 +10,10 @@
 - Commit.1
   - sectorSearchPage.jsx 업종차트 요구사항
     - rowHeigh, div Width 조절
+- Commit.2
+  - sectorSearchPage.jsx
+    - columns Width adjust
+    - table Heigh adjust
 
 ### 2023.12.09 ~ 2023.12.11
 {dev-api}
