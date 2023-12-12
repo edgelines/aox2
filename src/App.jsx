@@ -3,8 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { getStockSectors, getKospi200BubbleCategoryGruop, getKospi200BubbleCategory } from "./store/stockSectors.js";
-import { getStockThemes } from "./store/stockThemes.js";
-import { getStockSectorsThemes } from "./store/stockPrice.js";
 import { getABC } from "./store/AxBxC.js";
 import { getSearchInfo, getScheduleItemEvent } from "./store/info.js";
 import { getIndexMA, getVixMA, getVix, getMarketDetail, getKospi200, getKospi, getKosdaq, getInvers, getMarketKospi200, getExchange } from './store/indexData.js';
@@ -36,6 +34,7 @@ import "swiper/css/navigation";
 import { Mousewheel, Pagination } from "swiper/modules";
 import axios from 'axios';
 import { API } from './components/util/config'
+import useInterval from './components/util/useInterval';
 
 function App() {
     const [SectorsChartData, setSectorsChartData] = useState([]);
@@ -46,8 +45,7 @@ function App() {
     const StockSectors = useSelector((state) => state.StockSectors);
     const Kospi200BubbleCategoryGruop = useSelector((state) => state.Kospi200BubbleCategoryGruop);
     const Kospi200BubbleCategory = useSelector((state) => state.Kospi200BubbleCategory);
-    const StockSectorsThemes = useSelector((state) => state.StockSectorsThemes);
-    const StockThemes = useSelector((state) => state.StockThemes);
+
     // const StockThemeByItem = useSelector((state) => state.StockThemeByItem);
     // const StockSectorByItem = useSelector((state) => state.StockSectorByItem);
     // const StockSearch = useSelector((state) => state.StockSearch);
@@ -102,8 +100,8 @@ function App() {
         await dispatch(getKospi200BubbleCategoryGruop());
         await dispatch(getKospi200BubbleCategory());
         await dispatch(getABC());
-        await dispatch(getStockSectorsThemes());
-        await dispatch(getStockThemes());
+        // await dispatch(getStockSectorsThemes());
+
     }
     // 5분 주기 ( Index Data )
     const fetchData5Min = async () => {
@@ -119,6 +117,7 @@ function App() {
         await dispatch(getMarketKospi200());
         await dispatch(getExchange());
         await dispatch(getElwBarData());
+        await postReq();
         // await dispatch(getStockSearch());
         // await dispatch(getStockSearchTrackingStatistics());
     }
@@ -137,7 +136,6 @@ function App() {
 
     // 첫 랜더링
     useEffect(() => {
-        postReq();
         fetchData();
         fetchData1Day();
         fetchData5Min();
@@ -293,28 +291,24 @@ function App() {
                 onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
-                {/* <SwiperSlide style={swiperSlideStyle} >
+                <SwiperSlide style={swiperSlideStyle} >
                     <SectorSearchPage
                         StockSectors={StockSectors} swiperRef={swiperRef} ABC1={ABC1} ABC2={ABC2}
-                        StockSectorsThemes={StockSectorsThemes}
                         SearchInfo={SearchInfo}
                         SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
-                        StockThemes={StockThemes}
                     />
-                </SwiperSlide> */}
+                </SwiperSlide>
                 {/* <ModelingPage swiperRef={swiperRef} Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} /> */}
 
-                <SwiperSlide style={swiperSlideStyle} >
+                {/* <SwiperSlide style={swiperSlideStyle} >
                     <SchedulePage swiperRef={swiperRef} />
                 </SwiperSlide>
 
                 <SwiperSlide>
                     <SectorSearchPage
                         StockSectors={StockSectors} swiperRef={swiperRef} ABC1={ABC1} ABC2={ABC2}
-                        StockSectorsThemes={StockSectorsThemes}
                         SearchInfo={SearchInfo}
                         SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
-                        StockThemes={StockThemes}
                     />
                 </SwiperSlide>
 
@@ -369,7 +363,7 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <TreasuryStockPage swiperRef={swiperRef} />
-                </SwiperSlide>
+                </SwiperSlide> */}
             </Swiper>
         </div >
     );

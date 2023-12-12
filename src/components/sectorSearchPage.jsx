@@ -22,7 +22,7 @@ import { API, STOCK } from './util/config';
 import { SectorsName15 } from './util/util';
 import useInterval from './util/useInterval';
 
-export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, StockSectorsThemes, SearchInfo, SectorsChartData, SectorsRanksThemes, ScheduleItemEvent, StockThemes }) {
+export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, SearchInfo, SectorsChartData, SectorsRanksThemes, ScheduleItemEvent }) {
 
     // const [loading, setLoading] = useState(true);
     const [repeatedKeyword, setRepeatedKeyword] = useState([]);
@@ -200,17 +200,16 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
         } else { setDebtRatio(result); }
     }; // 부채비율
 
-    // 차트영역 전송 Function
-    const getSectorNameAndCode = (itemName) => { // AxBxC 1,2 에서 종목을 클릭하면 업종명과 종목코드, 종목명 찾아 stockItemSelected로 전달
-        const itemData = StockSectorsThemes.find(data => data.종목명 === itemName); // 종목명이 일치하는 데이터 찾기
-        stockItemSelected({ 종목코드: itemData.종목코드, 종목명: itemName, 업종명: itemData.업종명, });
+    // 주식 차트 전송 Function
+    const getSectorNameAndCode = async (itemName) => { // AxBxC 1,2 에서 종목을 클릭하면 업종명과 종목코드, 종목명 찾아 stockItemSelected로 전달
+        const res = await axios.get(`${API}/info/Search/IndustryStocks?stockName=${itemName}`)
+        stockItemSelected({ 종목코드: res.data[0].종목코드, 종목명: res.data[0].종목명, 업종명: res.data[0].업종명 });
     };
     const stockItemSelected = async (selectedStockItem) => { // 종목 클릭시
         setStockItem(selectedStockItem.종목명);
         const res = await axios.get(`${STOCK}/${selectedStockItem.종목코드}`);
         setStockItemData(res.data.stock);
         setStockVolumeData(res.data.volume);
-
         sectorSelected(selectedStockItem)
     };
     const sectorSelected = (sector) => { // 업종 클릭시 
@@ -221,26 +220,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
         // }
     }
 
-    const getThemeList = async (item) => { // 검색 컴포넌트에서 상위 컴포넌트로 object 전달
-        // stockThemeRankInfo : 테마명, 등락률, 순위, 전일순위
-        // const response = await axios.get(`${API}/themes/rank`);
-        // const stockThemeRankInfo = StockThemes;
 
-        const data = item.테마명.map((themeName, index) => {
-            const themeInfo = StockThemes.find(info => info.테마명 === themeName);
-            const rankChange = themeInfo ? themeInfo.전일순위 - themeInfo.순위 : 0;
-
-            return {
-                id: index,
-                테마명: themeName,
-                등락률: themeInfo ? themeInfo.등락률 : 0,
-                순위: themeInfo ? `${themeInfo.순위} ( ${rankChange >= 0 ? '+ ' : ''}${rankChange} )` : 0,
-                // 전일순위: themeInfo ? themeInfo.전일순위 : 0,
-            }
-            // 
-        });
-        setFilteredThemeTable(data);
-    }
     const handleGetComponentEvent = (item) => { // 검색바 에서 업종/테마 일경우
         setSearchItemPage(false);
         if (item.separator == '업종') {
@@ -269,13 +249,13 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
         // setHighchartRef(result);
     }
 
-    const onSelectedStockName = (stockName) => {
+    const onSelectedStockName = async (stockName) => {
         setSearchItemPage(true);
-        const 종목코드 = StockSectorsThemes.find(data => data.종목명 === stockName).종목코드
-        stockItemSelected({ 종목명: stockName, 종목코드: 종목코드 });
+        getSectorNameAndCode(stockName);
+
         const itemData = ScheduleItemEvent.find(data => data.item === stockName);
         if (!itemData) {
-            console.log('no Data');
+            console.log('ScheduleItemEvent : no Data');
         } else {
             setSearchItemEvent(itemData ? { stockName: stockName, data: [itemData] } : []);
         }
@@ -324,19 +304,6 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
 
     }, [ABC1, ABC2, topThemes, sectorsThemes]);
 
-    useEffect(() => {
-        if (stockName && stockName.length > 0) {
-            setSearchItemPage(true);
-            const 종목코드 = StockSectorsThemes.find(data => data.종목명 === stockName).종목코드
-            stockItemSelected({ 종목명: stockName, 종목코드: 종목코드 });
-            const itemData = ScheduleItemEvent.find(data => data.item === stockName);
-            if (!itemData) {
-                console.log('no Data');
-            } else {
-                setSearchItemEvent(itemData ? { stockName: stockName, data: [itemData] } : []);
-            }
-        }
-    }, [stockName]);
 
     // Table Colums
     const sectorsTableColumns = [ // 왼쪽 업종명/전일대비
@@ -400,7 +367,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
         { field: 'M1', headerName: 'M1', width: 35, minWidth: 5 },
         { field: 'M2', headerName: 'M2', width: 35, minWidth: 5 },
         { field: '인기', headerName: 'P#', width: 40, minWidth: 5 },
-        { field: '업종명', headerName: '업종명', width: 70 },
+        { field: '업종명', headerName: '업종명', width: 100 },
         {
             field: '종목명', headerName: '종목명', width: 95,
             renderCell: (params) => {
@@ -420,11 +387,11 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
             },
         },
         {
-            field: "종목 등락률", headerName: "등락률", width: 80, valueFormatter: (params) => {
+            field: "종목 등락률", headerName: "등락률", width: 50, valueFormatter: (params) => {
                 if (params.value == null) {
                     return '';
                 }
-                return `${params.value} %`;
+                return `${params.value.toFixed(1)} %`;
             },
             renderCell: (params) => {
                 const progress = renderProgress({ value: params.value, valueON: true, color: '#e89191', val2: 5 })
@@ -485,19 +452,19 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                                 if (params.field === '업종명') {
                                     findSectorsByItem(params.value);
                                     setFilteredCheckName({ key: '업종', name: params.value })
-                                    axios.get(`${API}/info/Search/IndustryThemes?IndustryName=${params.value}`).then(response => {
-                                        getThemeList({ 테마명: [...new Set(response.data[0].테마명)] })
+                                    axios.get(`${API}/info/Search/IndustryThemes?industryName=${params.value}`).then(res => {
+                                        setFilteredThemeTable(res.data);
                                     });
                                 }
                             }}
                             getCellClassName={(params) => {
                                 if (params.id === 0) return '';
-                                if (params.id % 60 === 0) return 'bottom-line-60';
-                                if (params.id % 50 === 0) return 'bottom-line-50';
-                                if (params.id % 40 === 0) return 'bottom-line-40';
-                                if (params.id % 30 === 0) return 'bottom-line-30';
-                                if (params.id % 20 === 0) return 'bottom-line-20';
-                                if (params.id % 10 === 0) return 'bottom-line-10';
+                                if ((params.id + 1) % 60 === 0) return 'bottom-line-60';
+                                if ((params.id + 1) % 50 === 0) return 'bottom-line-50';
+                                if ((params.id + 1) % 40 === 0) return 'bottom-line-40';
+                                if ((params.id + 1) % 30 === 0) return 'bottom-line-30';
+                                if ((params.id + 1) % 20 === 0) return 'bottom-line-20';
+                                if ((params.id + 1) % 10 === 0) return 'bottom-line-10';
                                 return '';
                                 // return params.id % 10 === 0 ? 'bottom-line' : '';
                             }}
@@ -517,13 +484,13 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
                     <ThemeProvider theme={customTheme}>
-                        <DataGrid rows={StockSectors.slice(StockSectors.length - 12).sort((a, b) => a.전일대비 - b.전일대비)} columns={sectorsTableColumns} hideFooter rowHeight={16}
+                        <DataGrid rows={StockSectors.slice(StockSectors.length - 12)} columns={sectorsTableColumns} hideFooter rowHeight={16}
                             onCellClick={(params, event) => {
                                 if (params.field === '업종명') {
                                     findSectorsByItem(params.value);
                                     setFilteredCheckName({ key: '업종', name: params.value })
-                                    axios.get(`${API}/info/Search/IndustryThemes?IndustryName=${params.value}`).then(response => {
-                                        getThemeList({ 테마명: [...new Set(response.data[0].테마명)] })
+                                    axios.get(`${API}/info/Search/IndustryThemes?industryName=${params.value}`).then(res => {
+                                        setFilteredThemeTable(res.data);
                                     });
                                 }
                             }}
@@ -701,14 +668,16 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                                             if (params.field === '종목명') {
                                                 stockItemSelected({ 종목코드: params.row.종목코드, 종목명: params.value, 업종명: params.row.업종명 });
                                                 setStockName(params.value)
-                                                const itemData = StockSectorsThemes.find(data => data.종목명 === params.value)
-                                                getThemeList({ 테마명: [...new Set(itemData.테마명)] })
+                                                axios.get(`${API}/info/Search/StockThemes?stockName=${params.value}`).then(res => {
+                                                    setFilteredThemeTable(res.data);
+                                                });
+
                                             }
                                             if (params.field === '업종명') {
                                                 findSectorsByItem(params.value);
                                                 setFilteredCheckName({ key: '업종', name: params.value })
-                                                axios.get(`${API}/info/Search/IndustryThemes?IndustryName=${params.value}`).then(response => {
-                                                    getThemeList({ 테마명: [...new Set(response.data[0].테마명)] })
+                                                axios.get(`${API}/info/Search/IndustryThemes?industryName=${params.value}`).then(res => {
+                                                    setFilteredThemeTable(res.data);
                                                 });
 
                                             }
@@ -750,10 +719,10 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Stock
                         </ToggleButtonGroup>
                     </Grid>
                     <Grid item xs={8.5} sx={{ fontSize: '11px' }}>
-                        <Virtualize SearchInfo={SearchInfo} getThemeList={getThemeList} stockName={stockName}
+                        <Virtualize SearchInfo={SearchInfo} stockName={stockName}
                             onGetComponentEvent={handleGetComponentEvent}
                             onSelectedStockName={onSelectedStockName}
-                            StockSectorsThemes={StockSectorsThemes}
+                            setFilteredThemeTable={setFilteredThemeTable}
                         />
                     </Grid>
                     <Grid item xs={12} sx={{ fontSize: '11px', height: "44vh" }}>
@@ -1019,11 +988,11 @@ const SortItemTitle = styled('div')(({ theme }) => ({
 }));
 
 const tableStyles = {
-    themeCount: { fontSize: '9.5px', width: 30, textAlign: 'center', borderBottom: '0.6px solid #ccc' },
-    themeName: { fontSize: '9.5px', width: 80, borderBottom: '0.6px solid #ccc' },
-    itemName: { fontSize: '9.5px', width: 94, paddingLeft: 5, borderLeft: '0.6px solid #ccc', borderBottom: '0.6px solid #ccc' },
-    itemChangeRate: { fontSize: '9.5px', textAlign: 'right', borderBottom: '0.6px solid #ccc', backgroundColor: 'rgba(0, 0, 0, 0.015)' },
-    itemVolume: { fontSize: '9.5px', width: 45, paddingRight: 5, textAlign: 'right', borderBottom: '0.6px solid #ccc' },
+    themeCount: { fontSize: '9px', width: 30, textAlign: 'center', borderBottom: '0.6px solid #ccc' },
+    themeName: { fontSize: '9px', width: 80, borderBottom: '0.6px solid #ccc' },
+    itemName: { fontSize: '9px', width: 94, paddingLeft: 5, borderLeft: '0.6px solid #ccc', borderBottom: '0.6px solid #ccc' },
+    itemChangeRate: { fontSize: '9px', textAlign: 'right', borderBottom: '0.6px solid #ccc', backgroundColor: 'rgba(0, 0, 0, 0.015)' },
+    itemVolume: { fontSize: '9px', width: 45, paddingRight: 5, textAlign: 'right', borderBottom: '0.6px solid #ccc' },
 }
 
 const customTheme = createTheme({
@@ -1125,19 +1094,15 @@ const StyledPopper = styled(Popper)({
 });
 
 
-export function Virtualize({ SearchInfo, getThemeList, stockName, onGetComponentEvent, onSelectedStockName, StockSectorsThemes }) {
+export function Virtualize({ SearchInfo, stockName, onGetComponentEvent, onSelectedStockName, setFilteredThemeTable }) {
     const [value, setValue] = useState(null);
     const [selectedStockName, setSelectedStockName] = useState(stockName);
 
     useEffect(() => {
         if (selectedStockName) {
-            const itemData = StockSectorsThemes.find(data => data.종목명 === selectedStockName);
-            getThemeList({ 테마명: [...new Set(itemData.테마명)] })
-            // axios.get(`${API}/abc/stockItemByTheme`).then(response => {
-            //     const itemData = response.data.find(data => data.종목명 === selectedStockName);
-            //     // const itemData = response.data.find(data => data.종목명 === newValue.search);
-            //     getThemeList({ 테마명: [...new Set(itemData.테마명)] })
-            // });
+            axios.get(`${API}/info/Search/StockThemes?stockName=${selectedStockName}`).then(res => {
+                setFilteredThemeTable(res.data);
+            });
         }
     }, [selectedStockName])
 
@@ -1187,7 +1152,7 @@ export function Virtualize({ SearchInfo, getThemeList, stockName, onGetComponent
                         renderInput={(params) => <TextField {...params} variant="standard" sx={{
                             '& .MuiInputBase-root': { // 이 부분에서 Input 요소의 높이를 조절합니다.
                                 height: 30,
-                                fontSize: '12px',
+                                fontSize: '11px',
                             },
                             '& .MuiFormLabel-root.MuiInputLabel-shrink': { // 이 부분에서 Label 요소의 높이를 조절합니다.
                                 transform: 'translate(0, 1.5px) scale(0.75)',

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { API } from '../components/util/config'
+import { API } from '../../components/util/config'
 
 export const getStockThemes = createAsyncThunk("GET/STOCKTHEMES", async () => {
     const response = await axios.get(`${API}/themes/rank`);
