@@ -1,51 +1,51 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { API, myJSON } from '../components/util/config'
+import { API } from '../components/util/config'
 
-// 테마에 속한 종목정보 가져오기
-export const getStockThemeByItem = createAsyncThunk("GET/StockThemeByItem", async () => {
-    // const response = await axios.get(`${myJSON}/stockThemeByItem`);
-    const response = await axios.get(`${API}/info/ThemeStocksCollection`);
-    return response.data;
-});
+// // 테마에 속한 종목정보 가져오기
+// export const getStockThemeByItem = createAsyncThunk("GET/StockThemeByItem", async () => {
+//     // const response = await axios.get(`${myJSON}/stockThemeByItem`);
+//     const response = await axios.get(`${API}/info/ThemeStocksCollection`);
+//     return response.data;
+// });
 
-export const StockThemeByItem = createSlice({
-    name: "StockThemeByItem",
-    initialState: {
-        data: [],
-        status: 'idle',
-        error: null
-    },
-    reducers: {},
-    extraReducers: {
-        [getStockThemeByItem.pending]: (state) => {
-            state.status = 'loading';
-        },
-        [getStockThemeByItem.fulfilled]: (state, { payload }) => {
-            state.data = payload;
-            state.status = 'succeeded';
-        },
-        [getStockThemeByItem.rejected]: (state, action) => {
-            state.status = 'failed';
-            state.error = action.error.message;
-        }
-    },
-});
+// export const StockThemeByItem = createSlice({
+//     name: "StockThemeByItem",
+//     initialState: {
+//         data: [],
+//         status: 'idle',
+//         error: null
+//     },
+//     reducers: {},
+//     extraReducers: {
+//         [getStockThemeByItem.pending]: (state) => {
+//             state.status = 'loading';
+//         },
+//         [getStockThemeByItem.fulfilled]: (state, { payload }) => {
+//             state.data = payload;
+//             state.status = 'succeeded';
+//         },
+//         [getStockThemeByItem.rejected]: (state, action) => {
+//             state.status = 'failed';
+//             state.error = action.error.message;
+//         }
+//     },
+// });
 
-// 업종에 속한 종목정보 가져오기
-export const getStockSectorByItem = createAsyncThunk("GET/StockSectorByItem", async () => {
-    const response = await axios.get(`${API}/info/stockSectorByItem`);
-    return response.data;
-});
+// // 업종에 속한 종목정보 가져오기
+// export const getStockSectorByItem = createAsyncThunk("GET/StockSectorByItem", async () => {
+//     const response = await axios.get(`${API}/info/stockSectorByItem`);
+//     return response.data;
+// });
 
-export const StockSectorByItem = createSlice({
-    name: "StockSectorByItem",
-    initialState: [],
-    reducers: {},
-    extraReducers: {
-        [getStockSectorByItem.fulfilled]: (state, { payload }) => [...payload],
-    },
-});
+// export const StockSectorByItem = createSlice({
+//     name: "StockSectorByItem",
+//     initialState: [],
+//     reducers: {},
+//     extraReducers: {
+//         [getStockSectorByItem.fulfilled]: (state, { payload }) => [...payload],
+//     },
+// });
 
 // 검색 정보 가져오기 [{search : '이지홀딩스', 'separator' : '종목'}, {search : '돼지', 'separator' : '테마'} ... ]
 export const getSearchInfo = createAsyncThunk("GET/StockSearchInfo", async () => {
