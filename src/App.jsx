@@ -291,16 +291,16 @@ function App() {
                 onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
-                <SwiperSlide style={swiperSlideStyle} >
+                {/* <SwiperSlide style={swiperSlideStyle} >
                     <SectorSearchPage
                         StockSectors={StockSectors} swiperRef={swiperRef} ABC1={ABC1} ABC2={ABC2}
                         SearchInfo={SearchInfo}
                         SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
                     />
-                </SwiperSlide>
+                </SwiperSlide> */}
                 {/* <ModelingPage swiperRef={swiperRef} Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} /> */}
 
-                {/* <SwiperSlide style={swiperSlideStyle} >
+                <SwiperSlide style={swiperSlideStyle} >
                     <SchedulePage swiperRef={swiperRef} />
                 </SwiperSlide>
 
@@ -363,7 +363,7 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <TreasuryStockPage swiperRef={swiperRef} />
-                </SwiperSlide> */}
+                </SwiperSlide>
             </Swiper>
         </div >
     );
