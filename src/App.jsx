@@ -27,6 +27,7 @@ import ModelingPage from './components/modelingPage.jsx';
 import WeightAvgPage1 from './components/ELW/weightAvgPage1.jsx';
 import WeightAvgPage2 from './components/ELW/weightAvgPage2.jsx';
 import WeightAvgPage3 from './components/ELW/weightAvgPage3.jsx';
+import Fundarmental from './components/fundarmental';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import "swiper/css";
 import "swiper/css/pagination";
@@ -46,8 +47,6 @@ function App() {
     const Kospi200BubbleCategoryGruop = useSelector((state) => state.Kospi200BubbleCategoryGruop);
     const Kospi200BubbleCategory = useSelector((state) => state.Kospi200BubbleCategory);
 
-    // const StockThemeByItem = useSelector((state) => state.StockThemeByItem);
-    // const StockSectorByItem = useSelector((state) => state.StockSectorByItem);
     // const StockSearch = useSelector((state) => state.StockSearch);
     // const StockSearchTracking = useSelector((state) => state.StockSearchTracking)
     // const StockSearchTrackingStatistics = useSelector((state) => state.StockSearchTrackingStatistics)
@@ -100,7 +99,6 @@ function App() {
         await dispatch(getKospi200BubbleCategoryGruop());
         await dispatch(getKospi200BubbleCategory());
         await dispatch(getABC());
-        // await dispatch(getStockSectorsThemes());
 
     }
     // 5분 주기 ( Index Data )
@@ -123,8 +121,6 @@ function App() {
     }
     // 하루 주기
     const fetchData1Day = async () => {
-        // await dispatch(getStockThemeByItem());
-        // await dispatch(getStockSectorByItem());
         await dispatch(getSearchInfo());
         await dispatch(getScheduleItemEvent())
         await dispatch(getVixMA());
@@ -137,8 +133,8 @@ function App() {
     // 첫 랜더링
     useEffect(() => {
         fetchData();
-        fetchData1Day();
         fetchData5Min();
+        fetchData1Day();
     }, [dispatch])
 
     // 60초 주기 업데이트
@@ -292,16 +288,15 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <SectorSearchPage
-                        StockSectors={StockSectors} swiperRef={swiperRef} ABC1={ABC1} ABC2={ABC2}
-                        SearchInfo={SearchInfo}
-                        SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
-                    />
+                    <ModelingPage swiperRef={swiperRef} Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} />
                 </SwiperSlide> */}
-                {/* <ModelingPage swiperRef={swiperRef} Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} /> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <SchedulePage swiperRef={swiperRef} />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <Fundarmental />
                 </SwiperSlide>
 
                 <SwiperSlide>

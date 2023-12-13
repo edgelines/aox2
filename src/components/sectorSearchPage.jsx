@@ -367,7 +367,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Searc
         { field: 'M1', headerName: 'M1', width: 35, minWidth: 5 },
         { field: 'M2', headerName: 'M2', width: 35, minWidth: 5 },
         { field: '인기', headerName: 'P#', width: 40, minWidth: 5 },
-        { field: '업종명', headerName: '업종명', width: 100 },
+        { field: '업종명', headerName: '업종명', width: 95 },
         {
             field: '종목명', headerName: '종목명', width: 95,
             renderCell: (params) => {
@@ -387,7 +387,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Searc
             },
         },
         {
-            field: "종목 등락률", headerName: "등락률", width: 50, valueFormatter: (params) => {
+            field: "종목 등락률", headerName: "등락률", width: 55, valueFormatter: (params) => {
                 if (params.value == null) {
                     return '';
                 }
@@ -398,7 +398,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Searc
                 return (
                     <Box sx={{ position: 'relative', mt: -2 }}>
                         <Box sx={{ position: 'absolute', zIndex: 1, marginLeft: 0.5 }}>
-                            {params.value} %
+                            {params.value.toFixed(1)} %
                         </Box>
                         <Box sx={{ position: 'absolute', zIndex: 0, width: 80, mt: -0.6, marginLeft: -0.5 }}>
                             {progress}

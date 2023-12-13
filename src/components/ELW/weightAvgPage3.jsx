@@ -9,7 +9,7 @@ import IndexChart from '../util/IndexChart'
 import WeightAvgCheck from './weightAvgCheck';
 // import Chart from '../Fundarmental/fundarmentalChart'
 import { StyledToggleButton } from '../util/util';
-import { API, myJSON } from '../util/config';
+import { API } from '../util/config';
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts/highstock'
 require('highcharts/indicators/indicators')(Highcharts)

@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, Box, Typography, Skeleton } from '@mui/material';
+import { Grid, Box, Typography, Skeleton, ToggleButtonGroup } from '@mui/material';
 import IndexChart from './util/IndexChart';
-import { StyledButton } from './util/util';
+import { StyledButton, StyledToggleButton } from './util/util';
 import MarketCurrentValue from './Index/marketCurrentValue.jsx'
 // import { customRsi, williamsR } from 'indicatorts';
 import { API, markerConfig } from './util/config';
+import useInterval from './util/useInterval';
 
 export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail }) {
 
@@ -21,6 +22,9 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
     const [williamsNum5, setWilliamsNum5] = useState(47);
 
     const [indexChartConfig, setIndexChartConfig] = useState({})
+
+    const [indexName, setIndexName] = useState('Kospi200')
+    const handlePage = (event, value) => { setIndexName(value); }
 
     const handleValueChange = (type, direction) => {
         if (type === "ADR1") {
@@ -51,8 +55,9 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
         WillR4: 'dodgerblue',
         WillR5: 'white',
     };
-    const getADR = async (num, Name) => {
-        const res = await axios.get(`${API}/modeling/adr?num=${num}`);
+    const getIndexData = async (name) => { return await axios.get(`${API}/modeling/${name}`); }
+    const getADR = async (num, Name, indexName) => {
+        const res = await axios.get(`${API}/modeling/adr?num=${num}&dbName=Market${indexName}`);
         const lastValue = res.data[res.data.length - 1][1];
         setLastValue(prevLastValue => ({
             ...prevLastValue,
@@ -71,8 +76,8 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
             lineWidth: 1
         };
     }
-    const getWillR = async (num, Name) => {
-        const res = await axios.get(`${API}/modeling/willr?num=${num}&dbName=Kospi200`);
+    const getWillR = async (num, Name, indexName) => {
+        const res = await axios.get(`${API}/modeling/willr?num=${num}&dbName=${indexName}`);
         const lastValue = res.data[res.data.length - 1][1];
         setLastValue(prevLastValue => ({
             ...prevLastValue,
@@ -94,26 +99,31 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
     }
     // Fetch Data
     const fetchData = async () => {
-        const resKospi200 = await axios.get(`${API}/modeling/Kospi200`);
+        const indexData = [];
+        indexData.push(getIndexData(indexName))
+        const res = await Promise.all(indexData);
+
+        // const resKospi200 = await axios.get(`${API}/modeling/Kospi200`);
 
         // Promise 객체를 사용하여 모든 데이터 수집을 기다림
         const promises = [];
-        promises.push(getADR(adrNum1, 'ADR1'));
-        promises.push(getADR(adrNum2, 'ADR2'));
-        promises.push(getADR(adrNum3, 'ADR3'));
-        promises.push(getWillR(williamsNum1, 'WillR1'));
-        promises.push(getWillR(williamsNum2, 'WillR2'));
-        promises.push(getWillR(williamsNum3, 'WillR3'));
-        promises.push(getWillR(williamsNum4, 'WillR4'));
-        promises.push(getWillR(williamsNum5, 'WillR5'));
+        promises.push(getADR(adrNum1, 'ADR1', indexName));
+        promises.push(getADR(adrNum2, 'ADR2', indexName));
+        promises.push(getADR(adrNum3, 'ADR3', indexName));
+        promises.push(getWillR(williamsNum1, 'WillR1', indexName));
+        promises.push(getWillR(williamsNum2, 'WillR2', indexName));
+        promises.push(getWillR(williamsNum3, 'WillR3', indexName));
+        promises.push(getWillR(williamsNum4, 'WillR4', indexName));
+        promises.push(getWillR(williamsNum5, 'WillR5', indexName));
 
         const updatedData = await Promise.all(promises);
         // Kospi200 데이터와 업데이트된 ADR 데이터를 병합
+
         const newIndexChartConfig = [
             {
-                name: '코스피200', id: 'candlestick',
+                name: indexName, id: 'candlestick',
                 type: 'candlestick', yAxis: 0, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false,
-                data: resKospi200.data
+                data: res[0].data
             },
             ...updatedData,
         ];
@@ -121,42 +131,49 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
     };
 
     useEffect(() => { fetchData(); }, [])
-    useEffect(() => { fetchData(); }, [adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5])
-    useEffect(() => {
-        const now = new Date();
-        const hour = now.getHours();
-        const minutes = now.getMinutes();
-        const seconds = now.getSeconds();
-        // 현재 시간이 9시 1분 이전이라면, 9시 1분까지 남은 시간 계산
-        let delay;
-        if (hour < 9 || (hour === 9 && minutes < 1)) {
-            delay = ((9 - hour - 1) * 60 + (61 - minutes)) * 60 - seconds;
-        } else {
-            // 이미 9시 1분 이후라면, 다음 5분 간격 시작까지 대기 (예: 9시 3분이라면 9시 6분까지 대기)
-            delay = (5 - (minutes - 1) % 5) * 60 - seconds;
-        }
-        // 9시 정각이나 그 이후의 다음 분 시작부터 1분 주기로 데이터 업데이트
-        const startUpdates = () => {
-            const intervalId = setInterval(() => {
-                const now = new Date();
-                const hour = now.getHours();
-                const dayOfWeek = now.getDay();
-                if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
-                    fetchData();
-                } else if (hour >= 16) {
-                    // 3시 30분 이후라면 인터벌 종료
-                    clearInterval(intervalId);
-                }
-            }, 1000 * 60 * 5);
-            return intervalId;
-        };
-        // 첫 업데이트 시작
-        const timeoutId = setTimeout(() => {
-            startUpdates();
-        }, delay * 1000);
+    useEffect(() => { fetchData(); }, [indexName, adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5])
+    // useEffect(() => {
+    //     const now = new Date();
+    //     const hour = now.getHours();
+    //     const minutes = now.getMinutes();
+    //     const seconds = now.getSeconds();
+    //     // 현재 시간이 9시 1분 이전이라면, 9시 1분까지 남은 시간 계산
+    //     let delay;
+    //     if (hour < 9 || (hour === 9 && minutes < 1)) {
+    //         delay = ((9 - hour - 1) * 60 + (61 - minutes)) * 60 - seconds;
+    //     } else {
+    //         // 이미 9시 1분 이후라면, 다음 5분 간격 시작까지 대기 (예: 9시 3분이라면 9시 6분까지 대기)
+    //         delay = (5 - (minutes - 1) % 5) * 60 - seconds;
+    //     }
+    //     // 9시 정각이나 그 이후의 다음 분 시작부터 1분 주기로 데이터 업데이트
+    //     const startUpdates = () => {
+    //         const intervalId = setInterval(() => {
+    //             const now = new Date();
+    //             const hour = now.getHours();
+    //             const dayOfWeek = now.getDay();
+    //             if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
+    //                 fetchData();
+    //             } else if (hour >= 16) {
+    //                 // 3시 30분 이후라면 인터벌 종료
+    //                 clearInterval(intervalId);
+    //             }
+    //         }, 1000 * 60 * 5);
+    //         return intervalId;
+    //     };
+    //     // 첫 업데이트 시작
+    //     const timeoutId = setTimeout(() => {
+    //         startUpdates();
+    //     }, delay * 1000);
 
-        return () => clearTimeout(timeoutId); // 컴포넌트가 unmount될 때 타이머 제거
-    }, [])
+    //     return () => clearTimeout(timeoutId); // 컴포넌트가 unmount될 때 타이머 제거
+    // }, [])
+
+    // 5분 주기 업데이트
+    useInterval(fetchData, 1000 * 60 * 5, {
+        startHour: 9,
+        endHour: 16,
+        daysOff: [0, 6], // 일요일(0)과 토요일(6)은 제외
+    });
 
 
     const indicators = [
@@ -184,55 +201,57 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
 
     return (
         <Grid container spacing={1}>
-            <Grid item xs={10.5}>
-                {/* <Box sx={{ position: 'absolute', transform: 'translate(41vw, 85px)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)', p: 1, width: '800px' }}>
+            {/* Chart */}
+            <Grid item xs={10.5}> <IndexChart data={indexChartConfig} height={940} name={'Modeling'} rangeSelector={3} creditsPositionX={1} /> </Grid>
+
+            {/* Config, Indicators, Infomation */}
+            <Grid item xs={1.5} container sx={{ height: '940px' }}>
+                <Grid item xs={12} container direction="column" justifyContent="flex-end" textAlign='start' >
                     <Grid container>
+                        <MarketCurrentValue MarketDetail={MarketDetail} valueFont={'15px'} valueTitle={'15px'} />
+                        <Grid item sx={{ fontWeight: 600, fontSize: '15px' }}>
+                            {Vix.value ?
+                                <Grid container sx={{ mb: 0.4 }}>
+                                    {Vix.net > 0 ?
+                                        <>
+                                            <span>Vix : </span>
+                                            <span style={{ color: 'tomato' }}> {Vix.value} ( + {Vix.net} )</span>
+                                        </>
+                                        :
+                                        <>
+                                            <span>Vix : </span>
+                                            <span style={{ color: 'deepskyblue' }}> {Vix.value} ( {Vix.net} )</span>
+                                        </>
 
-                        <Grid item xs={6}>
+                                    }
+                                </Grid>
+                                : <Skeleton variant="rounded" height={20} animation="wave" />}
 
+                            {Exchange.value ?
+                                <Grid container>
+                                    <span>KRX/USD : </span>
+                                    {Exchange.comparison === '상승' ?
+                                        <span style={{ color: 'tomato' }}> {Exchange.value} 원 ( + {Exchange.net} )</span> : Exchange.comparison === '하락' ?
+                                            <span style={{ color: 'deepskyblue' }}> {Exchange.value} 원 ( - {Exchange.net} )</span> : <span style={{ color: 'deepskyblue' }}> {Exchange.value} 원 ( {Exchange.net} )</span>}
+                                </Grid>
+                                : <Skeleton variant="rounded" height={20} animation="wave" />}
                         </Grid>
                     </Grid>
-                </Box> */}
 
-                <IndexChart data={indexChartConfig} height={940} name={'Modeling'} rangeSelector={3} creditsPositionX={1} />
+                    <Grid container sx={{ mb: '50px' }}></Grid>
+                    <ToggleButtonGroup
+                        color='info'
+                        exclusive
+                        size="small"
+                        value={indexName}
+                        onChange={handlePage}
+                    >
+                        <StyledToggleButton fontSize={'12px'} value="Kospi200">Kospi200</StyledToggleButton>
+                        <StyledToggleButton fontSize={'12px'} value="Kospi">Kospi</StyledToggleButton>
+                        <StyledToggleButton fontSize={'12px'} value="Kosdaq">Kosdaq</StyledToggleButton>
+                    </ToggleButtonGroup>
 
-            </Grid>
-            <Grid item xs={1.5} container sx={{ height: '940px' }}>
-                <Grid item xs={12} container>
-
-                    <MarketCurrentValue MarketDetail={MarketDetail} valueFont={'15px'} valueTitle={'15px'} />
-                    <Grid item sx={{ fontWeight: 600, fontSize: '15px' }}>
-                        {Vix.value ?
-                            <Grid container>
-                                {Vix.net > 0 ?
-                                    <>
-                                        <span>Vix : </span>
-                                        <span style={{ color: 'tomato' }}> {Vix.value} ( + {Vix.net} )</span>
-                                    </>
-                                    :
-                                    <>
-                                        <span>Vix : </span>
-                                        <span style={{ color: 'deepskyblue' }}> {Vix.value} ( {Vix.net} )</span>
-                                    </>
-
-                                }
-                            </Grid>
-                            : <Skeleton variant="rounded" height={20} animation="wave" />}
-
-                        {Exchange.value ?
-                            <Grid container>
-                                <span>KRX/USD : </span>
-                                {Exchange.comparison === '상승' ?
-                                    <span style={{ color: 'tomato' }}> {Exchange.value} 원 ( + {Exchange.net} )</span> : Exchange.comparison === '하락' ?
-                                        <span style={{ color: 'deepskyblue' }}> {Exchange.value} 원 ( - {Exchange.net} )</span> : <span style={{ color: 'deepskyblue' }}> {Exchange.value} 원 ( {Exchange.net} )</span>}
-                            </Grid>
-                            : <Skeleton variant="rounded" height={20} animation="wave" />}
-                    </Grid>
-                </Grid>
-
-                <Grid item xs={12} container direction="column" justifyContent="flex-end" textAlign='start' >
-
-                    <Grid container sx={{ mb: '140px' }}></Grid>
+                    <Grid container sx={{ mb: '50px' }}></Grid>
                     {indicators.slice(0, 3).map(indicator => (
                         <Grid container spacing={1} key={indicator.name}>
                             <Grid item xs={5}>
@@ -260,7 +279,7 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
                         </Grid>
                     ))}
 
-                    <Grid container sx={{ mb: '140px' }}></Grid>
+                    <Grid container sx={{ mb: '50px' }}></Grid>
 
                     {indicators.slice(3).map(indicator => (
                         <Grid container spacing={1} key={indicator.name}>
