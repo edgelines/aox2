@@ -5,6 +5,13 @@
 ## Todo / Bug
 - util/useInterval.jsx 테스트
 
+### 2023.12.13
+{dev-api}
+- Commit.1
+  - modelingPage.jsx
+    - Kospi200, Kospi, Kosdaq Action
+  - CPI page.jsx : 가이드 완성
+
 ### 2023.12.12
 {dev-api}
 - Commit.1
