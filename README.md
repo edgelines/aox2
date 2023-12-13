@@ -14,6 +14,10 @@
 - Commit.2
   - FundarmentalChart 기간수정
   - 웹팩 output수정
+- Commit.3
+  - Fundarmental.jsx 요청사항
+    - Grid 4:6
+    - column rounded 1
 
 ### 2023.12.12
 {dev-api}

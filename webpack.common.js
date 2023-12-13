@@ -12,8 +12,8 @@ const config = {
         app: ['./src/index.js'],
     },
     output: {
-        path: path.resolve('D:/web/aox'),
-        // path: path.resolve(__dirname, './dist'),
+        // path: path.resolve('D:/web/aox'),
+        path: path.resolve(__dirname, './dist'),
         filename: 'build.js',
         publicPath: '/', // 라우터 링크 못읽는 현상 수정
     },
@@ -47,10 +47,7 @@ const config = {
                     },
                 ],
             },
-            // {
-            //     test: /\.(sa|sc|c)ss$/,
-            //     use: ["css-loader", "sass-loader"],
-            // },
+
             {
                 test: /\.(png|jp(e*)g|svg|gif|ico|webp)$/,
                 use: ['file-loader'],
@@ -63,8 +60,8 @@ const config = {
             template: path.resolve(__dirname, 'src', 'index.html'),  // index.html 파일의 경로를 지정합니다.
             favicon: path.resolve(__dirname, 'src', 'favicon.ico'),
             inject: true,
-            filename: path.resolve('D:/web/aox/index.html')
-            // filename: path.resolve(__dirname, './dist/index.html')
+            // filename: path.resolve('D:/web/aox/index.html')
+            filename: path.resolve(__dirname, './dist/index.html')
         }),
         new webpack.DefinePlugin({
             'process.env': JSON.stringify(process.env),
