@@ -63,7 +63,8 @@ const config = {
             template: path.resolve(__dirname, 'src', 'index.html'),  // index.html 파일의 경로를 지정합니다.
             favicon: path.resolve(__dirname, 'src', 'favicon.ico'),
             inject: true,
-            filename: path.resolve(__dirname, './dist/index.html')
+            filename: path.resolve('D:/web/aox/dist/index.html')
+            // filename: path.resolve(__dirname, './dist/index.html')
         }),
         new webpack.DefinePlugin({
             'process.env': JSON.stringify(process.env),
