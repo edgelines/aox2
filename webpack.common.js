@@ -12,7 +12,8 @@ const config = {
         app: ['./src/index.js'],
     },
     output: {
-        path: path.resolve(__dirname, './dist'),
+        path: path.resolve('D:/web/aox/dist'),
+        // path: path.resolve(__dirname, './dist'),
         filename: 'build.js',
         publicPath: '/', // 라우터 링크 못읽는 현상 수정
     },
@@ -60,6 +61,7 @@ const config = {
         new CleanWebpackPlugin(), // 웹팩 실행시마다 dist 폴더 정리
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src', 'index.html'),  // index.html 파일의 경로를 지정합니다.
+            favicon: path.resolve(__dirname, 'src', 'favicon.ico'),
             inject: true,
             filename: path.resolve(__dirname, './dist/index.html')
         }),
