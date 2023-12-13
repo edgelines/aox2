@@ -261,7 +261,7 @@ function App() {
     // Swiper Slider Bottom Page Number Style
     const handleSlideChange = (swiper) => {
         const paginationEl = swiper.pagination.el;
-        if (swiper.activeIndex === 1) {
+        if (swiper.activeIndex === 2) {
             paginationEl.style.color = 'black';
         } else {
             paginationEl.style.color = '#efe9e9ed';
@@ -287,11 +287,11 @@ function App() {
                 onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
-                {/* <SwiperSlide style={swiperSlideStyle} >
-                    <ModelingPage swiperRef={swiperRef} Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} />
-                </SwiperSlide> */}
-
                 <SwiperSlide style={swiperSlideStyle} >
+                    <Fundarmental />
+                </SwiperSlide>
+
+                {/* <SwiperSlide style={swiperSlideStyle} >
                     <SchedulePage swiperRef={swiperRef} />
                 </SwiperSlide>
 
@@ -358,7 +358,7 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <TreasuryStockPage swiperRef={swiperRef} />
-                </SwiperSlide>
+                </SwiperSlide> */}
             </Swiper>
         </div >
     );

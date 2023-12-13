@@ -61,7 +61,8 @@ export default function FundarmentalPage({ swiperRef }) {
                 stacking: 'normal',
                 color: key === categoryName ? 'white' : colorMap[categoryData.name],
                 lineWidth: key === categoryName ? 2 : undefined,
-                zIndex: key === categoryName ? 5 : undefined
+                zIndex: key === categoryName ? 5 : undefined,
+                borderRadius: 1
             };
         });
 
@@ -84,181 +85,19 @@ export default function FundarmentalPage({ swiperRef }) {
         setChartField3(chartDataCommodities);
         setChartField4(chartDataServices);
 
-        // const res = await axios.get(`${API}/fundamental/CPI?name=topline`);
-        // setChartData([
-        //     {
-        //         data: res.data.CPI.data,
-        //         yAxis: 0, name: res.data.CPI.name, zIndex: 5,
-        //         type: 'spline', color: colorMap[res.data.CPI.name], lineWidth: 2,
-        //     }, {
-        //         data: res.data.Food.data,
-        //         yAxis: 0, name: res.data.Food.name,
-        //         type: 'column',
-        //         stack: 'cpi',
-        //         stacking: 'normal', color: colorMap[res.data.Food.name]
-        //     }, {
-        //         data: res.data.Energy.data,
-        //         yAxis: 0, name: res.data.Energy.name,
-        //         type: 'column',
-        //         stack: 'cpi',
-        //         stacking: 'normal', color: colorMap[res.data.Energy.name]
-        //     }, {
-        //         data: res.data.Commodities.data,
-        //         yAxis: 0, name: res.data.Commodities.name,
-        //         type: 'column',
-        //         stack: 'cpi',
-        //         stacking: 'normal', color: colorMap[res.data.Commodities.name]
-        //     }, {
-        //         data: res.data.Services.data,
-        //         yAxis: 0, name: res.data.Services.name,
-        //         type: 'column',
-        //         stack: 'cpi',
-        //         stacking: 'normal', color: colorMap[res.data.Services.name]
-        //     }])
-
-        // const field1 = await axios.get(`${API}/fundamental/CPI?name=foods`);
-        // setChartField1([
-        //     {
-        //         data: field1.data.Food.data,
-        //         yAxis: 0, name: field1.data.Food.name, zIndex: 5,
-        //         type: 'spline', color: 'white', lineWidth: 2,
-        //     }, {
-        //         data: field1.data.Cereals.data,
-        //         yAxis: 0, name: field1.data.Cereals.name,
-        //         type: 'column',
-        //         stack: 'cpi',
-        //         stacking: 'normal', color: colorMap[field1.data.Cereals.name]
-        //     }, {
-        //         data: field1.data.Meats.data,
-        //         yAxis: 0, name: field1.data.Meats.name,
-        //         type: 'column',
-        //         stack: 'cpi',
-        //         stacking: 'normal', color: colorMap[field1.data.Meats.name]
-        //     }, {
-        //         data: field1.data.Dairy.data,
-        //         yAxis: 0, name: field1.data.Dairy.name,
-        //         type: 'column',
-        //         stack: 'cpi',
-        //         stacking: 'normal', color: colorMap[field1.data.Dairy.name]
-        //     }, {
-        //         data: field1.data.Fruits.data,
-        //         yAxis: 0, name: field1.data.Fruits.name,
-        //         type: 'column',
-        //         stack: 'cpi',
-        //         stacking: 'normal', color: colorMap[field1.data.Fruits.name]
-        //     }, {
-        //         data: field1.data.Nonalcoholic.data,
-        //         yAxis: 0, name: field1.data.Nonalcoholic.name,
-        //         type: 'column',
-        //         stack: 'cpi',
-        //         stacking: 'normal', color: colorMap[field1.data.Nonalcoholic.name]
-        //     }, {
-        //         data: field1.data.Other.data,
-        //         yAxis: 0, name: field1.data.Other.name,
-        //         type: 'column',
-        //         stack: 'cpi',
-        //         stacking: 'normal', color: colorMap[field1.data.Other.name]
-        //     }, {
-        //         data: field1.data.FoodAway.data,
-        //         yAxis: 0, name: field1.data.FoodAway.name,
-        //         type: 'column',
-        //         stack: 'cpi',
-        //         stacking: 'normal', color: colorMap[field1.data.FoodAway.name]
-        //     }])
-
-        // const field2 = await axios.get(`${API}/fundamental/CPI?name=energy`);
-        // setChartField2([
-        //     {
-        //         data: field2.data.Energy.data, type: 'spline',
-        //         name: field2.data.Energy.name, zIndex: 5, yAxis: 0,
-        //         color: 'white', lineWidth: 2,
-        //     }, {
-        //         data: field2.data.Fuel.data, yAxis: 0,
-        //         name: field2.data.Fuel.name, type: 'column', stack: 'cpi', stacking: 'normal',
-        //         color: colorMap[field2.data.Fuel.name]
-        //     }, {
-        //         data: field2.data.Gasoline.data, yAxis: 0,
-        //         name: field2.data.Gasoline.name, type: 'column', stack: 'cpi', stacking: 'normal',
-        //         color: colorMap[field2.data.Gasoline.name]
-        //     }, {
-        //         data: field2.data.Electricity.data, yAxis: 0,
-        //         name: field2.data.Electricity.name, type: 'column', stack: 'cpi', stacking: 'normal',
-        //         color: colorMap[field2.data.Electricity.name]
-        //     }, {
-        //         data: field2.data.NaturalGas.data, yAxis: 0,
-        //         name: field2.data.NaturalGas.name, type: 'column', stack: 'cpi', stacking: 'normal',
-        //         color: colorMap[field2.data.NaturalGas.name]
-        //     }])
-        // const field3 = await axios.get(`${API}/fundamental/CPI?name=commodities`);
-        // setChartField3([
-        //     {
-        //         data: field3.data.Commodities.data, type: 'spline',
-        //         name: field3.data.Commodities.name, zIndex: 5, yAxis: 0,
-        //         color: 'white', lineWidth: 2,
-        //     }, {
-        //         data: field3.data.Apparel.data, yAxis: 0,
-        //         name: field3.data.Apparel.name, type: 'column', stack: 'cpi', stacking: 'normal',
-        //         color: colorMap[field3.data.Apparel.name]
-        //     }, {
-        //         data: field3.data.NewVehicles.data, yAxis: 0,
-        //         name: field3.data.NewVehicles.name, type: 'column', stack: 'cpi', stacking: 'normal',
-        //         color: colorMap[field3.data.NewVehicles.name]
-        //     }, {
-        //         data: field3.data.UsedCar.data, yAxis: 0,
-        //         name: field3.data.UsedCar.name, type: 'column', stack: 'cpi', stacking: 'normal',
-        //         color: colorMap[field3.data.UsedCar.name]
-        //     }, {
-        //         data: field3.data.MedicalCare.data, yAxis: 0,
-        //         name: field3.data.MedicalCare.name, type: 'column', stack: 'cpi', stacking: 'normal',
-        //         color: colorMap[field3.data.MedicalCare.name]
-        //     }, {
-        //         data: field3.data.Alcoholic.data, yAxis: 0,
-        //         name: field3.data.Alcoholic.name, type: 'column', stack: 'cpi', stacking: 'normal',
-        //         color: colorMap[field3.data.Alcoholic.name]
-        //     }, {
-        //         data: field3.data.Tobacco.data, yAxis: 0,
-        //         name: field3.data.Tobacco.name, type: 'column', stack: 'cpi', stacking: 'normal',
-        //         color: colorMap[field3.data.Tobacco.name]
-        //     }])
-        // const field4 = await axios.get(`${API}/fundamental/CPI?name=services`);
-        // setChartField4([
-        //     {
-        //         data: field4.data.Services.data, type: 'spline',
-        //         name: field4.data.Services.name, zIndex: 5, yAxis: 0,
-        //         color: 'white', lineWidth: 2,
-        //     }, {
-        //         data: field4.data.Shelter.data, yAxis: 0,
-        //         name: field4.data.Shelter.name, type: 'column', stack: 'cpi', stacking: 'normal',
-        //         color: colorMap[field4.data.Shelter.name]
-        //     }, {
-        //         data: field4.data.MedicalCareService.data, yAxis: 0,
-        //         name: field4.data.MedicalCareService.name, type: 'column', stack: 'cpi', stacking: 'normal',
-        //         color: colorMap[field4.data.MedicalCareService.name]
-        //     }, {
-        //         data: field4.data.Maintenance.data, yAxis: 0,
-        //         name: field4.data.Maintenance.name, type: 'column', stack: 'cpi', stacking: 'normal',
-        //         color: colorMap[field4.data.Maintenance.name]
-        //     }, {
-        //         data: field4.data.Insurance.data, yAxis: 0,
-        //         name: field4.data.Insurance.name, type: 'column', stack: 'cpi', stacking: 'normal',
-        //         color: colorMap[field4.data.Insurance.name]
-        //     }, {
-        //         data: field4.data.AirlineFare.data, yAxis: 0,
-        //         name: field4.data.AirlineFare.name, type: 'column', stack: 'cpi', stacking: 'normal',
-        //         color: colorMap[field4.data.AirlineFare.name]
-        //     }])
     }
 
     useEffect(() => { fetchData(); }, [])
 
 
     return (
-        <Grid container spacing={1} >
-            <Grid item xs={6}>
-                <FundarmentalChart data={chartData} height={600} name={'CPI'} rangeSelector={5} creditsPositionX={1} />
+        <Grid container spacing={2} >
+            <Grid item container xs={4.5}>
+                <FundarmentalChart data={chartData} height={500} name={'CPI'} rangeSelector={5} creditsPositionX={1} />
+
             </Grid>
 
-            <Grid item container xs={6}>
+            <Grid item container xs={7.5}>
                 <Grid item xs={6}>
                     <FundarmentalChart data={chartField1} height={460} name={'CPI'} rangeSelector={5} creditsPositionX={1} />
                 </Grid>
