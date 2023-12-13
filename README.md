@@ -11,6 +11,9 @@
   - modelingPage.jsx
     - Kospi200, Kospi, Kosdaq Action
   - CPI page.jsx : 가이드 완성
+- Commit.2
+  - FundarmentalChart 기간수정
+  - 웹팩 output수정
 
 ### 2023.12.12
 {dev-api}
