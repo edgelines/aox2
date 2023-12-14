@@ -64,8 +64,11 @@ export default function Chart({ data = [], height, name, hidenLegend, rangeSelec
         const yAxisConfig = {
             CPI: [{
                 title: { enabled: false },
+                gridLineWidth: 0.2,
                 labels: {
-                    align: 'right', x: -3, y: -4,
+                    align: 'left',
+                    // allowOverlap: true,
+                    x: 6, y: 4,
                     style: {
                         color: '#efe9e9ed',
                         fontSize: '12px'
