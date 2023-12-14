@@ -5,6 +5,12 @@
 ## Todo / Bug
 - util/useInterval.jsx 테스트
 
+### 2023.12.14
+{dev-api}
+- Commit.1
+  - fundarmental 
+    - 좌우 비율, 간격조절
+
 ### 2023.12.13
 {dev-api}
 - Commit.1
