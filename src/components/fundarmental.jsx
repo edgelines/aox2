@@ -91,13 +91,13 @@ export default function FundarmentalPage({ swiperRef }) {
 
 
     return (
-        <Grid container spacing={2} >
-            <Grid item container xs={4.5}>
+        <Grid container spacing={1} >
+            <Grid item container xs={5}>
                 <FundarmentalChart data={chartData} height={500} name={'CPI'} rangeSelector={5} creditsPositionX={1} />
 
             </Grid>
 
-            <Grid item container xs={7.5}>
+            <Grid item container xs={7}>
                 <Grid item xs={6}>
                     <FundarmentalChart data={chartField1} height={460} name={'CPI'} rangeSelector={5} creditsPositionX={1} />
                 </Grid>
