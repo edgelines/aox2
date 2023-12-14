@@ -10,6 +10,11 @@
 - Commit.1
   - fundarmental 
     - 좌우 비율, 간격조절
+- Commit.2
+  - fundarmental 
+    - 서브카테고리명 표기
+    - Main Chart Width 100%
+    - fundarmentalChart 필요없는 부분 제거
 
 ### 2023.12.13
 {dev-api}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, Box, Table, TableHead, TableBody, TableRow, TableCell, Skeleton, Modal, Backdrop, Switch, FormControlLabel, Popover, Typography, Slider } from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 
 import FundarmentalChart from './util/FundarmentalChart';
 
@@ -88,30 +88,58 @@ export default function FundarmentalPage({ swiperRef }) {
     }
 
     useEffect(() => { fetchData(); }, [])
-
-
+    const boxSize = { fontSize: '19px' }
+    const boxFontStyle = { margin: 0, paddingTop: '4px', paddingLeft: '4px' }
+    const boxStyle = { position: 'absolute', transform: `translate(10px, 105px)`, zIndex: 5, justifyItems: 'right', p: 0.4 }
+    const boxStyleEnergy = { position: 'absolute', transform: `translate(10px, 90px)`, zIndex: 5, justifyItems: 'right', p: 0.4 }
     return (
         <Grid container spacing={1} >
             <Grid item container xs={5}>
-                <FundarmentalChart data={chartData} height={500} name={'CPI'} rangeSelector={5} creditsPositionX={1} />
-
+                <div style={{ width: '100%' }}>
+                    <FundarmentalChart data={chartData} height={500} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
+                </div>
             </Grid>
 
-            <Grid item container xs={7}>
+            <Grid item container xs={7} spacing={2}>
                 <Grid item xs={6}>
-                    <FundarmentalChart data={chartField1} height={460} name={'CPI'} rangeSelector={5} creditsPositionX={1} />
+                    <Box sx={{ ...boxStyle, border: `3px solid ${colorMap['Foods']}`, borderRadius: 1.5 }}>
+                        <Grid item container>
+                            <Typography sx={{ ...boxSize, color: colorMap['Foods'] }}>■</Typography>
+                            <Typography sx={boxFontStyle} >Foods</Typography>
+                        </Grid>
+                    </Box>
+                    <FundarmentalChart data={chartField1} height={460} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
                 </Grid>
                 <Grid item xs={6}>
-                    <FundarmentalChart data={chartField2} height={460} name={'CPI'} rangeSelector={5} creditsPositionX={1} />
+                    <Box sx={{ ...boxStyleEnergy, border: `3px solid ${colorMap['Energy']}`, borderRadius: 1.5 }}>
+                        <Grid item container>
+                            <Typography sx={{ ...boxSize, color: colorMap['Energy'] }}>■</Typography>
+                            <Typography sx={boxFontStyle}>Energy</Typography>
+
+                        </Grid>
+                    </Box>
+                    <FundarmentalChart data={chartField2} height={460} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
                 </Grid>
                 <Grid item xs={6}>
-                    <FundarmentalChart data={chartField3} height={460} name={'CPI'} rangeSelector={5} creditsPositionX={1} />
+                    <Box sx={{ ...boxStyle, border: `3px solid ${colorMap['Commodities']}`, borderRadius: 1.5 }}>
+                        <Grid item container>
+                            <Typography sx={{ ...boxSize, color: colorMap['Commodities'] }}>■</Typography>
+                            <Typography sx={boxFontStyle}>Commodities</Typography>
+
+                        </Grid>
+                    </Box>
+                    <FundarmentalChart data={chartField3} height={460} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
                 </Grid>
                 <Grid item xs={6}>
-                    <FundarmentalChart data={chartField4} height={460} name={'CPI'} rangeSelector={5} creditsPositionX={1} />
+                    <Box sx={{ ...boxStyle, border: `3px solid ${colorMap['Services']}`, borderRadius: 1.5 }}>
+                        <Grid item container>
+                            <Typography sx={{ ...boxSize, color: colorMap['Services'] }}>■</Typography>
+                            <Typography sx={boxFontStyle}>Services</Typography>
+                        </Grid>
+                    </Box>
+                    <FundarmentalChart data={chartField4} height={460} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
                 </Grid>
             </Grid>
         </Grid>
     )
 }
-

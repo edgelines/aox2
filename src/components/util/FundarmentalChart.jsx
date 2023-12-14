@@ -13,7 +13,6 @@ export default function Chart({ data = [], height, name, hidenLegend, rangeSelec
         rangeSelector: {
             selected: rangeSelector, inputDateFormat: "%Y-%m-%d", inputStyle: { color: "#efe9e9ed" }, labelStyle: { color: "#efe9e9ed" },
             buttons: [
-                { type: "month", count: 11, text: "11M", title: "View 11 months" },
                 { type: "year", count: 1, text: "1Y", title: "View 1 Year" }, { type: "year", count: 2, text: "2Y", title: "View 2 Year" }, { type: "year", count: 3, text: "3Y", title: "View 3 Year" },
                 { type: "year", count: 4, text: "4Y", title: "View 4 Year" }, { type: "year", count: 5, text: "5Y", title: "View 5 Year" },
                 { type: "all", text: "All", title: "View All" },],
@@ -23,9 +22,6 @@ export default function Chart({ data = [], height, name, hidenLegend, rangeSelec
         xAxis: {
             type: xAxisType ? xAxisType : 'datetime', labels: {
                 style: { color: '#efe9e9ed', fontSize: '11px' },
-                // formatter: function () {
-                //     return Highcharts.dateFormat('%y-%m-%d', this.value);
-                // }
                 format: "{value:%y-%m-%d}",
             }, tickInterval: false, lineColor: '#efe9e9ed', gridLineWidth: 0, tickWidth: 1, tickColor: '#cfcfcf', tickPosition: 'inside',
         },
@@ -45,47 +41,11 @@ export default function Chart({ data = [], height, name, hidenLegend, rangeSelec
                 return [Highcharts.dateFormat('%y.%m.%d', this.x)].concat(
                     this.points ?
                         this.points.map(function (point) {
-                            if (point.series.name == '코스피 200') {
-                                return point.series.name + ' : ' + parseFloat(point.y).toFixed(2);
-                            }
-                            else if (point.series.name == '인버스') {
-                                return point.series.name + ' : ' + point.y;
-                            }
-                            else if (name === 'ElwPutCallRatioData') {
-                                return point.series.name + ' : ' + point.y.toFixed(2);
-                            } else if (name === 'VixMA' || name === 'moneyIndex') {
-                                if (point.series.options.isCandle) {
-                                    return `${point.series.name}<br/>시가 : ${point.point.open.toFixed(2)}<br/> 고가 : ${point.point.high.toFixed(2)}<br/> 저가 : ${point.point.low.toFixed(2)}<br/> 종가 : ${point.point.close.toFixed(2)}`;
-                                } else {
-                                    return point.series.name + ' : ' + point.y.toFixed(2);
-                                }
-                            } else if (name === 'IndexMA') {
-                                if (point.series.options.isCandle) {
-                                    return `${point.series.name}<br/>시가 : ${point.point.open}<br/> 고가 : ${point.point.high}<br/> 저가 : ${point.point.low}<br/> 종가 : ${point.point.close}`;
-                                } else if (point.series.options.isPercent) {
-                                    return point.series.name + ' : ' + parseInt(point.y) + '%';
-                                } else if (point.series.options.isADR) {
-                                    return point.series.name + ' : ' + parseInt(point.y) + '%';
-                                } else {
-                                    return ''
-                                }
-                            } else if (name === 'Modeling') {
-                                if (point.series.options.isCandle) {
-                                    return ``;
-                                    // return `${point.series.name}<br/>시가 : ${point.point.open}<br/> 고가 : ${point.point.high}<br/> 저가 : ${point.point.low}<br/> 종가 : ${point.point.close}`;
-                                } else if (point.series.options.isPercent) {
-                                    return point.series.name + ' : ' + parseInt(point.y) + '%';
-                                } else if (point.series.options.isADR) {
-                                    return point.series.name + ' : ' + parseInt(point.y) + '%';
-                                } else {
-                                    return point.series.name + ' : ' + parseInt(point.y) + '%';
-                                }
-                            } else if (name === 'CPI') {
-                                return point.series.name + ' : ' + point.y + '%';
-                            }
-                            else {
-                                return point.series.name + ' : ' + parseInt(point.y * 100) + '%';
-                            }
+
+
+                            return point.series.name + ' : ' + (point.y).toFixed(1) + '%';
+
+
                         }) : []
                 );
             },
@@ -102,188 +62,6 @@ export default function Chart({ data = [], height, name, hidenLegend, rangeSelec
 
     useEffect(() => {
         const yAxisConfig = {
-            VixMA: [{
-                title: { enabled: false },
-                labels: { align: 'right', x: -5, y: 4.5, style: { color: '#efe9e9ed', fontSize: '12px' }, formatter: function () { return this.value; }, },
-                opposite: false,
-                gridLineWidth: 0.2,
-                plotLines: [{
-                    color: '#efe9e9ed',
-                    width: 1,
-                    value: 20,
-                    dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                }, {
-                    color: 'tomato',
-                    width: 1,
-                    value: 35,
-                    dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                    // label: { text: '14', align: 'right', x: 10, y: 4, style: { color:'#efe9e9ed', fontSize:'7.5px'} }
-                }],
-                crosshair: { width: 2, }
-            }],
-            IndexMA: [{
-                title: { enabled: false },
-                labels: {
-                    align: 'right', x: -5, y: 4.5,
-                    style: {
-                        color: '#efe9e9ed',
-                        fontSize: '12px'
-                    }, formatter: function () {
-                        return `${this.value}%`;
-                    },
-                },
-                opposite: false,
-                gridLineWidth: 0.2,
-                plotLines: [{
-                    color: 'red',
-                    width: 1,
-                    value: 80,
-                    dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                    // zIndex: 5,
-                }, {
-                    color: '#efe9e9ed',
-                    width: 1,
-                    value: 50,
-                    dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                    // zIndex: 5,
-                }, {
-                    color: 'skyblue',
-                    width: 1,
-                    value: 15,
-                    dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                    // zIndex: 5,
-                }, {
-                    color: 'dodgerblue',
-                    width: 1,
-                    value: 10,
-                    dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                    // zIndex: 5,
-                }],
-                crosshair: { width: 2, }
-            }, {
-                title: { enabled: false },
-                labels: {
-                    align: 'left',
-                    x: 6, y: 4.5,
-                    style: {
-                        color: '#efe9e9ed',
-                        fontSize: '12px'
-                    }, formatter: function () {
-                        return (this.value).toLocaleString('ko-KR');
-                    },
-                },
-                gridLineWidth: 0.2
-            }, {
-                visible: false,
-            }],
-            ElwPutCallRatioData: [{
-                title: { enabled: false }, labels: {
-                    align: 'right', x: -5, y: 4.5, style: { color: '#efe9e9ed', fontSize: '12px' },
-                    formatter: function () { return this.value; },
-                }, opposite: false, gridLineWidth: 0.2,
-                plotLines: [{ className: 'market_labels', color: '#efe9e9ed', width: 1, value: 0.6, dashStyle: 'shortdash', label: { text: '0.6', align: 'left', x: -22, y: 4, style: { color: '#efe9e9ed', } } }],
-                crosshair: { width: 2, }
-            }],
-            moneyIndex: [{
-                title: { enabled: false },
-                labels: {
-                    align: 'right', x: -5, y: 4.5,
-                    style: {
-                        color: '#efe9e9ed',
-                        fontSize: '12px'
-                    }, formatter: function () {
-                        return (this.value).toLocaleString('ko-KR');
-                    },
-                },
-                opposite: false,
-                gridLineWidth: 0.2,
-                crosshair: { width: 2, }
-            }, {
-                title: { enabled: false },
-                labels: {
-                    align: 'left',
-                    x: 6, y: 4.5,
-                    style: {
-                        color: '#efe9e9ed',
-                        fontSize: '12px'
-                    }, formatter: function () {
-                        return (this.value).toLocaleString('ko-KR');
-                    },
-                },
-                gridLineWidth: 0.2
-            }, { visible: false, }],
-            Modeling: [{
-                title: { enabled: false },
-                labels: {
-                    align: 'right', x: -5, y: 4.5,
-                    style: {
-                        color: '#efe9e9ed',
-                        fontSize: '12px'
-                    }, formatter: function () {
-                        return (this.value).toLocaleString('ko-KR');
-                    },
-                },
-                opposite: false,
-                gridLineWidth: 0.2,
-                height: '70%',
-                crosshair: { width: 2, }
-            }, {
-                title: { enabled: false },
-                labels: {
-                    align: 'left',
-                    x: 6, y: 4.5,
-                    style: {
-                        color: '#efe9e9ed',
-                        fontSize: '12px'
-                    }, formatter: function () {
-                        return `${this.value}%`;
-                    },
-
-                },
-                gridLineWidth: 0.2,
-                top: '70%',
-                height: '30%',
-            }, {
-                title: { enabled: false },
-                labels: {
-                    align: 'left',
-                    x: -34, y: 4.5,
-                    style: {
-                        color: '#efe9e9ed',
-                        fontSize: '12px'
-                    }, formatter: function () {
-                        return `${this.value}%`;
-                    },
-                },
-                gridLineWidth: 0.2,
-                height: '70%',
-                plotLines: [{
-                    color: 'red',
-                    width: 0.5,
-                    value: 120,
-                    dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                    // zIndex: 5,
-                }, {
-                    color: '#efe9e9ed',
-                    width: 0.5,
-                    value: 100,
-                    dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                    // zIndex: 5,
-                }, {
-                    color: 'skyblue',
-                    width: 0.5,
-                    value: 70,
-                    dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                    // zIndex: 5,
-                }, {
-                    color: 'dodgerblue',
-                    width: 0.5,
-                    value: 60,
-                    dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                    // zIndex: 5,
-                }],
-                crosshair: { width: 2, }
-            }],
             CPI: [{
                 title: { enabled: false },
                 labels: {
