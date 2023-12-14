@@ -32,7 +32,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { Mousewheel, Pagination } from "swiper/modules";
+import { Keyboard, Mousewheel, Pagination } from "swiper/modules";
 import axios from 'axios';
 import { API } from './components/util/config'
 import useInterval from './components/util/useInterval';
@@ -282,7 +282,8 @@ function App() {
                 pagination={{ type: "fraction", clickable: false, }}
                 mousewheel={true}
                 allowTouchMove={false}
-                modules={[Mousewheel, Pagination]}
+                modules={[Keyboard, Mousewheel, Pagination]}
+                keyboard={{ enabled: true, }}
                 className="mySwiper"
                 onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}

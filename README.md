@@ -15,6 +15,10 @@
     - 서브카테고리명 표기
     - Main Chart Width 100%
     - fundarmentalChart 필요없는 부분 제거
+- Commit.3
+  - fundarmental 
+    - Btn 추가
+    - 최근5개월 데이터 테이블 추가
 
 ### 2023.12.13
 {dev-api}

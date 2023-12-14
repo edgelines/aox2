@@ -18,9 +18,10 @@ export function numberWithCommas(num) {
     return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
 }
 
-export const StyledToggleButton = styled(ToggleButton)(({ theme, fontSize }) => ({
+export const StyledToggleButton = styled(ToggleButton)(({ theme, fontSize, textAlign, color }) => ({
     backgroundColor: '#404040', // 비활성화 상태에서의 배경색
     fontSize: fontSize ? fontSize : '8px',
+    textAlign: textAlign ? textAlign : 'center',
     color: '#efe9e9ed', // 비활성화 상태에서의 글자색
     '&.Mui-selected': { // 활성화 상태에서의 스타일
         backgroundColor: '#efe9e9ed', // 활성화 상태에서의 배경색
@@ -28,6 +29,10 @@ export const StyledToggleButton = styled(ToggleButton)(({ theme, fontSize }) => 
         '&:hover': { // 마우스 오버 상태에서의 스타일
             backgroundColor: '#d8d8d8', // 마우스 오버 상태에서의 배경색
         },
+    },
+    '&.Mui-disabled': {
+        backgroundColor: '#404040',
+        color: '#efe9e9ed',
     },
     '&:hover': { // 비활성화 상태에서의 마우스 오버 스타일
         backgroundColor: '#505050', // 비활성화 상태에서의 마우스 오버 배경색
@@ -70,3 +75,14 @@ export const SectorsName15 = (name) => { // 업종명을 15개의 구분으로 �
 }
 
 
+export const DataTableStyleDefault = {
+    '.MuiDataGrid-columnSeparator': {
+        display: 'none',
+    },
+    '.MuiDataGrid-columnHeaders': {
+        minHeight: '30px !important',  // 원하는 높이 값으로 설정
+        maxHeight: '30px !important',  // 원하는 높이 값으로 설정
+        lineHeight: '30px !important',  // 원하는 높이 값으로 설정
+        backgroundColor: 'rgba(230, 230, 230, 0.3)'
+    },
+}
