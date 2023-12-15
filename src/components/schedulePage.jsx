@@ -15,7 +15,8 @@ import FundarmentalPage2 from './Fundarmental/fundarmentalPage2';
 import FundarmentalPage3 from './Fundarmental/fundarmentalPage3';
 import Pbr from './Index/PBR';
 import { numberWithCommas } from './util/util';
-import { API, myJSON } from './util/config';
+import { API } from './util/config';
+import useInterval from './util/useInterval';
 
 export default function SchedulePage({ swiperRef }) {
 
@@ -54,28 +55,39 @@ export default function SchedulePage({ swiperRef }) {
         <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('PERPBR')}>PER/PBR</Button>,
     ]
     const fetchData = async () => {
-        await axios.get(`${API}/FOMC`).then((res) => {
-            setFomcDate(res.data[0]['data-endtime']);
-        })
+        const res = await axios.get(`${API}/FOMC`);
+        setFomcDate(res.data[0]['data-endtime']);
     }
 
-    useEffect(() => {
-        fetchData();
-    }, [])
+    const getScheduleEventWeeks = async () => {
+        const today = new Date();
+        const pageOffset = (page - 1) * 7;
+        today.setDate(today.getDate() + pageOffset)
+
+        var year = today.getFullYear();
+        var month = ('0' + (today.getMonth() + 1)).slice(-2);
+        var day = ('0' + today.getDate()).slice(-2);
+        var dateString = `${year}-${month}-${day}`;
+        const weeks = await axios.get(`${API}/schedule/weeks?date=${dateString}`)
+
+        const filteredEvents = weeks.data.map(day => {
+            const filteredDayEvents = selectedType
+                ? day.events.filter(event => event.type === selectedType)
+                : day.events;
+            return {
+                ...day,
+                events: filteredDayEvents,
+            };
+        });
+        setSchedule(filteredEvents);
+
+    }
+
+    useEffect(() => { fetchData(); }, [])
 
     useEffect(() => {
-        axios.get(`${myJSON}/scheduleWeek${page}`).then(response => {
-            const filteredEvents = response.data.map(day => {
-                const filteredDayEvents = selectedType
-                    ? day.events.filter(event => event.type === selectedType)
-                    : day.events;
-                return {
-                    ...day,
-                    events: filteredDayEvents,
-                };
-            });
-            setSchedule(filteredEvents);
-        })
+        getScheduleEventWeeks();
+
     }, [selectedType, page]);
     // 버튼이 클릭될 때 호출할 핸들러 함수
     const handleTypeChange = (type) => {
@@ -103,9 +115,7 @@ export default function SchedulePage({ swiperRef }) {
                             {buttons}
                         </ButtonGroup>
                     </Box>
-                    {/* <Box sx={{ width: '100%' }}>
-                        <Divider variant="middle" sx={{ borderColor: 'white' }} />
-                    </Box> */}
+
                 </Grid>
                 <Grid item xs={11}>
                     {sectorPage === '스케쥴' && <Schedule schedule={schedule} date={fomcDate} ipoSubPage={ipoSubPage} swiperRef={swiperRef}
@@ -160,12 +170,12 @@ function Schedule({ schedule, date, handlePageChange, ipoSubPage, swiperRef }) {
     }
     return (
         <>
-            <Grid container spacing={2} sx={{ borderBottom: '0.6px solid #ccc', borderTop: '0.6px solid #ccc', marginBottom: '20px', minHeight: '55vh' }} >
+            <Grid container spacing={2} sx={{ borderBottom: '0.6px solid #ccc', borderTop: '0.6px solid #ccc', marginBottom: '20px', minHeight: '550px' }} >
                 {schedule
                     ? schedule.map((day, dayIndex) => (
                         dayIndex < 5 ? (
                             <Grid item key={dayIndex} sx={{ width: '25vh' }}>
-                                <p style={dateStyle}>{new Date(day.date).toLocaleDateString('kr-KR', {
+                                <p style={dateStyle}>{new Date(day.날짜).toLocaleDateString('kr-KR', {
                                     month: 'long',
                                     day: 'numeric',
                                     weekday: 'short'
@@ -182,7 +192,7 @@ function Schedule({ schedule, date, handlePageChange, ipoSubPage, swiperRef }) {
                             </Grid>
                         ) : (
                             <Grid item key={dayIndex} sx={{ width: '15vh' }}>
-                                <p style={dateStyle}>{new Date(day.date).toLocaleDateString('kr-KR', {
+                                <p style={dateStyle}>{new Date(day.날짜).toLocaleDateString('kr-KR', {
                                     month: 'long',
                                     day: 'numeric',
                                     weekday: 'short'
@@ -209,15 +219,16 @@ function Schedule({ schedule, date, handlePageChange, ipoSubPage, swiperRef }) {
 
                 {/* 스케쥴 좌/우 이동버튼  */}
                 <Box sx={{
-                    display: 'flex',
-                    justifyContent: 'right',
-                    alignSelf: 'end',
-                    // marginTop: '20px',
-                    // marginRight: '20px',
-                    position: 'fixed',  // 요소를 고정 위치에 배치합니다
-                    right: 0,          // 우측으로부터 0px 위치에 배치합니다
-                    // bottom: '75vh',         // 하단으로부터 0px 위치에 배치합니다
-                    zIndex: 5,       // 다른 요소 위에 위치시키기 위한 z-index 값을 설정합니다
+                    position: 'absolute', transform: 'translate(1230px, 500px)', zIndex: 5,
+                    // display: 'flex',
+                    // justifyContent: 'right',
+                    // alignSelf: 'end',
+                    // // marginTop: '20px',
+                    // // marginRight: '20px',
+                    // position: 'fixed',  // 요소를 고정 위치에 배치합니다
+                    // right: 0,          // 우측으로부터 0px 위치에 배치합니다
+                    // // bottom: '75vh',         // 하단으로부터 0px 위치에 배치합니다
+                    // zIndex: 5,       // 다른 요소 위에 위치시키기 위한 z-index 값을 설정합니다
                 }}>
                     <Grid container spacing={2} sx={{ width: '100%' }}>
                         <Grid item xs={6}>
@@ -234,7 +245,7 @@ function Schedule({ schedule, date, handlePageChange, ipoSubPage, swiperRef }) {
                 </Box>
 
                 {/* FOMC BOX */}
-                <Box sx={{ position: 'absolute', transform: 'translate(0vw, 44vh)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)', paddingLeft: 2, paddingRight: 2 }}>
+                <Box sx={{ position: 'absolute', transform: 'translate(1360px, 440px)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)', paddingLeft: 2, paddingRight: 2 }}>
                     <Box sx={{ fontSize: '1.5rem', fontWeight: 'bold', textAlign: 'left' }}>
                         The next FOMC meeting is in:
                     </Box>
@@ -276,7 +287,7 @@ function Schedule({ schedule, date, handlePageChange, ipoSubPage, swiperRef }) {
                 <Box sx={{
                     position: 'fixed',
                     width: '20vw',
-                    transform: 'translate(71vw, 6vh)'
+                    transform: 'translate(1360px, 90px)'
                 }}>
                     {ipoSubPage === '국내외지표이슈' && <ImageUpdater />}
                 </Box>
@@ -335,15 +346,21 @@ function ImageUpdater() {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        const world = setInterval(() => {
-            fetchData();
-        }, 1000 * 60 * 5);
+    // 5분 주기 업데이트
+    useInterval(fetchData, 1000 * 60 * 5, {
+        startHour: 9,
+        endHour: 16,
+        daysOff: [0, 6], // 일요일(0)과 토요일(6)은 제외
+    });
+    // useEffect(() => {
+    //     const world = setInterval(() => {
+    //         fetchData();
+    //     }, 1000 * 60 * 5);
 
-        return () => {
-            clearInterval(world);
-        };
-    }, []);
+    //     return () => {
+    //         clearInterval(world);
+    //     };
+    // }, []);
 
     // ccs
     const fontSytle = { fontWeight: 'bold' }

@@ -17,6 +17,12 @@
     - Category 클릭시 => SubChart 변경
     - ALL ~ Services 클릭 => 리셋
     - 일부 색상변경
+- Commit3.
+  - schedulePage.jsx
+    - Table, Div, Chart 위치조정
+    - API 수정
+    - 신규상장 footer 
+    - Non Metal 오류 수정
 
 ### 2023.12.14
 {dev-api}

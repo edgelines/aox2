@@ -3,14 +3,16 @@ import axios from 'axios';
 import { Grid, Skeleton } from '@mui/material';
 import { DataGrid, GridToolbar, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { myJSON } from '../util/config';
+import { API } from '../util/config';
 
 export default function Coex({ swiperRef }) {
 
     const [tableData, setTableData] = useState([]);
 
+
+
     useEffect(() => {
-        axios.get(`${myJSON}/coex`).then(response => {
+        axios.get(`${API}/schedule/coex`).then(response => {
             const data = response.data.map((item, index) => ({
                 ...item,
                 id: index

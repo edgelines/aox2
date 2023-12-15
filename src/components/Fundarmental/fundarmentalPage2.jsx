@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Grid } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Chart from './fundarmentalChart'
-import { myJSON } from '../util/config';
+import { API, myJSON } from '../util/config';
 // 에너지, 비트코인, 금, 환율, 오일
 export default function FundarmentalPage2({ swiperRef }) {
     const chartHeight = 470
@@ -51,15 +51,10 @@ export default function FundarmentalPage2({ swiperRef }) {
                 }]
             )
         });
-        axios.get(myJSON + "/NonMetals").then((response) => {
-            var Aluminium = [], Copper = []
-            response.data.forEach((value, index, array) => {
-                Aluminium.push([value.Date, value.Aluminium])
-                Copper.push([value.Date, value.Copper])
-            })
+        axios.get(`${API}/fundamental/nonMetals`).then((res) => {
             setNonMetals([{
                 name: 'Aluminium',
-                data: Aluminium,
+                data: res.data.Aluminium,
                 type: 'spline',
                 color: 'silver',
                 yAxis: 0,
@@ -68,7 +63,7 @@ export default function FundarmentalPage2({ swiperRef }) {
                 lineWidth: 1
             }, {
                 name: 'Copper',
-                data: Copper,
+                data: res.data.Copper,
                 type: 'spline',
                 yAxis: 1,
                 color: '#A47C6D',
@@ -101,26 +96,25 @@ export default function FundarmentalPage2({ swiperRef }) {
                 lineWidth: 1
             }])
         });
-        axios.get(myJSON + "/deposit").then((response) => {
-            var 고객예탁금 = [], 신용잔고 = [], 전일대비 = '', 고객예탁금_전일대비 = '', 신용잔고_전일대비 = '';
-            response.data.forEach((value, index, array) => {
-                고객예탁금.push([value.날짜, value.고객예탁금])
-                신용잔고.push([value.날짜, value.신용잔고])
-            })
-            let 고객예탁금_금액 = parseInt(고객예탁금[고객예탁금.length - 1][1] / 10000).toLocaleString('ko-KR') + ' 조';
-            let 신용잔고_금액 = parseInt(신용잔고[신용잔고.length - 1][1] / 10000).toLocaleString('ko-KR') + ' 조';
+        axios.get(`${API}/indices/deposit`).then((res) => {
+            var 전일대비 = '', 고객예탁금_전일대비 = '', 신용잔고_전일대비 = '';
 
-            전일대비 = parseInt((고객예탁금[고객예탁금.length - 1][1] - 고객예탁금[고객예탁금.length - 2][1]) / 10000)
+            let 고객예탁금_금액 = `${res.data.value.금액.고객예탁금} 조`;
+            let 신용잔고_금액 = `${res.data.value.금액.신용잔고} 조`;
+
+            전일대비 = res.data.value.전일대비.고객예탁금
             if (전일대비 > 0) { 고객예탁금_전일대비 = '예탁금 : ' + 고객예탁금_금액 + ' ( <span style="color:#FCAB2F;">+ ' + 전일대비 + ' 조 </span>)' }
             if (전일대비 <= 0) { 고객예탁금_전일대비 = '예탁금 : ' + 고객예탁금_금액 + ' ( <span style="color:#00F3FF;"> ' + 전일대비 + ' 조 </span>)' }
 
-            전일대비 = parseInt((신용잔고[신용잔고.length - 1][1] - 신용잔고[신용잔고.length - 2][1]) / 1000)
+            전일대비 = res.data.value.전일대비.신용잔고
+            // 전일대비 = parseInt((신용잔고[신용잔고.length - 1][1] - 신용잔고[신용잔고.length - 2][1]) / 1000)
             if (전일대비 > 0) { 신용잔고_전일대비 = '신용잔고 : ' + 신용잔고_금액 + ' ( <span style="color:#FCAB2F;">+ ' + 전일대비 + ' 천억 </span>)' }
             if (전일대비 <= 0) { 신용잔고_전일대비 = '신용잔고 : ' + 신용잔고_금액 + ' ( <span style="color:#00F3FF;"> ' + 전일대비 + ' 천억 </span>)' }
             var title = [고객예탁금_전일대비, 신용잔고_전일대비]
+
             setDeposit([{
                 name: title[0],
-                data: 고객예탁금,
+                data: res.data.data.고객예탁금,
                 type: 'spline',
                 color: 'dodgerblue',
                 yAxis: 0,
@@ -129,7 +123,7 @@ export default function FundarmentalPage2({ swiperRef }) {
                 lineWidth: 1
             }, {
                 name: title[1],
-                data: 신용잔고,
+                data: res.data.data.신용잔고,
                 type: 'spline',
                 yAxis: 1,
                 color: 'orangered',
@@ -138,7 +132,6 @@ export default function FundarmentalPage2({ swiperRef }) {
                 lineWidth: 1
             }])
         });
-
     }, []);
 
 
