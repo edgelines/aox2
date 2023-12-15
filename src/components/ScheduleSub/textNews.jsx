@@ -57,8 +57,12 @@ export default function TextNews({ swiperRef, handleImgClick }) {
 
     }
 
-    const handlePreset = (event, value) => { setWorldIndexPage(value); }
-    const handleChartPreset = (event, value) => { setChartPreset(value); }
+    const handlePreset = (event, value) => {
+        if (value !== null) { setWorldIndexPage(value); }
+    }
+    const handleChartPreset = (event, value) => {
+        if (value !== null) { setChartPreset(value); }
+    }
     useEffect(() => {
         fetchData();
     }, []);

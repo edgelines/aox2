@@ -282,8 +282,8 @@ function Schedule({ schedule, date, handlePageChange, ipoSubPage, swiperRef }) {
                 </Box>
             </Grid>
 
-            {ipoSubPage === 'IPO' && <IPO swiperRef={swiperRef} />}
             {ipoSubPage === '국내외지표이슈' && <TextNews swiperRef={swiperRef} />}
+            {ipoSubPage === 'IPO' && <IPO swiperRef={swiperRef} />}
         </>
     )
 }

@@ -31,7 +31,7 @@ export default function WeightAvgPage3({ swiperRef, ELW_monthTable, ELW_CallPutR
     const [moneyIndex, setMoneyIndex] = useState();
     // const [exchange, setExchange] = useState({});
     const [page, setPage] = useState('Kospi200');
-    const handlePage = (event, value) => { setPage(value); }
+    const handlePage = (event, value) => { if (value !== null) { setPage(value); } }
     const fetchData = async () => {
         await axios.get(`${API}/elwMonth6`).then((res) => {
             var call = [], put = [], kospi200 = [], CallMean = [], PutMean = [], Mean1 = [], Mean2 = [], CTP1 = [], CTP15 = [], CTP2 = [], Min = [], Date = [];

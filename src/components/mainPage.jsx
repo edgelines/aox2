@@ -48,7 +48,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
     const [openModal, setOpenModal] = useState(false);
     const handleOpen = () => setOpenModal(true);
     const handleClose = () => setOpenModal(false);
-    const handleBubbleDataPage = (event, value) => { setBubbleDataPage(value); }
+    const handleBubbleDataPage = (event, value) => { if (value !== null) { setBubbleDataPage(value); } }
     const fetchData = async () => {
         await axios.get(API + "/BubbleData").then((response) => {
             var name1 = 0, categories = [], 시가총액전일대비 = 0, M_gap_magin = 0;
