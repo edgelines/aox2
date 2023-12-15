@@ -5,11 +5,18 @@
 ## Todo / Bug
 - util/useInterval.jsx 테스트
 
+
 ### 2023.12.15
 {dev-api}
 - Commit.1
   - fundarmental ( CPI )
     - Table Styling
+- Commit.2
+  - toggle handler if value===null추가 ( fundarmental.jsx 참고)
+  - fundarmental ( CPI )
+    - Category 클릭시 => SubChart 변경
+    - ALL ~ Services 클릭 => 리셋
+    - 일부 색상변경
 
 ### 2023.12.14
 {dev-api}

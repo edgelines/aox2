@@ -27,13 +27,14 @@ export default function FundarmentalPage({ swiperRef }) {
     }
     const colorMap = {
         ...categoriseColorMap,
-        // 'Cereals' : '',
-        // 'Meats' : '',
-        // 'Dairy' : '',
-        // 'Fruits' : '',
-        // 'Non Alcoholic' : '',
-        // 'Other' : '',
-        // 'Food Away' : '',
+        'Cereals': 'orange',
+        'Meats': 'tomato',
+        'Dairy': '#00FF99',
+        'Fruits': 'dodgerblue',
+        'Non Alcoholic': 'blue',
+        'Other': '#FF66FF',
+        'Food Away': '#7030A0',
+
         Fuel: '#5c787a',
         'Gasoline': 'gold',
         'Electricity': 'aqua',
@@ -52,6 +53,7 @@ export default function FundarmentalPage({ swiperRef }) {
 
     };
 
+    // API
     const prepareChartData = async (categoryName, colorMap) => {
         const response = await axios.get(`${API}/fundamental/CPI?name=${categoryName}`);
         return Object.keys(response.data).map(key => {
@@ -66,6 +68,25 @@ export default function FundarmentalPage({ swiperRef }) {
                 color: key === categoryName ? 'white' : colorMap[categoryData.name],
                 lineWidth: key === categoryName ? 2 : undefined,
                 zIndex: key === categoryName ? 5 : undefined,
+                borderRadius: 1
+            };
+        });
+    }
+
+    const prepareChartDataDetail = async (categoryName, colorMap) => {
+        const response = await axios.get(`${API}/fundamental/CPI?name=${categoryName}`);
+        return Object.keys(response.data).map(key => {
+            const categoryData = response.data[key];
+            return {
+                data: categoryData.data,
+                yAxis: 0,
+                name: categoryData.name,
+                type: key === categoryName ? 'column' : 'spline',
+                stack: 'cpi',
+                stacking: 'normal',
+                color: key === categoryName ? colorMap[categoryData.name] : 'white',
+                lineWidth: key === categoryName ? undefined : 2,
+                zIndex: key === categoryName ? undefined : 5,
                 borderRadius: 1
             };
         });
@@ -101,13 +122,88 @@ export default function FundarmentalPage({ swiperRef }) {
         lastValueData('ALL')
     }
 
-    const handleTgBtn = (event, value) => { setCategory(value); lastValueData(value); }
+    const handleTgBtn = async (event, value) => {
+        if (value !== null) {
+            setCategory(value);
+            lastValueData(value);
+            let res;
+            switch (value) {
+                case 'ALL':
+                    // console.log(categories.slice(1,))
+                    const chartDataPromises = categories.slice(1,).map(category =>
+                        prepareChartData(category, colorMap)
+                    );
+                    const [chartDataFoods, chartDataEnergy, chartDataCommodities, chartDataServices] = await Promise.all(chartDataPromises);
+                    setChartField1(chartDataFoods);
+                    setChartField2(chartDataEnergy);
+                    setChartField3(chartDataCommodities);
+                    setChartField4(chartDataServices);
+                    break;
+                case 'Foods':
+                    res = await prepareChartData(value, colorMap)
+                    setChartField1(res);
+                    break;
+                case 'Energy':
+                    res = await prepareChartData(value, colorMap)
+                    setChartField2(res);
+                    break;
+                case 'Commodities':
+                    res = await prepareChartData(value, colorMap)
+                    setChartField3(res);
+                    break;
+                case 'Services':
+                    res = await prepareChartData(value, colorMap)
+                    setChartField4(res);
+                    break;
+            }
+        }
+    }
+
+    // Category Last Value Table => Category Props
+    const onCategory = async (value) => {
+        const res = await prepareChartDataDetail(value, colorMap);
+        if (value === 'Cereals' ||
+            value === 'Meats' ||
+            value === 'Dairy' ||
+            value === 'Fruits' ||
+            value === 'Non Alcoholic' ||
+            value === 'Other' ||
+            value === 'Food Away') {
+            setChartField1(res);
+        }
+        else if (value === 'Fuel' ||
+            value === 'Gasoline' ||
+            value === 'Electricity' ||
+            value === 'Natural Gas') {
+            setChartField2(res);
+        }
+        else if (value === 'Cereals' ||
+            value === 'Apparel' ||
+            value === 'New Vehicles' ||
+            value === 'Used Car' ||
+            value === 'Medical Care' ||
+            value === 'Alcoholic' ||
+            value === 'Tobacco') {
+            setChartField3(res);
+        }
+        else if (
+            value === 'Shelter' ||
+            value === 'Medical Care Services' ||
+            value === 'Motor Maintenance' ||
+            value === 'Motor Insurance' ||
+            value === 'Airline Fare') {
+            setChartField4(res);
+        }
+
+    }
+
     useEffect(() => { fetchData(); }, [])
     useEffect(() => { }, [])
     const boxFontStyle = { paddingLeft: '4px', paddingRight: '4px', paddingBottom: '2px' }
     const boxStyle = { position: 'absolute', transform: `translate(10px, 105px)`, zIndex: 5, justifyItems: 'right', p: 0.4 }
     const boxStyleEnergy = { position: 'absolute', transform: `translate(10px, 90px)`, zIndex: 5, justifyItems: 'right', p: 0.4 }
     const lastValueStyle = { mt: 0.35, fontSize: '10px' }
+
     return (
         <Grid container spacing={1} >
             <Grid item container xs={5}>
@@ -140,19 +236,19 @@ export default function FundarmentalPage({ swiperRef }) {
                             disabled
                         >
                             <StyledToggleButton value="">
-                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.CPI) > 0 ? 'tomato' : 'dodgerblue' }} > {lastValue.CPI} % </Typography>
+                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.CPI) > 0 ? 'tomato' : 'aqua' }} > {lastValue.CPI} % </Typography>
                             </StyledToggleButton>
                             <StyledToggleButton value="">
-                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Foods) > 0 ? 'tomato' : 'dodgerblue' }} > {lastValue.Foods} % </Typography>
+                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Foods) > 0 ? 'tomato' : 'aqua' }} > {lastValue.Foods} % </Typography>
                             </StyledToggleButton>
                             <StyledToggleButton value="">
-                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Energy) > 0 ? 'tomato' : 'dodgerblue' }}> {lastValue.Energy} % </Typography>
+                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Energy) > 0 ? 'tomato' : 'aqua' }}> {lastValue.Energy} % </Typography>
                             </StyledToggleButton>
                             <StyledToggleButton value="">
-                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Commodities) > 0 ? 'tomato' : 'dodgerblue' }}> {lastValue.Commodities} % </Typography>
+                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Commodities) > 0 ? 'tomato' : 'aqua' }}> {lastValue.Commodities} % </Typography>
                             </StyledToggleButton>
                             <StyledToggleButton value="">
-                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Services) > 0 ? 'tomato' : 'dodgerblue' }} > {lastValue.Services} % </Typography>
+                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Services) > 0 ? 'tomato' : 'aqua' }} > {lastValue.Services} % </Typography>
                             </StyledToggleButton>
 
                         </ToggleButtonGroup>
@@ -161,7 +257,7 @@ export default function FundarmentalPage({ swiperRef }) {
                     <Grid item xs={9.7}>
                         {
                             Array.isArray(lastValueTable) && lastValueTable.length > 0 ?
-                                <DataTable data={lastValueTable} categoriseColorMap={categoriseColorMap} categories={categories} swiperRef={swiperRef} />
+                                <DataTable data={lastValueTable} categoriseColorMap={categoriseColorMap} categories={categories} swiperRef={swiperRef} onCategory={onCategory} />
                                 : <Skeleton />
                         }
                     </Grid>
@@ -207,7 +303,7 @@ export default function FundarmentalPage({ swiperRef }) {
     )
 }
 
-const DataTable = ({ data, categoriseColorMap, swiperRef }) => {
+const DataTable = ({ data, categoriseColorMap, swiperRef, onCategory }) => {
 
     const columns = [
         {
@@ -232,7 +328,7 @@ const DataTable = ({ data, categoriseColorMap, swiperRef }) => {
 
                 let color;
                 if (prevMonthValue < 0) {
-                    color = 'dodgerblue';  // 값이 감소했다면 파란색
+                    color = 'aqua';  // 값이 감소했다면 파란색
                 } else if (prevMonthValue > 0) {
                     color = 'tomato';  // 값이 증가했다면 빨간색
                 } else {
@@ -307,7 +403,12 @@ const DataTable = ({ data, categoriseColorMap, swiperRef }) => {
                     columns={columns}
                     hideFooter
                     getRowHeight={() => 'auto'}
-                    // rowHeight={20}
+                    onCellClick={(params, event) => {
+                        if (params.field === 'category') {
+                            onCategory(params.value);
+                        }
+
+                    }}
                     sx={{
                         ...DataTableStyleDefault,
                         [`& .${gridClasses.cell}`]: {
@@ -317,9 +418,6 @@ const DataTable = ({ data, categoriseColorMap, swiperRef }) => {
                     }}
                 />
             </ThemeProvider>
-
-
         </Grid>
     );
 };
-

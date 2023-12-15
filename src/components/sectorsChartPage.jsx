@@ -29,7 +29,7 @@ export default function SectorsChartPage({
     const [preset, setPreset] = useState('C')
     // togglePage BTN
     const handleTogglePage = (event, newAlignment) => {
-        setTogglePage(newAlignment);
+        if (value !== null) { setTogglePage(newAlignment); }
     }
 
     // Check Box Function

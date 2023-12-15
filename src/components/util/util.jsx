@@ -23,6 +23,7 @@ export const StyledToggleButton = styled(ToggleButton)(({ theme, fontSize, textA
     fontSize: fontSize ? fontSize : '8px',
     textAlign: textAlign ? textAlign : 'center',
     color: '#efe9e9ed', // 비활성화 상태에서의 글자색
+
     '&.Mui-selected': { // 활성화 상태에서의 스타일
         backgroundColor: '#efe9e9ed', // 활성화 상태에서의 배경색
         color: '#404040', // 활성화 상태에서의 글자색
