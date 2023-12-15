@@ -5,6 +5,12 @@
 ## Todo / Bug
 - util/useInterval.jsx 테스트
 
+### 2023.12.15
+{dev-api}
+- Commit.1
+  - fundarmental ( CPI )
+    - Table Styling
+
 ### 2023.12.14
 {dev-api}
 - Commit.1

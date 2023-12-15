@@ -289,7 +289,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <Fundarmental />
+                    <Fundarmental swiperRef={swiperRef} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -297,7 +297,7 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <Fundarmental />
+                    <Fundarmental swiperRef={swiperRef} />
                 </SwiperSlide>
 
                 <SwiperSlide>
