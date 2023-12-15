@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Grid, Box, Typography, ToggleButtonGroup, Skeleton, TableContainer } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { StyledToggleButton, DataTableStyleDefault } from './util/util';
 import FundarmentalChart from './util/FundarmentalChart';
@@ -107,7 +107,7 @@ export default function FundarmentalPage({ swiperRef }) {
     const boxFontStyle = { paddingLeft: '4px', paddingRight: '4px', paddingBottom: '2px' }
     const boxStyle = { position: 'absolute', transform: `translate(10px, 105px)`, zIndex: 5, justifyItems: 'right', p: 0.4 }
     const boxStyleEnergy = { position: 'absolute', transform: `translate(10px, 90px)`, zIndex: 5, justifyItems: 'right', p: 0.4 }
-
+    const lastValueStyle = { mt: 0.35, fontSize: '10px' }
     return (
         <Grid container spacing={1} >
             <Grid item container xs={5}>
@@ -115,7 +115,7 @@ export default function FundarmentalPage({ swiperRef }) {
                     <FundarmentalChart data={chartData} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
                 </div>
                 <Grid item container>
-                    <Grid item xs={1.5}>
+                    <Grid item xs={1.3}>
                         <ToggleButtonGroup
                             color='info'
                             orientation="vertical"
@@ -124,14 +124,14 @@ export default function FundarmentalPage({ swiperRef }) {
                             value={category}
                             onChange={handleTgBtn}
                         >
-                            <StyledToggleButton fontSize={'12px'} value="ALL">ALL</StyledToggleButton>
-                            <StyledToggleButton fontSize={'12px'} value="Foods">Foods</StyledToggleButton>
-                            <StyledToggleButton fontSize={'12px'} value="Energy">Energy</StyledToggleButton>
-                            <StyledToggleButton fontSize={'12px'} value="Commodities">Commodities</StyledToggleButton>
-                            <StyledToggleButton fontSize={'12px'} value="Services">Services</StyledToggleButton>
+                            <StyledToggleButton fontSize={'10px'} value="ALL">ALL</StyledToggleButton>
+                            <StyledToggleButton fontSize={'10px'} value="Foods">Foods</StyledToggleButton>
+                            <StyledToggleButton fontSize={'10px'} value="Energy">Energy</StyledToggleButton>
+                            <StyledToggleButton fontSize={'10px'} value="Commodities">Commodities</StyledToggleButton>
+                            <StyledToggleButton fontSize={'10px'} value="Services">Services</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Grid>
-                    <Grid item xs={1}>
+                    <Grid item xs={0.8}>
                         <ToggleButtonGroup
                             color='info'
                             orientation="vertical"
@@ -140,28 +140,28 @@ export default function FundarmentalPage({ swiperRef }) {
                             disabled
                         >
                             <StyledToggleButton value="">
-                                <Typography sx={{ mt: 0.35, fontSize: '12px', color: parseFloat(lastValue.CPI) > 0 ? 'tomato' : 'dodgerblue' }} > {lastValue.CPI} % </Typography>
+                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.CPI) > 0 ? 'tomato' : 'dodgerblue' }} > {lastValue.CPI} % </Typography>
                             </StyledToggleButton>
                             <StyledToggleButton value="">
-                                <Typography sx={{ mt: 0.35, fontSize: '12px', color: parseFloat(lastValue.Foods) > 0 ? 'tomato' : 'dodgerblue' }} > {lastValue.Foods} % </Typography>
+                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Foods) > 0 ? 'tomato' : 'dodgerblue' }} > {lastValue.Foods} % </Typography>
                             </StyledToggleButton>
                             <StyledToggleButton value="">
-                                <Typography sx={{ mt: 0.35, fontSize: '12px', color: parseFloat(lastValue.Energy) > 0 ? 'tomato' : 'dodgerblue' }}> {lastValue.Energy} % </Typography>
+                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Energy) > 0 ? 'tomato' : 'dodgerblue' }}> {lastValue.Energy} % </Typography>
                             </StyledToggleButton>
                             <StyledToggleButton value="">
-                                <Typography sx={{ mt: 0.35, fontSize: '12px', color: parseFloat(lastValue.Commodities) > 0 ? 'tomato' : 'dodgerblue' }}> {lastValue.Commodities} % </Typography>
+                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Commodities) > 0 ? 'tomato' : 'dodgerblue' }}> {lastValue.Commodities} % </Typography>
                             </StyledToggleButton>
                             <StyledToggleButton value="">
-                                <Typography sx={{ mt: 0.35, fontSize: '12px', color: parseFloat(lastValue.Services) > 0 ? 'tomato' : 'dodgerblue' }} > {lastValue.Services} % </Typography>
+                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Services) > 0 ? 'tomato' : 'dodgerblue' }} > {lastValue.Services} % </Typography>
                             </StyledToggleButton>
 
                         </ToggleButtonGroup>
                     </Grid>
 
-                    <Grid item xs={9}>
+                    <Grid item xs={9.7}>
                         {
                             Array.isArray(lastValueTable) && lastValueTable.length > 0 ?
-                                <DataTable data={lastValueTable} categoriseColorMap={categoriseColorMap} categories={categories} />
+                                <DataTable data={lastValueTable} categoriseColorMap={categoriseColorMap} categories={categories} swiperRef={swiperRef} />
                                 : <Skeleton />
                         }
                     </Grid>
@@ -207,14 +207,15 @@ export default function FundarmentalPage({ swiperRef }) {
     )
 }
 
-const DataTable = ({ data, categoriseColorMap }) => {
+const DataTable = ({ data, categoriseColorMap, swiperRef }) => {
 
     const columns = [
         {
-            field: 'category', headerName: 'Category', width: 150,
+            field: 'category', headerName: 'Category', width: 80,
+            align: 'left', headerAlign: 'center',
             renderCell: (params) => {
                 return (
-                    <span style={{ color: categoriseColorMap[params.value] }}>
+                    <span style={{ textAlign: 'left', lineHeight: 'normal', whiteSpace: 'normal', color: categoriseColorMap[params.value] }}>
                         {params.value}
                     </span>
                 );
@@ -223,7 +224,7 @@ const DataTable = ({ data, categoriseColorMap }) => {
         ...data[0][Object.keys(data[0])[0]].map((d) => ({
             field: `${d.year}-${d.month}`,
             headerName: `${d.year} / ${d.month}`,
-            width: 80,
+            width: 103, align: 'right', headerAlign: 'center',
             renderCell: (params) => {
                 // 현재 셀에 해당하는 전월대비 값
                 const prevMonthField = `${params.field}전월대비`;
@@ -239,9 +240,17 @@ const DataTable = ({ data, categoriseColorMap }) => {
                 }
 
                 return (
-                    <span style={{ color: color }}>
-                        {params.value}
-                    </span>
+                    <div>
+                        <span>
+                            {`${params.value} ( `}
+                        </span>
+                        <span style={{ color: color }}>
+                            {` ${prevMonthValue.toFixed(2)} `}
+                        </span>
+                        <span>
+                            )
+                        </span>
+                    </div>
                 );
             }
         })),
@@ -267,7 +276,7 @@ const DataTable = ({ data, categoriseColorMap }) => {
                 styleOverrides: {
                     root: {
                         '& .MuiDataGrid-row': {
-                            fontSize: '11px',
+                            fontSize: '10px',
                             color: '#efe9e9ed'
                         },
                     },
@@ -288,16 +297,29 @@ const DataTable = ({ data, categoriseColorMap }) => {
     });
 
     return (
-        <TableContainer sx={{ height: 430, zIndex: 100 }}>
+        <Grid container sx={{ height: 430, width: "100%" }}
+            onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+            onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+        >
             <ThemeProvider theme={customTheme}>
                 <DataGrid
                     rows={rows}
                     columns={columns}
-                    hideFooter rowHeight={20}
-                    sx={DataTableStyleDefault}
+                    hideFooter
+                    getRowHeight={() => 'auto'}
+                    // rowHeight={20}
+                    sx={{
+                        ...DataTableStyleDefault,
+                        [`& .${gridClasses.cell}`]: {
+                            py: 1,
+                        },
+
+                    }}
                 />
             </ThemeProvider>
-        </TableContainer>
+
+
+        </Grid>
     );
 };
 
