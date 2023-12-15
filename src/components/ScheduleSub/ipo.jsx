@@ -40,15 +40,15 @@ export default function IpoPage({ swiperRef }) {
     return (
         <>
             <Grid container spacing={2} sx={{ marginLeft: '5px' }}>
-                <Grid item xs={12}>
-                    <h4 style={{ textAlign: 'left' }}>신규 상장 종목</h4>
+                <Grid item xs={12} sx={{ mb: -4 }}>
+                    <h5 style={{ textAlign: 'left' }}>신규 상장 종목</h5>
                 </Grid>
-                <div style={{ height: "37vh", width: "50%", marginLeft: '20px' }}
+                <div style={{ height: "39svh", width: "50%", marginLeft: '20px' }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
                     <ThemeProvider theme={customTheme}>
-                        <DataGrid rows={tableData} hideFooter rowHeight={25} columns={tableCols}
+                        <DataGrid rows={tableData} rowHeight={25} columns={tableCols}
                             slots={{ toolbar: GridToolbar }}
                             disableColumnFilter
                             disableColumnSelector
@@ -73,7 +73,10 @@ export default function IpoPage({ swiperRef }) {
                                     // backgroundColor: 'rgba(230, 230, 230, 0.3)'
                                 },
                                 '.MuiInput-input': { color: 'white' },
-                                '.MuiSvgIcon-root': { color: '#efe9e9ed' }
+                                '.MuiSvgIcon-root': { color: '#efe9e9ed' },
+                                '.MuiTablePagination-root': { color: '#efe9e9ed' },
+                                '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
+                                '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
                             }} />
                     </ThemeProvider>
 
