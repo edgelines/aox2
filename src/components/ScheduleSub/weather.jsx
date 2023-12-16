@@ -14,7 +14,7 @@ const WeatherChart = () => {
         axios.get(`${API}/etc/weather`).then(response => {
             var data1 = [], data2 = [], categories = [];
             let day = ['일', '월', '화', '수', '목', '금', '토'];
-            response.data.slice(-37).forEach(data => {
+            response.data.forEach(data => {
                 const lowTemp = parseInt(data.최저);
                 const highTemp = parseInt(data.최고);
 
@@ -23,6 +23,7 @@ const WeatherChart = () => {
                     data2.push({
                         y: highTemp,
                         marker: {
+                            // symbol: <BsCloudSnowFill />
                             symbol: `url(${API_FILE}/icon/rainy)`
                         },
                     });
@@ -66,7 +67,7 @@ const WeatherChart = () => {
                         },
                     },
                     categories: categories,
-                    plotBands: [{ color: 'rgba(111,111,111,0.4)', from: -1, to: 21.5 }],
+                    plotBands: [{ color: 'rgba(111,111,111,0.3)', from: -1, to: 21.5 }],
                     lineColor: '#efe9e9ed', // x축 하단 라인 색상
                     gridLineWidth: 0,// x축 그래프 뒤에 깔리는 선 굵기 지정.(0으로 지정 시 사라짐)
                     tickWidth: 1,//x축 label 사이 표지자 너비(0으로 지정 시 사라지며, 차트 타입에 따라 default로 지정되어 있을 수 있음)
@@ -81,6 +82,28 @@ const WeatherChart = () => {
                             fontSize: '13px'
                         }
                     },
+                    gridLineWidth: 0.2,
+                    plotBands: [{
+                        color: {
+                            linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+                            stops: [
+                                [0, 'rgba(0,0,0,0)'],
+                                [0.2, 'rgba(0,37, 255,0)'],
+                                [1, 'rgba(0, 37, 255, 0.25)'],
+                            ]
+                        },
+                        from: -20, to: 0
+                    }, {
+                        color: {
+                            linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+                            stops: [
+                                [0, 'rgba(255, 37, 0, 0.25)'],
+                                [0.5, 'rgba(255, 37, 0,0)'],
+                                [1, 'rgba(0,0,0,0)'],
+                            ]
+                        },
+                        from: 28, to: 45
+                    }],
                     // lineColor :'white',
                     labels: {
                         // y: 20,
@@ -109,7 +132,7 @@ const WeatherChart = () => {
                     itemHoverStyle: {
                         color: "gold"
                     },
-                    x: 50,//가로 위치 지정.
+                    x: 22,//가로 위치 지정.
                     y: -3,//세로 위치 지정.
                 },
                 tooltip: { shared: true, crosshairs: true },
