@@ -4,7 +4,13 @@
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
 - util/useInterval.jsx 테스트
+- 날씨 > etc
 
+### 2023.12.16
+{dev-api}
+-Commit.1
+  - weather.jsx
+    - API 변경
 
 ### 2023.12.15
 {dev-api}

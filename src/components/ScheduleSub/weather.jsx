@@ -11,14 +11,14 @@ const WeatherChart = () => {
     const [lowest, setLowest] = useState([]);
     const [highest, setHighest] = useState([]);
     useEffect(() => {
-        axios.get(`${API}/Weather`).then(response => {
+        axios.get(`${API}/etc/weather`).then(response => {
             var data1 = [], data2 = [], categories = [];
             let day = ['일', '월', '화', '수', '목', '금', '토'];
             response.data.slice(-37).forEach(data => {
-                const lowTemp = parseInt(data.Lowest);
-                const highTemp = parseInt(data.Highest);
+                const lowTemp = parseInt(data.최저);
+                const highTemp = parseInt(data.최고);
 
-                if (data.Condition.includes('비') || data.Condition.includes('뇌우')) {
+                if (data.예보.includes('비') || data.예보.includes('뇌우')) {
                     data1.push(lowTemp);
                     data2.push({
                         y: highTemp,
@@ -26,7 +26,7 @@ const WeatherChart = () => {
                             symbol: `url(${API_FILE}/icon/rainy)`
                         },
                     });
-                } else if (data.Condition.includes('눈') || data.Condition.includes('폭설')) {
+                } else if (data.예보.includes('눈') || data.예보.includes('폭설')) {
                     data1.push(lowTemp);
                     data2.push({
                         y: highTemp,
@@ -38,12 +38,11 @@ const WeatherChart = () => {
                     data1.push(lowTemp);
                     data2.push(highTemp);
                 }
-                // data1.push(lowTemp);
-                // data2.push(highTemp);
+
                 categories.push(
-                    (new Date(data.Date).getMonth() < 9 ? '0' + (new Date(data.Date).getMonth() + 1) : (new Date(data.Date).getMonth() + 1)) + '.'
-                    + (new Date(data.Date).getDate() < 10 ? '0' + new Date(data.Date).getDate() : new Date(data.Date).getDate()) + '<br/>'
-                    + day[new Date(data.Date).getDay()]
+                    (new Date(data.날짜).getMonth() < 9 ? '0' + (new Date(data.날짜).getMonth() + 1) : (new Date(data.날짜).getMonth() + 1)) + '.'
+                    + (new Date(data.날짜).getDate() < 10 ? '0' + new Date(data.날짜).getDate() : new Date(data.날짜).getDate()) + '<br/>'
+                    + day[new Date(data.날짜).getDay()]
                 );
             });
             setCategories(categories);
