@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Grid, Box, Table, TableContainer, TableBody, TableHead, Modal, Backdrop, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { API, API_FILE } from '../util/config';
+import useInterval from '../util/useInterval';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function TextNews({ swiperRef, handleImgClick }) {
@@ -49,7 +50,8 @@ export default function TextNews({ swiperRef, handleImgClick }) {
     const fetchData = async () => {
         await axios.get(`${API}/schedule/TextNews`).then(response => { setNews(response.data); })
         const uniq = "?" + new Date().getTime();
-        const url = `${API_FILE}/image/finviz${uniq}`
+        const url = `/img/finviz${uniq}`
+        // const url = `${API_FILE}/image/finviz${uniq}`
         setFinvizImg(url);
         await axios.get(`${API}/indices/WorldIndex`).then(res => {
             setWorldIndex(res.data);
@@ -67,28 +69,33 @@ export default function TextNews({ swiperRef, handleImgClick }) {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        function scheduleNextUpdate() {
-            const now = new Date();
-            const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 8, 42, 0);
+    useInterval(fetchData, 1000 * 60 * 20, {
+        startHour: 7,
+        endHour: 8,
+        daysOff: [0, 6], // 일요일(0)과 토요일(6)은 제외
+    });
+    // useEffect(() => {
+    //     function scheduleNextUpdate() {
+    //         const now = new Date();
+    //         const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 8, 42, 0);
 
-            const msUntilTomorrow = tomorrow.getTime() - now.getTime();
-            return setTimeout(updateFinvizImg, msUntilTomorrow);
-        }
+    //         const msUntilTomorrow = tomorrow.getTime() - now.getTime();
+    //         return setTimeout(updateFinvizImg, msUntilTomorrow);
+    //     }
 
-        function updateFinvizImg() {
-            fetchData();
-            // Schedule the next update
-            scheduleNextUpdate();
-        }
+    //     function updateFinvizImg() {
+    //         fetchData();
+    //         // Schedule the next update
+    //         scheduleNextUpdate();
+    //     }
 
-        // Schedule the first update
-        const timeoutId = scheduleNextUpdate();
+    //     // Schedule the first update
+    //     const timeoutId = scheduleNextUpdate();
 
-        return () => {
-            clearTimeout(timeoutId);
-        };
-    }, []);
+    //     return () => {
+    //         clearTimeout(timeoutId);
+    //     };
+    // }, []);
 
     const key = ['시한폭탄', '급락', '위험']
     const key2 = ['투자', '진출', '급등', '러브콜', '재개발']

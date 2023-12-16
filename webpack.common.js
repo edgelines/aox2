@@ -55,7 +55,7 @@ const config = {
         ],
     },
     plugins: [
-        new CleanWebpackPlugin(), // 웹팩 실행시마다 dist 폴더 정리
+        // new CleanWebpackPlugin(), // 웹팩 실행시마다 dist 폴더 정리
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src', 'index.html'),  // index.html 파일의 경로를 지정합니다.
             favicon: path.resolve(__dirname, 'src', 'favicon.ico'),
