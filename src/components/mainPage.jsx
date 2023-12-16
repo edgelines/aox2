@@ -136,7 +136,8 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
         })
 
         const uniq = "?" + new Date().getTime();
-        setGisuDayImg(`${API_FILE}/image/gisu_kospi200${uniq}`)
+        setGisuDayImg(`/img/gisu_kospi200${uniq}`)
+        // setGisuDayImg(`${API_FILE}/image/gisu_kospi200${uniq}`)
         setKospi200Img(`https://t1.daumcdn.net/finance/chart/kr/daumstock/d/mini/K2G01P.png${uniq}`)
         await axios.get(`${API}/MarketDaily`).then((response) => {
             var tmp1 = [], tmp2 = [], tmp3 = [];
