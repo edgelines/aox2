@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, Skeleton } from '@mui/material';
 import axios from 'axios';
-import { API, API_FILE } from '../util/config';
+import { API } from '../util/config';
 import Highcharts from 'highcharts/highstock'
 require('highcharts/modules/accessibility')(Highcharts)
 
@@ -10,47 +10,14 @@ const WeatherChart = () => {
     const [categories, setCategories] = useState([]);
     const [lowest, setLowest] = useState([]);
     const [highest, setHighest] = useState([]);
-    useEffect(() => {
-        axios.get(`${API}/etc/weather`).then(response => {
-            var data1 = [], data2 = [], categories = [];
-            let day = ['일', '월', '화', '수', '목', '금', '토'];
-            response.data.forEach(data => {
-                const lowTemp = parseInt(data.최저);
-                const highTemp = parseInt(data.최고);
+    const fetchData = async () => {
+        const res = await axios.get(`${API}/etc/weather`);
+        setCategories(res.data.날짜);
+        setLowest(res.data.최저);
+        setHighest(res.data.최고);
+    }
 
-                if (data.예보.includes('비') || data.예보.includes('뇌우')) {
-                    data1.push(lowTemp);
-                    data2.push({
-                        y: highTemp,
-                        marker: {
-                            // symbol: <BsCloudSnowFill />
-                            symbol: `url(${API_FILE}/icon/rainy)`
-                        },
-                    });
-                } else if (data.예보.includes('눈') || data.예보.includes('폭설')) {
-                    data1.push(lowTemp);
-                    data2.push({
-                        y: highTemp,
-                        marker: {
-                            symbol: `url(${API_FILE}/icon/snow)`
-                        },
-                    });
-                } else {
-                    data1.push(lowTemp);
-                    data2.push(highTemp);
-                }
-
-                categories.push(
-                    (new Date(data.날짜).getMonth() < 9 ? '0' + (new Date(data.날짜).getMonth() + 1) : (new Date(data.날짜).getMonth() + 1)) + '.'
-                    + (new Date(data.날짜).getDate() < 10 ? '0' + new Date(data.날짜).getDate() : new Date(data.날짜).getDate()) + '<br/>'
-                    + day[new Date(data.날짜).getDay()]
-                );
-            });
-            setCategories(categories);
-            setLowest(data1);
-            setHighest(data2);
-        });
-    }, []);
+    useEffect(() => { fetchData() }, []);
 
     useEffect(() => {
         if (chartRef.current) {

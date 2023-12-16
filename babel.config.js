@@ -12,19 +12,20 @@ module.exports = function (api) {
         ],
         ["@babel/preset-react"]
     ]
-    // const plugins = [
-    //     [
-    //         "module-resolver",
-    //         {
-    //             root: ["./public"],
-    //             alias: {
-    //                 img: "./img",
-    //             },
-    //         },
-    //     ],
-    // ]
+    const plugins = [
+        [
+            "module-resolver",
+            {
+                root: ["./public"],
+                alias: {
+                    img: "./img",
+                    icon: "./icon"
+                },
+            },
+        ],
+    ]
     return {
-        presets
-        // plugins
+        presets,
+        plugins
     }
 }
