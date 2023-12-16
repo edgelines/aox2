@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Grid, Skeleton } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { myJSON } from '../util/config';
+import { API } from '../util/config';
 
 export default function FlixPatrol({ swiperRef }) {
 
@@ -14,40 +14,27 @@ export default function FlixPatrol({ swiperRef }) {
 
     const getData = async (name) => {
         try {
-            const res = await axios.get(`${myJSON}/${name}`);
-            const data = res.data.map((item, index) => ({
-                ...item,
-                id: index
-            }))
-            const order = 'asc';
-            const orderBy = 'Rank'
-            let sortedRows = [...data].sort((a, b) => {
-                if (order === 'asc') {
-                    return a[orderBy] < b[orderBy] ? -1 : 1;
-                } else {
-                    return a[orderBy] > b[orderBy] ? -1 : 1;
-                }
-            });
-            return sortedRows
+            const res = await axios.get(`${API}/etc/${name}`);
+            return res.data;
         } catch (err) {
             console.log(err);
         }
     }
 
-    useEffect(() => {
-        getData('netflix').then((data) => {
-            setNetflix(data)
-        })
-        getData('disney').then((data) => {
-            setDisney(data)
-        })
-        getData('hbo').then((data) => {
-            setHbo(data)
-        })
-        getData('amazon').then((data) => {
-            setAmazon(data)
-        })
-    }, []);
+    const fetchData = async () => {
+        const categories = ['netflix', 'disney', 'hbo', 'amazon']
+        const chartDataPromises = categories.map(item =>
+            getData(item)
+        );
+
+        const [netfilx, disney, hbo, amazon] = await Promise.all(chartDataPromises);
+        setNetflix(netfilx);
+        setDisney(disney);
+        setHbo(hbo);
+        setAmazon(amazon);
+    }
+
+    useEffect(() => { fetchData(); }, []);
 
     const tableCols = [
         { field: 'Rank', headerName: 'Rank', width: 50 },
