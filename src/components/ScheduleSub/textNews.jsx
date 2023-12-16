@@ -50,7 +50,7 @@ export default function TextNews({ swiperRef, handleImgClick }) {
     const fetchData = async () => {
         await axios.get(`${API}/schedule/TextNews`).then(response => { setNews(response.data); })
         const uniq = "?" + new Date().getTime();
-        const url = `/img/finviz${uniq}`
+        const url = `/img/finviz.jpg${uniq}`
         // const url = `${API_FILE}/image/finviz${uniq}`
         setFinvizImg(url);
         await axios.get(`${API}/indices/WorldIndex`).then(res => {
