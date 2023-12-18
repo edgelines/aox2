@@ -6,7 +6,7 @@ import { StyledButton, StyledToggleButton } from './util/util';
 import MarketCurrentValue from './Index/marketCurrentValue.jsx'
 // import { customRsi, williamsR } from 'indicatorts';
 import { API, markerConfig } from './util/config';
-import useInterval from './util/useInterval';
+// import useInterval from './util/useInterval';
 
 export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail }) {
 
@@ -133,13 +133,53 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
     useEffect(() => { fetchData(); }, [])
     useEffect(() => { fetchData(); }, [indexName, adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5])
 
+    // 60초 주기 업데이트
+    useEffect(() => {
+        const now = new Date();
+        const hour = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+        // 현재 시간이 9시 이전이라면, 9시까지 남은 시간 계산
+        let delay;
+        if (hour < 9) {
+            delay = ((9 - hour - 1) * 60 + (60 - minutes)) * 60 + (60 - seconds);
+        } else if (hour === 9 && minutes === 0 && seconds > 0) {
+            // 9시 정각에 이미 초가 지나가 있을 경우, 다음 분까지 대기
+            delay = 60 - seconds;
+        } else {
+            // 이미 9시 정각 이후라면, 다음 분 시작까지 대기
+            delay = 60 - seconds;
+        }
 
-    // 5분 주기 업데이트
-    useInterval(fetchData, 1000 * 60 * 5, {
-        startHour: 9,
-        endHour: 16,
-        daysOff: [0, 6], // 일요일(0)과 토요일(6)은 제외
-    });
+        const startUpdates = () => {
+            const intervalId = setInterval(() => {
+                const now = new Date();
+                const hour = now.getHours();
+                const dayOfWeek = now.getDay();
+                if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
+                    fetchData();
+                } else if (hour >= 16) {
+                    // 3시 30분 이후라면 인터벌 종료
+                    clearInterval(intervalId);
+                }
+            }, 1000 * 60 * 5);
+            return intervalId;
+        };
+        // 첫 업데이트 시작
+        const timeoutId = setTimeout(() => {
+            // fetchData();
+            startUpdates();
+        }, delay * 1000);
+
+        return () => clearTimeout(timeoutId);
+    }, [])
+
+    // // 5분 주기 업데이트
+    // useInterval(fetchData, 1000 * 60 * 5, {
+    //     startHour: 9,
+    //     endHour: 16,
+    //     daysOff: [0, 6], // 일요일(0)과 토요일(6)은 제외
+    // });
 
 
     const indicators = [

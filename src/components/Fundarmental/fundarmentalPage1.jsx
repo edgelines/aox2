@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Grid } from '@mui/material';
+import { Grid, Skeleton } from '@mui/material';
 import Chart from './fundarmentalChart'
 import { API } from '../util/config';
 
@@ -14,9 +14,20 @@ export default function FundarmentalPage1({ swiperRef }) {
     const [cryptocurrency, setCryptocurrency] = useState();
     const [moneyIndex, setMoneyIndex] = useState();
     const [UsdGold, setUsdGold] = useState();
-
+    const [isLoading, setIsLoading] = useState(false);
+    const getData = async (name) => { return await axios.get(`${url}/${name}`); }
     const fetchData = async () => {
-        const energy = await axios.get(`${url}/energy`);
+        setIsLoading(true);
+        const promises = [];
+        promises.push(getData('energy'));
+        promises.push(getData('metals'));
+        promises.push(getData('usdOil'));
+        promises.push(getData('crypto'));
+        promises.push(getData('moneyIndex'));
+        promises.push(getData('usdGold'));
+
+        const [energy, metals, usdOil, crypto, moneyIndex, usdGold] = await Promise.all(promises);
+        setIsLoading(false);
         setEnergy(
             [{
                 name: "Brent_Oil (Candle)",
@@ -49,7 +60,7 @@ export default function FundarmentalPage1({ swiperRef }) {
                 lineWidth: 1
             }]
         );
-        const metals = await axios.get(`${url}/metals`);
+
         setMetals([{
             name: 'Gold (Candle)',
             data: metals.data.Gold,
@@ -71,7 +82,7 @@ export default function FundarmentalPage1({ swiperRef }) {
             zIndex: 3,
             lineWidth: 1
         }]);
-        const usdOil = await axios.get(`${url}/usdOil`);
+
         setUsdOil([{
             name: "Brent_Oil",
             data: usdOil.data.BrentOil,
@@ -95,7 +106,7 @@ export default function FundarmentalPage1({ swiperRef }) {
             zIndex: 2,
             animation: false,
         }],)
-        const crypto = await axios.get(`${url}/crypto`);
+
         setCryptocurrency([{
             name: 'BTC/USD (Candle)',
             data: crypto.data.Btc,
@@ -126,7 +137,7 @@ export default function FundarmentalPage1({ swiperRef }) {
             zIndex: 3,
             lineWidth: 1
         }])
-        const moneyIndex = await axios.get(`${url}/moneyIndex`);
+
         setMoneyIndex([{
             name: "USD/KRW (Candle)",
             data: moneyIndex.data.USD,
@@ -157,7 +168,7 @@ export default function FundarmentalPage1({ swiperRef }) {
             zIndex: 3,
             lineWidth: 1
         }])
-        const usdGold = await axios.get(`${url}/usdGold`);
+
         setUsdGold([{
             name: "Gold",
             data: usdGold.data.Gold,
@@ -181,28 +192,42 @@ export default function FundarmentalPage1({ swiperRef }) {
             zIndex: 2,
             animation: false,
         }])
+
+
+        // const energy = await axios.get(`${url}/energy`);
+        // const metals = await axios.get(`${url}/metals`);
+        // const usdOil = await axios.get(`${url}/usdOil`);
+        // const crypto = await axios.get(`${url}/crypto`);
+        // const moneyIndex = await axios.get(`${url}/moneyIndex`);
+        // const usdGold = await axios.get(`${url}/usdGold`);
     }
 
     useEffect(() => { fetchData() }, []);
 
     return (
         <>
-            <Grid container spacing={1} >
-                <Grid item xs={6} >
+            {isLoading ? (
+                <Skeleton variant="rectangular" height={'100%'} animation="wave" />
+            ) : (
+                <Grid container spacing={1} >
+                    <Grid item xs={6} >
 
-                    <Chart data={energy} height={chartHeight} name={'energy'} lengendX={17} />
-                    <Chart data={metals} height={chartHeight} lengendX={27} />
-                    <Chart data={UsdOil} height={chartHeight} lengendX={25} />
+                        <Chart data={energy} height={chartHeight} name={'energy'} lengendX={17} />
+                        <Chart data={metals} height={chartHeight} lengendX={27} />
+                        <Chart data={UsdOil} height={chartHeight} lengendX={25} />
 
+                    </Grid>
+                    <Grid item xs={6}>
+
+                        <Chart data={cryptocurrency} height={chartHeight} lengendX={32} />
+                        <Chart data={moneyIndex} height={chartHeight} lengendX={25} />
+                        <Chart data={UsdGold} height={chartHeight} name={'UsdGold'} lengendX={25} />
+
+                    </Grid>
                 </Grid>
-                <Grid item xs={6}>
 
-                    <Chart data={cryptocurrency} height={chartHeight} lengendX={32} />
-                    <Chart data={moneyIndex} height={chartHeight} lengendX={25} />
-                    <Chart data={UsdGold} height={chartHeight} name={'UsdGold'} lengendX={25} />
+            )}
 
-                </Grid>
-            </Grid>
         </>
     )
 }
