@@ -206,7 +206,7 @@ export default function FundarmentalPage({ swiperRef }) {
 
     return (
         <Grid container spacing={1} >
-            <Grid item container xs={5}>
+            <Grid item container xs={5.5}>
                 <div style={{ width: '100%' }}>
                     <FundarmentalChart data={chartData} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
                 </div>
@@ -265,7 +265,7 @@ export default function FundarmentalPage({ swiperRef }) {
 
             </Grid>
 
-            <Grid item container xs={7} spacing={2}>
+            <Grid item container xs={6.5} spacing={2}>
                 <Grid item xs={6}>
                     <Box sx={{ ...boxStyle, backgroundColor: `${colorMap['Foods']}` }}>
                         <Grid item container>
