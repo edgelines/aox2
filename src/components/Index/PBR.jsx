@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Grid, Skeleton } from '@mui/material';
 import PbrPerChart from './PbrPerChart'
-import { API, myJSON } from '../util/config';
+import { API } from '../util/config';
 import Highcharts from 'highcharts/highstock'
 import HighchartsReact from 'highcharts-react-official'
 require('highcharts/indicators/indicators')(Highcharts)
@@ -14,69 +14,20 @@ require('highcharts/modules/accessibility')(Highcharts)
 export default function PBR({ swiperRef }) {
 
     const [kospiPbr, setKospiPbr] = useState();
-    const [kospiPbrPer, setKospiPbrPer] = useState();
-    const [kosdaqPbrPer, setKosdaqPbrPer] = useState();
+    const [kospiPbrPer, setKospiPbrPer] = useState([]);
+    const [kosdaqPbrPer, setKosdaqPbrPer] = useState([]);
 
     const fetchData = async () => {
         const 코스피PBR = await axios.get(`${API}/indices/KospiPBR`);
-        setKospiPbr(코스피PBR.data)
+        setKospiPbr(코스피PBR.data);
+        const 코스피PER_PBR = await axios.get(`${API}/indices/PER_PBR?name=Kospi`);
+        setKospiPbrPer(코스피PER_PBR.data);
+        const 코스닥PER_PBR = await axios.get(`${API}/indices/PER_PBR?name=Kosdaq`);
+        setKosdaqPbrPer(코스닥PER_PBR.data);
+
     }
 
-    useEffect(() => {
-        fetchData()
-
-        axios.get(myJSON + "/index_kospi_PER_PBR").then((response) => {
-            var index = [], dataLength = response.data.length;
-            let colors = ['red', 'peru', 'tomato', 'coral', 'wheat', 'orange', 'gold', 'yellow', 'greenyellow', 'pink', 'cyan', 'limegreen', 'deepskyblue', 'dodgerblue', 'mistyrose', 'skyblue', 'beige', 'lightsteelblue', 'lavender', 'plum', 'snow'];
-
-            var dataArr = Array.from({ length: dataLength }, () => []);
-            response.data.forEach((value, i) => {
-                if (i < dataLength) {
-                    dataArr[i].push([parseFloat(value.PBR), parseFloat(value.PER)]);
-                }
-                index.push(value.지수명 + '( ' + value.종목수 + ' )');
-            });
-
-            var Kospi = { index: index };
-            dataArr.forEach((value, i) => {
-                Kospi['data_' + i] = value;
-            });
-            let series = Kospi.index.map((value, i) => {
-                return {
-                    name: value,
-                    data: Kospi['data_' + i],
-                    color: colors[i]
-                };
-            });
-            setKospiPbrPer(series)
-        });
-        axios.get(myJSON + "/index_kosdaq_PER_PBR").then((response) => {
-            var index = [], dataLength = response.data.length;
-            let colors = ['red', 'peru', 'tomato', 'coral', 'wheat', 'orange', 'gold', 'yellow', 'greenyellow', 'pink', 'cyan', 'limegreen', 'deepskyblue', 'dodgerblue', 'mistyrose', 'skyblue', 'beige', 'lightsteelblue', 'lavender', 'plum', 'snow', 'red', 'peru', 'wheat', 'greenyellow', 'pink', 'cyan', 'limegreen', 'tomato', 'yellow', 'lavender', 'plum', 'snow', 'beige'];
-            var dataArr = Array.from({ length: dataLength }, () => []);
-
-            response.data.forEach((value, i) => {
-                if (i < dataLength) {
-                    dataArr[i].push([parseFloat(value.PBR), parseFloat(value.PER)]);
-                }
-                index.push(value.지수명 + '( ' + value.종목수 + ' )');
-            });
-            var Kosdaq = { index: index };
-            dataArr.forEach((value, i) => {
-                Kosdaq['data_' + i] = value;
-            });
-            let series = Kosdaq.index.map((value, i) => {
-                return {
-                    name: value,
-                    data: Kosdaq['data_' + i],
-                    color: colors[i]
-                };
-            });
-            setKosdaqPbrPer(series)
-        });
-
-
-    }, []);
+    useEffect(() => { fetchData() }, []);
 
     return (
         <>

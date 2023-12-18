@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Skeleton } from '@mui/material';
+import { Grid, Skeleton } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Highcharts from 'highcharts/highstock'
 import HighchartsReact from 'highcharts-react-official'
@@ -237,10 +237,10 @@ export default function Chart({ data, height, name, lengendX }) {
             options={chartOptions}
             constructorType={'stockChart'}
         />
-        // <>
+
+        // <div style={{ backgroundColor: '#404040' }}>
         //     {data ?
-        //         <div ref={chartRef} />
         //         : <Skeleton variant="rectangular" height={height} animation="wave" />}
-        // </>
+        // </div>
     );
 };

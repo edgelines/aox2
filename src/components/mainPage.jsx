@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, Box, Table, Skeleton, Modal, Backdrop, ToggleButton, ToggleButtonGroup, TableHead, TableBody } from '@mui/material';
-// import { styled } from '@mui/material/styles';
+import { Grid, Box, Table, Skeleton, Modal, Backdrop, ToggleButtonGroup } from '@mui/material';
 import CoreChart from './util/CoreChart';
 import { numberWithCommas, StyledToggleButton } from './util/util';
 import Kospi200CurrentValue from './Index/kospi200CurrentValue';
@@ -12,7 +11,8 @@ import HighchartsReact from 'highcharts-react-official'
 import HighchartsMore from 'highcharts/highcharts-more'
 import SolidGauge from "highcharts/modules/solid-gauge";
 import { parseInt } from 'lodash';
-import { API, myJSON, API_WS, API_FILE } from './util/config';
+import { API, myJSON } from './util/config';
+import useInterval from './util/useInterval';
 HighchartsMore(Highcharts)
 SolidGauge(Highcharts)
 
@@ -362,6 +362,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
 
         return () => clearTimeout(timeoutId);
     }, [])
+
 
     // 시계 1초마다
     useEffect(() => {

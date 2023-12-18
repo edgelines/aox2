@@ -66,7 +66,7 @@ export default function Chart({ data, height, name }) {
                     pointFormat: 'PBR: {point.x} <br/> PER: {point.y}'
                 },
                 plotOptions: {},
-                boost: { useGPUTranslations: true },
+                // boost: { useGPUTranslations: true },
                 series: data,
             });
         }

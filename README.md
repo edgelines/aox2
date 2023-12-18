@@ -5,6 +5,13 @@
 ## Todo / Bug
 - util/useInterval.jsx 테스트
 
+### 2023.12.17~18
+{dev-api}
+- Commit.1
+  - modelingPage - re-fetchData 코드 변경
+  - FRED Data API 변경
+  - PER-PBR API 변경
+
 ### 2023.12.16
 {dev-api}
 - Commit.1
