@@ -4,6 +4,7 @@
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
 - util/useInterval.jsx 테스트
+  - 모델링페이지 동작여부 확인
 
 ### 2023.12.17~18
 {dev-api}
@@ -11,7 +12,9 @@
   - modelingPage - re-fetchData 코드 변경
   - FRED Data API 변경
   - PER-PBR API 변경
-
+- Commit.2
+  - CPI page 비율 조정
+  - 
 ### 2023.12.16
 {dev-api}
 - Commit.1
