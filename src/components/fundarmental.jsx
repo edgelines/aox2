@@ -211,7 +211,7 @@ export default function FundarmentalPage({ swiperRef }) {
                     <FundarmentalChart data={chartData} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
                 </div>
                 <Grid item container>
-                    <Grid item xs={1.3}>
+                    <Grid item xs={1.6}>
                         <ToggleButtonGroup
                             color='info'
                             orientation="vertical"
@@ -227,7 +227,7 @@ export default function FundarmentalPage({ swiperRef }) {
                             <StyledToggleButton fontSize={'10px'} value="Services">Services</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Grid>
-                    <Grid item xs={0.8}>
+                    <Grid item xs={0.9}>
                         <ToggleButtonGroup
                             color='info'
                             orientation="vertical"
@@ -254,7 +254,7 @@ export default function FundarmentalPage({ swiperRef }) {
                         </ToggleButtonGroup>
                     </Grid>
 
-                    <Grid item xs={9.7}>
+                    <Grid item xs={9.3}>
                         {
                             Array.isArray(lastValueTable) && lastValueTable.length > 0 ?
                                 <DataTable data={lastValueTable} categoriseColorMap={categoriseColorMap} categories={categories} swiperRef={swiperRef} onCategory={onCategory} />
