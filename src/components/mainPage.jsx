@@ -25,7 +25,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
     const updateF = 'Start - 9:2, Update - 지수분봉'
     // const [MarketDetail, setMarketDetail] = useState({ data: [], status: 'loading' });
     const [bubbleData, setBubbleData] = useState({});
-    const [groupDataLine, setGroupDataLine] = useState({})
+    const [groupDataMin, setGroupDataMin] = useState({})
     const [groupData, setGroupData] = useState({})
 
     const [gisuDayImg, setGisuDayImg] = useState(null);
@@ -35,7 +35,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
     const [marketAct, setMarketAct] = useState({});
     const [table2, setTable2] = useState([]);
 
-    const [bubbleDataPage, setBubbleDataPage] = useState('B');
+    const [bubbleDataPage, setBubbleDataPage] = useState('groupData');
     const [trendData, setTrendData] = useState({});
     const [foreigner, setForeigner] = useState({});
     const [institutional, setInstitutional] = useState({});
@@ -48,256 +48,92 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
     const [openModal, setOpenModal] = useState(false);
     const handleOpen = () => setOpenModal(true);
     const handleClose = () => setOpenModal(false);
-    const handleBubbleDataPage = (event, value) => { if (value !== null) { setBubbleDataPage(value); } }
+    const handleBubbleDataPage = (event, value) => {
+        if (value !== null) {
+            setBubbleDataPage(value);
+        }
+    }
+    const getData = async (name) => {
+        const res = await axios.get(`${API}/aox/${name}`)
+        return res.data
+    }
     const fetchData = async () => {
-        await axios.get(API + "/BubbleData").then((response) => {
-            var name1 = 0, categories = [], 시가총액전일대비 = 0, M_gap_magin = 0;
-            var data = response.data;
-            for (var i = 0; i < data.length; i++) {
-                name1 += data[i]['시가총액'];
-                M_gap_magin = parseInt((data[i].시가총액) / 1000000000000) - parseInt((data[i].전날시가총액) / 1000000000000)
-                if (M_gap_magin >= 0) {
-                    categories.push(parseInt((data[i]['시가총액']) / 1000000000000).toLocaleString('ko-KR') + ' 조' + '<br>전일대비 <span style="color:#FCAB2F;">+ ' + M_gap_magin + ' 조</span>');
-                }
-                if (M_gap_magin < 0) {
-                    categories.push(parseInt((data[i]['시가총액']) / 1000000000000).toLocaleString('ko-KR') + ' 조' + '<br>전일대비 <span style="color:#00F3FF;">' + M_gap_magin + ' 조</span>');
-                }
-                시가총액전일대비 = 시가총액전일대비 + parseInt(M_gap_magin);
-            }
-            if (data[0].전일대비 > 0) {
-                var title = '코스피200 : ' + data[0].코스피200 + ' <span style="color:#FCAB2F;">&nbsp;&nbsp; +' + parseFloat(data[0].전일대비).toFixed(2) + ' %</span>' + '&nbsp;&nbsp;&nbsp; 시가총액 : ' + parseInt(name1 / 1000000000000).toLocaleString('ko-KR') + ' 조 ( ' + 시가총액전일대비 + ' 조 )';
-            }
-            if (data[0].전일대비 <= 0) {
-                var title = '코스피200 : ' + data[0].코스피200 + ' <span style="color:#00F3FF;">&nbsp;&nbsp; ' + parseFloat(data[0].전일대비).toFixed(2) + ' %</span>' + '&nbsp;&nbsp;&nbsp; 시가총액 : ' + parseInt(name1 / 1000000000000).toLocaleString('ko-KR') + ' 조 ( ' + 시가총액전일대비 + ' 조 )';
-            }
-            if (data[0]['등락률'] < 0) { var color1 = 'dodgerblue'; }
-            if (data[1]['등락률'] < 0) { var color2 = 'dodgerblue'; }
-            if (data[2]['등락률'] < 0) { var color3 = 'dodgerblue'; }
-            if (data[3]['등락률'] < 0) { var color4 = 'dodgerblue'; }
-            if (data[4]['등락률'] < 0) { var color5 = 'dodgerblue'; }
-            if (data[0]['등락률'] >= 0) { var color1 = 'tomato'; }
-            if (data[1]['등락률'] >= 0) { var color2 = 'tomato'; }
-            if (data[2]['등락률'] >= 0) { var color3 = 'tomato'; }
-            if (data[3]['등락률'] >= 0) { var color4 = 'tomato'; }
-            if (data[4]['등락률'] >= 0) { var color5 = 'tomato'; }
-            var 등락률 = [parseFloat(data[0]['등락률'].toFixed(1)), parseFloat(data[1]['등락률'].toFixed(1)), parseFloat(data[2]['등락률'].toFixed(1)), parseFloat(data[3]['등락률'].toFixed(1)), parseFloat(data[4]['등락률'].toFixed(1))]
-            var 시가총액 = [parseInt(data[0]['시가총액'] / 1000000000000), parseInt(data[1]['시가총액'] / 1000000000000), parseInt(data[2]['시가총액'] / 1000000000000), parseInt(data[3]['시가총액'] / 1000000000000), parseInt(data[4]['시가총액'] / 1000000000000)]
-            setBubbleData({
-                series: [{
-                    name: title,
-                    data: [
-                        { x: 0, y: 등락률[0], z: 시가총액[0], name: '삼성전자', color: color1 },
-                        { x: 1, y: 등락률[1], z: 시가총액[1], name: '2위 ~ 15위', color: color2 },
-                        { x: 2, y: 등락률[2], z: 시가총액[2], name: '16위 ~ 50위', color: color3 },
-                        { x: 3, y: 등락률[3], z: 시가총액[3], name: '51위 ~ 100위', color: color4 },
-                        { x: 4, y: 등락률[4], z: 시가총액[4], name: '101위 ~ 200위', color: color5 },
-                    ], animation: false,
-                }], categories: categories
-            })
-        });
-        await axios.get(API + "/GroupDataLine").then((res) => {
-            var Kospi200 = [], Kospi = [], Kosdaq = [], 그룹1 = [], 그룹2 = [], 그룹3 = [], 그룹4 = [], 그룹5 = [], day = [];
-            res.data.slice(-10).forEach((value, index, array) => {
-                Kospi200.push(value.코스피200 * 100)
-                Kospi.push(value.코스피 * 100)
-                Kosdaq.push(value.코스닥 * 100)
-                그룹1.push(value.그룹1)
-                그룹2.push(value.그룹2)
-                그룹3.push(value.그룹3)
-                그룹4.push(value.그룹4)
-                그룹5.push(value.그룹5)
-                day.push(value.날짜.substr(4, 2) + '.' + value.날짜.substr(6, 2) + '.');
-            })
-
-            const series1 = [{
-                data: 그룹1, name: '<span style="color : tomato;">삼성전자</span>', color: 'tomato', zIndex: 5, lineWidth: 1, marker: { radius: 2.5 }, yAxis: 0,
-            }, {
-                data: 그룹2, name: '<span style="color : #FCAB2F;">2위 ~ 15위</span>', color: '#FCAB2F', zIndex: 4, lineWidth: 1, marker: { radius: 2.5 }, yAxis: 0,
-            }, {
-                data: Kospi, name: '코스피', color: 'magenta', type: 'line', zIndex: 1, lineWidth: 1, marker: { radius: 2.5 }, dashStyle: 'ShortDash', yAxis: 1,
-            }, {
-                data: Kosdaq, name: '코스닥', color: 'greenyellow', type: 'line', zIndex: 1, lineWidth: 1, marker: { radius: 2.5 }, dashStyle: 'ShortDash', yAxis: 1,
-            }];
-            const series2 = [{
-                data: 그룹3, name: '<span style="color : greenyellow;">16위 ~ 50위</span>', color: 'greenyellow', zIndex: 3, lineWidth: 1, marker: { radius: 2.5 },
-            }, {
-                data: 그룹4, name: '<span style="color : dodgerblue;">51위 ~ 100위</span>', color: 'dodgerblue', zIndex: 2, lineWidth: 1, marker: { radius: 2.5 },
-            }, {
-                data: 그룹5, name: '<span style="color : #62FFF6;">101위 ~ 200위', color: '#62FFF6', zIndex: 1, lineWidth: 1, marker: { radius: 2.5 },
-            }, {
-                data: Kospi, name: '코스피', color: 'magenta', type: 'line', zIndex: 1, lineWidth: 1, marker: { radius: 2.5 }, dashStyle: 'ShortDash', yAxis: 1, visible: false
-            }, {
-                data: Kospi200, name: '코스피200', color: '#efe9e9ed', type: 'line', zIndex: 1, lineWidth: 1, marker: { radius: 2.5 }, dashStyle: 'ShortDash', yAxis: 1
-            }]
-            const categories = day
-
-            setGroupData({ series1, series2, categories })
-
-        })
-
         const uniq = "?" + new Date().getTime();
-        setGisuDayImg(`/img/gisu_kospi200.jpg${uniq}`)
-        // setGisuDayImg(`${API_FILE}/image/gisu_kospi200${uniq}`)
-        setKospi200Img(`https://t1.daumcdn.net/finance/chart/kr/daumstock/d/mini/K2G01P.png${uniq}`)
-        await axios.get(`${API}/MarketDaily`).then((response) => {
-            var tmp1 = [], tmp2 = [], tmp3 = [];
-            const cate = ['B-5', 'B-4', 'B-3', 'B-2', 'B-1', '09:02', '09:05', '09:07', '09:10', '09:15', '09:20', '09:25', '09:30', '09:35', '09:40', '09:45', '09:50', '09:55', '10:00', '10:05', '10:10', '10:15', '10:20', '10:25', '10:30', '10:35', '10:40', '10:45', '10:50', '10:55', '11:00', '11:05', '11:10', '11:15', '11:20', '11:25', '11:30', '11:35', '11:40', '11:45', '11:50', '11:55', '12:00', '12:05', '12:10', '12:15', '12:20', '12:25', '12:30', '12:35', '12:40', '12:45', '12:50', '12:55', '13:00', '13:05', '13:10', '13:15', '13:20', '13:25', '13:30', '13:35', '13:40', '13:45', '13:50', '13:55', '14:00', '14:05', '14:10', '14:15', '14:20', '14:25', '14:30', '14:35', '14:40', '14:45', '14:50', '14:55', '15:00', '15:05', '15:10', '15:15', '15:20', '15:25', '15:30']
-            response.data.forEach((value, index, array) => {
-                tmp1.push(value.Kospi200)
-                tmp2.push(value.Kospi)
-                tmp3.push(value.Kosdaq)
-            })
-            setMarket({
-                series: [
-                    {
-                        zIndex: 3, name: "Kospi200", color: "#efe9e9ed", data: tmp1,
-                    }, {
-                        zIndex: 2, name: "Kospi", color: "magenta", data: tmp2,
-                    }, {
-                        zIndex: 1, name: "Kosdaq", color: "greenyellow", data: tmp3,
-                    }
-                ], categories: cate,
-            });
+        setGisuDayImg(`/img/gisu_kospi200.jpg${uniq}`);
+        setKospi200Img(`https://t1.daumcdn.net/finance/chart/kr/daumstock/d/mini/K2G01P.png${uniq}`);
+
+        // const APIname = ['bubbleData', 'marketDaily', 'trendData'];
+        const APIname = ['bubbleData', 'groupData?dbName=GroupDataLine', 'marketDaily', 'trendData', 'groupData?dbName=GroupDataMin'];
+
+        const chartDataPromises = APIname.map(name => getData(name));
+
+        // const [bubbleData, marketDaily, trendData] = await Promise.all(chartDataPromises);
+        const [bubbleData, groupData, marketDaily, trendData, GroupDataMin] = await Promise.all(chartDataPromises);
+
+        setBubbleData({
+            series: [{
+                name: bubbleData.name,
+                data: bubbleData.data,
+                animation: false,
+            }],
+            categories: bubbleData.categories
+        });
+        // handleBubbleDataPage(bubbleDataPage);
+        setGroupData({ series1: groupData.series1, series2: groupData.series2, categories: groupData.categories })
+        setMarket({ series: marketDaily.series, categories: marketDaily.categories });
+
+        setForeigner(trendData.foreigner);
+        setInstitutional(trendData.institutional);
+        setIndividual(trendData.individual);
+        setTable2(trendData.table2);
+        setTrendData({
+            series: trendData.series,
+            categories: trendData.categories,
+            yAxis0Abs: trendData.yAxis0Abs,
+            yAxis1Abs: trendData.yAxis1Abs,
+            yAxis2Abs: trendData.yAxis2Abs,
         });
 
-        await axios.get(API + "/MarketDetail").then((response) => {
-            setMarketAct({
-                kospi200: response.data[0]['상승%'] * 100,
-                kospi: response.data[1]['상승%'] * 100,
-                kosdaq: response.data[2]['상승%'] * 100,
-                name: ['200', 'Kospi', 'Kosdaq']
-            });
-        });
+        setGroupDataMin({ series1: GroupDataMin.series1, series2: GroupDataMin.series2, categories: GroupDataMin.categories });
 
-        await axios.get(API + "/TrendData").then((res) => {
-            const data = res.data
-            setForeigner({
-                당일: [data[data.length - 1].외국인_코스피200, data[data.length - 1].외국인_코스피, data[data.length - 1].외국인_코스닥, data[data.length - 1].외국인_선물, data[data.length - 1].외국인_콜옵션, data[data.length - 1].외국인_풋옵션,],
-                누적: [data[data.length - 1].외국인_코스피200_누적, data[data.length - 1].외국인_코스피_누적, data[data.length - 1].외국인_코스닥_누적, data[data.length - 1].외국인_선물_누적, data[data.length - 1].외국인_콜옵션_누적, data[data.length - 1].외국인_풋옵션_누적],
-            })
-            setInstitutional({
-                당일: [data[data.length - 1].기관_코스피200, data[data.length - 1].기관_코스피, data[data.length - 1].기관_코스닥, data[data.length - 1].기관_선물, data[data.length - 1].기관_콜옵션, data[data.length - 1].기관_풋옵션],
-                누적: [data[data.length - 1].기관_코스피200_누적, data[data.length - 1].기관_코스피_누적, data[data.length - 1].기관_코스닥_누적, data[data.length - 1].기관_선물_누적, data[data.length - 1].기관_콜옵션_누적, data[data.length - 1].기관_풋옵션_누적],
-            })
-            setIndividual({
-                당일: [data[data.length - 1].개인_코스피200, data[data.length - 1].개인_코스피, data[data.length - 1].개인_코스닥, data[data.length - 1].개인_선물, data[data.length - 1].개인_콜옵션, data[data.length - 1].개인_풋옵션],
-                누적: [data[data.length - 1].개인_코스피200_누적, data[data.length - 1].개인_코스피_누적, data[data.length - 1].개인_코스닥_누적, data[data.length - 1].개인_선물_누적, data[data.length - 1].개인_콜옵션_누적, data[data.length - 1].개인_풋옵션_누적],
-            })
-            setTable2(
-                [{ 구분: '코스피200', 외국인: data[data.length - 1].외국인_코스피200, 외국인_누적: data[data.length - 1].외국인_코스피200_누적, 기관: data[data.length - 1].기관_코스피200, 기관_누적: data[data.length - 1].기관_코스피200_누적, 개인: data[data.length - 1].개인_코스피200, 개인_누적: data[data.length - 1].개인_코스피200_누적 },
-                { 구분: '코스피', 외국인: data[data.length - 1].외국인_코스피, 외국인_누적: data[data.length - 1].외국인_코스피_누적, 기관: data[data.length - 1].기관_코스피, 기관_누적: data[data.length - 1].기관_코스피_누적, 개인: data[data.length - 1].개인_코스피, 개인_누적: data[data.length - 1].개인_코스피_누적 },
-                { 구분: '코스닥', 외국인: data[data.length - 1].외국인_코스닥, 외국인_누적: data[data.length - 1].외국인_코스닥_누적, 기관: data[data.length - 1].기관_코스닥, 기관_누적: data[data.length - 1].기관_코스닥_누적, 개인: data[data.length - 1].개인_코스닥, 개인_누적: data[data.length - 1].개인_코스닥_누적 },
-                { 구분: '선물', 외국인: data[data.length - 1].외국인_선물, 외국인_누적: data[data.length - 1].외국인_선물_누적, 기관: data[data.length - 1].기관_선물, 기관_누적: data[data.length - 1].기관_선물_누적, 개인: data[data.length - 1].개인_선물, 개인_누적: data[data.length - 1].개인_선물_누적 },
-                { 구분: '콜옵션', 외국인: data[data.length - 1].외국인_콜옵션, 외국인_누적: data[data.length - 1].외국인_콜옵션_누적, 기관: data[data.length - 1].기관_콜옵션, 기관_누적: data[data.length - 1].기관_콜옵션_누적, 개인: data[data.length - 1].개인_콜옵션, 개인_누적: data[data.length - 1].개인_콜옵션_누적 },
-                { 구분: '풋옵션', 외국인: data[data.length - 1].외국인_풋옵션, 외국인_누적: data[data.length - 1].외국인_풋옵션_누적, 기관: data[data.length - 1].기관_풋옵션, 기관_누적: data[data.length - 1].기관_풋옵션_누적, 개인: data[data.length - 1].개인_풋옵션, 개인_누적: data[data.length - 1].개인_풋옵션_누적 },]
-            )
+        // await axios.get(`${myJSON}/kospi200GroupDayData`).then((res) => {
+        //     var Kospi200 = [], Kospi = [], Kosdaq = [], 그룹1 = [], 그룹2 = [], 그룹3 = [], 그룹4 = [], 그룹5 = [];
+        //     res.data.forEach((value, index, array) => {
+        //         Kospi200.push(value.코스피200 * 100)
+        //         Kospi.push(value.코스피 * 100)
+        //         Kosdaq.push(value.코스닥 * 100)
+        //         그룹1.push(value.그룹1)
+        //         그룹2.push(value.그룹2)
+        //         그룹3.push(value.그룹3)
+        //         그룹4.push(value.그룹4)
+        //         그룹5.push(value.그룹5)
+        //     })
+        //     const series1 = [{
+        //         data: 그룹1, name: '<span style="color : tomato;">삼성전자</span>', color: 'tomato', zIndex: 5, lineWidth: 1, marker: { radius: 1.2 }, yAxis: 0,
+        //     }, {
+        //         data: 그룹2, name: '<span style="color : #FCAB2F;">2위 ~ 15위</span>', color: '#FCAB2F', zIndex: 4, lineWidth: 1, marker: { radius: 1.2 }, yAxis: 0,
+        //     }, {
+        //         data: Kospi, name: '코스피', color: 'magenta', type: 'line', zIndex: 1, lineWidth: 1, marker: { radius: 1.2 }, dashStyle: 'ShortDash', yAxis: 1,
+        //     }, {
+        //         data: Kosdaq, name: '코스닥', color: 'greenyellow', type: 'line', zIndex: 1, lineWidth: 1, marker: { radius: 1.2 }, dashStyle: 'ShortDash', yAxis: 1,
+        //     }]
+        //     const series2 = [
+        //         {
+        //             data: 그룹3, name: '<span style="color : greenyellow;">16위 ~ 50위</span>', color: 'greenyellow', zIndex: 3, lineWidth: 1, marker: { radius: 1.2 },
+        //         }, {
+        //             data: 그룹4, name: '<span style="color : dodgerblue;">51위 ~ 100위</span>', color: 'dodgerblue', zIndex: 2, lineWidth: 1, marker: { radius: 1.2 },
+        //         }, {
+        //             data: 그룹5, name: '<span style="color : #62FFF6;">101위 ~ 200위', color: '#62FFF6', zIndex: 1, lineWidth: 1, marker: { radius: 1.2 },
+        //         }, {
+        //             data: Kospi, name: '코스피', color: 'magenta', type: 'line', zIndex: 1, lineWidth: 1, marker: { radius: 1.2 }, dashStyle: 'ShortDash', yAxis: 1, visible: false
+        //         }, {
+        //             data: Kospi200, name: '코스피200', color: '#efe9e9ed', type: 'line', zIndex: 1, lineWidth: 1, marker: { radius: 1.2 }, dashStyle: 'ShortDash', yAxis: 1
+        //         }]
+        //     const categories = ['B-5', 'B-4', 'B-3', 'B-2', 'B-1', '09:02', '09:05', '09:07', '09:10', '09:15', '09:20', '09:25', '09:30', '09:35', '09:40', '09:45', '09:50', '09:55', '10:00', '10:05', '10:10', '10:15', '10:20', '10:25', '10:30', '10:35', '10:40', '10:45', '10:50', '10:55', '11:00', '11:05', '11:10', '11:15', '11:20', '11:25', '11:30', '11:35', '11:40', '11:45', '11:50', '11:55', '12:00', '12:05', '12:10', '12:15', '12:20', '12:25', '12:30', '12:35', '12:40', '12:45', '12:50', '12:55', '13:00', '13:05', '13:10', '13:15', '13:20', '13:25', '13:30', '13:35', '13:40', '13:45', '13:50', '13:55', '14:00', '14:05', '14:10', '14:15', '14:20', '14:25', '14:30', '14:35', '14:40', '14:45', '14:50', '14:55', '15:00', '15:05', '15:10', '15:15', '15:20', '15:25', '15:30'];
+
+        // })
 
 
-            // console.log(trendDataBar);
-            const tmp = data.slice(-35);
-            const 외국인 = [];
-            const 기관 = [];
-            const 선물 = [];
-            const 콜옵션 = [];
-            const 풋옵션 = [];
-
-            tmp.forEach(item => {
-                외국인.push(parseFloat(item.외국인_코스피200));
-                기관.push(parseFloat(item.기관_코스피200));
-                선물.push(parseInt(item.외국인_선물));
-                콜옵션.push(parseInt(item.외국인_콜옵션));
-                풋옵션.push(parseInt(item.외국인_풋옵션));
-            });
-            const 현물 = 외국인.map((value, index) => value + 기관[index]);
-            const 옵션 = 콜옵션.map((value, index) => value + 풋옵션[index]);
-            const trendData = {
-                series: [
-                    {
-                        name: '외쿡인',
-                        data: 외국인,
-                        color: '#FCAB2F',
-                        pointWidth: 8,
-                        grouping: false,
-                        yAxis: 0,
-                    },
-                    {
-                        name: '개관',
-                        data: 기관,
-                        color: 'forestgreen',
-                        pointWidth: 4,
-                        grouping: false,
-                        yAxis: 0,
-                    },
-                    {
-                        name: '선물',
-                        data: 선물,
-                        type: 'spline',
-                        color: 'magenta',
-                        lineWidth: 0.5,
-                        yAxis: 2,
-                    },
-                    {
-                        name: '콜옵션',
-                        data: 콜옵션,
-                        type: 'spline',
-                        color: 'tomato',
-                        lineWidth: 0.5,
-                        yAxis: 1,
-                        zIndex: 1,
-                    },
-                    {
-                        name: '풋옵션',
-                        data: 풋옵션,
-                        type: 'spline',
-                        color: 'dodgerblue',
-                        lineWidth: 0.5,
-                        yAxis: 1,
-                        zIndex: 1,
-                    },
-                ],
-                categories: tmp.map(item => item['날짜'].split('-')[1] + '.' + item['날짜'].split('-')[2].split('T')[0]),
-                yAxis0Abs: Math.max(...현물.map(Math.abs)),
-                yAxis1Abs: Math.max(...옵션.map(Math.abs)),
-                yAxis2Abs: Math.max(...선물.map(Math.abs)),
-            };
-            setTrendData(trendData);
-        });
-        await axios.get(`${myJSON}/kospi200GroupDayData`).then((res) => {
-            var Kospi200 = [], Kospi = [], Kosdaq = [], 그룹1 = [], 그룹2 = [], 그룹3 = [], 그룹4 = [], 그룹5 = [];
-            res.data.forEach((value, index, array) => {
-                Kospi200.push(value.코스피200 * 100)
-                Kospi.push(value.코스피 * 100)
-                Kosdaq.push(value.코스닥 * 100)
-                그룹1.push(value.그룹1)
-                그룹2.push(value.그룹2)
-                그룹3.push(value.그룹3)
-                그룹4.push(value.그룹4)
-                그룹5.push(value.그룹5)
-            })
-            const series1 = [{
-                data: 그룹1, name: '<span style="color : tomato;">삼성전자</span>', color: 'tomato', zIndex: 5, lineWidth: 1, marker: { radius: 1.2 }, yAxis: 0,
-            }, {
-                data: 그룹2, name: '<span style="color : #FCAB2F;">2위 ~ 15위</span>', color: '#FCAB2F', zIndex: 4, lineWidth: 1, marker: { radius: 1.2 }, yAxis: 0,
-            }, {
-                data: Kospi, name: '코스피', color: 'magenta', type: 'line', zIndex: 1, lineWidth: 1, marker: { radius: 1.2 }, dashStyle: 'ShortDash', yAxis: 1,
-            }, {
-                data: Kosdaq, name: '코스닥', color: 'greenyellow', type: 'line', zIndex: 1, lineWidth: 1, marker: { radius: 1.2 }, dashStyle: 'ShortDash', yAxis: 1,
-            }]
-            const series2 = [
-                {
-                    data: 그룹3, name: '<span style="color : greenyellow;">16위 ~ 50위</span>', color: 'greenyellow', zIndex: 3, lineWidth: 1, marker: { radius: 1.2 },
-                }, {
-                    data: 그룹4, name: '<span style="color : dodgerblue;">51위 ~ 100위</span>', color: 'dodgerblue', zIndex: 2, lineWidth: 1, marker: { radius: 1.2 },
-                }, {
-                    data: 그룹5, name: '<span style="color : #62FFF6;">101위 ~ 200위', color: '#62FFF6', zIndex: 1, lineWidth: 1, marker: { radius: 1.2 },
-                }, {
-                    data: Kospi, name: '코스피', color: 'magenta', type: 'line', zIndex: 1, lineWidth: 1, marker: { radius: 1.2 }, dashStyle: 'ShortDash', yAxis: 1, visible: false
-                }, {
-                    data: Kospi200, name: '코스피200', color: '#efe9e9ed', type: 'line', zIndex: 1, lineWidth: 1, marker: { radius: 1.2 }, dashStyle: 'ShortDash', yAxis: 1
-                }]
-            const categories = ['B-5', 'B-4', 'B-3', 'B-2', 'B-1', '09:02', '09:05', '09:07', '09:10', '09:15', '09:20', '09:25', '09:30', '09:35', '09:40', '09:45', '09:50', '09:55', '10:00', '10:05', '10:10', '10:15', '10:20', '10:25', '10:30', '10:35', '10:40', '10:45', '10:50', '10:55', '11:00', '11:05', '11:10', '11:15', '11:20', '11:25', '11:30', '11:35', '11:40', '11:45', '11:50', '11:55', '12:00', '12:05', '12:10', '12:15', '12:20', '12:25', '12:30', '12:35', '12:40', '12:45', '12:50', '12:55', '13:00', '13:05', '13:10', '13:15', '13:20', '13:25', '13:30', '13:35', '13:40', '13:45', '13:50', '13:55', '14:00', '14:05', '14:10', '14:15', '14:20', '14:25', '14:30', '14:35', '14:40', '14:45', '14:50', '14:55', '15:00', '15:05', '15:10', '15:15', '15:20', '15:25', '15:30'];
-            setGroupDataLine({ series1, series2, categories });
-        })
     };
 
     const setDate = () => {
@@ -322,47 +158,63 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
         // return () => { if (ws) ws.close(); };
     }, [])
 
-    // 60초 주기 업데이트
     useEffect(() => {
-        const now = new Date();
-        const hour = now.getHours();
-        const minutes = now.getMinutes();
-        const seconds = now.getSeconds();
-        // 현재 시간이 9시 이전이라면, 9시까지 남은 시간 계산
-        let delay;
-        if (hour < 9) {
-            delay = ((9 - hour - 1) * 60 + (60 - minutes)) * 60 + (60 - seconds);
-        } else if (hour === 9 && minutes === 0 && seconds > 0) {
-            // 9시 정각에 이미 초가 지나가 있을 경우, 다음 분까지 대기
-            delay = 60 - seconds;
-        } else {
-            // 이미 9시 정각 이후라면, 다음 분 시작까지 대기
-            delay = 60 - seconds;
+        if (MarketDetail.status == 'succeeded') {
+            setMarketAct({
+                kospi200: MarketDetail.data[0]['상승%'] * 100,
+                kospi: MarketDetail.data[1]['상승%'] * 100,
+                kosdaq: MarketDetail.data[2]['상승%'] * 100,
+                name: ['200', 'Kospi', 'Kosdaq']
+            });
         }
+    }, [MarketDetail])
+    // // 60초 주기 업데이트
+    // useEffect(() => {
+    //     const now = new Date();
+    //     const hour = now.getHours();
+    //     const minutes = now.getMinutes();
+    //     const seconds = now.getSeconds();
+    //     // 현재 시간이 9시 이전이라면, 9시까지 남은 시간 계산
+    //     let delay;
+    //     if (hour < 9) {
+    //         delay = ((9 - hour - 1) * 60 + (60 - minutes)) * 60 + (60 - seconds);
+    //     } else if (hour === 9 && minutes === 0 && seconds > 0) {
+    //         // 9시 정각에 이미 초가 지나가 있을 경우, 다음 분까지 대기
+    //         delay = 60 - seconds;
+    //     } else {
+    //         // 이미 9시 정각 이후라면, 다음 분 시작까지 대기
+    //         delay = 60 - seconds;
+    //     }
 
-        const startUpdates = () => {
-            const intervalId = setInterval(() => {
-                const now = new Date();
-                const hour = now.getHours();
-                const dayOfWeek = now.getDay();
-                if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
-                    fetchData();
-                } else if (hour >= 16) {
-                    // 3시 30분 이후라면 인터벌 종료
-                    clearInterval(intervalId);
-                }
-            }, 1000 * 60 * 2);
-            return intervalId;
-        };
-        // 첫 업데이트 시작
-        const timeoutId = setTimeout(() => {
-            // fetchData();
-            startUpdates();
-        }, delay * 1000);
+    //     const startUpdates = () => {
+    //         const intervalId = setInterval(() => {
+    //             const now = new Date();
+    //             const hour = now.getHours();
+    //             const dayOfWeek = now.getDay();
+    //             if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
+    //                 fetchData();
+    //             } else if (hour >= 16) {
+    //                 // 3시 30분 이후라면 인터벌 종료
+    //                 clearInterval(intervalId);
+    //             }
+    //         }, 1000 * 60 * 2);
+    //         return intervalId;
+    //     };
+    //     // 첫 업데이트 시작
+    //     const timeoutId = setTimeout(() => {
+    //         // fetchData();
+    //         startUpdates();
+    //     }, delay * 1000);
 
-        return () => clearTimeout(timeoutId);
-    }, [])
+    //     return () => clearTimeout(timeoutId);
+    // }, [])
 
+    // 5분 주기 업데이트
+    useInterval(fetchData, 1000 * 60 * 2, {
+        startHour: 9,
+        endHour: 16,
+        daysOff: [0, 6], // 일요일(0)과 토요일(6)은 제외
+    });
 
     // 시계 1초마다
     useEffect(() => {
@@ -434,10 +286,10 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                         value={bubbleDataPage}
                         onChange={handleBubbleDataPage}
                     >
-                        <StyledToggleButton value="B">Line 일봉</StyledToggleButton>
+                        <StyledToggleButton value="groupData">Line 일봉</StyledToggleButton>
                         <StyledToggleButton value="C">Bubble 카테고리</StyledToggleButton>
                         <StyledToggleButton value="A">Bubble 시가총액</StyledToggleButton>
-                        <StyledToggleButton value="D">Line 분봉</StyledToggleButton>
+                        <StyledToggleButton value="groupDataLine">Line 분봉</StyledToggleButton>
                     </ToggleButtonGroup>
                 </Box>
                 {bubbleDataPage === 'A' ?
@@ -447,13 +299,13 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                             <BubbleChartLegend guideNum={1.4} girdNum={1.9} />
                         </Box>
                     </>
-                    : bubbleDataPage === 'B' ?
+                    : bubbleDataPage === 'groupData' ?
                         <>
-                            <CoreChart data={groupData.series1} height={280} name={'Kospi200GroupData'} categories={groupData.categories} lengendX={43} />
+                            <CoreChart data={groupData.series1} height={280} name={'groupData'} categories={groupData.categories} lengendX={43} />
                             <Box sx={{ position: 'absolute', transform: 'translate(20vw, -1.5vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
                                 {updateF}
                             </Box>
-                            <CoreChart data={groupData.series2} height={280} name={'Kospi200GroupData'} categories={groupData.categories} lengendX={43} />
+                            <CoreChart data={groupData.series2} height={280} name={'groupData'} categories={groupData.categories} lengendX={43} />
                         </>
                         : bubbleDataPage === 'C' ?
                             <>
@@ -463,11 +315,11 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                                 </Box>
                             </> :
                             <>
-                                <CoreChart data={groupDataLine.series1} height={280} name={'Kospi200GroupDataLine'} categories={groupDataLine.categories} lengendX={43} />
+                                <CoreChart data={groupDataMin.series1} height={280} name={'groupDataMin'} categories={groupDataMin.categories} lengendX={43} />
                                 <Box sx={{ position: 'absolute', transform: 'translate(21vw, -1.5vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
                                     {updateF}
                                 </Box>
-                                <CoreChart data={groupDataLine.series2} height={280} name={'Kospi200GroupDataLine'} categories={groupDataLine.categories} lengendX={43} />
+                                <CoreChart data={groupDataMin.series2} height={280} name={'groupDataMin'} categories={groupDataMin.categories} lengendX={43} />
                             </>
                 }
 

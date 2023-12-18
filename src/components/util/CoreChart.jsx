@@ -159,7 +159,7 @@ export default function CoreChart({ data, height, name, categories, type, min, h
                     zIndex: -1
                 }],
             },
-            Kospi200GroupDataLine: [{
+            groupDataMin: [{
                 title: { enabled: false },
                 labels: {
                     style: { color: '#efe9e9ed', fontSize: '12px' }, formatter: function () {
@@ -290,7 +290,7 @@ export default function CoreChart({ data, height, name, categories, type, min, h
                 gridLineWidth: 0.2,
                 max: 100
             }],
-            Kospi200GroupData: [{
+            groupData: [{
                 title: { enabled: false },
                 labels: {
                     style: { color: '#efe9e9ed', fontSize: '12px' }, formatter: function () {
@@ -682,7 +682,7 @@ export default function CoreChart({ data, height, name, categories, type, min, h
                 result.labels = { style: { color: '#FCAB2F', fontSize: '11px' } };
                 result.categories = categories;
                 return result;
-            } else if (name === 'Kospi200GroupDataLine') {
+            } else if (name === 'groupDataMin') {
                 const plotLinesLabelY = 210;
                 const plotLinesLabelStyle = { color: '#efe9e9ed', fontSize: '11px' }
                 const texts = ["B<br/>5", "B<br/>4", "B<br/>3", "B<br/>2", "B<br/>1", "09:07", "", "10:00", "", "11:00", "", "12:00", "", "13:00", "", "14:00", "", "15:00"];

@@ -14,7 +14,9 @@
   - PER-PBR API 변경
 - Commit.2
   - CPI page 비율 조정
-  - 
+- Commit.3
+  - mainPage API 변경
+  - fundarmental 간격조절
 ### 2023.12.16
 {dev-api}
 - Commit.1
