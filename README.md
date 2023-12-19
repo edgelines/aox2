@@ -5,6 +5,11 @@
 ## Todo / Bug
 - util/useInterval.jsx 테스트
   - 모델링페이지 동작여부 확인
+### 2023.12.19
+{dev-api}
+- Commit.1
+  - mainPage > setInterval
+  - sectorSearchPage > ToggleBTN
 
 ### 2023.12.17~18
 {dev-api}
