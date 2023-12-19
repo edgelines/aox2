@@ -320,7 +320,7 @@ const DataTable = ({ data, categoriseColorMap, swiperRef, onCategory }) => {
         ...data[0][Object.keys(data[0])[0]].map((d) => ({
             field: `${d.year}-${d.month}`,
             headerName: `${d.year} / ${d.month}`,
-            width: 103, align: 'right', headerAlign: 'center',
+            width: 110, align: 'right', headerAlign: 'center',
             renderCell: (params) => {
                 // 현재 셀에 해당하는 전월대비 값
                 const prevMonthField = `${params.field}전월대비`;
