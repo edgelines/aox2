@@ -5,6 +5,12 @@
 ## Todo / Bug
 - util/useInterval.jsx 테스트
   - 모델링페이지 동작여부 확인
+
+### 2023.12.20
+{master}
+- Commit.2
+  - CPI color, table Columns width adjust
+
 ### 2023.12.19
 {dev-api}
 - Commit.1

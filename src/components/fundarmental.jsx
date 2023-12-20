@@ -30,26 +30,28 @@ export default function FundarmentalPage({ swiperRef }) {
         'Cereals': 'orange',
         'Meats': 'tomato',
         'Dairy': '#00FF99',
-        'Fruits': 'dodgerblue',
-        'Non Alcoholic': 'blue',
-        'Other': '#FF66FF',
-        'Food Away': '#7030A0',
+        'Fruits': 'mediumseagreen',
+        'Non Alcoholic': 'dodgerblue',
+        'Other': 'silver',
+        'Food Away': '#FF66FF',
 
-        Fuel: '#5c787a',
-        'Gasoline': 'gold',
-        'Electricity': 'aqua',
-        'Natural Gas': 'Lawngreen',
-        'Apparel': '#fffc33',
-        'New Vehicles': 'orange',
-        'Used Car': '#00B0F0',
-        'Medical Care': '#70AD47',
-        'Alcoholic': '#FF66FF',
-        'Tobacco': '#7030A0',
+        Fuel: 'silver',
+        'Gasoline': 'orange',
+        'Electricity': '#00FF99',
+        'Natural Gas': 'tomato',
+        
+        'Apparel': 'orange',
+        'New Vehicles': '#00FF99',
+        'Used Car': 'tomato',
+        'Medical Care': 'forestgreen',
+        'Alcoholic': 'deepskyblue',
+        'Tobacco': '#FF66FF',
 
-        'Shelter': 'royalblue',
-        'Motor Maintenance': '#996633',
-        'Motor Insurance': 'gold',
-        'Airline Fare': '#7030A0',
+        'Shelter': 'orange',
+        'Medical Care Services' : 'forestgreen',
+        'Motor Maintenance': 'tomato',
+        'Motor Insurance': 'silver',
+        'Airline Fare': 'cornflowerblue',
 
     };
 
@@ -320,7 +322,7 @@ const DataTable = ({ data, categoriseColorMap, swiperRef, onCategory }) => {
         ...data[0][Object.keys(data[0])[0]].map((d) => ({
             field: `${d.year}-${d.month}`,
             headerName: `${d.year} / ${d.month}`,
-            width: 110, align: 'right', headerAlign: 'center',
+            width: 113, align: 'right', headerAlign: 'center',
             renderCell: (params) => {
                 // 현재 셀에 해당하는 전월대비 값
                 const prevMonthField = `${params.field}전월대비`;
