@@ -90,8 +90,8 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
         });
 
     }
-    const handleFormat = (event, newFormats) => { if (value !== null) { setFormats(newFormats); } };
-    const handleMainData = (event, newAlignment) => { if (value !== null) { setMainData(newAlignment); } };
+    const handleFormat = (event, newFormats) => { if (newFormats !== null) { setFormats(newFormats); } };
+    const handleMainData = (event, newAlignment) => { if (newFormats !== null) { setMainData(newAlignment); } };
 
     useEffect(() => { fetchData(); }, [])
 

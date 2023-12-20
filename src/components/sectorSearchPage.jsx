@@ -235,8 +235,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Searc
 
     // togglePage BTN
     const handleTogglePage = (event, newAlignment) => {
-        setTogglePage(newAlignment);
-        // if (value !== null) {  }
+        if (newAlignment !== null) { setTogglePage(newAlignment); }
     }
     // Treemap에서 테마 클릭시 테마에 속한 종목들을 상위컴포넌트로 전달해주는 펑션
     const onThemeClick = (themeInStockData) => {
