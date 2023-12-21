@@ -15,6 +15,7 @@ export default function FundarmentalPage({ swiperRef }) {
     const [chartField3, setChartField3] = useState([]);
     const [chartField4, setChartField4] = useState([]);
     const [category, setCategory] = useState('ALL');
+    const [splitPage, setSplitPage] = useState('CPI');
     const [lastValue, setLastValue] = useState([]);
     const [lastValueTable, setLastValueTable] = useState([]);
     const categories = ['CPI', 'Foods', 'Energy', 'Commodities', 'Services'];
@@ -39,7 +40,7 @@ export default function FundarmentalPage({ swiperRef }) {
         'Gasoline': 'orange',
         'Electricity': '#00FF99',
         'Natural Gas': 'tomato',
-        
+
         'Apparel': 'orange',
         'New Vehicles': '#00FF99',
         'Used Car': 'tomato',
@@ -48,10 +49,12 @@ export default function FundarmentalPage({ swiperRef }) {
         'Tobacco': '#FF66FF',
 
         'Shelter': 'orange',
-        'Medical Care Services' : 'forestgreen',
+        'Medical Care Services': 'forestgreen',
         'Motor Maintenance': 'tomato',
         'Motor Insurance': 'silver',
         'Airline Fare': 'cornflowerblue',
+
+        PPI: 'forestgreen',
 
     };
 
@@ -64,12 +67,12 @@ export default function FundarmentalPage({ swiperRef }) {
                 data: categoryData.data,
                 yAxis: 0,
                 name: categoryData.name,
-                type: key === categoryName ? 'spline' : 'column',
+                type: key === categoryName ? 'spline' : key === 'PPI' ? 'spline' : 'column',
                 stack: 'cpi',
                 stacking: 'normal',
                 color: key === categoryName ? 'white' : colorMap[categoryData.name],
-                lineWidth: key === categoryName ? 2 : undefined,
-                zIndex: key === categoryName ? 5 : undefined,
+                lineWidth: key === categoryName || 'PPI' ? 2 : undefined,
+                zIndex: key === categoryName || 'PPI' ? 5 : undefined,
                 borderRadius: 1
             };
         });
@@ -124,9 +127,17 @@ export default function FundarmentalPage({ swiperRef }) {
         lastValueData('ALL')
     }
 
+    const handleSplitPage = (event, value) => {
+        if (value !== null) {
+            setSplitPage(value);
+        }
+    }
+
     const handleTgBtn = async (event, value) => {
         if (value !== null) {
             setCategory(value);
+
+
             lastValueData(value);
             let res;
             switch (value) {
@@ -213,48 +224,69 @@ export default function FundarmentalPage({ swiperRef }) {
                     <FundarmentalChart data={chartData} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
                 </div>
                 <Grid item container>
-                    <Grid item xs={1.6}>
-                        <ToggleButtonGroup
-                            color='info'
-                            orientation="vertical"
-                            exclusive
-                            size="small"
-                            value={category}
-                            onChange={handleTgBtn}
-                        >
-                            <StyledToggleButton fontSize={'10px'} value="ALL">ALL</StyledToggleButton>
-                            <StyledToggleButton fontSize={'10px'} value="Foods">Foods</StyledToggleButton>
-                            <StyledToggleButton fontSize={'10px'} value="Energy">Energy</StyledToggleButton>
-                            <StyledToggleButton fontSize={'10px'} value="Commodities">Commodities</StyledToggleButton>
-                            <StyledToggleButton fontSize={'10px'} value="Services">Services</StyledToggleButton>
-                        </ToggleButtonGroup>
-                    </Grid>
-                    <Grid item xs={0.9}>
-                        <ToggleButtonGroup
-                            color='info'
-                            orientation="vertical"
-                            exclusive
-                            size="small"
-                            disabled
-                        >
-                            <StyledToggleButton value="">
-                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.CPI) > 0 ? 'tomato' : 'aqua' }} > {lastValue.CPI} % </Typography>
-                            </StyledToggleButton>
-                            <StyledToggleButton value="">
-                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Foods) > 0 ? 'tomato' : 'aqua' }} > {lastValue.Foods} % </Typography>
-                            </StyledToggleButton>
-                            <StyledToggleButton value="">
-                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Energy) > 0 ? 'tomato' : 'aqua' }}> {lastValue.Energy} % </Typography>
-                            </StyledToggleButton>
-                            <StyledToggleButton value="">
-                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Commodities) > 0 ? 'tomato' : 'aqua' }}> {lastValue.Commodities} % </Typography>
-                            </StyledToggleButton>
-                            <StyledToggleButton value="">
-                                <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Services) > 0 ? 'tomato' : 'aqua' }} > {lastValue.Services} % </Typography>
-                            </StyledToggleButton>
+                    <Grid item xs={2.5}>
+                        <Grid item container>
+                            <ToggleButtonGroup
+                                color='info'
+                                exclusive
+                                size="small"
+                                value={splitPage}
+                                onChange={handleSplitPage}
+                                sx={{ pl: 1.3 }}
+                            >
+                                <StyledToggleButton fontSize={'10px'} value="CPI">CPI Page</StyledToggleButton>
+                                <StyledToggleButton fontSize={'10px'} value="PPI">PPI Page</StyledToggleButton>
+                            </ToggleButtonGroup>
+                        </Grid>
+                        <Grid item container sx={{ mt: 2 }}>
+                            <Grid item xs={7}>
+                                <ToggleButtonGroup
+                                    color='info'
+                                    orientation="vertical"
+                                    exclusive
+                                    size="small"
+                                    value={category}
+                                    onChange={handleTgBtn}
+                                >
+                                    <StyledToggleButton fontSize={'10px'} value="ALL">ALL</StyledToggleButton>
+                                    <StyledToggleButton fontSize={'10px'} value="Foods">Foods</StyledToggleButton>
+                                    <StyledToggleButton fontSize={'10px'} value="Energy">Energy</StyledToggleButton>
+                                    <StyledToggleButton fontSize={'10px'} value="Commodities">Commodities</StyledToggleButton>
+                                    <StyledToggleButton fontSize={'10px'} value="Services">Services</StyledToggleButton>
+                                    <StyledToggleButton fontSize={'10px'} value="PPI">PPI</StyledToggleButton>
+                                </ToggleButtonGroup>
 
-                        </ToggleButtonGroup>
+
+                            </Grid>
+                            <Grid item xs={5}>
+                                <ToggleButtonGroup
+                                    color='info'
+                                    orientation="vertical"
+                                    exclusive
+                                    size="small"
+                                    disabled
+                                >
+                                    <StyledToggleButton value="">
+                                        <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.CPI) > 0 ? 'tomato' : 'aqua' }} > {lastValue.CPI} % </Typography>
+                                    </StyledToggleButton>
+                                    <StyledToggleButton value="">
+                                        <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Foods) > 0 ? 'tomato' : 'aqua' }} > {lastValue.Foods} % </Typography>
+                                    </StyledToggleButton>
+                                    <StyledToggleButton value="">
+                                        <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Energy) > 0 ? 'tomato' : 'aqua' }}> {lastValue.Energy} % </Typography>
+                                    </StyledToggleButton>
+                                    <StyledToggleButton value="">
+                                        <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Commodities) > 0 ? 'tomato' : 'aqua' }}> {lastValue.Commodities} % </Typography>
+                                    </StyledToggleButton>
+                                    <StyledToggleButton value="">
+                                        <Typography sx={{ ...lastValueStyle, color: parseFloat(lastValue.Services) > 0 ? 'tomato' : 'aqua' }} > {lastValue.Services} % </Typography>
+                                    </StyledToggleButton>
+
+                                </ToggleButtonGroup>
+                            </Grid>
+                        </Grid>
                     </Grid>
+
 
                     <Grid item xs={9.3}>
                         {
@@ -268,38 +300,49 @@ export default function FundarmentalPage({ swiperRef }) {
             </Grid>
 
             <Grid item container xs={6.5} spacing={2}>
-                <Grid item xs={6}>
-                    <Box sx={{ ...boxStyle, backgroundColor: `${colorMap['Foods']}` }}>
+                {/* <ContentsComponent splitPage={splitPage} /> */}
+                {
+                    splitPage === 'PPI' ?
                         <Grid item container>
-                            <Typography sx={{ ...boxFontStyle, color: '#404040' }} >Foods</Typography>
+                            PPI
                         </Grid>
-                    </Box>
-                    <FundarmentalChart data={chartField1} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
-                </Grid>
-                <Grid item xs={6}>
-                    <Box sx={{ ...boxStyleEnergy, backgroundColor: `${colorMap['Energy']}` }}>
+                        :
+                        // CPI Detail Charts
                         <Grid item container>
-                            <Typography sx={{ ...boxFontStyle, color: '#404040' }}>Energy</Typography>
+                            <Grid item xs={6}>
+                                <Box sx={{ ...boxStyle, backgroundColor: `${colorMap['Foods']}` }}>
+                                    <Grid item container>
+                                        <Typography sx={{ ...boxFontStyle, color: '#404040' }} >Foods</Typography>
+                                    </Grid>
+                                </Box>
+                                <FundarmentalChart data={chartField1} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Box sx={{ ...boxStyleEnergy, backgroundColor: `${colorMap['Energy']}` }}>
+                                    <Grid item container>
+                                        <Typography sx={{ ...boxFontStyle, color: '#404040' }}>Energy</Typography>
+                                    </Grid>
+                                </Box>
+                                <FundarmentalChart data={chartField2} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Box sx={{ ...boxStyle, backgroundColor: `${colorMap['Commodities']}` }}>
+                                    <Grid item container>
+                                        <Typography sx={boxFontStyle}>Commodities</Typography>
+                                    </Grid>
+                                </Box>
+                                <FundarmentalChart data={chartField3} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Box sx={{ ...boxStyle, backgroundColor: `${colorMap['Services']}` }}>
+                                    <Grid item container>
+                                        <Typography sx={boxFontStyle}>Services</Typography>
+                                    </Grid>
+                                </Box>
+                                <FundarmentalChart data={chartField4} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
+                            </Grid>
                         </Grid>
-                    </Box>
-                    <FundarmentalChart data={chartField2} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
-                </Grid>
-                <Grid item xs={6}>
-                    <Box sx={{ ...boxStyle, backgroundColor: `${colorMap['Commodities']}` }}>
-                        <Grid item container>
-                            <Typography sx={boxFontStyle}>Commodities</Typography>
-                        </Grid>
-                    </Box>
-                    <FundarmentalChart data={chartField3} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
-                </Grid>
-                <Grid item xs={6}>
-                    <Box sx={{ ...boxStyle, backgroundColor: `${colorMap['Services']}` }}>
-                        <Grid item container>
-                            <Typography sx={boxFontStyle}>Services</Typography>
-                        </Grid>
-                    </Box>
-                    <FundarmentalChart data={chartField4} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
-                </Grid>
+                }
             </Grid>
         </Grid>
     )
@@ -423,3 +466,27 @@ const DataTable = ({ data, categoriseColorMap, swiperRef, onCategory }) => {
         </Grid>
     );
 };
+
+const ContentsComponent = ({ splitPage }) => {
+    switch (splitPage) {
+        case 'PPI':
+            return <PPI />;
+
+        default:
+            return <CPI />
+    }
+}
+
+const CPI = ({ }) => {
+
+    return (
+        <Grid container></Grid>
+    )
+}
+
+const PPI = ({ }) => {
+
+    return (
+        <Grid container></Grid>
+    )
+}

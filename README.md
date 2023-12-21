@@ -6,6 +6,12 @@
 - util/useInterval.jsx 테스트
   - 모델링페이지 동작여부 확인
 
+### 2023.12.21
+{master}
+- Commit.1
+  - fundarmental Page PPI 추가중
+  - sectorSearchPage getData 코드 호출부분 수정
+
 ### 2023.12.20
 {master}
 - Commit.2
