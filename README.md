@@ -11,6 +11,8 @@
 - Commit.1
   - fundarmental Page PPI 추가중
   - sectorSearchPage getData 코드 호출부분 수정
+- Commit.2
+  - fundarmental Page PPI 추가
 
 ### 2023.12.20
 {master}

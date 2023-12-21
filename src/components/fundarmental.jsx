@@ -54,13 +54,14 @@ export default function FundarmentalPage({ swiperRef }) {
         'Motor Insurance': 'silver',
         'Airline Fare': 'cornflowerblue',
 
-        PPI: 'forestgreen',
+        PPI: 'red',
+        // PPI: 'forestgreen',
 
     };
 
     // API
     const prepareChartData = async (categoryName, colorMap) => {
-        const response = await axios.get(`${API}/fundamental/CPI?name=${categoryName}`);
+        const response = await axios.get(`${API}/fundamental/blsGov?name=${categoryName}`);
         return Object.keys(response.data).map(key => {
             const categoryData = response.data[key];
             return {
@@ -136,8 +137,6 @@ export default function FundarmentalPage({ swiperRef }) {
     const handleTgBtn = async (event, value) => {
         if (value !== null) {
             setCategory(value);
-
-
             lastValueData(value);
             let res;
             switch (value) {
@@ -253,7 +252,6 @@ export default function FundarmentalPage({ swiperRef }) {
                                     <StyledToggleButton fontSize={'10px'} value="Energy">Energy</StyledToggleButton>
                                     <StyledToggleButton fontSize={'10px'} value="Commodities">Commodities</StyledToggleButton>
                                     <StyledToggleButton fontSize={'10px'} value="Services">Services</StyledToggleButton>
-                                    <StyledToggleButton fontSize={'10px'} value="PPI">PPI</StyledToggleButton>
                                 </ToggleButtonGroup>
 
 
@@ -300,11 +298,10 @@ export default function FundarmentalPage({ swiperRef }) {
             </Grid>
 
             <Grid item container xs={6.5} spacing={2}>
-                {/* <ContentsComponent splitPage={splitPage} /> */}
                 {
                     splitPage === 'PPI' ?
                         <Grid item container>
-                            PPI
+                            <ContentsComponent splitPage={splitPage} prepareChartData={prepareChartData} colorMap={colorMap} />
                         </Grid>
                         :
                         // CPI Detail Charts
@@ -467,26 +464,120 @@ const DataTable = ({ data, categoriseColorMap, swiperRef, onCategory }) => {
     );
 };
 
-const ContentsComponent = ({ splitPage }) => {
+const ContentsComponent = ({ splitPage, prepareChartData, colorMap }) => {
     switch (splitPage) {
         case 'PPI':
-            return <PPI />;
+            return <PPI prepareChartData={prepareChartData} />;
 
-        default:
-            return <CPI />
+        // default:
+        //     return <CPI prepareChartData={prepareChartData} colorMap={colorMap} />
     }
 }
 
-const CPI = ({ }) => {
+const CPI = ({ prepareChartData, colorMap }) => {
+    const [chartField1, setChartField1] = useState([]);
+    const [chartField2, setChartField2] = useState([]);
+    const [chartField3, setChartField3] = useState([]);
+    const [chartField4, setChartField4] = useState([]);
+    const categories = ['Foods', 'Energy', 'Commodities', 'Services'];
 
+    const fetchData = async () => {
+        const chartDataPromises = categories.map(category =>
+            prepareChartData(category, colorMap)
+        );
+
+        const [chartDataFoods, chartDataEnergy, chartDataCommodities, chartDataServices] = await Promise.all(chartDataPromises);
+
+        setChartField1(chartDataFoods);
+        setChartField2(chartDataEnergy);
+        setChartField3(chartDataCommodities);
+        setChartField4(chartDataServices);
+    }
+    useEffect(() => { fetchData() }, [])
     return (
-        <Grid container></Grid>
+        <Grid container>
+
+            <Grid item xs={6}>
+                <Box sx={{ ...boxStyle, backgroundColor: `${colorMap['Foods']}` }}>
+                    <Grid item container>
+                        <Typography sx={{ ...boxFontStyle, color: '#404040' }} >Foods</Typography>
+                    </Grid>
+                </Box>
+                <FundarmentalChart data={chartField1} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
+            </Grid>
+            <Grid item xs={6}>
+                <Box sx={{ ...boxStyleEnergy, backgroundColor: `${colorMap['Energy']}` }}>
+                    <Grid item container>
+                        <Typography sx={{ ...boxFontStyle, color: '#404040' }}>Energy</Typography>
+                    </Grid>
+                </Box>
+                <FundarmentalChart data={chartField2} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
+            </Grid>
+            <Grid item xs={6}>
+                <Box sx={{ ...boxStyle, backgroundColor: `${colorMap['Commodities']}` }}>
+                    <Grid item container>
+                        <Typography sx={boxFontStyle}>Commodities</Typography>
+                    </Grid>
+                </Box>
+                <FundarmentalChart data={chartField3} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
+            </Grid>
+            <Grid item xs={6}>
+                <Box sx={{ ...boxStyle, backgroundColor: `${colorMap['Services']}` }}>
+                    <Grid item container>
+                        <Typography sx={boxFontStyle}>Services</Typography>
+                    </Grid>
+                </Box>
+                <FundarmentalChart data={chartField4} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
+            </Grid>
+
+        </Grid>
     )
 }
 
-const PPI = ({ }) => {
+const PPI = ({ prepareChartData }) => {
+    const [chartData1, setChartData1] = useState([]);
+    const [chartData2, setChartData2] = useState([]);
+    const categories = ['PPI1', 'PPI2'];
+    const colorMap = {
+        'Mining': 'orange',
+        'Utilities': 'tomato',
+        'Construction': '#00FF99',
+        'Manufacturing': 'mediumseagreen',
+        'Durable Manufacturing': 'dodgerblue',
+        'Nondurable Manufacturing': 'silver',
+        //  '#FF66FF' 
+
+        'Agriculture': 'orange',
+        'Trade': 'tomato',
+        'Transportation and warehousing': '#00FF99',
+        'Information': 'mediumseagreen',
+        'Finance, insurance, and real estate': 'silver',
+        'Services': 'dodgerblue',
+    }
+    const fetchData = async () => {
+        const chartDataPromises = categories.map(category =>
+            prepareChartData(category, colorMap)
+        );
+
+        const [data1, data2] = await Promise.all(chartDataPromises);
+
+        setChartData1(data1);
+        setChartData2(data2);
+
+    }
+    useEffect(() => { fetchData() }, [])
 
     return (
-        <Grid container></Grid>
+        <Grid container>
+            <Grid item xs={6}>
+                <FundarmentalChart data={chartData1} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
+            </Grid>
+            <Grid item xs={6}>
+                <FundarmentalChart data={chartData2} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
+            </Grid>
+            <Grid item xs={12} container direction="column" alignItems="right" sx={{ height: '60%' }}>
+                <Typography sx={{ textAlign: 'end', fontSize: '12px', color: '#efe9e9ed' }}>Period : Annual</Typography>
+            </Grid>
+        </Grid>
     )
 }
