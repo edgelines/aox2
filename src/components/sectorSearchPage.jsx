@@ -305,7 +305,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Searc
         }, delay * 1000);
 
         return () => clearTimeout(timeoutId);
-    }, [dispatch])
+    }, [])
 
     useEffect(() => {
 
