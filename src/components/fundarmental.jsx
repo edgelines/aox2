@@ -5,6 +5,7 @@ import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { StyledToggleButton, DataTableStyleDefault } from './util/util';
 import FundarmentalChart from './util/FundarmentalChart';
+import FundarmentalChartBar from './util/FundarmentalChartBar';
 import { API } from './util/config';
 
 
@@ -489,6 +490,8 @@ const PPI = ({ prepareChartData }) => {
     const [chartData1, setChartData1] = useState([]);
     const [chartData2, setChartData2] = useState([]);
     const [chartData3, setChartData3] = useState([]);
+    const [chartData4, setChartData4] = useState([]);
+
     const categories = ['PPI', 'TFP1', 'TFP2'];
     const colorMap = {
         CPI: 'red',
@@ -507,6 +510,42 @@ const PPI = ({ prepareChartData }) => {
         'Finance, insurance, and real estate': 'silver',
         'Services': 'dodgerblue',
     }
+
+    const getTFP = async () => {
+        const mappingTitle = {
+            TFP: { name: 'Total Factor Productivity', color: 'orange' },
+            CombinedInputs: { name: 'Combined Inputs', color: 'lightblue' },
+            Output: { name: 'Output', color: 'tomato' }
+        }
+        const test = 'http://cycleofnature.iptime.org:2440/api'
+        const res = await axios.get(`${test}/test/TFP`);
+        // const res = await axios.get(`${API}/fundamental/TFP`);
+        return Object.keys(res.data).map(key => {
+            const categoryData = res.data[key];
+            let marker;
+            if (key === 'Output') {
+                marker = {
+                    enabled: true,
+                    radius: 4,
+                    symbol: 'circle',
+                }
+            }
+            return {
+                data: categoryData.data,
+                type: categoryData.type,
+                name: mappingTitle[key]['name'],
+                color: mappingTitle[key]['color'],
+                yAxis: 0,
+                stack: 'cpi',
+                stacking: 'normal',
+                marker: marker ? marker : undefined,
+                lineWidth: 0,
+                borderRadius: 1,
+                borderWidth: 0
+            }
+        })
+    }
+
     const fetchData = async () => {
         const chartDataPromises = categories.map(category =>
             prepareChartData(category, colorMap)
@@ -516,7 +555,12 @@ const PPI = ({ prepareChartData }) => {
         setChartData1(data1);
         setChartData2(data2);
         setChartData3(data3);
-        console.log(data1);
+
+        const barData = [];
+        barData.push(getTFP())
+        const res = await Promise.all(barData);
+
+        setChartData4(res[0]);
     }
     useEffect(() => { fetchData() }, [])
 
@@ -530,6 +574,7 @@ const PPI = ({ prepareChartData }) => {
 
             <Grid item container xs={6.5}>
                 <Grid item xs={6}>
+                    <FundarmentalChartBar data={chartData4} height={600} />
                 </Grid>
                 <Grid item xs={6}>
                     <FundarmentalChart data={chartData2} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />

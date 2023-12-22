@@ -75,6 +75,7 @@ export default function Chart({ data = [], height, name, hidenLegend, rangeSelec
                         return `${this.value}%`;
                     },
                 },
+                plotLines: [{ color: '#ccc', width: 2, value: 0, zIndex: 5, }]
             }]
         }
         setChartOptions({

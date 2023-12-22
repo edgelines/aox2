@@ -3,13 +3,14 @@
     - npm run dev: "webpack --config webpack.dev.js",
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
-- util/useInterval.jsx 테스트
-  - 모델링페이지 동작여부 확인
+
 
 ### 2023.12.22
 {master}
 - Commit.1
   - fundarmanetal Page 재작업 ( CPI, PPI 페이지 구분)
+- Commit.2
+  - T.F.P Chart
 
 ### 2023.12.21
 {master}
