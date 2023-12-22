@@ -407,7 +407,7 @@ const CPI = ({ swiperRef, prepareChartData, prepareChartDataDetail }) => {
         <Grid container spacing={1} >
             <Grid item container xs={5.5}>
                 <div style={{ width: '100%' }}>
-                    <FundarmentalChart data={chartData} height={450} name={'CPI'} rangeSelector={5} creditsPositionX={1} />
+                    <FundarmentalChart data={chartData} height={450} name={'CPI'} rangeSelector={6} creditsPositionX={1} />
                 </div>
                 <Grid item container>
                     <Grid item xs={2.5}>
@@ -594,7 +594,7 @@ const PPI = ({ prepareChartData }) => {
         <Grid container>
             <Grid item container xs={5.5}>
                 <div style={{ width: '100%' }}>
-                    <FundarmentalChart data={chartData1} height={450} name={'CPI'} rangeSelector={5} creditsPositionX={1} />
+                    <FundarmentalChart data={chartData1} height={450} name={'CPI'} rangeSelector={6} creditsPositionX={1} />
                 </div>
             </Grid>
 

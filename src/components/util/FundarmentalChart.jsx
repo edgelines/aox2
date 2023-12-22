@@ -15,7 +15,7 @@ export default function Chart({ data = [], height, name, hidenLegend, rangeSelec
             buttons: [
                 { type: "year", count: 1, text: "1Y", title: "View 1 Year" }, { type: "year", count: 2, text: "2Y", title: "View 2 Year" }, { type: "year", count: 3, text: "3Y", title: "View 3 Year" },
                 { type: "year", count: 4, text: "4Y", title: "View 4 Year" }, { type: "year", count: 5, text: "5Y", title: "View 5 Year" }, { type: "year", count: 8, text: "8Y", title: "View 8 Year" },
-                { type: "all", text: "All", title: "View All" },],
+                { type: "year", count: 10, text: "10Y", title: "View 10 Year" }, { type: "all", text: "All", title: "View All" },],
         },
         chart: { animation: false, height: height, backgroundColor: 'rgba(255, 255, 255, 0)', },
         credits: credit ? { enabled: true, text: credit, style: { fontSize: '0.8em' }, position: { verticalAlign: "top", x: creditsPositionX ? creditsPositionX : -12, y: creditsPositionY ? creditsPositionY : 40, align: 'right' } } : { enabled: false }, title: { text: null },
