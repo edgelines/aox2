@@ -11,12 +11,36 @@ import { API } from './util/config';
 
 export default function FundarmentalPage({ swiperRef }) {
     const [page, setPage] = useState('CPI');
-
+    const [CPInextReleaseDate, setCPI_NextReleaseDate] = useState();
+    const [PPInextReleaseDate, setPPI_NextReleaseDate] = useState();
     const handlePage = (event, value) => {
         if (value !== null) {
             setPage(value);
         }
     }
+
+    const formattedDate = (date) => {
+        const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'Asia/Seoul' };
+        const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
+        return formattedDate
+    }
+
+    const fetchData = async () => {
+        const res = await axios.get(`${API}/fundamental/nextReleaseDate`)
+        const date = new Date(res.data)
+        // const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'Asia/Seoul' };
+        // const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
+
+        setCPI_NextReleaseDate(formattedDate(date))
+        const PPIdate = date.setDate(date.getDate() + 1)
+
+        setPPI_NextReleaseDate(formattedDate(PPIdate))
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, [])
+
     return (
         <Grid container>
             <Grid item sx={{ pt: 1, pb: 1 }}>
@@ -32,7 +56,11 @@ export default function FundarmentalPage({ swiperRef }) {
                     <StyledToggleButton fontSize={'10px'} value="PPI">PPI Page</StyledToggleButton>
                 </ToggleButtonGroup>
             </Grid>
-
+            <Box sx={{ position: 'absolute', transform: 'translate(10px, 135px)', backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'start' }}>
+                <Typography>Next Release Date</Typography>
+                <Typography>CPI : {CPInextReleaseDate}</Typography>
+                <Typography>PPI : {PPInextReleaseDate}</Typography>
+            </Box>
             <ContentsComponent swiperRef={swiperRef} page={page} />
         </Grid>
     )
@@ -517,9 +545,7 @@ const PPI = ({ prepareChartData }) => {
             CombinedInputs: { name: 'Combined Inputs', color: 'lightblue' },
             Output: { name: 'Output', color: 'tomato' }
         }
-        const test = 'http://cycleofnature.iptime.org:2440/api'
-        const res = await axios.get(`${test}/test/TFP`);
-        // const res = await axios.get(`${API}/fundamental/TFP`);
+        const res = await axios.get(`${API}/fundamental/TFP`);
         return Object.keys(res.data).map(key => {
             const categoryData = res.data[key];
             let marker;
