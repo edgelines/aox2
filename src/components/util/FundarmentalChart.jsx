@@ -14,7 +14,7 @@ export default function Chart({ data = [], height, name, hidenLegend, rangeSelec
             selected: rangeSelector, inputDateFormat: "%Y-%m-%d", inputStyle: { color: "#efe9e9ed" }, labelStyle: { color: "#efe9e9ed" },
             buttons: [
                 { type: "year", count: 1, text: "1Y", title: "View 1 Year" }, { type: "year", count: 2, text: "2Y", title: "View 2 Year" }, { type: "year", count: 3, text: "3Y", title: "View 3 Year" },
-                { type: "year", count: 4, text: "4Y", title: "View 4 Year" }, { type: "year", count: 5, text: "5Y", title: "View 5 Year" },
+                { type: "year", count: 4, text: "4Y", title: "View 4 Year" }, { type: "year", count: 5, text: "5Y", title: "View 5 Year" }, { type: "year", count: 8, text: "8Y", title: "View 8 Year" },
                 { type: "all", text: "All", title: "View All" },],
         },
         chart: { animation: false, height: height, backgroundColor: 'rgba(255, 255, 255, 0)', },
