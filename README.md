@@ -6,6 +6,11 @@
 - util/useInterval.jsx 테스트
   - 모델링페이지 동작여부 확인
 
+### 2023.12.22
+{master}
+- Commit.1
+  - fundarmanetal Page 재작업 ( CPI, PPI 페이지 구분)
+
 ### 2023.12.21
 {master}
 - Commit.1

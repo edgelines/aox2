@@ -67,7 +67,6 @@ export default function Chart({ data = [], height, name, hidenLegend, rangeSelec
                 gridLineWidth: 0.2,
                 labels: {
                     align: 'left',
-                    // allowOverlap: true,
                     x: 6, y: 4,
                     style: {
                         color: '#efe9e9ed',
