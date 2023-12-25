@@ -28,6 +28,7 @@ import WeightAvgPage1 from './components/ELW/weightAvgPage1.jsx';
 import WeightAvgPage2 from './components/ELW/weightAvgPage2.jsx';
 import WeightAvgPage3 from './components/ELW/weightAvgPage3.jsx';
 import Fundarmental from './components/fundarmental';
+import HTS from './components/hts';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import "swiper/css";
 import "swiper/css/pagination";
@@ -247,7 +248,6 @@ function App() {
             rankRange: rankRange
         }
         const res = await axios.post(`${API}/industryChartData/getThemes`, postData)
-        // console.log(res.data);
         setSectorsChartData(res.data.origin);
         setFilteredChartData(res.data.industryGr);
         setSectorsRanksThemes(res.data.topThemes)
@@ -289,7 +289,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <SchedulePage swiperRef={swiperRef} />
+                    <HTS swiperRef={swiperRef} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -325,6 +325,10 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <OldAoxStockPage swiperRef={swiperRef} />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <HTS swiperRef={swiperRef} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >

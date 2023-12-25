@@ -96,44 +96,6 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
 
         setGroupDataMin({ series1: GroupDataMin.series1, series2: GroupDataMin.series2, categories: GroupDataMin.categories });
 
-        // await axios.get(`${myJSON}/kospi200GroupDayData`).then((res) => {
-        //     var Kospi200 = [], Kospi = [], Kosdaq = [], 그룹1 = [], 그룹2 = [], 그룹3 = [], 그룹4 = [], 그룹5 = [];
-        //     res.data.forEach((value, index, array) => {
-        //         Kospi200.push(value.코스피200 * 100)
-        //         Kospi.push(value.코스피 * 100)
-        //         Kosdaq.push(value.코스닥 * 100)
-        //         그룹1.push(value.그룹1)
-        //         그룹2.push(value.그룹2)
-        //         그룹3.push(value.그룹3)
-        //         그룹4.push(value.그룹4)
-        //         그룹5.push(value.그룹5)
-        //     })
-        //     const series1 = [{
-        //         data: 그룹1, name: '<span style="color : tomato;">삼성전자</span>', color: 'tomato', zIndex: 5, lineWidth: 1, marker: { radius: 1.2 }, yAxis: 0,
-        //     }, {
-        //         data: 그룹2, name: '<span style="color : #FCAB2F;">2위 ~ 15위</span>', color: '#FCAB2F', zIndex: 4, lineWidth: 1, marker: { radius: 1.2 }, yAxis: 0,
-        //     }, {
-        //         data: Kospi, name: '코스피', color: 'magenta', type: 'line', zIndex: 1, lineWidth: 1, marker: { radius: 1.2 }, dashStyle: 'ShortDash', yAxis: 1,
-        //     }, {
-        //         data: Kosdaq, name: '코스닥', color: 'greenyellow', type: 'line', zIndex: 1, lineWidth: 1, marker: { radius: 1.2 }, dashStyle: 'ShortDash', yAxis: 1,
-        //     }]
-        //     const series2 = [
-        //         {
-        //             data: 그룹3, name: '<span style="color : greenyellow;">16위 ~ 50위</span>', color: 'greenyellow', zIndex: 3, lineWidth: 1, marker: { radius: 1.2 },
-        //         }, {
-        //             data: 그룹4, name: '<span style="color : dodgerblue;">51위 ~ 100위</span>', color: 'dodgerblue', zIndex: 2, lineWidth: 1, marker: { radius: 1.2 },
-        //         }, {
-        //             data: 그룹5, name: '<span style="color : #62FFF6;">101위 ~ 200위', color: '#62FFF6', zIndex: 1, lineWidth: 1, marker: { radius: 1.2 },
-        //         }, {
-        //             data: Kospi, name: '코스피', color: 'magenta', type: 'line', zIndex: 1, lineWidth: 1, marker: { radius: 1.2 }, dashStyle: 'ShortDash', yAxis: 1, visible: false
-        //         }, {
-        //             data: Kospi200, name: '코스피200', color: '#efe9e9ed', type: 'line', zIndex: 1, lineWidth: 1, marker: { radius: 1.2 }, dashStyle: 'ShortDash', yAxis: 1
-        //         }]
-        //     const categories = ['B-5', 'B-4', 'B-3', 'B-2', 'B-1', '09:02', '09:05', '09:07', '09:10', '09:15', '09:20', '09:25', '09:30', '09:35', '09:40', '09:45', '09:50', '09:55', '10:00', '10:05', '10:10', '10:15', '10:20', '10:25', '10:30', '10:35', '10:40', '10:45', '10:50', '10:55', '11:00', '11:05', '11:10', '11:15', '11:20', '11:25', '11:30', '11:35', '11:40', '11:45', '11:50', '11:55', '12:00', '12:05', '12:10', '12:15', '12:20', '12:25', '12:30', '12:35', '12:40', '12:45', '12:50', '12:55', '13:00', '13:05', '13:10', '13:15', '13:20', '13:25', '13:30', '13:35', '13:40', '13:45', '13:50', '13:55', '14:00', '14:05', '14:10', '14:15', '14:20', '14:25', '14:30', '14:35', '14:40', '14:45', '14:50', '14:55', '15:00', '15:05', '15:10', '15:15', '15:20', '15:25', '15:30'];
-
-        // })
-
-
     };
 
     const setDate = () => {
