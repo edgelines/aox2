@@ -73,7 +73,7 @@ export default function FundarmentalPage({ swiperRef }) {
                     <DataTable swiperRef={swiperRef} data={기관} />
                 </Grid>
                 <Grid item xs={4}>
-                    <StyledTypography>투신계</StyledTypography>
+                    <StyledTypography>투신</StyledTypography>
                     <DataTable swiperRef={swiperRef} data={투신} />
                 </Grid>
             </Grid>
@@ -203,7 +203,7 @@ const DataTable = ({ swiperRef, data }) => {
     });
 
     return (
-        <Grid container sx={{ height: 450, width: "100%" }}
+        <Grid container sx={{ height: 430, width: "100%" }}
             onMouseEnter={() => swiperRef.current.mousewheel.disable()}
             onMouseLeave={() => swiperRef.current.mousewheel.enable()}
         >
