@@ -7,8 +7,7 @@ import styledComponents from 'styled-components';
 import { StyledToggleButton, DataTableStyleDefault } from './util/util';
 import { API } from './util/config';
 
-
-export default function HtsPage({ swiperRef }) {
+export default function HtsPage2({ swiperRef }) {
     const [page, setPage] = useState('kosdaq');
 
     const [data1, setData1] = useState([]);
@@ -26,11 +25,11 @@ export default function HtsPage({ swiperRef }) {
     const fetchData = async (page) => {
 
         try {
-            const res = await axios.get(`${API}/hts/trends?name=${page}`);
+            const res = await axios.get(`${API}/hts/trends?name=${page}&page=1`);
             setData1(res.data.df1);
             setData2(res.data.df2);
-            setData3(res.data.df4);
-            setData4(res.data.df3);
+            setData3(res.data.df3);
+            setData4(res.data.df4);
             setData5(res.data.industry);
             setData6(res.data.themes);
 
@@ -81,13 +80,6 @@ export default function HtsPage({ swiperRef }) {
         {
             field: '종목명', headerName: '종목명', width: 80,
             align: 'left', headerAlign: 'center',
-            // renderCell: (params) => {
-            //     return (
-            //         <span style={{ textAlign: 'left', lineHeight: 'normal', whiteSpace: 'normal' }}>
-            //             {params.value}
-            //         </span>
-            //     );
-            // }
         }, {
             field: '시가총액', headerName: '시총(억)', width: 60,
             align: 'right', headerAlign: 'center',
@@ -109,32 +101,28 @@ export default function HtsPage({ swiperRef }) {
     const columns_data1 = [
         ...columns,
         {
-            field: '외국인', headerName: '외국계', width: 45,
+            field: '보험기타금융', headerName: '보험', width: 45,
             align: 'right', headerAlign: 'center',
             renderCell: (params) => renderProgress(params)
         }
     ]
     const columns_data2 = [...columns,
     {
-        field: '기관계', headerName: '기관계', width: 45,
+        field: '연기금', headerName: '연기금', width: 45,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderProgress(params)
     },
     ]
     const columns_data3 = [...columns,
     {
-        field: '외국인', headerName: '외국계', width: 45,
+        field: '은행', headerName: '은행', width: 45,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderProgress(params)
-    }, {
-        field: '기관계', headerName: '기관계', width: 45,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderProgress(params)
-    },
+    }
     ]
     const columns_data4 = [...columns,
     {
-        field: '투신', headerName: '투신', width: 45,
+        field: '개인', headerName: '개인', width: 45,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderProgress(params)
     },
@@ -157,19 +145,19 @@ export default function HtsPage({ swiperRef }) {
 
             <Grid item container spacing={1}>
                 <Grid item xs={2.1}>
-                    <StyledTypography>외국계</StyledTypography>
+                    <StyledTypography>보험, 기타금융</StyledTypography>
                     <DataTable swiperRef={swiperRef} data={data1} columns={columns_data1} />
                 </Grid>
                 <Grid item xs={2.1}>
-                    <StyledTypography>기관계</StyledTypography>
+                    <StyledTypography>연기금</StyledTypography>
                     <DataTable swiperRef={swiperRef} data={data2} columns={columns_data2} />
                 </Grid>
                 <Grid item xs={2.4}>
-                    <StyledTypography>외국계 & 기관계 합산 상위</StyledTypography>
+                    <StyledTypography>은행</StyledTypography>
                     <DataTable swiperRef={swiperRef} data={data3} columns={columns_data3} />
                 </Grid>
                 <Grid item xs={2.1}>
-                    <StyledTypography>투신</StyledTypography>
+                    <StyledTypography>개인</StyledTypography>
                     <DataTable swiperRef={swiperRef} data={data4} columns={columns_data4} />
                 </Grid>
                 <Grid item xs={0.2}></Grid>
