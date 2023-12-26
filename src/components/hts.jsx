@@ -159,7 +159,7 @@ const DataTable = ({ swiperRef, data }) => {
                 return `${params.value.toLocaleString('kr')}`;
             },
         }, {
-            field: '등락율', headerName: '등락', width: 45,
+            field: '등락률', headerName: '등락', width: 45,
             align: 'right', headerAlign: 'center',
             renderCell: (params) => renderProgress(params)
         }, {
@@ -208,8 +208,8 @@ const DataTable = ({ swiperRef, data }) => {
         }
 
         return (
-            <div style={{ color: color }}> {`${params.value}`} </div>
-            // <div style={{ color: color }}> {`${params.value.toLocaleString('kr')}`} </div>
+            // <div style={{ color: color }}> {`${params.value}`} </div>
+            <div style={{ color: color }}> {`${params.value.toLocaleString('kr')}`} </div>
         );
     }
 
