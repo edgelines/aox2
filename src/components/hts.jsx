@@ -155,11 +155,11 @@ const DataTable = ({ swiperRef, data }) => {
                 if (params.value == null) {
                     return '';
                 }
-                return `${params.value}`;
-                // return `${params.value.toLocaleString('kr')}`;
+                // return `${params.value}`;
+                return `${params.value.toLocaleString('kr')}`;
             },
         }, {
-            field: '대비율', headerName: '등락', width: 45,
+            field: '등락율', headerName: '등락', width: 45,
             align: 'right', headerAlign: 'center',
             renderCell: (params) => renderProgress(params)
         }, {
@@ -208,8 +208,8 @@ const DataTable = ({ swiperRef, data }) => {
         }
 
         return (
-            <div style={{ color: color }}> {`${params.value}`} </div>
-            // <div style={{ color: color }}> {`${params.value.toLocaleString('kr')}`} </div>
+            // <div style={{ color: color }}> {`${params.value}`} </div>
+            <div style={{ color: color }}> {`${params.value.toLocaleString('kr')}`} </div>
         );
     }
 
