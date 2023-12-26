@@ -208,8 +208,8 @@ const DataTable = ({ swiperRef, data }) => {
         }
 
         return (
-            // <div style={{ color: color }}> {`${params.value}`} </div>
-            <div style={{ color: color }}> {`${params.value.toLocaleString('kr')}`} </div>
+            <div style={{ color: color }}> {`${params.value}`} </div>
+            // <div style={{ color: color }}> {`${params.value.toLocaleString('kr')}`} </div>
         );
     }
 
