@@ -97,7 +97,7 @@ export default function HtsPage2({ swiperRef }) {
             field: '종목명', headerName: '종목명', width: 80,
             align: 'left', headerAlign: 'center',
         }, {
-            field: '시가총액', headerName: '시총(억)', width: 60,
+            field: '시가총액', headerName: '시총(억)', width: 65,
             align: 'right', headerAlign: 'center',
             valueFormatter: (params) => {
                 if (params.value == null) {
