@@ -7,28 +7,43 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { StyledToggleButton } from './util/util';
-import { renderProgress, StyledTypography, TitleComponent, DataTable, DatePickerTheme } from './util/htsUtil';
-import { API, TEST } from './util/config';
+import { renderProgress, StyledTypography, TitleComponent, DataTable, DatePickerTheme, disablePastDatesAndWeekends } from './util/htsUtil';
+import { API } from './util/config';
 
 export default function HtsPage2({ swiperRef }) {
+    const today = new Date();
+    var year = today.getFullYear();
+    var month = ('0' + (today.getMonth() + 1)).slice(-2);
+    var day = ('0' + today.getDate()).slice(-2);
+    var dateString = year + '-' + month + '-' + day;
+
     const [page, setPage] = useState('kosdaq');
-
+    const [time, setTime] = useState(null);
+    const [date, setDate] = useState(dateString);
     const [data1, setData1] = useState([]);
-
     const [data4, setData4] = useState([]);
     const [data5, setData5] = useState([]);
     const [data6, setData6] = useState([]);
     const [statistics, setStatistics] = useState([]);
-    const today = new Date();
-    const handlePage = (event, value) => {
-        if (value !== null) { setPage(value); }
+
+    // Handler
+    const handlePage = (event, value) => { if (value !== null) { setPage(value); } }
+    const handleTime = (event, value) => { setTime(value); }
+    const handleDate = async (event) => {
+        const getDate = `${event.$y}-${event.$M + 1}-${event.$D}`
+        setDate(getDate)
     }
 
-    const fetchData = async (page) => {
-
+    const fetchData = async (page, date, time) => {
         try {
-            // const res = await axios.get(`${TEST}/trends?name=${page}&page=1`);
-            const res = await axios.get(`${API}/hts/trends?name=${page}&page=1`);
+            let res;
+            if (date && time) {
+                res = await axios.get(`${API}/hts/trends?name=${page}&page=1&date=${date}&time=${time}`);
+            } else if (date) {
+                res = await axios.get(`${API}/hts/trends?name=${page}&page=1&date=${date}`);
+            } else {
+                res = await axios.get(`${API}/hts/trends?name=${page}&page=1`);
+            }
             setData1(res.data.df1);
             setData4(res.data.df4);
             setData5(res.data.industry);
@@ -39,7 +54,7 @@ export default function HtsPage2({ swiperRef }) {
         }
     }
 
-    useEffect(() => { if (page) { fetchData(page); } }, [page])
+    useEffect(() => { if (page) { fetchData(page, date, time); } }, [page, date, time])
 
     // 5분 주기 업데이트
     useEffect(() => {
@@ -148,14 +163,31 @@ export default function HtsPage2({ swiperRef }) {
                         <StyledToggleButton fontSize={'10px'} value="kosdaq">Kosdaq</StyledToggleButton>
                     </ToggleButtonGroup>
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={1.5}>
                     <ThemeProvider theme={DatePickerTheme}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DemoContainer components={['DatePicker']}>
-                                <DatePicker label="Date picker" defaultValue={dayjs(today)} views={['year', 'month', 'day']} />
+                                <DatePicker label="Date picker" defaultValue={dayjs(today)} views={['year', 'month', 'day']}
+                                    onChange={handleDate} shouldDisableDate={disablePastDatesAndWeekends} />
                             </DemoContainer>
                         </LocalizationProvider>
                     </ThemeProvider>
+                </Grid>
+                <Grid item container xs={2} direction="row" alignItems="center">
+                    <ToggleButtonGroup
+                        color='info'
+                        exclusive
+                        size="small"
+                        value={time}
+                        onChange={handleTime}
+                        sx={{ pl: 1.3 }}
+                    >
+                        <StyledToggleButton fontSize={'10px'} value="9:30">9:30</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="10:00">10:00</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="11:20">11:20</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="13:20">13:20</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="14:30">14:30</StyledToggleButton>
+                    </ToggleButtonGroup>
                 </Grid>
             </Grid>
 

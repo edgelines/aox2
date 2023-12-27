@@ -407,7 +407,7 @@ const CPI = ({ swiperRef, prepareChartData, prepareChartDataDetail }) => {
         <Grid container spacing={1} >
             <Grid item container xs={5.5}>
                 <div style={{ width: '100%' }}>
-                    <FundarmentalChart data={chartData} height={450} name={'CPI'} rangeSelector={6} creditsPositionX={1} />
+                    <FundarmentalChart data={chartData} height={430} name={'CPI'} rangeSelector={6} creditsPositionX={1} />
                 </div>
                 <Grid item container>
                     <Grid item xs={2.5}>
@@ -481,7 +481,7 @@ const CPI = ({ swiperRef, prepareChartData, prepareChartDataDetail }) => {
                                 <Typography sx={{ ...boxFontStyle, color: '#404040' }} >Foods</Typography>
                             </Grid>
                         </Box>
-                        <FundarmentalChart data={chartField1} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
+                        <FundarmentalChart data={chartField1} height={430} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
                     </Grid>
                     <Grid item xs={6}>
                         <Box sx={{ ...boxStyleEnergy, backgroundColor: `${colorMap['Energy']}` }}>
@@ -489,7 +489,7 @@ const CPI = ({ swiperRef, prepareChartData, prepareChartDataDetail }) => {
                                 <Typography sx={{ ...boxFontStyle, color: '#404040' }}>Energy</Typography>
                             </Grid>
                         </Box>
-                        <FundarmentalChart data={chartField2} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
+                        <FundarmentalChart data={chartField2} height={430} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
                     </Grid>
                     <Grid item xs={6}>
                         <Box sx={{ ...boxStyle, backgroundColor: `${colorMap['Commodities']}` }}>
@@ -497,7 +497,7 @@ const CPI = ({ swiperRef, prepareChartData, prepareChartDataDetail }) => {
                                 <Typography sx={boxFontStyle}>Commodities</Typography>
                             </Grid>
                         </Box>
-                        <FundarmentalChart data={chartField3} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
+                        <FundarmentalChart data={chartField3} height={430} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
                     </Grid>
                     <Grid item xs={6}>
                         <Box sx={{ ...boxStyle, backgroundColor: `${colorMap['Services']}` }}>
@@ -505,7 +505,7 @@ const CPI = ({ swiperRef, prepareChartData, prepareChartDataDetail }) => {
                                 <Typography sx={boxFontStyle}>Services</Typography>
                             </Grid>
                         </Box>
-                        <FundarmentalChart data={chartField4} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
+                        <FundarmentalChart data={chartField4} height={430} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
                     </Grid>
                 </Grid>
 
@@ -594,7 +594,7 @@ const PPI = ({ prepareChartData }) => {
         <Grid container>
             <Grid item container xs={5.5}>
                 <div style={{ width: '100%' }}>
-                    <FundarmentalChart data={chartData1} height={450} name={'CPI'} rangeSelector={6} creditsPositionX={1} />
+                    <FundarmentalChart data={chartData1} height={430} name={'CPI'} rangeSelector={6} creditsPositionX={1} />
                 </div>
             </Grid>
 
@@ -603,8 +603,8 @@ const PPI = ({ prepareChartData }) => {
                     <FundarmentalChartBar data={chartData4} height={600} />
                 </Grid>
                 <Grid item xs={6}>
-                    <FundarmentalChart data={chartData2} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
-                    <FundarmentalChart data={chartData3} height={450} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
+                    <FundarmentalChart data={chartData2} height={430} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
+                    <FundarmentalChart data={chartData3} height={430} name={'CPI'} rangeSelector={4} creditsPositionX={1} />
                 </Grid>
                 <Grid item xs={12} container direction="column" alignItems="right" sx={{ height: '60%' }}>
                     <Typography sx={{ textAlign: 'end', fontSize: '12px', color: '#efe9e9ed' }}>Period : Annual</Typography>

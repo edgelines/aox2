@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
+import dayjs from 'dayjs';
 import { Grid, Box, Typography, ToggleButtonGroup, Skeleton, Table, TableBody, TableRow, TableCell, TableContainer } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styledComponents from 'styled-components';
-import { StyledToggleButton, DataTableStyleDefault } from './util';
+import { DataTableStyleDefault } from './util';
 
 
 export const renderProgress = (params) => {
@@ -149,3 +149,22 @@ export const DatePickerTheme = createTheme({
         }
     },
 })
+
+export function disablePastDatesAndWeekends(date) {
+    // 오늘 날짜 구하기
+    const today = dayjs().startOf('day'); // 'day'를 사용하여 시간을 00:00으로 설정
+    // 2023년 12월 25일 이전의 날짜 와 내일 이후 날짜 비활성화
+    const startDate = dayjs(new Date(2023, 11, 25));
+
+    if (date <= startDate || date > today) {
+        return true;
+    }
+
+    // 토요일(6)과 일요일(0) 비활성화
+    const day = date.day();
+    if (day === 0 || day === 6) {
+        return true;
+    }
+
+    return false;
+}

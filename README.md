@@ -9,7 +9,11 @@
 - Commit.1
   - HTS Page1 > Table Height 550
   - HTS Page2 > 보험+연기금+기타법인+은행
-  - 
+- Commit.2
+  - Fundarmental.jsx > Chart Height > 430
+  - sectorSearchPage > TreeMap Click-> Table Nan값 오류 처리
+- Commit.3
+  - HTS Page1,2 > Date API
 ### 2023.12.26
 {master}
 - Commit.1

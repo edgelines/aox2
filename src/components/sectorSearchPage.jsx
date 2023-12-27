@@ -240,9 +240,15 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Searc
     // Treemap에서 테마 클릭시 테마에 속한 종목들을 상위컴포넌트로 전달해주는 펑션
     const onThemeClick = (themeInStockData) => {
         const res = themeInStockData.map((item, index) => ({
-            ...item,
+            // ...item,
+            종목명: item.item,
+            등락률: item.changeRate,
+            전일대비거래량: item.volume,
+            종목코드: item.종목코드,
+            업종명: item.업종명,
             id: index,
         }));
+        console.log(res);
         const result = res.sort((a, b) => b.changeRate - a.changeRate);
         setFilteredCheckName({ key: '트리맵', name: result });
         setFilteredStockTable(result);
