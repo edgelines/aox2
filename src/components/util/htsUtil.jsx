@@ -10,7 +10,7 @@ import { DataTableStyleDefault } from './util';
 export const renderProgress = (params) => {
     let color;
     if (params.value > 0) {
-        color = 'tomato';  // 값이 증가했다면 빨간색
+        color = '#FCAB2F';  // 값이 증가했다면 빨간색
     }
 
     if (params.value == null) {
@@ -38,14 +38,14 @@ export const TitleComponent = ({ title, statistics }) => {
         <Grid container>
             {statistics ?
                 <>
-                    <Grid item xs={8}>
+                    <Grid item xs={6}>
                         <StyledTypography>{title}</StyledTypography>
                     </Grid>
-                    <Grid item container xs={4}
+                    <Grid item container xs={6}
                         direction="row"
                         justifyContent="center"
                     >
-                        <StyledTypography>{statistics.up} / {statistics.total}</StyledTypography>
+                        <StyledTypography>{statistics.up} / {statistics.total} ( {statistics.per} % , Av.{statistics.avg} %  )</StyledTypography>
                         {/* <Grid item xs={6}>
                         </Grid> */}
 

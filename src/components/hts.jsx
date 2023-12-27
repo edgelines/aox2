@@ -24,7 +24,7 @@ export default function HtsPage({ swiperRef }) {
     const [data1, setData1] = useState([]);
     const [data2, setData2] = useState([]);
     const [data3, setData3] = useState([]);
-    const [data4, setData4] = useState([]);
+
     const [data5, setData5] = useState([]);
     const [data6, setData6] = useState([]);
     const [statistics, setStatistics] = useState([]);
@@ -50,7 +50,6 @@ export default function HtsPage({ swiperRef }) {
             setData1(res.data.df1);
             setData2(res.data.df2);
             setData3(res.data.df3);
-            setData4(res.data.df4);
             setData5(res.data.industry);
             setData6(res.data.themes);
             setStatistics(res.data.statistics);
@@ -99,7 +98,7 @@ export default function HtsPage({ swiperRef }) {
 
     const columns = [
         {
-            field: '종목명', headerName: '종목명', width: 80,
+            field: '종목명', headerName: '종목명', width: 70,
             align: 'left', headerAlign: 'center',
         }, {
             field: '시가총액', headerName: '시총(억)', width: 65,
@@ -111,11 +110,15 @@ export default function HtsPage({ swiperRef }) {
                 return `${params.value.toLocaleString('kr')}`;
             },
         }, {
-            field: '대비율', headerName: '검색%', width: 45,
+            field: '대비율', headerName: '검색%', width: 40,
             align: 'right', headerAlign: 'center',
             renderCell: (params) => renderProgress(params)
         }, {
-            field: '등락률', headerName: '현재%', width: 45,
+            field: '등락률', headerName: '현재%', width: 40,
+            align: 'right', headerAlign: 'center',
+            renderCell: (params) => renderProgress(params)
+        }, {
+            field: '편차', headerName: '편차', width: 40,
             align: 'right', headerAlign: 'center',
             renderCell: (params) => renderProgress(params)
         }, {
@@ -136,22 +139,36 @@ export default function HtsPage({ swiperRef }) {
         field: '기관계', headerName: '기관계', width: 45,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderProgress(params)
-    },
+    }, {
+        field: '투신', headerName: '투신', width: 45,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderProgress(params)
+    }, {
+        field: '보험기타금융', headerName: '보험', width: 45,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderProgress(params)
+    }, {
+        field: '연기금', headerName: '연기금', width: 45,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderProgress(params)
+    }, {
+        field: '기타법인', headerName: '기타법인', width: 45,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderProgress(params)
+    }, {
+        field: '은행', headerName: '은행', width: 35,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderProgress(params)
+    }
     ]
-    const columns_data4 = [...columns,
+
+    const columns_data3 = [...columns,
     {
         field: '외국인', headerName: '외국계', width: 45,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderProgress(params)
     }, {
         field: '기관계', headerName: '기관계', width: 45,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderProgress(params)
-    },
-    ]
-    const columns_data3 = [...columns,
-    {
-        field: '투신', headerName: '투신', width: 45,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderProgress(params)
     },
@@ -201,20 +218,16 @@ export default function HtsPage({ swiperRef }) {
             </Grid>
 
             <Grid item container spacing={1}>
-                <Grid item xs={2.4}>
+                <Grid item xs={2.7}>
                     <TitleComponent title={'외국계'} statistics={statistics[0]} ></TitleComponent>
                     <DataTable swiperRef={swiperRef} data={data1} columns={columns_data1} height={550} />
                 </Grid>
-                <Grid item xs={2.4}>
-                    <TitleComponent title={'기관계'} statistics={statistics[1]} ></TitleComponent>
+                <Grid item xs={4.3}>
+                    <TitleComponent title={'기관계 (#투신)'} statistics={statistics[1]} ></TitleComponent>
                     <DataTable swiperRef={swiperRef} data={data2} columns={columns_data2} height={550} />
                 </Grid>
-                <Grid item xs={2.7}>
-                    <TitleComponent title={'외국계 & 기관계 합산 상위'} statistics={statistics[3]} ></TitleComponent>
-                    <DataTable swiperRef={swiperRef} data={data4} columns={columns_data4} height={550} />
-                </Grid>
-                <Grid item xs={2.4}>
-                    <TitleComponent title={'투신'} statistics={statistics[2]} ></TitleComponent>
+                <Grid item xs={3}>
+                    <TitleComponent title={'외국 기관 합산'} statistics={statistics[2]} ></TitleComponent>
                     <DataTable swiperRef={swiperRef} data={data3} columns={columns_data3} height={550} />
                 </Grid>
 
@@ -237,7 +250,7 @@ export default function HtsPage({ swiperRef }) {
                     </TableContainer>
                 </Grid>
 
-                <Grid item xs={1.1}>
+                <Grid item xs={1}>
                     <StyledTypography>테마</StyledTypography>
                     <TableContainer sx={{ height: 800 }}>
                         {data6 && data6.length > 0 ?

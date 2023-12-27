@@ -14,6 +14,10 @@
   - sectorSearchPage > TreeMap Click-> Table Nan값 오류 처리
 - Commit.3
   - HTS Page1,2 > Date API
+- Commit.4
+  - HTS Page2 Delet
+  - HTS Page1 Table Adjust
+
 ### 2023.12.26
 {master}
 - Commit.1

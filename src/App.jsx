@@ -29,7 +29,7 @@ import WeightAvgPage2 from './components/ELW/weightAvgPage2.jsx';
 import WeightAvgPage3 from './components/ELW/weightAvgPage3.jsx';
 import Fundarmental from './components/fundarmental';
 import HTS from './components/hts';
-import HTS2 from './components/hts2';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import "swiper/css";
 import "swiper/css/pagination";
@@ -290,7 +290,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <HTS2 swiperRef={swiperRef} />
+                    <HTS swiperRef={swiperRef} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -330,10 +330,6 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <HTS swiperRef={swiperRef} />
-                </SwiperSlide>
-
-                <SwiperSlide style={swiperSlideStyle} >
-                    <HTS2 swiperRef={swiperRef} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
