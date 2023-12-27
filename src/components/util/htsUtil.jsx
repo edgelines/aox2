@@ -38,10 +38,10 @@ export const TitleComponent = ({ title, statistics }) => {
         <Grid container>
             {statistics ?
                 <>
-                    <Grid item xs={7}>
+                    <Grid item xs={8}>
                         <StyledTypography>{title}</StyledTypography>
                     </Grid>
-                    <Grid item container xs={5}
+                    <Grid item container xs={4}
                         direction="row"
                         justifyContent="center"
                     >
@@ -57,36 +57,7 @@ export const TitleComponent = ({ title, statistics }) => {
     )
 }
 
-export const DataTable = ({ swiperRef, data, columns }) => {
-
-    // const columns = [
-    //       {
-    //         field: '보험기타금융', headerName: '보험기타금융', width: 45,
-    //         align: 'right', headerAlign: 'center',
-    //         renderCell: (params) => renderProgress(params)
-    //     }, {
-    //         field: '연기금', headerName: '연기금', width: 45,
-    //         align: 'right', headerAlign: 'center',
-    //         renderCell: (params) => renderProgress(params)
-    //     }, {
-    //         field: '은행', headerName: '은행', width: 45,
-    //         align: 'right', headerAlign: 'center',
-    //         renderCell: (params) => renderProgress(params)
-    //     }, {
-    //         field: '개인', headerName: '개인', width: 45,
-    //         align: 'right', headerAlign: 'center',
-    //         renderCell: (params) => renderProgress(params)
-    //     }, {
-    //         field: '국가지자체', headerName: '국가', width: 10,
-    //         align: 'right', headerAlign: 'center',
-    //         renderCell: (params) => renderProgress(params)
-    //     }
-
-    // ];
-
-
-
-
+export const DataTable = ({ swiperRef, data, columns, height }) => {
     const customTheme = createTheme({
         components: {
             MuiDataGrid: {
@@ -114,7 +85,7 @@ export const DataTable = ({ swiperRef, data, columns }) => {
     });
 
     return (
-        <Grid container sx={{ height: 800, width: "100%" }}
+        <Grid container sx={{ height: height ? height : 800, width: "100%" }}
             onMouseEnter={() => swiperRef.current.mousewheel.disable()}
             onMouseLeave={() => swiperRef.current.mousewheel.enable()}
         >

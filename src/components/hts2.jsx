@@ -8,14 +8,13 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { StyledToggleButton } from './util/util';
 import { renderProgress, StyledTypography, TitleComponent, DataTable, DatePickerTheme } from './util/htsUtil';
-import { API } from './util/config';
+import { API, TEST } from './util/config';
 
 export default function HtsPage2({ swiperRef }) {
     const [page, setPage] = useState('kosdaq');
 
     const [data1, setData1] = useState([]);
-    const [data2, setData2] = useState([]);
-    const [data3, setData3] = useState([]);
+
     const [data4, setData4] = useState([]);
     const [data5, setData5] = useState([]);
     const [data6, setData6] = useState([]);
@@ -28,10 +27,9 @@ export default function HtsPage2({ swiperRef }) {
     const fetchData = async (page) => {
 
         try {
-            const res = await axios.get(`${API}/hts/trends?name=${page}&page=1`);
+            const res = await axios.get(`${TEST}/trends?name=${page}&page=1`);
+            // const res = await axios.get(`${API}/hts/trends?name=${page}&page=1`);
             setData1(res.data.df1);
-            setData2(res.data.df2);
-            setData3(res.data.df3);
             setData4(res.data.df4);
             setData5(res.data.industry);
             setData6(res.data.themes);
@@ -112,25 +110,21 @@ export default function HtsPage2({ swiperRef }) {
             align: 'right', headerAlign: 'center',
             renderCell: (params) => renderProgress(params)
         }, {
-            field: '은행', headerName: '은행', width: 45,
+            field: '연기금', headerName: '연기금', width: 45,
+            align: 'right', headerAlign: 'center',
+            renderCell: (params) => renderProgress(params)
+        }, {
+            field: '기타법인', headerName: '기타법인', width: 45,
+            align: 'right', headerAlign: 'center',
+            renderCell: (params) => renderProgress(params)
+        }, {
+            field: '은행', headerName: '은행', width: 35,
             align: 'right', headerAlign: 'center',
             renderCell: (params) => renderProgress(params)
         }
     ]
-    const columns_data2 = [...columns,
-    {
-        field: '연기금', headerName: '연기금', width: 45,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderProgress(params)
-    },
-    ]
-    const columns_data3 = [...columns,
-    {
-        field: '기타법인', headerName: '기타법인', width: 45,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderProgress(params)
-    }
-    ]
+
+
     const columns_data4 = [...columns,
     {
         field: '개인', headerName: '개인', width: 45,
@@ -166,20 +160,13 @@ export default function HtsPage2({ swiperRef }) {
             </Grid>
 
             <Grid item container spacing={1}>
-                <Grid item xs={2.7}>
-                    <TitleComponent title={'보험, 기타금융 & 은행 합산 상위'} statistics={statistics[0]} ></TitleComponent>
+                <Grid item xs={3.3}>
+                    <TitleComponent title={'보험,기타금융,연기금,기타법인,은행 합산 상위'} statistics={statistics[0]} ></TitleComponent>
                     <DataTable swiperRef={swiperRef} data={data1} columns={columns_data1} />
                 </Grid>
+
                 <Grid item xs={2.4}>
-                    <TitleComponent title={'연기금'} statistics={statistics[1]} ></TitleComponent>
-                    <DataTable swiperRef={swiperRef} data={data2} columns={columns_data2} />
-                </Grid>
-                <Grid item xs={2.4}>
-                    <TitleComponent title={'기타법인'} statistics={statistics[2]} ></TitleComponent>
-                    <DataTable swiperRef={swiperRef} data={data3} columns={columns_data3} />
-                </Grid>
-                <Grid item xs={2.4}>
-                    <TitleComponent title={'개인'} statistics={statistics[3]} ></TitleComponent>
+                    <TitleComponent title={'개인'} statistics={statistics[1]} ></TitleComponent>
                     <DataTable swiperRef={swiperRef} data={data4} columns={columns_data4} />
                 </Grid>
                 <Grid item xs={1}>
