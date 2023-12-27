@@ -27,8 +27,8 @@ export default function HtsPage2({ swiperRef }) {
     const fetchData = async (page) => {
 
         try {
-            const res = await axios.get(`${TEST}/trends?name=${page}&page=1`);
-            // const res = await axios.get(`${API}/hts/trends?name=${page}&page=1`);
+            // const res = await axios.get(`${TEST}/trends?name=${page}&page=1`);
+            const res = await axios.get(`${API}/hts/trends?name=${page}&page=1`);
             setData1(res.data.df1);
             setData4(res.data.df4);
             setData5(res.data.industry);
