@@ -102,6 +102,7 @@ export const DataTable = ({ swiperRef, data, columns, height }) => {
                         '.MuiTablePagination-root': { color: '#efe9e9ed' },
                         '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', fontSize: '0px' },
                         '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
+                        '.MuiDataGrid-selectedRowCount': { fontSize: '0px' },
                         [`& .${gridClasses.cell}`]: {
                             py: 1,
                         },
