@@ -98,7 +98,7 @@ export default function HtsPage({ swiperRef }) {
 
     const columns = [
         {
-            field: '연속거래일', headerName: ' ', width: 20,
+            field: '연속거래일', headerName: ' ', width: 5,
             align: 'left', headerAlign: 'center',
         }, {
             field: '종목명', headerName: '종목명', width: 100,
