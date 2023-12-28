@@ -38,10 +38,10 @@ export const TitleComponent = ({ title, statistics }) => {
         <Grid container>
             {statistics ?
                 <>
-                    <Grid item xs={6}>
+                    <Grid item xs={5}>
                         <StyledTypography>{title}</StyledTypography>
                     </Grid>
-                    <Grid item container xs={6}
+                    <Grid item container xs={7}
                         direction="row"
                         justifyContent="center"
                     >
