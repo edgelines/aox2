@@ -219,15 +219,15 @@ export default function HtsPage({ swiperRef }) {
             <Grid item container spacing={1}>
                 <Grid item xs={2.7}>
                     <TitleComponent title={'외국계'} statistics={statistics[0]} ></TitleComponent>
-                    <DataTable swiperRef={swiperRef} data={data1} columns={columns_data1} height={550} />
+                    <DataTable swiperRef={swiperRef} data={data1} columns={columns_data1} height={520} />
                 </Grid>
                 <Grid item xs={4.3}>
                     <TitleComponent title={'기관계 (#투신)'} statistics={statistics[1]} ></TitleComponent>
-                    <DataTable swiperRef={swiperRef} data={data2} columns={columns_data2} height={550} />
+                    <DataTable swiperRef={swiperRef} data={data2} columns={columns_data2} height={520} />
                 </Grid>
                 <Grid item xs={3}>
                     <TitleComponent title={'외국 기관 합산'} statistics={statistics[2]} ></TitleComponent>
-                    <DataTable swiperRef={swiperRef} data={data3} columns={columns_data3} height={550} />
+                    <DataTable swiperRef={swiperRef} data={data3} columns={columns_data3} height={520} />
                 </Grid>
 
                 <Grid item xs={1}>
