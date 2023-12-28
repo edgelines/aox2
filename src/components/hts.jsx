@@ -29,6 +29,8 @@ export default function HtsPage({ swiperRef }) {
     const [data6, setData6] = useState([]);
     const [statistics, setStatistics] = useState([]);
 
+    const tableHeight = 520
+
     const handlePage = (event, value) => { if (value !== null) { setPage(value); } }
     const handleTime = (event, value) => { setTime(value); }
     const handleDate = async (event) => {
@@ -219,20 +221,20 @@ export default function HtsPage({ swiperRef }) {
             <Grid item container spacing={1}>
                 <Grid item xs={2.7}>
                     <TitleComponent title={'외국계'} statistics={statistics[0]} ></TitleComponent>
-                    <DataTable swiperRef={swiperRef} data={data1} columns={columns_data1} height={520} />
+                    <DataTable swiperRef={swiperRef} data={data1} columns={columns_data1} height={tableHeight} />
                 </Grid>
                 <Grid item xs={4.3}>
                     <TitleComponent title={'기관계 (#투신)'} statistics={statistics[1]} ></TitleComponent>
-                    <DataTable swiperRef={swiperRef} data={data2} columns={columns_data2} height={520} />
+                    <DataTable swiperRef={swiperRef} data={data2} columns={columns_data2} height={tableHeight} />
                 </Grid>
                 <Grid item xs={3}>
                     <TitleComponent title={'외국 기관 합산'} statistics={statistics[2]} ></TitleComponent>
-                    <DataTable swiperRef={swiperRef} data={data3} columns={columns_data3} height={520} />
+                    <DataTable swiperRef={swiperRef} data={data3} columns={columns_data3} height={tableHeight} />
                 </Grid>
 
                 <Grid item xs={1}>
                     <StyledTypography>업종</StyledTypography>
-                    <TableContainer sx={{ height: 800 }}>
+                    <TableContainer sx={{ height: tableHeight }}>
                         {data5 && data5.length > 0 ?
                             <Table size='small'>
                                 <TableBody>
@@ -251,7 +253,7 @@ export default function HtsPage({ swiperRef }) {
 
                 <Grid item xs={1}>
                     <StyledTypography>테마</StyledTypography>
-                    <TableContainer sx={{ height: 800 }}>
+                    <TableContainer sx={{ height: tableHeight }}>
                         {data6 && data6.length > 0 ?
                             <Table size='small'>
                                 <TableBody>
