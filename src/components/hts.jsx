@@ -67,7 +67,7 @@ export default function HtsPage({ swiperRef }) {
         const minutes = now.getMinutes();
         const seconds = now.getSeconds();
         let delay;
-        if (hour < 9 || (hour === 9 && minutes < 1)) {
+        if (hour < 9 || (hour === 9 && minutes < 31)) {
             delay = ((9 - hour - 1) * 60 + (61 - minutes)) * 60 - seconds;
         } else {
             // 이미 9시 1분 이후라면, 다음 5분 간격 시작까지 대기 (예: 9시 3분이라면 9시 6분까지 대기)
@@ -98,7 +98,7 @@ export default function HtsPage({ swiperRef }) {
 
     const columns = [
         {
-            field: '종목명', headerName: '종목명', width: 70,
+            field: '종목명', headerName: '종목명', width: 100,
             align: 'left', headerAlign: 'center',
         }, {
             field: '시가총액', headerName: '시총(억)', width: 65,
@@ -115,10 +115,6 @@ export default function HtsPage({ swiperRef }) {
             renderCell: (params) => renderProgress(params)
         }, {
             field: '등락률', headerName: '현재%', width: 40,
-            align: 'right', headerAlign: 'center',
-            renderCell: (params) => renderProgress(params)
-        }, {
-            field: '편차', headerName: '편차', width: 40,
             align: 'right', headerAlign: 'center',
             renderCell: (params) => renderProgress(params)
         }, {
