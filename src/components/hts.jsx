@@ -326,7 +326,10 @@ export default function HtsPage({ swiperRef }) {
 
                 <Grid item xs={1}>
                     <StyledTypography>업종</StyledTypography>
-                    <TableContainer sx={{ height: tableHeight }}>
+                    <TableContainer sx={{ height: tableHeight }}
+                        onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                        onMouseLeave={() => swiperRef.current.mousewheel.enable()}>
+
                         {data5 && data5.length > 0 ?
                             <Table size='small'>
                                 <TableBody>
@@ -340,12 +343,16 @@ export default function HtsPage({ swiperRef }) {
                             </Table>
                             : <Skeleton />
                         }
+
                     </TableContainer>
                 </Grid>
 
                 <Grid item xs={1}>
                     <StyledTypography>테마</StyledTypography>
-                    <TableContainer sx={{ height: tableHeight }}>
+                    <TableContainer sx={{ height: tableHeight }}
+                        onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                        onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+                    >
                         {data6 && data6.length > 0 ?
                             <Table size='small'>
                                 <TableBody>
