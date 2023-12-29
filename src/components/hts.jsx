@@ -6,7 +6,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { StyledToggleButton } from './util/util';
+import { StyledToggleButton, StyledButton } from './util/util';
 import { renderProgress, StyledTypography, TitleComponent, DataTable, DatePickerTheme, disablePastDatesAndWeekends } from './util/htsUtil';
 import { API } from './util/config';
 
@@ -21,15 +21,19 @@ export default function HtsPage({ swiperRef }) {
     const [page, setPage] = useState('kosdaq');
     const [time, setTime] = useState(null);
     const [date, setDate] = useState(dateString);
+
+    const [dataOrigin, setDataOrigin] = useState([]);
     const [data1, setData1] = useState([]);
     const [data2, setData2] = useState([]);
     const [data3, setData3] = useState([]);
-
     const [data5, setData5] = useState([]);
     const [data6, setData6] = useState([]);
     const [statistics, setStatistics] = useState([]);
 
-    const tableHeight = 520
+    const [countBtn, setCountBtn] = useState({
+        table1: 0, table2: 0, table3: 0
+    })
+    const tableHeight = 500
 
     const handlePage = (event, value) => { if (value !== null) { setPage(value); } }
     const handleTime = (event, value) => { setTime(value); }
@@ -37,6 +41,21 @@ export default function HtsPage({ swiperRef }) {
         const getDate = `${event.$y}-${event.$M + 1}-${event.$D}`
         setDate(getDate)
     }
+
+    const handleValueChange = (type, direction) => {
+        setCountBtn(prev => {
+            if (prev[type] === 0 && direction === 'DOWN') {
+                return prev;
+            }
+
+            return {
+                ...prev,
+                [type]: prev[type] + (direction === "UP" ? 1 : -1)
+            }
+
+        })
+
+    };
 
     const fetchData = async (page, date, time) => {
 
@@ -49,9 +68,10 @@ export default function HtsPage({ swiperRef }) {
             } else {
                 res = await axios.get(`${API}/hts/trends?name=${page}`);
             }
-            setData1(res.data.df1);
-            setData2(res.data.df2);
-            setData3(res.data.df3);
+            setDataOrigin(res.data);
+            // setData1(res.data.df1);
+            // setData2(res.data.df2);
+            // setData3(res.data.df3);
             setData5(res.data.industry);
             setData6(res.data.themes);
             setStatistics(res.data.statistics);
@@ -61,6 +81,38 @@ export default function HtsPage({ swiperRef }) {
     }
 
     useEffect(() => { if (page) { fetchData(page, date, time); } }, [page, date, time])
+    useEffect(() => {
+        if (dataOrigin && dataOrigin.df1) {
+            if (countBtn.table1 === 0) {
+                setData1(dataOrigin.df1);
+            } else {
+                const filteredData = dataOrigin.df1.filter(item => item['연속거래일'] >= countBtn.table1);
+                setData1(filteredData);
+            }
+        }
+    }, [countBtn.table1])
+
+    useEffect(() => {
+        if (dataOrigin && dataOrigin.df2) {
+            if (countBtn.table2 === 0) {
+                setData2(dataOrigin.df2);
+            } else {
+                const filteredData = dataOrigin.df2.filter(item => item['연속거래일'] >= countBtn.table2);
+                setData2(filteredData);
+            }
+        }
+    }, [countBtn.table2])
+
+    useEffect(() => {
+        if (dataOrigin && dataOrigin.df3) {
+            if (countBtn.table3 === 0) {
+                setData3(dataOrigin.df3);
+            } else {
+                const filteredData = dataOrigin.df3.filter(item => item['연속거래일'] >= countBtn.table3);
+                setData3(filteredData);
+            }
+        }
+    }, [countBtn.table3])
 
     // 5분 주기 업데이트
     useEffect(() => {
@@ -101,7 +153,7 @@ export default function HtsPage({ swiperRef }) {
     const columns = [
         {
             field: '연속거래일', headerName: ' ', width: 5,
-            align: 'left', headerAlign: 'center',
+            align: 'center', headerAlign: 'center',
         }, {
             field: '종목명', headerName: '종목명', width: 100,
             align: 'left', headerAlign: 'center',
@@ -156,12 +208,7 @@ export default function HtsPage({ swiperRef }) {
         field: '기타법인', headerName: '기타법인', width: 45,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderProgress(params)
-    }, {
-        field: '은행', headerName: '은행', width: 35,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderProgress(params)
-    }
-    ]
+    }]
 
     const columns_data3 = [...columns,
     {
@@ -173,6 +220,11 @@ export default function HtsPage({ swiperRef }) {
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderProgress(params)
     },
+    ]
+    const indicator = [
+        { name: 'table1' },
+        { name: 'table2' },
+        { name: 'table3' },
     ]
     return (
         <Grid container>
@@ -217,17 +269,57 @@ export default function HtsPage({ swiperRef }) {
                     </ToggleButtonGroup>
                 </Grid>
             </Grid>
-
+            <Grid item container>
+                <Box sx={{ position: 'absolute', transform: 'translate(10px, 485px)', zIndex: 90 }}>
+                    <Grid container>
+                        <Grid item xs={2} container direction="row" alignItems="center">
+                            {countBtn.table1}
+                        </Grid>
+                        <Grid item xs={5}>
+                            <StyledButton onClick={() => handleValueChange(indicator[0].name, "UP")}>UP</StyledButton>
+                        </Grid>
+                        <Grid item xs={5}>
+                            <StyledButton onClick={() => handleValueChange(indicator[0].name, "DOWN")}>Down</StyledButton>
+                        </Grid>
+                    </Grid>
+                </Box>
+                <Box sx={{ position: 'absolute', transform: 'translate(465px, 485px)', zIndex: 90 }}>
+                    <Grid container >
+                        <Grid item xs={2} container direction="row" alignItems="center">
+                            {countBtn.table2}
+                        </Grid>
+                        <Grid item xs={5}>
+                            <StyledButton onClick={() => handleValueChange(indicator[1].name, "UP")}>UP</StyledButton>
+                        </Grid>
+                        <Grid item xs={5}>
+                            <StyledButton onClick={() => handleValueChange(indicator[1].name, "DOWN")}>Down</StyledButton>
+                        </Grid>
+                    </Grid>
+                </Box>
+                <Box sx={{ position: 'absolute', transform: 'translate(1110px, 485px)', zIndex: 90 }}>
+                    <Grid container>
+                        <Grid item xs={2} container direction="row" alignItems="center">
+                            {countBtn.table3}
+                        </Grid>
+                        <Grid item xs={5}>
+                            <StyledButton onClick={() => handleValueChange(indicator[2].name, "UP")}>UP</StyledButton>
+                        </Grid>
+                        <Grid item xs={5}>
+                            <StyledButton onClick={() => handleValueChange(indicator[2].name, "DOWN")}>Down</StyledButton>
+                        </Grid>
+                    </Grid>
+                </Box>
+            </Grid>
             <Grid item container spacing={1}>
-                <Grid item xs={2.7}>
+                <Grid item xs={2.8}>
                     <TitleComponent title={'외국계'} statistics={statistics[0]} ></TitleComponent>
                     <DataTable swiperRef={swiperRef} data={data1} columns={columns_data1} height={tableHeight} />
                 </Grid>
-                <Grid item xs={4.3}>
+                <Grid item xs={4.1}>
                     <TitleComponent title={'기관계 (#투신)'} statistics={statistics[1]} ></TitleComponent>
                     <DataTable swiperRef={swiperRef} data={data2} columns={columns_data2} height={tableHeight} />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={3.1}>
                     <TitleComponent title={'외국 기관 합산'} statistics={statistics[2]} ></TitleComponent>
                     <DataTable swiperRef={swiperRef} data={data3} columns={columns_data3} height={tableHeight} />
                 </Grid>
