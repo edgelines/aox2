@@ -31,7 +31,7 @@ export default function HtsPage({ swiperRef }) {
     const [statistics, setStatistics] = useState([]);
 
     const [countBtn, setCountBtn] = useState({
-        table1: 0, table2: 0, table3: 0
+        table1: null, table2: null, table3: null
     })
     const tableHeight = 440
 
@@ -57,8 +57,8 @@ export default function HtsPage({ swiperRef }) {
 
     };
 
-    const fetchData = async (page, date, time) => {
 
+    const fetchData = async (page, date, time) => {
         try {
             let res;
             if (date && time) {
@@ -69,12 +69,14 @@ export default function HtsPage({ swiperRef }) {
                 res = await axios.get(`${API}/hts/trends?name=${page}`);
             }
             setDataOrigin(res.data);
-            // setData1(res.data.df1);
-            // setData2(res.data.df2);
-            // setData3(res.data.df3);
             setData5(res.data.industry);
             setData6(res.data.themes);
             setStatistics(res.data.statistics);
+            if (countBtn.table1 === null && countBtn.table3 === null && countBtn.table3 === null) {
+                setData1(res.data.df1);
+                setData2(res.data.df2);
+                setData3(res.data.df3);
+            }
         } catch (error) {
             console.error('Failed to fetch data:', error);
         }
@@ -103,6 +105,7 @@ export default function HtsPage({ swiperRef }) {
         }
     }, [countBtn.table2])
 
+    // 외국기관 합산
     useEffect(() => {
         if (dataOrigin && dataOrigin.df3) {
             if (countBtn.table3 === 0) {
@@ -228,6 +231,7 @@ export default function HtsPage({ swiperRef }) {
     ]
     return (
         <Grid container>
+            {/* 상단 */}
             <Grid item container sx={{ pt: 1, pb: 1 }}>
                 <Grid item container xs={1} direction="row" alignItems="center">
                     <ToggleButtonGroup
@@ -270,11 +274,12 @@ export default function HtsPage({ swiperRef }) {
                 </Grid>
             </Grid>
 
+            {/* Table 하단 컨트롤러 */}
             <Grid item container>
                 <Box sx={{ position: 'absolute', transform: `translate(10px, ${tableHeight - 15}px)`, zIndex: 90 }}>
                     <Grid container>
                         <Grid item xs={1} container direction="row" alignItems="center">
-                            {countBtn.table1}
+                            {countBtn.table1 === null ? 0 : countBtn.table1}
                         </Grid>
                         <Grid item xs={5.5}>
                             <StyledButton onClick={() => handleValueChange(indicator[0].name, "UP")}>UP</StyledButton>
@@ -287,7 +292,7 @@ export default function HtsPage({ swiperRef }) {
                 <Box sx={{ position: 'absolute', transform: `translate(465px, ${tableHeight - 15}px)`, zIndex: 90 }}>
                     <Grid container >
                         <Grid item xs={1} container direction="row" alignItems="center">
-                            {countBtn.table2}
+                            {countBtn.table2 === null ? 0 : countBtn.table2}
                         </Grid>
                         <Grid item xs={5.5}>
                             <StyledButton onClick={() => handleValueChange(indicator[1].name, "UP")}>UP</StyledButton>
@@ -300,7 +305,7 @@ export default function HtsPage({ swiperRef }) {
                 <Box sx={{ position: 'absolute', transform: `translate(1110px, ${tableHeight - 15}px)`, zIndex: 90 }}>
                     <Grid container>
                         <Grid item xs={1} container direction="row" alignItems="center">
-                            {countBtn.table3}
+                            {countBtn.table3 === null ? 0 : countBtn.table3}
                         </Grid>
                         <Grid item xs={5.5}>
                             <StyledButton onClick={() => handleValueChange(indicator[2].name, "UP")}>UP</StyledButton>
@@ -311,6 +316,8 @@ export default function HtsPage({ swiperRef }) {
                     </Grid>
                 </Box>
             </Grid>
+
+            {/* Table */}
             <Grid item container spacing={1}>
                 <Grid item xs={2.8}>
                     <TitleComponent title={'외국계'} statistics={statistics[0]} ></TitleComponent>
@@ -373,3 +380,7 @@ export default function HtsPage({ swiperRef }) {
         </Grid>
     )
 }
+
+
+// https://api.finance.naver.com/siseJson.naver?symbol=007860&requestType=1&startTime=20220601&endTime=20231228&timeframe=day
+// https://polling.finance.naver.com/api/realtime?query=SERVICE_ITEM:005930|SERVICE_RECENT_ITEM:005930&_callback=window.__jindo2_callback._3495

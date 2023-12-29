@@ -99,9 +99,9 @@ export const DataTable = ({ swiperRef, data, columns, height }) => {
                         border: 0,
                         '.MuiInput-input': { color: 'white' },
                         '.MuiSvgIcon-root': { color: '#efe9e9ed' },
-                        '.MuiTablePagination-root': { color: '#efe9e9ed' },
+                        '.MuiTablePagination-root': { color: '#efe9e9ed', fontSize: '0px' },
                         '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', fontSize: '0px' },
-                        '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
+                        '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px', fontSize: '9px' },
                         '.MuiDataGrid-selectedRowCount': { fontSize: '0px' },
                         [`& .${gridClasses.cell}`]: {
                             py: 1,
