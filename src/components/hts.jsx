@@ -155,7 +155,7 @@ export default function HtsPage({ swiperRef }) {
             field: '연속거래일', headerName: ' ', width: 5,
             align: 'center', headerAlign: 'center',
         }, {
-            field: '종목명', headerName: '종목명', width: 100,
+            field: '종목명', headerName: '종목명', width: 90,
             align: 'left', headerAlign: 'center',
         }, {
             field: '시가총액', headerName: '시총(억)', width: 65,
