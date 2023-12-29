@@ -33,7 +33,7 @@ export default function HtsPage({ swiperRef }) {
     const [countBtn, setCountBtn] = useState({
         table1: 0, table2: 0, table3: 0
     })
-    const tableHeight = 500
+    const tableHeight = 440
 
     const handlePage = (event, value) => { if (value !== null) { setPage(value); } }
     const handleTime = (event, value) => { setTime(value); }
@@ -269,42 +269,43 @@ export default function HtsPage({ swiperRef }) {
                     </ToggleButtonGroup>
                 </Grid>
             </Grid>
+
             <Grid item container>
-                <Box sx={{ position: 'absolute', transform: 'translate(10px, 485px)', zIndex: 90 }}>
+                <Box sx={{ position: 'absolute', transform: `translate(10px, ${tableHeight - 15}px)`, zIndex: 90 }}>
                     <Grid container>
-                        <Grid item xs={2} container direction="row" alignItems="center">
+                        <Grid item xs={1} container direction="row" alignItems="center">
                             {countBtn.table1}
                         </Grid>
-                        <Grid item xs={5}>
+                        <Grid item xs={5.5}>
                             <StyledButton onClick={() => handleValueChange(indicator[0].name, "UP")}>UP</StyledButton>
                         </Grid>
-                        <Grid item xs={5}>
+                        <Grid item xs={5.5}>
                             <StyledButton onClick={() => handleValueChange(indicator[0].name, "DOWN")}>Down</StyledButton>
                         </Grid>
                     </Grid>
                 </Box>
-                <Box sx={{ position: 'absolute', transform: 'translate(465px, 485px)', zIndex: 90 }}>
+                <Box sx={{ position: 'absolute', transform: `translate(465px, ${tableHeight - 15}px)`, zIndex: 90 }}>
                     <Grid container >
-                        <Grid item xs={2} container direction="row" alignItems="center">
+                        <Grid item xs={1} container direction="row" alignItems="center">
                             {countBtn.table2}
                         </Grid>
-                        <Grid item xs={5}>
+                        <Grid item xs={5.5}>
                             <StyledButton onClick={() => handleValueChange(indicator[1].name, "UP")}>UP</StyledButton>
                         </Grid>
-                        <Grid item xs={5}>
+                        <Grid item xs={5.5}>
                             <StyledButton onClick={() => handleValueChange(indicator[1].name, "DOWN")}>Down</StyledButton>
                         </Grid>
                     </Grid>
                 </Box>
-                <Box sx={{ position: 'absolute', transform: 'translate(1110px, 485px)', zIndex: 90 }}>
+                <Box sx={{ position: 'absolute', transform: `translate(1110px, ${tableHeight - 15}px)`, zIndex: 90 }}>
                     <Grid container>
-                        <Grid item xs={2} container direction="row" alignItems="center">
+                        <Grid item xs={1} container direction="row" alignItems="center">
                             {countBtn.table3}
                         </Grid>
-                        <Grid item xs={5}>
+                        <Grid item xs={5.5}>
                             <StyledButton onClick={() => handleValueChange(indicator[2].name, "UP")}>UP</StyledButton>
                         </Grid>
-                        <Grid item xs={5}>
+                        <Grid item xs={5.5}>
                             <StyledButton onClick={() => handleValueChange(indicator[2].name, "DOWN")}>Down</StyledButton>
                         </Grid>
                     </Grid>
