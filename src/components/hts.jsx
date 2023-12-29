@@ -327,7 +327,7 @@ export default function HtsPage({ swiperRef }) {
 
                 <Grid item xs={1}>
                     <StyledTypography>업종</StyledTypography>
-                    <TableContainer sx={{ height: tableHeight }}
+                    <TableContainer sx={{ height: tableHeight - 45 }}
                         onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                         onMouseLeave={() => swiperRef.current.mousewheel.enable()}>
 
@@ -350,7 +350,7 @@ export default function HtsPage({ swiperRef }) {
 
                 <Grid item xs={1}>
                     <StyledTypography>테마</StyledTypography>
-                    <TableContainer sx={{ height: tableHeight }}
+                    <TableContainer sx={{ height: tableHeight - 45 }}
                         onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                         onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                     >
