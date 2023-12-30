@@ -4,6 +4,13 @@
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
 
+### 2023.12.30
+{master}
+- Commit.1
+  - HTS Page 
+    - 각 Table 하단 연속거래일 slider
+    - 종목 선택시 chart & naver API
+
 ### 2023.12.27
 {master}
 - Commit.1

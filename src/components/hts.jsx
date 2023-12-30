@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import { Grid, Box, Typography, ToggleButtonGroup, Skeleton, Table, TableBody, TableRow, TableCell, TableContainer, ThemeProvider } from '@mui/material';
+import { Grid, Box, Typography, ToggleButtonGroup, Skeleton, Table, TableBody, TableRow, TableCell, TableContainer, ThemeProvider, Slider } from '@mui/material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { StyledToggleButton, StyledButton } from './util/util';
-import { renderProgress, StyledTypography, TitleComponent, DataTable, DatePickerTheme, disablePastDatesAndWeekends } from './util/htsUtil';
-import { API } from './util/config';
-
+import { renderProgress, StyledTypography, TitleComponent, DataTable, DatePickerTheme, disablePastDatesAndWeekends, FilteredDataTable, renderProgressBar } from './util/htsUtil';
+import { API, STOCK } from './util/config';
+import StockChart from './SectorsPage/stockChart';
 
 export default function HtsPage({ swiperRef }) {
     const today = new Date();
@@ -22,6 +22,7 @@ export default function HtsPage({ swiperRef }) {
     const [time, setTime] = useState(null);
     const [date, setDate] = useState(dateString);
 
+    // Table State
     const [dataOrigin, setDataOrigin] = useState([]);
     const [data1, setData1] = useState([]);
     const [data2, setData2] = useState([]);
@@ -29,10 +30,23 @@ export default function HtsPage({ swiperRef }) {
     const [data5, setData5] = useState([]);
     const [data6, setData6] = useState([]);
     const [statistics, setStatistics] = useState([]);
-
+    const [consecutiveMax, secConsecutiveMax] = useState({})
     const [countBtn, setCountBtn] = useState({
         table1: null, table2: null, table3: null
     })
+
+    // Table Click > Filtered Table
+    const [filteredDataTable, setFilteredDataTable] = useState([])
+
+    // Infomation State
+    const [stock, setStock] = useState({
+        name: null, code: null,
+    })
+    const [stockChart, setStockChart] = useState({
+        price: [], volume: []
+    })
+    // const [stockCode, setStockCode] = useState(null);
+
     const tableHeight = 440
 
     const handlePage = (event, value) => { if (value !== null) { setPage(value); } }
@@ -42,20 +56,22 @@ export default function HtsPage({ swiperRef }) {
         setDate(getDate)
     }
 
-    const handleValueChange = (type, direction) => {
-        setCountBtn(prev => {
-            if (prev[type] === 0 && direction === 'DOWN') {
-                return prev;
-            }
+    const handleValueChange = (type, newValue) => {
+        setCountBtn(prev => ({
+            ...prev,
+            [type]: newValue
 
-            return {
-                ...prev,
-                [type]: prev[type] + (direction === "UP" ? 1 : -1)
-            }
-
-        })
-
+        }))
     };
+
+    const getStockCode = (params) => {
+        setStock({ name: params.종목명, code: params.종목코드 })
+    }
+
+    const getStockChartData = async (code) => {
+        const res = await axios.get(`${STOCK}/get/${code}`);
+        setStockChart({ price: res.data.price, volume: res.data.volume })
+    }
 
 
     const fetchData = async (page, date, time) => {
@@ -72,48 +88,46 @@ export default function HtsPage({ swiperRef }) {
             setData5(res.data.industry);
             setData6(res.data.themes);
             setStatistics(res.data.statistics);
-            if (countBtn.table1 === null && countBtn.table3 === null && countBtn.table3 === null) {
-                setData1(res.data.df1);
-                setData2(res.data.df2);
-                setData3(res.data.df3);
-            }
+            setCountBtn({
+                table1: [res.data.consecutive[0].min, res.data.consecutive[0].max],
+                table2: [res.data.consecutive[1].min, res.data.consecutive[1].max],
+                table3: [res.data.consecutive[2].min, res.data.consecutive[2].max]
+            })
+            secConsecutiveMax({
+                table1: res.data.consecutive[0].max,
+                table2: res.data.consecutive[1].max,
+                table3: res.data.consecutive[2].max
+            })
+
         } catch (error) {
             console.error('Failed to fetch data:', error);
         }
     }
 
+    // 데이터 업데이트
     useEffect(() => { if (page) { fetchData(page, date, time); } }, [page, date, time])
+
+    // 외국계
     useEffect(() => {
         if (dataOrigin && dataOrigin.df1) {
-            if (countBtn.table1 === 0) {
-                setData1(dataOrigin.df1);
-            } else {
-                const filteredData = dataOrigin.df1.filter(item => item['연속거래일'] >= countBtn.table1);
-                setData1(filteredData);
-            }
+            const filteredData = dataOrigin.df1.filter(item => (item['연속거래일'] >= countBtn.table1[0] && item['연속거래일'] <= countBtn.table1[1]));
+            setData1(filteredData);
         }
     }, [countBtn.table1])
 
+    // 기관계
     useEffect(() => {
         if (dataOrigin && dataOrigin.df2) {
-            if (countBtn.table2 === 0) {
-                setData2(dataOrigin.df2);
-            } else {
-                const filteredData = dataOrigin.df2.filter(item => item['연속거래일'] >= countBtn.table2);
-                setData2(filteredData);
-            }
+            const filteredData = dataOrigin.df2.filter(item => (item['연속거래일'] >= countBtn.table2[0] && item['연속거래일'] <= countBtn.table2[1]));
+            setData2(filteredData);
         }
     }, [countBtn.table2])
 
     // 외국기관 합산
     useEffect(() => {
         if (dataOrigin && dataOrigin.df3) {
-            if (countBtn.table3 === 0) {
-                setData3(dataOrigin.df3);
-            } else {
-                const filteredData = dataOrigin.df3.filter(item => item['연속거래일'] >= countBtn.table3);
-                setData3(filteredData);
-            }
+            const filteredData = dataOrigin.df3.filter(item => (item['연속거래일'] >= countBtn.table3[0] && item['연속거래일'] <= countBtn.table3[1]));
+            setData3(filteredData);
         }
     }, [countBtn.table3])
 
@@ -152,6 +166,11 @@ export default function HtsPage({ swiperRef }) {
 
         return () => clearTimeout(timeoutId);
     }, [])
+
+    // ChartData
+    useEffect(() => {
+        if (stock.code != null) { getStockChartData(stock.code); }
+    }, [stock])
 
     const columns = [
         {
@@ -212,7 +231,6 @@ export default function HtsPage({ swiperRef }) {
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderProgress(params)
     }]
-
     const columns_data3 = [...columns,
     {
         field: '외국인', headerName: '외국계', width: 45,
@@ -224,10 +242,46 @@ export default function HtsPage({ swiperRef }) {
         renderCell: (params) => renderProgress(params)
     },
     ]
-    const indicator = [
-        { name: 'table1' },
-        { name: 'table2' },
-        { name: 'table3' },
+    const filteredDataTableCols = [
+        { field: '종목명', headerName: '종목명', width: 73 },
+        {
+            field: '등락률', headerName: '등락률', width: 30,
+            renderCell: (params) => {
+                const row = params.row;
+                const progress = renderProgressBar({ value: row.changeRate, valueON: true, val2: 5, color: '#e89191' })
+                return (
+                    <Box sx={{ position: 'relative', mt: -2 }}>
+                        <Box sx={{ position: 'absolute', zIndex: 1 }}>
+                            {params.value} %
+                        </Box>
+                        <Box sx={{ position: 'absolute', zIndex: 0, width: 100, mt: -0.6, marginLeft: -0.5 }}>
+                            {progress}
+                        </Box>
+                    </Box>
+                )
+            }
+        },
+        {
+            field: '전일대비거래량', headerName: '전일대비', width: 55, renderCell: (params) => {
+                const row = params.row;
+                const progress = renderProgressBar({ value: row.volume, valueON: true, val2: 5, color: '#91bde8' })
+                return (
+                    <Box sx={{ position: 'relative', mt: -2 }}>
+                        <Box sx={{ position: 'absolute', zIndex: 1 }}>
+                            {parseInt(params.value * 100).toLocaleString('kr')} %
+                        </Box>
+                        <Box sx={{ position: 'absolute', zIndex: 0, width: 100, mt: -0.6, marginLeft: -0.5 }}>
+                            {progress}
+                        </Box>
+                    </Box>
+                )
+            }
+        },
+    ]
+    const indicators = [
+        { name: 'table1', adjustWidth: '22px' },
+        { name: 'table2', adjustWidth: '465px' },
+        { name: 'table3', adjustWidth: '1110px' },
     ]
     return (
         <Grid container>
@@ -274,62 +328,19 @@ export default function HtsPage({ swiperRef }) {
                 </Grid>
             </Grid>
 
-            {/* Table 하단 컨트롤러 */}
-            <Grid item container>
-                <Box sx={{ position: 'absolute', transform: `translate(10px, ${tableHeight - 15}px)`, zIndex: 90 }}>
-                    <Grid container>
-                        <Grid item xs={1} container direction="row" alignItems="center">
-                            {countBtn.table1 === null ? 0 : countBtn.table1}
-                        </Grid>
-                        <Grid item xs={5.5}>
-                            <StyledButton onClick={() => handleValueChange(indicator[0].name, "UP")}>UP</StyledButton>
-                        </Grid>
-                        <Grid item xs={5.5}>
-                            <StyledButton onClick={() => handleValueChange(indicator[0].name, "DOWN")}>Down</StyledButton>
-                        </Grid>
-                    </Grid>
-                </Box>
-                <Box sx={{ position: 'absolute', transform: `translate(465px, ${tableHeight - 15}px)`, zIndex: 90 }}>
-                    <Grid container >
-                        <Grid item xs={1} container direction="row" alignItems="center">
-                            {countBtn.table2 === null ? 0 : countBtn.table2}
-                        </Grid>
-                        <Grid item xs={5.5}>
-                            <StyledButton onClick={() => handleValueChange(indicator[1].name, "UP")}>UP</StyledButton>
-                        </Grid>
-                        <Grid item xs={5.5}>
-                            <StyledButton onClick={() => handleValueChange(indicator[1].name, "DOWN")}>Down</StyledButton>
-                        </Grid>
-                    </Grid>
-                </Box>
-                <Box sx={{ position: 'absolute', transform: `translate(1110px, ${tableHeight - 15}px)`, zIndex: 90 }}>
-                    <Grid container>
-                        <Grid item xs={1} container direction="row" alignItems="center">
-                            {countBtn.table3 === null ? 0 : countBtn.table3}
-                        </Grid>
-                        <Grid item xs={5.5}>
-                            <StyledButton onClick={() => handleValueChange(indicator[2].name, "UP")}>UP</StyledButton>
-                        </Grid>
-                        <Grid item xs={5.5}>
-                            <StyledButton onClick={() => handleValueChange(indicator[2].name, "DOWN")}>Down</StyledButton>
-                        </Grid>
-                    </Grid>
-                </Box>
-            </Grid>
-
             {/* Table */}
             <Grid item container spacing={1}>
                 <Grid item xs={2.8}>
                     <TitleComponent title={'외국계'} statistics={statistics[0]} ></TitleComponent>
-                    <DataTable swiperRef={swiperRef} data={data1} columns={columns_data1} height={tableHeight} />
+                    <DataTable swiperRef={swiperRef} data={data1} columns={columns_data1} height={tableHeight} onParams={getStockCode} />
                 </Grid>
                 <Grid item xs={4.1}>
                     <TitleComponent title={'기관계 (#투신)'} statistics={statistics[1]} ></TitleComponent>
-                    <DataTable swiperRef={swiperRef} data={data2} columns={columns_data2} height={tableHeight} />
+                    <DataTable swiperRef={swiperRef} data={data2} columns={columns_data2} height={tableHeight} onParams={getStockCode} />
                 </Grid>
                 <Grid item xs={3.1}>
                     <TitleComponent title={'외국 기관 합산'} statistics={statistics[2]} ></TitleComponent>
-                    <DataTable swiperRef={swiperRef} data={data3} columns={columns_data3} height={tableHeight} />
+                    <DataTable swiperRef={swiperRef} data={data3} columns={columns_data3} height={tableHeight} onParams={getStockCode} />
                 </Grid>
 
                 <Grid item xs={1}>
@@ -377,6 +388,113 @@ export default function HtsPage({ swiperRef }) {
                     </TableContainer>
                 </Grid>
             </Grid>
+
+            {/* Table 하단 컨트롤러 */}
+            <Grid item container>
+                {
+                    Array.isArray(countBtn.table1) ?
+                        indicators.map((indicator, index) => (
+                            <Box key={indicator.name} sx={{ position: 'absolute', left: indicator.adjustWidth, top: `${tableHeight + 45}px`, zIndex: 90 }}>
+                                <Grid container sx={{ width: '130px' }}>
+                                    <Grid item xs={1} container direction="row" alignItems="center" sx={{ pr: 2 }}>
+                                        {countBtn[indicator.name][0]}
+                                    </Grid>
+                                    <Grid item xs={8} container>
+                                        <Slider
+                                            value={countBtn[indicator.name]}
+                                            // value={typeof countBtn[indicator.name] === 'number' ? countBtn[indicator.name] : countBtn[indicator.name][0]}
+                                            onChange={(event, newValue) => handleValueChange(indicator.name, newValue)}
+                                            valueLabelDisplay="auto"
+                                            step={1}
+                                            min={1}
+                                            max={consecutiveMax[indicator.name]}
+                                            size="small"
+                                            sx={{ color: '#efe9e9ed' }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={1} container justifyContent="flex-end" alignItems="center" sx={{ pl: 3 }}>
+                                        {countBtn[indicator.name][1]}
+                                    </Grid>
+                                </Grid>
+                            </Box>
+                        ))
+                        : <Skeleton />
+                }
+
+                {/* {
+                    Array.isArray(countBtn.table1) ?
+                        indicators.map((indicator, index) => (
+
+                        <Box key={indicator.name} sx={{ position: 'absolute', transform: `translate(${indicator.adjustWidth}, ${tableHeight - 15}px)`, zIndex: 90 }}>
+                            <Grid container sx={{ width: '130px' }}>
+                                
+                                    
+                                    <Grid item xs={1} container direction="row" alignItems="center" sx={{ pr: 2 }}>
+                                        {countBtn[indicator.name][0]}
+                                    </Grid>
+                                    <Grid item xs={8} container>
+                                        <Slider
+                                            value={countBtn[indicator.name]}
+                                            onChange={handleValueChange(indicator.name)}
+                                            valueLabelDisplay="auto"
+                                            step={1}
+                                            min={1}
+                                            max={consecutiveMax[indicator.name]}
+                                            size="small"
+                                            sx={{ color: '#efe9e9ed' }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={1} container justifyContent="flex-end" alignItems="center" sx={{ pl: 3 }}>
+                                        {countBtn[indicator.name][1]}
+                                    </Grid>
+                    
+                                
+                            </Grid>
+                        </Box>)
+                    : <Skeleton />
+                )} */}
+
+
+                {/* <Box sx={{ position: 'absolute', transform: `translate(10px, ${tableHeight - 15}px)`, zIndex: 90 }}>
+                    <Grid container sx={{ width: '130px' }}>
+                        <Grid item xs={1} container direction="row" alignItems="center" sx={{ pr: 2 }}>
+                            {countBtn.table1[0] === null ? 0 : countBtn.table1[0]}
+                        </Grid>
+                        <Grid item xs={8} container>
+                            <Slider
+                                value={countBtn.table1}
+                                onChange={handleValueChange(indicator[0].name)}
+                                valueLabelDisplay="auto"
+                                step={1}
+                                min={1}
+                                max={consecutiveMax.table1}
+                                size="small"
+                                sx={{ color: '#efe9e9ed' }}
+                            />
+                        </Grid>
+                        <Grid item xs={1} container justifyContent="flex-end" alignItems="center" sx={{ pl: 3 }}>
+                            {countBtn.table1[1] === null ? 0 : countBtn.table1[1]}
+                        </Grid>
+                    </Grid>
+                </Box> */}
+
+            </Grid>
+
+            {/* Information */}
+            <Grid item container>
+                <Grid item xs={2.8}>주요재무</Grid>
+                <Grid item xs={4.1}>
+                    <StockChart stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.name} />
+                </Grid>
+                <Grid item xs={3.1}>
+                    {stock.name === null ? '' : stock.name}
+                </Grid>
+                <Grid item xs={2}>
+                    종목리스트
+                    <FilteredDataTable swiperRef={swiperRef} data={filteredDataTable} columns={filteredDataTableCols} height={400} onParams={getStockCode} />
+                </Grid>
+            </Grid>
+
         </Grid>
     )
 }

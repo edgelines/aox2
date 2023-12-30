@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import dayjs from 'dayjs';
+import { styled } from '@mui/material/styles';
 import { Grid, Box, Typography, ToggleButtonGroup, Skeleton, Table, TableBody, TableRow, TableCell, TableContainer } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -57,32 +58,32 @@ export const TitleComponent = ({ title, statistics }) => {
     )
 }
 
-export const DataTable = ({ swiperRef, data, columns, height }) => {
-    const customTheme = createTheme({
-        components: {
-            MuiDataGrid: {
-                styleOverrides: {
-                    root: {
-                        '& .MuiDataGrid-row': {
-                            fontSize: '10px',
-                            color: '#efe9e9ed',
-                        },
-                    },
-                    columnHeaderWrapper: {
-                        minHeight: '9px',
-                        // lineHeight: '20px',
-                    },
-                    columnHeader: {
+const customTheme = createTheme({
+    components: {
+        MuiDataGrid: {
+            styleOverrides: {
+                root: {
+                    '& .MuiDataGrid-row': {
                         fontSize: '10px',
-                        color: '#efe9e9ed'
+                        color: '#efe9e9ed',
                     },
                 },
-                defaultProps: {
-                    headerHeight: 15,
+                columnHeaderWrapper: {
+                    minHeight: '9px',
+                    // lineHeight: '20px',
+                },
+                columnHeader: {
+                    fontSize: '10px',
+                    color: '#efe9e9ed'
                 },
             },
+            defaultProps: {
+                headerHeight: 15,
+            },
         },
-    });
+    },
+});
+export const DataTable = ({ swiperRef, data, columns, height, onParams }) => {
 
     return (
         <Grid container sx={{ height: height ? height : 800, width: "100%" }}
@@ -107,6 +108,7 @@ export const DataTable = ({ swiperRef, data, columns, height }) => {
                             py: 1,
                         },
                     }}
+                    onCellClick={(params, event) => onParams(params.row)}
                 />
             </ThemeProvider>
         </Grid>
@@ -168,4 +170,72 @@ export function disablePastDatesAndWeekends(date) {
     }
 
     return false;
+}
+
+export const FilteredDataTable = ({ swiperRef, data, columns, height, onParams }) => {
+
+    return (
+        <Grid container sx={{ height: height ? height : 800, width: "100%" }}
+            onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+            onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+        >
+            <ThemeProvider theme={customTheme}>
+                <DataGrid rows={data} columns={columns} hideFooter rowHeight={16}
+                    onCellClick={(params, event) => onParams(params.row)}
+                    sx={DataTableStyleDefault} />
+            </ThemeProvider>
+        </Grid>
+    )
+}
+
+const ProgressBar = styled('div')(({ theme, value, val2, color }) => {
+    const valueInPercent = value * (val2 || 50);
+
+    return {
+        position: 'relative',
+        overflow: 'hidden',
+        width: '100%',
+        padding: '2px',
+        height: 26,
+        borderRadius: 2,
+        '& .value': {
+            position: 'absolute',
+            lineHeight: '24px',
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+        },
+        '& .bar': {
+            height: '100%',
+            backgroundColor: (() => {
+                if (valueInPercent < 0) {
+                    return 'dodgerblue';
+                }
+                if (valueInPercent >= 50) {
+                    return color || '#088208a3';
+                }
+                return color || '#088208a3';
+            })(),
+            maxWidth: `${Math.abs(valueInPercent)}%`,
+        },
+    };
+});
+
+const CustomProgressBar = React.memo(function CustomProgressBar(props) {
+    const { value, valueON = false, color = '#91bde8', val2 } = props;
+    return (
+        valueON === true ?
+            <ProgressBar value={value} val2={val2 || 0.1} color={color} >
+                <div className="bar" />
+            </ProgressBar>
+            : <ProgressBar value={value} val2={3} color={color} >
+                <div className="value">{`${value.toLocaleString('ko-kr')} %`}</div>
+                <div className="bar" />
+            </ProgressBar>
+    );
+});
+
+export function renderProgressBar(params) {
+    const { valueON, color, val2 } = params;
+    return <CustomProgressBar value={Number(params.value)} valueON={valueON} color={color} val2={val2} />;
 }
