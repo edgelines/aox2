@@ -248,7 +248,7 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Searc
             업종명: item.업종명,
             id: index,
         }));
-        console.log(res);
+
         const result = res.sort((a, b) => b.changeRate - a.changeRate);
         setFilteredCheckName({ key: '트리맵', name: result });
         setFilteredStockTable(result);

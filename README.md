@@ -4,6 +4,13 @@
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
 
+### 2023.12.31 
+{master}
+- Commit.1
+  - HTS Page
+    - 종목 Etc Info 작성중
+    - 업종 선택시 종목 출력 > 종목선택하면 다시 Chart와 Etc Info 연결
+
 ### 2023.12.30
 {master}
 - Commit.1

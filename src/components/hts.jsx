@@ -7,8 +7,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { StyledToggleButton, StyledButton } from './util/util';
-import { renderProgress, StyledTypography, TitleComponent, DataTable, DatePickerTheme, disablePastDatesAndWeekends, FilteredDataTable, renderProgressBar } from './util/htsUtil';
-import { API, STOCK } from './util/config';
+import { renderProgress, StyledTypography, TitleComponent, DataTable, DatePickerTheme, disablePastDatesAndWeekends, FilteredDataTable, renderProgressBar, StockInfo } from './util/htsUtil';
+import { API, STOCK, TEST } from './util/config';
 import StockChart from './SectorsPage/stockChart';
 
 export default function HtsPage({ swiperRef }) {
@@ -18,7 +18,7 @@ export default function HtsPage({ swiperRef }) {
     var day = ('0' + today.getDate()).slice(-2);
     var dateString = year + '-' + month + '-' + day;
 
-    const [page, setPage] = useState('kosdaq');
+    const [market, setMarket] = useState('kosdaq');
     const [time, setTime] = useState(null);
     const [date, setDate] = useState(dateString);
 
@@ -40,22 +40,38 @@ export default function HtsPage({ swiperRef }) {
 
     // Infomation State
     const [stock, setStock] = useState({
-        name: null, code: null,
+        종목명: null, 종목코드: null,
     })
     const [stockChart, setStockChart] = useState({
         price: [], volume: []
     })
-    // const [stockCode, setStockCode] = useState(null);
+
 
     const tableHeight = 440
 
-    const handlePage = (event, value) => { if (value !== null) { setPage(value); } }
+    const handleMarket = (event, value) => { if (value !== null) { setMarket(value); } }
     const handleTime = (event, value) => { setTime(value); }
     const handleDate = async (event) => {
         const getDate = `${event.$y}-${event.$M + 1}-${event.$D}`
         setDate(getDate)
     }
+    const handleFilteredTable = async (type, item, market, date, time) => {
+        if (type === '업종') {
+            let res
+            if (date && time) {
+                res = await axios.get(`${API}/hts/findIndustry/${item.업종명}?name=${market}&date=${date}&time=${time}`);
+            } else if (date) {
+                res = await axios.get(`${API}/hts/findIndustry/${item.업종명}?name=${market}&date=${date}`);
+            } else {
+                res = await axios.get(`${API}/hts/findIndustry/${item.업종명}?name=${market}`);
+            }
 
+            setFilteredDataTable(res.data.종목들);
+            // const res = await axios.get(`${API}/info/findIndustry/${item.업종명}`);    
+        }
+        // console.log(item);
+        // const res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
+    }
     const handleValueChange = (type, newValue) => {
         setCountBtn(prev => ({
             ...prev,
@@ -64,8 +80,13 @@ export default function HtsPage({ swiperRef }) {
         }))
     };
 
-    const getStockCode = (params) => {
-        setStock({ name: params.종목명, code: params.종목코드 })
+    const getStockCode = async (params) => {
+        // 시가총액, 상장주식수, PER, EPS, PBR, BPS
+        const res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
+        setStock({
+            종목명: params.종목명, 종목코드: params.종목코드, 업종명: params.업종명,
+            시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장
+        })
     }
 
     const getStockChartData = async (code) => {
@@ -74,15 +95,16 @@ export default function HtsPage({ swiperRef }) {
     }
 
 
-    const fetchData = async (page, date, time) => {
+
+    const fetchData = async (market, date, time) => {
         try {
             let res;
             if (date && time) {
-                res = await axios.get(`${API}/hts/trends?name=${page}&date=${date}&time=${time}`);
+                res = await axios.get(`${API}/hts/trends?name=${market}&date=${date}&time=${time}`);
             } else if (date) {
-                res = await axios.get(`${API}/hts/trends?name=${page}&date=${date}`);
+                res = await axios.get(`${API}/hts/trends?name=${market}&date=${date}`);
             } else {
-                res = await axios.get(`${API}/hts/trends?name=${page}`);
+                res = await axios.get(`${API}/hts/trends?name=${market}`);
             }
             setDataOrigin(res.data);
             setData5(res.data.industry);
@@ -105,7 +127,7 @@ export default function HtsPage({ swiperRef }) {
     }
 
     // 데이터 업데이트
-    useEffect(() => { if (page) { fetchData(page, date, time); } }, [page, date, time])
+    useEffect(() => { if (market) { fetchData(market, date, time); } }, [market, date, time])
 
     // 외국계
     useEffect(() => {
@@ -151,7 +173,7 @@ export default function HtsPage({ swiperRef }) {
                 const hour = now.getHours();
                 const dayOfWeek = now.getDay();
                 if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
-                    fetchData(page);
+                    fetchData(market);
                 } else if (hour >= 16) {
                     // 3시 30분 이후라면 인터벌 종료
                     clearInterval(intervalId);
@@ -169,7 +191,7 @@ export default function HtsPage({ swiperRef }) {
 
     // ChartData
     useEffect(() => {
-        if (stock.code != null) { getStockChartData(stock.code); }
+        if (stock.종목코드 != null) { getStockChartData(stock.종목코드); }
     }, [stock])
 
     const columns = [
@@ -268,7 +290,7 @@ export default function HtsPage({ swiperRef }) {
                 return (
                     <Box sx={{ position: 'relative', mt: -2 }}>
                         <Box sx={{ position: 'absolute', zIndex: 1 }}>
-                            {parseInt(params.value * 100).toLocaleString('kr')} %
+                            {parseInt(params.value).toLocaleString('kr')} %
                         </Box>
                         <Box sx={{ position: 'absolute', zIndex: 0, width: 100, mt: -0.6, marginLeft: -0.5 }}>
                             {progress}
@@ -292,8 +314,8 @@ export default function HtsPage({ swiperRef }) {
                         color='info'
                         exclusive
                         size="small"
-                        value={page}
-                        onChange={handlePage}
+                        value={market}
+                        onChange={handleMarket}
                         sx={{ pl: 1.3 }}
                     >
                         <StyledToggleButton fontSize={'10px'} value="kospi">Kospi</StyledToggleButton>
@@ -348,12 +370,11 @@ export default function HtsPage({ swiperRef }) {
                     <TableContainer sx={{ height: tableHeight - 45 }}
                         onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                         onMouseLeave={() => swiperRef.current.mousewheel.enable()}>
-
                         {data5 && data5.length > 0 ?
                             <Table size='small'>
                                 <TableBody>
                                     {data5.map(item => (
-                                        <TableRow key={item.업종명}>
+                                        <TableRow key={item.업종명} onClick={() => handleFilteredTable('업종', item, market, date, time)}>
                                             <TableCell sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }} >{item.업종명.slice(0, 10)}</TableCell>
                                             <TableCell sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }}>{item.갯수}</TableCell>
                                         </TableRow>
@@ -370,13 +391,12 @@ export default function HtsPage({ swiperRef }) {
                     <StyledTypography>테마</StyledTypography>
                     <TableContainer sx={{ height: tableHeight - 45 }}
                         onMouseEnter={() => swiperRef.current.mousewheel.disable()}
-                        onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-                    >
+                        onMouseLeave={() => swiperRef.current.mousewheel.enable()}>
                         {data6 && data6.length > 0 ?
                             <Table size='small'>
                                 <TableBody>
                                     {data6.map(item => (
-                                        <TableRow key={item.테마명}>
+                                        <TableRow key={item.테마명} onClick={() => handleFilteredTable('테마', item)}>
                                             <TableCell size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }} >{item.테마명.slice(0, 11)}</TableCell>
                                             <TableCell size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }}>{item.갯수}</TableCell>
                                         </TableRow>
@@ -394,7 +414,7 @@ export default function HtsPage({ swiperRef }) {
                 {
                     Array.isArray(countBtn.table1) ?
                         indicators.map((indicator, index) => (
-                            <Box key={indicator.name} sx={{ position: 'absolute', left: indicator.adjustWidth, top: `${tableHeight + 45}px`, zIndex: 90 }}>
+                            <Box key={indicator.name} sx={{ position: 'absolute', left: indicator.adjustWidth, top: `${tableHeight + 55}px`, zIndex: 90 }}>
                                 <Grid container sx={{ width: '130px' }}>
                                     <Grid item xs={1} container direction="row" alignItems="center" sx={{ pr: 2 }}>
                                         {countBtn[indicator.name][0]}
@@ -484,13 +504,14 @@ export default function HtsPage({ swiperRef }) {
             <Grid item container>
                 <Grid item xs={2.8}>주요재무</Grid>
                 <Grid item xs={4.1}>
-                    <StockChart stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.name} />
+                    <StockChart stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} />
                 </Grid>
                 <Grid item xs={3.1}>
-                    {stock.name === null ? '' : stock.name}
+                    {stock.종목코드 === null ? '' :
+                        <StockInfo data={stock} />
+                    }
                 </Grid>
                 <Grid item xs={2}>
-                    종목리스트
                     <FilteredDataTable swiperRef={swiperRef} data={filteredDataTable} columns={filteredDataTableCols} height={400} onParams={getStockCode} />
                 </Grid>
             </Grid>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import dayjs from 'dayjs';
 import { styled } from '@mui/material/styles';
-import { Grid, Box, Typography, ToggleButtonGroup, Skeleton, Table, TableBody, TableRow, TableCell, TableContainer } from '@mui/material';
+import { Grid, Box, Typography, ToggleButtonGroup, Skeleton, Table, TableBody, TableRow, TableCell, TableContainer, Stack } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styledComponents from 'styled-components';
@@ -238,4 +238,47 @@ const CustomProgressBar = React.memo(function CustomProgressBar(props) {
 export function renderProgressBar(params) {
     const { valueON, color, val2 } = params;
     return <CustomProgressBar value={Number(params.value)} valueON={valueON} color={color} val2={val2} />;
+}
+
+
+export const StockInfo = ({ data }) => {
+
+    const StyledTypography = styledComponents(Typography)`    
+             font-size: ${props => props.fontSize ? props.fontSize : '12px'};
+        `;
+
+    return (
+        <Grid container spacing={2}>
+            <Grid item container sx={{ borderBottom: '2px solid #efe9e9ed' }}>
+                <Grid item xs={4.7}><StyledTypography>{data.종목명}</StyledTypography></Grid>
+                <Grid item xs={4.7}><StyledTypography>{data.업종명}</StyledTypography></Grid>
+                <Grid item xs={2.6}><StyledTypography>{data.시장 === 'K' ? 'Kospi' : 'Kosdaq'}</StyledTypography></Grid>
+            </Grid>
+            <Grid item container>
+                <Stack direction='row' spacing={5} sx={{ pl: 2 }}>
+                    <StyledTypography fontSize="12px">시가총액</StyledTypography>
+                    <StyledTypography fontSize="12px">{parseInt((parseInt(data.시가총액) / 100000000).toFixed(0)).toLocaleString('kr')} 억</StyledTypography>
+                    <StyledTypography fontSize="12px">상장주식수</StyledTypography>
+                    <StyledTypography fontSize="12px">{data.상장주식수.toLocaleString('kr')}</StyledTypography>
+                </Stack>
+            </Grid>
+            <Grid item container>
+                <Stack direction='row' spacing={3.5} sx={{ pl: 2 }}>
+                    <StyledTypography fontSize="12px">PER</StyledTypography>
+                    <StyledTypography fontSize="12px">{data.PER}</StyledTypography>
+                    <StyledTypography fontSize="12px">PBR</StyledTypography>
+                    <StyledTypography fontSize="12px">{data.PBR}</StyledTypography>
+                    <StyledTypography fontSize="12px">EPS</StyledTypography>
+                    <StyledTypography fontSize="12px">{data.EPS.toLocaleString('kr')} 원</StyledTypography>
+                    <StyledTypography fontSize="12px">BPS</StyledTypography>
+                    <StyledTypography fontSize="12px">{data.BPS.toLocaleString('kr')} 원</StyledTypography>
+                </Stack>
+            </Grid>
+            <Grid item container xs={6}>
+                <Stack direction='row' spacing={3} sx={{ pl: 2 }}>
+                </Stack>
+            </Grid>
+
+        </Grid>
+    )
 }
