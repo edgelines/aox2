@@ -83,6 +83,7 @@ export default function HtsPage({ swiperRef }) {
     const getStockCode = async (params) => {
         // 시가총액, 상장주식수, PER, EPS, PBR, BPS
         const res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
+        console.log(res.data);
         setStock({
             종목명: params.종목명, 종목코드: params.종목코드, 업종명: params.업종명,
             시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,
@@ -502,19 +503,19 @@ export default function HtsPage({ swiperRef }) {
             </Grid>
 
             {/* Information */}
-            <Grid item container>
-                <Grid item xs={2.8}>
+            <Grid item container spacing={1}>
+                <Grid item xs={3.5}>
                     <Financial annual={stock.연간실적} quarter={stock.분기실적} />
                 </Grid>
-                <Grid item xs={4.1}>
+                <Grid item xs={4}>
                     <StockChart stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} />
                 </Grid>
-                <Grid item xs={3.1}>
+                <Grid item xs={3}>
                     {stock.종목코드 === null ? '' :
                         <StockInfo data={stock} />
                     }
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={1.5}>
                     <FilteredDataTable swiperRef={swiperRef} data={filteredDataTable} columns={filteredDataTableCols} height={400} onParams={getStockCode} />
                 </Grid>
             </Grid>

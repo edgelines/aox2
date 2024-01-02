@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import dayjs from 'dayjs';
 import { styled } from '@mui/material/styles';
-import { Grid, Box, Typography, ToggleButtonGroup, Skeleton, Table, TableBody, TableRow, TableCell, TableContainer, Stack } from '@mui/material';
+import { Grid, Box, Typography, ToggleButtonGroup, Skeleton, Table, TableHead, TableBody, TableRow, TableCell, TableContainer, Stack } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styledComponents from 'styled-components';
@@ -297,15 +297,56 @@ export const StockInfo = ({ data }) => {
     )
 }
 
+const FinancialTable = ({ data1, data2 }) => {
+    const dataRows = ["매출액", "영업이익", "당기순이익", "부채비율", "유보율"]
+
+    return (
+        <Table>
+            <TableHead>
+                <TableRow>
+                    <TableCell></TableCell>
+                    {data1.map(item => (
+                        <TableCell key={item.날짜} size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }}  >{item.날짜}</TableCell>
+                    ))}
+                    <TableCell></TableCell>
+                    {data2.map(item => (
+                        <TableCell key={item.날짜} size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }}  >{item.날짜}</TableCell>
+                    ))}
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                {
+                    dataRows.map(item => (
+                        <TableRow key={item}>
+                            <TableCell size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }}  >{item}</TableCell>
+                            {data1.map(row => (
+                                <TableCell size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }} >{row[item]} </TableCell>
+                            ))}
+                            <TableCell></TableCell>
+                            {data2.map(row => (
+                                <TableCell size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }} >{row[item]} </TableCell>
+                            ))}
+                        </TableRow>
+                    ))
+                }
+                <TableRow></TableRow>
+            </TableBody>
+        </Table>
+
+    )
+}
+
 export const Financial = ({ annual, quarter }) => {
     return (
         <Grid container>
-            <Grid item xs={6}>
+            {annual && annual.length > 0 ?
+                <Grid container>
 
-            </Grid>
-            <Grid item xs={6}>
+                    <FinancialTable data1={annual} data2={quarter} />
 
-            </Grid>
+                </Grid>
+                : <Grid container></Grid>
+            }
         </Grid>
     )
 }
