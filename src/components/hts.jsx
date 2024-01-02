@@ -9,7 +9,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { StyledToggleButton } from './util/util';
 import { renderProgress, StyledTypography, TitleComponent, DataTable, DatePickerTheme, disablePastDatesAndWeekends, FilteredDataTable, renderProgressBar, StockInfo, Financial } from './util/htsUtil';
 import { API, STOCK } from './util/config';
-import StockChart from './SectorsPage/stockChart';
+import StockChart from './util/stockChart';
 
 export default function HtsPage({ swiperRef }) {
     const today = new Date();

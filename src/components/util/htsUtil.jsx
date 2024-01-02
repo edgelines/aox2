@@ -299,18 +299,18 @@ export const StockInfo = ({ data }) => {
 
 const FinancialTable = ({ data1, data2 }) => {
     const dataRows = ["매출액", "영업이익", "당기순이익", "부채비율", "유보율"]
-
+    const baseStyle = { fontSize: '10px', p: 0.2, textAlign: 'right' }
     return (
         <Table>
             <TableHead>
                 <TableRow>
                     <TableCell></TableCell>
                     {data1.map(item => (
-                        <TableCell key={item.날짜} size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }}  >{item.날짜}</TableCell>
+                        <TableCell key={item.날짜} size='small' sx={{ color: '#efe9e9ed', ...baseStyle }}  >{item.날짜.slice(2)}</TableCell>
                     ))}
                     <TableCell></TableCell>
                     {data2.map(item => (
-                        <TableCell key={item.날짜} size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }}  >{item.날짜}</TableCell>
+                        <TableCell key={item.날짜} size='small' sx={{ color: '#efe9e9ed', ...baseStyle }}  >{item.날짜.slice(2)}</TableCell>
                     ))}
                 </TableRow>
             </TableHead>
@@ -320,11 +320,11 @@ const FinancialTable = ({ data1, data2 }) => {
                         <TableRow key={item}>
                             <TableCell size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }}  >{item}</TableCell>
                             {data1.map(row => (
-                                <TableCell size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }} >{row[item]} </TableCell>
+                                <TableCell size='small' sx={{ color: row[item] < 0 ? '#00F3FF' : '#efe9e9ed', ...baseStyle }} >{parseInt(row[item]).toLocaleString('KR')} </TableCell>
                             ))}
                             <TableCell></TableCell>
                             {data2.map(row => (
-                                <TableCell size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }} >{row[item]} </TableCell>
+                                <TableCell size='small' sx={{ color: row[item] < 0 ? '#00F3FF' : '#efe9e9ed', ...baseStyle }} >{parseInt(row[item]).toLocaleString('KR')} </TableCell>
                             ))}
                         </TableRow>
                     ))
