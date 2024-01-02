@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import { Grid, Box, Typography, ToggleButtonGroup, Skeleton, Table, TableBody, TableRow, TableCell, TableContainer, ThemeProvider, Slider } from '@mui/material';
+import { Grid, Box, ToggleButtonGroup, Skeleton, Table, TableBody, TableRow, TableCell, TableContainer, ThemeProvider, Slider } from '@mui/material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { StyledToggleButton, StyledButton } from './util/util';
-import { renderProgress, StyledTypography, TitleComponent, DataTable, DatePickerTheme, disablePastDatesAndWeekends, FilteredDataTable, renderProgressBar, StockInfo } from './util/htsUtil';
-import { API, STOCK, TEST } from './util/config';
+import { StyledToggleButton } from './util/util';
+import { renderProgress, StyledTypography, TitleComponent, DataTable, DatePickerTheme, disablePastDatesAndWeekends, FilteredDataTable, renderProgressBar, StockInfo, Financial } from './util/htsUtil';
+import { API, STOCK } from './util/config';
 import StockChart from './SectorsPage/stockChart';
 
 export default function HtsPage({ swiperRef }) {
@@ -85,7 +85,8 @@ export default function HtsPage({ swiperRef }) {
         const res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
         setStock({
             종목명: params.종목명, 종목코드: params.종목코드, 업종명: params.업종명,
-            시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장
+            시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,
+            최고가52주: res.data.최고가52주, 최저가52주: res.data.최저가52주, 기업개요: res.data.기업개요, 분기실적: res.data.분기실적, 연간실적: res.data.연간실적
         })
     }
 
@@ -502,7 +503,9 @@ export default function HtsPage({ swiperRef }) {
 
             {/* Information */}
             <Grid item container>
-                <Grid item xs={2.8}>주요재무</Grid>
+                <Grid item xs={2.8}>
+                    <Financial annual={stock.연간실적} quarter={stock.분기실적} />
+                </Grid>
                 <Grid item xs={4.1}>
                     <StockChart stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} />
                 </Grid>

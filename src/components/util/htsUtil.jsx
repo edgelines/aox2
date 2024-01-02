@@ -244,18 +244,20 @@ export function renderProgressBar(params) {
 export const StockInfo = ({ data }) => {
 
     const StyledTypography = styledComponents(Typography)`    
-             font-size: ${props => props.fontSize ? props.fontSize : '12px'};
+            font-size: ${props => props.fontSize ? props.fontSize : '12px'};
+            text-align : ${props => props.textAlign ? props.textAlign : 'left'};
         `;
+
 
     return (
         <Grid container spacing={2}>
             <Grid item container sx={{ borderBottom: '2px solid #efe9e9ed' }}>
-                <Grid item xs={4.7}><StyledTypography>{data.종목명}</StyledTypography></Grid>
-                <Grid item xs={4.7}><StyledTypography>{data.업종명}</StyledTypography></Grid>
-                <Grid item xs={2.6}><StyledTypography>{data.시장 === 'K' ? 'Kospi' : 'Kosdaq'}</StyledTypography></Grid>
+                <Grid item xs={4.7}><StyledTypography textAlign='center' >{data.종목명}</StyledTypography></Grid>
+                <Grid item xs={4.7}><StyledTypography textAlign='center' >{data.업종명}</StyledTypography></Grid>
+                <Grid item xs={2.6}><StyledTypography textAlign='center' >{data.시장 === 'K' ? 'Kospi' : 'Kosdaq'}</StyledTypography></Grid>
             </Grid>
             <Grid item container>
-                <Stack direction='row' spacing={5} sx={{ pl: 2 }}>
+                <Stack direction='row' spacing={5} sx={{ pl: 2, pr: 2 }}>
                     <StyledTypography fontSize="12px">시가총액</StyledTypography>
                     <StyledTypography fontSize="12px">{parseInt((parseInt(data.시가총액) / 100000000).toFixed(0)).toLocaleString('kr')} 억</StyledTypography>
                     <StyledTypography fontSize="12px">상장주식수</StyledTypography>
@@ -263,7 +265,7 @@ export const StockInfo = ({ data }) => {
                 </Stack>
             </Grid>
             <Grid item container>
-                <Stack direction='row' spacing={3.5} sx={{ pl: 2 }}>
+                <Stack direction='row' spacing={3.5} sx={{ pl: 2, pr: 2 }}>
                     <StyledTypography fontSize="12px">PER</StyledTypography>
                     <StyledTypography fontSize="12px">{data.PER}</StyledTypography>
                     <StyledTypography fontSize="12px">PBR</StyledTypography>
@@ -274,11 +276,36 @@ export const StockInfo = ({ data }) => {
                     <StyledTypography fontSize="12px">{data.BPS.toLocaleString('kr')} 원</StyledTypography>
                 </Stack>
             </Grid>
-            <Grid item container xs={6}>
-                <Stack direction='row' spacing={3} sx={{ pl: 2 }}>
+            <Grid item container>
+                <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
+                    <StyledTypography fontSize="12px">52주 최고가</StyledTypography>
+                    <StyledTypography fontSize="12px">{data.최고가52주.toLocaleString('kr')} 원</StyledTypography>
+                    <StyledTypography fontSize="12px">52주 최저가</StyledTypography>
+                    <StyledTypography fontSize="12px">{data.최저가52주.toLocaleString('kr')} 원</StyledTypography>
                 </Stack>
             </Grid>
 
+            <Grid item container>
+                <Stack direction='column' spacing={1} sx={{ pl: 2, pr: 2 }}>
+                    {data.기업개요.map(item => (
+                        <StyledTypography key={item} fontSize="12px">{item}</StyledTypography>
+                    ))}
+                </Stack>
+            </Grid>
+
+        </Grid>
+    )
+}
+
+export const Financial = ({ annual, quarter }) => {
+    return (
+        <Grid container>
+            <Grid item xs={6}>
+
+            </Grid>
+            <Grid item xs={6}>
+
+            </Grid>
         </Grid>
     )
 }
