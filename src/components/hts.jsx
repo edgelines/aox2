@@ -7,7 +7,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { StyledToggleButton } from './util/util';
-import { renderProgress, StyledTypography, TitleComponent, DataTable, DatePickerTheme, disablePastDatesAndWeekends, FilteredDataTable, renderProgressBar, StockInfo, Financial } from './util/htsUtil';
+import { renderProgress, StyledTypography, TitleComponent, DataTable, DatePickerTheme, disablePastDatesAndWeekends, FilteredDataTable, renderProgressBar, StockInfo, Financial, EtcInfo } from './util/htsUtil';
 import { API, STOCK } from './util/config';
 import StockChart from './util/stockChart';
 
@@ -56,8 +56,8 @@ export default function HtsPage({ swiperRef }) {
         setDate(getDate)
     }
     const handleFilteredTable = async (type, item, market, date, time) => {
+        let res
         if (type === '업종') {
-            let res
             if (date && time) {
                 res = await axios.get(`${API}/hts/findIndustry/${item.업종명}?name=${market}&date=${date}&time=${time}`);
             } else if (date) {
@@ -65,12 +65,17 @@ export default function HtsPage({ swiperRef }) {
             } else {
                 res = await axios.get(`${API}/hts/findIndustry/${item.업종명}?name=${market}`);
             }
-
-            setFilteredDataTable(res.data.종목들);
-            // const res = await axios.get(`${API}/info/findIndustry/${item.업종명}`);    
+        } else if (type === '테마') {
+            if (date && time) {
+                res = await axios.get(`${API}/hts/findThemes/${item.테마명}?name=${market}&date=${date}&time=${time}`);
+            } else if (date) {
+                res = await axios.get(`${API}/hts/findThemes/${item.테마명}?name=${market}&date=${date}`);
+            } else {
+                res = await axios.get(`${API}/hts/findThemes/${item.테마명}?name=${market}`);
+            }
         }
-        // console.log(item);
-        // const res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
+        setFilteredDataTable(res.data);
+
     }
     const handleValueChange = (type, newValue) => {
         setCountBtn(prev => ({
@@ -83,11 +88,12 @@ export default function HtsPage({ swiperRef }) {
     const getStockCode = async (params) => {
         // 시가총액, 상장주식수, PER, EPS, PBR, BPS
         const res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
-
+        // console.log(res.data);
         setStock({
             종목명: params.종목명, 종목코드: params.종목코드, 업종명: params.업종명, 현재가: res.data.현재가,
             시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,
-            최고가52주: res.data.최고가52주, 최저가52주: res.data.최저가52주, 기업개요: res.data.기업개요, 분기실적: res.data.분기실적, 연간실적: res.data.연간실적
+            최고가52주: res.data.최고가52주, 최저가52주: res.data.최저가52주, 기업개요: res.data.기업개요, 분기실적: res.data.분기실적, 연간실적: res.data.연간실적,
+            주요제품매출구성: res.data.주요제품매출구성, 주요주주: res.data.주요주주
         })
     }
 
@@ -350,6 +356,24 @@ export default function HtsPage({ swiperRef }) {
                         <StyledToggleButton fontSize={'10px'} value="14:30">14:30</StyledToggleButton>
                     </ToggleButtonGroup>
                 </Grid>
+
+                <Grid item container xs={4} direction="row" alignItems="center">
+                    <ToggleButtonGroup
+                        color='info'
+                        exclusive
+                        size="small"
+                        // value={time}
+                        // onChange={handleTime}
+                        sx={{ pl: 1.3 }}
+                    >
+                        <StyledToggleButton fontSize={'10px'} value="">추정 매매동향</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="">업종 65위 이하</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="">잠정 매출</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="">잠정 영업이익</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="">잠정 단기순이익</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="">연간(잠정)실적</StyledToggleButton>
+                    </ToggleButtonGroup>
+                </Grid>
             </Grid>
 
             {/* Table */}
@@ -398,7 +422,7 @@ export default function HtsPage({ swiperRef }) {
                             <Table size='small'>
                                 <TableBody>
                                     {data6.map(item => (
-                                        <TableRow key={item.테마명} onClick={() => handleFilteredTable('테마', item)}>
+                                        <TableRow key={item.테마명} onClick={() => handleFilteredTable('테마', item, market, date, time)}>
                                             <TableCell size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }} >{item.테마명.slice(0, 11)}</TableCell>
                                             <TableCell size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }}>{item.갯수}</TableCell>
                                         </TableRow>
@@ -447,8 +471,14 @@ export default function HtsPage({ swiperRef }) {
 
             {/* Information */}
             <Grid item container spacing={1}>
-                <Grid item xs={3.5}>
-                    <Financial annual={stock.연간실적} quarter={stock.분기실적} />
+                <Grid item container xs={3.5}>
+                    <Grid container>
+                        <Financial annual={stock.연간실적} quarter={stock.분기실적} />
+                    </Grid>
+                    <Grid container sx={{ mt: 3 }}>
+                        <EtcInfo product={stock.주요제품매출구성} shareholder={stock.주요주주} />
+                    </Grid>
+
                 </Grid>
                 <Grid item xs={4}>
                     <StockChart stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} price={stock.현재가} />

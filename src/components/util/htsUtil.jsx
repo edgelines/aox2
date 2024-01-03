@@ -248,8 +248,6 @@ const StyledTypography_StockInfo = styledComponents(Typography)`
 
 export const StockInfo = ({ data }) => {
 
-
-
     return (
         <Grid container spacing={2}>
             <Grid item container sx={{ borderBottom: '2px solid #efe9e9ed' }}>
@@ -312,7 +310,7 @@ export const StockInfo = ({ data }) => {
 
 const FinancialTable = ({ data1, data2 }) => {
     const dataRows = ["매출액", "영업이익", "당기순이익", "부채비율", "유보율"]
-    const baseStyle = { fontSize: '10px', p: 0.2, textAlign: 'right' }
+    const baseStyle = { fontSize: '11px', p: 0.2, textAlign: 'right' }
     return (
         <Table>
             <TableHead>
@@ -354,12 +352,50 @@ export const Financial = ({ annual, quarter }) => {
         <Grid container>
             {annual && annual.length > 0 ?
                 <Grid container>
-
                     <FinancialTable data1={annual} data2={quarter} />
-
                 </Grid>
                 : <Grid container></Grid>
             }
+        </Grid>
+    )
+}
+
+export const EtcInfo = ({ product, shareholder }) => {
+    const baseStyle = { fontSize: '11px', p: 0.2, textAlign: 'right' }
+    return (
+        <Grid container>
+            {Array.isArray(product) ?
+                <Grid item container spacing={1}>
+                    <Grid item xs={4}>
+                        <StyledTypography_StockInfo fontSize="12px" textAlign='center'>주요제품 매출구성</StyledTypography_StockInfo>
+                        <Table sx={{ mt: 1 }}>
+                            <TableBody>
+                                {product.map(item => (
+                                    <TableRow key={item.제품명}>
+                                        <TableCell sx={{ color: '#efe9e9ed', ...baseStyle }} >{item.제품명}</TableCell>
+                                        <TableCell sx={{ color: '#efe9e9ed', ...baseStyle }} >{item.구성비} %</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </Grid>
+                    <Grid item xs={8}>
+                        <StyledTypography_StockInfo fontSize="12px" textAlign='center'>주요 주주</StyledTypography_StockInfo>
+                        <Table sx={{ mt: 1 }}>
+                            <TableBody>
+                                {shareholder.map(item => (
+                                    <TableRow key={item.주요주주}>
+                                        <TableCell sx={{ color: '#efe9e9ed', ...baseStyle }}>{item.주요주주}</TableCell>
+                                        <TableCell sx={{ color: '#efe9e9ed', ...baseStyle }}>{item['보유주식수(보통)'].toLocaleString('KR')} 주</TableCell>
+                                        <TableCell sx={{ color: '#efe9e9ed', ...baseStyle }}>{item['보유지분(%)']} %</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </Grid>
+                </Grid>
+                :
+                <></>}
         </Grid>
     )
 }
