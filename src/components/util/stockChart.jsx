@@ -15,7 +15,7 @@ Highcharts.setOptions({
     }
 });
 
-const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, 평균단가, height, indicators }) => {
+const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, 평균단가, height, indicators, price }) => {
     const [전일대비, set전일대비] = useState(null);
     const [chartOptions, setChartOptions] = useState({
         chart: { animation: false, height: height ? height : 360, },
@@ -383,7 +383,11 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
                                 <span style={{ fontSize: '20px' }}>
                                     평단 : {(parseInt(평균단가)).toLocaleString('KR-KO')} 원
                                 </span>
-                                : <></>}
+                                :
+                                <span style={{ fontSize: '20px' }}>
+                                    현재가 : {(parseInt(price)).toLocaleString('KR-KO')} 원
+                                </span>
+                            }
                         </Typography>
                         <Typography sx={{ color: 'black', fontWeight: 600 }}>
                             전일 :

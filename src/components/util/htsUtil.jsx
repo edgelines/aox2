@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import dayjs from 'dayjs';
 import { styled } from '@mui/material/styles';
-import { Grid, Box, Typography, ToggleButtonGroup, Skeleton, Table, TableHead, TableBody, TableRow, TableCell, TableContainer, Stack } from '@mui/material';
+import { Grid, Box, Typography, ToggleButtonGroup, Skeleton, Table, TableHead, TableBody, TableRow, TableCell, TableContainer, Stack, Divider } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styledComponents from 'styled-components';
@@ -40,13 +40,13 @@ export const TitleComponent = ({ title, statistics }) => {
             {statistics ?
                 <>
                     <Grid item xs={5}>
-                        <StyledTypography>{title}</StyledTypography>
+                        <StyledTypography_StockInfo>{title}</StyledTypography_StockInfo>
                     </Grid>
                     <Grid item container xs={7}
                         direction="row"
                         justifyContent="center"
                     >
-                        <StyledTypography>{statistics.up} / {statistics.total} ( {statistics.per} % , Av.{statistics.avg} %  )</StyledTypography>
+                        <StyledTypography_StockInfo>{statistics.up} / {statistics.total} ( {statistics.per} % , Av.{statistics.avg} %  )</StyledTypography_StockInfo>
                         {/* <Grid item xs={6}>
                         </Grid> */}
 
@@ -241,54 +241,67 @@ export function renderProgressBar(params) {
 }
 
 
+const StyledTypography_StockInfo = styledComponents(Typography)`    
+        font-size: ${props => props.fontSize ? props.fontSize : '12px'};
+        text-align : ${props => props.textAlign ? props.textAlign : 'left'};
+    `;
+
 export const StockInfo = ({ data }) => {
 
-    const StyledTypography = styledComponents(Typography)`    
-            font-size: ${props => props.fontSize ? props.fontSize : '12px'};
-            text-align : ${props => props.textAlign ? props.textAlign : 'left'};
-        `;
 
 
     return (
         <Grid container spacing={2}>
             <Grid item container sx={{ borderBottom: '2px solid #efe9e9ed' }}>
-                <Grid item xs={4.7}><StyledTypography textAlign='center' >{data.종목명}</StyledTypography></Grid>
-                <Grid item xs={4.7}><StyledTypography textAlign='center' >{data.업종명}</StyledTypography></Grid>
-                <Grid item xs={2.6}><StyledTypography textAlign='center' >{data.시장 === 'K' ? 'Kospi' : 'Kosdaq'}</StyledTypography></Grid>
+                <Grid item xs={4.7}><StyledTypography_StockInfo textAlign='center' >{data.종목명}</StyledTypography_StockInfo></Grid>
+                <Grid item xs={4.7}><StyledTypography_StockInfo textAlign='center' >{data.업종명}</StyledTypography_StockInfo></Grid>
+                <Grid item xs={2.6}><StyledTypography_StockInfo textAlign='center' >{data.시장 === 'K' ? 'Kospi' : 'Kosdaq'}</StyledTypography_StockInfo></Grid>
             </Grid>
             <Grid item container>
                 <Stack direction='row' spacing={5} sx={{ pl: 2, pr: 2 }}>
-                    <StyledTypography fontSize="12px">시가총액</StyledTypography>
-                    <StyledTypography fontSize="12px">{parseInt((parseInt(data.시가총액) / 100000000).toFixed(0)).toLocaleString('kr')} 억</StyledTypography>
-                    <StyledTypography fontSize="12px">상장주식수</StyledTypography>
-                    <StyledTypography fontSize="12px">{data.상장주식수.toLocaleString('kr')}</StyledTypography>
-                </Stack>
-            </Grid>
-            <Grid item container>
-                <Stack direction='row' spacing={3.5} sx={{ pl: 2, pr: 2 }}>
-                    <StyledTypography fontSize="12px">PER</StyledTypography>
-                    <StyledTypography fontSize="12px">{data.PER}</StyledTypography>
-                    <StyledTypography fontSize="12px">PBR</StyledTypography>
-                    <StyledTypography fontSize="12px">{data.PBR}</StyledTypography>
-                    <StyledTypography fontSize="12px">EPS</StyledTypography>
-                    <StyledTypography fontSize="12px">{data.EPS.toLocaleString('kr')} 원</StyledTypography>
-                    <StyledTypography fontSize="12px">BPS</StyledTypography>
-                    <StyledTypography fontSize="12px">{data.BPS.toLocaleString('kr')} 원</StyledTypography>
+                    <StyledTypography_StockInfo fontSize="12px">시가총액</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">{parseInt((parseInt(data.시가총액) / 100000000).toFixed(0)).toLocaleString('kr')} 억</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">상장주식수</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">{data.상장주식수.toLocaleString('kr')}</StyledTypography_StockInfo>
                 </Stack>
             </Grid>
             <Grid item container>
                 <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
-                    <StyledTypography fontSize="12px">52주 최고가</StyledTypography>
-                    <StyledTypography fontSize="12px">{data.최고가52주.toLocaleString('kr')} 원</StyledTypography>
-                    <StyledTypography fontSize="12px">52주 최저가</StyledTypography>
-                    <StyledTypography fontSize="12px">{data.최저가52주.toLocaleString('kr')} 원</StyledTypography>
+                    <StyledTypography_StockInfo fontSize="12px">PER</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">{data.PER}</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">PBR</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">{data.PBR}</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">EPS</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">{data.EPS.toLocaleString('kr')} 원</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">BPS</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">{data.BPS.toLocaleString('kr')} 원</StyledTypography_StockInfo>
+                </Stack>
+            </Grid>
+            <Grid item container sx={{ borderBottom: '1px solid #efe9e9ed' }}>
+
+            </Grid>
+
+            <Grid item container>
+                <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
+                    <StyledTypography_StockInfo fontSize="12px">52주 최고가</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">{data.최고가52주.toLocaleString('kr')} 원</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">52주 최저가</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">{data.최저가52주.toLocaleString('kr')} 원</StyledTypography_StockInfo>
+                </Stack>
+            </Grid>
+
+            <Grid item container>
+                <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
+                    <StyledTypography_StockInfo fontSize="12px">현재가</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">{data.현재가.toLocaleString('kr')} 원</StyledTypography_StockInfo>
+
                 </Stack>
             </Grid>
 
             <Grid item container>
                 <Stack direction='column' spacing={1} sx={{ pl: 2, pr: 2 }}>
                     {data.기업개요.map(item => (
-                        <StyledTypography key={item} fontSize="12px">{item}</StyledTypography>
+                        <StyledTypography_StockInfo key={item} fontSize="12px">{item}</StyledTypography_StockInfo>
                     ))}
                 </Stack>
             </Grid>
@@ -320,11 +333,11 @@ const FinancialTable = ({ data1, data2 }) => {
                         <TableRow key={item}>
                             <TableCell size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }}  >{item}</TableCell>
                             {data1.map(row => (
-                                <TableCell size='small' sx={{ color: row[item] < 0 ? '#00F3FF' : '#efe9e9ed', ...baseStyle }} >{parseInt(row[item]).toLocaleString('KR')} </TableCell>
+                                <TableCell key={row[item]} size='small' sx={{ color: row[item] < 0 ? '#00F3FF' : '#efe9e9ed', ...baseStyle }} >{parseInt(row[item]).toLocaleString('KR')} </TableCell>
                             ))}
                             <TableCell></TableCell>
                             {data2.map(row => (
-                                <TableCell size='small' sx={{ color: row[item] < 0 ? '#00F3FF' : '#efe9e9ed', ...baseStyle }} >{parseInt(row[item]).toLocaleString('KR')} </TableCell>
+                                <TableCell key={row[item]} size='small' sx={{ color: row[item] < 0 ? '#00F3FF' : '#efe9e9ed', ...baseStyle }} >{parseInt(row[item]).toLocaleString('KR')} </TableCell>
                             ))}
                         </TableRow>
                     ))

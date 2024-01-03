@@ -83,9 +83,9 @@ export default function HtsPage({ swiperRef }) {
     const getStockCode = async (params) => {
         // 시가총액, 상장주식수, PER, EPS, PBR, BPS
         const res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
-        console.log(res.data);
+
         setStock({
-            종목명: params.종목명, 종목코드: params.종목코드, 업종명: params.업종명,
+            종목명: params.종목명, 종목코드: params.종목코드, 업종명: params.업종명, 현재가: res.data.현재가,
             시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,
             최고가52주: res.data.최고가52주, 최저가52주: res.data.최저가52주, 기업개요: res.data.기업개요, 분기실적: res.data.분기실적, 연간실적: res.data.연간실적
         })
@@ -443,63 +443,6 @@ export default function HtsPage({ swiperRef }) {
                         : <Skeleton />
                 }
 
-                {/* {
-                    Array.isArray(countBtn.table1) ?
-                        indicators.map((indicator, index) => (
-
-                        <Box key={indicator.name} sx={{ position: 'absolute', transform: `translate(${indicator.adjustWidth}, ${tableHeight - 15}px)`, zIndex: 90 }}>
-                            <Grid container sx={{ width: '130px' }}>
-                                
-                                    
-                                    <Grid item xs={1} container direction="row" alignItems="center" sx={{ pr: 2 }}>
-                                        {countBtn[indicator.name][0]}
-                                    </Grid>
-                                    <Grid item xs={8} container>
-                                        <Slider
-                                            value={countBtn[indicator.name]}
-                                            onChange={handleValueChange(indicator.name)}
-                                            valueLabelDisplay="auto"
-                                            step={1}
-                                            min={1}
-                                            max={consecutiveMax[indicator.name]}
-                                            size="small"
-                                            sx={{ color: '#efe9e9ed' }}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={1} container justifyContent="flex-end" alignItems="center" sx={{ pl: 3 }}>
-                                        {countBtn[indicator.name][1]}
-                                    </Grid>
-                    
-                                
-                            </Grid>
-                        </Box>)
-                    : <Skeleton />
-                )} */}
-
-
-                {/* <Box sx={{ position: 'absolute', transform: `translate(10px, ${tableHeight - 15}px)`, zIndex: 90 }}>
-                    <Grid container sx={{ width: '130px' }}>
-                        <Grid item xs={1} container direction="row" alignItems="center" sx={{ pr: 2 }}>
-                            {countBtn.table1[0] === null ? 0 : countBtn.table1[0]}
-                        </Grid>
-                        <Grid item xs={8} container>
-                            <Slider
-                                value={countBtn.table1}
-                                onChange={handleValueChange(indicator[0].name)}
-                                valueLabelDisplay="auto"
-                                step={1}
-                                min={1}
-                                max={consecutiveMax.table1}
-                                size="small"
-                                sx={{ color: '#efe9e9ed' }}
-                            />
-                        </Grid>
-                        <Grid item xs={1} container justifyContent="flex-end" alignItems="center" sx={{ pl: 3 }}>
-                            {countBtn.table1[1] === null ? 0 : countBtn.table1[1]}
-                        </Grid>
-                    </Grid>
-                </Box> */}
-
             </Grid>
 
             {/* Information */}
@@ -508,7 +451,7 @@ export default function HtsPage({ swiperRef }) {
                     <Financial annual={stock.연간실적} quarter={stock.분기실적} />
                 </Grid>
                 <Grid item xs={4}>
-                    <StockChart stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} />
+                    <StockChart stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} price={stock.현재가} />
                 </Grid>
                 <Grid item xs={3}>
                     {stock.종목코드 === null ? '' :
