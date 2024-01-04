@@ -331,11 +331,11 @@ const FinancialTable = ({ data1, data2 }) => {
                         <TableRow key={item}>
                             <TableCell size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }}  >{item}</TableCell>
                             {data1.map(row => (
-                                <TableCell key={row[item]} size='small' sx={{ color: row[item] < 0 ? '#00F3FF' : '#efe9e9ed', ...baseStyle }} >{parseInt(row[item]).toLocaleString('KR')} </TableCell>
+                                <TableCell key={row[item]} size='small' sx={{ color: row[item] < 0 ? '#00F3FF' : '#efe9e9ed', ...baseStyle, fontWeight: 'bold' }} >{parseInt(row[item]).toLocaleString('KR')} </TableCell>
                             ))}
                             <TableCell></TableCell>
                             {data2.map(row => (
-                                <TableCell key={row[item]} size='small' sx={{ color: row[item] < 0 ? '#00F3FF' : '#efe9e9ed', ...baseStyle }} >{parseInt(row[item]).toLocaleString('KR')} </TableCell>
+                                <TableCell key={row[item]} size='small' sx={{ color: row[item] < 0 ? '#00F3FF' : '#efe9e9ed', ...baseStyle, fontWeight: 'bold' }} >{parseInt(row[item]).toLocaleString('KR')} </TableCell>
                             ))}
                         </TableRow>
                     ))
