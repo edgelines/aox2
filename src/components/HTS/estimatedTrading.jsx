@@ -32,24 +32,18 @@ export function EstimatedTrading({ swiperRef, market, time, date }) {
 
 
     const handleFilteredTable = async (type, item, market, date, time) => {
-        let res
-        if (type === '업종') {
-            if (date && time) {
-                res = await axios.get(`${API}/hts/findIndustry/${item.업종명}?name=${market}&date=${date}&time=${time}`);
-            } else if (date) {
-                res = await axios.get(`${API}/hts/findIndustry/${item.업종명}?name=${market}&date=${date}`);
-            } else {
-                res = await axios.get(`${API}/hts/findIndustry/${item.업종명}?name=${market}`);
-            }
-        } else if (type === '테마') {
-            if (date && time) {
-                res = await axios.get(`${API}/hts/findThemes/${item.테마명}?name=${market}&date=${date}&time=${time}`);
-            } else if (date) {
-                res = await axios.get(`${API}/hts/findThemes/${item.테마명}?name=${market}&date=${date}`);
-            } else {
-                res = await axios.get(`${API}/hts/findThemes/${item.테마명}?name=${market}`);
-            }
+        // let res
+        const postData = {
+            type: type === '업종' ? '업종명' : '테마명',
+            split: '2',
+            name: type === '업종' ? item.업종명 : item.테마명,
+            market: market,
+            date: date ? date : 'null',
+            time: time ? time : 'null'
         }
+
+        const res = await axios.post(`${API}/hts/findData`, postData)
+
         setFilteredDataTable(res.data);
 
     }

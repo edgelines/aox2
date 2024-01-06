@@ -325,10 +325,6 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <OldAoxStockPage swiperRef={swiperRef} />
-                </SwiperSlide>
-
-                <SwiperSlide style={swiperSlideStyle} >
                     <HTS swiperRef={swiperRef} />
                 </SwiperSlide>
 
@@ -374,7 +370,9 @@ export default App;
 
 const swiperSlideStyle = { backgroundColor: "#404040", color: '#efe9e9ed', paddingLeft: '2vh', paddingRight: '2vh', paddingTop: '0.2vh' }
 
-
+{/* <SwiperSlide style={swiperSlideStyle} >
+                    <OldAoxStockPage swiperRef={swiperRef} />
+                </SwiperSlide> */}
 
 {/* <SwiperSlide style={swiperSlideStyle} >
                     <StockSearchPage swiperRef={swiperRef} StockSearch={StockSearch} StockSearchTracking={StockSearchTracking} />

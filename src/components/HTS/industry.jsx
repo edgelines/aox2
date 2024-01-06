@@ -29,33 +29,52 @@ export function Industry({ swiperRef, market, time, date }) {
     const [tableB2, setTableB2] = useState('');
     const [day, setDay] = useState({ now: '', b1: '', b2: '' })
 
-    const [keyword, setKeyword] = useState({ type: null, value: null });
+    // 기능
+    // const [keyword, setKeyword] = useState({ type: null, value: null });
     // 공란
     const handleFilteredTable = async (type, item, market, date, time) => { }
+    const getStockCode = async (params) => { }
     // 하단 업종 또는 테마를 누를 경우
     const handleFindIndustryThemes = async (params, type, market, date, time) => {
-        setKeyword({ type: type, value: params });
-        console.log(params, type, market, date, time);
-        // let res
-        // if (type === '업종') {
-        //     if (date && time) {
-        //         res = await axios.get(`${API}/hts/findIndustry/${params}?split=1&name=${market}&date=${date}&time=${time}`);
-        //     } else if (date) {
-        //         res = await axios.get(`${API}/hts/findIndustry/${params}?split=1&name=${market}&date=${date}`);
-        //     } else {
-        //         res = await axios.get(`${API}/hts/findIndustry/${params}?split=1&name=${market}`);
-        //     }
-        // } else if (type === '테마') {
-        //     if (date && time) {
-        //         res = await axios.get(`${API}/hts/findThemes/${params}?split=1&name=${market}&date=${date}&time=${time}`);
-        //     } else if (date) {
-        //         res = await axios.get(`${API}/hts/findThemes/${params}?split=1&name=${market}&date=${date}`);
-        //     } else {
-        //         res = await axios.get(`${API}/hts/findThemes/${params}?split=1&name=${market}`);
-        //     }
-        // }
-        // console.log(res);
-        // setFilteredDataTable(res.data);
+        // console.log(params, type, market, date, time);
+        // setClick(prevStatus => !prevStatus);
+
+        // setPostParams({
+        //     type: type === '업종' ? '업종명' : '테마명',
+        //     split: '1',
+        //     name: params,
+        //     market: market,
+        //     date: date ? date : 'null',
+        //     time: time ? time : 'null'
+        // })
+        // setKeyword({ type: type, value: params });
+
+        const postData = {
+            type: type === '업종' ? '업종명' : '테마명',
+            split: '1',
+            name: params,
+            market: market,
+            date: date ? date : 'null',
+            time: time ? time : 'null'
+        }
+
+        const res = await axios.post(`${API}/hts/findData`, postData)
+
+        setDataOrigin(res.data);
+        setData5(res.data.industry);
+        setData6(res.data.themes);
+        setStatistics(res.data.statistics);
+        setCountBtn({
+            table1: [res.data.consecutive[0].min, res.data.consecutive[0].max],
+            table2: [res.data.consecutive[1].min, res.data.consecutive[1].max],
+            table3: [res.data.consecutive[2].min, res.data.consecutive[2].max]
+        })
+        secConsecutiveMax({
+            table1: res.data.consecutive[0].max,
+            table2: res.data.consecutive[1].max,
+            table3: res.data.consecutive[2].max
+        })
+
     }
     const handleValueChange = (type, newValue) => {
         setCountBtn(prev => ({
@@ -114,69 +133,69 @@ export function Industry({ swiperRef, market, time, date }) {
         return `${year}-${month}-${dayOfMonth}`;
     }
 
-    const fetchData = async (market, date, time, keyword) => {
+    const fetchData = async (market, date, time) => {
         try {
-
+            // setKeyword({ type: null, value: null });
             await axios.get(`${API}/lowSectorsRankDf`).then((res) => { setTableLeft(res.data) });
             await axios.get(`${API}/sectorsRankDf4`).then((res) => { setTableRight(res.data); });
             await axios.get(`${API}/theme/lowSectorsRankDfTop3`).then((res) => {
-                setTableB2(res.data[0].data)
-                setTableB1(res.data[1].data)
-                setTableToday(res.data[2].data)
+                setTableB2(res.data[0].data);
+                setTableB1(res.data[1].data);
+                setTableToday(res.data[2].data);
             });
 
             let res;
-            if (keyword.value == null) {
-                if (date && time) {
-                    res = await axios.get(`${API}/hts/trends?split=1&name=${market}&date=${date}&time=${time}`);
-                } else if (date) {
-                    res = await axios.get(`${API}/hts/trends?split=1&name=${market}&date=${date}`);
-                } else {
-                    res = await axios.get(`${API}/hts/trends?split=1&name=${market}`);
-                }
-                setDataOrigin(res.data);
-                setData5(res.data.industry);
-                setData6(res.data.themes);
-                setStatistics(res.data.statistics);
-                setCountBtn({
-                    table1: [res.data.consecutive[0].min, res.data.consecutive[0].max],
-                    table2: [res.data.consecutive[1].min, res.data.consecutive[1].max],
-                    table3: [res.data.consecutive[2].min, res.data.consecutive[2].max]
-                })
-                secConsecutiveMax({
-                    table1: res.data.consecutive[0].max,
-                    table2: res.data.consecutive[1].max,
-                    table3: res.data.consecutive[2].max
-                })
+            if (date && time) {
+                res = await axios.get(`${API}/hts/trends?split=1&name=${market}&date=${date}&time=${time}`);
+            } else if (date) {
+                res = await axios.get(`${API}/hts/trends?split=1&name=${market}&date=${date}`);
+            } else {
+                res = await axios.get(`${API}/hts/trends?split=1&name=${market}`);
             }
-            else {
-                if (keyword.type === '업종') {
-                    if (date && time) {
-                        res = await axios.get(`${API}/hts/findIndustry/${keyword.value}?split=1&name=${market}&date=${date}&time=${time}`);
-                    } else if (date) {
-                        res = await axios.get(`${API}/hts/findIndustry/${keyword.value}?split=1&name=${market}&date=${date}`);
-                    } else {
-                        res = await axios.get(`${API}/hts/findIndustry/${keyword.value}?split=1&name=${market}`);
-                    }
-                } else if (keyword.type === '테마') {
-                    if (date && time) {
-                        res = await axios.get(`${API}/hts/findThemes/${keyword.value}?split=1&name=${market}&date=${date}&time=${time}`);
-                    } else if (date) {
-                        res = await axios.get(`${API}/hts/findThemes/${keyword.value}?split=1&name=${market}&date=${date}`);
-                    } else {
-                        res = await axios.get(`${API}/hts/findThemes/${keyword.value}?split=1&name=${market}`);
-                    }
-                }
-                console.log(res.data);
-            }
+            setDataOrigin(res.data);
+            setData5(res.data.industry);
+            setData6(res.data.themes);
+            setStatistics(res.data.statistics);
+            setCountBtn({
+                table1: [res.data.consecutive[0].min, res.data.consecutive[0].max],
+                table2: [res.data.consecutive[1].min, res.data.consecutive[1].max],
+                table3: [res.data.consecutive[2].min, res.data.consecutive[2].max]
+            })
+            secConsecutiveMax({
+                table1: res.data.consecutive[0].max,
+                table2: res.data.consecutive[1].max,
+                table3: res.data.consecutive[2].max
+            })
+
+            // else {
+            //     const res = await axios.post(`${API}/hts/findData`, postData)
+
+            //     setDataOrigin(res.data);
+            //     setData5(res.data.industry);
+            //     setData6(res.data.themes);
+            //     setStatistics(res.data.statistics);
+            //     setCountBtn({
+            //         table1: [res.data.consecutive[0].min, res.data.consecutive[0].max],
+            //         table2: [res.data.consecutive[1].min, res.data.consecutive[1].max],
+            //         table3: [res.data.consecutive[2].min, res.data.consecutive[2].max]
+            //     })
+            //     secConsecutiveMax({
+            //         table1: res.data.consecutive[0].max,
+            //         table2: res.data.consecutive[1].max,
+            //         table3: res.data.consecutive[2].max
+            //     })
+            // }
+
         } catch (error) {
             console.error('Failed to fetch data:', error);
         }
     }
 
     // 데이터 업데이트
-    useEffect(() => { if (market) { fetchData(market, date, time, keyword); } }, [market, date, time, keyword])
+    useEffect(() => { if (market) { fetchData(market, date, time); } }, [market, date, time])
+    // useEffect(() => { fetchData(market, date, time, keyword); }, [date, time, keyword])
 
+    // 날짜 랜더링
     useEffect(() => {
         const today = setDate();
         const b1 = weekCheck(today)
@@ -228,7 +247,7 @@ export function Industry({ swiperRef, market, time, date }) {
                 const hour = now.getHours();
                 const dayOfWeek = now.getDay();
                 if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
-                    fetchData(market, date, time, keyword);
+                    fetchData(market, date, time);
                 } else if (hour >= 16) {
                     // 3시 30분 이후라면 인터벌 종료
                     clearInterval(intervalId);
@@ -280,10 +299,9 @@ export function Industry({ swiperRef, market, time, date }) {
         <Grid container>
             <TrendTables swiperRef={swiperRef} statistics={statistics} data1={data1} data2={data2} data3={data3} data5={data5} data6={data6} consecutiveMax={consecutiveMax} countBtn={countBtn}
                 market={market} date={date} time={time}
-                handleFilteredTable={handleFilteredTable} handleValueChange={handleValueChange} />
+                getStockCode={getStockCode} handleFilteredTable={handleFilteredTable} handleValueChange={handleValueChange} />
 
             {/* Information */}
-
             <Grid container spacing={1} >
                 <Grid item xs={4}>
                     <div style={{ height: '400px', width: "100%", borderBottom: '1px solid #efe9e9ed' }}
@@ -318,6 +336,11 @@ export function Industry({ swiperRef, market, time, date }) {
                                 {tableToday ?
                                     <ThemeProvider theme={customTheme}>
                                         <DataGrid rows={tableToday} hideFooter rowHeight={25} columns={tableDayCols}
+                                            onCellClick={(params, event) => {
+                                                if (params.field === '중복_업종명') {
+                                                    handleFindIndustryThemes(params.value, '업종', market, date, time)
+                                                }
+                                            }}
                                             sx={DataTableStyleDefault} />
                                     </ThemeProvider>
                                     : <Skeleton variant="rectangular" height={200} animation="wave" />
@@ -336,6 +359,11 @@ export function Industry({ swiperRef, market, time, date }) {
                                 {tableB1 ?
                                     <ThemeProvider theme={customTheme}>
                                         <DataGrid rows={tableB1} hideFooter rowHeight={25} columns={tableDayCols}
+                                            onCellClick={(params, event) => {
+                                                if (params.field === '중복_업종명') {
+                                                    handleFindIndustryThemes(params.value, '업종', market, date, time)
+                                                }
+                                            }}
                                             sx={DataTableStyleDefault} />
                                     </ThemeProvider>
                                     : <Skeleton variant="rectangular" height={200} animation="wave" />
@@ -350,6 +378,11 @@ export function Industry({ swiperRef, market, time, date }) {
                                 {tableB2 ?
                                     <ThemeProvider theme={customTheme}>
                                         <DataGrid rows={tableB2} hideFooter rowHeight={25} columns={tableDayCols}
+                                            onCellClick={(params, event) => {
+                                                if (params.field === '중복_업종명') {
+                                                    handleFindIndustryThemes(params.value, '업종', market, date, time)
+                                                }
+                                            }}
                                             sx={DataTableStyleDefault} />
                                     </ThemeProvider>
                                     : <Skeleton variant="rectangular" height={200} animation="wave" />
@@ -366,6 +399,12 @@ export function Industry({ swiperRef, market, time, date }) {
                         {tableRight ?
                             <ThemeProvider theme={customTheme}>
                                 <DataGrid rows={tableRight} hideFooter rowHeight={25} columns={tableRightCols}
+                                    sortModel={[{ field: '순위', sort: 'desc' }]} sortingOrder={['desc', 'asc']}
+                                    onCellClick={(params, event) => {
+                                        if (params.field === '업종명') {
+                                            handleFindIndustryThemes(params.value, '업종', market, date, time)
+                                        }
+                                    }}
                                     sx={DataTableStyleDefault} />
                             </ThemeProvider>
                             : <Skeleton variant="rectangular" height={200} animation="wave" />
