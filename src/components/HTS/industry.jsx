@@ -48,32 +48,35 @@ export function Industry({ swiperRef, market, time, date }) {
         //     time: time ? time : 'null'
         // })
         // setKeyword({ type: type, value: params });
+        try {
+            const postData = {
+                type: type === '업종' ? '업종명' : '테마명',
+                split: '1',
+                name: params,
+                market: market,
+                date: date ? date : 'null',
+                time: time ? time : 'null'
+            }
 
-        const postData = {
-            type: type === '업종' ? '업종명' : '테마명',
-            split: '1',
-            name: params,
-            market: market,
-            date: date ? date : 'null',
-            time: time ? time : 'null'
+            const res = await axios.post(`${API}/hts/findData`, postData)
+
+            setDataOrigin(res.data);
+            setData5(res.data.industry);
+            setData6(res.data.themes);
+            setStatistics(res.data.statistics);
+            setCountBtn({
+                table1: [res.data.consecutive[0].min, res.data.consecutive[0].max],
+                table2: [res.data.consecutive[1].min, res.data.consecutive[1].max],
+                table3: [res.data.consecutive[2].min, res.data.consecutive[2].max]
+            })
+            secConsecutiveMax({
+                table1: res.data.consecutive[0].max,
+                table2: res.data.consecutive[1].max,
+                table3: res.data.consecutive[2].max
+            })
+        } catch (error) {
+            console.error('Failed to fetch data:', error);
         }
-
-        const res = await axios.post(`${API}/hts/findData`, postData)
-
-        setDataOrigin(res.data);
-        setData5(res.data.industry);
-        setData6(res.data.themes);
-        setStatistics(res.data.statistics);
-        setCountBtn({
-            table1: [res.data.consecutive[0].min, res.data.consecutive[0].max],
-            table2: [res.data.consecutive[1].min, res.data.consecutive[1].max],
-            table3: [res.data.consecutive[2].min, res.data.consecutive[2].max]
-        })
-        secConsecutiveMax({
-            table1: res.data.consecutive[0].max,
-            table2: res.data.consecutive[1].max,
-            table3: res.data.consecutive[2].max
-        })
 
     }
     const handleValueChange = (type, newValue) => {
@@ -144,14 +147,17 @@ export function Industry({ swiperRef, market, time, date }) {
                 setTableToday(res.data[2].data);
             });
 
-            let res;
-            if (date && time) {
-                res = await axios.get(`${API}/hts/trends?split=1&name=${market}&date=${date}&time=${time}`);
-            } else if (date) {
-                res = await axios.get(`${API}/hts/trends?split=1&name=${market}&date=${date}`);
-            } else {
-                res = await axios.get(`${API}/hts/trends?split=1&name=${market}`);
+            const postData = {
+                type: 'null',
+                split: '하위업종',
+                name: 'null',
+                market: market,
+                date: date ? date : 'null',
+                time: time ? time : 'null'
             }
+            const res = await axios.post(`${API}/hts/findData`, postData)
+
+
             setDataOrigin(res.data);
             setData5(res.data.industry);
             setData6(res.data.themes);
@@ -167,24 +173,6 @@ export function Industry({ swiperRef, market, time, date }) {
                 table3: res.data.consecutive[2].max
             })
 
-            // else {
-            //     const res = await axios.post(`${API}/hts/findData`, postData)
-
-            //     setDataOrigin(res.data);
-            //     setData5(res.data.industry);
-            //     setData6(res.data.themes);
-            //     setStatistics(res.data.statistics);
-            //     setCountBtn({
-            //         table1: [res.data.consecutive[0].min, res.data.consecutive[0].max],
-            //         table2: [res.data.consecutive[1].min, res.data.consecutive[1].max],
-            //         table3: [res.data.consecutive[2].min, res.data.consecutive[2].max]
-            //     })
-            //     secConsecutiveMax({
-            //         table1: res.data.consecutive[0].max,
-            //         table2: res.data.consecutive[1].max,
-            //         table3: res.data.consecutive[2].max
-            //     })
-            // }
 
         } catch (error) {
             console.error('Failed to fetch data:', error);

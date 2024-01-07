@@ -32,19 +32,22 @@ export function EstimatedTrading({ swiperRef, market, time, date }) {
 
 
     const handleFilteredTable = async (type, item, market, date, time) => {
-        // let res
-        const postData = {
-            type: type === '업종' ? '업종명' : '테마명',
-            split: '2',
-            name: type === '업종' ? item.업종명 : item.테마명,
-            market: market,
-            date: date ? date : 'null',
-            time: time ? time : 'null'
+        try {
+            const postData = {
+                type: type === '업종' ? '업종명' : '테마명',
+                split: '2',
+                name: type === '업종' ? item.업종명 : item.테마명,
+                market: market,
+                date: date ? date : 'null',
+                time: time ? time : 'null'
+            }
+
+            const res = await axios.post(`${API}/hts/findData`, postData)
+
+            setFilteredDataTable(res.data);
+        } catch (error) {
+            console.error('Failed to fetch data:', error);
         }
-
-        const res = await axios.post(`${API}/hts/findData`, postData)
-
-        setFilteredDataTable(res.data);
 
     }
     const handleValueChange = (type, newValue) => {
@@ -76,14 +79,17 @@ export function EstimatedTrading({ swiperRef, market, time, date }) {
 
     const fetchData = async (market, date, time) => {
         try {
-            let res;
-            if (date && time) {
-                res = await axios.get(`${API}/hts/trends?name=${market}&date=${date}&time=${time}`);
-            } else if (date) {
-                res = await axios.get(`${API}/hts/trends?name=${market}&date=${date}`);
-            } else {
-                res = await axios.get(`${API}/hts/trends?name=${market}`);
+            const postData = {
+                type: 'null',
+                split: '추정매매동향',
+                name: 'null',
+                market: market,
+                date: date ? date : 'null',
+                time: time ? time : 'null'
             }
+
+            const res = await axios.post(`${API}/hts/findData`, postData)
+
             setDataOrigin(res.data);
             setData5(res.data.industry);
             setData6(res.data.themes);
