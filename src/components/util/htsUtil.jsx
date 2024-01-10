@@ -311,7 +311,6 @@ export const StockInfo = ({ data }) => {
 const FinancialTable = ({ data1, data2 }) => {
     const dataRows = ["매출액", "영업이익", "당기순이익", "부채비율", "유보율"]
     const baseStyle = { fontSize: '11px', p: 0.2, textAlign: 'right' }
-    console.log(data1, data2);
 
     return (
         <Table>

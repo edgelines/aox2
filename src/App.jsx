@@ -290,7 +290,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <HTS swiperRef={swiperRef} />
+                    <HTS swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -325,7 +325,7 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <HTS swiperRef={swiperRef} />
+                    <HTS swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >

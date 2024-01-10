@@ -84,6 +84,7 @@ export const TrendTables = ({ swiperRef, statistics, data1, data2, data3, data5,
         { name: 'table3', adjustWidth: '1110px' },
     ]
     const tableHeight = 440
+
     return (
         <>
             {/* Table */}

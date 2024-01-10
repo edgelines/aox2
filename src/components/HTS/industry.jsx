@@ -3,10 +3,12 @@ import axios from 'axios';
 import { Grid, Skeleton, Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { API, STOCK } from '../util/config';
+import { SectorsName15 } from '../util/util';
+import SectorChart from '../SectorsPage/sectorChart';
 import { TrendTables, StockInfoFinnacial } from './commonComponents'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-export function Industry({ swiperRef, market, time, date }) {
+export function Industry({ swiperRef, market, time, date, SectorsChartData }) {
 
     // Table State
     const [dataOrigin, setDataOrigin] = useState([]);
@@ -29,6 +31,9 @@ export function Industry({ swiperRef, market, time, date }) {
     const [tableB2, setTableB2] = useState('');
     const [day, setDay] = useState({ now: '', b1: '', b2: '' })
 
+    // 구분별 업종 
+    const [SectorsName, setSectorsName] = useState('');
+    const [SectorsChartDataSelected, setSectorsChartDataSelected] = useState([]);
     // 기능
     // const [keyword, setKeyword] = useState({ type: null, value: null });
     // 공란
@@ -36,18 +41,6 @@ export function Industry({ swiperRef, market, time, date }) {
     const getStockCode = async (params) => { }
     // 하단 업종 또는 테마를 누를 경우
     const handleFindIndustryThemes = async (params, type, market, date, time) => {
-        // console.log(params, type, market, date, time);
-        // setClick(prevStatus => !prevStatus);
-
-        // setPostParams({
-        //     type: type === '업종' ? '업종명' : '테마명',
-        //     split: '1',
-        //     name: params,
-        //     market: market,
-        //     date: date ? date : 'null',
-        //     time: time ? time : 'null'
-        // })
-        // setKeyword({ type: type, value: params });
         try {
             const postData = {
                 type: type === '업종' ? '업종명' : '테마명',
@@ -74,6 +67,13 @@ export function Industry({ swiperRef, market, time, date }) {
                 table2: res.data.consecutive[1].max,
                 table3: res.data.consecutive[2].max
             })
+
+            if (type === '업종') {
+                setSectorsName(params);
+                const name = SectorsName15(params)
+                setSectorsChartDataSelected(SectorsChartData[name]);
+            }
+
         } catch (error) {
             console.error('Failed to fetch data:', error);
         }
@@ -378,6 +378,11 @@ export function Industry({ swiperRef, market, time, date }) {
                             </div>
                             <Box sx={{ fontSize: '14px', mt: 2 }}> {day.b2} (B-2) </Box></Grid>
                     </Grid>
+
+                    <Grid container sx={{ mt: 2 }}>
+                        <SectorChart data={SectorsChartDataSelected} sectorName={SectorsName} />
+                    </Grid>
+
                 </Grid>
                 <Grid item xs={2.5}>
                     <div style={{ height: '400px', width: "100%", borderBottom: '1px solid #efe9e9ed' }}

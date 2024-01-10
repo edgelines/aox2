@@ -13,7 +13,7 @@ import { EstimatedTrading } from './HTS/estimatedTrading'
 import { Industry } from './HTS/industry'
 import StockChart from './util/stockChart';
 
-export default function HtsPage({ swiperRef }) {
+export default function HtsPage({ swiperRef, SectorsChartData }) {
     const today = new Date();
     var year = today.getFullYear();
     var month = ('0' + (today.getMonth() + 1)).slice(-2);
@@ -101,7 +101,7 @@ export default function HtsPage({ swiperRef }) {
                 </Grid>
             </Grid>
 
-            <ContentsComponent swiperRef={swiperRef} page={page} dateString={dateString} market={market} time={time} date={date} />
+            <ContentsComponent swiperRef={swiperRef} page={page} dateString={dateString} market={market} time={time} date={date} SectorsChartData={SectorsChartData} />
 
             {/* <TrendTables swiperRef={swiperRef} statistics={statistics} data1={data1} data2={data2} data3={data3} data5={data5} data6={data6} consecutiveMax={consecutiveMax} countBtn={countBtn}
                 market={market} date={date} time={time}
@@ -115,11 +115,11 @@ export default function HtsPage({ swiperRef }) {
 
 
 
-const ContentsComponent = ({ swiperRef, page, market, time, date }) => {
+const ContentsComponent = ({ swiperRef, page, market, time, date, SectorsChartData }) => {
 
     switch (page) {
         case '업종':
-            return <Industry swiperRef={swiperRef} market={market} time={time} date={date} />
+            return <Industry swiperRef={swiperRef} market={market} time={time} date={date} SectorsChartData={SectorsChartData} />
 
         // case '매출':
         //     return <PPI prepareChartData={prepareChartData} swiperRef={swiperRef} />;
