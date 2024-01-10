@@ -40,9 +40,9 @@ export const StyledToggleButton = styled(ToggleButton)(({ theme, fontSize, textA
     },
 }));
 
-export const StyledButton = styled(Button)(({ theme }) => ({
+export const StyledButton = styled(Button)(({ theme, fontSize }) => ({
     backgroundColor: '#404040', // 비활성화 상태에서의 배경색
-    fontSize: '8px',
+    fontSize: fontSize ? fontSize : '8px',
     color: '#efe9e9ed', // 비활성화 상태에서의 글자색
     '&.Mui-selected': { // 활성화 상태에서의 스타일
         backgroundColor: '#efe9e9ed', // 활성화 상태에서의 배경색

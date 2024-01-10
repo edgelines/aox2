@@ -6,7 +6,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { StyledToggleButton } from './util/util';
+import { StyledToggleButton, StyledButton } from './util/util';
 import { renderProgress, StyledTypography, TitleComponent, DataTable, DatePickerTheme, disablePastDatesAndWeekends, FilteredDataTable, renderProgressBar, StockInfo, Financial, EtcInfo } from './util/htsUtil';
 import { API, STOCK } from './util/config';
 import { EstimatedTrading } from './HTS/estimatedTrading'
@@ -25,7 +25,7 @@ export default function HtsPage({ swiperRef, SectorsChartData }) {
     const [market, setMarket] = useState('kosdaq');
     const [time, setTime] = useState(null);
     const [date, setDate] = useState(dateString);
-
+    const [apiReset, setApiReset] = useState(false)
     // 대카테고리
     const handlePage = (event, value) => { if (value !== null) { setPage(value); } }
 
@@ -35,6 +35,10 @@ export default function HtsPage({ swiperRef, SectorsChartData }) {
     const handleDate = async (event) => {
         const getDate = `${event.$y}-${event.$M + 1}-${event.$D}`
         setDate(getDate)
+    }
+
+    const handleApiReset = () => {
+        setApiReset(prevStatus => !prevStatus);
     }
 
 
@@ -99,9 +103,13 @@ export default function HtsPage({ swiperRef, SectorsChartData }) {
                         <StyledToggleButton fontSize={'10px'} value="연간실적">연간(잠정)실적</StyledToggleButton>
                     </ToggleButtonGroup>
                 </Grid>
+
+                <Grid item container xs={2}>
+                    <StyledButton fontSize={'12px'} onClick={() => handleApiReset()}>Reset</StyledButton>
+                </Grid>
             </Grid>
 
-            <ContentsComponent swiperRef={swiperRef} page={page} dateString={dateString} market={market} time={time} date={date} SectorsChartData={SectorsChartData} />
+            <ContentsComponent swiperRef={swiperRef} page={page} dateString={dateString} market={market} time={time} date={date} SectorsChartData={SectorsChartData} apiReset={apiReset} handleApiReset={handleApiReset} />
 
             {/* <TrendTables swiperRef={swiperRef} statistics={statistics} data1={data1} data2={data2} data3={data3} data5={data5} data6={data6} consecutiveMax={consecutiveMax} countBtn={countBtn}
                 market={market} date={date} time={time}
@@ -115,11 +123,11 @@ export default function HtsPage({ swiperRef, SectorsChartData }) {
 
 
 
-const ContentsComponent = ({ swiperRef, page, market, time, date, SectorsChartData }) => {
+const ContentsComponent = ({ swiperRef, page, market, time, date, SectorsChartData, apiReset, handleApiReset }) => {
 
     switch (page) {
         case '업종':
-            return <Industry swiperRef={swiperRef} market={market} time={time} date={date} SectorsChartData={SectorsChartData} />
+            return <Industry swiperRef={swiperRef} market={market} time={time} date={date} SectorsChartData={SectorsChartData} apiReset={apiReset} handleApiReset={handleApiReset} />
 
         // case '매출':
         //     return <PPI prepareChartData={prepareChartData} swiperRef={swiperRef} />;
@@ -134,7 +142,7 @@ const ContentsComponent = ({ swiperRef, page, market, time, date, SectorsChartDa
         //     return <PPI prepareChartData={prepareChartData} swiperRef={swiperRef} />;
 
         default:
-            return <EstimatedTrading swiperRef={swiperRef} market={market} time={time} date={date} />
+            return <EstimatedTrading swiperRef={swiperRef} market={market} time={time} date={date} apiReset={apiReset} handleApiReset={handleApiReset} />
     }
 
 

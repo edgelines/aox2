@@ -35,7 +35,7 @@ export function EstimatedTrading({ swiperRef, market, time, date }) {
         try {
             const postData = {
                 type: type === '업종' ? '업종명' : '테마명',
-                split: '2',
+                split: '추정매매동향',
                 name: type === '업종' ? item.업종명 : item.테마명,
                 market: market,
                 date: date ? date : 'null',
@@ -43,8 +43,21 @@ export function EstimatedTrading({ swiperRef, market, time, date }) {
             }
 
             const res = await axios.post(`${API}/hts/findData`, postData)
-
-            setFilteredDataTable(res.data);
+            setDataOrigin(res.data);
+            setData5(res.data.industry);
+            setData6(res.data.themes);
+            setStatistics(res.data.statistics);
+            setCountBtn({
+                table1: [res.data.consecutive[0].min, res.data.consecutive[0].max],
+                table2: [res.data.consecutive[1].min, res.data.consecutive[1].max],
+                table3: [res.data.consecutive[2].min, res.data.consecutive[2].max]
+            })
+            secConsecutiveMax({
+                table1: res.data.consecutive[0].max,
+                table2: res.data.consecutive[1].max,
+                table3: res.data.consecutive[2].max
+            })
+            setFilteredDataTable(res.data.filtered);
         } catch (error) {
             console.error('Failed to fetch data:', error);
         }
@@ -111,7 +124,7 @@ export function EstimatedTrading({ swiperRef, market, time, date }) {
     }
 
     // 데이터 업데이트
-    useEffect(() => { if (market) { fetchData(market, date, time); } }, [market, date, time])
+    useEffect(() => { if (market != null && date != null) { fetchData(market, date, time); } }, [market, date, time])
 
     // 외국계
     useEffect(() => {

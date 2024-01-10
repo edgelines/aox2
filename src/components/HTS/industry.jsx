@@ -180,7 +180,7 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData }) {
     }
 
     // 데이터 업데이트
-    useEffect(() => { if (market) { fetchData(market, date, time); } }, [market, date, time])
+    useEffect(() => { if (market != null && date != null) { fetchData(market, date, time); } }, [market, date, time])
     // useEffect(() => { fetchData(market, date, time, keyword); }, [date, time, keyword])
 
     // 날짜 랜더링
