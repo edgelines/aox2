@@ -72,22 +72,9 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
                 style: { fontSize: '0px' }
             },
             plotLines: [{
-                color: 'black',
+                color: 'tomato',
                 width: 0.5,
-                value: -100,
-                label: { text: '-100', align: 'right', x: 0 }
-                // dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                // zIndex: 5,
-            }, {
-                color: 'skyblue',
-                width: 0.5,
-                value: -50,
-                dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                label: { text: '-50', align: 'right', x: 0 }
-            }, {
-                color: 'dodgerblue',
-                width: 0.5,
-                value: 60,
+                value: -80,
                 dashStyle: 'shortdash',//라인 스타일 지정 옵션
                 // zIndex: 5,
             }],
@@ -334,7 +321,7 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
                         style: { fontSize: '0px' }
                     },
                     plotLines: [{
-                        color: 'dodgerblue',
+                        color: 'tomato',
                         width: 0.5,
                         value: -80,
                         dashStyle: 'shortdash',//라인 스타일 지정 옵션

@@ -309,7 +309,7 @@ export const StockInfo = ({ data }) => {
 }
 
 const FinancialTable = ({ data1, data2 }) => {
-    const dataRows = ["매출액", "영업이익", "당기순이익", "부채비율", "유보율"]
+    const dataRows = ["매출액", "영업이익", "당기순이익", "ROE", "부채비율", "유보율"]
     const baseStyle = { fontSize: '11px', p: 0.2, textAlign: 'right' }
     console.log(data1, data2);
     return (
@@ -318,11 +318,11 @@ const FinancialTable = ({ data1, data2 }) => {
                 <TableRow>
                     <TableCell></TableCell>
                     {data1.map(item => (
-                        <TableCell key={item.날짜} size='small' sx={{ color: item['추정계산'] === 'O' ? '#00F3FF' : '#efe9e9ed', ...baseStyle }}  >{item.날짜.slice(2)}</TableCell>
+                        <TableCell key={item.날짜} size='small' sx={{ color: item['추정계산'] === 'O' ? '#FCAB2F' : '#efe9e9ed', ...baseStyle }}  >{item.날짜.slice(2)}</TableCell>
                     ))}
                     <TableCell></TableCell>
                     {data2.map(item => (
-                        <TableCell key={item.날짜} size='small' sx={{ color: item['추정계산'] === 'O' ? '#00F3FF' : '#efe9e9ed', ...baseStyle }}  >{item.날짜.slice(2)}</TableCell>
+                        <TableCell key={item.날짜} size='small' sx={{ color: item['추정계산'] === 'O' ? '#FCAB2F' : '#efe9e9ed', ...baseStyle }}  >{item.날짜.slice(2)}</TableCell>
                     ))}
                 </TableRow>
             </TableHead>
@@ -332,7 +332,7 @@ const FinancialTable = ({ data1, data2 }) => {
                         <TableRow key={item}>
                             <TableCell size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }}  >{item}</TableCell>
                             {data1.map(row => (
-                                <TableCell key={row['날짜']} size='small' sx={{ color: row[item] < 0 ? '#00F3FF' : '#efe9e9ed', ...baseStyle, fontWeight: 'bold' }} >
+                                <TableCell key={row['날짜']} size='small' sx={{ color: row['추정계산'] === 'O' ? '#FCAB2F' : row[item] < 0 ? '#00F3FF' : '#efe9e9ed', ...baseStyle, fontWeight: 'bold' }} >
                                     {row[item] == 0 ? '-' : parseInt(row[item]).toLocaleString('KR')} </TableCell>
                             ))}
                             <TableCell></TableCell>
@@ -375,7 +375,7 @@ export const EtcInfo = ({ product, shareholder }) => {
                                 {product.map(item => (
                                     <TableRow key={item.제품명}>
                                         <TableCell sx={{ color: '#efe9e9ed', ...baseStyle }} >{item.제품명}</TableCell>
-                                        <TableCell sx={{ color: '#efe9e9ed', ...baseStyle }} >{item.구성비} %</TableCell>
+                                        <TableCell sx={{ color: '#efe9e9ed', ...baseStyle }} >{parseInt(item.구성비)} %</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -389,7 +389,7 @@ export const EtcInfo = ({ product, shareholder }) => {
                                     <TableRow key={item.주요주주}>
                                         <TableCell sx={{ color: '#efe9e9ed', ...baseStyle }}>{item.주요주주}</TableCell>
                                         <TableCell sx={{ color: '#efe9e9ed', ...baseStyle }}>{item['보유주식수(보통)'].toLocaleString('KR')} 주</TableCell>
-                                        <TableCell sx={{ color: '#efe9e9ed', ...baseStyle }}>{item['보유지분(%)']} %</TableCell>
+                                        <TableCell sx={{ color: '#efe9e9ed', ...baseStyle }}>{parseInt(item['보유지분(%)'])} %</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

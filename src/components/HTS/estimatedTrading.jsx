@@ -157,7 +157,7 @@ export function EstimatedTrading({ swiperRef, market, time, date }) {
         const minutes = now.getMinutes();
         const seconds = now.getSeconds();
         let delay;
-        if (hour < 9 || (hour === 9 && minutes < 31)) {
+        if (hour < 9 || (hour === 9 && minutes < 35)) {
             delay = ((9 - hour - 1) * 60 + (61 - minutes)) * 60 - seconds;
         } else {
             // 이미 9시 1분 이후라면, 다음 5분 간격 시작까지 대기 (예: 9시 3분이라면 9시 6분까지 대기)
