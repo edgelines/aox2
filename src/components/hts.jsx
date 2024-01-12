@@ -8,10 +8,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { StyledToggleButton, StyledButton } from './util/util';
 import { renderProgress, StyledTypography, TitleComponent, DataTable, DatePickerTheme, disablePastDatesAndWeekends, FilteredDataTable, renderProgressBar, StockInfo, Financial, EtcInfo } from './util/htsUtil';
-import { API, STOCK } from './util/config';
 import { EstimatedTrading } from './HTS/estimatedTrading'
 import { Industry } from './HTS/industry'
-import StockChart from './util/stockChart';
 
 export default function HtsPage({ swiperRef, SectorsChartData }) {
     const today = new Date();
@@ -31,7 +29,7 @@ export default function HtsPage({ swiperRef, SectorsChartData }) {
 
     // 거래소 선택 ( 코스피/코스닥 )
     const handleMarket = (event, value) => { if (value !== null) { setMarket(value); } }
-    const handleTime = (event, value) => { setTime(value); }
+    const handleTime = (event, value) => { if (value !== 'null') { setTime(value); } else { setTime(null); } }
     const handleDate = async (event) => {
         const getDate = `${event.$y}-${event.$M + 1}-${event.$D}`
         setDate(getDate)
@@ -83,6 +81,7 @@ export default function HtsPage({ swiperRef, SectorsChartData }) {
                         <StyledToggleButton fontSize={'10px'} value="11:20">11:20</StyledToggleButton>
                         <StyledToggleButton fontSize={'10px'} value="13:20">13:20</StyledToggleButton>
                         <StyledToggleButton fontSize={'10px'} value="14:30">14:30</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="null">확정</StyledToggleButton>
                     </ToggleButtonGroup>
                 </Grid>
 
@@ -111,11 +110,7 @@ export default function HtsPage({ swiperRef, SectorsChartData }) {
 
             <ContentsComponent swiperRef={swiperRef} page={page} dateString={dateString} market={market} time={time} date={date} SectorsChartData={SectorsChartData} apiReset={apiReset} handleApiReset={handleApiReset} />
 
-            {/* <TrendTables swiperRef={swiperRef} statistics={statistics} data1={data1} data2={data2} data3={data3} data5={data5} data6={data6} consecutiveMax={consecutiveMax} countBtn={countBtn}
-                market={market} date={date} time={time}
-                getStockCode={getStockCode} handleFilteredTable={handleFilteredTable} handleValueChange={handleValueChange} />
 
-            <StockInfoFinnacial swiperRef={swiperRef} stock={stock} stockChart={stockChart} filteredDataTable={filteredDataTable} getStockCode={getStockCode} /> */}
 
         </Grid>
     )

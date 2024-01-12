@@ -111,7 +111,7 @@ export const TrendTables = ({ swiperRef, statistics, data1, data2, data3, data5,
                             <Table size='small'>
                                 <TableBody>
                                     {data5.map(item => (
-                                        <TableRow key={item.업종명} onClick={() => handleFilteredTable('업종', item, market, date, time)}>
+                                        <TableRow key={item.업종명} onClick={() => handleFilteredTable('업종명', item, market, date, time)}>
                                             <TableCell sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }} >{item.업종명.slice(0, 10)}</TableCell>
                                             <TableCell sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }}>{item.갯수}</TableCell>
                                         </TableRow>
@@ -133,7 +133,7 @@ export const TrendTables = ({ swiperRef, statistics, data1, data2, data3, data5,
                             <Table size='small'>
                                 <TableBody>
                                     {data6.map(item => (
-                                        <TableRow key={item.테마명} onClick={() => handleFilteredTable('테마', item, market, date, time)}>
+                                        <TableRow key={item.테마명} onClick={() => handleFilteredTable('테마명', item, market, date, time)}>
                                             <TableCell size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }} >{item.테마명.slice(0, 11)}</TableCell>
                                             <TableCell size='small' sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }}>{item.갯수}</TableCell>
                                         </TableRow>

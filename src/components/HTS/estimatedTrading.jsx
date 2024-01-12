@@ -6,6 +6,10 @@ import { TrendTables, StockInfoFinnacial } from './commonComponents'
 
 export function EstimatedTrading({ swiperRef, market, time, date }) {
 
+    // Post Params
+    const [paramsType, setParamsType] = useState('null');
+    const [paramsName, setParamsName] = useState('null');
+
     // Table State
     const [dataOrigin, setDataOrigin] = useState([]);
     const [data1, setData1] = useState([]);
@@ -32,35 +36,38 @@ export function EstimatedTrading({ swiperRef, market, time, date }) {
 
 
     const handleFilteredTable = async (type, item, market, date, time) => {
-        try {
-            const postData = {
-                type: type === '업종' ? '업종명' : '테마명',
-                split: '추정매매동향',
-                name: type === '업종' ? item.업종명 : item.테마명,
-                market: market,
-                date: date ? date : 'null',
-                time: time ? time : 'null'
-            }
+        setParamsType(type);
+        const name = type === '업종명' ? item.업종명 : item.테마명
+        setParamsName(name);
+        // try {
+        //     const postData = {
+        //         type: type === '업종' ? '업종명' : '테마명',
+        //         split: '추정매매동향',
+        //         name: type === '업종' ? item.업종명 : item.테마명,
+        //         market: market,
+        //         date: date ? date : 'null',
+        //         time: time ? time : 'null'
+        //     }
 
-            const res = await axios.post(`${API}/hts/findData`, postData)
-            setDataOrigin(res.data);
-            setData5(res.data.industry);
-            setData6(res.data.themes);
-            setStatistics(res.data.statistics);
-            setCountBtn({
-                table1: [res.data.consecutive[0].min, res.data.consecutive[0].max],
-                table2: [res.data.consecutive[1].min, res.data.consecutive[1].max],
-                table3: [res.data.consecutive[2].min, res.data.consecutive[2].max]
-            })
-            secConsecutiveMax({
-                table1: res.data.consecutive[0].max,
-                table2: res.data.consecutive[1].max,
-                table3: res.data.consecutive[2].max
-            })
-            setFilteredDataTable(res.data.filtered);
-        } catch (error) {
-            console.error('Failed to fetch data:', error);
-        }
+        //     const res = await axios.post(`${API}/hts/findData`, postData)
+        //     setDataOrigin(res.data);
+        //     setData5(res.data.industry);
+        //     setData6(res.data.themes);
+        //     setStatistics(res.data.statistics);
+        //     setCountBtn({
+        //         table1: [res.data.consecutive[0].min, res.data.consecutive[0].max],
+        //         table2: [res.data.consecutive[1].min, res.data.consecutive[1].max],
+        //         table3: [res.data.consecutive[2].min, res.data.consecutive[2].max]
+        //     })
+        //     secConsecutiveMax({
+        //         table1: res.data.consecutive[0].max,
+        //         table2: res.data.consecutive[1].max,
+        //         table3: res.data.consecutive[2].max
+        //     })
+        //     setFilteredDataTable(res.data.filtered);
+        // } catch (error) {
+        //     console.error('Failed to fetch data:', error);
+        // }
 
     }
     const handleValueChange = (type, newValue) => {
@@ -90,12 +97,13 @@ export function EstimatedTrading({ swiperRef, market, time, date }) {
 
 
 
-    const fetchData = async (market, date, time) => {
+    const fetchData = async (market, date, time, paramsType, paramsName) => {
+        console.log(market, date, time, paramsType, paramsName);
         try {
             const postData = {
-                type: 'null',
+                type: paramsType,
                 split: '추정매매동향',
-                name: 'null',
+                name: paramsName,
                 market: market,
                 date: date ? date : 'null',
                 time: time ? time : 'null'
@@ -118,13 +126,18 @@ export function EstimatedTrading({ swiperRef, market, time, date }) {
                 table3: res.data.consecutive[2].max
             })
 
+            if (res.data.filtered && res.data.filtered.length > 0) {
+                setFilteredDataTable(res.data.filtered);
+            }
+
         } catch (error) {
             console.error('Failed to fetch data:', error);
         }
     }
 
     // 데이터 업데이트
-    useEffect(() => { if (market != null && date != null) { fetchData(market, date, time); } }, [market, date, time])
+    useEffect(() => { if (market != null && date != null) { fetchData(market, date, time, paramsType, paramsName); } }, [market, date, time, paramsType, paramsName])
+    // useEffect(() => { if (market != null && date != null) { fetchData(market, date, time); } }, [market, date, time])
 
     // 외국계
     useEffect(() => {
@@ -170,7 +183,7 @@ export function EstimatedTrading({ swiperRef, market, time, date }) {
                 const hour = now.getHours();
                 const dayOfWeek = now.getDay();
                 if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
-                    fetchData(market, date, time);
+                    fetchData(market, date, time, paramsType, paramsName);
                 } else if (hour >= 16) {
                     // 3시 30분 이후라면 인터벌 종료
                     clearInterval(intervalId);
