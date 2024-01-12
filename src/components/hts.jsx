@@ -29,14 +29,15 @@ export default function HtsPage({ swiperRef, SectorsChartData }) {
 
     // 거래소 선택 ( 코스피/코스닥 )
     const handleMarket = (event, value) => { if (value !== null) { setMarket(value); } }
-    const handleTime = (event, value) => { if (value !== 'null') { setTime(value); } else { setTime(null); } }
+    const handleTime = (event, value) => { if (value !== null) { setTime(value); } }
+    // const handleTime = (event, value) => { if (value !== 'null') { setTime(value); } else { setTime(null); } }
     const handleDate = async (event) => {
         const getDate = `${event.$y}-${event.$M + 1}-${event.$D}`
         setDate(getDate)
     }
 
     const handleApiReset = () => {
-        setApiReset(prevStatus => !prevStatus);
+        setApiReset(prevStatus => !prevStatus); setTime(null);
     }
 
 
@@ -96,9 +97,9 @@ export default function HtsPage({ swiperRef, SectorsChartData }) {
                     >
                         <StyledToggleButton fontSize={'10px'} value="추정매매동향">추정 매매동향</StyledToggleButton>
                         <StyledToggleButton fontSize={'10px'} value="업종">업종 65위 이하</StyledToggleButton>
-                        <StyledToggleButton fontSize={'10px'} value="매출">잠정 매출</StyledToggleButton>
-                        <StyledToggleButton fontSize={'10px'} value="영업이익">잠정 영업이익</StyledToggleButton>
-                        <StyledToggleButton fontSize={'10px'} value="당기순이익">잠정 당기순이익</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="매출">확정 매출</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="영업이익">확정 영업이익</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="당기순이익">확정 당기순이익</StyledToggleButton>
                         <StyledToggleButton fontSize={'10px'} value="연간실적">연간(잠정)실적</StyledToggleButton>
                     </ToggleButtonGroup>
                 </Grid>
@@ -108,7 +109,7 @@ export default function HtsPage({ swiperRef, SectorsChartData }) {
                 </Grid>
             </Grid>
 
-            <ContentsComponent swiperRef={swiperRef} page={page} dateString={dateString} market={market} time={time} date={date} SectorsChartData={SectorsChartData} apiReset={apiReset} handleApiReset={handleApiReset} />
+            <ContentsComponent swiperRef={swiperRef} page={page} dateString={dateString} market={market} time={time} date={date} SectorsChartData={SectorsChartData} apiReset={apiReset} />
 
 
 
@@ -118,11 +119,11 @@ export default function HtsPage({ swiperRef, SectorsChartData }) {
 
 
 
-const ContentsComponent = ({ swiperRef, page, market, time, date, SectorsChartData, apiReset, handleApiReset }) => {
+const ContentsComponent = ({ swiperRef, page, market, time, date, SectorsChartData, apiReset }) => {
 
     switch (page) {
         case '업종':
-            return <Industry swiperRef={swiperRef} market={market} time={time} date={date} SectorsChartData={SectorsChartData} apiReset={apiReset} handleApiReset={handleApiReset} />
+            return <Industry swiperRef={swiperRef} market={market} time={time} date={date} SectorsChartData={SectorsChartData} apiReset={apiReset} />
 
         // case '매출':
         //     return <PPI prepareChartData={prepareChartData} swiperRef={swiperRef} />;
@@ -137,7 +138,7 @@ const ContentsComponent = ({ swiperRef, page, market, time, date, SectorsChartDa
         //     return <PPI prepareChartData={prepareChartData} swiperRef={swiperRef} />;
 
         default:
-            return <EstimatedTrading swiperRef={swiperRef} market={market} time={time} date={date} apiReset={apiReset} handleApiReset={handleApiReset} />
+            return <EstimatedTrading swiperRef={swiperRef} market={market} time={time} date={date} apiReset={apiReset} />
     }
 
 

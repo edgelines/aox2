@@ -8,7 +8,11 @@ import SectorChart from '../SectorsPage/sectorChart';
 import { TrendTables, StockInfoFinnacial } from './commonComponents'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-export function Industry({ swiperRef, market, time, date, SectorsChartData }) {
+export function Industry({ swiperRef, market, time, date, SectorsChartData, apiReset }) {
+
+    // Post Params
+    const [paramsType, setParamsType] = useState('null');
+    const [paramsName, setParamsName] = useState('null');
 
     // Table State
     const [dataOrigin, setDataOrigin] = useState([]);
@@ -34,51 +38,30 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData }) {
     // 구분별 업종 
     const [SectorsName, setSectorsName] = useState('');
     const [SectorsChartDataSelected, setSectorsChartDataSelected] = useState([]);
-    // 기능
-    // const [keyword, setKeyword] = useState({ type: null, value: null });
-    // 공란
-    const handleFilteredTable = async (type, item, market, date, time) => { }
-    const getStockCode = async (params) => { }
+
     // 하단 업종 또는 테마를 누를 경우
-    const handleFindIndustryThemes = async (params, type, market, date, time) => {
+    const handleFilteredTable = async (type, item) => {
         try {
-            const postData = {
-                type: type === '업종' ? '업종명' : '테마명',
-                split: '1',
-                name: params,
-                market: market,
-                date: date ? date : 'null',
-                time: time ? time : 'null'
-            }
+            setParamsType(type);
+            const name = type === '업종명' ? item.업종명 || item.중복_업종명 : item.테마명
+            const cleanedName = name.replace(/ ★/g, '');
+            setParamsName(cleanedName);
 
-            const res = await axios.post(`${API}/hts/findData`, postData)
-
-            setDataOrigin(res.data);
-            setData5(res.data.industry);
-            setData6(res.data.themes);
-            setStatistics(res.data.statistics);
-            setCountBtn({
-                table1: [res.data.consecutive[0].min, res.data.consecutive[0].max],
-                table2: [res.data.consecutive[1].min, res.data.consecutive[1].max],
-                table3: [res.data.consecutive[2].min, res.data.consecutive[2].max]
-            })
-            secConsecutiveMax({
-                table1: res.data.consecutive[0].max,
-                table2: res.data.consecutive[1].max,
-                table3: res.data.consecutive[2].max
-            })
-
-            if (type === '업종') {
-                setSectorsName(params);
-                const name = SectorsName15(params)
-                setSectorsChartDataSelected(SectorsChartData[name]);
+            if (type === '업종명') {
+                setSectorsName(cleanedName);
+                const name15 = SectorsName15(cleanedName)
+                if (name15 !== '없음') {
+                    setSectorsChartDataSelected(SectorsChartData[name15]);
+                }
             }
 
         } catch (error) {
             console.error('Failed to fetch data:', error);
         }
-
     }
+    // 공란
+    const getStockCode = async (params) => { }
+
     const handleValueChange = (type, newValue) => {
         setCountBtn(prev => ({
             ...prev,
@@ -136,7 +119,7 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData }) {
         return `${year}-${month}-${dayOfMonth}`;
     }
 
-    const fetchData = async (market, date, time) => {
+    const fetchData = async (market, date, time, paramsType, paramsName) => {
         try {
             // setKeyword({ type: null, value: null });
             await axios.get(`${API}/lowSectorsRankDf`).then((res) => { setTableLeft(res.data) });
@@ -148,13 +131,14 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData }) {
             });
 
             const postData = {
-                type: 'null',
+                type: paramsType,
                 split: '하위업종',
-                name: 'null',
+                name: paramsName,
                 market: market,
                 date: date ? date : 'null',
                 time: time ? time : 'null'
             }
+
             const res = await axios.post(`${API}/hts/findData`, postData)
 
 
@@ -180,8 +164,9 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData }) {
     }
 
     // 데이터 업데이트
-    useEffect(() => { if (market != null && date != null) { fetchData(market, date, time); } }, [market, date, time])
-    // useEffect(() => { fetchData(market, date, time, keyword); }, [date, time, keyword])
+    useEffect(() => { if (market != null && date != null) { fetchData(market, date, time, paramsType, paramsName); } }, [market, date, time, paramsType, paramsName]);
+    useEffect(() => { setParamsType('null'); setParamsName('null'); }, [apiReset]);
+    // useEffect(() => { if (market != null && date != null) { fetchData(market, date, time); } }, [market, date, time])
 
     // 날짜 랜더링
     useEffect(() => {
@@ -235,7 +220,7 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData }) {
                 const hour = now.getHours();
                 const dayOfWeek = now.getDay();
                 if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
-                    fetchData(market, date, time);
+                    fetchData(market, date, time, paramsType, paramsName);
                 } else if (hour >= 16) {
                     // 3시 30분 이후라면 인터벌 종료
                     clearInterval(intervalId);
@@ -301,10 +286,10 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData }) {
                                 <DataGrid rows={tableLeft} hideFooter rowHeight={25} columns={tableLeftCols} sx={DataTableStyleDefault}
                                     onCellClick={(params, event) => {
                                         if (params.field === '테마명') {
-                                            handleFindIndustryThemes(params.value, '테마', market, date, time)
+                                            handleFilteredTable('테마명', params.row)
                                         }
                                         if (params.field === '업종명') {
-                                            handleFindIndustryThemes(params.value, '업종', market, date, time)
+                                            handleFilteredTable('업종명', params.row)
                                         }
                                     }}
                                 />
@@ -326,7 +311,7 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData }) {
                                         <DataGrid rows={tableToday} hideFooter rowHeight={25} columns={tableDayCols}
                                             onCellClick={(params, event) => {
                                                 if (params.field === '중복_업종명') {
-                                                    handleFindIndustryThemes(params.value, '업종', market, date, time)
+                                                    handleFilteredTable('업종명', params.row)
                                                 }
                                             }}
                                             sx={DataTableStyleDefault} />
@@ -334,7 +319,7 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData }) {
                                     : <Skeleton variant="rectangular" height={200} animation="wave" />
                                 }
                             </div>
-                            <Box sx={{ fontSize: '14px', mt: 2 }}>
+                            <Box sx={{ fontSize: '14px', mt: 1 }}>
                                 {day.now} (Today)
                             </Box>
 
@@ -349,7 +334,7 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData }) {
                                         <DataGrid rows={tableB1} hideFooter rowHeight={25} columns={tableDayCols}
                                             onCellClick={(params, event) => {
                                                 if (params.field === '중복_업종명') {
-                                                    handleFindIndustryThemes(params.value, '업종', market, date, time)
+                                                    handleFilteredTable('업종명', params.row)
                                                 }
                                             }}
                                             sx={DataTableStyleDefault} />
@@ -357,7 +342,7 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData }) {
                                     : <Skeleton variant="rectangular" height={200} animation="wave" />
                                 }
                             </div>
-                            <Box sx={{ fontSize: '14px', mt: 2 }}> {day.b1} (B-1) </Box></Grid>
+                            <Box sx={{ fontSize: '14px', mt: 1 }}> {day.b1} (B-1) </Box></Grid>
                         <Grid item xs={4}>
                             <div style={{ width: "100%", borderBottom: '1px solid #efe9e9ed' }}
                                 onMouseEnter={() => swiperRef.current.mousewheel.disable()}
@@ -368,7 +353,7 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData }) {
                                         <DataGrid rows={tableB2} hideFooter rowHeight={25} columns={tableDayCols}
                                             onCellClick={(params, event) => {
                                                 if (params.field === '중복_업종명') {
-                                                    handleFindIndustryThemes(params.value, '업종', market, date, time)
+                                                    handleFilteredTable('업종명', params.row)
                                                 }
                                             }}
                                             sx={DataTableStyleDefault} />
@@ -376,11 +361,11 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData }) {
                                     : <Skeleton variant="rectangular" height={200} animation="wave" />
                                 }
                             </div>
-                            <Box sx={{ fontSize: '14px', mt: 2 }}> {day.b2} (B-2) </Box></Grid>
+                            <Box sx={{ fontSize: '14px', mt: 1 }}> {day.b2} (B-2) </Box></Grid>
                     </Grid>
 
-                    <Grid container sx={{ mt: 2 }}>
-                        <SectorChart data={SectorsChartDataSelected} sectorName={SectorsName} />
+                    <Grid container sx={{ mt: 0 }}>
+                        <SectorChart data={SectorsChartDataSelected} sectorName={SectorsName} height={200} legendY={0} />
                     </Grid>
 
                 </Grid>
@@ -395,7 +380,7 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData }) {
                                     sortModel={[{ field: '순위', sort: 'desc' }]} sortingOrder={['desc', 'asc']}
                                     onCellClick={(params, event) => {
                                         if (params.field === '업종명') {
-                                            handleFindIndustryThemes(params.value, '업종', market, date, time)
+                                            handleFilteredTable('업종명', params.row)
                                         }
                                     }}
                                     sx={DataTableStyleDefault} />

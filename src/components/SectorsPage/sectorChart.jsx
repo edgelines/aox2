@@ -17,7 +17,7 @@ require('highcharts/modules/accessibility')(Highcharts)
 //     at http://localhost:3000/static/js/bundle.js:123386:24
 // 'highcharts-react-official' 사용안함
 
-const SectorChart = ({ data, sectorName }) => {
+const SectorChart = ({ data, sectorName, height, legendY }) => {
     const chartRef = useRef(null);
     sectorName = sectorName || null;
     useEffect(() => {
@@ -29,7 +29,7 @@ const SectorChart = ({ data, sectorName }) => {
             }
 
             Highcharts.chart(chartRef.current, {
-                chart: { animation: false, type: 'spline', height: 165, backgroundColor: '#404040' },
+                chart: { animation: false, type: 'spline', height: height ? height : 165, backgroundColor: '#404040' },
                 credits: { enabled: false },
                 title: { text: null },
                 xAxis: {
@@ -40,7 +40,9 @@ const SectorChart = ({ data, sectorName }) => {
                 yAxis: { title: { text: '', }, gridLineWidth: 0, reversed: true, gridLineColor: '#404040', lineColor: '#404040', max: 80, min: 0, labels: { enabled: false }, plotLines: [{ color: '#efe9e9ed', width: 1, value: 0, dashStyle: 'Solid', }, { color: '#efe9e9ed', width: 1, value: 14, dashStyle: 'shortdash', label: { text: '14', align: 'right', x: 10, y: 0, style: { color: '#efe9e9ed', fontSize: '7.5px' } } }, { color: '#efe9e9ed', width: 1, value: 20, dashStyle: 'shortdash', label: { text: '20', align: 'right', x: 10, y: 2, style: { color: '#efe9e9ed', fontSize: '7.5px' } } }, { color: 'orange', width: 1, value: 29, dashStyle: 'shortdash', label: { text: '29', align: 'right', x: 10, y: 2, style: { color: '#efe9e9ed', fontSize: '7.5px' } } }, { color: 'limegreen', width: 1, value: 40, dashStyle: 'shortdash', label: { text: '40', align: 'right', x: 10, y: 2, style: { color: '#efe9e9ed', fontSize: '7.5px' } } }, { color: 'lightblue', width: 1, value: 50, dashStyle: 'shortdash', label: { text: '50', align: 'right', x: 10, y: 2, style: { color: '#efe9e9ed', fontSize: '7.5px' } } }, { color: 'skyblue', width: 1, value: 60, dashStyle: 'shortdash', label: { text: '60', align: 'right', x: 10, y: 2, style: { color: '#efe9e9ed', fontSize: '7.5px' } } }, { color: 'dodgerblue', width: 1, value: 70, dashStyle: 'shortdash', label: { text: '70', align: 'right', x: 10, y: 2, style: { color: '#efe9e9ed', fontSize: '7.5px' } } },], },
                 navigation: { buttonOptions: { enabled: false } },
                 legend: {
-                    align: 'right', borderWidth: 0, verticalAlign: 'top', symbolRadius: 0, symbolWidth: 6, symbolHeight: 10, itemDistance: 6, itemStyle: { color: '#efe9e9ed', fontSize: '10px', }, itemHiddenStyle: { color: "#000000" }, itemHoverStyle: { color: "gold" }, x: 5, y: -9,
+                    align: 'right', borderWidth: 0, verticalAlign: 'top',
+                    symbolRadius: 0, symbolWidth: 6, symbolHeight: 10, itemDistance: 6,
+                    itemStyle: { color: '#efe9e9ed', fontSize: '10px', }, itemHiddenStyle: { color: "#000000" }, itemHoverStyle: { color: "gold" }, x: 5, y: legendY ? legendY : -9,
                     // labelFormatter: function () { // 범례별 글자색
                     //     return '<span style="color:' + this.color + '">' + this.name + '</span>';
                     // },

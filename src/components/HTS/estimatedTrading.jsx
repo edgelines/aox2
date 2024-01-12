@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 import { API, STOCK } from '../util/config';
 import { TrendTables, StockInfoFinnacial } from './commonComponents'
 
-export function EstimatedTrading({ swiperRef, market, time, date }) {
+export function EstimatedTrading({ swiperRef, market, time, date, apiReset }) {
 
     // Post Params
     const [paramsType, setParamsType] = useState('null');
@@ -35,7 +35,7 @@ export function EstimatedTrading({ swiperRef, market, time, date }) {
     })
 
 
-    const handleFilteredTable = async (type, item, market, date, time) => {
+    const handleFilteredTable = async (type, item) => {
         setParamsType(type);
         const name = type === '업종명' ? item.업종명 : item.테마명
         setParamsName(name);
@@ -95,10 +95,7 @@ export function EstimatedTrading({ swiperRef, market, time, date }) {
         setStockChart({ price: res.data.price, volume: res.data.volume })
     }
 
-
-
     const fetchData = async (market, date, time, paramsType, paramsName) => {
-        console.log(market, date, time, paramsType, paramsName);
         try {
             const postData = {
                 type: paramsType,
@@ -136,7 +133,8 @@ export function EstimatedTrading({ swiperRef, market, time, date }) {
     }
 
     // 데이터 업데이트
-    useEffect(() => { if (market != null && date != null) { fetchData(market, date, time, paramsType, paramsName); } }, [market, date, time, paramsType, paramsName])
+    useEffect(() => { if (market != null && date != null) { fetchData(market, date, time, paramsType, paramsName); } }, [market, date, time, paramsType, paramsName]);
+    useEffect(() => { setParamsType('null'); setParamsName('null'); }, [apiReset]);
     // useEffect(() => { if (market != null && date != null) { fetchData(market, date, time); } }, [market, date, time])
 
     // 외국계
