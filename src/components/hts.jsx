@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import { Grid, Box, ToggleButtonGroup, Skeleton, Table, TableBody, TableRow, TableCell, TableContainer, ThemeProvider, Slider } from '@mui/material';
+import { Grid, ToggleButtonGroup, ThemeProvider } from '@mui/material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { StyledToggleButton, StyledButton } from './util/util';
-import { renderProgress, StyledTypography, TitleComponent, DataTable, DatePickerTheme, disablePastDatesAndWeekends, FilteredDataTable, renderProgressBar, StockInfo, Financial, EtcInfo } from './util/htsUtil';
+import { DatePickerTheme, disablePastDatesAndWeekends, StyledTypography_StockInfo } from './util/htsUtil';
 import { EstimatedTrading } from './HTS/estimatedTrading'
 import { Industry } from './HTS/industry'
 import { Confirmed } from './HTS/confirmed'
@@ -107,6 +107,10 @@ export default function HtsPage({ swiperRef, SectorsChartData }) {
 
                 <Grid item container xs={2}>
                     <StyledButton fontSize={'12px'} onClick={() => handleApiReset()}>Reset</StyledButton>
+                </Grid>
+
+                <Grid item container xs={1} direction='row' alignItems='center'>
+                    <StyledTypography_StockInfo fontSize='12px'>유보율 100% 이상</StyledTypography_StockInfo>
                 </Grid>
             </Grid>
 

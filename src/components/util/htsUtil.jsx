@@ -241,7 +241,7 @@ export function renderProgressBar(params) {
 }
 
 
-const StyledTypography_StockInfo = styledComponents(Typography)`    
+export const StyledTypography_StockInfo = styledComponents(Typography)`    
         font-size: ${props => props.fontSize ? props.fontSize : '12px'};
         text-align : ${props => props.textAlign ? props.textAlign : 'left'};
     `;
