@@ -301,13 +301,13 @@ function App() {
                     <Fundarmental swiperRef={swiperRef} />
                 </SwiperSlide>
 
-                <SwiperSlide>
+                {/* <SwiperSlide>
                     <SectorSearchPage
                         StockSectors={StockSectors} swiperRef={swiperRef} ABC1={ABC1} ABC2={ABC2}
                         SearchInfo={SearchInfo}
                         SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
                     />
-                </SwiperSlide>
+                </SwiperSlide> */}
 
                 <SwiperSlide style={{ backgroundColor: "#404040", color: '#efe9e9ed' }}>
                     <SectorsChartPage
