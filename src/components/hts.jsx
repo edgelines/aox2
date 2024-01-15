@@ -10,6 +10,7 @@ import { StyledToggleButton, StyledButton } from './util/util';
 import { renderProgress, StyledTypography, TitleComponent, DataTable, DatePickerTheme, disablePastDatesAndWeekends, FilteredDataTable, renderProgressBar, StockInfo, Financial, EtcInfo } from './util/htsUtil';
 import { EstimatedTrading } from './HTS/estimatedTrading'
 import { Industry } from './HTS/industry'
+import { Confirmed } from './HTS/confirmed'
 
 export default function HtsPage({ swiperRef, SectorsChartData }) {
     const today = new Date();
@@ -100,7 +101,7 @@ export default function HtsPage({ swiperRef, SectorsChartData }) {
                         <StyledToggleButton fontSize={'10px'} value="매출">확정 매출</StyledToggleButton>
                         <StyledToggleButton fontSize={'10px'} value="영업이익">확정 영업이익</StyledToggleButton>
                         <StyledToggleButton fontSize={'10px'} value="당기순이익">확정 당기순이익</StyledToggleButton>
-                        <StyledToggleButton fontSize={'10px'} value="연간실적">연간(잠정)실적</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="연간잠정실적">연간(잠정)실적</StyledToggleButton>
                     </ToggleButtonGroup>
                 </Grid>
 
@@ -110,8 +111,6 @@ export default function HtsPage({ swiperRef, SectorsChartData }) {
             </Grid>
 
             <ContentsComponent swiperRef={swiperRef} page={page} dateString={dateString} market={market} time={time} date={date} SectorsChartData={SectorsChartData} apiReset={apiReset} />
-
-
 
         </Grid>
     )
@@ -125,17 +124,17 @@ const ContentsComponent = ({ swiperRef, page, market, time, date, SectorsChartDa
         case '업종':
             return <Industry swiperRef={swiperRef} market={market} time={time} date={date} SectorsChartData={SectorsChartData} apiReset={apiReset} />
 
-        // case '매출':
-        //     return <PPI prepareChartData={prepareChartData} swiperRef={swiperRef} />;
+        case '매출':
+            return <Confirmed swiperRef={swiperRef} market={market} time={time} date={date} apiReset={apiReset} keywordPage={page} />;
 
-        // case '영업이익':
-        //     return <PPI prepareChartData={prepareChartData} swiperRef={swiperRef} />;
+        case '영업이익':
+            return <Confirmed swiperRef={swiperRef} market={market} time={time} date={date} apiReset={apiReset} keywordPage={page} />;
 
-        // case '당기순이익':
-        //     return <PPI prepareChartData={prepareChartData} swiperRef={swiperRef} />;
+        case '당기순이익':
+            return <Confirmed swiperRef={swiperRef} market={market} time={time} date={date} apiReset={apiReset} keywordPage={page} />;
 
-        // case '연간실적':
-        //     return <PPI prepareChartData={prepareChartData} swiperRef={swiperRef} />;
+        case '연간잠정실적':
+            return <Confirmed swiperRef={swiperRef} market={market} time={time} date={date} apiReset={apiReset} keywordPage={page} />;
 
         default:
             return <EstimatedTrading swiperRef={swiperRef} market={market} time={time} date={date} apiReset={apiReset} />
