@@ -75,7 +75,7 @@ export default function WeightAvgPage2({ swiperRef, ELW_monthTable, ELW_CallPutR
             setMonth2Data(month);
             setMonth1Value(CTP1);
         })
-        await axios.get(API + "/ELWx").then((res) => {
+        await axios.get(API + "/elwData/ELWx").then((res) => {
             var Month1_1일 = [], Month1_2일 = [], Month1_3일 = [], Month1_5일 = [], Month1_1_5일 = [], Month1 = [],
                 Month2_1일 = [], Month2_2일 = [], Month2_3일 = [], Month2_5일 = [], Month2_1_5일 = [], Month2 = [],
                 Month3_1일 = [], Month3_2일 = [], Month3_3일 = [], Month3_5일 = [], Month3_1_5일 = [], Month3 = [];

@@ -39,7 +39,7 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail, ElwBarData })
     }
 
     const fetchData = async () => {
-        await axios.get(API + "/elwWeightedAvg").then((res) => { setElwWeightedAvg(res.data); })
+        await axios.get(API + "/elwData/WeightedAvg").then((res) => { setElwWeightedAvg(res.data); })
 
         await axios.get(myJSON + "/Kospi200_GPOchart").then((response) => { setKospi200(response.data.data); });
 
@@ -47,7 +47,7 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail, ElwBarData })
             setExNow_KR(res.data);
         });
 
-        await axios.get(`${API}/elwBarData`).then((res) => {
+        await axios.get(`${API}/elwData/ElwBarData`).then((res) => {
             var data1 = res.data.filter(item => item.월구분 === '1')
             var data2 = res.data.filter(item => item.월구분 === '2')
             var data3 = res.data.filter(item => item.월구분 === '3')

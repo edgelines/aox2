@@ -666,16 +666,16 @@ export default function CoreChart({ data, height, name, categories, type, min, h
             if (name === 'xValue') {
                 const x축라벨 = { color: "#efe9e9ed", fontSize: "11px" };
                 const y축이동 = 238;
-                const texts = ["B<br/>5", "B<br/>4", "B<br/>3", "B<br/>2", "B<br/>1", "09:30", "10:00",
+                const texts = ["B<br/>5", "B<br/>4", "B<br/>3", "B<br/>2", "B<br/>1", "09:07", "09:30", "10:00",
                     "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00"];
-                const positions = [0, 1, 2, 3, 4, 8, 14, 20, 26, 32, 38, 44, 50, 56, 62, 68, 74];
+                const positions = [0, 1, 2, 3, 4, 8, 13, 19, 25, 31, 37, 43, 49, 55, 61, 67, 73, 79];
                 result.plotLines = texts.map((text, index) => createPlotLine(text, positions[index], x축라벨, y축이동));
                 result.labels = { y: 26, style: { color: "#404040", fontSize: "19px", }, rotation: 0, };
                 result.plotBands = [{ color: "rgba(111,111,111,0.4)", from: -1, to: 5, },];
 
                 result.gridLineWidth = 0;
                 result.tickWidth = 0;
-                result.max = 81;
+                result.max = 86;
                 return result;
             } else if (name === 'trendData') {
                 result.tickInterval = 3;

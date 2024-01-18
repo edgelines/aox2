@@ -17,8 +17,9 @@ export default function CtpPage({ swiperRef, ElwBarData, ElwWeightedAvg }) {
     const ELW_data = [ELW_data1, ELW_data2, ELW_data3, ELW_data4, ELW_data5, ELW_data6]
 
     const fetchData = async () => {
-        await axios.get(API + "/elwWeightedAvg").then((res) => { setElwWeightedAvg(res.data); })
-        await axios.get(`${API}/elwBarData`).then((res) => {
+        await axios.get(API + "/elwData/WeightedAvg").then((res) => { setElwWeightedAvg(res.data); })
+        await axios.get(`${API}/elwData/ElwBarData`).then((res) => {
+            console.log(res.data);
             var data1 = res.data.filter(item => item.월구분 === '1')
             var data2 = res.data.filter(item => item.월구분 === '2')
             var data3 = res.data.filter(item => item.월구분 === '3')
