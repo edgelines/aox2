@@ -2,12 +2,12 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { API } from '../components/util/config'
 export const getELW_monthTable = createAsyncThunk("GET/ELW_monthTable", async () => {
-    const res = await axios.get(`${API}/elwMonthTable`)
+    const res = await axios.get(`${API}/elwData/MonthTable`)
     return res.data.slice(-6);
 });
 
 export const getELWx = createAsyncThunk("GET/ELWx", async () => {
-    const res = await axios.get(`${API}/ELWx`)
+    const res = await axios.get(`${API}/elwData/ELWx`)
     var Month1_1일 = [], Month1_2일 = [], Month1_3일 = [], Month1_5일 = [], Month1 = [],
         Month2_1일 = [], Month2_2일 = [], Month2_3일 = [], Month2_5일 = [], Month2 = [],
         Month3_1일 = [], Month3_2일 = [], Month3_3일 = [], Month3_5일 = [], Month3 = [];
@@ -75,7 +75,7 @@ export const getELWx = createAsyncThunk("GET/ELWx", async () => {
 
 export const getELW_CallPutRatio_Maturity = createAsyncThunk("GET/ELW_CallPutRatio_Maturity", async () => {
     // const res = await axios.get(API + "ELWx")
-    const res = await axios.get(`${API}/elwBarData`)
+    const res = await axios.get(`${API}/elwData/ElwBarData`)
     var data1 = res.data.filter(item => item.월구분 === '1')
     var data2 = res.data.filter(item => item.월구분 === '2')
     var data3 = res.data.filter(item => item.월구분 === '3')
@@ -102,7 +102,7 @@ export const getELW_CallPutRatio_Maturity = createAsyncThunk("GET/ELW_CallPutRat
 });
 
 export const getElwWeightedAvgCheck = createAsyncThunk("GET/elwWeightedAvgCheck", async () => {
-    const res = await axios.get(`${API}/elwMonth1`)
+    const res = await axios.get(`${API}/elwData/Month1`)
     const data = res.data.slice(-5)[0]
     return {
         Mean: data.콜풋_가중평균.toFixed(1), CTP1: data['1일'].toFixed(1), CTP15: data['1_5일'].toFixed(1), CTP2: data['1_5일'].toFixed(1),
@@ -130,7 +130,7 @@ export const ElwWeightedAvgCheck = createSlice({
 });
 
 export const getElwWeightedAvg = createAsyncThunk("GET/elwWeightedAvg", async () => {
-    const res = await axios.get(`${API}/elwWeightedAvg`)
+    const res = await axios.get(`${API}/elwData/WeightedAvg`)
     return res.data;
 });
 export const ElwWeightedAvg = createSlice({

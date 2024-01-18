@@ -22,7 +22,7 @@ export default function WeightAvgPage1({ swiperRef, ELW_monthTable, ELW_CallPutR
 
 
     const fetchData = async () => {
-        await axios.get(`${API}/elwMonth1`).then((res) => {
+        await axios.get(`${API}/elwData/Month1`).then((res) => {
             var call = [], put = [], kospi200 = [], CallMean = [], PutMean = [], Mean1 = [], Mean2 = [], CTP1 = [], CTP15 = [], CTP2 = [], Min = [], Date = [];
             res.data.slice(-11).forEach((value, index, array) => {
                 call.push([value.콜_최소, value.콜_최대])
@@ -63,7 +63,7 @@ export default function WeightAvgPage1({ swiperRef, ELW_monthTable, ELW_CallPutR
             setMonth1Data(month1);
             setMonth1Value(CTP1);
         })
-        await axios.get(`${API}/elwMonth2`).then((res) => {
+        await axios.get(`${API}/elwData/Month2`).then((res) => {
             var call = [], put = [], kospi200 = [], CallMean = [], PutMean = [], Mean1 = [], Mean2 = [], CTP1 = [], CTP15 = [], CTP2 = [], Min = [], Date = [];
             res.data.slice(-11).forEach((value, index, array) => {
                 call.push([value.콜_최소, value.콜_최대])
