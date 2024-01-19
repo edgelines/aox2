@@ -24,7 +24,7 @@ export default function WeightAvgPage2({ swiperRef, ELW_monthTable, ELW_CallPutR
     const monthTitle = { fontSize: '16px' }
     const categories = ['B6', 'B5', 'B4', 'B3', 'B2', 'B1', '09:02', '09:05', '09:07', '09:10'];
     var HH = 9, MM = 10
-    for (var i = 0; i < 82; i++) {
+    for (var i = 0; i < 80; i++) {
         MM = MM + 5
         if (MM >= 60) {
             HH += 1
