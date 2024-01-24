@@ -122,9 +122,9 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData, apiR
     const fetchData = async (market, date, time, paramsType, paramsName) => {
         try {
             // setKeyword({ type: null, value: null });
-            await axios.get(`${API}/lowSectorsRankDf`).then((res) => { setTableLeft(res.data) });
+            await axios.get(`${API}/industry/LowRankTable`).then((res) => { setTableLeft(res.data) });
             await axios.get(`${API}/industry/RankTable`).then((res) => { setTableRight(res.data); });
-            await axios.get(`${API}/theme/lowSectorsRankDfTop3`).then((res) => {
+            await axios.get(`${API}/industry/LowRankTableTop3`).then((res) => {
                 setTableB2(res.data[0].data);
                 setTableB1(res.data[1].data);
                 setTableToday(res.data[2].data);
