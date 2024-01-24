@@ -55,7 +55,7 @@ export default function SchedulePage({ swiperRef }) {
         <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('PERPBR')}>PER/PBR</Button>,
     ]
     const fetchData = async () => {
-        const res = await axios.get(`${API}/FOMC`);
+        const res = await axios.get(`${API}/fundamental/FOMC_clock`);
         setFomcDate(res.data[0]['data-endtime']);
     }
 
