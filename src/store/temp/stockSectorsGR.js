@@ -3,8 +3,7 @@ import axios from 'axios';
 import { myJSON, API } from '../../components/util/config'
 
 export const getStockSectorsGR = createAsyncThunk("GET/STOCKSECTORSGR", async () => {
-    const response = await axios.get(`${API}/stockSectorsGR`);
-    // const response = await axios.get(`${myJSON}/stockSectorsGR`);
+    const response = await axios.get(`${API}/industry/stockSectorsGR`);
     const data = response.data.map((item) => ({
         업종명: item['업종명'],
         NOW: item['NOW'],
