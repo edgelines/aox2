@@ -214,8 +214,9 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData, apiR
             delay = (5 - (minutes - 1) % 5) * 60 - seconds;
         }
         // 9시 정각이나 그 이후의 다음 분 시작부터 1분 주기로 데이터 업데이트
+        let intervalId;
         const startUpdates = () => {
-            const intervalId = setInterval(() => {
+            intervalId = setInterval(() => {
                 const now = new Date();
                 const hour = now.getHours();
                 const dayOfWeek = now.getDay();
@@ -233,7 +234,11 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData, apiR
             startUpdates();
         }, delay * 1000);
 
-        return () => clearTimeout(timeoutId);
+        // return () => clearTimeout(timeoutId);
+        return () => {
+            clearTimeout(timeoutId);
+            if (intervalId) clearInterval(intervalId);
+        };
     }, [])
 
 
