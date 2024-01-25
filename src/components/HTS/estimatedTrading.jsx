@@ -39,36 +39,6 @@ export function EstimatedTrading({ swiperRef, market, time, date, apiReset }) {
         setParamsType(type);
         const name = type === '업종명' ? item.업종명 : item.테마명
         setParamsName(name);
-        // try {
-        //     const postData = {
-        //         type: type === '업종' ? '업종명' : '테마명',
-        //         split: '추정매매동향',
-        //         name: type === '업종' ? item.업종명 : item.테마명,
-        //         market: market,
-        //         date: date ? date : 'null',
-        //         time: time ? time : 'null'
-        //     }
-
-        //     const res = await axios.post(`${API}/hts/findData`, postData)
-        //     setDataOrigin(res.data);
-        //     setData5(res.data.industry);
-        //     setData6(res.data.themes);
-        //     setStatistics(res.data.statistics);
-        //     setCountBtn({
-        //         table1: [res.data.consecutive[0].min, res.data.consecutive[0].max],
-        //         table2: [res.data.consecutive[1].min, res.data.consecutive[1].max],
-        //         table3: [res.data.consecutive[2].min, res.data.consecutive[2].max]
-        //     })
-        //     secConsecutiveMax({
-        //         table1: res.data.consecutive[0].max,
-        //         table2: res.data.consecutive[1].max,
-        //         table3: res.data.consecutive[2].max
-        //     })
-        //     setFilteredDataTable(res.data.filtered);
-        // } catch (error) {
-        //     console.error('Failed to fetch data:', error);
-        // }
-
     }
     const handleValueChange = (type, newValue) => {
         setCountBtn(prev => ({
@@ -86,7 +56,7 @@ export function EstimatedTrading({ swiperRef, market, time, date, apiReset }) {
             종목명: params.종목명, 종목코드: params.종목코드, 업종명: params.업종명, 현재가: res.data.현재가,
             시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,
             최고가52주: res.data.최고가52주, 최저가52주: res.data.최저가52주, 기업개요: res.data.기업개요, 분기실적: res.data.분기실적, 연간실적: res.data.연간실적,
-            주요제품매출구성: res.data.주요제품매출구성, 주요주주: res.data.주요주주
+            주요제품매출구성: res.data.주요제품매출구성, 주요주주: res.data.주요주주, 이벤트: res.data.이벤트
         })
     }
 

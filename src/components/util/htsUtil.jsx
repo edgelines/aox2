@@ -281,6 +281,13 @@ export const StockInfo = ({ data }) => {
 
             <Grid item container>
                 <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
+                    <StyledTypography_StockInfo fontSize="12px">이벤트</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">{data.이벤트}</StyledTypography_StockInfo>
+                </Stack>
+            </Grid>
+
+            <Grid item container>
+                <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
                     <StyledTypography_StockInfo fontSize="12px">52주 최고가</StyledTypography_StockInfo>
                     <StyledTypography_StockInfo fontSize="12px">{data.최고가52주.toLocaleString('kr')} 원</StyledTypography_StockInfo>
                     <StyledTypography_StockInfo fontSize="12px">52주 최저가</StyledTypography_StockInfo>
@@ -292,7 +299,6 @@ export const StockInfo = ({ data }) => {
                 <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
                     <StyledTypography_StockInfo fontSize="12px">현재가</StyledTypography_StockInfo>
                     <StyledTypography_StockInfo fontSize="12px">{data.현재가.toLocaleString('kr')} 원</StyledTypography_StockInfo>
-
                 </Stack>
             </Grid>
 
