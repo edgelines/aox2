@@ -7,7 +7,6 @@ import { getABC } from "./store/AxBxC.js";
 import { getSearchInfo, getScheduleItemEvent } from "./store/info.js";
 import { getIndexMA, getVixMA, getVix, getMarketDetail, getKospi200, getKospi, getKosdaq, getInvers, getMarketKospi200, getExchange } from './store/indexData.js';
 import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvg, getElwWeightedAvgCheck, getElwBarData } from './store/ELW.js';
-// import { getStockSearch, getStockSearchTracking, getStockSearchTrackingStatistics } from './store/stockSearch';
 // Websokect
 // import { websocketConnectWA1, websocketConnectWA2, } from './store/actions/websocketActions';
 
@@ -29,6 +28,7 @@ import WeightAvgPage2 from './components/ELW/weightAvgPage2.jsx';
 import WeightAvgPage3 from './components/ELW/weightAvgPage3.jsx';
 import Fundarmental from './components/fundarmental';
 import HTS from './components/hts';
+import IpoPulse from './components/ipoPulse';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import "swiper/css";
@@ -290,7 +290,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <HTS swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
+                    <IpoPulse swiperRef={swiperRef} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -326,6 +326,10 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <HTS swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <IpoPulse swiperRef={swiperRef} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >

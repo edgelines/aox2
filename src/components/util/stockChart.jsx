@@ -15,7 +15,7 @@ Highcharts.setOptions({
     }
 });
 
-const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, 평균단가, height, indicators, price }) => {
+const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, 평균단가, height, indicators, price, boxTransform }) => {
     const [전일대비, set전일대비] = useState(null);
     const [chartOptions, setChartOptions] = useState({
         chart: { animation: false, height: height ? height : 360, },
@@ -349,7 +349,7 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
                 options={chartOptions}
                 constructorType={'stockChart'}
             />
-            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: 'translate(10px, -142px)', zIndex: 100 }}>
+            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: boxTransform ? boxTransform : `translate(10px, -142px)`, zIndex: 100 }}>
                 {stockItemData.length > 0 ?
                     <>
                         <Typography sx={{ color: 'black', fontWeight: 600 }}>
