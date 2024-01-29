@@ -343,7 +343,7 @@ export default function IpoPulsePage({ swiperRef }) {
 
 
             </Grid>
-            <Grid container sx={{ mt: 2 }}>
+            <Grid container sx={{ mt: 1 }} spacing={2}>
                 <Grid item xs={8} sx={{ height: 700, width: "100%" }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}

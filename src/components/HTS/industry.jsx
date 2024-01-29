@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, Skeleton, Box } from '@mui/material';
+import { Grid, Skeleton, Box, Stack } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import { API, STOCK } from '../util/config';
+import { API } from '../util/config';
 import { SectorsName15 } from '../util/util';
+import { Financial, StyledTypography_StockInfo } from '../util/htsUtil';
 import SectorChart from '../SectorsPage/sectorChart';
 import { TrendTables, StockInfoFinnacial } from './commonComponents'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -28,7 +29,10 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData, apiR
     })
 
     // Low Industry ( 65th Lower )
-    const [tableLeft, setTableLeft] = useState('');
+    // const [tableLeft, setTableLeft] = useState('');
+    const [stock, setStock] = useState({
+        종목명: null, 종목코드: null,
+    })
     const [tableRight, setTableRight] = useState('');
     const [tableToday, setTableToday] = useState('');
     const [tableB1, setTableB1] = useState('');
@@ -60,7 +64,17 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData, apiR
         }
     }
     // 공란
-    const getStockCode = async (params) => { }
+    const getStockCode = async (params) => {
+        // 시가총액, 상장주식수, PER, EPS, PBR, BPS
+        const res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
+        // console.log(res.data);
+        setStock({
+            종목명: params.종목명, 종목코드: params.종목코드, 업종명: params.업종명, 현재가: res.data.현재가,
+            시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,
+            최고가52주: res.data.최고가52주, 최저가52주: res.data.최저가52주, 기업개요: res.data.기업개요, 분기실적: res.data.분기실적, 연간실적: res.data.연간실적,
+            주요제품매출구성: res.data.주요제품매출구성, 주요주주: res.data.주요주주, 이벤트: res.data.이벤트
+        })
+    }
 
     const handleValueChange = (type, newValue) => {
         setCountBtn(prev => ({
@@ -122,7 +136,7 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData, apiR
     const fetchData = async (market, date, time, paramsType, paramsName) => {
         try {
             // setKeyword({ type: null, value: null });
-            await axios.get(`${API}/industry/LowRankTable`).then((res) => { setTableLeft(res.data) });
+            // await axios.get(`${API}/industry/LowRankTable`).then((res) => { setTableLeft(res.data) });
             await axios.get(`${API}/industry/RankTable`).then((res) => { setTableRight(res.data); });
             await axios.get(`${API}/industry/LowRankTableTop3`).then((res) => {
                 setTableB2(res.data[0].data);
@@ -282,7 +296,42 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData, apiR
             {/* Information */}
             <Grid container spacing={1} >
                 <Grid item xs={4}>
-                    <div style={{ height: '400px', width: "100%", borderBottom: '1px solid #efe9e9ed' }}
+                    <Financial annual={stock.연간실적} quarter={stock.분기실적} />
+
+                    <Grid container sx={{ mt: 2 }}>
+                        {
+                            Array.isArray(stock.기업개요) ?
+                                <>
+                                    <Grid item container sx={{ borderBottom: '2px solid #efe9e9ed' }}>
+                                        <Grid item xs={4.7}><StyledTypography_StockInfo textAlign='center' >{stock.종목명}</StyledTypography_StockInfo></Grid>
+                                        <Grid item xs={4.7}><StyledTypography_StockInfo textAlign='center' >{stock.업종명}</StyledTypography_StockInfo></Grid>
+                                        <Grid item xs={2.6}><StyledTypography_StockInfo textAlign='center' >{stock.시장 === 'K' ? 'Kospi' : 'Kosdaq'}</StyledTypography_StockInfo></Grid>
+                                    </Grid>
+                                    <Grid item container>
+                                        <Stack direction='row' spacing={5} sx={{ pl: 2, pr: 2, pt: 2 }}>
+                                            <StyledTypography_StockInfo fontSize="12px">시가총액</StyledTypography_StockInfo>
+                                            <StyledTypography_StockInfo fontSize="12px">{parseInt((parseInt(stock.시가총액) / 100000000).toFixed(0)).toLocaleString('kr')} 억</StyledTypography_StockInfo>
+                                            <StyledTypography_StockInfo fontSize="12px">상장주식수</StyledTypography_StockInfo>
+                                            <StyledTypography_StockInfo fontSize="12px">{parseInt(stock.상장주식수).toLocaleString('kr')}</StyledTypography_StockInfo>
+                                        </Stack>
+                                    </Grid>
+                                    <Grid item container>
+                                        <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
+                                            <StyledTypography_StockInfo fontSize="12px">PER</StyledTypography_StockInfo>
+                                            <StyledTypography_StockInfo fontSize="12px">{stock.PER}</StyledTypography_StockInfo>
+                                            <StyledTypography_StockInfo fontSize="12px">PBR</StyledTypography_StockInfo>
+                                            <StyledTypography_StockInfo fontSize="12px">{stock.PBR}</StyledTypography_StockInfo>
+                                            <StyledTypography_StockInfo fontSize="12px">EPS</StyledTypography_StockInfo>
+                                            <StyledTypography_StockInfo fontSize="12px">{stock.EPS.toLocaleString('kr')} 원</StyledTypography_StockInfo>
+                                            <StyledTypography_StockInfo fontSize="12px">BPS</StyledTypography_StockInfo>
+                                            <StyledTypography_StockInfo fontSize="12px">{stock.BPS.toLocaleString('kr')} 원</StyledTypography_StockInfo>
+                                        </Stack>
+                                    </Grid>
+                                </>
+                                : <></>
+                        }
+                    </Grid>
+                    {/* <div style={{ height: '400px', width: "100%", borderBottom: '1px solid #efe9e9ed' }}
                         onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                         onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                     >
@@ -301,7 +350,7 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData, apiR
                             </ThemeProvider>
                             : <Skeleton variant="rectangular" height={200} animation="wave" />
                         }
-                    </div>
+                    </div> */}
 
                 </Grid>
                 <Grid item xs={5.5}>

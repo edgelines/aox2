@@ -15,6 +15,7 @@ export default function ThumbnailChart({ data, height }) {
         navigation: { buttonOptions: { enabled: false } },
         xAxis: {
             labels: { y: 20, style: { color: '#404040', fontSize: '10px' } },
+            tickLength: 0
         },
         yAxis: {
             title: { text: null },
@@ -27,6 +28,7 @@ export default function ThumbnailChart({ data, height }) {
             },
             plotLines: [{ color: '#efe9e9ed', width: 1, value: 0 },],
             gridLineWidth: 0.2,
+            tickAmount: 5
         },
         tooltip: {
             split: true, shared: true, crosshairs: true,
@@ -75,7 +77,7 @@ export default function ThumbnailChart({ data, height }) {
                     y: group['최고가대비'], // y축 값은 '공모가 대비' 비율
                     name: group['종목명'], // 포인트 이름 설정
                     marker: {
-                        radius: 3 // 마커 크기 설정
+                        radius: 2.4 // 마커 크기 설정
                         // radius: Math.sqrt(group['공모가'] / 1000) // 마커 크기 설정
                     }
                 }))
