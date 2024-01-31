@@ -3,6 +3,13 @@
     - npm run dev: "webpack --config webpack.dev.js",
     - npm run build: "webpack --config webpack.prod.js"
 ## Todo / Bug
+IPO Pulse 
+- Thumnail Chart 종목 클릭시 우측 인포 변경
+- Chart 변경
+  - 3, 5, 18, 60, 112, 224 종가단순
+- 최고가대비, 공모가대비, 상장일 왼쪽 3Stack
+- 잠정 or 확정 실적 Filter
+- 위 쿼터를 눌렀을 경우 밑 데이터 변경 & 리셋버튼
 
 ### 2023.12.31 
 {master}

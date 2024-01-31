@@ -98,7 +98,7 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
         };
     }
     // Fetch Data
-    const fetchData = async (adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5) => {
+    const fetchData = async (adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5, indexName) => {
         const indexData = [];
         indexData.push(getIndexData(indexName))
         const res = await Promise.all(indexData);
@@ -131,7 +131,7 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
     };
 
     // useEffect(() => { fetchData(adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5); }, [])
-    useEffect(() => { fetchData(adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5); }, [indexName, adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5])
+    useEffect(() => { fetchData(adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5, indexName); }, [indexName, adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5])
 
     // 60초 주기 업데이트
     useEffect(() => {
@@ -157,7 +157,7 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
                 const hour = now.getHours();
                 const dayOfWeek = now.getDay();
                 if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
-                    fetchData(adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5);
+                    fetchData(adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5, indexName);
                 } else if (hour >= 16) {
                     // 3시 30분 이후라면 인터벌 종료
                     clearInterval(intervalId);

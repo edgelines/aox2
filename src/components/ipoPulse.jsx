@@ -84,7 +84,7 @@ export default function IpoPulsePage({ swiperRef }) {
         setStockChart({ price: res.data.price, volume: res.data.volume })
     }
 
-    const fetchData = async (filter) => {
+    const fetchData = async (checkBox, filter) => {
         const postData = {
             high: checkBox.high == true ? filter.high : null,
             start: checkBox.start == true ? filter.start : null,
@@ -98,7 +98,7 @@ export default function IpoPulsePage({ swiperRef }) {
 
     }
 
-    useEffect(() => { fetchData(filter) }, [checkBox, filter])
+    useEffect(() => { fetchData(checkBox, filter) }, [checkBox, filter])
 
     useEffect(() => {
         const now = new Date();
@@ -120,7 +120,7 @@ export default function IpoPulsePage({ swiperRef }) {
                 const hour = now.getHours();
                 const dayOfWeek = now.getDay();
                 if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
-                    fetchData(filter);
+                    fetchData(checkBox, filter);
                 } else if (hour >= 16) {
                     // 3시 30분 이후라면 인터벌 종료
                     clearInterval(intervalId);
