@@ -202,7 +202,7 @@ export default function IpoPulsePage({ swiperRef }) {
             field: '등락률', headerName: '등락률', width: 60,
             align: 'right', headerAlign: 'center',
         }, {
-            field: '보호예수', headerName: '보호예수', width: 150,
+            field: '보호예수', headerName: '보호예수', width: 300,
             align: 'left', headerAlign: 'center',
         }
     ]
