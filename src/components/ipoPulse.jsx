@@ -228,7 +228,10 @@ export default function IpoPulsePage({ swiperRef }) {
                                         <Typography sx={{ fontSize: '12px' }}>{quarter}</Typography>
                                     </Grid>
                                     <Grid container direction='row' alignItems="center" justifyContent="center">
-                                        Total : {items.length}
+                                        Total : {items.Length}
+                                    </Grid>
+                                    <Grid container direction='row' alignItems="center" justifyContent="center">
+                                        {items.Days}
                                     </Grid>
                                 </>
                             </Grid>
