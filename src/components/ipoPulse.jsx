@@ -7,7 +7,7 @@ import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { StyledToggleButton, StyledButton, DataTableStyleDefault } from './util/util';
-import { StyledTypography, TitleComponent, DataTable, FilteredDataTable, renderProgressBar, StockInfo, StyledTypography_StockInfo, Financial, EtcInfo } from './util/htsUtil';
+import { StyledTypography_StockInfo, Financial } from './util/htsUtil';
 // import StockChart from './util/stockChart';
 import StockChart_MA from './util/stockChart_MA';
 import { renderProgress, StyledInput } from './util/ipoUtil';
@@ -17,11 +17,11 @@ import ThumbnailChart from './IpoPulse/thumbnailChart';
 export default function IpoPulsePage({ swiperRef }) {
 
     const [filter, setFilter] = useState({
-        high: [-44, -80], start: [-30, -100], day: [50, 100], selected: null
+        high: [-44, -80], start: [-30, -100], day: [50, 100], selected: null, finance: null,
     })
     // checkBox
     const [checkBox, setCheckBox] = useState({
-        high: false, start: false, day: false, all: false, selected: null
+        high: false, start: false, day: false, all: false
     })
 
     // state
@@ -30,6 +30,7 @@ export default function IpoPulsePage({ swiperRef }) {
     const [stock, setStock] = useState({});
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
 
+    // Handler
     const handleCheckBox = (name) => {
         setCheckBox((prevStatus) => {
             if (name === 'All') {
@@ -66,14 +67,26 @@ export default function IpoPulsePage({ swiperRef }) {
             }
         });
     }
-    const handleSelectedQuarter = (value) => {
+    const handleSelectedBtn = (name, value) => {
         setFilter((prevStatus) => {
             return {
                 ...prevStatus,
-                selected: value
+                [name]: value
             }
         });
     }
+    const handleReset = () => {
+        setCheckBox({ high: false, start: false, day: false, all: false })
+        setFilter((prevStatus) => {
+            return {
+                ...prevStatus,
+                selected: null,
+                finance: null,
+            }
+        });
+    }
+
+    // Action
     const getStockCode = async (params) => {
         // 시가총액, 상장주식수, PER, EPS, PBR, BPS
         const res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
@@ -97,10 +110,9 @@ export default function IpoPulsePage({ swiperRef }) {
             start: checkBox.start == true ? filter.start : null,
             day: checkBox.day == true ? filter.day : null,
             selected: filter.selected,
+            finance: filter.finance,
         }
-        console.log(postData);
         const res = await axios.post(`${API}/ipoPulse/data`, postData);
-
         setTableData(res.data.table);
         setChartData(res.data.chart);
 
@@ -161,7 +173,7 @@ export default function IpoPulsePage({ swiperRef }) {
             field: '업종명', headerName: '업종명', width: 120,
             align: 'left', headerAlign: 'center',
         }, {
-            field: '상장예정일', headerName: '상장일', width: 80,
+            field: '상장예정일', headerName: '상장일', width: 100,
             align: 'right', headerAlign: 'center',
         }, {
             field: '경과일수', headerName: '경과일수', width: 65,
@@ -218,27 +230,30 @@ export default function IpoPulsePage({ swiperRef }) {
     const inputStyle = { width: 60, height: 20, color: '#efe9e9ed', fontSize: '12px', pl: 2 }
     return (
         <>
+            {/* Thumnail Chart */}
             <Grid container>
                 <Grid container>
                     {chartData ?
                         Object.entries(chartData).map(([quarter, items], index) => (
-                            <Grid item xs={0.92} key={quarter} onClick={() => handleSelectedQuarter(quarter)}>
+                            <Grid item xs={0.92} key={quarter}>
                                 <>
                                     <Grid container sx={{ width: '100%' }}>
                                         <Grid item xs={10}>
-                                            <ThumbnailChart data={items['Data']} height={130} />
+                                            <ThumbnailChart data={items['Data']} height={130} onCode={getStockCode} />
 
                                         </Grid>
                                     </Grid>
 
-                                    <Grid container direction='row' alignItems="center" justifyContent="center" sx={{ mt: -2, zIndex: 999 }}>
-                                        <Typography sx={{ fontSize: '12px' }}>{quarter}</Typography>
-                                    </Grid>
-                                    <Grid container direction='row' alignItems="center" justifyContent="center">
-                                        Total : {items.Length}
-                                    </Grid>
-                                    <Grid container direction='row' alignItems="center" justifyContent="center">
-                                        {items.Days}
+                                    <Grid container onClick={() => handleSelectedBtn('selected', quarter)}>
+                                        <Grid container direction='row' alignItems="center" justifyContent="center" sx={{ zIndex: 999 }}>
+                                            <Typography sx={{ fontSize: '12px' }}>{quarter}</Typography>
+                                        </Grid>
+                                        <Grid container direction='row' alignItems="center" justifyContent="center">
+                                            Total : {items.Length}
+                                        </Grid>
+                                        <Grid container direction='row' alignItems="center" justifyContent="center">
+                                            {items.Days}
+                                        </Grid>
                                     </Grid>
                                 </>
                             </Grid>
@@ -251,9 +266,12 @@ export default function IpoPulsePage({ swiperRef }) {
                 </Grid>
 
             </Grid>
+
+            {/* Filter */}
             <Grid container sx={{ height: 60 }}>
 
                 <Grid item container xs={9}>
+                    {/* 좌측 선택 */}
                     <Grid container item xs={2.6} >
                         <table>
                             <tbody>
@@ -327,20 +345,38 @@ export default function IpoPulsePage({ swiperRef }) {
                         </table>
                     </Grid>
 
-                    <Grid container item xs={3.5} sx={{ border: '1px solid red' }}>
-                        <Grid container direction='row' alignItems="center" >
-                            <FormControlLabel control={
-                                <Checkbox size="small" sx={{ color: grey.A200, '&.Mui-checked': { color: grey.A200, } }}
-                                    onChange={() => handleCheckBox('All')}
-                                />
-                            } labelPlacement="start" label="All" />
+                    {/* All, Reset */}
+                    <Grid container item xs={1.3} >
+                        <Grid container>
+                            {filter.selected ?
+                                <Grid container>
+                                    <Grid container direction='row' alignItems="center" justifyContent="center">
+                                        {filter.selected} Selected
+                                    </Grid>
+                                    <Grid container direction='row' alignItems="center" justifyContent="center">
+                                        Total : {chartData[filter.selected].Length}
+                                    </Grid>
+                                </Grid>
+                                :
+                                <Grid container>
+                                    <Grid container direction='row' alignItems="center" justifyContent="center">
+                                        All
+                                    </Grid>
+                                    <Grid container direction='row' alignItems="center" justifyContent="center">
+                                        Total : {tableData.length}
+                                    </Grid>
+                                </Grid>
+                            }
                         </Grid>
-                        <Grid container direction='row' alignItems="center" >
-                            Reset
+                        <Grid container direction='row' alignItems="center" justifyContent="center">
+                            <StyledButton fontSize={'11px'} onChange={() => handleCheckBox('All')} >All</StyledButton>
+                            <StyledButton fontSize={'11px'} onClick={() => handleReset()}>Reset</StyledButton>
                         </Grid>
-
                     </Grid>
 
+                    <Grid container item xs={2.6} >
+                        <StyledButton fontSize={'11px'} onClick={() => handleSelectedBtn('finance', 'finance')}>잠정&확정 실적</StyledButton>
+                    </Grid>
 
                 </Grid>
 
@@ -395,17 +431,17 @@ export default function IpoPulsePage({ swiperRef }) {
                             onCellClick={(params, event) => {
                                 getStockCode(params.row);
                                 getStockChartData(params.row.종목코드);
-                                console.log(params.row.종목코드);
                             }}
                             sx={{
                                 color: 'white', border: 'none',
                                 ...DataTableStyleDefault,
-                                [`& .${gridClasses.cell}`]: {
-                                    py: 1,
-                                },
+                                [`& .${gridClasses.cell}`]: { py: 1, },
                                 '.MuiTablePagination-root': { color: '#efe9e9ed' },
                                 '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
                                 '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
+                                '[data-field="경과일수"]': { borderRight: '1.5px solid #ccc' },
+                                '[data-field="최고가대비"]': { borderRight: '1.5px solid #ccc' },
+                                '[data-field="공모가대비"]': { borderRight: '1.5px solid #ccc' },
                             }}
                         />
                     </ThemeProvider>

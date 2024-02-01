@@ -152,27 +152,14 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
             // title: 'View 3 months'
         }],
         labelStyle: { fontSize: 0, },
-        // floating: true,
-        // y: 20,
-    }
-    const 주봉 = {
-        selected: 0,
-        inputEnabled: false,
-        buttons: [{
-            type: 'month',
-            count: 거래일datetime ? 15 : 12,
-            text: '주봉',
-            // title: 'View 1 year'
-        }, {
-            type: 'all',
-            text: '월봉',
-            // title: 'View all'
-        }],
-        labelStyle: { fontSize: 0, },
     }
 
+
     const 종가단순 = {
-        type: 'sma', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, lineWidth: 0.5,
+        type: 'sma', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } },
+    }
+    const 저가가중 = {
+        type: 'wma', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } },
     }
 
     const getSeriesData = () => {
@@ -184,23 +171,38 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
             type: 'column', id: 'volume', name: 'volume', showInLegend: false,
             data: volumeData, animation: false, yAxis: 1,
         }, {
-            ...종가단순, color: "gray", name: '3',
+            ...종가단순, color: "black", name: '3', lineWidth: 0.5,
             params: { index: 3, period: 3 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }, {
-            ...종가단순, color: "peru", name: '5',
+            ...종가단순, color: "green", name: '5', lineWidth: 0.5,
             params: { index: 3, period: 5 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }, {
-            ...종가단순, color: "black", name: '18',
+            ...종가단순, color: "tomato", name: '9', lineWidth: 0.5,
+            params: { index: 3, period: 9 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+        }, {
+            ...종가단순, color: "orange", name: '14', lineWidth: 0.5,
+            params: { index: 3, period: 14 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+        }, {
+            ...종가단순, color: "blue", name: '18', lineWidth: 1,
             params: { index: 3, period: 18 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }, {
-            ...종가단순, color: "red", name: '60',
-            params: { index: 3, period: 60 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            ...종가단순, color: "red", name: '55', lineWidth: 1,
+            params: { index: 3, period: 55 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }, {
-            ...종가단순, color: "brown", name: '112',
+            ...종가단순, color: "brown", name: '112', lineWidth: 1,
             params: { index: 3, period: 112 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }, {
-            ...종가단순, color: "forestgreen", name: '224 종가단순',
+            ...종가단순, color: "forestgreen", name: '224', lineWidth: 1,
             params: { index: 3, period: 224 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+        }, {
+            ...종가단순, color: "forestgreen", name: '448 종단', lineWidth: 1,
+            params: { index: 3, period: 448 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+        }, {
+            ...저가가중, color: "black", name: '165', lineWidth: 0.5,
+            params: { index: 2, period: 165 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+        }, {
+            ...저가가중, color: "black", name: '175 저가', lineWidth: 0.5,
+            params: { index: 2, period: 175 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }, {
             type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
             color: 'black',

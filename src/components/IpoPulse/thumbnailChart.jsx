@@ -8,13 +8,13 @@ HighchartsMore(Highcharts)
 SolidGauge(Highcharts)
 require('highcharts/modules/accessibility')(Highcharts)
 
-export default function ThumbnailChart({ data, height }) {
+export default function ThumbnailChart({ data, height, onCode }) {
     const [chartOptions, setChartOptions] = useState({
         chart: { type: 'scatter', height: height, backgroundColor: 'rgba(255, 255, 255, 0)' },
         credits: { enabled: false }, title: { text: null },
         navigation: { buttonOptions: { enabled: false } },
         xAxis: {
-            labels: { y: 20, style: { color: '#404040', fontSize: '10px' } },
+            labels: { style: { color: '#404040', fontSize: '0px' } },
             tickLength: 0
         },
         yAxis: {
@@ -32,6 +32,7 @@ export default function ThumbnailChart({ data, height }) {
         },
         tooltip: {
             split: true, shared: true, crosshairs: true,
+            backgroundColor: 'rgba(255, 255, 255, 0.5)',
             formatter: function () {
                 return `${this.point.name}`
                 // return `${this.point.x} ${this.point.name}`
@@ -76,11 +77,21 @@ export default function ThumbnailChart({ data, height }) {
                     x: Math.random(), // x축 값은 랜덤
                     y: group['최고가대비'], // y축 값은 '공모가 대비' 비율
                     name: group['종목명'], // 포인트 이름 설정
+                    종목코드: group['종목코드'],
+                    종목명: group['종목명'],
+                    업종명: group['업종명'],
                     marker: {
                         radius: 2.4 // 마커 크기 설정
                         // radius: Math.sqrt(group['공모가'] / 1000) // 마커 크기 설정
                     }
-                }))
+                })),
+                point: {
+                    events: {
+                        click: function () {
+                            onCode(this.options);
+                        }
+                    }
+                }
             }]
 
         })
