@@ -139,7 +139,7 @@ function App() {
 
     // 첫 랜더링
     useEffect(() => {
-        fetchData();
+        // fetchData();
         fetchData5Min();
         fetchData1Day();
     }, [dispatch])
