@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 
-import { Grid, Stack, Typography, Input, TextField, InputAdornment, Checkbox, FormControlLabel } from '@mui/material';
+import { Grid, Stack, Typography, Input, TextField, InputAdornment, Checkbox, FormControlLabel, Table, TableBody, TableRow, TableCell } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -17,11 +17,11 @@ import ThumbnailChart from './IpoPulse/thumbnailChart';
 export default function IpoPulsePage({ swiperRef }) {
 
     const [filter, setFilter] = useState({
-        high: [-44, -80], start: [-30, -100], day: [50, 100]
+        high: [-44, -80], start: [-30, -100], day: [50, 100], selected: null
     })
     // checkBox
     const [checkBox, setCheckBox] = useState({
-        high: false, start: false, day: false, all: false,
+        high: false, start: false, day: false, all: false, selected: null
     })
 
     // state
@@ -57,7 +57,6 @@ export default function IpoPulsePage({ swiperRef }) {
     }
     const handleRangeValue = (event, name, index) => {
         const value = event.target.value;
-
         setFilter((prevStatus) => {
             const newRange = [...prevStatus[name]];
             newRange[index] = value;
@@ -67,7 +66,14 @@ export default function IpoPulsePage({ swiperRef }) {
             }
         });
     }
-
+    const handleSelectedQuarter = (value) => {
+        setFilter((prevStatus) => {
+            return {
+                ...prevStatus,
+                selected: value
+            }
+        });
+    }
     const getStockCode = async (params) => {
         // 시가총액, 상장주식수, PER, EPS, PBR, BPS
         const res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
@@ -90,8 +96,9 @@ export default function IpoPulsePage({ swiperRef }) {
             high: checkBox.high == true ? filter.high : null,
             start: checkBox.start == true ? filter.start : null,
             day: checkBox.day == true ? filter.day : null,
+            selected: filter.selected,
         }
-        // console.log(postData);
+        console.log(postData);
         const res = await axios.post(`${API}/ipoPulse/data`, postData);
 
         setTableData(res.data.table);
@@ -208,14 +215,14 @@ export default function IpoPulsePage({ swiperRef }) {
         }
     ]
 
-    const inputStyle = { width: 60, height: 27.5, color: '#efe9e9ed', fontSize: '12px', pl: 2, pt: 1.5 }
+    const inputStyle = { width: 60, height: 20, color: '#efe9e9ed', fontSize: '12px', pl: 2 }
     return (
         <>
             <Grid container>
                 <Grid container>
                     {chartData ?
                         Object.entries(chartData).map(([quarter, items], index) => (
-                            <Grid item xs={0.92} key={quarter}>
+                            <Grid item xs={0.92} key={quarter} onClick={() => handleSelectedQuarter(quarter)}>
                                 <>
                                     <Grid container sx={{ width: '100%' }}>
                                         <Grid item xs={10}>
@@ -244,72 +251,96 @@ export default function IpoPulsePage({ swiperRef }) {
                 </Grid>
 
             </Grid>
-            <Grid container sx={{ mt: 2, height: 60 }}>
+            <Grid container sx={{ height: 60 }}>
 
                 <Grid item container xs={9}>
-                    <Grid item xs={3.5} container direction='row' alignItems="center" justifyContent="center" sx={{ height: 41 }}>
-                        <FormControlLabel control={
-                            <Checkbox size="small" sx={{ color: grey.A200, '&.Mui-checked': { color: grey.A200, } }}
-                                checked={checkBox.high}
-                                onChange={() => handleCheckBox('high')}
-                            />
-                        } labelPlacement="start" label="최고가대비(%)" sx={{ pt: 1 }} />
-                        {/* <Typography sx={{ fontSize: '13px', pt: 1 }}>최고가대비(%)</Typography> */}
-                        <Input label="Outlined" variant="outlined" size="small" sx={inputStyle} value={filter.high[0]}
-                            onChange={(event) => handleRangeValue(event, 'high', 0)}
-                            endAdornment={<InputAdornment position="end"><div style={{ color: '#efe9e9ed' }}>%</div></InputAdornment>}
-                        />
-                        <Typography sx={{ fontSize: '13px', ml: 2, mr: 1, pt: 1 }}>~</Typography>
-                        <Input label="Outlined" variant="outlined" size="small" sx={inputStyle} value={filter.high[1]}
-                            onChange={(event) => handleRangeValue(event, 'high', 1)}
-                            endAdornment={<InputAdornment position="end"><div style={{ color: '#efe9e9ed' }}>%</div></InputAdornment>}
-                        />
-                        {/* <Checkbox size="small" sx={{ color: pink[800], '&.Mui-checked': { color: grey.A200, }, pt: 2 }} /> */}
-                    </Grid>
-                    <Grid item xs={3.5} container direction='row' alignItems="center" justifyContent="center" sx={{ height: 41 }}>
-                        <FormControlLabel control={
-                            <Checkbox size="small" sx={{ color: grey.A200, '&.Mui-checked': { color: grey.A200, } }}
-                                checked={checkBox.start}
-                                onChange={() => handleCheckBox('start')}
-                            />
-                        } labelPlacement="start" label="공모가대비(%)" sx={{ pt: 1 }} />
-                        {/* <Typography sx={{ fontSize: '13px', pt: 1 }}>공모가대비(%)</Typography> */}
-                        <Input label="Outlined" variant="outlined" size="small" sx={inputStyle} value={filter.start[0]}
-                            onChange={(event) => handleRangeValue(event, 'start', 0)}
-                            endAdornment={<InputAdornment position="end"><div style={{ color: '#efe9e9ed' }}>%</div></InputAdornment>}
-                        />
-                        <Typography sx={{ fontSize: '13px', ml: 2, mr: 1, pt: 1 }}>~</Typography>
-                        <Input label="Outlined" variant="outlined" size="small" sx={inputStyle} value={filter.start[1]}
-                            onChange={(event) => handleRangeValue(event, 'start', 1)}
-                            endAdornment={<InputAdornment position="end"><div style={{ color: '#efe9e9ed' }}>%</div></InputAdornment>}
-                        />
-                        {/* <Checkbox size="small" sx={{ color: pink[800], '&.Mui-checked': { color: grey.A200, }, pt: 2 }} /> */}
-                    </Grid>
-                    <Grid item xs={3.5} container direction='row' alignItems="center" justifyContent="center" sx={{ height: 41 }}>
-                        <FormControlLabel control={
-                            <Checkbox size="small" sx={{ color: grey.A200, '&.Mui-checked': { color: grey.A200, } }}
-                                checked={checkBox.day} onChange={() => handleCheckBox('day')} />
-                        } labelPlacement="start" label="상장일" sx={{ pt: 1 }} />
-                        {/* <Typography sx={{ fontSize: '13px', pt: 1 }}>상장일</Typography> */}
-                        <Input label="Outlined" variant="outlined" size="small" sx={inputStyle} value={filter.day[0]}
-                            onChange={(event) => handleRangeValue(event, 'day', 0)}
-                            endAdornment={<InputAdornment position="end"><div style={{ color: '#efe9e9ed' }}>일</div></InputAdornment>}
-                        />
-                        <Typography sx={{ fontSize: '13px', ml: 2, mr: 1, pt: 1 }}>~</Typography>
-                        <Input label="Outlined" variant="outlined" size="small" sx={inputStyle} value={filter.day[1]}
-                            onChange={(event) => handleRangeValue(event, 'day', 1)}
-                            endAdornment={<InputAdornment position="end"><div style={{ color: '#efe9e9ed' }}>일</div></InputAdornment>}
-                        />
-                        {/* <Checkbox size="small" sx={{ color: pink[800], '&.Mui-checked': { color: grey.A200, }, pt: 2 }} /> */}
+                    <Grid container item xs={2.6} >
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>최고가대비(%)</td>
+                                    <td><FormControlLabel control={
+                                        <Checkbox size="small" sx={{ color: grey.A200, '&.Mui-checked': { color: grey.A200, }, height: 18, width: 20, pl: 3 }}
+                                            checked={checkBox.high}
+                                            onChange={() => handleCheckBox('high')}
+                                        />} />
+                                    </td>
+                                    <td>
+                                        <Grid container direction='row' alignItems="center" justifyContent="center" >
+                                            <Input label="Outlined" variant="outlined" size="small" sx={inputStyle} value={filter.high[0]}
+                                                onChange={(event) => handleRangeValue(event, 'high', 0)}
+                                                endAdornment={<InputAdornment position="end"><div style={{ color: '#efe9e9ed' }}>%</div></InputAdornment>}
+                                            />
+                                            <Typography sx={{ fontSize: '13px', ml: 2, mr: 1 }}>~</Typography>
+                                            <Input label="Outlined" variant="outlined" size="small" sx={inputStyle} value={filter.high[1]}
+                                                onChange={(event) => handleRangeValue(event, 'high', 1)}
+                                                endAdornment={<InputAdornment position="end"><div style={{ color: '#efe9e9ed' }}>%</div></InputAdornment>}
+                                            />
+                                        </Grid>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>공모가대비(%)</td>
+                                    <td>
+                                        <FormControlLabel control={
+                                            <Checkbox size="small" sx={{ color: grey.A200, '&.Mui-checked': { color: grey.A200, }, height: 18, width: 20, pl: 3 }}
+                                                checked={checkBox.start}
+                                                onChange={() => handleCheckBox('start')}
+                                            />} />
+                                    </td>
+                                    <td>
+                                        <Grid container direction='row' alignItems="center" justifyContent="center" >
+                                            <Input label="Outlined" variant="outlined" size="small" sx={inputStyle} value={filter.start[0]}
+                                                onChange={(event) => handleRangeValue(event, 'start', 0)}
+                                                endAdornment={<InputAdornment position="end"><div style={{ color: '#efe9e9ed' }}>%</div></InputAdornment>}
+                                            />
+                                            <Typography sx={{ fontSize: '13px', ml: 2, mr: 1 }}>~</Typography>
+                                            <Input label="Outlined" variant="outlined" size="small" sx={inputStyle} value={filter.start[1]}
+                                                onChange={(event) => handleRangeValue(event, 'start', 1)}
+                                                endAdornment={<InputAdornment position="end"><div style={{ color: '#efe9e9ed' }}>%</div></InputAdornment>}
+                                            />
+                                        </Grid>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>상장일</td>
+                                    <td>
+                                        <FormControlLabel control={
+                                            <Checkbox size="small" sx={{ color: grey.A200, '&.Mui-checked': { color: grey.A200, }, height: 18, width: 20, pl: 3 }}
+                                                checked={checkBox.day} onChange={() => handleCheckBox('day')} />} />
+                                    </td>
+                                    <td>
+                                        <Grid container direction='row' alignItems="center" justifyContent="center" >
+                                            <Input label="Outlined" variant="outlined" size="small" sx={inputStyle} value={filter.day[0]}
+                                                onChange={(event) => handleRangeValue(event, 'day', 0)}
+                                                endAdornment={<InputAdornment position="end"><div style={{ color: '#efe9e9ed' }}>일</div></InputAdornment>}
+                                            />
+                                            <Typography sx={{ fontSize: '13px', ml: 2, mr: 1 }}>~</Typography>
+                                            <Input label="Outlined" variant="outlined" size="small" sx={inputStyle} value={filter.day[1]}
+                                                onChange={(event) => handleRangeValue(event, 'day', 1)}
+                                                endAdornment={<InputAdornment position="end"><div style={{ color: '#efe9e9ed' }}>일</div></InputAdornment>}
+                                            />
+                                        </Grid>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </Grid>
 
-                    <Grid item xs={1.5} container direction='row' alignItems="center" justifyContent="center" sx={{ height: 41 }}>
-                        <FormControlLabel control={
-                            <Checkbox size="small" sx={{ color: grey.A200, '&.Mui-checked': { color: grey.A200, } }}
-                                onChange={() => handleCheckBox('All')}
-                            />
-                        } labelPlacement="start" label="All" sx={{ pt: 1 }} />
+                    <Grid container item xs={3.5} sx={{ border: '1px solid red' }}>
+                        <Grid container direction='row' alignItems="center" >
+                            <FormControlLabel control={
+                                <Checkbox size="small" sx={{ color: grey.A200, '&.Mui-checked': { color: grey.A200, } }}
+                                    onChange={() => handleCheckBox('All')}
+                                />
+                            } labelPlacement="start" label="All" />
+                        </Grid>
+                        <Grid container direction='row' alignItems="center" >
+                            Reset
+                        </Grid>
+
                     </Grid>
+
 
                 </Grid>
 
