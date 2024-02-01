@@ -159,7 +159,7 @@ export default function TreasuryStockPage({ swiperRef, SectorsChartData }) {
         axios.get(`${STOCK}/${selectedStockItem.종목코드}`).then(res => {
             setStockItemData(res.data.stock);
             setStockVolumeData(res.data.volume);
-            console.log(res.data.stock);
+            // console.log(res.data.stock);
         });
         sectorSelected(selectedStockItem)
     };

@@ -174,7 +174,7 @@ export default function Chart({ data = [], height, name, hidenLegend, rangeSelec
                 // 모든 데이터 업데이트 후 차트 다시 그리기
                 chartInstance.current.redraw();
             }
-            console.log(data);
+            // console.log(data);
         }
     }, [data]);
     useEffect(() => {

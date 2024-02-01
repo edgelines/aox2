@@ -8,7 +8,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { StyledToggleButton, StyledButton, DataTableStyleDefault } from './util/util';
 import { StyledTypography, TitleComponent, DataTable, FilteredDataTable, renderProgressBar, StockInfo, StyledTypography_StockInfo, Financial, EtcInfo } from './util/htsUtil';
-import StockChart from './util/stockChart';
+// import StockChart from './util/stockChart';
+import StockChart_MA from './util/stockChart_MA';
 import { renderProgress, StyledInput } from './util/ipoUtil';
 import { API, STOCK } from './util/config';
 import ThumbnailChart from './IpoPulse/thumbnailChart';
@@ -70,7 +71,7 @@ export default function IpoPulsePage({ swiperRef }) {
     const getStockCode = async (params) => {
         // 시가총액, 상장주식수, PER, EPS, PBR, BPS
         const res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
-        console.log(res.data);
+        // console.log(res.data);
         setStock({
             종목명: params.종목명, 종목코드: params.종목코드, 업종명: params.업종명, 현재가: res.data.현재가,
             시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,
@@ -90,7 +91,7 @@ export default function IpoPulsePage({ swiperRef }) {
             start: checkBox.start == true ? filter.start : null,
             day: checkBox.day == true ? filter.day : null,
         }
-        console.log(postData);
+        // console.log(postData);
         const res = await axios.post(`${API}/ipoPulse/data`, postData);
 
         setTableData(res.data.table);
@@ -395,7 +396,7 @@ export default function IpoPulsePage({ swiperRef }) {
                     <Grid item container sx={{ mt: 1 }}>
                         {
                             Array.isArray(stockChart.price) ?
-                                <StockChart height={280} stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} price={stock.현재가} boxTransform={'translate(10px, 140px)'} />
+                                <StockChart_MA height={280} stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} price={stock.현재가} boxTransform={'translate(10px, 140px)'} />
                                 : <></>
                         }
                     </Grid>
