@@ -219,7 +219,7 @@ export default function IpoPulsePage({ swiperRef }) {
                                 <>
                                     <Grid container sx={{ width: '100%' }}>
                                         <Grid item xs={10}>
-                                            <ThumbnailChart data={items} height={130} />
+                                            <ThumbnailChart data={items['Data']} height={130} />
 
                                         </Grid>
                                     </Grid>
