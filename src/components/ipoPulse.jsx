@@ -26,7 +26,7 @@ export default function IpoPulsePage({ swiperRef }) {
         start: checkBox.start == true ? filter.start : null,
         day: checkBox.day == true ? filter.day : null,
         selected: filter.selected,
-        finance: filter.finance,
+        finance: filter.finance
     })
 
     // state
@@ -109,14 +109,8 @@ export default function IpoPulsePage({ swiperRef }) {
         setStockChart({ price: res.data.price, volume: res.data.volume })
     }
     const fetchData = async (postData) => {
-        // const postData = {
-        //     high: checkBox.high == true ? filter.high : null,
-        //     start: checkBox.start == true ? filter.start : null,
-        //     day: checkBox.day == true ? filter.day : null,
-        //     selected: filter.selected,
-        //     finance: filter.finance,
-        // }
         const res = await axios.post(`${API}/ipoPulse/data`, postData);
+        console.log(postData);
         setTableData(res.data.table);
         setChartData(res.data.chart);
     }
@@ -138,7 +132,7 @@ export default function IpoPulsePage({ swiperRef }) {
         const minutes = now.getMinutes();
         const seconds = now.getSeconds();
         let delay;
-        if (hour < 9 || (hour === 9 && minutes < 35)) {
+        if (hour < 9) {
             delay = ((9 - hour - 1) * 60 + (61 - minutes)) * 60 - seconds;
         } else {
             // 이미 9시 1분 이후라면, 다음 5분 간격 시작까지 대기 (예: 9시 3분이라면 9시 6분까지 대기)
