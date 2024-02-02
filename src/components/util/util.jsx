@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Divider, ListItem, ListItemText, ToggleButton, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
+export const update_5M = 'Update - 5m'
+export const update_1day = 'Update - 1Day'
+
 export function TitleComponet({ primary, fontSize, textAlign }) {
     return (
         <>

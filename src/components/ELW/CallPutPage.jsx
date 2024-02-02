@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Grid, Box, ToggleButtonGroup } from '@mui/material';
 import IndexChart from '../util/IndexChart.jsx';
 import CoreChart from '../util/CoreChart.jsx';
-import { StyledToggleButton } from '../util/util.jsx'
+import { StyledToggleButton, update_5M, update_1day } from '../util/util.jsx'
 import MarketCurrentValue from '../Index/marketCurrentValue.jsx'
 import { API } from '../util/config.jsx';
 export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi, Kosdaq, Invers, IndexMA, MarketDetail }) {
@@ -12,12 +12,6 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
     const [ElwRatioData, setElwRatioData] = useState({ series: null, categories: null });
     const [mainData, setMainData] = useState('Kospi200');
     const [formats, setFormats] = useState(() => ['MA50']);
-
-    const updateA = 'Start - 9:2, Update - 지수분봉'
-    // const updateB = 'Updates-5m'
-    // const updateC = 'Updates-2m'
-    const updateD = 'Start - 9:20, Update - 5m'
-    const updateE = 'Update - 1Day'
 
     const fetchData = async () => {
         await axios.get(`${API}/elwData/DayGr`).then((response) => {
@@ -163,13 +157,13 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
             <Grid item xs={12} >
                 <Grid container spacing={1} >
                     <Grid item xs={5} >
-                        <IndexChart data={ElwPutCallRatioData} height={343} name={'ElwPutCallRatioData'} hidenLegend={true} rangeSelector={0} credit={updateD} />
+                        <IndexChart data={ElwPutCallRatioData} height={343} name={'ElwPutCallRatioData'} hidenLegend={true} rangeSelector={0} credit={update_5M} />
                     </Grid>
                     <Grid item xs={3.5} >
-                        <CoreChart data={dayGr.series} height={343} name={'dayGr'} categories={dayGr.categories} credit={updateD} creditsPositionY={66} />
+                        <CoreChart data={dayGr.series} height={343} name={'dayGr'} categories={dayGr.categories} credit={update_5M} creditsPositionY={66} />
                     </Grid>
                     <Grid item xs={3.5} >
-                        <CoreChart data={ElwRatioData.series} height={343} name={'ElwRatioData'} categories={ElwRatioData.categories} type={'column'} credit={updateD} />
+                        <CoreChart data={ElwRatioData.series} height={343} name={'ElwRatioData'} categories={ElwRatioData.categories} type={'column'} credit={update_5M} />
                     </Grid>
                 </Grid>
             </Grid>
@@ -186,7 +180,7 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
                             <MarketCurrentValue MarketDetail={MarketDetail} />
                         </Box>
 
-                        <IndexChart data={VixMA} height={580} name={'VixMA'} rangeSelector={0} credit={updateE} xAxisType={'timestamp'} />
+                        <IndexChart data={VixMA} height={580} name={'VixMA'} rangeSelector={0} credit={update_1day} xAxisType={'timestamp'} />
 
                     </Grid>
                     <Grid item xs={0.4}>
@@ -219,7 +213,7 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
                     </Grid>
                     <Grid item xs={6}>
 
-                        <IndexChart data={chartData} height={580} name={'IndexMA'} rangeSelector={2} xAxisType={'datetime'} credit={updateA} creditsPositionX={1} />
+                        <IndexChart data={chartData} height={580} name={'IndexMA'} rangeSelector={2} xAxisType={'datetime'} credit={update_5M} creditsPositionX={1} />
 
                     </Grid>
                 </Grid>

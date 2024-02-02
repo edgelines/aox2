@@ -8,7 +8,7 @@ import MonthTable from './weightAvgTable'
 import IndexChart from '../util/IndexChart'
 import WeightAvgCheck from './weightAvgCheck';
 // import Chart from '../Fundarmental/fundarmentalChart'
-import { StyledToggleButton } from '../util/util';
+import { StyledToggleButton, update_5M, update_1day } from '../util/util';
 import { API } from '../util/config';
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts/highstock'
@@ -18,11 +18,6 @@ require('highcharts/modules/accessibility')(Highcharts)
 
 
 export default function WeightAvgPage3({ swiperRef, ELW_monthTable, ELW_CallPutRatio_Maturity, ElwWeightedAvgCheck, Exchange, MarketDetail }) {
-    // const updateA = 'Start - 9:2, Update - 지수분봉'
-    // const updateB = 'Updates-5m'
-    // const updateC = 'Updates-2m'
-    const updateD = 'Start - 9:20, Update - 5m'
-    const updateE = 'Update - 1Day'
     const [month2Data, setMonth2Data] = useState({});
     const [month1Value, setMonth1Value] = useState([]);
     const [kospiPbr, setKospiPbr] = useState();
@@ -271,10 +266,10 @@ export default function WeightAvgPage3({ swiperRef, ELW_monthTable, ELW_CallPutR
                     >
                     </div> */}
                     {page === 'Kospi200' && kospi200Pbr && kospi200Pbr.length > 0 ?
-                        <PbrChart data={kospi200Pbr} height={465} credits={updateE} name={'Kospi200'} /> :
+                        <PbrChart data={kospi200Pbr} height={465} credits={update_1day} name={'Kospi200'} /> :
                         page === 'Kospi' ?
-                            <PbrChart data={kospiPbr} height={465} credits={updateE} name={'Kospi'} /> :
-                            <PbrChart data={kosdaqPbr} height={465} credits={updateE} name={'Kosdaq'} />
+                            <PbrChart data={kospiPbr} height={465} credits={update_1day} name={'Kospi'} /> :
+                            <PbrChart data={kosdaqPbr} height={465} credits={update_1day} name={'Kosdaq'} />
                     }
                 </Box>
             </Grid>
@@ -293,7 +288,7 @@ export default function WeightAvgPage3({ swiperRef, ELW_monthTable, ELW_CallPutR
                 <Box sx={{ position: 'absolute', transform: 'translate(3vw, 60px)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
                     <MarketCurrentValue MarketDetail={MarketDetail} />
                 </Box>
-                <MonthChart data={month2Data.series} height={840} categories={month2Data.categories} min={month2Data.min} credit={updateD} />
+                <MonthChart data={month2Data.series} height={840} categories={month2Data.categories} min={month2Data.min} credit={update_5M} />
 
                 <Box sx={{ position: 'absolute', transform: 'translate(2.6vw, -280px)', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
                     <MonthTable ELW_monthTable={ELW_monthTable} ELW_CallPutRatio_Maturity={ELW_CallPutRatio_Maturity} /></Box>

@@ -4,22 +4,17 @@ import { Grid, Box, Table, TableHead, TableBody, TableRow, TableCell, Skeleton, 
 import MonthChart from './monthChart';
 import MarketCurrentValue from '../Index/marketCurrentValue'
 import MonthTable from './weightAvgTable'
-import { numberWithCommas } from '../util/util';
+import { numberWithCommas, update_5M } from '../util/util';
 import WeightAvgCheck from './weightAvgCheck';
 import { API } from '../util/config';
 
 export default function WeightAvgPage1({ swiperRef, ELW_monthTable, ELW_CallPutRatio_Maturity, ElwWeightedAvgCheck, MarketDetail }) {
     const 매매동향당일누적스타일 = { borderRight: '1px solid #757575' }
-    // const updateA = 'Start - 9:2, Update - 지수분봉'
-    // const updateB = 'Updates-5m'
-    // const updateC = 'Updates-2m'
-    const updateD = 'Start - 9:20, Update - 5m'
-    // const updateE = 'Update - 1Day'
+
     const [month1Data, setMonth1Data] = useState({});
     const [month2Data, setMonth2Data] = useState({});
     const [month1Value, setMonth1Value] = useState([]);
     const [table2, setTable2] = useState([]);
-
 
     const fetchData = async () => {
         await axios.get(`${API}/elwData/Month1`).then((res) => {
@@ -274,7 +269,7 @@ export default function WeightAvgPage1({ swiperRef, ELW_monthTable, ELW_CallPutR
                 <Box sx={{ position: 'absolute', transform: 'translate(3vw, 60px)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
                     <MarketCurrentValue MarketDetail={MarketDetail} />
                 </Box>
-                <MonthChart data={month2Data.series} height={840} categories={month2Data.categories} min={month2Data.min} credit={updateD} />
+                <MonthChart data={month2Data.series} height={840} categories={month2Data.categories} min={month2Data.min} credit={update_5M} />
 
                 <Box sx={{ position: 'absolute', transform: 'translate(2.6vw, -280px)', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}><MonthTable ELW_monthTable={ELW_monthTable} ELW_CallPutRatio_Maturity={ELW_CallPutRatio_Maturity} /></Box>
 

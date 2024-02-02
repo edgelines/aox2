@@ -1,19 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, Box, Switch, FormControlLabel, Modal, Backdrop, Button } from '@mui/material';
+import { Grid, Box, Switch, FormControlLabel } from '@mui/material';
 import CoreChart from '../util/CoreChart.jsx';
 import GpoChart from './GpoChart.jsx';
 import ELW_BarChart from './BarChart.jsx';
 import MarketCurrentValue from '../Index/marketCurrentValue.jsx';
 import { API, myJSON, API_FILE } from '../util/config.jsx';
+import { update_5M } from '../util/util';
 
-export default function DetailPage({ swiperRef, Vix, MarketDetail, ElwBarData }) {
-    // const updateA = 'Start - 9:2, Update - 지수분봉'
-    // const updateB = 'Updates-5m'
-    // const updateC = 'Updates-2m'
-    const updateD = 'Start - 9:20, Update - 5m'
-    // const updateF = 'Start - 9:20, Update - 지수분봉'
-    // const updateE = 'Updates-1Day'
+export default function DetailPage({ swiperRef, Vix, MarketDetail }) {
+
     const vixData = [{ name: 'Vix', color: 'tomato', pointWidth: 8, data: [parseFloat(Vix.value)], animation: false }];
 
     const [ELW_data1, setELW_data1] = useState({ title: null, 콜5일: null, 콜: null, 풋5일: null, 풋: null, 행사가: null, 비율: null, 콜범주: null, 풋범주: null });
@@ -167,7 +163,7 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail, ElwBarData })
                 </Box>
 
                 <Box sx={{ position: 'absolute', transform: 'translate(86.2vw, -2vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
-                    {updateD}
+                    {update_5M}
                 </Box>
                 <Box sx={{ position: 'absolute', transform: 'translate(77vw, 17vh)', zIndex: 5, justifyItems: 'right', backgroundColor: 'rgba(0, 0, 0, 0.5)', p: 1 }}>
                     <MarketCurrentValue MarketDetail={MarketDetail} />

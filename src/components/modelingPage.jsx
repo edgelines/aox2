@@ -19,7 +19,7 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
     const [williamsNum2, setWilliamsNum2] = useState(7);
     const [williamsNum3, setWilliamsNum3] = useState(14);
     const [williamsNum4, setWilliamsNum4] = useState(24);
-    const [williamsNum5, setWilliamsNum5] = useState(47);
+    const [williamsNum5, setWilliamsNum5] = useState(44);
 
     const [indexChartConfig, setIndexChartConfig] = useState({})
 

@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 
-import { Grid, Stack, Typography, Input, TextField, InputAdornment, Checkbox, FormControlLabel, Table, TableBody, TableRow, TableCell } from '@mui/material';
+import { Grid, Stack, Typography, Input, TextField, InputAdornment, Checkbox, FormControlLabel } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-import { StyledToggleButton, StyledButton, DataTableStyleDefault } from './util/util';
+import { StyledButton, DataTableStyleDefault } from './util/util';
 import { StyledTypography_StockInfo, Financial } from './util/htsUtil';
-// import StockChart from './util/stockChart';
 import StockChart_MA from './util/stockChart_MA';
 import { renderProgress, StyledInput } from './util/ipoUtil';
 import { API, STOCK } from './util/config';
@@ -22,6 +20,13 @@ export default function IpoPulsePage({ swiperRef }) {
     // checkBox
     const [checkBox, setCheckBox] = useState({
         high: false, start: false, day: false, all: false
+    })
+    const [postData, setPostData] = useState({
+        high: checkBox.high == true ? filter.high : null,
+        start: checkBox.start == true ? filter.start : null,
+        day: checkBox.day == true ? filter.day : null,
+        selected: filter.selected,
+        finance: filter.finance,
     })
 
     // state
@@ -103,22 +108,29 @@ export default function IpoPulsePage({ swiperRef }) {
         const res = await axios.get(`${STOCK}/get/${code}`);
         setStockChart({ price: res.data.price, volume: res.data.volume })
     }
-
-    const fetchData = async (checkBox, filter) => {
-        const postData = {
+    const fetchData = async (postData) => {
+        // const postData = {
+        //     high: checkBox.high == true ? filter.high : null,
+        //     start: checkBox.start == true ? filter.start : null,
+        //     day: checkBox.day == true ? filter.day : null,
+        //     selected: filter.selected,
+        //     finance: filter.finance,
+        // }
+        const res = await axios.post(`${API}/ipoPulse/data`, postData);
+        setTableData(res.data.table);
+        setChartData(res.data.chart);
+    }
+    useEffect(() => {
+        setPostData({
             high: checkBox.high == true ? filter.high : null,
             start: checkBox.start == true ? filter.start : null,
             day: checkBox.day == true ? filter.day : null,
             selected: filter.selected,
             finance: filter.finance,
-        }
-        const res = await axios.post(`${API}/ipoPulse/data`, postData);
-        setTableData(res.data.table);
-        setChartData(res.data.chart);
-
-    }
-
-    useEffect(() => { fetchData(checkBox, filter) }, [checkBox, filter])
+        })
+    }, [checkBox, filter])
+    useEffect(() => { fetchData(postData) }, [postData])
+    // useEffect(() => { fetchData(checkBox, filter) }, [checkBox, filter])
 
     useEffect(() => {
         const now = new Date();
@@ -140,12 +152,13 @@ export default function IpoPulsePage({ swiperRef }) {
                 const hour = now.getHours();
                 const dayOfWeek = now.getDay();
                 if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
-                    fetchData(checkBox, filter);
+                    fetchData(postData);
+                    // fetchData(checkBox, filter);
                 } else if (hour >= 16) {
                     // 3시 30분 이후라면 인터벌 종료
                     clearInterval(intervalId);
                 }
-            }, 1000 * 60 * 5);
+            }, 1000 * 60 * 10);
             return intervalId;
         };
         // 첫 업데이트 시작
@@ -170,56 +183,56 @@ export default function IpoPulsePage({ swiperRef }) {
             field: '종목명', headerName: '종목명', width: 120,
             align: 'left', headerAlign: 'center',
         }, {
-            field: '업종명', headerName: '업종명', width: 120,
+            field: '업종명', headerName: '업종명', width: 110,
             align: 'left', headerAlign: 'center',
         }, {
-            field: '상장예정일', headerName: '상장일', width: 100,
+            field: '상장예정일', headerName: '상장일', width: 80,
             align: 'right', headerAlign: 'center',
         }, {
-            field: '경과일수', headerName: '경과일수', width: 65,
-            align: 'right', headerAlign: 'center',
-            valueFormatter: (params) => {
-                if (params.value == null) { return ''; }
-                return (parseInt(params.value)).toLocaleString('kr');
-            }
-        }, {
-            field: '최고가', headerName: '최고가', width: 80,
+            field: '경과일수', headerName: '경과일수', width: 60,
             align: 'right', headerAlign: 'center',
             valueFormatter: (params) => {
                 if (params.value == null) { return ''; }
                 return (parseInt(params.value)).toLocaleString('kr');
             }
         }, {
-            field: '최저가', headerName: '최저가', width: 80,
+            field: '최고가', headerName: '최고가', width: 75,
             align: 'right', headerAlign: 'center',
             valueFormatter: (params) => {
                 if (params.value == null) { return ''; }
                 return (parseInt(params.value)).toLocaleString('kr');
             }
         }, {
-            field: '최고가대비', headerName: '최고가대비', width: 80,
+            field: '최저가', headerName: '최저가', width: 70,
+            align: 'right', headerAlign: 'center',
+            valueFormatter: (params) => {
+                if (params.value == null) { return ''; }
+                return (parseInt(params.value)).toLocaleString('kr');
+            }
+        }, {
+            field: '최고가대비', headerName: '최고가대비', width: 75,
             align: 'right', headerAlign: 'center',
             renderCell: (params) => renderProgress(params)
         }, {
-            field: '공모가', headerName: '공모가', width: 80,
+            field: '공모가', headerName: '공모가', width: 75,
             align: 'right', headerAlign: 'center',
             valueFormatter: (params) => {
                 if (params.value == null) { return ''; }
                 return parseInt(params.value).toLocaleString('kr');
             }
         }, {
-            field: '공모가대비', headerName: '공모가대비', width: 80,
+            field: '공모가대비', headerName: '공모가대비', width: 75,
             align: 'right', headerAlign: 'center',
             renderCell: (params) => renderProgress(params)
         }, {
-            field: '현재가', headerName: '현재가', width: 80,
+            field: '현재가', headerName: '현재가', width: 75,
             align: 'right', headerAlign: 'center',
             valueFormatter: (params) => {
                 if (params.value == null) { return ''; }
                 return (parseInt(params.value)).toLocaleString('kr');
             }
         }, {
-            field: '등락률', headerName: '등락률', width: 60,
+            field: '등락률', headerName: '등락률', width: 55,
             align: 'right', headerAlign: 'center',
         }, {
             field: '보호예수', headerName: '보호예수', width: 300,
@@ -442,6 +455,8 @@ export default function IpoPulsePage({ swiperRef }) {
                                 '[data-field="경과일수"]': { borderRight: '1.5px solid #ccc' },
                                 '[data-field="최고가대비"]': { borderRight: '1.5px solid #ccc' },
                                 '[data-field="공모가대비"]': { borderRight: '1.5px solid #ccc' },
+                                '[data-field="등락률"]': { borderRight: '1.5px solid #ccc' },
+                                '[data-field="현재가"]': { backgroundColor: '#a0a0a0' },
                             }}
                         />
                     </ThemeProvider>

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Grid, Box, Table, Skeleton, Modal, Backdrop, ToggleButtonGroup } from '@mui/material';
 import CoreChart from './util/CoreChart';
-import { numberWithCommas, StyledToggleButton } from './util/util';
+import { numberWithCommas, StyledToggleButton, update_5M } from './util/util';
 import Kospi200CurrentValue from './Index/kospi200CurrentValue';
 import NewKospi200Group, { BubbleChartLegend } from './util/BubbleChart'
 import WeightAvgCheck from './ELW/weightAvgCheck';
@@ -11,8 +11,8 @@ import HighchartsReact from 'highcharts-react-official'
 import HighchartsMore from 'highcharts/highcharts-more'
 import SolidGauge from "highcharts/modules/solid-gauge";
 import { parseInt } from 'lodash';
-import { API, myJSON } from './util/config';
-import useInterval from './util/useInterval';
+import { API } from './util/config';
+// import useInterval from './util/useInterval';
 HighchartsMore(Highcharts)
 SolidGauge(Highcharts)
 
@@ -20,9 +20,7 @@ SolidGauge(Highcharts)
 export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200BubbleCategory, MarketDetail, ElwWeightedAvgCheck, Exchange }) {
     // const updateA = 'Updates-10m'
     // const updateB = 'Updates-5m'
-    let ws = null;
-    const updateC = 'Update - 2m'
-    const updateF = 'Start - 9:2, Update - 지수분봉'
+    // let ws = null;
     // const [MarketDetail, setMarketDetail] = useState({ data: [], status: 'loading' });
     const [bubbleData, setBubbleData] = useState({});
     const [groupDataMin, setGroupDataMin] = useState({})
@@ -236,7 +234,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
 
             <Grid item xs={3.9} >
                 <Box sx={{ position: 'absolute', transform: 'translate(21vw, 2.15vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
-                    {updateF}
+                    {update_5M}
                 </Box>
                 <CoreChart data={bubbleData.series} height={330} name={'Kospi200GroupBubble'} categories={bubbleData.categories} type={'bubble'} lengendX={40} />
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'left' }}>
@@ -265,7 +263,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                         <>
                             <CoreChart data={groupData.series1} height={280} name={'groupData'} categories={groupData.categories} lengendX={43} />
                             <Box sx={{ position: 'absolute', transform: 'translate(20vw, -1.5vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
-                                {updateF}
+                                {update_5M}
                             </Box>
                             <CoreChart data={groupData.series2} height={280} name={'groupData'} categories={groupData.categories} lengendX={43} />
                         </>
@@ -279,7 +277,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                             <>
                                 <CoreChart data={groupDataMin.series1} height={280} name={'groupDataMin'} categories={groupDataMin.categories} lengendX={43} />
                                 <Box sx={{ position: 'absolute', transform: 'translate(21vw, -1.5vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
-                                    {updateF}
+                                    {update_5M}
                                 </Box>
                                 <CoreChart data={groupDataMin.series2} height={280} name={'groupDataMin'} categories={groupDataMin.categories} lengendX={43} />
                             </>
@@ -293,7 +291,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                 </div>
 
                 <Box sx={{ position: 'absolute', transform: 'translate(27vw, 1.5vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
-                    {updateF}
+                    {update_5M}
                 </Box>
 
                 <Box sx={{ position: 'absolute', transform: 'translate(31.5vw, 5vh)', zIndex: 5, justifyItems: 'right', p: 1 }}>
@@ -307,10 +305,10 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                 </Box>
 
                 <Box sx={{ position: 'absolute', transform: 'translate(32vw, 1.5vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
-                    {updateC}
+                    {update_5M}
                 </Box>
 
-                <CoreChart data={trendData.series} height={410} name={'trendData'} categories={trendData.categories} type={'column'} credit={updateC} yAxis0Abs={trendData.yAxis0Abs} yAxis1Abs={trendData.yAxis1Abs} yAxis2Abs={trendData.yAxis2Abs} />
+                <CoreChart data={trendData.series} height={410} name={'trendData'} categories={trendData.categories} type={'column'} credit={update_5M} yAxis0Abs={trendData.yAxis0Abs} yAxis1Abs={trendData.yAxis1Abs} yAxis2Abs={trendData.yAxis2Abs} />
             </Grid>
 
             <Grid item xs={3.5} >
@@ -476,7 +474,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                         <Box sx={{ textAlign: 'right' }}>단위 : 콜/풋옵션 백만원, 그외 억원</Box>
                     </Grid>
                     <Box sx={{ position: 'absolute', transform: 'translate(23.6vw, 17.5vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
-                        {updateC}
+                        {update_5M}
                     </Box>
                     <Grid item xs={12}>
                         <Grid container>
