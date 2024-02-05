@@ -226,6 +226,9 @@ export default function IpoPulsePage({ swiperRef }) {
                 return (parseInt(params.value)).toLocaleString('kr');
             }
         }, {
+            field: 'PBR', headerName: 'PBR', width: 55,
+            align: 'right', headerAlign: 'center',
+        }, {
             field: '등락률', headerName: '등락률', width: 55,
             align: 'right', headerAlign: 'center',
         }, {
