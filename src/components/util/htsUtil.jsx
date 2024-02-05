@@ -275,6 +275,13 @@ export const StockInfo = ({ data }) => {
                     <StyledTypography_StockInfo fontSize="12px">{data.BPS.toLocaleString('kr')} 원</StyledTypography_StockInfo>
                 </Stack>
             </Grid>
+            <Grid item container>
+                <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
+                    <StyledTypography_StockInfo fontSize="12px">보호예수</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">{stock.보호예수}</StyledTypography_StockInfo>
+                </Stack>
+            </Grid>
+
             <Grid item container sx={{ borderBottom: '1px solid #efe9e9ed' }}>
 
             </Grid>

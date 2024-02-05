@@ -15,18 +15,20 @@ import ThumbnailChart from './IpoPulse/thumbnailChart';
 export default function IpoPulsePage({ swiperRef }) {
 
     const [filter, setFilter] = useState({
-        high: [-44, -80], start: [-30, -100], day: [50, 100], selected: null, finance: null,
+        high: [-44, -80], start: [-30, -100], day: [50, 100], selected: null, finance: null, lockUp: [10, 30]
     })
     // checkBox
     const [checkBox, setCheckBox] = useState({
-        high: false, start: false, day: false, all: false
+        high: false, start: false, day: false, all: false, order: false, lockUp: false
     })
     const [postData, setPostData] = useState({
         high: checkBox.high == true ? filter.high : null,
         start: checkBox.start == true ? filter.start : null,
         day: checkBox.day == true ? filter.day : null,
         selected: filter.selected,
-        finance: filter.finance
+        finance: filter.finance,
+        order: checkBox.order == true ? 'ok' : null,
+        lockUp: checkBox.lockUp == true ? filter.lockUp : null
     })
 
     // state
@@ -100,7 +102,7 @@ export default function IpoPulsePage({ swiperRef }) {
             종목명: params.종목명, 종목코드: params.종목코드, 업종명: params.업종명, 현재가: res.data.현재가,
             시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,
             최고가52주: res.data.최고가52주, 최저가52주: res.data.최저가52주, 기업개요: res.data.기업개요, 분기실적: res.data.분기실적, 연간실적: res.data.연간실적,
-            주요제품매출구성: res.data.주요제품매출구성, 주요주주: res.data.주요주주, 이벤트: res.data.이벤트
+            주요제품매출구성: res.data.주요제품매출구성, 주요주주: res.data.주요주주, 이벤트: res.data.이벤트, 보호예수: res.data.보호예수
         })
     }
 
@@ -108,11 +110,16 @@ export default function IpoPulsePage({ swiperRef }) {
         const res = await axios.get(`${STOCK}/get/${code}`);
         setStockChart({ price: res.data.price, volume: res.data.volume })
     }
+    const fetchChartData = async () => {
+        const res = await axios.get(`${API}/ipoPulse/chart`);
+        setChartData(res.data);
+    }
     const fetchData = async (postData) => {
         const res = await axios.post(`${API}/ipoPulse/data`, postData);
-        console.log(postData);
+        // console.table(postData);
+        console.table(res.data.table);
         setTableData(res.data.table);
-        setChartData(res.data.chart);
+
     }
     useEffect(() => {
         setPostData({
@@ -121,8 +128,11 @@ export default function IpoPulsePage({ swiperRef }) {
             day: checkBox.day == true ? filter.day : null,
             selected: filter.selected,
             finance: filter.finance,
+            order: checkBox.order == true ? 'ok' : null,
+            lockUp: checkBox.lockUp == true ? filter.lockUp : null
         })
     }, [checkBox, filter])
+    useEffect(() => { fetchChartData(); }, [])
     useEffect(() => { fetchData(postData) }, [postData])
     // useEffect(() => { fetchData(checkBox, filter) }, [checkBox, filter])
 
@@ -384,8 +394,49 @@ export default function IpoPulsePage({ swiperRef }) {
                         </Grid>
                     </Grid>
 
-                    <Grid container item xs={2.6} >
+                    <Grid container item xs={1}>
                         <StyledButton fontSize={'11px'} onClick={() => handleSelectedBtn('finance', 'finance')}>잠정&확정 실적</StyledButton>
+                    </Grid>
+
+                    <Grid container item xs={2.3}>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>저PBR순</td>
+                                    <td><FormControlLabel control={
+                                        <Checkbox size="small" sx={{ color: grey.A200, '&.Mui-checked': { color: grey.A200, }, height: 18, width: 20, pl: 3 }}
+                                            checked={checkBox.order}
+                                            onChange={() => handleCheckBox('order')}
+                                        />} />
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>보호예수</td>
+                                    <td>
+                                        <FormControlLabel control={
+                                            <Checkbox size="small" sx={{ color: grey.A200, '&.Mui-checked': { color: grey.A200, }, height: 18, width: 20, pl: 3 }}
+                                                checked={checkBox.lockUp}
+                                                onChange={() => handleCheckBox('lockUp')}
+                                            />} />
+                                    </td>
+                                    <td>
+                                        <Grid container direction='row' alignItems="center" justifyContent="center" >
+                                            <Input label="Outlined" variant="outlined" size="small" sx={inputStyle} value={filter.lockUp[0]}
+                                                onChange={(event) => handleRangeValue(event, 'start', 0)}
+                                                endAdornment={<InputAdornment position="end"><div style={{ color: '#efe9e9ed' }}>일</div></InputAdornment>}
+                                            />
+                                            <Typography sx={{ fontSize: '13px', ml: 2, mr: 1 }}>~</Typography>
+                                            <Input label="Outlined" variant="outlined" size="small" sx={inputStyle} value={filter.lockUp[1]}
+                                                onChange={(event) => handleRangeValue(event, 'start', 1)}
+                                                endAdornment={<InputAdornment position="end"><div style={{ color: '#efe9e9ed' }}>일</div></InputAdornment>}
+                                            />
+                                        </Grid>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
                     </Grid>
 
                 </Grid>
@@ -420,6 +471,12 @@ export default function IpoPulsePage({ swiperRef }) {
                                         <StyledTypography_StockInfo fontSize="12px">{stock.BPS.toLocaleString('kr')} 원</StyledTypography_StockInfo>
                                     </Stack>
                                 </Grid>
+                                <Grid item container>
+                                    <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
+                                        <StyledTypography_StockInfo fontSize="12px">보호예수</StyledTypography_StockInfo>
+                                        <StyledTypography_StockInfo fontSize="12px">{stock.보호예수}</StyledTypography_StockInfo>
+                                    </Stack>
+                                </Grid>
                             </>
                             : <></>
                     }
@@ -427,6 +484,8 @@ export default function IpoPulsePage({ swiperRef }) {
 
 
             </Grid>
+
+            {/* Table */}
             <Grid container sx={{ mt: 1 }} spacing={2}>
                 <Grid item xs={8} sx={{ height: 700, width: "100%" }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
