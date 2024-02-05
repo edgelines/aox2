@@ -226,10 +226,10 @@ export default function IpoPulsePage({ swiperRef }) {
                 return (parseInt(params.value)).toLocaleString('kr');
             }
         }, {
-            field: 'PBR', headerName: 'PBR', width: 55,
+            field: '등락률', headerName: '등락률', width: 55,
             align: 'right', headerAlign: 'center',
         }, {
-            field: '등락률', headerName: '등락률', width: 55,
+            field: 'PBR', headerName: 'PBR', width: 55,
             align: 'right', headerAlign: 'center',
         }, {
             field: '보호예수', headerName: '보호예수', width: 300,
@@ -453,7 +453,8 @@ export default function IpoPulsePage({ swiperRef }) {
                                 '[data-field="최고가대비"]': { borderRight: '1.5px solid #ccc' },
                                 '[data-field="공모가대비"]': { borderRight: '1.5px solid #ccc' },
                                 '[data-field="등락률"]': { borderRight: '1.5px solid #ccc' },
-                                '[data-field="현재가"]': { backgroundColor: '#a0a0a0' },
+                                '[data-field="PBR"]': { borderRight: '1.5px solid #ccc' },
+                                '[data-field="현재가"]': { backgroundColor: '#6E6E6E' },
                             }}
                         />
                     </ThemeProvider>
