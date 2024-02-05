@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 
-import { Grid, Stack, Typography, Input, TextField, InputAdornment, Checkbox, FormControlLabel } from '@mui/material';
+import { Grid, Stack, Typography, Input, InputAdornment, Checkbox, FormControlLabel, Skeleton, Table, TableBody, TableRow, TableCell, TableContainer, } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -15,7 +15,7 @@ import ThumbnailChart from './IpoPulse/thumbnailChart';
 export default function IpoPulsePage({ swiperRef }) {
 
     const [filter, setFilter] = useState({
-        high: [-44, -80], start: [-30, -100], day: [50, 100], selected: null, finance: null, lockUp: [10, 30]
+        high: [-44, -80], start: [-30, -100], day: [50, 100], selected: null, finance: null, lockUp: [10, 30], industry: null
     })
     // checkBox
     const [checkBox, setCheckBox] = useState({
@@ -28,12 +28,14 @@ export default function IpoPulsePage({ swiperRef }) {
         selected: filter.selected,
         finance: filter.finance,
         order: checkBox.order == true ? 'ok' : null,
-        lockUp: checkBox.lockUp == true ? filter.lockUp : null
+        lockUp: checkBox.lockUp == true ? filter.lockUp : null,
+        industry: filter.industry
     })
 
     // state
     const [tableData, setTableData] = useState([]);
     const [chartData, setChartData] = useState({});
+    const [industryTable, setIndustryTable] = useState([]);
     const [stock, setStock] = useState({});
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
 
@@ -75,6 +77,7 @@ export default function IpoPulsePage({ swiperRef }) {
         });
     }
     const handleSelectedBtn = (name, value) => {
+        console.log()
         setFilter((prevStatus) => {
             return {
                 ...prevStatus,
@@ -83,12 +86,13 @@ export default function IpoPulsePage({ swiperRef }) {
         });
     }
     const handleReset = () => {
-        setCheckBox({ high: false, start: false, day: false, all: false })
+        setCheckBox({ high: false, start: false, day: false, all: false, order: false, lockUp: false })
         setFilter((prevStatus) => {
             return {
                 ...prevStatus,
                 selected: null,
                 finance: null,
+                industry: null
             }
         });
     }
@@ -117,8 +121,9 @@ export default function IpoPulsePage({ swiperRef }) {
     const fetchData = async (postData) => {
         const res = await axios.post(`${API}/ipoPulse/data`, postData);
         // console.table(postData);
-        console.table(res.data.table);
+        // console.table(res.data.table);
         setTableData(res.data.table);
+        setIndustryTable(res.data.industry);
 
     }
     useEffect(() => {
@@ -129,7 +134,8 @@ export default function IpoPulsePage({ swiperRef }) {
             selected: filter.selected,
             finance: filter.finance,
             order: checkBox.order == true ? 'ok' : null,
-            lockUp: checkBox.lockUp == true ? filter.lockUp : null
+            lockUp: checkBox.lockUp == true ? filter.lockUp : null,
+            industry: filter.industry
         })
     }, [checkBox, filter])
     useEffect(() => { fetchChartData(); }, [])
@@ -184,48 +190,48 @@ export default function IpoPulsePage({ swiperRef }) {
 
     const table_columns = [
         {
-            field: '종목명', headerName: '종목명', width: 120,
+            field: '종목명', headerName: '종목명', width: 110,
             align: 'left', headerAlign: 'center',
         }, {
-            field: '업종명', headerName: '업종명', width: 110,
+            field: '업종명', headerName: '업종명', width: 100,
             align: 'left', headerAlign: 'center',
         }, {
-            field: '상장예정일', headerName: '상장일', width: 80,
+            field: '상장예정일', headerName: '상장일', width: 75,
             align: 'right', headerAlign: 'center',
         }, {
-            field: '경과일수', headerName: '경과일수', width: 60,
-            align: 'right', headerAlign: 'center',
-            valueFormatter: (params) => {
-                if (params.value == null) { return ''; }
-                return (parseInt(params.value)).toLocaleString('kr');
-            }
-        }, {
-            field: '최고가', headerName: '최고가', width: 75,
+            field: '경과일수', headerName: '경과일수', width: 57,
             align: 'right', headerAlign: 'center',
             valueFormatter: (params) => {
                 if (params.value == null) { return ''; }
                 return (parseInt(params.value)).toLocaleString('kr');
             }
         }, {
-            field: '최저가', headerName: '최저가', width: 70,
+            field: '최고가', headerName: '최고가', width: 70,
             align: 'right', headerAlign: 'center',
             valueFormatter: (params) => {
                 if (params.value == null) { return ''; }
                 return (parseInt(params.value)).toLocaleString('kr');
             }
         }, {
-            field: '최고가대비', headerName: '최고가대비', width: 75,
+            field: '최저가', headerName: '최저가', width: 65,
+            align: 'right', headerAlign: 'center',
+            valueFormatter: (params) => {
+                if (params.value == null) { return ''; }
+                return (parseInt(params.value)).toLocaleString('kr');
+            }
+        }, {
+            field: '최고가대비', headerName: '대비', width: 60,
             align: 'right', headerAlign: 'center',
             renderCell: (params) => renderProgress(params)
         }, {
-            field: '공모가', headerName: '공모가', width: 75,
+            field: '공모가', headerName: '공모가', width: 70,
             align: 'right', headerAlign: 'center',
             valueFormatter: (params) => {
                 if (params.value == null) { return ''; }
                 return parseInt(params.value).toLocaleString('kr');
             }
         }, {
-            field: '공모가대비', headerName: '공모가대비', width: 75,
+            field: '공모가대비', headerName: '대비', width: 60,
             align: 'right', headerAlign: 'center',
             renderCell: (params) => renderProgress(params)
         }, {
@@ -242,7 +248,7 @@ export default function IpoPulsePage({ swiperRef }) {
             field: 'PBR', headerName: 'PBR', width: 55,
             align: 'right', headerAlign: 'center',
         }, {
-            field: '보호예수', headerName: '보호예수', width: 300,
+            field: '보호예수', headerName: '보호예수', width: 280,
             align: 'left', headerAlign: 'center',
         }
     ]
@@ -487,7 +493,7 @@ export default function IpoPulsePage({ swiperRef }) {
 
             {/* Table */}
             <Grid container sx={{ mt: 1 }} spacing={2}>
-                <Grid item xs={8} sx={{ height: 700, width: "100%" }}
+                <Grid item xs={7.5} sx={{ height: 700, width: "100%" }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
@@ -519,8 +525,30 @@ export default function IpoPulsePage({ swiperRef }) {
                     </ThemeProvider>
                 </Grid>
 
+                <Grid item container xs={1}>
+                    <TableContainer sx={{ height: 650 }}
+                        onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                        onMouseLeave={() => swiperRef.current.mousewheel.enable()}>
+                        {industryTable && industryTable.length > 0 ?
+                            <Table size='small'>
+                                <TableBody>
+                                    {industryTable.map(item => (
+                                        <TableRow key={item.업종명} onClick={() => handleSelectedBtn('industry', item.업종명)}>
+                                            <TableCell sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }} >{item.업종명.slice(0, 10)}</TableCell>
+                                            <TableCell sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }}>{item.갯수}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                            : <Skeleton />
+                        }
+
+                    </TableContainer>
+
+                </Grid>
+
                 {/* 우측 기업 정보 */}
-                <Grid item xs={4}>
+                <Grid item xs={3.5}>
                     <Grid item container sx={{ minHeight: 109 }}>
                         <Stack direction='column' spacing={1} sx={{ pl: 2, pr: 2 }}>
                             {
