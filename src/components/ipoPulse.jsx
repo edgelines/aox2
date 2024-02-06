@@ -36,6 +36,7 @@ export default function IpoPulsePage({ swiperRef }) {
     const [tableData, setTableData] = useState([]);
     const [chartData, setChartData] = useState({});
     const [industryTable, setIndustryTable] = useState([]);
+    const [totalCount, setTotalCount] = useState('')
     const [stock, setStock] = useState({});
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
 
@@ -124,6 +125,7 @@ export default function IpoPulsePage({ swiperRef }) {
         // console.table(res.data.table);
         setTableData(res.data.table);
         setIndustryTable(res.data.industry);
+        setTotalCount(res.data.total);
 
     }
     useEffect(() => {
@@ -140,7 +142,6 @@ export default function IpoPulsePage({ swiperRef }) {
     }, [checkBox, filter])
     useEffect(() => { fetchChartData(); }, [])
     useEffect(() => { fetchData(postData) }, [postData])
-    // useEffect(() => { fetchData(checkBox, filter) }, [checkBox, filter])
 
     useEffect(() => {
         const now = new Date();
@@ -154,6 +155,7 @@ export default function IpoPulsePage({ swiperRef }) {
             // 이미 9시 1분 이후라면, 다음 5분 간격 시작까지 대기 (예: 9시 3분이라면 9시 6분까지 대기)
             delay = (5 - (minutes - 1) % 5) * 60 - seconds;
         }
+        console.log('delay : ', delay)
         // 9시 정각이나 그 이후의 다음 분 시작부터 1분 주기로 데이터 업데이트
         let intervalId
         const startUpdates = () => {
@@ -374,22 +376,19 @@ export default function IpoPulsePage({ swiperRef }) {
                     {/* All, Reset */}
                     <Grid container item xs={1.3} >
                         <Grid container>
+                            <Grid container direction='row' alignItems="center" justifyContent="center">
+                                Total : {totalCount}
+                            </Grid>
                             {filter.selected ?
                                 <Grid container>
                                     <Grid container direction='row' alignItems="center" justifyContent="center">
-                                        {filter.selected} Selected
-                                    </Grid>
-                                    <Grid container direction='row' alignItems="center" justifyContent="center">
-                                        Total : {chartData[filter.selected].Length}
+                                        {filter.selected} : {chartData[filter.selected].Length}
                                     </Grid>
                                 </Grid>
                                 :
                                 <Grid container>
                                     <Grid container direction='row' alignItems="center" justifyContent="center">
-                                        All
-                                    </Grid>
-                                    <Grid container direction='row' alignItems="center" justifyContent="center">
-                                        Total : {tableData.length}
+                                        All : {tableData.length}
                                     </Grid>
                                 </Grid>
                             }
