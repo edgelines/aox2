@@ -15,7 +15,7 @@ import ThumbnailChart from './IpoPulse/thumbnailChart';
 export default function IpoPulsePage({ swiperRef }) {
 
     const [filter, setFilter] = useState({
-        high: [-44, -80], start: [-30, -100], day: [50, 100], selected: null, finance: null, lockUp: [10, 30], industry: null
+        high: [-44, -80], start: [-30, -100], day: [50, 100], selected: null, finance: null, lockUp: [10, 30]
     })
     // checkBox
     const [checkBox, setCheckBox] = useState({
@@ -30,7 +30,7 @@ export default function IpoPulsePage({ swiperRef }) {
         finance: filter.finance,
         order: checkBox.order == true ? 'ok' : null,
         lockUp: checkBox.lockUp == true ? filter.lockUp : null,
-        industry: filter.industry
+        industry: selectedIndustries
     })
 
     // state
@@ -93,8 +93,7 @@ export default function IpoPulsePage({ swiperRef }) {
             return {
                 ...prevStatus,
                 selected: null,
-                finance: null,
-                industry: null
+                finance: null
             }
         });
     }
@@ -148,9 +147,9 @@ export default function IpoPulsePage({ swiperRef }) {
             finance: filter.finance,
             order: checkBox.order == true ? 'ok' : null,
             lockUp: checkBox.lockUp == true ? filter.lockUp : null,
-            industry: filter.industry
+            industry: selectedIndustries
         })
-    }, [checkBox, filter])
+    }, [checkBox, filter, selectedIndustries])
     useEffect(() => { fetchChartData(); }, [])
     useEffect(() => { fetchData(postData) }, [postData])
 
