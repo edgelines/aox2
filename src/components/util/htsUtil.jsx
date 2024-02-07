@@ -375,7 +375,7 @@ export const Financial = ({ annual, quarter }) => {
 }
 
 export const EtcInfo = ({ product, shareholder }) => {
-    const baseStyle = { fontSize: '11px', p: 0.2, textAlign: 'right' }
+    const baseStyle = { fontSize: '10px', p: 0.1, textAlign: 'right' }
     return (
         <Grid container>
             {Array.isArray(product) ?
