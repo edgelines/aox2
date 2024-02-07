@@ -296,7 +296,6 @@ function App() {
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
                     <IpoPulse swiperRef={swiperRef} />
-                    <HTS swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -343,7 +342,7 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <DetailPage Vix={Vix} MarketDetail={MarketDetail} ElwBarData={ElwBarData} />
+                    <DetailPage Vix={Vix} MarketDetail={MarketDetail} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >

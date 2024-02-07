@@ -213,7 +213,7 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
                     </Grid>
                     <Grid item xs={6}>
 
-                        <IndexChart data={chartData} height={580} name={'IndexMA'} rangeSelector={2} xAxisType={'datetime'} credit={update_5M} creditsPositionX={1} />
+                        {/* <IndexChart data={chartData} height={580} name={'IndexMA'} rangeSelector={2} xAxisType={'datetime'} credit={update_5M} creditsPositionX={1} /> */}
 
                     </Grid>
                 </Grid>
