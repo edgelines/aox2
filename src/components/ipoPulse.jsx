@@ -15,7 +15,7 @@ import ThumbnailChart from './IpoPulse/thumbnailChart';
 export default function IpoPulsePage({ swiperRef }) {
 
     const [filter, setFilter] = useState({
-        high: [-44, -80], start: [-30, -100], day: [50, 100], selected: null, finance: null, lockUp: [10, 30],
+        high: [-44, -80], start: [-30, -100], day: [50, 100], selected: null, finance: null, lockUp: [10, 30], industry: null
     })
     // checkBox
     const [checkBox, setCheckBox] = useState({
@@ -29,7 +29,7 @@ export default function IpoPulsePage({ swiperRef }) {
         finance: filter.finance,
         order: checkBox.order == true ? 'ok' : null,
         lockUp: checkBox.lockUp == true ? filter.lockUp : null,
-
+        industry: filter.industry
     })
 
     // state
@@ -39,7 +39,6 @@ export default function IpoPulsePage({ swiperRef }) {
     const [totalCount, setTotalCount] = useState('')
     const [stock, setStock] = useState({});
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
-    const [industryKeywords, setIndustryKeywords] = useState([])
 
     // Handler
     const handleCheckBox = (name) => {
@@ -93,16 +92,10 @@ export default function IpoPulsePage({ swiperRef }) {
             return {
                 ...prevStatus,
                 selected: null,
-                finance: null
+                finance: null,
+                industry: null
             }
         });
-    }
-    const handleSetKeywords = (keyword) => {
-        if (industryKeywords.includes(keyword)) {
-            setIndustryKeywords(industryKeywords.filter(k => k !== keyword));
-        } else {
-            setIndustryKeywords([...industryKeywords, keyword]);
-        }
     }
 
     // Action
@@ -129,7 +122,6 @@ export default function IpoPulsePage({ swiperRef }) {
     const fetchData = async (postData) => {
         const res = await axios.post(`${API}/ipoPulse/data`, postData);
         // console.table(postData);
-        console.log(res.data);
         // console.table(res.data.table);
         setTableData(res.data.table);
         setIndustryTable(res.data.industry);
@@ -145,7 +137,7 @@ export default function IpoPulsePage({ swiperRef }) {
             finance: filter.finance,
             order: checkBox.order == true ? 'ok' : null,
             lockUp: checkBox.lockUp == true ? filter.lockUp : null,
-
+            industry: filter.industry
         })
     }, [checkBox, filter])
     useEffect(() => { fetchChartData(); }, [])
@@ -198,13 +190,13 @@ export default function IpoPulsePage({ swiperRef }) {
         if (stock.종목코드 != null) { getStockChartData(stock.종목코드); }
     }, [stock])
 
-    // 업종명에 따라 셀 스타일을 변경하는 함수
-    const getCellClassName = (params) => {
-        if (params.field === '업종명' && industryKeywords.some(keyword => params.value.includes(keyword))) {
-            return 'highlight'; // 이 클래스 이름을 사용하여 조건에 맞는 셀에 스타일을 적용합니다.
-        }
-        return '';
-    };
+    // // 업종명에 따라 셀 스타일을 변경하는 함수
+    // const getCellClassName = (params) => {
+    //     if (params.field === '업종명' && keywords.some(keyword => params.value.includes(keyword))) {
+    //         return 'highlight'; // 이 클래스 이름을 사용하여 조건에 맞는 셀에 스타일을 적용합니다.
+    //     }
+    //     return '';
+    // };
 
     const table_columns = [
         {
@@ -213,7 +205,7 @@ export default function IpoPulsePage({ swiperRef }) {
         }, {
             field: '업종명', headerName: '업종명', width: 100,
             align: 'left', headerAlign: 'center',
-            cellClassName: getCellClassName,
+            // cellClassName: getCellClassName,
         }, {
             field: '상장예정일', headerName: '상장일', width: 75,
             align: 'right', headerAlign: 'center',
@@ -536,9 +528,9 @@ export default function IpoPulsePage({ swiperRef }) {
                                 '[data-field="등락률"]': { borderRight: '1.5px solid #ccc' },
                                 '[data-field="PBR"]': { borderRight: '1.5px solid #ccc' },
                                 '[data-field="현재가"]': { backgroundColor: '#6E6E6E' },
-                                [`& .highlight`]: {
-                                    color: '#FCAB2F',
-                                },
+                                // [`& .highlight`]: {
+                                //     color: 'tomato',
+                                // },
                             }}
                         />
                     </ThemeProvider>
@@ -552,7 +544,7 @@ export default function IpoPulsePage({ swiperRef }) {
                             <Table size='small'>
                                 <TableBody>
                                     {industryTable.map(item => (
-                                        <TableRow key={item.업종명} onClick={() => handleSetKeywords(item.업종명)}>
+                                        <TableRow key={item.업종명} onClick={() => handleSelectedBtn('industry', item.업종명)}>
                                             <TableCell sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }} >{item.업종명.slice(0, 10)}</TableCell>
                                             <TableCell sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }}>{item.갯수}</TableCell>
                                         </TableRow>
