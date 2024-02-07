@@ -86,6 +86,7 @@ export default function IpoPulsePage({ swiperRef }) {
                 [name]: value
             }
         });
+        setSelectedIndustries([])
     }
     const handleReset = () => {
         setCheckBox({ high: false, start: false, day: false, all: false, order: false, lockUp: false })
