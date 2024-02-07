@@ -21,6 +21,7 @@ export default function IpoPulsePage({ swiperRef }) {
     const [checkBox, setCheckBox] = useState({
         high: false, start: false, day: false, all: false, order: false, lockUp: false
     })
+    const [selectedIndustries, setSelectedIndustries] = useState([]);
     const [postData, setPostData] = useState({
         high: checkBox.high == true ? filter.high : null,
         start: checkBox.start == true ? filter.start : null,
@@ -97,6 +98,16 @@ export default function IpoPulsePage({ swiperRef }) {
             }
         });
     }
+    // 키워드 클릭 시 호출되는 함수
+    const handleSelectedIndustries = (keyword) => {
+        if (selectedIndustries.includes(keyword)) {
+            // 이미 선택된 키워드를 다시 클릭한 경우, 배열에서 제거
+            setSelectedIndustries(selectedIndustries.filter(k => k !== keyword));
+        } else {
+            // 선택되지 않은 키워드를 클릭한 경우, 배열에 추가
+            setSelectedIndustries([...selectedIndustries, keyword]);
+        }
+    };
 
     // Action
     const getStockCode = async (params) => {
@@ -190,14 +201,6 @@ export default function IpoPulsePage({ swiperRef }) {
         if (stock.종목코드 != null) { getStockChartData(stock.종목코드); }
     }, [stock])
 
-    // // 업종명에 따라 셀 스타일을 변경하는 함수
-    // const getCellClassName = (params) => {
-    //     if (params.field === '업종명' && keywords.some(keyword => params.value.includes(keyword))) {
-    //         return 'highlight'; // 이 클래스 이름을 사용하여 조건에 맞는 셀에 스타일을 적용합니다.
-    //     }
-    //     return '';
-    // };
-
     const table_columns = [
         {
             field: '종목명', headerName: '종목명', width: 110,
@@ -205,7 +208,6 @@ export default function IpoPulsePage({ swiperRef }) {
         }, {
             field: '업종명', headerName: '업종명', width: 100,
             align: 'left', headerAlign: 'center',
-            // cellClassName: getCellClassName,
         }, {
             field: '상장예정일', headerName: '상장일', width: 75,
             align: 'right', headerAlign: 'center',
@@ -553,7 +555,6 @@ export default function IpoPulsePage({ swiperRef }) {
                             </Table>
                             : <Skeleton />
                         }
-
                     </TableContainer>
 
                 </Grid>
