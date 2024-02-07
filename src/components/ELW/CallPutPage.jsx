@@ -12,6 +12,7 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
     const [ElwRatioData, setElwRatioData] = useState({ series: null, categories: null });
     const [mainData, setMainData] = useState('Kospi200');
     const [formats, setFormats] = useState(() => ['MA50']);
+    const [chartData, setChartData] = useState([]);
 
     const fetchData = async () => {
         await axios.get(`${API}/elwData/DayGr`).then((response) => {
@@ -82,13 +83,71 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
                 data: response.data.Day100, type: 'spline', color: '#efe9e9ed', yAxis: 0, animation: false, zIndex: 3, lineWidth: 1
             }])
         });
+    }
 
+    const fetchIndexData = () => {
+        let chartData;
+        switch (mainData) {
+            case 'Kospi200':
+                chartData = Kospi200;
+                break;
+            case 'Kospi':
+                chartData = Kospi;
+                break;
+            case 'Kosdaq':
+                chartData = Kosdaq;
+                break;
+            case 'Invers':
+                chartData = Invers;
+                break;
+            default:
+                chartData = Kospi200;
+        }
+
+        // formats에 따른 데이터 변형 로직
+        if (formats.includes('MA50')) {
+            chartData = [...chartData, ...IndexMA.MA50]
+        }
+
+        if (formats.includes('MA112')) {
+            chartData = [...chartData, ...IndexMA.MA112]
+        }
+        console.log(chartData);
     }
     const handleFormat = (event, newFormats) => { if (newFormats !== null) { setFormats(newFormats); } };
-    const handleMainData = (event, newAlignment) => { if (newFormats !== null) { setMainData(newAlignment); } };
+    const handleMainData = (event, newAlignment) => { if (newAlignment !== null) { setMainData(newAlignment); } };
 
     useEffect(() => { fetchData(); }, [])
+    useEffect(() => {
+        let data;
+        switch (mainData) {
+            case 'Kospi200':
+                data = Kospi200;
+                break;
+            case 'Kospi':
+                data = Kospi;
+                break;
+            case 'Kosdaq':
+                data = Kosdaq;
+                break;
+            case 'Invers':
+                data = Invers;
+                break;
+            default:
+                data = Kospi200;
+        }
 
+        // formats에 따른 데이터 변형 로직
+        if (formats.includes('MA50')) {
+            data = [...data, ...IndexMA.MA50]
+        }
+
+        if (formats.includes('MA112')) {
+            data = [...data, ...IndexMA.MA112]
+        }
+        setChartData(data)
+        console.log(data);
+    }, [mainData, formats, Kospi200, Kospi, Kosdaq, Invers])
     // 5분 주기 업데이트
     useEffect(() => {
         const now = new Date();
@@ -125,32 +184,7 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
 
         return () => clearTimeout(timeoutId); // 컴포넌트가 unmount될 때 타이머 제거
     }, [])
-    let chartData;
-    switch (mainData) {
-        case 'Kospi200':
-            chartData = Kospi200;
-            break;
-        case 'Kospi':
-            chartData = Kospi;
-            break;
-        case 'Kosdaq':
-            chartData = Kosdaq;
-            break;
-        case 'Invers':
-            chartData = Invers;
-            break;
-        default:
-            chartData = Kospi200;
-    }
 
-    // formats에 따른 데이터 변형 로직
-    if (formats.includes('MA50')) {
-        chartData = [...chartData, ...IndexMA.MA50]
-    }
-
-    if (formats.includes('MA112')) {
-        chartData = [...chartData, ...IndexMA.MA112]
-    }
 
     return (
         <Grid container spacing={1} >
@@ -213,7 +247,7 @@ export default function ELW_PutCallPage({ swiperRef, Vix, VixMA, Kospi200, Kospi
                     </Grid>
                     <Grid item xs={6}>
 
-                        {/* <IndexChart data={chartData} height={580} name={'IndexMA'} rangeSelector={2} xAxisType={'datetime'} credit={update_5M} creditsPositionX={1} /> */}
+                        <IndexChart data={chartData} height={580} name={'IndexMA'} rangeSelector={2} xAxisType={'datetime'} credit={update_5M} creditsPositionX={1} />
 
                     </Grid>
                 </Grid>
