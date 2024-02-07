@@ -79,7 +79,7 @@ export default function IpoPulsePage({ swiperRef }) {
         });
     }
     const handleSelectedBtn = (name, value) => {
-        console.log()
+        handleSelectedIndustries(value)
         setFilter((prevStatus) => {
             return {
                 ...prevStatus,
@@ -546,7 +546,17 @@ export default function IpoPulsePage({ swiperRef }) {
                             <Table size='small'>
                                 <TableBody>
                                     {industryTable.map(item => (
-                                        <TableRow key={item.업종명} onClick={() => handleSelectedBtn('industry', item.업종명)}>
+                                        <TableRow key={item.업종명} onClick={() => handleSelectedBtn('industry', item.업종명)}
+                                            sx={{
+                                                '&:hover': { backgroundColor: '#6E6E6E' }, // 마우스 오버 시 배경색 변경
+                                                backgroundColor: selectedIndustries.includes(item.업종명) ? '#6E6E6E' : 'transparent', // 선택된 업종명에 대한 배경색
+                                                '.MuiTableCell-root': {
+                                                    color: selectedIndustries.includes(item.업종명) ? '#FCAB2F' : '#efe9e9ed', // 선택된 업종명에 대한 글꼴 색상
+                                                    fontSize: '10px',
+                                                    p: 0.2
+                                                }
+                                            }}
+                                        >
                                             <TableCell sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }} >{item.업종명.slice(0, 10)}</TableCell>
                                             <TableCell sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }}>{item.갯수}</TableCell>
                                         </TableRow>
