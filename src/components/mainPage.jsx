@@ -138,11 +138,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
         let delay;
         if (hour < 9) {
             delay = ((9 - hour - 1) * 60 + (60 - minutes)) * 60 + (60 - seconds);
-        } else if (hour === 9 && minutes === 0 && seconds > 0) {
-            // 9시 정각에 이미 초가 지나가 있을 경우, 다음 분까지 대기
-            delay = 60 - seconds;
         } else {
-            // 이미 9시 정각 이후라면, 다음 분 시작까지 대기
             delay = 60 - seconds;
         }
 
