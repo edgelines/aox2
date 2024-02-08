@@ -153,7 +153,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                     // 3시 30분 이후라면 인터벌 종료
                     clearInterval(intervalId);
                 }
-            }, 1000 * 60);
+            }, 1000 * 60 * 2);
             return intervalId;
         };
         // 첫 업데이트 시작
