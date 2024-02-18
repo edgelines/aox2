@@ -14,7 +14,7 @@ import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvg, get
 import SchedulePage from './components/schedulePage.jsx';
 import SectorsChartPage from './components/sectorsChartPage.jsx';
 import SectorSearchPage from './components/sectorSearchPage.jsx';
-import OldAoxStockPage from './components/OldAoX/stockPage.jsx'
+// import OldAoxStockPage from './components/OldAoX/stockPage.jsx'
 import CallPutPage from './components/ELW/CallPutPage.jsx'
 import DetailPage from './components/ELW/detailPage.jsx'
 import MainPage from './components/mainPage.jsx'
@@ -29,6 +29,7 @@ import WeightAvgPage3 from './components/ELW/weightAvgPage3.jsx';
 import Fundarmental from './components/fundarmental';
 import HTS from './components/hts';
 import IpoPulse from './components/ipoPulse';
+import SearchFinancial from './components/searchFinancial';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import "swiper/css";
@@ -95,14 +96,6 @@ function App() {
     // 각 구간별 CheckBox BTN을 통해 필터된 업종들
     const [sectorsRanksThemes, setSectorsRanksThemes] = useState([]);
 
-    // 60초 주기
-    // const fetchData = async () => {
-    //     await dispatch(getMarketDetail());
-    //     await dispatch(getStockSectors());
-    //     await dispatch(getKospi200BubbleCategoryGruop());
-    //     await dispatch(getKospi200BubbleCategory());
-    //     await dispatch(getABC());
-    // }
     // 5분 주기 ( Index Data )
     const fetchData5Min = async () => {
         await dispatch(getMarketDetail());
@@ -144,48 +137,6 @@ function App() {
         fetchData1Day();
     }, [dispatch])
 
-    // 60초 주기 업데이트
-    // useEffect(() => {
-    //     const now = new Date();
-    //     const hour = now.getHours();
-    //     const minutes = now.getMinutes();
-    //     const seconds = now.getSeconds();
-    //     const dayOfWeek = now.getDay();
-    //     let delay;
-    //     if (hour < 9) {
-    //         delay = ((9 - hour - 1) * 60 + (60 - minutes)) * 60 + (60 - seconds);
-    //     } else if (hour === 9 && minutes === 0 && seconds > 0) {
-    //         // 9시 정각에 이미 초가 지나가 있을 경우, 다음 분까지 대기
-    //         delay = 60 - seconds;
-    //     } else {
-    //         // 이미 9시 정각 이후라면, 다음 분 시작까지 대기
-    //         delay = 60 - seconds;
-    //     }
-
-    //     // 9시 정각이나 그 이후의 다음 분 시작부터 1분 주기로 데이터 업데이트
-    //     const startUpdates = () => {
-    //         const intervalId = setInterval(() => {
-    //             const now = new Date();
-    //             const hour = now.getHours();
-    //             const dayOfWeek = now.getDay();
-    //             if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
-    //                 fetchData();
-    //                 // fetchData5Min();
-    //             } else if (hour >= 16) {
-    //                 // 3시 30분 이후라면 인터벌 종료
-    //                 clearInterval(intervalId);
-    //             }
-    //         }, 1000 * 60);
-    //         return intervalId;
-    //     };
-    //     // 첫 업데이트 시작
-    //     const timeoutId = setTimeout(() => {
-    //         // fetchData();
-    //         startUpdates();
-    //     }, delay * 1000);
-
-    //     return () => clearTimeout(timeoutId);
-    // }, [dispatch])
     // 5분 주기 업데이트
     useEffect(() => {
         const now = new Date();
@@ -295,7 +246,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <IpoPulse swiperRef={swiperRef} />
+                    <SearchFinancial swiperRef={swiperRef} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -335,6 +286,10 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <IpoPulse swiperRef={swiperRef} />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <SearchFinancial swiperRef={swiperRef} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
