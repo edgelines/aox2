@@ -53,12 +53,13 @@ export default function SearchFinancial({ swiperRef }) {
         let industry = params.row.업종명;
         setFilter({ field: field, industry: industry })
 
-        const postData = {
-            target_category: field, target_industry: industry
+        if (field != 'id' && field != '업종명' && field != '흑자기업수') {
+            const postData = {
+                target_category: field == '전체종목수' ? null : field, target_industry: industry
+            }
+            const res = await axios.post(`${API}/formula/findData`, postData);
+            setStockTableData(res.data);
         }
-        console.log(postData);
-        const res = await axios.post(`${API}/formula/findData`, postData)
-        console.log(res.data);
 
         // console.log(field, industry);
     }
@@ -98,13 +99,13 @@ export default function SearchFinancial({ swiperRef }) {
             field: '전년동분기대비', headerName: '전년 동분기', width: 65,
             align: 'right', headerAlign: 'center',
         }, {
-            field: '분기_매출', headerName: '분기 매출', width: 60,
+            field: '분기매출', headerName: '분기 매출', width: 60,
             align: 'right', headerAlign: 'center',
         }, {
-            field: '분기_영업이익', headerName: '영업이익', width: 60,
+            field: '분기영업이익', headerName: '영업이익', width: 60,
             align: 'right', headerAlign: 'center',
         }, {
-            field: '분기_당기순이익', headerName: '순이익', width: 60,
+            field: '분기당기순이익', headerName: '순이익', width: 60,
             align: 'right', headerAlign: 'center',
         }, {
             field: '흑자_매출', headerName: '흑자 매출', width: 60,
@@ -126,6 +127,56 @@ export default function SearchFinancial({ swiperRef }) {
             align: 'right', headerAlign: 'center',
         }
     ]
+    const stockTable_columns = [
+        {
+            field: 'id', headerName: '순번', width: 20,
+            align: 'center', headerAlign: 'center',
+            valueFormatter: (params) => {
+                return parseInt(params.value) + 1;
+            }
+        }, {
+            field: '업종명', headerName: '업종명', width: 120,
+            align: 'left', headerAlign: 'center',
+        }, {
+            field: '종목명', headerName: '종목명', width: 120,
+            align: 'left', headerAlign: 'center',
+        }, {
+            field: '동일업종PER', headerName: '동 PER', width: 60,
+            align: 'right', headerAlign: 'center',
+        }, {
+            field: 'PER', headerName: 'PER', width: 60,
+            align: 'right', headerAlign: 'center',
+        }, {
+            field: 'PBR', headerName: 'PBR', width: 60,
+            align: 'right', headerAlign: 'center',
+        }, {
+            field: '부채비율', headerName: '부채비율', width: 65,
+            align: 'right', headerAlign: 'center',
+            valueFormatter: (params) => {
+                if (params.value == null) { return ''; }
+                return `${(parseInt(params.value)).toLocaleString('kr')} %`;
+            }
+        }, {
+            field: '유보율', headerName: '유보율', width: 60,
+            align: 'right', headerAlign: 'center',
+            valueFormatter: (params) => {
+                if (params.value == null) { return ''; }
+                return `${(parseInt(params.value)).toLocaleString('kr')} %`;
+            }
+        }, {
+            field: '이벤트', headerName: 'Event', width: 250,
+            align: 'right', headerAlign: 'center',
+        }, {
+            field: 'WillR9', headerName: 'WillR9', width: 60,
+            align: 'right', headerAlign: 'center',
+        }, {
+            field: 'WillR14', headerName: 'WillR14', width: 60,
+            align: 'right', headerAlign: 'center',
+        }, {
+            field: 'WillR33', headerName: 'WillR33', width: 60,
+            align: 'right', headerAlign: 'center',
+        }
+    ]
 
     return (
         <>
@@ -144,9 +195,9 @@ export default function SearchFinancial({ swiperRef }) {
                                 columns={table_columns}
                                 // getRowHeight={() => 'auto'}
                                 rowHeight={25}
-                                // onCellClick={(params, event) => {
-                                //     getIndustryStockData(params);
-                                // }}
+                                onCellClick={(params, event) => {
+                                    getIndustryStockData(params);
+                                }}
                                 disableRowSelectionOnClick
                                 sx={{
                                     color: 'white', border: 'none',
@@ -176,7 +227,7 @@ export default function SearchFinancial({ swiperRef }) {
                         <ThemeProvider theme={customTheme}>
                             <DataGrid
                                 rows={stockTableData}
-                                columns={table_columns}
+                                columns={stockTable_columns}
                                 rowHeight={25}
                                 // onCellClick={(params, event) => {
                                 //     getIndustryStockData(params);
@@ -192,11 +243,12 @@ export default function SearchFinancial({ swiperRef }) {
                                     '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
                                     '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
                                     '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
-                                    '[data-field="전년동분기대비"]': { borderRight: '1.5px solid #ccc' },
-                                    '[data-field="분기_매출"]': { backgroundColor: '#6E6E6E' },
-                                    '[data-field="분기_영업이익"]': { backgroundColor: '#6E6E6E' },
-                                    '[data-field="분기_당기순이익"]': { backgroundColor: '#6E6E6E', borderRight: '1.5px solid #ccc' },
-                                    '[data-field="흑자_당기순이익"]': { borderRight: '1.5px solid #ccc' },
+
+                                    '[data-field="이벤트"]': { borderLeft: '1.5px solid #ccc', borderRight: '1.5px solid #ccc' },
+                                    // '[data-field="분기_매출"]': { backgroundColor: '#6E6E6E' },
+                                    // '[data-field="분기_영업이익"]': { backgroundColor: '#6E6E6E' },
+                                    // '[data-field="분기_당기순이익"]': { backgroundColor: '#6E6E6E', borderRight: '1.5px solid #ccc' },
+                                    // '[data-field="흑자_당기순이익"]': { borderRight: '1.5px solid #ccc' },
                                     // [`& .highlight`]: {
                                     //     color: 'tomato',
                                     // },
