@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { Grid, Stack, Typography, Input, InputAdornment, Checkbox, FormControlLabel, Skeleton, Table, TableBody, TableRow, TableCell, TableContainer, } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import { DataGrid, gridClasses } from '@mui/x-data-grid';
+import { DataGrid, gridClasses, GridColumnGroupingModel } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { StyledButton, DataTableStyleDefault } from './util/util';
 import { StyledTypography_StockInfo, Financial } from './util/htsUtil';
@@ -14,22 +14,19 @@ import ThumbnailChart from './IpoPulse/thumbnailChart';
 
 export default function SearchFinancial({ swiperRef }) {
 
-    const [filter, setFilter] = useState({
-        high: [-44, -80], start: [-30, -100], day: [50, 100], selected: null, finance: null, lockUp: [10, 30]
-    })
+    const [filter, setFilter] = useState({ field: null, industry: null })
     // checkBox
-    const [checkBox, setCheckBox] = useState({
-        high: false, start: false, day: false, all: false, order: false, lockUp: false
-    })
+
     const [selectedIndustries, setSelectedIndustries] = useState([]);
 
     // state
     const [tableData, setTableData] = useState([]);
-    const [chartData, setChartData] = useState({});
-    const [industryTable, setIndustryTable] = useState([]);
-    const [totalCount, setTotalCount] = useState('')
-    const [stock, setStock] = useState({});
-    const [stockChart, setStockChart] = useState({ price: [], volume: [] });
+    const [stockTableData, setStockTableData] = useState([]);
+    // const [chartData, setChartData] = useState({});
+    // const [industryTable, setIndustryTable] = useState([]);
+    // const [totalCount, setTotalCount] = useState('')
+    // const [stock, setStock] = useState({});
+    // const [stockChart, setStockChart] = useState({ price: [], volume: [] });
 
     // Handler
 
@@ -51,17 +48,29 @@ export default function SearchFinancial({ swiperRef }) {
         const res = await axios.get(`${STOCK}/get/${code}`);
         setStockChart({ price: res.data.price, volume: res.data.volume })
     }
+    const getIndustryStockData = async (params) => {
+        let field = params.field;
+        let industry = params.row.업종명;
+        setFilter({ field: field, industry: industry })
 
+        const postData = {
+            target_category: field, target_industry: industry
+        }
+        console.log(postData);
+        const res = await axios.post(`${API}/formula/findData`, postData)
+        console.log(res.data);
+
+        // console.log(field, industry);
+    }
     const fetchData = async () => {
         const res = await axios.get(`${API}/formula/searchFinancial`);
-        console.table(res.data);
+        // console.table(res.data);
         setTableData(res.data);
 
     }
 
 
     useEffect(() => { fetchData() }, [])
-
 
     const table_columns = [
         {
@@ -80,7 +89,7 @@ export default function SearchFinancial({ swiperRef }) {
             field: '영업이익', headerName: '영업이익', width: 60,
             align: 'right', headerAlign: 'center',
         }, {
-            field: '당기순이익', headerName: '당기순이익', width: 60,
+            field: '당기순이익', headerName: '순이익', width: 60,
             align: 'right', headerAlign: 'center',
         }, {
             field: '잠정실적', headerName: '잠정실적', width: 60,
@@ -89,7 +98,28 @@ export default function SearchFinancial({ swiperRef }) {
             field: '전년동분기대비', headerName: '전년 동분기', width: 65,
             align: 'right', headerAlign: 'center',
         }, {
+            field: '분기_매출', headerName: '분기 매출', width: 60,
+            align: 'right', headerAlign: 'center',
+        }, {
+            field: '분기_영업이익', headerName: '영업이익', width: 60,
+            align: 'right', headerAlign: 'center',
+        }, {
+            field: '분기_당기순이익', headerName: '순이익', width: 60,
+            align: 'right', headerAlign: 'center',
+        }, {
+            field: '흑자_매출', headerName: '흑자 매출', width: 60,
+            align: 'right', headerAlign: 'center',
+        }, {
+            field: '흑자_영업이익', headerName: '영업이익', width: 60,
+            align: 'right', headerAlign: 'center',
+        }, {
+            field: '흑자_당기순이익', headerName: '순이익', width: 60,
+            align: 'right', headerAlign: 'center',
+        }, {
             field: '전체종목수', headerName: '전체종목수', width: 60,
+            align: 'right', headerAlign: 'center',
+        }, {
+            field: '흑자기업', headerName: '흑자기업', width: 55,
             align: 'right', headerAlign: 'center',
         }, {
             field: '흑자기업수', headerName: '흑자기업수', width: 70,
@@ -97,46 +127,91 @@ export default function SearchFinancial({ swiperRef }) {
         }
     ]
 
-    const inputStyle = { width: 60, height: 20, color: '#efe9e9ed', fontSize: '12px', pl: 2 }
     return (
         <>
 
             {/* Table */}
-            <Grid container sx={{ mt: 1 }} spacing={2}>
-                <Grid item xs={7.5} sx={{ height: 700, width: "100%" }}
-                    onMouseEnter={() => swiperRef.current.mousewheel.disable()}
-                    onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-                >
-                    <ThemeProvider theme={customTheme}>
-                        <DataGrid
-                            rows={tableData}
-                            columns={table_columns}
-                            // getRowHeight={() => 'auto'}
-                            rowHeight={25}
-                            // onCellClick={(params, event) => {
-                            //     getStockCode(params.row);
-                            //     getStockChartData(params.row.종목코드);
-                            // }}
-                            sx={{
-                                color: 'white', border: 'none',
-                                ...DataTableStyleDefault,
-                                [`& .${gridClasses.cell}`]: { py: 1, },
-                                '.MuiTablePagination-root': { color: '#efe9e9ed' },
-                                '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
-                                '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
-                                '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
-                                '[data-field="전년동분기대비"]': { borderRight: '1.5px solid #ccc' },
-                                // '[data-field="공모가대비"]': { borderRight: '1.5px solid #ccc' },
-                                // '[data-field="등락률"]': { borderRight: '1.5px solid #ccc' },
-                                // '[data-field="PBR"]': { borderRight: '1.5px solid #ccc' },
-                                // '[data-field="현재가"]': { backgroundColor: '#6E6E6E' },
-                                // [`& .highlight`]: {
-                                //     color: 'tomato',
-                                // },
-                            }}
-                        />
-                    </ThemeProvider>
+            <Grid container sx={{ mt: 1 }} spacing={1}>
+                {/* 좌 */}
+                <Grid item xs={8}>
+                    <Grid item container sx={{ height: 500, width: "100%" }}
+                        onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                        onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+                    >
+                        <ThemeProvider theme={customTheme}>
+                            <DataGrid
+                                rows={tableData}
+                                columns={table_columns}
+                                // getRowHeight={() => 'auto'}
+                                rowHeight={25}
+                                // onCellClick={(params, event) => {
+                                //     getIndustryStockData(params);
+                                // }}
+                                disableRowSelectionOnClick
+                                sx={{
+                                    color: 'white', border: 'none',
+                                    ...DataTableStyleDefault,
+                                    [`& .${gridClasses.cell}`]: { py: 1, },
+                                    '.MuiTablePagination-root': { color: '#efe9e9ed' },
+                                    '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
+                                    '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
+                                    '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
+                                    '[data-field="전년동분기대비"]': { borderRight: '1.5px solid #ccc' },
+                                    '[data-field="분기_매출"]': { backgroundColor: '#6E6E6E' },
+                                    '[data-field="분기_영업이익"]': { backgroundColor: '#6E6E6E' },
+                                    '[data-field="분기_당기순이익"]': { backgroundColor: '#6E6E6E', borderRight: '1.5px solid #ccc' },
+                                    '[data-field="흑자_당기순이익"]': { borderRight: '1.5px solid #ccc' },
+                                    // [`& .highlight`]: {
+                                    //     color: 'tomato',
+                                    // },
+                                }}
+                            />
+                        </ThemeProvider>
+                    </Grid>
+
+                    <Grid item container sx={{ height: 500, width: "100%" }}
+                        onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                        onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+                    >
+                        <ThemeProvider theme={customTheme}>
+                            <DataGrid
+                                rows={stockTableData}
+                                columns={table_columns}
+                                rowHeight={25}
+                                // onCellClick={(params, event) => {
+                                //     getIndustryStockData(params);
+                                //     // getStockCode(params.row);
+                                //     // getStockChartData(params.row.종목코드);
+                                // }}
+                                disableRowSelectionOnClick
+                                sx={{
+                                    color: 'white', border: 'none',
+                                    ...DataTableStyleDefault,
+                                    [`& .${gridClasses.cell}`]: { py: 1, },
+                                    '.MuiTablePagination-root': { color: '#efe9e9ed' },
+                                    '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
+                                    '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
+                                    '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
+                                    '[data-field="전년동분기대비"]': { borderRight: '1.5px solid #ccc' },
+                                    '[data-field="분기_매출"]': { backgroundColor: '#6E6E6E' },
+                                    '[data-field="분기_영업이익"]': { backgroundColor: '#6E6E6E' },
+                                    '[data-field="분기_당기순이익"]': { backgroundColor: '#6E6E6E', borderRight: '1.5px solid #ccc' },
+                                    '[data-field="흑자_당기순이익"]': { borderRight: '1.5px solid #ccc' },
+                                    // [`& .highlight`]: {
+                                    //     color: 'tomato',
+                                    // },
+                                }}
+                            />
+                        </ThemeProvider>
+                    </Grid>
                 </Grid>
+
+                {/* 우 */}
+                <Grid item xs={4}>
+
+                </Grid>
+
+
             </Grid>
         </>
     )
@@ -152,18 +227,19 @@ const customTheme = createTheme({
                         color: '#efe9e9ed'
                     },
                 },
-                columnHeaderWrapper: {
-                    minHeight: '9px',
-                    // lineHeight: '20px',
-                },
+                // columnHeaderWrapper: {
+                //     minHeight: '9px',
+                //     // lineHeight: '20px',
+                // },
                 columnHeader: {
-                    fontSize: '10px',
+                    fontSize: '9px',
                     color: '#efe9e9ed'
                 },
             },
-            defaultProps: {
-                headerHeight: 15,
-            },
+            // defaultProps: {
+            //     headerHeight: 15,
+            // },
         },
     },
 });
+

@@ -741,7 +741,6 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Searc
                                     sx={{ height: '90%', marginTop: 4, marginLeft: 2, color: '#c4463a' }}
                                 />
                             </Grid>
-                            {/* Filter Accordion */}
                         </Grid>
                     </Grid>
                     {/* Selected Toggle BTN */}
