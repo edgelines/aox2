@@ -249,7 +249,7 @@ export const StyledTypography_StockInfo = styledComponents(Typography)`
 export const StockInfo = ({ data }) => {
 
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
             <Grid item container sx={{ borderBottom: '2px solid #efe9e9ed' }}>
                 <Grid item xs={4.7}><StyledTypography_StockInfo textAlign='center' >{data.종목명}</StyledTypography_StockInfo></Grid>
                 <Grid item xs={4.7}><StyledTypography_StockInfo textAlign='center' >{data.업종명}</StyledTypography_StockInfo></Grid>
