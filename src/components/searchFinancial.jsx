@@ -6,12 +6,10 @@ import { grey } from '@mui/material/colors';
 import { DataGrid, gridClasses, GridColumnGroupingModel } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { StyledButton, DataTableStyleDefault, StyledToggleButton } from './util/util';
-import { StyledTypography_StockInfo, Financial } from './util/htsUtil';
+import { StyledTypography_StockInfo, Financial, EtcInfo } from './util/htsUtil';
 import StockChart_MA from './util/stockChart_MA';
-import { renderProgress, StyledInput } from './util/ipoUtil';
 import { API, STOCK } from './util/config';
-import StockChart from './util/stockChart';
-import ThumbnailChart from './IpoPulse/thumbnailChart';
+
 
 export default function SearchFinancial({ swiperRef }) {
 
@@ -57,7 +55,7 @@ export default function SearchFinancial({ swiperRef }) {
                 이벤트: res.data.이벤트, 보호예수: res.data.보호예수,
                 최고가52주: res.data.최고가52주, 최저가52주: res.data.최저가52주, 기업개요: res.data.기업개요, 분기실적: res.data.분기실적, 연간실적: res.data.연간실적,
                 주요제품매출구성: res.data.주요제품매출구성, 주요주주: res.data.주요주주, 이벤트: res.data.이벤트, 보호예수: res.data.보호예수,
-
+                테마명: res.data.테마명
             })
         } catch (e) {
             console.log(e);
@@ -66,7 +64,7 @@ export default function SearchFinancial({ swiperRef }) {
 
     const getStockChartData = async (code) => {
         const res = await axios.get(`${STOCK}/get/${code}`);
-        setStockChart({ price: res.data.price, volume: res.data.volume })
+        setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury })
     }
     const getIndustryStockData = async (params) => {
         let field = params.field;
@@ -88,7 +86,6 @@ export default function SearchFinancial({ swiperRef }) {
         const res = await axios.get(`${API}/formula/searchFinancial`);
         // console.table(res.data);
         setTableData(res.data);
-
     }
 
 
@@ -206,7 +203,7 @@ export default function SearchFinancial({ swiperRef }) {
             <Grid container sx={{ mt: 1 }} spacing={1}>
                 {/* 좌 */}
                 <Grid item xs={8}>
-                    <Grid item container sx={{ height: 450, width: "100%" }}
+                    <Grid item container sx={{ height: 440, width: "100%" }}
                         onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                         onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                     >
@@ -246,7 +243,7 @@ export default function SearchFinancial({ swiperRef }) {
                                 <Typography>{filter.industry}, {filter.field}</Typography>
                         }
                     </Grid>
-                    <Grid item container sx={{ height: 480, width: "100%" }}
+                    <Grid item container sx={{ height: 440, width: "100%" }}
                         onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                         onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                     >
@@ -309,14 +306,16 @@ export default function SearchFinancial({ swiperRef }) {
                             <StyledToggleButton fontSize={'10px'} value="테마">테마</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Grid>
-                    <Grid item container sx={{ minHeight: 270 }}>
-                        <ContentsComponent page={page} annual={stock.연간실적} quarter={stock.분기실적} summary={stock.기업개요} />
-                        {/* {stock.종목코드 === null ? '' :
-                            <Financial annual={stock.연간실적} quarter={stock.분기실적} />
-                        } */}
+                    <Grid item container sx={{ minHeight: 210 }}>
+                        <ContentsComponent page={page} annual={stock.연간실적} quarter={stock.분기실적} summary={stock.기업개요} themes={stock.테마명} />
                     </Grid>
-                    <Grid item container>
-                        <StockChart_MA stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} price={stock.현재가} boxTransform={`translate(10px, 190px)`} />
+
+                    <Grid item container sx={{ minHeight: 90 }}>
+                        <EtcInfo product={stock.주요제품매출구성} shareholder={stock.주요주주} />
+                    </Grid>
+
+                    <Grid item container sx={{ mt: 1 }}>
+                        <StockChart_MA stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} price={stock.현재가} boxTransform={`translate(10px, 190px)`} treasury={stockChart.treasury} />
                     </Grid>
 
                 </Grid>
@@ -393,7 +392,7 @@ const StockInfo = ({ data }) => {
     )
 }
 
-const ContentsComponent = ({ swiperRef, page, annual, quarter, summary }) => {
+const ContentsComponent = ({ swiperRef, page, annual, quarter, summary, themes }) => {
 
     switch (page) {
         case '사업내용':
@@ -401,6 +400,17 @@ const ContentsComponent = ({ swiperRef, page, annual, quarter, summary }) => {
                 return <Grid container sx={{ mt: 3 }}>
                     <Stack direction='column' spacing={1} sx={{ pl: 2, pr: 2 }}>
                         {summary.map(item => (
+                            <StyledTypography_StockInfo key={item} fontSize="12px">{item}</StyledTypography_StockInfo>
+                        ))}
+                    </Stack>
+                </Grid>
+            }
+
+        case '테마':
+            if (Array.isArray(themes)) {
+                return <Grid container sx={{ mt: 3 }}>
+                    <Stack direction='column' spacing={1} sx={{ pl: 2, pr: 2 }}>
+                        {themes.map(item => (
                             <StyledTypography_StockInfo key={item} fontSize="12px">{item}</StyledTypography_StockInfo>
                         ))}
                     </Stack>
@@ -417,8 +427,6 @@ const ContentsComponent = ({ swiperRef, page, annual, quarter, summary }) => {
 
 
 }
-
-
 
 const customTheme = createTheme({
     components: {
