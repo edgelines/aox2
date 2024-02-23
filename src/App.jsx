@@ -18,7 +18,7 @@ import SectorSearchPage from './components/sectorSearchPage.jsx';
 import CallPutPage from './components/ELW/CallPutPage.jsx'
 import DetailPage from './components/ELW/detailPage.jsx'
 import MainPage from './components/mainPage.jsx'
-import TreasuryStockPage from './components/TreasuryStock.jsx'
+// import TreasuryStockPage from './components/TreasuryStock.jsx'
 // import StockSearchPage from './components/StockSearch';
 // import StockSearchMonitoringPage from './components/StockSearchMonitoring';
 import CtpPage from './components/ELW/CtpPage.jsx'
@@ -322,9 +322,7 @@ function App() {
                     <CtpPage swiperRef={swiperRef} ElwBarData={ElwBarData} ElwWeightedAvg={ElwWeightedAvg} />
                 </SwiperSlide>
 
-                <SwiperSlide style={swiperSlideStyle} >
-                    <TreasuryStockPage swiperRef={swiperRef} />
-                </SwiperSlide>
+                
             </Swiper>
         </div >
     );
@@ -344,4 +342,8 @@ const swiperSlideStyle = { backgroundColor: "#404040", color: '#efe9e9ed', paddi
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <StockSearchMonitoringPage swiperRef={swiperRef} StockSearchTrackingStatistics={StockSearchTrackingStatistics} />
+                </SwiperSlide> */}
+
+{/* <SwiperSlide style={swiperSlideStyle} >
+                    <TreasuryStockPage swiperRef={swiperRef} />
                 </SwiperSlide> */}
