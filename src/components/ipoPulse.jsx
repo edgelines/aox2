@@ -588,7 +588,7 @@ export default function IpoPulsePage({ swiperRef }) {
                     <Grid item container sx={{ mt: 1 }}>
                         {
                             Array.isArray(stockChart.price) ?
-                                <Grid container>
+                                <Grid container sx={{ width: '100%' }}>
                                     <StockChart_MA height={280} stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} price={stock.현재가} boxTransform={'translate(10px, 140px)'} />
                                 </Grid>
                                 : <></>
