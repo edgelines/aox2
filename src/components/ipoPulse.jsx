@@ -86,7 +86,7 @@ export default function IpoPulsePage({ swiperRef }) {
                 [name]: value
             }
         });
-        setSelectedIndustries([])
+        // setSelectedIndustries([])
     }
     const handleReset = () => {
         setCheckBox({ high: false, start: false, day: false, all: false, order: false, lockUp: false })
@@ -463,7 +463,7 @@ export default function IpoPulsePage({ swiperRef }) {
                         Array.isArray(stock.기업개요) ?
                             <>
                                 <Grid item container sx={{ borderBottom: '2px solid #efe9e9ed' }}>
-                                    <Grid item xs={4.7}><StyledTypography_StockInfo textAlign='center' >{stock.종목명}</StyledTypography_StockInfo></Grid>
+                                    <Grid item xs={4.7}><StyledTypography_StockInfo textAlign='center' sx={{ color: stock.시장 === 'K' ? '#FCAB2F' : 'greenyellow' }}>{stock.종목명}</StyledTypography_StockInfo></Grid>
                                     <Grid item xs={4.7}><StyledTypography_StockInfo textAlign='center' >{stock.업종명}</StyledTypography_StockInfo></Grid>
                                     <Grid item xs={2.6}><StyledTypography_StockInfo textAlign='center' >{stock.시장 === 'K' ? 'Kospi' : 'Kosdaq'}</StyledTypography_StockInfo></Grid>
                                 </Grid>
@@ -490,7 +490,7 @@ export default function IpoPulsePage({ swiperRef }) {
                                 <Grid item container>
                                     <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
                                         <StyledTypography_StockInfo fontSize="12px">보호예수</StyledTypography_StockInfo>
-                                        <StyledTypography_StockInfo fontSize="12px">{stock.보호예수}</StyledTypography_StockInfo>
+                                        <StyledTypography_StockInfo fontSize="12px" sx={{ color: '#FCAB2F' }}>{stock.보호예수}</StyledTypography_StockInfo>
                                     </Stack>
                                 </Grid>
                             </>
@@ -588,9 +588,9 @@ export default function IpoPulsePage({ swiperRef }) {
                     <Grid item container sx={{ mt: 1 }}>
                         {
                             Array.isArray(stockChart.price) ?
-                                <Grid container sx={{ width: '100%' }}>
-                                    <StockChart_MA height={280} stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} price={stock.현재가} boxTransform={'translate(10px, 140px)'} />
-                                </Grid>
+                                // <Grid item container sx={{ width: '98%' }}>
+                                <StockChart_MA height={280} stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} price={stock.현재가} boxTransform={'translate(10px, 140px)'} />
+                                // </Grid>
                                 : <></>
                         }
                     </Grid>

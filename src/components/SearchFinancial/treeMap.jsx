@@ -21,6 +21,7 @@ const Treemap = ({ data, backgroundColor, fontColor, onIndustryClick, height }) 
                 }
             },
         },
+        tooltip: { enabled: false },
         colorAxis: {
             minColor: '#3b8bc4',
             maxColor: '#c4463a',
@@ -28,11 +29,11 @@ const Treemap = ({ data, backgroundColor, fontColor, onIndustryClick, height }) 
             // max: 100,
             labels: { style: { color: fontColor || '#efe9e9ed', fontSize: '10px' }, },
             stops: [
-                [0, 'blue'], // 최대값
-                [0.25, '#7cb5ec'], // 0 근처 3b8bc4
-                [0.5, '#eece2f'], // 중간값
-                [0.75, '#f7a35c'], // 0 근처
-                [1, '#c4463a'] // 최소값
+                [0, '#404040'], // 최소값
+                // [0.25, '#7cb5ec'], // 0 근처 3b8bc4
+                // [0.5, '#eece2f'], // 중간값
+                [0.5, '#f7a35c'], // 0 근처
+                [1, '#c4463a'] // 최대값
             ]
         },
     })

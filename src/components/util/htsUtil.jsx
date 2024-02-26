@@ -251,7 +251,7 @@ export const StockInfo = ({ data }) => {
     return (
         <Grid container spacing={1}>
             <Grid item container sx={{ borderBottom: '2px solid #efe9e9ed' }}>
-                <Grid item xs={4.7}><StyledTypography_StockInfo textAlign='center' >{data.종목명}</StyledTypography_StockInfo></Grid>
+                <Grid item xs={4.7}><StyledTypography_StockInfo textAlign='center' sx={{ color: data.시장 === 'K' ? '#FCAB2F' : 'greenyellow' }}>{data.종목명}</StyledTypography_StockInfo></Grid>
                 <Grid item xs={4.7}><StyledTypography_StockInfo textAlign='center' >{data.업종명}</StyledTypography_StockInfo></Grid>
                 <Grid item xs={2.6}><StyledTypography_StockInfo textAlign='center' >{data.시장 === 'K' ? 'Kospi' : 'Kosdaq'}</StyledTypography_StockInfo></Grid>
             </Grid>
@@ -278,7 +278,7 @@ export const StockInfo = ({ data }) => {
             <Grid item container>
                 <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
                     <StyledTypography_StockInfo fontSize="12px">보호예수</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">{data.보호예수}</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px" sx={{ color: '#FCAB2F' }}>{data.보호예수}</StyledTypography_StockInfo>
                 </Stack>
             </Grid>
 

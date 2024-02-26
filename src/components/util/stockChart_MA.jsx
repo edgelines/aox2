@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Grid } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Highcharts from 'highcharts/highstock'
 import { trima } from 'indicatorts';
@@ -284,40 +284,42 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
         stockItemData.length > 0 ? set전일대비(전일대비등락률.toFixed(2)) : set전일대비(null);
     }, [stockItemData]);
     return (
-        <>
-            <HighchartsReact
-                highcharts={Highcharts}
-                options={chartOptions}
-                constructorType={'stockChart'}
-            />
-            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: boxTransform ? boxTransform : `translate(10px, -142px)`, zIndex: 100 }}>
-                {stockItemData.length > 0 ?
-                    <>
-                        <Typography sx={{ color: 'black', fontWeight: 600 }}>
-                            {평균단가 ?
-                                <span style={{ fontSize: '20px' }}>
-                                    평단 : {(parseInt(평균단가)).toLocaleString('KR-KO')} 원
-                                </span>
-                                :
-                                <span style={{ fontSize: '20px' }}>
-                                    현재가 : {(parseInt(price)).toLocaleString('KR-KO')} 원
-                                </span>
-                            }
-                        </Typography>
-                        <Typography sx={{ color: 'black', fontWeight: 600 }}>
-                            전일 :
-                            {전일대비 ?
-                                <span style={{ fontSize: '30px', color: 전일대비 > 0 ? 'red' : 'blue' }}>
-                                    {전일대비}
-                                </span>
-                                : <></>}
-                            %
-                        </Typography>
-                    </>
-                    : <></>
-                }
-            </Box>
-        </>
+        <Grid container>
+            <Grid item xs={11.8}>
+                <HighchartsReact
+                    highcharts={Highcharts}
+                    options={chartOptions}
+                    constructorType={'stockChart'}
+                />
+                <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: boxTransform ? boxTransform : `translate(10px, -142px)`, zIndex: 100 }}>
+                    {stockItemData.length > 0 ?
+                        <>
+                            <Typography sx={{ color: 'black', fontWeight: 600 }}>
+                                {평균단가 ?
+                                    <span style={{ fontSize: '20px' }}>
+                                        평단 : {(parseInt(평균단가)).toLocaleString('KR-KO')} 원
+                                    </span>
+                                    :
+                                    <span style={{ fontSize: '20px' }}>
+                                        현재가 : {(parseInt(price)).toLocaleString('KR-KO')} 원
+                                    </span>
+                                }
+                            </Typography>
+                            <Typography sx={{ color: 'black', fontWeight: 600 }}>
+                                전일 :
+                                {전일대비 ?
+                                    <span style={{ fontSize: '30px', color: 전일대비 > 0 ? 'red' : 'blue' }}>
+                                        {전일대비}
+                                    </span>
+                                    : <></>}
+                                %
+                            </Typography>
+                        </>
+                        : <></>
+                    }
+                </Box>
+            </Grid>
+        </Grid>
     );
 };
 

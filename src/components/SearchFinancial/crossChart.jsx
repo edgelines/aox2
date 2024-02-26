@@ -1,14 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-// import { Grid, Box, Skeleton } from '@mui/material';
 import Highcharts from 'highcharts/highstock'
 import HighchartsReact from 'highcharts-react-official'
 import HighchartsMore from 'highcharts/highcharts-more'
-import SolidGauge from "highcharts/modules/solid-gauge";
 HighchartsMore(Highcharts)
-SolidGauge(Highcharts)
 require('highcharts/modules/accessibility')(Highcharts)
 
-export default function ThumbnailChart({ data, height, onCode }) {
+export default function CrossChart({ data, height, onCode }) {
     const [chartOptions, setChartOptions] = useState({
         chart: { type: 'scatter', height: height, backgroundColor: 'rgba(255, 255, 255, 0)' },
         credits: { enabled: false }, title: { text: null },
@@ -35,7 +32,7 @@ export default function ThumbnailChart({ data, height, onCode }) {
             backgroundColor: 'rgba(255, 255, 255, 0.5)',
             formatter: function () {
                 return `${this.point.name}`
-                // return `${this.point.x} ${this.point.name}`
+
             },
         },
     })
@@ -56,21 +53,7 @@ export default function ThumbnailChart({ data, height, onCode }) {
     useEffect(() => {
         setChartOptions({
             plotOptions: plotOption,
-            // series: data.map(function (group) {
-            //     return {
-            //         // name: group.name,
-            //         data: {
-            //             x: Math.random(),
-            //             y: group['공모가대비'],
-            //             // color: sector_colors[point.Category],
-            //             // Category: point.Category,
-            //             name: group['종목명'],
-            //             marker: {
-            //                 radius: Math.sqrt(group['공모가'] / 1000)
-            //             }
-            //         }
-            //     };
-            // })
+
             series: [{
                 name: '종목',
                 data: data.map(group => ({
