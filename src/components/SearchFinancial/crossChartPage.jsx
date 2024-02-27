@@ -42,8 +42,7 @@ export default function CrossChartPage({ swiperRef, data }) {
         }
         const res = await axios.post(`${API}/formula/crossChart`, postData);
         setChartData(res.data);
-
-        // console.log(res.data);
+        console.log(res.data);
         // console.log(field, industry);
     }
 
