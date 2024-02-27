@@ -40,7 +40,7 @@ export default function CrossChart({ data, height, onCode }) {
             split: true, shared: true, crosshairs: true,
             backgroundColor: 'rgba(255, 255, 255, 0.5)',
             formatter: function () {
-                console.log(this.point)
+                // console.log(this.point)
                 return `${this.point.name}<br/>매출 : ${this.point.y} %<br/>영업이익 : ${this.point.x} %<br/>당기순이익: ${this.point.당기순이익증가율}%`
 
             },
