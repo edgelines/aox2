@@ -246,7 +246,7 @@ export default function SearchFinancial({ swiperRef }) {
                         }
                     </Grid>
 
-                    <Grid item container>
+                    <Grid item container sx={{ minHeight: 30 }}>
                         {
                             filter.field === null ? '' :
                                 <Typography>{filter.industry}, {filter.field}</Typography>
@@ -274,15 +274,7 @@ export default function SearchFinancial({ swiperRef }) {
                                     '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
                                     '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
                                     '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
-
                                     '[data-field="이벤트"]': { borderLeft: '1.5px solid #ccc', borderRight: '1.5px solid #ccc' },
-                                    // '[data-field="분기_매출"]': { backgroundColor: '#6E6E6E' },
-                                    // '[data-field="분기_영업이익"]': { backgroundColor: '#6E6E6E' },
-                                    // '[data-field="분기_당기순이익"]': { backgroundColor: '#6E6E6E', borderRight: '1.5px solid #ccc' },
-                                    // '[data-field="흑자_당기순이익"]': { borderRight: '1.5px solid #ccc' },
-                                    // [`& .highlight`]: {
-                                    //     color: 'tomato',
-                                    // },
                                 }}
                             />
                         </ThemeProvider>

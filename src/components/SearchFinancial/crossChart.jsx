@@ -11,11 +11,20 @@ export default function CrossChart({ data, height, onCode }) {
         credits: { enabled: false }, title: { text: null },
         navigation: { buttonOptions: { enabled: false } },
         xAxis: {
-            labels: { style: { color: '#404040', fontSize: '0px' } },
-            tickLength: 0
+            title: { text: '영업이익 성장률 %' },
+            labels: {
+                style: { color: '#404040', fontSize: '9px' }, formatter: function () {
+                    var color = this.value > 0 ? '#FCAB2F' : this.value < 0 ? '#00F3FF' : '#efe9e9ed';
+                    return `<span style="color: ${color}">${this.value} %</span>`
+                }
+            },
+            tickLength: 0,
+            plotLines: [{
+                value: 0, width: 1
+            }]
         },
         yAxis: {
-            title: { text: null },
+            title: { text: '매출 성장률 %' },
             labels: {
                 style: { color: '#efe9e9ed', fontSize: '9px' },
                 formatter: function () {
@@ -23,7 +32,7 @@ export default function CrossChart({ data, height, onCode }) {
                     return `<span style="color: ${color}">${this.value} %</span>`
                 }
             },
-            plotLines: [{ color: '#efe9e9ed', width: 1, value: 0 },],
+            plotLines: [{ width: 1, value: 0 },],
             gridLineWidth: 0.2,
             tickAmount: 5
         },
@@ -31,7 +40,7 @@ export default function CrossChart({ data, height, onCode }) {
             split: true, shared: true, crosshairs: true,
             backgroundColor: 'rgba(255, 255, 255, 0.5)',
             formatter: function () {
-                return `${this.point.name}`
+                return `${this.point.name}<br/>매출 : ${this.point.y} %<br/>영업이익 : ${this.point.x} %`
 
             },
         },
@@ -48,8 +57,6 @@ export default function CrossChart({ data, height, onCode }) {
         }
     };
 
-
-
     useEffect(() => {
         setChartOptions({
             plotOptions: plotOption,
@@ -57,8 +64,8 @@ export default function CrossChart({ data, height, onCode }) {
             series: [{
                 name: '종목',
                 data: data.map(group => ({
-                    x: Math.random(), // x축 값은 랜덤
-                    y: group['최고가대비'], // y축 값은 '공모가 대비' 비율
+                    x: group['영업이익증가율'], // x축 값은 랜덤
+                    y: group['매출액증가율'], // y축 값은 '공모가 대비' 비율
                     name: group['종목명'], // 포인트 이름 설정
                     종목코드: group['종목코드'],
                     종목명: group['종목명'],

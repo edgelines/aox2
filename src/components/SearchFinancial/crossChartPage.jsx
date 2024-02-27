@@ -9,13 +9,15 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { StyledButton, DataTableStyleDefault, StyledToggleButton } from '../util/util';
 import { StyledTypography_StockInfo, Financial, EtcInfo } from '../util/htsUtil';
 import StockChart_MA from '../util/stockChart_MA';
+import CrossChart from './crossChart';
 import { API, STOCK } from '../util/config';
 
 
 export default function CrossChartPage({ swiperRef, data }) {
 
-    const [selectedIndustries, setSelectedIndustries] = useState([]);
+    const [selectedIndustries, setSelectedIndustries] = useState(['']);
     const [category, setCategory] = useState(() => ['매출']);
+    const [chartData, setChartData] = useState([]);
     // 키워드 클릭 시 호출되는 함수
     const handleSelectedIndustries = (keyword) => {
         if (selectedIndustries.includes(keyword)) {
@@ -34,31 +36,24 @@ export default function CrossChartPage({ swiperRef, data }) {
 
     const categories = ['매출', '영업이익', '당기순이익', '잠정실적', '전년동분기대비', '분기매출', '분기영업이익', '분기당기순이익', '흑자_매출', '흑자_영업이익', '흑자_당기순이익']
 
-    const getIndustryStockData = async (params) => {
-        let field = params.field;
-        let industry = params.row.업종명;
-        // console.log(field, industry, industry.length);
-        setFilter({ field: field, industry: industry })
-
-        if (field != 'id' && field != '업종명' && field != '흑자기업수') {
-            const postData = {
-                target_category: field == '전체종목수' ? null : field, target_industry: [industry], WillR: 'O'
-            }
-            const res = await axios.post(`${API}/formula/findData`, postData);
-            setStockTableData(res.data);
+    const getIndustryStockData = async () => {
+        const postData = {
+            target_category: category, target_industry: selectedIndustries
         }
+        const res = await axios.post(`${API}/formula/crossChart`, postData);
+        setChartData(res.data);
 
+        // console.log(res.data);
         // console.log(field, industry);
     }
 
-    // const fetchData = async () => {
-    //     const postData = {
-    //         target_category: null, target_industry: null
-    //     }
-    //     const res = await axios.post(`${API}/formula/findData`, postData);
-    //     console.log(res.data);
-    // }
-    // useEffect(() => { fetchData() }, [])
+    const onCode = (data) => {
+        console.log(data);
+    }
+    useEffect(() => {
+        setSelectedIndustries([data[0].업종명]);
+    }, [])
+    useEffect(() => { getIndustryStockData() }, [selectedIndustries, category])
 
     return (
         <>
@@ -100,12 +95,16 @@ export default function CrossChartPage({ swiperRef, data }) {
                             size="small"
                         >
                             {categories.map(item => (
-                                <StyledToggleButton value={item} sx={{ fontSize: '9px' }}>
+                                <StyledToggleButton key={item} value={item} sx={{ fontSize: '9px' }}>
                                     {item}
                                 </StyledToggleButton>
                             ))}
 
                         </ToggleButtonGroup>
+                    </Grid>
+
+                    <Grid item container>
+                        <CrossChart data={chartData} height={380} onCode={onCode} />
                     </Grid>
                 </Grid>
 
@@ -113,3 +112,4 @@ export default function CrossChartPage({ swiperRef, data }) {
         </>
     )
 }
+
