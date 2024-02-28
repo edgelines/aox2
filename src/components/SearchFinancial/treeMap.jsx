@@ -21,6 +21,11 @@ const Treemap = ({ data, backgroundColor, fontColor, onIndustryClick, height }) 
                 }
             },
         },
+        legend: {
+            align: 'right',
+            layout: 'vertical',
+            verticalAlign: 'middle'
+        },
         tooltip: { enabled: false },
         colorAxis: {
             minColor: '#3b8bc4',
