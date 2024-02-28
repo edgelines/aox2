@@ -4,11 +4,9 @@ import { Grid, Stack, Typography, ToggleButtonGroup } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault, StyledToggleButton } from './util/util';
-// import { StyledTypography_StockInfo, Financial, EtcInfo } from './util/htsUtil';
 import SearchFinancialInfo from './SearchFinancial/info';
 import TreeMap from './SearchFinancial/treeMap';
 import CrossChartPage from './SearchFinancial/crossChartPage';
-// import StockChart_MA from './util/stockChart_MA';
 import { API, STOCK } from './util/config';
 
 
@@ -85,34 +83,28 @@ export default function SearchFinancial({ swiperRef }) {
                 return parseInt(params.value) + 1;
             }
         }, {
+            field: '순위', headerName: '업종순위', width: 60,
+            align: 'center', headerAlign: 'left',
+        }, {
             field: '업종명', headerName: '업종명', width: 120,
             align: 'left', headerAlign: 'center',
         }, {
-            field: '매출', headerName: '매출', width: 50,
+            field: '집계_매출', headerName: '매출', width: 60,
             align: 'right', headerAlign: 'center',
         }, {
-            field: '영업이익', headerName: '영업이익', width: 60,
+            field: '집계_영업이익', headerName: '영업이익', width: 60,
             align: 'right', headerAlign: 'center',
         }, {
-            field: '당기순이익', headerName: '순이익', width: 60,
+            field: '집계_당기순이익', headerName: '순이익', width: 60,
             align: 'right', headerAlign: 'center',
         }, {
-            field: '잠정실적', headerName: '잠정실적', width: 60,
+            field: '분기_매출', headerName: '매출', width: 60,
             align: 'right', headerAlign: 'center',
         }, {
-            field: '전년동분기대비', headerName: '전년 동분기', width: 70,
+            field: '분기_영업이익', headerName: '영업이익', width: 60,
             align: 'right', headerAlign: 'center',
         }, {
-            field: '분기매출', headerName: '분기 매출', width: 65,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: '분기영업이익', headerName: '영업이익', width: 60,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: '분기당기순이익', headerName: '순이익', width: 60,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: '흑자_매출', headerName: '흑자 매출', width: 65,
+            field: '분기_당기순이익', headerName: '순이익', width: 60,
             align: 'right', headerAlign: 'center',
         }, {
             field: '흑자_영업이익', headerName: '영업이익', width: 60,
@@ -121,14 +113,23 @@ export default function SearchFinancial({ swiperRef }) {
             field: '흑자_당기순이익', headerName: '순이익', width: 60,
             align: 'right', headerAlign: 'center',
         }, {
+            field: '전년동분기대비', headerName: '전년 동분기', width: 70,
+            align: 'right', headerAlign: 'center',
+        }, {
+            field: '미집계', headerName: '미집계', width: 60,
+            align: 'right', headerAlign: 'center',
+        }, {
             field: '전체종목수', headerName: '전체종목수', width: 65,
             align: 'right', headerAlign: 'center',
         }, {
             field: '흑자기업', headerName: '흑자기업', width: 60,
             align: 'right', headerAlign: 'center',
         }, {
-            field: '흑자기업수', headerName: '흑자기업수', width: 75,
+            field: '순이익기업', headerName: '순이익기업%', width: 75,
             align: 'right', headerAlign: 'center',
+            valueFormatter: (params) => {
+                return `${parseInt(params.value)} %`;
+            }
         }
     ]
     const stockTable_columns = [
@@ -201,14 +202,21 @@ export default function SearchFinancial({ swiperRef }) {
             <Grid item container>
                 {/* 좌 : Table, TreeMap, ChrossChart */}
                 <Grid item xs={8}>
-
+                    <Grid item container>
+                        <Grid item xs={2.4}></Grid>
+                        <Grid item xs={1.9}>집계</Grid>
+                        <Grid item xs={2}>분기</Grid>
+                        <Grid item xs={1.3}>흑자</Grid>
+                    </Grid>
                     <Grid item container sx={{ height: 440, width: "100%" }}
                         onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                         onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                     >
                         {
                             page === 'Table' ?
+
                                 <ThemeProvider theme={customTheme}>
+
                                     <DataGrid
                                         rows={tableData}
                                         columns={table_columns}
@@ -226,11 +234,12 @@ export default function SearchFinancial({ swiperRef }) {
                                             '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
                                             '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
                                             '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
+                                            '[data-field="분기_매출"]': { borderLeft: '1.5px solid #ccc' },
+                                            '[data-field="분기_당기순이익"]': { borderRight: '1.5px solid #ccc' },
                                             '[data-field="전년동분기대비"]': { borderRight: '1.5px solid #ccc' },
-                                            '[data-field="분기매출"]': { backgroundColor: '#6E6E6E' },
-                                            '[data-field="분기영업이익"]': { backgroundColor: '#6E6E6E' },
-                                            '[data-field="분기당기순이익"]': { backgroundColor: '#6E6E6E', borderRight: '1.5px solid #ccc' },
                                             '[data-field="흑자_당기순이익"]': { borderRight: '1.5px solid #ccc' },
+                                            '[data-field="전체종목수"]': { borderLeft: '1.5px solid #ccc', borderRight: '1.5px solid #ccc' },
+                                            '[data-field="흑자기업"]': { borderRight: '1.5px solid #ccc' },
                                             // [`& .highlight`]: {
                                             //     color: 'tomato',
                                             // },
