@@ -29,8 +29,8 @@ export default function SearchFinancial({ swiperRef }) {
         // const res2 = await axios.get(`${API}/formula/searchFinancial_market`);
     }
 
-    const onIndustryClick = (data) => {
-        const params = { field: '흑자기업', row: { 업종명: data } }
+    const onIndustryClick = (업종명, market) => {
+        const params = { field: '흑자기업', row: { 업종명: 업종명 }, market: market }
         getIndustryStockData(params);
     }
 
@@ -61,12 +61,12 @@ export default function SearchFinancial({ swiperRef }) {
     const getIndustryStockData = async (params) => {
         let field = params.field;
         let industry = params.row.업종명;
-        // console.log(field, industry, industry.length);
+        let market = params.market ? params.market : null
         setFilter({ field: field, industry: industry })
 
         if (field != 'id' && field != '업종명' && field != '흑자기업수') {
             const postData = {
-                target_category: field == '전체종목수' ? null : [field], target_industry: [industry], WillR: 'O'
+                target_category: field == '전체종목수' ? null : [field], target_industry: [industry], WillR: 'O', market: market
             }
             const res = await axios.post(`${API}/formula/findData`, postData);
             setStockTableData(res.data);

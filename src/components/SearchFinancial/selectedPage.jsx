@@ -184,14 +184,14 @@ export function Tree({ tableData, onIndustryClick }) {
             <Grid item container>
                 {
                     page === 'All' ?
-                        <TreeMap data={tableData} onIndustryClick={onIndustryClick} height={440} />
+                        <TreeMap data={tableData} onIndustryClick={(업종명) => onIndustryClick(업종명, null)} height={440} />
                         :
                         <Grid item container>
                             <Grid item container xs={6}>
-                                <TreeMap data={treeMapData.Kospi_data} onIndustryClick={onIndustryClick} height={440} />
+                                <TreeMap data={treeMapData.Kospi_data} onIndustryClick={(업종명) => onIndustryClick(업종명, 'Kospi')} height={440} />
                             </Grid>
                             <Grid item container xs={6}>
-                                <TreeMap data={treeMapData.Kosdaq_data} onIndustryClick={onIndustryClick} height={440} />
+                                <TreeMap data={treeMapData.Kosdaq_data} onIndustryClick={(업종명) => onIndustryClick(업종명, 'Kosdaq')} height={440} />
                             </Grid>
                         </Grid>
 
