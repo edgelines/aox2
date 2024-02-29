@@ -11,7 +11,7 @@ export default function CrossChart({ data, height, onCode }) {
         credits: { enabled: false }, title: { text: null },
         navigation: { buttonOptions: { enabled: false } },
         xAxis: {
-            title: { text: '영업이익 성장률 %' },
+            title: { text: '영업이익 성장률 %', style: { color: '#efe9e9ed' } },
             labels: {
                 style: { color: '#404040', fontSize: '9px' }, formatter: function () {
                     var color = this.value > 0 ? '#FCAB2F' : this.value < 0 ? '#00F3FF' : '#efe9e9ed';
@@ -24,7 +24,7 @@ export default function CrossChart({ data, height, onCode }) {
             }]
         },
         yAxis: {
-            title: { text: '매출 성장률 %' },
+            title: { text: '매출 성장률 %', style: { color: '#efe9e9ed' } },
             labels: {
                 style: { color: '#efe9e9ed', fontSize: '9px' },
                 formatter: function () {

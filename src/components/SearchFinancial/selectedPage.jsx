@@ -6,27 +6,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault, StyledToggleButton } from '../util/util';
 import { StyledTypography_StockInfo } from '../util/htsUtil';
 import TreeMap from './treeMap';
+import { customTheme } from './util';
 import CrossChartPage from './crossChartPage';
 import { API } from '../util/config';
 
-const customTheme = createTheme({
-    components: {
-        MuiDataGrid: {
-            styleOverrides: {
-                root: {
-                    '& .MuiDataGrid-row': {
-                        fontSize: '10px',
-                        color: '#efe9e9ed'
-                    },
-                },
-                columnHeader: {
-                    fontSize: '9px',
-                    color: '#efe9e9ed'
-                },
-            },
-        },
-    },
-});
+
 
 const table_columns = [
     {
