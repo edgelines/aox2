@@ -5,8 +5,9 @@ import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault, StyledToggleButton } from './util/util';
 import SearchFinancialInfo from './SearchFinancial/info';
-import TreeMap from './SearchFinancial/treeMap';
-import CrossChartPage from './SearchFinancial/crossChartPage';
+// import TreeMap from './SearchFinancial/treeMap';
+import { Table, Tree, Cross } from './SearchFinancial/selectedPage';
+// import CrossChartPage from './SearchFinancial/crossChartPage';
 import { API, STOCK } from './util/config';
 
 
@@ -70,7 +71,6 @@ export default function SearchFinancial({ swiperRef }) {
             setStockTableData(res.data);
         }
 
-        // console.log(field, industry);
     }
 
     useEffect(() => { fetchData() }, [])
@@ -199,13 +199,14 @@ export default function SearchFinancial({ swiperRef }) {
                     <StyledToggleButton fontSize={'10px'} value="Cross">Cross</StyledToggleButton>
                 </ToggleButtonGroup>
             </Grid>
+
             <Grid item container>
                 {/* 좌 : Table, TreeMap, ChrossChart */}
                 <Grid item xs={8}>
-                    <Grid item container>
-                        <Grid item xs={2.4}></Grid>
+                    {/* <Grid item container>
+                        <Grid item xs={2.1}></Grid>
                         <Grid item xs={1.9}>집계</Grid>
-                        <Grid item xs={2}>분기</Grid>
+                        <Grid item xs={1.6}>분기</Grid>
                         <Grid item xs={1.3}>흑자</Grid>
                     </Grid>
                     <Grid item container sx={{ height: 440, width: "100%" }}
@@ -253,7 +254,8 @@ export default function SearchFinancial({ swiperRef }) {
                                         <CrossChartPage swiperRef={swiperRef} data={tableData} />
                                     </>
                         }
-                    </Grid>
+                    </Grid> */}
+                    <ContentsComponent swiperRef={swiperRef} page={page} tableData={tableData} getIndustryStockData={getIndustryStockData} onIndustryClick={onIndustryClick} />
 
                     <Grid item container sx={{ minHeight: 30 }}>
                         {
@@ -328,3 +330,22 @@ const customTheme = createTheme({
     },
 });
 
+
+const ContentsComponent = ({ swiperRef, page, tableData, getIndustryStockData, onIndustryClick }) => {
+
+    switch (page) {
+        case 'Tree':
+            return <Tree tableData={tableData} onIndustryClick={onIndustryClick} />
+
+
+        case 'Cross':
+
+            return <Cross swiperRef={swiperRef} tableData={tableData} />
+
+
+        default:
+            return <Table swiperRef={swiperRef} tableData={tableData} getIndustryStockData={getIndustryStockData} />
+    }
+
+
+}
