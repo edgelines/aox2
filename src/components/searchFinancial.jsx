@@ -26,6 +26,7 @@ export default function SearchFinancial({ swiperRef }) {
     const fetchData = async () => {
         const res = await axios.get(`${API}/formula/searchFinancial`);
         setTableData(res.data);
+        // const res2 = await axios.get(`${API}/formula/searchFinancial_market`);
     }
 
     const onIndustryClick = (data) => {
@@ -73,65 +74,9 @@ export default function SearchFinancial({ swiperRef }) {
 
     }
 
-    useEffect(() => { fetchData() }, [])
+    useEffect(() => { fetchData() }, [page])
 
-    const table_columns = [
-        {
-            field: 'id', headerName: '순번', width: 20,
-            align: 'center', headerAlign: 'center',
-            valueFormatter: (params) => {
-                return parseInt(params.value) + 1;
-            }
-        }, {
-            field: '순위', headerName: '업종순위', width: 60,
-            align: 'center', headerAlign: 'left',
-        }, {
-            field: '업종명', headerName: '업종명', width: 120,
-            align: 'left', headerAlign: 'center',
-        }, {
-            field: '집계_매출', headerName: '매출', width: 60,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: '집계_영업이익', headerName: '영업이익', width: 60,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: '집계_당기순이익', headerName: '순이익', width: 60,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: '분기_매출', headerName: '매출', width: 60,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: '분기_영업이익', headerName: '영업이익', width: 60,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: '분기_당기순이익', headerName: '순이익', width: 60,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: '흑자_영업이익', headerName: '영업이익', width: 60,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: '흑자_당기순이익', headerName: '순이익', width: 60,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: '전년동분기대비', headerName: '전년 동분기', width: 70,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: '미집계', headerName: '미집계', width: 60,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: '전체종목수', headerName: '전체종목수', width: 65,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: '흑자기업', headerName: '흑자기업', width: 60,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: '순이익기업', headerName: '순이익기업%', width: 75,
-            align: 'right', headerAlign: 'center',
-            valueFormatter: (params) => {
-                return `${parseInt(params.value)} %`;
-            }
-        }
-    ]
+
     const stockTable_columns = [
         {
             field: 'id', headerName: '순번', width: 20,

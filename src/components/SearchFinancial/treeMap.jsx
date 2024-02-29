@@ -44,10 +44,6 @@ const Treemap = ({ data, backgroundColor, fontColor, onIndustryClick, height }) 
     })
 
 
-    // const [treemapData, setTreemapData] = useState([]);
-    // const [barMax, setBarMax] = useState();
-    // const [barValue, setBarValue] = useState(barMax);
-
     useEffect(() => {
         const mapData = data.map((val, index) => ({
             ...val,
@@ -67,29 +63,6 @@ const Treemap = ({ data, backgroundColor, fontColor, onIndustryClick, height }) 
             ],
         });
     }, [data])
-    // useEffect(() => {
-    //     const data = transformDataForTreemap(sectorsRanksThemes);
-    //     setTreemapData(data);
-    //     setBarMax(data.length);
-    //     setBarValue(data.length); // 초기 barValue도 설정.
-    // }, [sectorsRanksThemes]); // 의존성 배열이 빈 배열이므로, 이 useEffect는 컴포넌트가 처음 마운트될 때만 실행.
-
-    // useEffect(() => {
-    //     const resultData = [...treemapData].slice(0, barValue);
-    //     setChartOptions({
-    //         series: [
-    //             {
-    //                 type: "treemap",
-    //                 // clip: false,
-    //                 layoutAlgorithm: "squarified",
-    //                 // layoutStartingDirection: "horizontal",
-    //                 alternateStartingDirection: true,
-    //                 colorByPoint: false,
-    //                 data: resultData
-    //             },
-    //         ],
-    //     })
-    // }, [sectorsRanksThemes, barValue]);
 
     return (
         <Grid container>

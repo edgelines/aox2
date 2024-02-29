@@ -83,7 +83,7 @@ const StockInfo = ({ data }) => {
             <Grid item container>
                 <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
                     <StyledTypography_StockInfo fontSize="12px">N_PER</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">{data.PER}</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">{data.N_PER}</StyledTypography_StockInfo>
                     <StyledTypography_StockInfo fontSize="12px">BPS</StyledTypography_StockInfo>
                     <StyledTypography_StockInfo fontSize="12px">{data.BPS.toLocaleString('kr')} 원</StyledTypography_StockInfo>
                 </Stack>
@@ -97,7 +97,7 @@ const StockInfo = ({ data }) => {
             <Grid item container>
                 <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
                     <StyledTypography_StockInfo fontSize="12px">N_PBR</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">{data.PBR}</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">{data.N_PBR}</StyledTypography_StockInfo>
                 </Stack>
             </Grid>
             <Grid item container>
