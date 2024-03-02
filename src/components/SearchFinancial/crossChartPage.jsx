@@ -46,9 +46,11 @@ export default function CrossChartPage({ swiperRef, data, onIndustryClick, getSt
         let check
         if (category) {
             check = '흑자'
+        } else {
+            check = 'All'
         }
         const postData = {
-            check: [check], target_industry: [selectedIndustries], target_category1: category1, target_category2: category2,
+            check: check, target_industry: [selectedIndustries], target_category1: category1, target_category2: category2,
         }
         // console.log(postData);
         const res = await axios.post(`${API}/formula/crossChart`, postData);
