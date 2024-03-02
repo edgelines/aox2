@@ -168,14 +168,14 @@ export function Tree({ tableData, onIndustryClick }) {
             <Grid item container>
                 {
                     page === 'All' ?
-                        <TreeMap data={tableData} onIndustryClick={(업종명) => onIndustryClick(업종명, null)} height={440} />
+                        <TreeMap data={tableData} onIndustryClick={(업종명) => onIndustryClick(업종명, null, '흑자기업')} height={420} />
                         :
                         <Grid item container>
                             <Grid item container xs={6}>
-                                <TreeMap data={treeMapData.Kospi_data} onIndustryClick={(업종명) => onIndustryClick(업종명, 'Kospi')} height={440} />
+                                <TreeMap data={treeMapData.Kospi_data} onIndustryClick={(업종명) => onIndustryClick(업종명, 'Kospi', '흑자기업')} height={420} />
                             </Grid>
                             <Grid item container xs={6}>
-                                <TreeMap data={treeMapData.Kosdaq_data} onIndustryClick={(업종명) => onIndustryClick(업종명, 'Kosdaq')} height={440} />
+                                <TreeMap data={treeMapData.Kosdaq_data} onIndustryClick={(업종명) => onIndustryClick(업종명, 'Kosdaq', '흑자기업')} height={420} />
                             </Grid>
                         </Grid>
 
@@ -185,11 +185,11 @@ export function Tree({ tableData, onIndustryClick }) {
     )
 }
 
-export function Cross({ swiperRef, tableData }) {
+export function Cross({ swiperRef, tableData, onIndustryClick, getStockCode, getStockChartData }) {
 
     return (
         <Grid container>
-            <CrossChartPage swiperRef={swiperRef} data={tableData} />
+            <CrossChartPage swiperRef={swiperRef} data={tableData} onIndustryClick={(업종명) => onIndustryClick(업종명, null, '흑자기업')} getStockCode={getStockCode} getStockChartData={getStockChartData} />
         </Grid>
     )
 }

@@ -1,24 +1,24 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, Stack, Typography, ToggleButtonGroup, ToggleButton, Table, TableBody, TableRow, TableCell, TableContainer } from '@mui/material';
+import { Grid, ToggleButtonGroup } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
-// import LaptopIcon from '@mui/icons-material/Laptop';
-// import TvIcon from '@mui/icons-material/Tv';
-// import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
-// import { DataGrid, gridClasses, GridColumnGroupingModel } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { StyledButton, DataTableStyleDefault, StyledToggleButton } from '../util/util';
-// import { StyledTypography_StockInfo, Financial, EtcInfo } from '../util/htsUtil';
-// import StockChart_MA from '../util/stockChart_MA';
 import CrossChart from './crossChart';
 import { customTheme } from './util';
 import { API } from '../util/config';
 
-
-export default function CrossChartPage({ swiperRef, data }) {
+// 
+export default function CrossChartPage({ swiperRef, data, onIndustryClick, getStockCode, getStockChartData }) {
+    // List
+    const categories = ['흑자']
+    const categories1 = ['집계', '분기', '전년동분기대비']
+    const categories2 = ['매출', '영업이익', '당기순이익']
 
     const [selectedIndustries, setSelectedIndustries] = useState(data[0].업종명);
-    const [category, setCategory] = useState(() => ['흑자', '집계', '분기', '전년동분기대비', '매출', '영업이익', '당기순이익']);
+    const [category, setCategory] = useState(() => ['흑자']);
+    const [category1, setCategory1] = useState(() => ['집계', '분기', '전년동분기대비'])
+    const [category2, setCategory2] = useState(() => ['매출', '영업이익', '당기순이익'])
     const [chartData, setChartData] = useState([]);
 
     // 키워드 클릭 시 호출되는 함수
@@ -30,27 +30,39 @@ export default function CrossChartPage({ swiperRef, data }) {
             setCategory(newCategory);
         }
     };
+    const handleCategory1 = (event, newCategory) => {
+        if (newCategory.length) {
+            setCategory1(newCategory);
+        }
+    };
+    const handleCategory2 = (event, newCategory) => {
+        if (newCategory.length) {
+            setCategory2(newCategory);
+        }
+    };
 
-    const categories = ['흑자', '집계', '분기', '전년동분기대비', '매출', '영업이익', '당기순이익']
 
     const getIndustryStockData = async () => {
         const postData = {
-            target_category: category, target_industry: [selectedIndustries]
+            check: category, target_industry: [selectedIndustries], target_category1: category1, target_category2: category2,
         }
-        console.log(postData);
+        // console.log(postData);
         const res = await axios.post(`${API}/formula/crossChart`, postData);
         setChartData(res.data);
-        console.log(res.data);
+        // console.log(res.data);
         // console.log(field, industry);
     }
 
-    const onCode = (data) => {
-        console.log(data);
-    }
+    // const getStockCode = (data) => {
+    //     console.log(data);
+    // }
+    // const getStockChartData = (data) => {
+    //     console.log(data);
+    // }
     // useEffect(() => {
     //     setSelectedIndustries(data[0].업종명);
     // }, [])
-    useEffect(() => { getIndustryStockData() }, [selectedIndustries, category])
+    useEffect(() => { getIndustryStockData() }, [selectedIndustries, category, category1, category2])
 
     return (
         <>
@@ -67,6 +79,7 @@ export default function CrossChartPage({ swiperRef, data }) {
                                 rowHeight={25}
                                 onCellClick={(params, event) => {
                                     handleSelectedIndustries(params.row.업종명);
+                                    onIndustryClick(params.row.업종명);
                                 }}
                                 disableRowSelectionOnClick
                                 sx={{
@@ -90,18 +103,46 @@ export default function CrossChartPage({ swiperRef, data }) {
                             value={category}
                             onChange={handleCategory}
                             size="small"
+                            sx={{ pl: 1 }}
                         >
                             {categories.map(item => (
                                 <StyledToggleButton key={item} value={item} sx={{ fontSize: '9px' }}>
                                     {item}
                                 </StyledToggleButton>
                             ))}
-
                         </ToggleButtonGroup>
+
+                        <ToggleButtonGroup
+                            value={category1}
+                            onChange={handleCategory1}
+                            size="small"
+                            sx={{ pl: 1 }}
+                        >
+                            {categories1.map(item => (
+                                <StyledToggleButton key={item} value={item} sx={{ fontSize: '9px' }}>
+                                    {item}
+                                </StyledToggleButton>
+                            ))}
+                        </ToggleButtonGroup>
+
+                        <ToggleButtonGroup
+                            value={category2}
+                            onChange={handleCategory2}
+                            size="small"
+                            sx={{ pl: 1 }}
+                        >
+                            {categories2.map(item => (
+                                <StyledToggleButton key={item} value={item} sx={{ fontSize: '9px' }}>
+                                    {item}
+                                </StyledToggleButton>
+                            ))}
+                        </ToggleButtonGroup>
+
+
                     </Grid>
 
                     <Grid item container>
-                        <CrossChart data={chartData} height={380} onCode={onCode} />
+                        <CrossChart data={chartData} height={380} getStockCode={getStockCode} getStockChartData={getStockChartData} />
                     </Grid>
                 </Grid>
 

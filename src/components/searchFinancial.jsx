@@ -29,8 +29,8 @@ export default function SearchFinancial({ swiperRef }) {
         // const res2 = await axios.get(`${API}/formula/searchFinancial_market`);
     }
 
-    const onIndustryClick = (업종명, market) => {
-        const params = { field: '흑자기업', row: { 업종명: 업종명 }, market: market }
+    const onIndustryClick = (업종명, market, field) => {
+        const params = { field: field, row: { 업종명: 업종명 }, market: market }
         getIndustryStockData(params);
     }
 
@@ -200,7 +200,7 @@ export default function SearchFinancial({ swiperRef }) {
                                     </>
                         }
                     </Grid> */}
-                    <ContentsComponent swiperRef={swiperRef} page={page} tableData={tableData} getIndustryStockData={getIndustryStockData} onIndustryClick={onIndustryClick} />
+                    <ContentsComponent swiperRef={swiperRef} page={page} tableData={tableData} getIndustryStockData={getIndustryStockData} onIndustryClick={onIndustryClick} getStockCode={getStockCode} getStockChartData={getStockChartData} />
 
                     <Grid item container sx={{ minHeight: 30 }}>
                         {
@@ -276,21 +276,17 @@ const customTheme = createTheme({
 });
 
 
-const ContentsComponent = ({ swiperRef, page, tableData, getIndustryStockData, onIndustryClick }) => {
+const ContentsComponent = ({ swiperRef, page, tableData, getIndustryStockData, onIndustryClick, getStockCode, getStockChartData }) => {
 
     switch (page) {
         case 'Tree':
             return <Tree tableData={tableData} onIndustryClick={onIndustryClick} />
 
-
         case 'Cross':
-
-            return <Cross swiperRef={swiperRef} tableData={tableData} />
-
+            return <Cross swiperRef={swiperRef} tableData={tableData} onIndustryClick={onIndustryClick} getStockCode={getStockCode} getStockChartData={getStockChartData} />
 
         default:
             return <Table swiperRef={swiperRef} tableData={tableData} getIndustryStockData={getIndustryStockData} />
     }
-
 
 }
