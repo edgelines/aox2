@@ -9,7 +9,7 @@ import TreeMap from './treeMap';
 import { customTheme } from './util';
 import CrossChartPage from './crossChartPage';
 import { API } from '../util/config';
-
+import CrossChart from './crossChart';
 
 
 const table_columns = [
