@@ -165,13 +165,6 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
         return () => clearTimeout(timeoutId);
     }, [])
 
-    // 5분 주기 업데이트
-    // useInterval(fetchData, 1000 * 60 * 2, {
-    //     startHour: 9,
-    //     endHour: 16,
-    //     daysOff: [0, 6], // 일요일(0)과 토요일(6)은 제외
-    // });
-
     // 시계 1초마다
     useEffect(() => {
         const timer = setInterval(() => {

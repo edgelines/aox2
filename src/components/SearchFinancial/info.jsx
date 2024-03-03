@@ -1,14 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
-// import axios from 'axios';
 import { Grid, Stack, Typography, ToggleButtonGroup } from '@mui/material';
-// import { grey } from '@mui/material/colors';
-// import { DataGrid, gridClasses, GridColumnGroupingModel } from '@mui/x-data-grid';
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { StyledToggleButton } from '../util/util';
 import { StyledTypography_StockInfo, Financial, EtcInfo } from '../util/htsUtil';
 import StockChart_MA from '../util/stockChart_MA';
-// import { API, STOCK } from '../util/config';
-
 
 export default function SearchFinancialInfo({ swiperRef, stock, stockChart }) {
     const [page, setPage] = useState('재무');
@@ -38,18 +32,15 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart }) {
                     <StyledToggleButton fontSize={'10px'} value="재무">재무</StyledToggleButton>
                     <StyledToggleButton fontSize={'10px'} value="사업내용">사업내용</StyledToggleButton>
                     <StyledToggleButton fontSize={'10px'} value="테마">테마</StyledToggleButton>
+                    <StyledToggleButton fontSize={'10px'} value="주요">주요제품/주요주주</StyledToggleButton>
                 </ToggleButtonGroup>
             </Grid>
             <Grid item container sx={{ minHeight: 210 }}>
-                <ContentsComponent page={page} annual={stock.연간실적} quarter={stock.분기실적} summary={stock.기업개요} themes={stock.테마명} />
-            </Grid>
-
-            <Grid item container sx={{ minHeight: 90 }}>
-                <EtcInfo product={stock.주요제품매출구성} shareholder={stock.주요주주} />
+                <ContentsComponent page={page} annual={stock.연간실적} quarter={stock.분기실적} summary={stock.기업개요} themes={stock.테마명} product={stock.주요제품매출구성} shareholder={stock.주요주주} />
             </Grid>
 
             <Grid item container sx={{ mt: 1 }}>
-                <StockChart_MA height={335} stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} price={stock.현재가} boxTransform={`translate(10px, 190px)`} treasury={stockChart.treasury} />
+                <StockChart_MA height={400} stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} price={stock.현재가} boxTransform={`translate(10px, 190px)`} treasury={stockChart.treasury} />
             </Grid>
 
         </>
@@ -122,7 +113,7 @@ const StockInfo = ({ data }) => {
     )
 }
 
-const ContentsComponent = ({ swiperRef, page, annual, quarter, summary, themes }) => {
+const ContentsComponent = ({ page, annual, quarter, summary, themes, product, shareholder }) => {
 
     switch (page) {
         case '사업내용':
@@ -147,7 +138,12 @@ const ContentsComponent = ({ swiperRef, page, annual, quarter, summary, themes }
                 </Grid>
             }
 
-
+        case '주요':
+            if (Array.isArray(themes)) {
+                return <Grid container sx={{ mt: 3 }}>
+                    <EtcInfo product={product} shareholder={shareholder} />
+                </Grid>
+            }
 
         default:
             if (Array.isArray(annual)) {

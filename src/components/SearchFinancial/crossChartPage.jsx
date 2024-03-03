@@ -25,11 +25,11 @@ export default function CrossChartPage({ swiperRef, data, onIndustryClick, getSt
     const handleSelectedIndustries = (keyword) => {
         setSelectedIndustries(keyword);
     };
-    const handleCategory = (event, newCategory) => {
-        if (newCategory.length) {
-            setCategory(newCategory);
-        }
-    };
+    // const handleCategory = (event, newCategory) => {
+    //     if (newCategory.length) {
+    //         setCategory(newCategory);
+    //     }
+    // };
     const handleCategory1 = (event, newCategory) => {
         if (newCategory.length) {
             setCategory1(newCategory);
@@ -94,7 +94,7 @@ export default function CrossChartPage({ swiperRef, data, onIndustryClick, getSt
                 </Grid>
             </Grid>
             <Grid item xs={7}>
-                <Grid item container>
+                <Grid item container sx={{ pl: 2 }}>
 
                     <StyledToggleButton
                         value='check'
