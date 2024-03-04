@@ -11,8 +11,7 @@ import { API } from '../util/config';
 // 
 export default function CrossChartPage({ swiperRef, data, onIndustryClick, getStockCode, getStockChartData }) {
     // List
-    const categories = ['흑자']
-    const categories1 = ['집계', '분기', '전년동분기대비']
+    const categories1 = [['가결산합산/전년도대비', '집계'], ['전분기대비', '분기'], ['전년동분기대비', '전년동분기대비']]
     const categories2 = ['매출', '영업이익', '당기순이익']
 
     const [selectedIndustries, setSelectedIndustries] = useState(data[0].업종명);
@@ -25,11 +24,7 @@ export default function CrossChartPage({ swiperRef, data, onIndustryClick, getSt
     const handleSelectedIndustries = (keyword) => {
         setSelectedIndustries(keyword);
     };
-    // const handleCategory = (event, newCategory) => {
-    //     if (newCategory.length) {
-    //         setCategory(newCategory);
-    //     }
-    // };
+
     const handleCategory1 = (event, newCategory) => {
         if (newCategory.length) {
             setCategory1(newCategory);
@@ -49,6 +44,7 @@ export default function CrossChartPage({ swiperRef, data, onIndustryClick, getSt
         } else {
             check = 'All'
         }
+        console.log(check);
         const postData = {
             check: check, target_industry: [selectedIndustries], target_category1: category1, target_category2: category2,
         }
@@ -114,8 +110,8 @@ export default function CrossChartPage({ swiperRef, data, onIndustryClick, getSt
                         sx={{ pl: 1 }}
                     >
                         {categories1.map(item => (
-                            <StyledToggleButton key={item} value={item} sx={{ fontSize: '9px' }}>
-                                {item}
+                            <StyledToggleButton key={item[1]} value={item[1]} sx={{ fontSize: '9px' }}>
+                                {item[0]}
                             </StyledToggleButton>
                         ))}
                     </ToggleButtonGroup>

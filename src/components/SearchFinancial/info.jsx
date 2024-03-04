@@ -4,7 +4,7 @@ import { StyledToggleButton } from '../util/util';
 import { StyledTypography_StockInfo, Financial, EtcInfo } from '../util/htsUtil';
 import StockChart_MA from '../util/stockChart_MA';
 
-export default function SearchFinancialInfo({ swiperRef, stock, stockChart }) {
+export default function SearchFinancialInfo({ swiperRef, stock, stockChart, timeframe, handleTimeframe }) {
     const [page, setPage] = useState('재무');
 
     // Handler
@@ -37,6 +37,20 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart }) {
             </Grid>
             <Grid item container sx={{ minHeight: 210 }}>
                 <ContentsComponent page={page} annual={stock.연간실적} quarter={stock.분기실적} summary={stock.기업개요} themes={stock.테마명} product={stock.주요제품매출구성} shareholder={stock.주요주주} />
+            </Grid>
+
+            <Grid item container sx={{ mt: 1 }}>
+                <ToggleButtonGroup
+                    color='info'
+                    exclusive
+                    size="small"
+                    value={timeframe}
+                    onChange={handleTimeframe}
+                    sx={{ pl: 1.3 }}
+                >
+                    <StyledToggleButton fontSize={'10px'} value="day">일봉</StyledToggleButton>
+                    <StyledToggleButton fontSize={'10px'} value="week">주봉</StyledToggleButton>
+                </ToggleButtonGroup>
             </Grid>
 
             <Grid item container sx={{ mt: 1 }}>

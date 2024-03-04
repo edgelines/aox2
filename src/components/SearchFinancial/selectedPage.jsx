@@ -76,8 +76,8 @@ export function Table({ swiperRef, tableData, getIndustryStockData }) {
         <Grid container>
             <Grid item container>
                 <Grid item xs={2.1}></Grid>
-                <Grid item xs={1.9}>집계</Grid>
-                <Grid item xs={1.6}>분기</Grid>
+                <Grid item xs={1.9}>가결산합산/전년도대비</Grid>
+                <Grid item xs={1.6}>전분기대비</Grid>
                 <Grid item xs={1.3}>흑자</Grid>
             </Grid>
             <Grid item container sx={{ height: 440, width: "100%" }}

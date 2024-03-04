@@ -14,6 +14,8 @@ import { API, STOCK } from './util/config';
 export default function SearchFinancial({ swiperRef }) {
 
     const [page, setPage] = useState('Table');
+    const [stockCode, setStockCode] = useState(null);
+    const [timeframe, setTimeframe] = useState('day')
     const [filter, setFilter] = useState({ field: null, industry: null })
 
     const [tableData, setTableData] = useState([]);
@@ -22,6 +24,7 @@ export default function SearchFinancial({ swiperRef }) {
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
 
     const handlePage = (event, value) => { if (value !== null) { setPage(value); } }
+    const handleTimeframe = (event, value) => { if (value !== null) { setTimeframe(value); } }
 
     const fetchData = async () => {
         const res = await axios.get(`${API}/formula/searchFinancial`);
@@ -54,8 +57,9 @@ export default function SearchFinancial({ swiperRef }) {
         }
     }
 
-    const getStockChartData = async (code) => {
-        const res = await axios.get(`${STOCK}/get/${code}`);
+    const getStockChartData = async (code, timeframe) => {
+        const res = await axios.get(`${STOCK}/get/${code}?week=${timeframe}`);
+        console.log(res.data.price);
         setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury })
     }
     const getIndustryStockData = async (params) => {
@@ -75,7 +79,12 @@ export default function SearchFinancial({ swiperRef }) {
     }
 
     useEffect(() => { fetchData() }, [page])
-
+    useEffect(() => {
+        if (stockCode != null) {
+            console.log(stockCode, timeframe);
+            getStockChartData(stockCode, timeframe)
+        }
+    }, [stockCode, timeframe]);
 
     const stockTable_columns = [
         {
@@ -219,7 +228,8 @@ export default function SearchFinancial({ swiperRef }) {
                                 rowHeight={25}
                                 onCellClick={(params, event) => {
                                     getStockCode(params.row);
-                                    getStockChartData(params.row.종목코드);
+                                    setStockCode(params.row.종목코드);
+                                    // getStockChartData(params.row.종목코드, timeframe);
                                 }}
                                 disableRowSelectionOnClick
                                 sx={{
@@ -239,7 +249,7 @@ export default function SearchFinancial({ swiperRef }) {
 
                 {/* 우 : 종목정보 */}
                 <Grid item xs={4}>
-                    <SearchFinancialInfo swiperRef={swiperRef} stock={stock} stockChart={stockChart} />
+                    <SearchFinancialInfo swiperRef={swiperRef} stock={stock} stockChart={stockChart} timeframe={timeframe} handleTimeframe={handleTimeframe} />
                 </Grid>
 
             </Grid>
