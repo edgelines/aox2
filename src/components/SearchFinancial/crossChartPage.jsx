@@ -17,7 +17,10 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
     const [selectedIndustries, setSelectedIndustries] = useState(data[0].업종명);
     const [filter, setFilter] = useState({ field: null, industry: null })
     const [stockTableData, setStockTableData] = useState([]);
-    const [category, setCategory] = useState(true);
+
+    // chart data params
+    const [aggregated, setAggregated] = useState(true); // 집계 미집계 
+    const [surplus, setSurplus] = useState(true); // 흑자, 전체
     const [category1, setCategory1] = useState(() => ['가결산', '분기', '전년동분기대비'])
     const [category2, setCategory2] = useState(() => ['매출', '영업이익', '당기순이익'])
     const [chartData, setChartData] = useState([]);
@@ -41,16 +44,16 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
 
     const getCrossChartData = async () => {
         let check
-        if (category) {
+        if (surplus) {
             check = '흑자'
         } else {
             check = 'All'
         }
-        console.log(check);
         const postData = {
+            aggregated: aggregated, surplus: surplus,
             check: check, target_industry: [selectedIndustries], target_category1: category1, target_category2: category2,
         }
-        // console.log(postData);
+        console.log(postData);
         const res = await axios.post(`${API}/formula/crossChart`, postData);
         setChartData(res.data);
         // console.log(res.data);
@@ -72,7 +75,7 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
         }
     }
 
-    useEffect(() => { getCrossChartData() }, [selectedIndustries, category, category1, category2])
+    useEffect(() => { getCrossChartData() }, [selectedIndustries, surplus, category1, category2])
 
     return (
         <Grid container sx={{ mt: 1 }}>
@@ -89,7 +92,6 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
                             onCellClick={(params, event) => {
                                 handleSelectedIndustries(params.row.업종명);
                                 getIndustryStockData(params);
-                                // onIndustryClick(params.row.업종명);
                             }}
                             disableRowSelectionOnClick
                             sx={{
@@ -107,17 +109,31 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
                     </ThemeProvider>
                 </Grid>
             </Grid>
+
+            {/* Cross Chart */}
             <Grid item xs={7}>
+
+                {/* Filter */}
                 <Grid item container sx={{ pl: 2 }}>
 
                     <StyledToggleButton
-                        value='check'
-                        selected={category}
+                        value='aggregated'
+                        selected={aggregated}
                         onChange={() => {
-                            setCategory(!category);
+                            setAggregated(!aggregated);
                         }}
-                        sx={{ pl: 1, fontSize: '9px' }}>
-                        흑자
+                        sx={{ ml: 1, fontSize: '9px', width: 53 }}>
+                        {aggregated ? '집계' : '미집계'}
+                    </StyledToggleButton>
+
+                    <StyledToggleButton
+                        value='check'
+                        selected={surplus}
+                        onChange={() => {
+                            setSurplus(!surplus);
+                        }}
+                        sx={{ ml: 1, fontSize: '9px' }}>
+                        {surplus ? '흑자' : '전체'}
                     </StyledToggleButton>
 
 
@@ -150,6 +166,7 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
 
                 </Grid>
 
+                {/* Chart */}
                 <Grid item container>
                     <CrossChart data={chartData} height={380} getStockCode={getStockCode} getStockChartData={getStockChartData} setStockCode={setStockCode} />
                 </Grid>
