@@ -43,15 +43,9 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
 
 
     const getCrossChartData = async () => {
-        let check
-        if (surplus) {
-            check = '흑자'
-        } else {
-            check = 'All'
-        }
         const postData = {
             aggregated: aggregated, surplus: surplus,
-            check: check, target_industry: [selectedIndustries], target_category1: category1, target_category2: category2,
+            target_industry: [selectedIndustries], target_category1: category1, target_category2: category2,
         }
         console.log(postData);
         const res = await axios.post(`${API}/formula/crossChart`, postData);
@@ -68,14 +62,15 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
 
         if (field != 'id' && field != '업종명' && field != '흑자기업수') {
             const postData = {
-                target_category: field == '전체종목수' ? null : [field], target_industry: [industry], WillR: 'O', market: null
+                aggregated: aggregated, surplus: surplus,
+                target_industry: [selectedIndustries], target_category1: category1, target_category2: category2,
             }
-            const res = await axios.post(`${API}/formula/findData`, postData);
+            const res = await axios.post(`${API}/formula/findCrossData`, postData);
             setStockTableData(res.data);
         }
     }
 
-    useEffect(() => { getCrossChartData() }, [selectedIndustries, surplus, category1, category2])
+    useEffect(() => { getCrossChartData() }, [selectedIndustries, aggregated, surplus, category1, category2])
 
     return (
         <Grid container sx={{ mt: 1 }}>
