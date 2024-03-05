@@ -7,6 +7,7 @@ import { StyledButton, DataTableStyleDefault, StyledToggleButton } from '../util
 import CrossChart from './crossChart';
 import { customTheme } from './util';
 import { API } from '../util/config';
+import { stockTable_columns } from './tableColumns';
 
 // 
 export default function CrossChartPage({ swiperRef, data, getStockCode, getStockChartData, setStockCode }) {
@@ -57,20 +58,33 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
     const getIndustryStockData = async (params) => {
         let field = params.field;
         let industry = params.row.업종명;
-
+        let market = params.market ? params.market : null
         setFilter({ field: field, industry: industry })
 
         if (field != 'id' && field != '업종명' && field != '흑자기업수') {
             const postData = {
-                aggregated: aggregated, surplus: surplus,
-                target_industry: [selectedIndustries], target_category1: category1, target_category2: category2,
+                target_category: field == '전체종목수' ? null : [field], target_industry: [industry], WillR: 'O', market: market
             }
-            const res = await axios.post(`${API}/formula/findCrossData`, postData);
+            const res = await axios.post(`${API}/formula/findData`, postData);
             setStockTableData(res.data);
         }
     }
 
-    useEffect(() => { getCrossChartData() }, [selectedIndustries, aggregated, surplus, category1, category2])
+
+    const handlerIndustryStockData = async () => {
+        const postData = {
+            aggregated: aggregated, surplus: surplus,
+            target_industry: [selectedIndustries], target_category1: category1, target_category2: category2,
+        }
+        const res = await axios.post(`${API}/formula/findCrossData`, postData);
+        setStockTableData(res.data);
+    }
+
+    useEffect(() => {
+        getCrossChartData();
+
+        // handlerIndustryStockData() 
+    }, [selectedIndustries, aggregated, surplus, category1, category2])
 
     return (
         <Grid container sx={{ mt: 1 }}>
@@ -167,12 +181,15 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
                 </Grid>
             </Grid>
 
+            {/* 업종명 / 선택자 */}
             <Grid item container sx={{ minHeight: 30 }}>
                 {
                     filter.field === null ? '' :
                         <Typography>{filter.industry}, {filter.field}</Typography>
                 }
             </Grid>
+
+            {/* 하단 종목 리스트 */}
             <Grid item container sx={{ height: 440, width: "100%" }}
                 onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                 onMouseLeave={() => swiperRef.current.mousewheel.enable()}
@@ -230,57 +247,6 @@ const table_columns = [
         align: 'right', headerAlign: 'center',
     }, {
         field: '미집계', headerName: '미집계', width: 60,
-        align: 'right', headerAlign: 'center',
-    }
-]
-
-const stockTable_columns = [
-    {
-        field: 'id', headerName: '순번', width: 20,
-        align: 'center', headerAlign: 'center',
-        valueFormatter: (params) => {
-            return parseInt(params.value) + 1;
-        }
-    }, {
-        field: '업종명', headerName: '업종명', width: 120,
-        align: 'left', headerAlign: 'center',
-    }, {
-        field: '종목명', headerName: '종목명', width: 120,
-        align: 'left', headerAlign: 'center',
-    }, {
-        field: '동일업종PER', headerName: '동 PER', width: 60,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: 'PER', headerName: 'PER', width: 60,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: 'PBR', headerName: 'PBR', width: 60,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: '부채비율', headerName: '부채비율', width: 65,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            if (params.value == null) { return ''; }
-            return `${(parseInt(params.value)).toLocaleString('kr')} %`;
-        }
-    }, {
-        field: '유보율', headerName: '유보율', width: 70,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            if (params.value == null) { return ''; }
-            return `${(parseInt(params.value)).toLocaleString('kr')} %`;
-        }
-    }, {
-        field: '이벤트', headerName: 'Event', width: 250,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: 'WillR9', headerName: 'WillR9', width: 60,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: 'WillR14', headerName: 'WillR14', width: 60,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: 'WillR33', headerName: 'WillR33', width: 60,
         align: 'right', headerAlign: 'center',
     }
 ]

@@ -7,8 +7,10 @@ import { DataTableStyleDefault, StyledToggleButton } from './util/util';
 import SearchFinancialInfo from './SearchFinancial/info';
 // import TreeMap from './SearchFinancial/treeMap';
 import { Table, Tree, Cross } from './SearchFinancial/selectedPage';
+import { stockTable_columns } from './SearchFinancial/tableColumns';
 // import CrossChartPage from './SearchFinancial/crossChartPage';
 import { API, STOCK } from './util/config';
+
 
 
 export default function SearchFinancial({ swiperRef }) {
@@ -29,6 +31,7 @@ export default function SearchFinancial({ swiperRef }) {
     const fetchData = async () => {
         const res = await axios.get(`${API}/formula/searchFinancial`);
         setTableData(res.data);
+        console.log(res.data);
         // const res2 = await axios.get(`${API}/formula/searchFinancial_market`);
     }
 
@@ -81,136 +84,82 @@ export default function SearchFinancial({ swiperRef }) {
     useEffect(() => { fetchData() }, [page])
     useEffect(() => {
         if (stockCode != null) {
-            console.log(stockCode, timeframe);
             getStockChartData(stockCode, timeframe)
         }
     }, [stockCode, timeframe]);
 
-    const stockTable_columns = [
-        {
-            field: 'id', headerName: '순번', width: 20,
-            align: 'center', headerAlign: 'center',
-            valueFormatter: (params) => {
-                return parseInt(params.value) + 1;
-            }
-        }, {
-            field: '업종명', headerName: '업종명', width: 120,
-            align: 'left', headerAlign: 'center',
-        }, {
-            field: '종목명', headerName: '종목명', width: 120,
-            align: 'left', headerAlign: 'center',
-        }, {
-            field: '동일업종PER', headerName: '동 PER', width: 60,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: 'PER', headerName: 'PER', width: 60,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: 'PBR', headerName: 'PBR', width: 60,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: '부채비율', headerName: '부채비율', width: 65,
-            align: 'right', headerAlign: 'center',
-            valueFormatter: (params) => {
-                if (params.value == null) { return ''; }
-                return `${(parseInt(params.value)).toLocaleString('kr')} %`;
-            }
-        }, {
-            field: '유보율', headerName: '유보율', width: 70,
-            align: 'right', headerAlign: 'center',
-            valueFormatter: (params) => {
-                if (params.value == null) { return ''; }
-                return `${(parseInt(params.value)).toLocaleString('kr')} %`;
-            }
-        }, {
-            field: '이벤트', headerName: 'Event', width: 250,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: 'WillR9', headerName: 'WillR9', width: 60,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: 'WillR14', headerName: 'WillR14', width: 60,
-            align: 'right', headerAlign: 'center',
-        }, {
-            field: 'WillR33', headerName: 'WillR33', width: 60,
-            align: 'right', headerAlign: 'center',
-        }
-    ]
-
     return (
         <Grid container>
-            <Grid item container sx={{ mt: 1 }}>
-                <ToggleButtonGroup
-                    color='info'
-                    exclusive
-                    size="small"
-                    value={page}
-                    onChange={handlePage}
-                    sx={{ pl: 1.3 }}
-                >
-                    <StyledToggleButton fontSize={'10px'} value="Table">Table</StyledToggleButton>
-                    <StyledToggleButton fontSize={'10px'} value="Tree">Tree</StyledToggleButton>
-                    <StyledToggleButton fontSize={'10px'} value="Cross">Cross</StyledToggleButton>
-                </ToggleButtonGroup>
-            </Grid>
-
-            <Grid item container>
-                {/* 좌 : Table, TreeMap, ChrossChart */}
-                <Grid item xs={8}>
-
-                    {page !== 'Cross' ?
-                        <>
-                            <ContentsComponent
-                                swiperRef={swiperRef} page={page} tableData={tableData}
-                                getIndustryStockData={getIndustryStockData} onIndustryClick={onIndustryClick} getStockCode={getStockCode} getStockChartData={getStockChartData} />
-
-                            <Grid item container sx={{ minHeight: 30 }}>
-                                {
-                                    filter.field === null ? '' :
-                                        <Typography>{filter.industry}, {filter.field}</Typography>
-                                }
-                            </Grid>
-                            <Grid item container sx={{ height: 440, width: "100%" }}
-                                onMouseEnter={() => swiperRef.current.mousewheel.disable()}
-                                onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-                            >
-                                <ThemeProvider theme={customTheme}>
-                                    <DataGrid
-                                        rows={stockTableData}
-                                        columns={stockTable_columns}
-                                        rowHeight={25}
-                                        onCellClick={(params, event) => {
-                                            getStockCode(params.row);
-                                            setStockCode(params.row.종목코드);
-                                            // getStockChartData(params.row.종목코드, timeframe);
-                                        }}
-                                        disableRowSelectionOnClick
-                                        sx={{
-                                            color: 'white', border: 'none',
-                                            ...DataTableStyleDefault,
-                                            [`& .${gridClasses.cell}`]: { py: 1, },
-                                            '.MuiTablePagination-root': { color: '#efe9e9ed' },
-                                            '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
-                                            '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
-                                            '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
-                                            '[data-field="이벤트"]': { borderLeft: '1.5px solid #ccc', borderRight: '1.5px solid #ccc' },
-                                        }}
-                                    />
-                                </ThemeProvider>
-                            </Grid>
-                        </>
-                        :
-                        <Cross swiperRef={swiperRef} tableData={tableData} getStockCode={getStockCode} getStockChartData={getStockChartData} setStockCode={setStockCode} />
-                    }
-
+            {/* 좌 : Table, TreeMap, ChrossChart */}
+            <Grid item xs={8}>
+                {/* Selected BTN */}
+                <Grid item container sx={{ mt: 0.5 }}>
+                    <ToggleButtonGroup
+                        color='info'
+                        exclusive
+                        size="small"
+                        value={page}
+                        onChange={handlePage}
+                        sx={{ pl: 1.3 }}
+                    >
+                        <StyledToggleButton fontSize={'10px'} value="Table">Table</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="Tree">Tree</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="Cross">Cross</StyledToggleButton>
+                    </ToggleButtonGroup>
                 </Grid>
 
-                {/* 우 : 종목정보 */}
-                <Grid item xs={4}>
-                    <SearchFinancialInfo swiperRef={swiperRef} stock={stock} stockChart={stockChart} timeframe={timeframe} handleTimeframe={handleTimeframe} />
-                </Grid>
+                {page !== 'Cross' ?
+                    <>
+                        <ContentsComponent
+                            swiperRef={swiperRef} page={page} tableData={tableData}
+                            getIndustryStockData={getIndustryStockData} onIndustryClick={onIndustryClick} getStockCode={getStockCode} getStockChartData={getStockChartData} />
+
+                        <Grid item container sx={{ minHeight: 30 }}>
+                            {
+                                filter.field === null ? '' :
+                                    <Typography>{filter.industry}, {filter.field}</Typography>
+                            }
+                        </Grid>
+                        <Grid item container sx={{ height: 440, width: "100%" }}
+                            onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                            onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+                        >
+                            <ThemeProvider theme={customTheme}>
+                                <DataGrid
+                                    rows={stockTableData}
+                                    columns={stockTable_columns}
+                                    rowHeight={25}
+                                    onCellClick={(params, event) => {
+                                        getStockCode(params.row);
+                                        setStockCode(params.row.종목코드);
+                                        // getStockChartData(params.row.종목코드, timeframe);
+                                    }}
+                                    disableRowSelectionOnClick
+                                    sx={{
+                                        color: 'white', border: 'none',
+                                        ...DataTableStyleDefault,
+                                        [`& .${gridClasses.cell}`]: { py: 1, },
+                                        '.MuiTablePagination-root': { color: '#efe9e9ed' },
+                                        '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
+                                        '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
+                                        '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
+                                        '[data-field="이벤트"]': { borderLeft: '1.5px solid #ccc', borderRight: '1.5px solid #ccc' },
+                                    }}
+                                />
+                            </ThemeProvider>
+                        </Grid>
+                    </>
+                    :
+                    <Cross swiperRef={swiperRef} tableData={tableData} getStockCode={getStockCode} getStockChartData={getStockChartData} setStockCode={setStockCode} />
+                }
 
             </Grid>
+
+            {/* 우 : 종목정보 */}
+            <Grid item xs={4}>
+                <SearchFinancialInfo swiperRef={swiperRef} stock={stock} stockChart={stockChart} timeframe={timeframe} handleTimeframe={handleTimeframe} />
+            </Grid>
+
         </Grid>
     )
 }
