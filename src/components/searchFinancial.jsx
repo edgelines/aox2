@@ -59,7 +59,8 @@ export default function SearchFinancial({ swiperRef }) {
 
     const getStockChartData = async (code, timeframe) => {
         const res = await axios.get(`${STOCK}/get/${code}?week=${timeframe}`);
-        console.log(res.data.price);
+
+        console.table(res.data.price);
         setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury })
     }
     const getIndustryStockData = async (params) => {
@@ -75,7 +76,6 @@ export default function SearchFinancial({ swiperRef }) {
             const res = await axios.post(`${API}/formula/findData`, postData);
             setStockTableData(res.data);
         }
-
     }
 
     useEffect(() => { fetchData() }, [page])
@@ -157,28 +157,32 @@ export default function SearchFinancial({ swiperRef }) {
             <Grid item container>
                 {/* 좌 : Table, TreeMap, ChrossChart */}
                 <Grid item xs={8}>
-                    {/* <Grid item container>
-                        <Grid item xs={2.1}></Grid>
-                        <Grid item xs={1.9}>집계</Grid>
-                        <Grid item xs={1.6}>분기</Grid>
-                        <Grid item xs={1.3}>흑자</Grid>
-                    </Grid>
-                    <Grid item container sx={{ height: 440, width: "100%" }}
-                        onMouseEnter={() => swiperRef.current.mousewheel.disable()}
-                        onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-                    >
-                        {
-                            page === 'Table' ?
 
+                    {page !== 'Cross' ?
+                        <>
+                            <ContentsComponent
+                                swiperRef={swiperRef} page={page} tableData={tableData}
+                                getIndustryStockData={getIndustryStockData} onIndustryClick={onIndustryClick} getStockCode={getStockCode} getStockChartData={getStockChartData} />
+
+                            <Grid item container sx={{ minHeight: 30 }}>
+                                {
+                                    filter.field === null ? '' :
+                                        <Typography>{filter.industry}, {filter.field}</Typography>
+                                }
+                            </Grid>
+                            <Grid item container sx={{ height: 440, width: "100%" }}
+                                onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                                onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+                            >
                                 <ThemeProvider theme={customTheme}>
-
                                     <DataGrid
-                                        rows={tableData}
-                                        columns={table_columns}
-                                        // getRowHeight={() => 'auto'}
+                                        rows={stockTableData}
+                                        columns={stockTable_columns}
                                         rowHeight={25}
                                         onCellClick={(params, event) => {
-                                            getIndustryStockData(params);
+                                            getStockCode(params.row);
+                                            setStockCode(params.row.종목코드);
+                                            // getStockChartData(params.row.종목코드, timeframe);
                                         }}
                                         disableRowSelectionOnClick
                                         sx={{
@@ -189,62 +193,16 @@ export default function SearchFinancial({ swiperRef }) {
                                             '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
                                             '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
                                             '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
-                                            '[data-field="분기_매출"]': { borderLeft: '1.5px solid #ccc' },
-                                            '[data-field="분기_당기순이익"]': { borderRight: '1.5px solid #ccc' },
-                                            '[data-field="전년동분기대비"]': { borderRight: '1.5px solid #ccc' },
-                                            '[data-field="흑자_당기순이익"]': { borderRight: '1.5px solid #ccc' },
-                                            '[data-field="전체종목수"]': { borderLeft: '1.5px solid #ccc', borderRight: '1.5px solid #ccc' },
-                                            '[data-field="흑자기업"]': { borderRight: '1.5px solid #ccc' },
-                                            // [`& .highlight`]: {
-                                            //     color: 'tomato',
-                                            // },
+                                            '[data-field="이벤트"]': { borderLeft: '1.5px solid #ccc', borderRight: '1.5px solid #ccc' },
                                         }}
                                     />
                                 </ThemeProvider>
-                                : page === 'Tree' ? <>
-                                    <TreeMap data={tableData} onIndustryClick={onIndustryClick} height={440} />
-                                </> :
-                                    <>
-                                        <CrossChartPage swiperRef={swiperRef} data={tableData} />
-                                    </>
-                        }
-                    </Grid> */}
-                    <ContentsComponent swiperRef={swiperRef} page={page} tableData={tableData} getIndustryStockData={getIndustryStockData} onIndustryClick={onIndustryClick} getStockCode={getStockCode} getStockChartData={getStockChartData} />
+                            </Grid>
+                        </>
+                        :
+                        <Cross swiperRef={swiperRef} tableData={tableData} getStockCode={getStockCode} getStockChartData={getStockChartData} setStockCode={setStockCode} />
+                    }
 
-                    <Grid item container sx={{ minHeight: 30 }}>
-                        {
-                            filter.field === null ? '' :
-                                <Typography>{filter.industry}, {filter.field}</Typography>
-                        }
-                    </Grid>
-                    <Grid item container sx={{ height: 440, width: "100%" }}
-                        onMouseEnter={() => swiperRef.current.mousewheel.disable()}
-                        onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-                    >
-                        <ThemeProvider theme={customTheme}>
-                            <DataGrid
-                                rows={stockTableData}
-                                columns={stockTable_columns}
-                                rowHeight={25}
-                                onCellClick={(params, event) => {
-                                    getStockCode(params.row);
-                                    setStockCode(params.row.종목코드);
-                                    // getStockChartData(params.row.종목코드, timeframe);
-                                }}
-                                disableRowSelectionOnClick
-                                sx={{
-                                    color: 'white', border: 'none',
-                                    ...DataTableStyleDefault,
-                                    [`& .${gridClasses.cell}`]: { py: 1, },
-                                    '.MuiTablePagination-root': { color: '#efe9e9ed' },
-                                    '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
-                                    '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
-                                    '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
-                                    '[data-field="이벤트"]': { borderLeft: '1.5px solid #ccc', borderRight: '1.5px solid #ccc' },
-                                }}
-                            />
-                        </ThemeProvider>
-                    </Grid>
                 </Grid>
 
                 {/* 우 : 종목정보 */}
@@ -291,9 +249,6 @@ const ContentsComponent = ({ swiperRef, page, tableData, getIndustryStockData, o
     switch (page) {
         case 'Tree':
             return <Tree tableData={tableData} onIndustryClick={onIndustryClick} />
-
-        case 'Cross':
-            return <Cross swiperRef={swiperRef} tableData={tableData} onIndustryClick={onIndustryClick} getStockCode={getStockCode} getStockChartData={getStockChartData} />
 
         default:
             return <Table swiperRef={swiperRef} tableData={tableData} getIndustryStockData={getIndustryStockData} />

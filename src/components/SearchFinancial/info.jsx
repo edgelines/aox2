@@ -54,7 +54,10 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, time
             </Grid>
 
             <Grid item container sx={{ mt: 1 }}>
-                <StockChart_MA height={400} stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} price={stock.현재가} boxTransform={`translate(10px, 190px)`} treasury={stockChart.treasury} />
+                {Array.isArray(stockChart.price) ?
+                    <StockChart_MA height={400} stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} price={stock.현재가} boxTransform={`translate(10px, -170px)`} treasury={stockChart.treasury} />
+                    : <></>
+                }
             </Grid>
 
         </>

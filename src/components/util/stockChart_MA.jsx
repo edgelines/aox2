@@ -277,7 +277,7 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
                 series: getSeriesData(),
             })
         }
-
+        console.log('stockItemData : ', stockItemData);
         const 오늘종가 = stockItemData.length > 0 ? stockItemData[stockItemData.length - 1][4] : null;
         const 어제종가 = stockItemData.length > 0 ? stockItemData[stockItemData.length - 2][4] : null;
         const 전일대비등락률 = stockItemData.length > 0 ? (오늘종가 - 어제종가) / 어제종가 * 100 : null;
@@ -291,8 +291,8 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
                     options={chartOptions}
                     constructorType={'stockChart'}
                 />
-                <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: boxTransform ? boxTransform : `translate(10px, -142px)`, zIndex: 100 }}>
-                    {stockItemData.length > 0 ?
+                <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: boxTransform ? boxTransform : `translate(10px, 300px)`, zIndex: 100 }}>
+                    {(Array.isArray(stockItemData)) && stockItemData.length > 0 ?
                         <>
                             <Typography sx={{ color: 'black', fontWeight: 600 }}>
                                 {평균단가 ?

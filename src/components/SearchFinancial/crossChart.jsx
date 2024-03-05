@@ -5,7 +5,7 @@ import HighchartsMore from 'highcharts/highcharts-more'
 HighchartsMore(Highcharts)
 require('highcharts/modules/accessibility')(Highcharts)
 
-export default function CrossChart({ data, height, getStockCode, getStockChartData }) {
+export default function CrossChart({ data, height, getStockCode, getStockChartData, setStockCode }) {
     const [chartOptions, setChartOptions] = useState({
         chart: { type: 'scatter', height: height, backgroundColor: 'rgba(255, 255, 255, 0)' },
         credits: { enabled: false }, title: { text: null },
@@ -81,10 +81,10 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
                 point: {
                     events: {
                         click: function () {
-                            console.log(this.options);
                             // onCode(this.options);
                             getStockCode(this.options);
                             getStockChartData(this.options.종목코드);
+                            setStockCode(this.options.종목코드);
                         }
                     }
                 }

@@ -9,8 +9,6 @@ import TreeMap from './treeMap';
 import { customTheme } from './util';
 import CrossChartPage from './crossChartPage';
 import { API } from '../util/config';
-import CrossChart from './crossChart';
-
 
 const table_columns = [
     {
@@ -26,13 +24,13 @@ const table_columns = [
         field: '업종명', headerName: '업종명', width: 120,
         align: 'left', headerAlign: 'center',
     }, {
-        field: '집계_매출', headerName: '매출', width: 60,
+        field: '가결산_매출', headerName: '매출', width: 60,
         align: 'right', headerAlign: 'center',
     }, {
-        field: '집계_영업이익', headerName: '영업이익', width: 60,
+        field: '가결산_영업이익', headerName: '영업이익', width: 60,
         align: 'right', headerAlign: 'center',
     }, {
-        field: '집계_당기순이익', headerName: '순이익', width: 60,
+        field: '가결산_당기순이익', headerName: '순이익', width: 60,
         align: 'right', headerAlign: 'center',
     }, {
         field: '분기_매출', headerName: '매출', width: 60,
@@ -185,11 +183,13 @@ export function Tree({ tableData, onIndustryClick }) {
     )
 }
 
-export function Cross({ swiperRef, tableData, onIndustryClick, getStockCode, getStockChartData }) {
+export function Cross({ swiperRef, tableData, onIndustryClick, getStockCode, getStockChartData, setStockCode }) {
 
     return (
         <Grid container>
-            <CrossChartPage swiperRef={swiperRef} data={tableData} onIndustryClick={(업종명) => onIndustryClick(업종명, null, '흑자기업')} getStockCode={getStockCode} getStockChartData={getStockChartData} />
+            <CrossChartPage swiperRef={swiperRef} data={tableData}
+                setStockCode={setStockCode}
+                onIndustryClick={(업종명) => onIndustryClick(업종명, null, '흑자기업')} getStockCode={getStockCode} getStockChartData={getStockChartData} />
         </Grid>
     )
 }
