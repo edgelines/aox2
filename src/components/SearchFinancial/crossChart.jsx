@@ -7,7 +7,7 @@ require('highcharts/modules/accessibility')(Highcharts)
 
 export default function CrossChart({ data, height, getStockCode, getStockChartData, setStockCode }) {
     const [chartOptions, setChartOptions] = useState({
-        chart: { type: 'scatter', height: height, backgroundColor: 'rgba(255, 255, 255, 0)' },
+        chart: { type: 'scatter', height: height, backgroundColor: 'rgba(255, 255, 255, 0)', zoomType: 'xy' },
         credits: { enabled: false }, title: { text: null },
         navigation: { buttonOptions: { enabled: false } },
         xAxis: {

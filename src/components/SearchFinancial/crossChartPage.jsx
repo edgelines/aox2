@@ -117,7 +117,7 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
                         onChange={() => {
                             setAggregated(!aggregated);
                         }}
-                        sx={{ ml: 1, fontSize: '9px', width: 53 }}>
+                        sx={{ ml: 1, fontSize: '9px', width: 60 }}>
                         {aggregated ? '집계' : '미집계'}
                     </StyledToggleButton>
 
