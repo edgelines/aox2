@@ -61,7 +61,7 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
         let market = params.market ? params.market : null
         setFilter({ field: field, industry: industry })
 
-        if (field != 'id' && field != '업종명' && field != '흑자기업수') {
+        if (field != 'id' && field != '업종명' && field != '흑자기업수' && field != '순위') {
             const postData = {
                 target_category: field == '전체종목수' ? null : [field], target_industry: [industry], WillR: 'O', market: market
             }
