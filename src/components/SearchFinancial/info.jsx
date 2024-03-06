@@ -13,7 +13,7 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, time
     return (
         <>
 
-            <Grid item container sx={{ minHeight: 200 }}>
+            <Grid item container sx={{ minHeight: 170 }}>
                 {Array.isArray(stock.기업개요) ?
                     <StockInfo data={stock} />
                     : <></>
@@ -55,7 +55,7 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, time
 
             <Grid item container sx={{ mt: 1 }}>
                 {Array.isArray(stockChart.price) ?
-                    <StockChart_MA height={430} stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} price={stock.현재가} boxTransform={`translate(10px, -170px)`} treasury={stockChart.treasury} />
+                    <StockChart_MA height={460} stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} price={stock.현재가} boxTransform={`translate(10px, -170px)`} treasury={stockChart.treasury} />
                     : <></>
                 }
             </Grid>
@@ -84,6 +84,8 @@ const StockInfo = ({ data }) => {
                 <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
                     <StyledTypography_StockInfo fontSize="12px">K_PER</StyledTypography_StockInfo>
                     <StyledTypography_StockInfo fontSize="12px">{data.PER}</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">K_PBR</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">{data.PBR}</StyledTypography_StockInfo>
                     <StyledTypography_StockInfo fontSize="12px">EPS</StyledTypography_StockInfo>
                     <StyledTypography_StockInfo fontSize="12px">{data.EPS.toLocaleString('kr')} 원</StyledTypography_StockInfo>
                 </Stack>
@@ -92,20 +94,10 @@ const StockInfo = ({ data }) => {
                 <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
                     <StyledTypography_StockInfo fontSize="12px">N_PER</StyledTypography_StockInfo>
                     <StyledTypography_StockInfo fontSize="12px">{data.N_PER}</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">BPS</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">{data.BPS.toLocaleString('kr')} 원</StyledTypography_StockInfo>
-                </Stack>
-            </Grid>
-            <Grid item container>
-                <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
-                    <StyledTypography_StockInfo fontSize="12px">K_PBR</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">{data.PBR}</StyledTypography_StockInfo>
-                </Stack>
-            </Grid>
-            <Grid item container>
-                <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
                     <StyledTypography_StockInfo fontSize="12px">N_PBR</StyledTypography_StockInfo>
                     <StyledTypography_StockInfo fontSize="12px">{data.N_PBR}</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">BPS</StyledTypography_StockInfo>
+                    <StyledTypography_StockInfo fontSize="12px">{data.BPS.toLocaleString('kr')} 원</StyledTypography_StockInfo>
                 </Stack>
             </Grid>
             <Grid item container>

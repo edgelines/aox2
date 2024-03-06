@@ -148,7 +148,7 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
         buttons: [{
             type: 'month',
             count: 6,
-            text: '일봉',
+            text: timeSeries,
             // title: 'View 3 months'
         }],
         labelStyle: { fontSize: 0, },

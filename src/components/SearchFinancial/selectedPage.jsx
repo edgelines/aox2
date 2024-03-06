@@ -82,7 +82,7 @@ const table_columns = [
 
 export function Table({ swiperRef, tableData, getIndustryStockData }) {
     return (
-        <Grid container>
+        <Grid container sx={{ pr: 2 }}>
             <Grid item container>
                 <Grid item xs={2.1}></Grid>
                 <Grid item xs={1.9}>가결산합산/전년도대비</Grid>
@@ -168,7 +168,7 @@ export function Tree({ tableData, onIndustryClick }) {
                         </Stack>
                     </Grid>
                     <Grid item xs={4}>
-                        <Stack direction='row' spacing={2} sx={{ pl: 5, pt: 1, border: '1px solid red' }}>
+                        <Stack direction='row' spacing={2} sx={{ pl: 5, pt: 1 }}>
                             <StyledTypography_StockInfo fontSize="15px">코스닥</StyledTypography_StockInfo>
                             <StyledTypography_StockInfo fontSize="15px">{treeMapData.Kosdaq_profitable}</StyledTypography_StockInfo>
                             <StyledTypography_StockInfo fontSize="15px">/</StyledTypography_StockInfo>
