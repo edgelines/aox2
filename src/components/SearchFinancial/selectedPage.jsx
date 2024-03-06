@@ -24,7 +24,7 @@ const table_columns = [
         field: '업종명', headerName: '업종명', width: 120,
         align: 'left', headerAlign: 'center',
     }, {
-        field: '가결산_매출', headerName: '매출', width: 55,
+        field: '가결산_매출', headerName: '매출+', width: 55,
         align: 'right', headerAlign: 'center',
     }, {
         field: '가결산_영업이익', headerName: '영업이익', width: 55,
@@ -33,7 +33,7 @@ const table_columns = [
         field: '가결산_당기순이익', headerName: '순이익', width: 55,
         align: 'right', headerAlign: 'center',
     }, {
-        field: '분기_매출', headerName: '매출', width: 55,
+        field: '분기_매출', headerName: '매출+', width: 55,
         align: 'right', headerAlign: 'center',
     }, {
         field: '분기_영업이익', headerName: '영업이익', width: 55,
@@ -160,20 +160,20 @@ export function Tree({ tableData, onIndustryClick }) {
                 <Grid item xs={8} container direction='row' alignItems="center" justifyContent="center" >
                     <Grid item xs={9}>
                         <Stack direction='row' spacing={2} sx={{ pl: 10, pt: 1 }}>
-                            <StyledTypography_StockInfo fontSize="11px">코스피</StyledTypography_StockInfo>
-                            <StyledTypography_StockInfo fontSize="11px">{treeMapData.Kospi_profitable}</StyledTypography_StockInfo>
-                            <StyledTypography_StockInfo fontSize="11px">/</StyledTypography_StockInfo>
-                            <StyledTypography_StockInfo fontSize="11px">{treeMapData.Kospi_total}</StyledTypography_StockInfo>
-                            <StyledTypography_StockInfo fontSize="11px">{parseInt(treeMapData.Kospi_profitable / treeMapData.Kospi_total * 100)}%</StyledTypography_StockInfo>
+                            <StyledTypography_StockInfo fontSize="13px">코스피</StyledTypography_StockInfo>
+                            <StyledTypography_StockInfo fontSize="13px">{treeMapData.Kospi_profitable}</StyledTypography_StockInfo>
+                            <StyledTypography_StockInfo fontSize="13px">/</StyledTypography_StockInfo>
+                            <StyledTypography_StockInfo fontSize="13px">{treeMapData.Kospi_total}</StyledTypography_StockInfo>
+                            <StyledTypography_StockInfo fontSize="13px">{parseInt(treeMapData.Kospi_profitable / treeMapData.Kospi_total * 100)}%</StyledTypography_StockInfo>
                         </Stack>
                     </Grid>
                     <Grid item xs={3}>
                         <Stack direction='row' spacing={2} sx={{ pl: 5, pt: 1 }}>
-                            <StyledTypography_StockInfo fontSize="11px">코스닥</StyledTypography_StockInfo>
-                            <StyledTypography_StockInfo fontSize="11px">{treeMapData.Kosdaq_profitable}</StyledTypography_StockInfo>
-                            <StyledTypography_StockInfo fontSize="11px">/</StyledTypography_StockInfo>
-                            <StyledTypography_StockInfo fontSize="11px">{treeMapData.Kosdaq_total}</StyledTypography_StockInfo>
-                            <StyledTypography_StockInfo fontSize="11px">{parseInt(treeMapData.Kosdaq_profitable / treeMapData.Kosdaq_total * 100)}%</StyledTypography_StockInfo>
+                            <StyledTypography_StockInfo fontSize="13px">코스닥</StyledTypography_StockInfo>
+                            <StyledTypography_StockInfo fontSize="13px">{treeMapData.Kosdaq_profitable}</StyledTypography_StockInfo>
+                            <StyledTypography_StockInfo fontSize="13px">/</StyledTypography_StockInfo>
+                            <StyledTypography_StockInfo fontSize="13px">{treeMapData.Kosdaq_total}</StyledTypography_StockInfo>
+                            <StyledTypography_StockInfo fontSize="13px">{parseInt(treeMapData.Kosdaq_profitable / treeMapData.Kosdaq_total * 100)}%</StyledTypography_StockInfo>
                         </Stack>
                     </Grid>
                 </Grid>
