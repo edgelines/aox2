@@ -15,7 +15,7 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
     const categories1 = [['가결산합산/전년도대비', '가결산'], ['전분기대비', '분기'], ['전년동분기대비', '전년동분기대비']]
     const categories2 = ['매출', '영업이익', '당기순이익']
 
-    const [selectedIndustries, setSelectedIndustries] = useState(data[0].업종명);
+    const [selectedIndustries, setSelectedIndustries] = useState(null);
     const [filter, setFilter] = useState({ field: null, industry: null })
     const [stockTableData, setStockTableData] = useState([]);
 
@@ -79,10 +79,15 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
         const res = await axios.post(`${API}/formula/findCrossData`, postData);
         setStockTableData(res.data);
     }
-
+    // useEffect(() => {
+    //     if (Array.isArray(data)) {
+    //         setSelectedIndustries(data[0].업종명)
+    //     }
+    // }, [])
     useEffect(() => {
-        getCrossChartData();
-
+        if (selectedIndustries !== null) {
+            getCrossChartData();
+        }
         // handlerIndustryStockData() 
     }, [selectedIndustries, aggregated, surplus, category1, category2])
 

@@ -15,7 +15,7 @@ import { API, STOCK } from './util/config';
 
 export default function SearchFinancial({ swiperRef }) {
 
-    const [page, setPage] = useState('Table');
+    const [page, setPage] = useState('Cross');
     const [stockCode, setStockCode] = useState(null);
     const [timeframe, setTimeframe] = useState('day')
     const [filter, setFilter] = useState({ field: null, industry: null })
@@ -102,9 +102,9 @@ export default function SearchFinancial({ swiperRef }) {
                         onChange={handlePage}
                         sx={{ pl: 1.3 }}
                     >
+                        <StyledToggleButton fontSize={'10px'} value="Cross">Cross</StyledToggleButton>
                         <StyledToggleButton fontSize={'10px'} value="Table">Table</StyledToggleButton>
                         <StyledToggleButton fontSize={'10px'} value="Tree">Tree</StyledToggleButton>
-                        <StyledToggleButton fontSize={'10px'} value="Cross">Cross</StyledToggleButton>
                     </ToggleButtonGroup>
                 </Grid>
 
