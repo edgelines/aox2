@@ -265,6 +265,18 @@ function App() {
                     />
                 </SwiperSlide>
 
+                <SwiperSlide style={swiperSlideStyle} >
+                    <HTS swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <IpoPulse swiperRef={swiperRef} />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <SearchFinancial swiperRef={swiperRef} />
+                </SwiperSlide>
+
                 <SwiperSlide style={{ backgroundColor: "#404040", color: '#efe9e9ed' }}>
                     <SectorsChartPage
                         filteredChartData={filteredChartData} sectorsRanksThemes={sectorsRanksThemes}
@@ -278,18 +290,6 @@ function App() {
                         onCheckboxStatusTup={handleCheckboxStatusTup}
                         onCheckboxAll={handleCheckboxStatusAll}
                     />
-                </SwiperSlide>
-
-                <SwiperSlide style={swiperSlideStyle} >
-                    <HTS swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
-                </SwiperSlide>
-
-                <SwiperSlide style={swiperSlideStyle} >
-                    <IpoPulse swiperRef={swiperRef} />
-                </SwiperSlide>
-
-                <SwiperSlide style={swiperSlideStyle} >
-                    <SearchFinancial swiperRef={swiperRef} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -322,7 +322,7 @@ function App() {
                     <CtpPage swiperRef={swiperRef} ElwBarData={ElwBarData} ElwWeightedAvg={ElwWeightedAvg} />
                 </SwiperSlide>
 
-                
+
             </Swiper>
         </div >
     );
