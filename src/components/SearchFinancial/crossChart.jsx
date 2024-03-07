@@ -42,7 +42,7 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
             backgroundColor: 'rgba(255, 255, 255, 0.5)',
             formatter: function () {
                 // console.log(this.point)
-                return `${this.point.name}<br/>매출 : ${this.point.y} % (${numberWithCommas(this.point.매출액)} 억)<br/>이익 : ${this.point.x} (${numberWithCommas(this.point.영업이익)} 억)%<br/>순이익: ${numberWithCommas(this.point.당기순이익증가율)}% (${this.point.당기순이익} 억)`
+                return `${this.point.name}<br/>매출 : ${this.point.y} % (${numberWithCommas(this.point.매출액)} 억)<br/>이익 : ${this.point.x} % (${numberWithCommas(this.point.영업이익)} 억)<br/>순이익: ${numberWithCommas(this.point.당기순이익증가율)}% (${this.point.당기순이익} 억)`
 
             },
         },
