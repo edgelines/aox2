@@ -22,8 +22,8 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
     const [stockTableData, setStockTableData] = useState([]);
 
     // chart data params
-    const [aggregated, setAggregated] = useState(null); // 집계 미집계 
-    const [surplus, setSurplus] = useState(false); // 흑자, 전체
+    const [aggregated, setAggregated] = useState(true); // 집계 미집계 
+    const [surplus, setSurplus] = useState(true); // 흑자, 전체
     const [category1, setCategory1] = useState('분기')
     const [category2, setCategory2] = useState(() => ['매출', '영업이익', '당기순이익'])
     const [chartData, setChartData] = useState([]);
@@ -49,6 +49,7 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
                 break;
         }
         setSelectedIndustries(params.row.업종명);
+        setFilter({ field: params.field, industry: params.row.업종명 })
     };
 
     const handleCategory1 = (event, value) => {
@@ -71,7 +72,6 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
             aggregated: aggregated, surplus: surplus,
             target_industry: [selectedIndustries], target_category1: [category1], target_category2: category2,
         }
-        console.log(postData);
         const res = await axios.post(`${API}/formula/crossChart`, postData);
         setChartData(res.data);
         // console.log(res.data);

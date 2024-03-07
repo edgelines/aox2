@@ -59,7 +59,7 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
     };
 
     useEffect(() => {
-        console.log(data);
+        // console.log(data);
         setChartOptions({
             plotOptions: plotOption,
             series: [{
