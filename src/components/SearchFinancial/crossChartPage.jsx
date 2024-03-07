@@ -51,16 +51,6 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
         setSelectedIndustries(params.row.업종명);
     };
 
-    const test = async () => {
-        const postData = {
-            aggregated: aggregated, surplus: surplus,
-            target_industry: [selectedIndustries], target_category1: [category1], target_category2: category2,
-        }
-        console.log(postData)
-        const res = await axios.post(`http://cycleofnature.iptime.org:2440/api/test/post`, postData);
-
-    }
-
     const handleCategory1 = (event, value) => {
         if (value !== null) { setCategory1(value); }
     };
@@ -89,25 +79,7 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
     }
 
     // < 하단 테이블 >
-    const getIndustryStockData = async (params) => {
-        let field = params.field;
-        let industry = params.row.업종명;
-        let market = params.market ? params.market : null
-        setFilter({ field: field, industry: industry })
-
-        if (field != 'id' && field != '업종명' && field != '흑자기업수' && field != '순위') {
-            const postData = {
-                target_category: field == '전체종목수' ? null : [field], target_industry: [industry], WillR: 'O', market: market
-            }
-            const res = await axios.post(`${API}/formula/findData`, postData);
-            setStockTableData(res.data);
-        }
-    }
     const handlerIndustryStockData = async () => {
-        // const postData = {
-        //     aggregated: aggregated, surplus: surplus,
-        //     target_industry: [selectedIndustries], target_category1: category1, target_category2: category2,
-        // }
         const postData = {
             target_category: surplus == true ? ['흑자'] : null, target_industry: [selectedIndustries], WillR: 'O', market: null
         }
