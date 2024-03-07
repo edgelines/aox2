@@ -10,31 +10,59 @@ import { API } from '../util/config';
 import { stockTable_columns } from './tableColumns';
 
 // 
-export default function CrossChartPage({ swiperRef, data, getStockCode, getStockChartData, setStockCode }) {
+export default function CrossChartPage({ swiperRef, getStockCode, getStockChartData, setStockCode }) {
     // List
     const categories1 = [['가결산합산/전년도대비', '가결산'], ['전분기대비', '분기'], ['전년동분기대비', '전년동분기대비']]
     const categories2 = ['매출', '영업이익', '당기순이익']
+
+    const [tableData, setTableData] = useState([]);
 
     const [selectedIndustries, setSelectedIndustries] = useState(null);
     const [filter, setFilter] = useState({ field: null, industry: null })
     const [stockTableData, setStockTableData] = useState([]);
 
     // chart data params
-    const [aggregated, setAggregated] = useState(true); // 집계 미집계 
-    const [surplus, setSurplus] = useState(true); // 흑자, 전체
-    const [category1, setCategory1] = useState(() => ['가결산', '분기', '전년동분기대비'])
+    const [aggregated, setAggregated] = useState(null); // 집계 미집계 
+    const [surplus, setSurplus] = useState(false); // 흑자, 전체
+    const [category1, setCategory1] = useState('분기')
     const [category2, setCategory2] = useState(() => ['매출', '영업이익', '당기순이익'])
     const [chartData, setChartData] = useState([]);
 
     // 키워드 클릭 시 호출되는 함수
-    const handleSelectedIndustries = (keyword) => {
-        setSelectedIndustries(keyword);
+
+    /** 업종명 선택 */
+    const handleSelectedIndustries = async (params) => {
+        switch (params.field) {
+            case '흑자기업':
+                setAggregated(true);
+                setSurplus(true);
+                break;
+
+            case '미집계':
+                setAggregated(false);
+                setSurplus(false);
+                break;
+
+            default:
+                setAggregated(null);
+                setSurplus(false);
+                break;
+        }
+        setSelectedIndustries(params.row.업종명);
     };
 
-    const handleCategory1 = (event, newCategory) => {
-        if (newCategory.length) {
-            setCategory1(newCategory);
+    const test = async () => {
+        const postData = {
+            aggregated: aggregated, surplus: surplus,
+            target_industry: [selectedIndustries], target_category1: [category1], target_category2: category2,
         }
+        console.log(postData)
+        const res = await axios.post(`http://cycleofnature.iptime.org:2440/api/test/post`, postData);
+
+    }
+
+    const handleCategory1 = (event, value) => {
+        if (value !== null) { setCategory1(value); }
     };
     const handleCategory2 = (event, newCategory) => {
         if (newCategory.length) {
@@ -42,11 +70,16 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
         }
     };
 
+    const fetchData = async () => {
+        const res = await axios.get(`${API}/formula/searchFinancial`);
+        setTableData(res.data);
+        setSelectedIndustries(res.data[0].업종명)
+    }
 
     const getCrossChartData = async () => {
         const postData = {
             aggregated: aggregated, surplus: surplus,
-            target_industry: [selectedIndustries], target_category1: category1, target_category2: category2,
+            target_industry: [selectedIndustries], target_category1: [category1], target_category2: category2,
         }
         console.log(postData);
         const res = await axios.post(`${API}/formula/crossChart`, postData);
@@ -55,6 +88,7 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
         // console.log(field, industry);
     }
 
+    // < 하단 테이블 >
     const getIndustryStockData = async (params) => {
         let field = params.field;
         let industry = params.row.업종명;
@@ -69,26 +103,24 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
             setStockTableData(res.data);
         }
     }
-
-
     const handlerIndustryStockData = async () => {
+        // const postData = {
+        //     aggregated: aggregated, surplus: surplus,
+        //     target_industry: [selectedIndustries], target_category1: category1, target_category2: category2,
+        // }
         const postData = {
-            aggregated: aggregated, surplus: surplus,
-            target_industry: [selectedIndustries], target_category1: category1, target_category2: category2,
+            target_category: surplus == true ? ['흑자'] : null, target_industry: [selectedIndustries], WillR: 'O', market: null
         }
-        const res = await axios.post(`${API}/formula/findCrossData`, postData);
+        const res = await axios.post(`${API}/formula/findData`, postData);
         setStockTableData(res.data);
+
     }
-    // useEffect(() => {
-    //     if (Array.isArray(data)) {
-    //         setSelectedIndustries(data[0].업종명)
-    //     }
-    // }, [])
+    useEffect(() => { fetchData() }, [])
     useEffect(() => {
         if (selectedIndustries !== null) {
             getCrossChartData();
+            handlerIndustryStockData()
         }
-        // handlerIndustryStockData() 
     }, [selectedIndustries, aggregated, surplus, category1, category2])
 
     return (
@@ -100,12 +132,12 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}>
                     <ThemeProvider theme={customTheme}>
                         <DataGrid
-                            rows={data}
+                            rows={tableData}
                             columns={table_columns}
                             rowHeight={25}
                             onCellClick={(params, event) => {
-                                handleSelectedIndustries(params.row.업종명);
-                                getIndustryStockData(params);
+                                handleSelectedIndustries(params);
+                                // getIndustryStockData(params);
                             }}
                             disableRowSelectionOnClick
                             sx={{
@@ -130,7 +162,7 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
                 {/* Filter */}
                 <Grid item container sx={{ pl: 2 }}>
 
-                    <StyledToggleButton
+                    {/* <StyledToggleButton
                         value='aggregated'
                         selected={aggregated}
                         onChange={() => {
@@ -138,7 +170,7 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
                         }}
                         sx={{ ml: 1, fontSize: '9px', width: 60 }}>
                         {aggregated ? '집계' : '미집계'}
-                    </StyledToggleButton>
+                    </StyledToggleButton> */}
 
                     <StyledToggleButton
                         value='check'
@@ -152,6 +184,7 @@ export default function CrossChartPage({ swiperRef, data, getStockCode, getStock
 
 
                     <ToggleButtonGroup
+                        exclusive
                         value={category1}
                         onChange={handleCategory1}
                         size="small"

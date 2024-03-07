@@ -31,8 +31,6 @@ export default function SearchFinancial({ swiperRef }) {
     const fetchData = async () => {
         const res = await axios.get(`${API}/formula/searchFinancial`);
         setTableData(res.data);
-        console.log(res.data);
-        // const res2 = await axios.get(`${API}/formula/searchFinancial_market`);
     }
 
     const onIndustryClick = (업종명, market, field) => {
@@ -150,7 +148,7 @@ export default function SearchFinancial({ swiperRef }) {
                         </Grid>
                     </>
                     :
-                    <Cross swiperRef={swiperRef} tableData={tableData} getStockCode={getStockCode} getStockChartData={getStockChartData} setStockCode={setStockCode} />
+                    <Cross swiperRef={swiperRef} getStockCode={getStockCode} getStockChartData={getStockChartData} setStockCode={setStockCode} />
                 }
 
             </Grid>
