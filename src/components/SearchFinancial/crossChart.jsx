@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { numberWithCommas } from '../util/util'
 import Highcharts from 'highcharts/highstock'
 import HighchartsReact from 'highcharts-react-official'
 import HighchartsMore from 'highcharts/highcharts-more'
@@ -41,7 +42,7 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
             backgroundColor: 'rgba(255, 255, 255, 0.5)',
             formatter: function () {
                 // console.log(this.point)
-                return `${this.point.name}<br/>매출 : ${this.point.y} %<br/>영업이익 : ${this.point.x} %<br/>당기순이익: ${this.point.당기순이익증가율}%`
+                return `${this.point.name}<br/>매출 : ${this.point.y} % (${numberWithCommas(this.point.매출액)} 억)<br/>이익 : ${this.point.x} (${numberWithCommas(this.point.영업이익)} 억)%<br/>순이익: ${numberWithCommas(this.point.당기순이익증가율)}% (${this.point.당기순이익} 억)`
 
             },
         },
@@ -73,6 +74,9 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
                     종목코드: group['종목코드'],
                     종목명: group['종목명'],
                     업종명: group['업종명'],
+                    매출액: group['매출액'],
+                    영업이익: group['영업이익'],
+                    당기순이익: group['당기순이익'],
                     marker: {
                         // radius: 2.4 // 마커 크기 설정
                         radius: Math.sqrt(Math.abs(group['당기순이익증가율']) / 10) + 3 // 마커 크기 설정

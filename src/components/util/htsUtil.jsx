@@ -343,7 +343,7 @@ const FinancialTable = ({ data1, data2 }) => {
                     {
                         dataRows.map(item => (
                             <TableRow key={item}>
-                                <TableCell sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2 }}  >{item}</TableCell>
+                                <TableCell sx={{ color: '#efe9e9ed', fontSize: '10px', p: 0.2, pl: 0.5 }}  >{item}</TableCell>
                                 {data1.map(row => (
                                     <TableCell key={row['날짜']} sx={{ color: row['추정계산'] === 'O' ? '#FCAB2F' : row[item] < 0 ? '#00F3FF' : '#efe9e9ed', ...baseStyle, fontWeight: 'bold' }} >
                                         {row[item] == 0 ? '-' : parseInt(row[item]).toLocaleString('KR')} </TableCell>

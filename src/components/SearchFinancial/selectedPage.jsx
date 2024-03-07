@@ -84,12 +84,12 @@ export function Table({ swiperRef, tableData, getIndustryStockData }) {
     return (
         <Grid container sx={{ pr: 2 }}>
             <Grid item container>
-                <Grid item xs={2.1}></Grid>
-                <Grid item xs={1.9}>가결산합산/전년도대비</Grid>
-                <Grid item xs={1.2}>전분기대비</Grid>
-                <Grid item xs={1.6}>흑자</Grid>
-                <Grid item xs={1.1}></Grid>
-                <Grid item xs={1.3}>미집계</Grid>
+                <Grid item xs={2.2}></Grid>
+                <Grid item xs={1.8} sx={{ backgroundColor: 'rgba(191, 49, 252, 0.6)' }} >가결산합산/전년도대비 (A)</Grid>
+                <Grid item xs={1.2} sx={{ backgroundColor: 'rgba(191, 49, 252, 0.6)' }} >전분기대비 (B)</Grid>
+                <Grid item xs={1.6} sx={{ backgroundColor: 'rgba(191, 49, 252, 0.6)' }} >흑자 (A or B)</Grid>
+                <Grid item xs={0.9} sx={{ backgroundColor: 'rgba(191, 49, 252, 0.6)' }} ></Grid>
+                <Grid item xs={2.2} sx={{ backgroundColor: 'rgba(252, 171, 49, 0.6)' }}>미집계</Grid>
             </Grid>
             <Grid item container sx={{ height: 440, width: "100%" }}
                 onMouseEnter={() => swiperRef.current.mousewheel.disable()}
@@ -114,9 +114,9 @@ export function Table({ swiperRef, tableData, getIndustryStockData }) {
                             '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
                             '[data-field="분기_매출"]': { borderLeft: '1.5px solid #ccc' },
                             '[data-field="분기_당기순이익"]': { borderRight: '1.5px solid #ccc' },
-                            '[data-field="전년동분기대비"]': { borderRight: '1.5px solid #ccc' },
                             '[data-field="흑자_당기순이익"]': { borderRight: '1.5px solid #ccc' },
-                            '[data-field="전체종목수"]': { borderLeft: '1.5px solid #ccc', borderRight: '1.5px solid #ccc' },
+                            '[data-field="전년동분기대비"]': { borderRight: '2.5px solid #FCAB2F' },
+                            '[data-field="전체종목수"]': { borderLeft: '2.5px solid #FCAB2F', borderRight: '1.5px solid #ccc' },
                             '[data-field="흑자기업"]': { borderRight: '1.5px solid #ccc' },
                         }}
                     />

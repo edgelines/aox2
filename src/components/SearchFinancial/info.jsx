@@ -39,7 +39,7 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, time
                 <ContentsComponent page={page} annual={stock.연간실적} quarter={stock.분기실적} summary={stock.기업개요} themes={stock.테마명} product={stock.주요제품매출구성} shareholder={stock.주요주주} />
             </Grid>
 
-            <Grid item container sx={{ mt: 1 }}>
+            {/* <Grid item container sx={{ mt: 1 }}>
                 <ToggleButtonGroup
                     color='info'
                     exclusive
@@ -51,11 +51,11 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, time
                     <StyledToggleButton fontSize={'10px'} value="day">일봉</StyledToggleButton>
                     <StyledToggleButton fontSize={'10px'} value="week">주봉</StyledToggleButton>
                 </ToggleButtonGroup>
-            </Grid>
+            </Grid> */}
 
             <Grid item container sx={{ mt: 1 }}>
                 {Array.isArray(stockChart.price) ?
-                    <StockChart_MA height={460} stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} price={stock.현재가} boxTransform={`translate(10px, -170px)`} treasury={stockChart.treasury} />
+                    <StockChart_MA height={460} stockItemData={stockChart.price} volumeData={stockChart.volume} stockName={stock.종목명} price={stock.현재가} boxTransform={`translate(10px, -200px)`} treasury={stockChart.treasury} />
                     : <></>
                 }
             </Grid>

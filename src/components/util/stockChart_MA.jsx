@@ -15,7 +15,7 @@ Highcharts.setOptions({
     }
 });
 
-const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, 평균단가, height, indicators, price, boxTransform, treasury }) => {
+const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, 평균단가, height, indicators, price, boxTransform, treasury }) => {
     const [전일대비, set전일대비] = useState(null);
     const [chartOptions, setChartOptions] = useState({
         chart: { animation: false, height: height ? height : 360, },
@@ -119,7 +119,7 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
                         this.points.map(function (point) {
                             if (point.series.options.isCandle) {
                                 return `종가 : ${numberWithCommas(point.point.close)}`;
-                                // return `${timeSeries}<br/> 종가 : ${numberWithCommas(point.point.close)}`;
+                                // return `${stockName}<br/> 종가 : ${numberWithCommas(point.point.close)}`;
                             } else if (point.series.options.isPercent) {
                                 return `${point.series.name} : ${parseInt(point.y)} %`;
                             } else {
@@ -148,8 +148,12 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
         buttons: [{
             type: 'month',
             count: 6,
-            text: timeSeries,
+            text: '일봉',
             // title: 'View 3 months'
+        }, {
+            type: 'year',
+            count: 1,
+            text: '주봉',
         }],
         labelStyle: { fontSize: 0, },
     }
@@ -165,7 +169,7 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
     const getSeriesData = () => {
         // 겹치는 데이터를 먼저 생성합니다.
         let seriesData = [{
-            data: stockItemData, name: timeSeries, showInLegend: false, isCandle: true, marker: { enabled: false, states: { hover: { enabled: false } } },
+            data: stockItemData, name: stockName, showInLegend: false, isCandle: true, marker: { enabled: false, states: { hover: { enabled: false } } },
             id: 'candlestick', type: 'candlestick', upLineColor: "orangered", upColor: "orangered", lineColor: "dodgerblue", color: "dodgerblue",
         }, {
             type: 'column', id: 'volume', name: 'volume', showInLegend: false,
@@ -277,12 +281,15 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
                 series: getSeriesData(),
             })
         }
-        console.log('stockItemData : ', stockItemData);
+        // console.log('stockItemData : ', stockItemData);
         const 오늘종가 = stockItemData.length > 0 ? stockItemData[stockItemData.length - 1][4] : null;
         const 어제종가 = stockItemData.length > 0 ? stockItemData[stockItemData.length - 2][4] : null;
         const 전일대비등락률 = stockItemData.length > 0 ? (오늘종가 - 어제종가) / 어제종가 * 100 : null;
         stockItemData.length > 0 ? set전일대비(전일대비등락률.toFixed(2)) : set전일대비(null);
     }, [stockItemData]);
+
+    const typographyStyle = { color: 'black', fontWeight: 600, textAlign: 'left' }
+
     return (
         <Grid container>
             <Grid item xs={11.8}>
@@ -294,7 +301,8 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
                 <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: boxTransform ? boxTransform : `translate(10px, 300px)`, zIndex: 100 }}>
                     {(Array.isArray(stockItemData)) && stockItemData.length > 0 ?
                         <>
-                            <Typography sx={{ color: 'black', fontWeight: 600 }}>
+                            <Typography sx={typographyStyle}>{stockName}</Typography>
+                            <Typography sx={typographyStyle}>
                                 {평균단가 ?
                                     <span style={{ fontSize: '20px' }}>
                                         평단 : {(parseInt(평균단가)).toLocaleString('KR-KO')} 원
@@ -305,7 +313,7 @@ const StockChart = ({ stockItemData, timeSeries, rangeSelect, volumeData, 거래
                                     </span>
                                 }
                             </Typography>
-                            <Typography sx={{ color: 'black', fontWeight: 600 }}>
+                            <Typography sx={typographyStyle}>
                                 전일 :
                                 {전일대비 ?
                                     <span style={{ fontSize: '30px', color: 전일대비 > 0 ? 'red' : 'blue' }}>
