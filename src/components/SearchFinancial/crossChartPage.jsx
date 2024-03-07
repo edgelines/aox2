@@ -14,6 +14,7 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
     // List
     const categories1 = [['가결산합산/전년도대비', '가결산'], ['전분기대비', '분기'], ['전년동분기대비', '전년동분기대비']]
     const categories2 = ['매출', '영업이익', '당기순이익']
+    const allItemList = [['전체 종목', '전체종목'], ['전체 흑자', '흑자기업'], ['전체 미집계', '미집계']]
 
     const [tableData, setTableData] = useState([]);
 
@@ -27,10 +28,10 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
     const [category1, setCategory1] = useState('분기')
     const [category2, setCategory2] = useState(() => ['매출', '영업이익', '당기순이익'])
     const [chartData, setChartData] = useState([]);
-
+    const [allItem, setAllItem] = useState(null);
     // 키워드 클릭 시 호출되는 함수
 
-    /** 업종명 선택 */
+    /** 업종 Table Click Event */
     const handleSelectedIndustries = async (params) => {
         switch (params.field) {
             case '흑자기업':
@@ -60,6 +61,9 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
             setCategory2(newCategory);
         }
     };
+    const handleAllItem = (event, value) => {
+        setAllItem(value);
+    }
 
     const fetchData = async () => {
         const res = await axios.get(`${API}/formula/searchFinancial`);
@@ -96,7 +100,7 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
     }, [selectedIndustries, aggregated, surplus, category1, category2])
 
     return (
-        <Grid container sx={{ mt: 1 }}>
+        <Grid container sx={{ mt: 1, pr: 1 }}>
             {/* 업종list */}
             <Grid item xs={5}>
                 <Grid item container sx={{ height: 410 }}
@@ -129,21 +133,10 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
             </Grid>
 
             {/* Cross Chart */}
-            <Grid item xs={7}>
+            <Grid item xs={6} >
 
                 {/* Filter */}
                 <Grid item container sx={{ pl: 2 }}>
-
-                    {/* <StyledToggleButton
-                        value='aggregated'
-                        selected={aggregated}
-                        onChange={() => {
-                            setAggregated(!aggregated);
-                        }}
-                        sx={{ ml: 1, fontSize: '9px', width: 60 }}>
-                        {aggregated ? '집계' : '미집계'}
-                    </StyledToggleButton> */}
-
                     <StyledToggleButton
                         value='check'
                         selected={surplus}
@@ -189,6 +182,24 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
                 <Grid item container>
                     <CrossChart data={chartData} height={380} getStockCode={getStockCode} getStockChartData={getStockChartData} setStockCode={setStockCode} />
                 </Grid>
+            </Grid>
+
+            {/* 전체 클릭 Filter */}
+            <Grid item xs={1}>
+                <ToggleButtonGroup
+                    orientation="vertical"
+                    exclusive
+                    value={allItem}
+                    onChange={handleAllItem}
+                    size="small"
+                    sx={{ pl: 1 }}
+                >
+                    {allItemList.map(item => (
+                        <StyledToggleButton key={item[1]} value={item[1]} sx={{ fontSize: '10px' }}>
+                            {item[0]}
+                        </StyledToggleButton>
+                    ))}
+                </ToggleButtonGroup>
             </Grid>
 
             {/* 업종명 / 선택자 */}
