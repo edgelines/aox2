@@ -3,6 +3,9 @@ import { numberWithCommas } from '../util/util'
 import Highcharts from 'highcharts/highstock'
 import HighchartsReact from 'highcharts-react-official'
 import HighchartsMore from 'highcharts/highcharts-more'
+import UploadRoundedIcon from '@mui/icons-material/UploadRounded';
+import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
+
 HighchartsMore(Highcharts)
 require('highcharts/modules/accessibility')(Highcharts)
 
@@ -42,8 +45,10 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
             backgroundColor: 'rgba(255, 255, 255, 0.5)',
             formatter: function () {
                 // console.log(this.point)
-                return `${this.point.name}<br/>매출 : ${this.point.y} % (${numberWithCommas(this.point.매출액)} 억)<br/>이익 : ${this.point.x} % (${numberWithCommas(this.point.영업이익)} 억)<br/>순이익: ${numberWithCommas(this.point.당기순이익증가율)}% (${this.point.당기순이익} 억)`
-
+                return `${this.point.name}<br/>
+                매출 : ${this.point.y > 0 ? '▲' : '▼'} ${this.point.y} % (${numberWithCommas(this.point.매출액)} 억)<br/>
+                이익 : ${this.point.x > 0 ? '▲' : '▼'} ${this.point.x} % (${numberWithCommas(this.point.영업이익)} 억)<br/>
+                순이익: ${this.point.당기순이익증가율 > 0 ? '▲' : '▼'} ${numberWithCommas(this.point.당기순이익증가율)} % (${this.point.당기순이익} 억)`
             },
         },
     })

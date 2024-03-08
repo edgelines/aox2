@@ -245,17 +245,18 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
 }
 
 const table_columns = [
+    // {
+    //     field: 'id', headerName: '순번', width: 20,
+    //     align: 'center', headerAlign: 'center',
+    //     valueFormatter: (params) => {
+    //         return parseInt(params.value) + 1;
+    //     }
+    // }, 
     {
-        field: 'id', headerName: '순번', width: 20,
-        align: 'center', headerAlign: 'center',
-        valueFormatter: (params) => {
-            return parseInt(params.value) + 1;
-        }
-    }, {
-        field: '순위', headerName: '업종순위', width: 60,
+        field: '순위', headerName: '업종순위', width: 65,
         align: 'center', headerAlign: 'left',
     }, {
-        field: '업종명', headerName: '업종명', width: 120,
+        field: '업종명', headerName: '업종명', width: 135,
         align: 'left', headerAlign: 'center',
     }, {
         field: '전일대비', headerName: '전일대비', width: 60,
