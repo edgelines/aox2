@@ -84,7 +84,7 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
                     당기순이익: group['당기순이익'],
                     marker: {
                         // radius: 2.4 // 마커 크기 설정
-                        radius: Math.sqrt(Math.abs(group['당기순이익증가율']) / 10) + 3 // 마커 크기 설정
+                        radius: Math.sqrt(Math.abs(group['당기순이익증가율']) / 30) > 2 ? Math.sqrt(Math.abs(group['당기순이익증가율']) / 60) + 1 : 3 // 마커 크기 설정
                     }
                 })),
                 point: {

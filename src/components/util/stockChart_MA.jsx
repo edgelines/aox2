@@ -209,11 +209,25 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
             params: { index: 2, period: 175 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }, {
             type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
-            color: 'black',
+            color: 'tomato',
             dashStyle: 'shortdash',
-            name: 'W-14', id: 'williamsr',
+            name: 'W-9', id: 'williamsr-9',
+            lineWidth: 1,
+            params: { index: 3, period: 9 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+        }, {
+            type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
+            color: 'forestgreen',
+            dashStyle: 'shortdash',
+            name: 'W-14', id: 'williamsr-14',
             lineWidth: 1,
             params: { index: 3, period: 14 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+        }, {
+            type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
+            color: 'black',
+            dashStyle: 'shortdash',
+            name: 'W-33', id: 'williamsr-33',
+            lineWidth: 1,
+            params: { index: 3, period: 33 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
         }];
 
         return seriesData;

@@ -51,6 +51,7 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
         }
         setSelectedIndustries(params.row.업종명);
         setFilter({ field: params.field, industry: params.row.업종명 })
+        setAllItem(null);
     };
 
     const handleCategory1 = (event, value) => {
@@ -63,6 +64,21 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
     };
     const handleAllItem = (event, value) => {
         setAllItem(value);
+        switch (value) {
+            case '전체종목':
+                setAggregated(null);
+                setSurplus(false);
+                break;
+            case '흑자기업':
+                setAggregated(true);
+                setSurplus(true);
+                break;
+            case '미집계':
+                setAggregated(false);
+                setSurplus(false);
+                break;
+        }
+        setSelectedIndustries(null);
     }
 
     const fetchData = async () => {
@@ -85,6 +101,8 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
     // < 하단 테이블 >
     const handlerIndustryStockData = async () => {
         const postData = {
+            // aggregated: aggregated, surplus: surplus,
+            // target_industry: [selectedIndustries], target_category1: [category1], target_category2: category2,
             target_category: surplus == true ? ['흑자'] : null, target_industry: [selectedIndustries], WillR: 'O', market: null
         }
         const res = await axios.post(`${API}/formula/findData`, postData);
@@ -93,10 +111,12 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
     }
     useEffect(() => { fetchData() }, [])
     useEffect(() => {
-        if (selectedIndustries !== null) {
-            getCrossChartData();
-            handlerIndustryStockData()
-        }
+        getCrossChartData();
+        handlerIndustryStockData()
+        // if (selectedIndustries !== null) {
+        //     getCrossChartData();
+        //     handlerIndustryStockData()
+        // }
     }, [selectedIndustries, aggregated, surplus, category1, category2])
 
     return (
