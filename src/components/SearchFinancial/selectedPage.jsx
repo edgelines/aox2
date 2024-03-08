@@ -200,13 +200,13 @@ export function Tree({ tableData, onIndustryClick }) {
     )
 }
 
-export function Cross({ swiperRef, onIndustryClick, getStockCode, getStockChartData, setStockCode }) {
+export function Cross({ swiperRef, onIndustryClick, getStockCode, getStockChartData }) {
 
     return (
         <Grid container>
             <CrossChartPage swiperRef={swiperRef}
-                setStockCode={setStockCode}
-                onIndustryClick={(업종명) => onIndustryClick(업종명, null, '흑자기업')} getStockCode={getStockCode} getStockChartData={getStockChartData} />
+                getStockCode={getStockCode}
+                onIndustryClick={(업종명) => onIndustryClick(업종명, null, '흑자기업')} getStockChartData={getStockChartData} />
         </Grid>
     )
 }

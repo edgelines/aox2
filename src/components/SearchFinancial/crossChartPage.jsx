@@ -10,7 +10,7 @@ import { API } from '../util/config';
 import { stockTable_columns } from './tableColumns';
 
 // 
-export default function CrossChartPage({ swiperRef, getStockCode, getStockChartData, setStockCode }) {
+export default function CrossChartPage({ swiperRef, getStockCode, getStockChartData }) {
     // List
     const categories1 = [['가결산합산/전년도대비', '가결산'], ['전분기대비', '분기'], ['전년동분기대비', '전년동분기대비']]
     const categories2 = ['매출', '영업이익', '당기순이익']
@@ -180,7 +180,7 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
 
                 {/* Chart */}
                 <Grid item container>
-                    <CrossChart data={chartData} height={380} getStockCode={getStockCode} getStockChartData={getStockChartData} setStockCode={setStockCode} />
+                    <CrossChart data={chartData} height={380} getStockCode={getStockCode} getStockChartData={getStockChartData} />
                 </Grid>
             </Grid>
 
@@ -222,8 +222,8 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
                         rowHeight={25}
                         onCellClick={(params, event) => {
                             getStockCode(params.row);
-                            setStockCode(params.row.종목코드);
-                            // getStockChartData(params.row.종목코드, timeframe);
+                            // setStockCode(params.row.종목코드);
+                            getStockChartData(params.row.종목코드);
                         }}
                         disableRowSelectionOnClick
                         sx={{

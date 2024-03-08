@@ -9,7 +9,7 @@ import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
 HighchartsMore(Highcharts)
 require('highcharts/modules/accessibility')(Highcharts)
 
-export default function CrossChart({ data, height, getStockCode, getStockChartData, setStockCode }) {
+export default function CrossChart({ data, height, getStockCode, getStockChartData }) {
     const [chartOptions, setChartOptions] = useState({
         chart: { type: 'scatter', height: height, backgroundColor: 'rgba(255, 255, 255, 0)', zoomType: 'xy' },
         credits: { enabled: false }, title: { text: null },
@@ -93,7 +93,7 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
                             // onCode(this.options);
                             getStockCode(this.options);
                             getStockChartData(this.options.종목코드);
-                            setStockCode(this.options.종목코드);
+                            // setStockCode(this.options.종목코드);
                         }
                     }
                 }

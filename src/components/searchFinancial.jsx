@@ -11,12 +11,8 @@ import { stockTable_columns } from './SearchFinancial/tableColumns';
 // import CrossChartPage from './SearchFinancial/crossChartPage';
 import { API, STOCK } from './util/config';
 
-
-
 export default function SearchFinancial({ swiperRef }) {
-
     const [page, setPage] = useState('Cross');
-    const [stockCode, setStockCode] = useState(null);
     const [timeframe, setTimeframe] = useState('day')
     const [filter, setFilter] = useState({ field: null, industry: null })
 
@@ -58,8 +54,9 @@ export default function SearchFinancial({ swiperRef }) {
         }
     }
 
-    const getStockChartData = async (code, timeframe) => {
-        const res = await axios.get(`${STOCK}/get/${code}?week=${timeframe}`);
+    const getStockChartData = async (code) => {
+        console.log(code);
+        const res = await axios.get(`${STOCK}/get/${code}`);
         setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, willR: res.data.willR, net: res.data.net })
     }
     const getIndustryStockData = async (params) => {
@@ -78,11 +75,6 @@ export default function SearchFinancial({ swiperRef }) {
     }
 
     useEffect(() => { fetchData() }, [page])
-    useEffect(() => {
-        if (stockCode != null) {
-            getStockChartData(stockCode, timeframe)
-        }
-    }, [stockCode, timeframe]);
 
     return (
         <Grid container>
@@ -127,8 +119,7 @@ export default function SearchFinancial({ swiperRef }) {
                                     rowHeight={25}
                                     onCellClick={(params, event) => {
                                         getStockCode(params.row);
-                                        setStockCode(params.row.종목코드);
-                                        // getStockChartData(params.row.종목코드, timeframe);
+                                        getStockChartData(params.row.종목코드);
                                     }}
                                     disableRowSelectionOnClick
                                     sx={{
@@ -146,7 +137,7 @@ export default function SearchFinancial({ swiperRef }) {
                         </Grid>
                     </>
                     :
-                    <Cross swiperRef={swiperRef} getStockCode={getStockCode} getStockChartData={getStockChartData} setStockCode={setStockCode} />
+                    <Cross swiperRef={swiperRef} getStockCode={getStockCode} getStockChartData={getStockChartData} />
                 }
 
             </Grid>
