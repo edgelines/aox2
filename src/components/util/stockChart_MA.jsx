@@ -15,8 +15,8 @@ Highcharts.setOptions({
     }
 });
 
-const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, willR, height, indicators, price, boxTransform, treasury }) => {
-    const [전일대비, set전일대비] = useState(null);
+const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, willR, height, indicators, price, net, boxTransform, treasury }) => {
+
     const [chartOptions, setChartOptions] = useState({
         chart: { animation: false, height: height ? height : 360, },
         credits: { enabled: false }, title: { text: null },
@@ -281,11 +281,8 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                 series: getSeriesData(),
             })
         }
-        // console.log('stockItemData : ', stockItemData);
-        const 오늘종가 = stockItemData.length > 0 ? stockItemData[stockItemData.length - 1][4] : null;
-        const 어제종가 = stockItemData.length > 0 ? stockItemData[stockItemData.length - 2][4] : null;
-        const 전일대비등락률 = stockItemData.length > 0 ? (오늘종가 - 어제종가) / 어제종가 * 100 : null;
-        stockItemData.length > 0 ? set전일대비(전일대비등락률.toFixed(2)) : set전일대비(null);
+
+
     }, [stockItemData]);
 
     const typographyStyle = { color: 'black', fontWeight: 600, textAlign: 'left', fontSize: '18px' }
@@ -298,8 +295,8 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                         <>
                             <Stack direction='row' spacing={2} sx={{ pl: 2, pr: 2 }}>
                                 <Typography sx={typographyStyle}>{stockName}</Typography>
-                                <Typography sx={{ ...typographyStyle, color: 전일대비 > 0 ? 'red' : 'blue' }}>
-                                    {전일대비} %
+                                <Typography sx={{ ...typographyStyle, color: net > 0 ? 'red' : 'blue' }}>
+                                    {net} %
                                 </Typography>
                                 <Typography sx={typographyStyle}>
                                     {(parseInt(price)).toLocaleString('KR-KO')} 원

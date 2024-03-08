@@ -60,7 +60,7 @@ export default function SearchFinancial({ swiperRef }) {
 
     const getStockChartData = async (code, timeframe) => {
         const res = await axios.get(`${STOCK}/get/${code}?week=${timeframe}`);
-        setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, willR: res.data.willR })
+        setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, willR: res.data.willR, net: res.data.net })
     }
     const getIndustryStockData = async (params) => {
         let field = params.field;
