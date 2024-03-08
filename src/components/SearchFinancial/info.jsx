@@ -14,7 +14,7 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, time
         <>
 
             <Grid item container sx={{ minHeight: 170 }}>
-                {Array.isArray(stock.기업개요) ?
+                {stock.종목명 ?
                     <StockInfo data={stock} />
                     : <></>
                 }
