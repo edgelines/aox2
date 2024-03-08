@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Grid, Stack, Typography, ToggleButtonGroup } from '@mui/material';
+import { Grid, Stack, Typography, ToggleButtonGroup, Table, TableBody, TableRow, TableCell } from '@mui/material';
 import { StyledToggleButton } from '../util/util';
 import { StyledTypography_StockInfo, Financial, EtcInfo } from '../util/htsUtil';
 import StockChart_MA from '../util/stockChart_MA';
@@ -55,7 +55,10 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, time
 
             <Grid item container sx={{ mt: 1 }}>
                 {Array.isArray(stockChart.price) ?
-                    <StockChart_MA height={470} stockItemData={stockChart.price} volumeData={stockChart.volume} stockName={stock.종목명} price={stock.현재가} boxTransform={`translate(10px, -200px)`} treasury={stockChart.treasury} />
+                    <StockChart_MA height={470} boxTransform={`translate(10px, 53px)`}
+                        stockItemData={stockChart.price} volumeData={stockChart.volume} stockName={stock.종목명} price={stock.현재가}
+                        willR={stockChart.willR}
+                        treasury={stockChart.treasury} />
                     : <></>
                 }
             </Grid>
@@ -65,6 +68,7 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, time
 }
 
 const StockInfo = ({ data }) => {
+    const tableCellStyle = { textAlign: 'left', fontSize: '12px', height: 22 }
     return (
         <Grid container>
             <Grid item container sx={{ borderBottom: '2px solid #efe9e9ed' }}>
@@ -72,51 +76,47 @@ const StockInfo = ({ data }) => {
                 <Grid item xs={4.7}><StyledTypography_StockInfo textAlign='center' >{data.업종명}</StyledTypography_StockInfo></Grid>
                 <Grid item xs={2.6}><StyledTypography_StockInfo textAlign='center' >{data.시장 === 'K' ? 'Kospi' : 'Kosdaq'}</StyledTypography_StockInfo></Grid>
             </Grid>
-            <Grid item container>
-                <Stack direction='row' spacing={5} sx={{ pl: 2, pr: 2 }}>
-                    <StyledTypography_StockInfo fontSize="12px">시가총액</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">{parseInt((parseInt(data.시가총액) / 100000000).toFixed(0)).toLocaleString('kr')} 억</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">상장주식수</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">{data.상장주식수 ? data.상장주식수.toLocaleString('kr') : ''}</StyledTypography_StockInfo>
-                </Stack>
-            </Grid>
-            <Grid item container>
-                <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
-                    <StyledTypography_StockInfo fontSize="12px">K_PER</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">{data.PER}</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">K_PBR</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">{data.PBR}</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">EPS</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">{data.EPS.toLocaleString('kr')} 원</StyledTypography_StockInfo>
-                </Stack>
-            </Grid>
-            <Grid item container>
-                <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
-                    <StyledTypography_StockInfo fontSize="12px">N_PER</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">{data.N_PER}</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">N_PBR</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">{data.N_PBR}</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">BPS</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">{data.BPS.toLocaleString('kr')} 원</StyledTypography_StockInfo>
-                </Stack>
-            </Grid>
-            <Grid item container>
-                <Stack direction='row' spacing={2} sx={{ pl: 2, pr: 2 }}>
-                    <StyledTypography_StockInfo fontSize="12px">동일업종 PER</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">{data.동일업종PER}</StyledTypography_StockInfo>
-                </Stack>
-            </Grid>
-            <Grid item container>
-                <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
-                    <StyledTypography_StockInfo fontSize="12px">보호예수</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px" sx={{ color: '#FCAB2F' }}>{data.보호예수}</StyledTypography_StockInfo>
-                </Stack>
-            </Grid>
-            <Grid item container>
-                <Stack direction='row' spacing={3} sx={{ pl: 2, pr: 2 }}>
-                    <StyledTypography_StockInfo fontSize="12px">이벤트</StyledTypography_StockInfo>
-                    <StyledTypography_StockInfo fontSize="12px">{data.이벤트}</StyledTypography_StockInfo>
-                </Stack>
+
+            <Grid item container sx={{ pl: 2 }}>
+                <table style={{ width: '100%' }}>
+                    <tbody>
+                        <tr>
+                            <td style={tableCellStyle}>시가총액</td>
+                            <td style={tableCellStyle}>{parseInt((parseInt(data.시가총액) / 100000000).toFixed(0)).toLocaleString('kr')} 억</td>
+                            <td style={tableCellStyle}>상장주식수</td>
+                            <td style={tableCellStyle}>{data.상장주식수 ? data.상장주식수.toLocaleString('kr') : ''}</td>
+                        </tr>
+                        <tr>
+                            <td style={tableCellStyle}>K_PER</td>
+                            <td style={tableCellStyle}>{data.PER}</td>
+                            <td style={tableCellStyle}>K_PBR</td>
+                            <td style={tableCellStyle}>{data.PBR}</td>
+                            <td style={tableCellStyle}>EPS</td>
+                            <td style={tableCellStyle}>{data.EPS.toLocaleString('kr')} 원</td>
+                        </tr>
+                        <tr>
+                            <td style={tableCellStyle}>N_PER</td>
+                            <td style={tableCellStyle}>{data.N_PER}</td>
+                            <td style={tableCellStyle}>N_PBR</td>
+                            <td style={tableCellStyle}>{data.N_PBR}</td>
+                            <td style={tableCellStyle}>BPS</td>
+                            <td style={tableCellStyle}>{data.BPS.toLocaleString('kr')} 원</td>
+                        </tr>
+                        <tr>
+                            <td style={tableCellStyle}>동일업종 PER</td>
+                            <td style={tableCellStyle}>{data.동일업종PER}</td>
+                        </tr>
+                        <tr>
+                            <td style={tableCellStyle}>보호예수</td>
+                            <td style={{ ...tableCellStyle, color: '#FCAB2F' }}>{data.보호예수}</td>
+                        </tr>
+                        <tr>
+                            <td style={tableCellStyle}>이벤트</td>
+                            <td style={tableCellStyle}>{data.이벤트}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
             </Grid>
         </Grid>
     )
