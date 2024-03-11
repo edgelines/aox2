@@ -55,7 +55,7 @@ export default function SearchFinancial({ swiperRef }) {
     }
 
     const getStockChartData = async (code) => {
-        console.log(code);
+        // console.log(code);
         const res = await axios.get(`${STOCK}/get/${code}`);
         setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, willR: res.data.willR, net: res.data.net })
     }
