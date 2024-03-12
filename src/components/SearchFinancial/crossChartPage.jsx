@@ -107,7 +107,7 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
         }
         const res = await axios.post(`${API}/formula/findData`, postData);
         setStockTableData(res.data);
-
+        console.log(res.data);
     }
     useEffect(() => { fetchData() }, [])
     useEffect(() => {
@@ -239,7 +239,8 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
                     <DataGrid
                         rows={stockTableData}
                         columns={stockTable_columns}
-                        rowHeight={25}
+                        getRowHeight={() => 'auto'}
+                        // rowHeight={25}
                         onCellClick={(params, event) => {
                             getStockCode(params.row);
                             // setStockCode(params.row.종목코드);
@@ -254,7 +255,8 @@ export default function CrossChartPage({ swiperRef, getStockCode, getStockChartD
                             '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
                             '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
                             '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
-                            '[data-field="이벤트"]': { borderLeft: '1.5px solid #ccc', borderRight: '1.5px solid #ccc' },
+                            '[data-field="부채비율"]': { borderLeft: '1.5px solid #ccc' },
+                            '[data-field="테마명"]': { borderLeft: '1.5px solid #ccc' },
                         }}
                     />
                 </ThemeProvider>

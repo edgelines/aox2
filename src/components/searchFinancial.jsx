@@ -23,7 +23,11 @@ export default function SearchFinancial({ swiperRef }) {
 
     const handlePage = (event, value) => { if (value !== null) { setPage(value); } }
     const handleTimeframe = (event, value) => { if (value !== null) { setTimeframe(value); } }
-
+    const handleFavorite = async () => {
+        setStock({ ...stock, Favorite: !stock.Favorite })
+        console.log(stock.종목코드);
+        await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
+    }
     const fetchData = async () => {
         const res = await axios.get(`${API}/formula/searchFinancial`);
         setTableData(res.data);
@@ -41,7 +45,7 @@ export default function SearchFinancial({ swiperRef }) {
             const res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
             setStock({
                 종목명: params.종목명, 종목코드: params.종목코드, 업종명: params.업종명, 현재가: res.data.현재가,
-                시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수,
+                시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, Favorite: res.data.Favorite,
                 PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,
                 N_PER: res.data.N_PER, N_PBR: res.data.N_PBR, 동일업종PER: res.data.동일업종PER,
                 이벤트: res.data.이벤트, 보호예수: res.data.보호예수,
@@ -67,7 +71,7 @@ export default function SearchFinancial({ swiperRef }) {
 
         if (field != 'id' && field != '업종명' && field != '흑자기업수' && field != '순위') {
             const postData = {
-                target_category: field == '전체종목수' ? null : [field], target_industry: [industry], WillR: 'O', market: market
+                target_category: field == '전체종목수' ? null : [field], target_industry: [industry], market: market
             }
             const res = await axios.post(`${API}/formula/findData`, postData);
             setStockTableData(res.data);
@@ -116,7 +120,8 @@ export default function SearchFinancial({ swiperRef }) {
                                 <DataGrid
                                     rows={stockTableData}
                                     columns={stockTable_columns}
-                                    rowHeight={25}
+                                    // rowHeight={25}
+                                    getRowHeight={() => 'auto'}
                                     onCellClick={(params, event) => {
                                         getStockCode(params.row);
                                         getStockChartData(params.row.종목코드);
@@ -130,7 +135,8 @@ export default function SearchFinancial({ swiperRef }) {
                                         '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
                                         '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
                                         '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
-                                        '[data-field="이벤트"]': { borderLeft: '1.5px solid #ccc', borderRight: '1.5px solid #ccc' },
+                                        '[data-field="부채비율"]': { borderLeft: '1.5px solid #ccc' },
+                                        '[data-field="테마명"]': { borderLeft: '1.5px solid #ccc' },
                                     }}
                                 />
                             </ThemeProvider>
@@ -144,7 +150,7 @@ export default function SearchFinancial({ swiperRef }) {
 
             {/* 우 : 종목정보 */}
             <Grid item xs={4}>
-                <SearchFinancialInfo swiperRef={swiperRef} stock={stock} stockChart={stockChart} timeframe={timeframe} handleTimeframe={handleTimeframe} />
+                <SearchFinancialInfo swiperRef={swiperRef} stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} timeframe={timeframe} handleTimeframe={handleTimeframe} />
             </Grid>
 
         </Grid>

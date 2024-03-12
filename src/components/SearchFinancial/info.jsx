@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Grid, Stack, Typography, ToggleButtonGroup, Table, TableBody, TableRow, TableCell } from '@mui/material';
+import { Grid, Stack, Typography, ToggleButtonGroup, IconButton, Table, TableBody, TableRow, TableCell } from '@mui/material';
 import { StyledToggleButton } from '../util/util';
 import { StyledTypography_StockInfo, Financial, EtcInfo } from '../util/htsUtil';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StockChart_MA from '../util/stockChart_MA';
 
-export default function SearchFinancialInfo({ swiperRef, stock, stockChart, timeframe, handleTimeframe }) {
+export default function SearchFinancialInfo({ swiperRef, stock, stockChart, handleFavorite, timeframe, handleTimeframe }) {
     const [page, setPage] = useState('재무');
 
     // Handler
@@ -15,7 +17,7 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, time
 
             <Grid item container sx={{ minHeight: 170 }}>
                 {stock.종목명 ?
-                    <StockInfo data={stock} />
+                    <StockInfo data={stock} handleFavorite={handleFavorite} />
                     : <></>
                 }
 
@@ -39,20 +41,6 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, time
                 <ContentsComponent page={page} annual={stock.연간실적} quarter={stock.분기실적} summary={stock.기업개요} themes={stock.테마명} product={stock.주요제품매출구성} shareholder={stock.주요주주} />
             </Grid>
 
-            {/* <Grid item container sx={{ mt: 1 }}>
-                <ToggleButtonGroup
-                    color='info'
-                    exclusive
-                    size="small"
-                    value={timeframe}
-                    onChange={handleTimeframe}
-                    sx={{ pl: 1.3 }}
-                >
-                    <StyledToggleButton fontSize={'10px'} value="day">일봉</StyledToggleButton>
-                    <StyledToggleButton fontSize={'10px'} value="week">주봉</StyledToggleButton>
-                </ToggleButtonGroup>
-            </Grid> */}
-
             <Grid item container sx={{ mt: 1 }}>
                 <StockChart_MA height={470} boxTransform={`translate(10px, 53px)`}
                     stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} stockName={stock.종목명} price={stock.현재가} net={stockChart.net}
@@ -64,13 +52,21 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, time
     )
 }
 
-const StockInfo = ({ data }) => {
+const StockInfo = ({ data, handleFavorite }) => {
     const tableCellStyle = { textAlign: 'left', fontSize: '12px', height: 22 }
     return (
         <Grid container>
-            <Grid item container sx={{ borderBottom: '2px solid #efe9e9ed' }}>
-                <Grid item xs={4.7}><StyledTypography_StockInfo textAlign='center' sx={{ color: data.시장 === 'K' ? '#FCAB2F' : 'greenyellow' }}>{data.종목명}</StyledTypography_StockInfo></Grid>
-                <Grid item xs={4.7}><StyledTypography_StockInfo textAlign='center' >{data.업종명}</StyledTypography_StockInfo></Grid>
+            <Grid item container sx={{ borderBottom: '2px solid #efe9e9ed' }} direction='row' alignItems="center" justifyContent="center">
+                <Grid item xs={1}>
+                    <IconButton size="small" color='error' onClick={() => handleFavorite()}>
+                        {data.Favorite ?
+                            <FavoriteIcon /> : <FavoriteBorderIcon />
+                        }
+                    </IconButton>
+                </Grid>
+
+                <Grid item xs={4.2}><StyledTypography_StockInfo textAlign='center' sx={{ color: data.시장 === 'K' ? '#FCAB2F' : 'greenyellow' }}>{data.종목명}</StyledTypography_StockInfo></Grid>
+                <Grid item xs={4.2}><StyledTypography_StockInfo textAlign='center' >{data.업종명}</StyledTypography_StockInfo></Grid>
                 <Grid item xs={2.6}><StyledTypography_StockInfo textAlign='center' >{data.시장 === 'K' ? 'Kospi' : 'Kosdaq'}</StyledTypography_StockInfo></Grid>
             </Grid>
 

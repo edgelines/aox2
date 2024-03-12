@@ -12,14 +12,47 @@ export const stockTable_columns = [
         field: '종목명', headerName: '종목명', width: 120,
         align: 'left', headerAlign: 'center',
     }, {
-        field: '동일업종PER', headerName: '동 PER', width: 60,
+        field: '시가총액', headerName: '시가총액', width: 70,
         align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == null) { return ''; }
+            return `${(parseInt(params.value / 100000000)).toLocaleString('kr')}`;
+        }
     }, {
-        field: 'PER', headerName: 'PER', width: 60,
+        field: '연간', headerName: '전년도 순이익합', width: 75,
         align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == null) { return ''; }
+            return `${(parseInt(params.value)).toLocaleString('kr')}`;
+        }
     }, {
-        field: 'PBR', headerName: 'PBR', width: 60,
+        field: '1Q', headerName: '1Q', width: 60,
         align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == null) { return ''; }
+            return `${(parseInt(params.value)).toLocaleString('kr')}`;
+        }
+    }, {
+        field: '2Q', headerName: '2Q', width: 60,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == null) { return ''; }
+            return `${(parseInt(params.value)).toLocaleString('kr')}`;
+        }
+    }, {
+        field: '3Q', headerName: '3Q', width: 60,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == null) { return ''; }
+            return `${(parseInt(params.value)).toLocaleString('kr')}`;
+        }
+    }, {
+        field: '4Q', headerName: '4Q', width: 60,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == null) { return ''; }
+            return `${(parseInt(params.value)).toLocaleString('kr')}`;
+        }
     }, {
         field: '부채비율', headerName: '부채비율', width: 65,
         align: 'right', headerAlign: 'center',
@@ -35,16 +68,7 @@ export const stockTable_columns = [
             return `${(parseInt(params.value)).toLocaleString('kr')} %`;
         }
     }, {
-        field: '이벤트', headerName: 'Event', width: 350,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: 'WillR9', headerName: 'WillR9', width: 60,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: 'WillR14', headerName: 'WillR14', width: 60,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: 'WillR33', headerName: 'WillR33', width: 60,
+        field: '테마명', headerName: '테마명', width: 400,
         align: 'right', headerAlign: 'center',
     }
 ]
