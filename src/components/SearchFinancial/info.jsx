@@ -77,7 +77,7 @@ const StockInfo = ({ data, handleFavorite }) => {
                             <td style={tableCellStyle}>시가총액</td>
                             <td style={tableCellStyle}>{parseInt((parseInt(data.시가총액) / 100000000).toFixed(0)).toLocaleString('kr')} 억</td>
                             <td style={tableCellStyle}>상장주식수</td>
-                            <td style={tableCellStyle}>{data.상장주식수 ? data.상장주식수.toLocaleString('kr') : ''}</td>
+                            <td style={tableCellStyle} colSpan={3}>{data.상장주식수 ? data.상장주식수.toLocaleString('kr') : ''}</td>
                         </tr>
                         <tr>
                             <td style={tableCellStyle}>K_PER</td>
@@ -101,11 +101,11 @@ const StockInfo = ({ data, handleFavorite }) => {
                         </tr>
                         <tr>
                             <td style={tableCellStyle}>보호예수</td>
-                            <td style={{ ...tableCellStyle, color: '#FCAB2F' }}>{data.보호예수}</td>
+                            <td style={{ ...tableCellStyle, color: '#FCAB2F' }} colSpan={5}>{data.보호예수}</td>
                         </tr>
                         <tr>
                             <td style={tableCellStyle}>이벤트</td>
-                            <td style={tableCellStyle}>{data.이벤트}</td>
+                            <td style={tableCellStyle} colSpan={5}>{data.이벤트}</td>
                         </tr>
                     </tbody>
                 </table>
