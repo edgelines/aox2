@@ -220,7 +220,11 @@ function App() {
             setABC2(ABC.data2.data)
         }
     }, [ABC])
-
+    // Swiper Slider Bottom Page Number Style
+    const handleSlideChange = (swiper) => {
+        const paginationEl = swiper.pagination.el;
+        paginationEl.style.color = '#efe9e9ed';
+    };
     return (
         <div className="App">
             <Swiper
@@ -231,6 +235,7 @@ function App() {
                 modules={[Keyboard, Mousewheel, Pagination]}
                 keyboard={{ enabled: true, }}
                 className="mySwiper"
+                onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
