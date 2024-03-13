@@ -5,30 +5,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { getStockSectors, getKospi200BubbleCategoryGruop, getKospi200BubbleCategory } from "./store/stockSectors.js";
 import { getABC } from "./store/AxBxC.js";
 import { getSearchInfo, getScheduleItemEvent } from "./store/info.js";
-import { getIndexMA, getVixMA, getVix, getMarketDetail, getKospi200, getKospi, getKosdaq, getInvers, getMarketKospi200, getExchange } from './store/indexData.js';
-import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvg, getElwWeightedAvgCheck, getElwBarData } from './store/ELW.js';
+import { getIndexMA, getVixMA, getVix, getMarketDetail, getKospi200, getKospi, getKosdaq, getInvers, getExchange } from './store/indexData.js';
+import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvgCheck } from './store/ELW.js';
 // Websokect
 // import { websocketConnectWA1, websocketConnectWA2, } from './store/actions/websocketActions';
 
 // Components
 import SchedulePage from './components/schedulePage.jsx';
 import SectorsChartPage from './components/sectorsChartPage.jsx';
-import SectorSearchPage from './components/sectorSearchPage.jsx';
+// import SectorSearchPage from './components/sectorSearchPage.jsx';
 // import OldAoxStockPage from './components/OldAoX/stockPage.jsx'
-import CallPutPage from './components/ELW/CallPutPage.jsx'
+// import CallPutPage from './components/ELW/CallPutPage.jsx';
 import DetailPage from './components/ELW/detailPage.jsx'
 import MainPage from './components/mainPage.jsx'
 // import TreasuryStockPage from './components/TreasuryStock.jsx'
 // import StockSearchPage from './components/StockSearch';
 // import StockSearchMonitoringPage from './components/StockSearchMonitoring';
-import CtpPage from './components/ELW/CtpPage.jsx'
+// import CtpPage from './components/ELW/CtpPage.jsx'
 import ModelingPage from './components/modelingPage.jsx';
 import WeightAvgPage1 from './components/ELW/weightAvgPage1.jsx';
 import WeightAvgPage2 from './components/ELW/weightAvgPage2.jsx';
-import WeightAvgPage3 from './components/ELW/weightAvgPage3.jsx';
-import Fundarmental from './components/fundarmental';
-import HTS from './components/hts';
-import IpoPulse from './components/ipoPulse';
+// import WeightAvgPage3 from './components/ELW/weightAvgPage3.jsx';
+
+// import HTS from './components/hts';
+// import IpoPulse from './components/ipoPulse';
 import SearchFinancial from './components/searchFinancial';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -39,7 +39,6 @@ import { Keyboard, Mousewheel, Pagination } from "swiper/modules";
 import axios from 'axios';
 import { API } from './components/util/config'
 import useInterval from './components/util/useInterval';
-import { functions } from 'lodash';
 
 function App() {
     const [SectorsChartData, setSectorsChartData] = useState([]);
@@ -59,8 +58,8 @@ function App() {
 
     const ELW_monthTable = useSelector((state) => state.ELW_monthTable);
     const ELW_CallPutRatio_Maturity = useSelector((state) => state.ELW_CallPutRatio_Maturity);
-    const ElwBarData = useSelector((state) => state.ElwBarData)
-    const ElwWeightedAvg = useSelector((state) => state.ElwWeightedAvg);
+    // const ElwBarData = useSelector((state) => state.ElwBarData)
+    // const ElwWeightedAvg = useSelector((state) => state.ElwWeightedAvg);
     const ElwWeightedAvgCheck = useSelector((state) => state.ElwWeightedAvgCheck);
     const MarketDetail = useSelector((state) => state.MarketDetail);
 
@@ -72,7 +71,7 @@ function App() {
     const Kospi = useSelector((state) => state.Kospi);
     const Kosdaq = useSelector((state) => state.Kosdaq);
     const Invers = useSelector((state) => state.Invers);
-    const MarketKospi200 = useSelector((state) => state.MarketKospi200);
+    // const MarketKospi200 = useSelector((state) => state.MarketKospi200);
     const ScheduleItemEvent = useSelector((state) => state.ScheduleItemEvent);
     const Exchange = useSelector((state) => state.Exchange);
     const swiperRef = useRef(null);
@@ -105,16 +104,16 @@ function App() {
         await dispatch(getABC());
         await dispatch(getELW_monthTable());
         await dispatch(getELW_CallPutRatio_Maturity());
-        await dispatch(getElwWeightedAvg());
+        // await dispatch(getElwWeightedAvg());
         await dispatch(getElwWeightedAvgCheck());
         await dispatch(getIndexMA());
         await dispatch(getKospi200());
         await dispatch(getKospi());
         await dispatch(getKosdaq());
         await dispatch(getInvers());
-        await dispatch(getMarketKospi200());
+        // await dispatch(getMarketKospi200());
         await dispatch(getExchange());
-        await dispatch(getElwBarData());
+        // await dispatch(getElwBarData());
         await postReq();
         // await dispatch(getStockSearch());
         // await dispatch(getStockSearchTrackingStatistics());
@@ -215,16 +214,6 @@ function App() {
         postReq();
     }, [checkboxStatusUp, checkboxStatusDown, checkboxStatusTup, checkboxAll])
 
-    // Swiper Slider Bottom Page Number Style
-    const handleSlideChange = (swiper) => {
-        const paginationEl = swiper.pagination.el;
-        if (swiper.activeIndex === 2) {
-            paginationEl.style.color = 'black';
-        } else {
-            paginationEl.style.color = '#efe9e9ed';
-        }
-    };
-
     useEffect(() => {
         if (ABC.status === 'succeeded') {
             setABC1(ABC.data1.data)
@@ -242,7 +231,6 @@ function App() {
                 modules={[Keyboard, Mousewheel, Pagination]}
                 keyboard={{ enabled: true, }}
                 className="mySwiper"
-                onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
@@ -250,27 +238,11 @@ function App() {
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <SchedulePage swiperRef={swiperRef} />
-                </SwiperSlide>
-
-                <SwiperSlide style={swiperSlideStyle} >
-                    <Fundarmental swiperRef={swiperRef} />
-                </SwiperSlide>
-
-                <SwiperSlide>
-                    <SectorSearchPage
-                        StockSectors={StockSectors} swiperRef={swiperRef} ABC1={ABC1} ABC2={ABC2}
-                        SearchInfo={SearchInfo}
+                    <SchedulePage swiperRef={swiperRef}
+                        StockSectors={StockSectors} ABC1={ABC1} ABC2={ABC2}
+                        SearchInfo={SearchInfo} Exchange={Exchange} Vix={Vix} VixMA={VixMA}
                         SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
                     />
-                </SwiperSlide>
-
-                <SwiperSlide style={swiperSlideStyle} >
-                    <HTS swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
-                </SwiperSlide>
-
-                <SwiperSlide style={swiperSlideStyle} >
-                    <IpoPulse swiperRef={swiperRef} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -301,11 +273,7 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <CallPutPage swiperRef={swiperRef} Vix={Vix} VixMA={VixMA} IndexMA={IndexMA} Kospi200={Kospi200} Kospi={Kospi} Kosdaq={Kosdaq} Invers={Invers} MarketKospi200={MarketKospi200} MarketDetail={MarketDetail} />
-                </SwiperSlide>
-
-                <SwiperSlide style={swiperSlideStyle} >
-                    <ModelingPage swiperRef={swiperRef} Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} />
+                    <ModelingPage swiperRef={swiperRef} Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} IndexMA={IndexMA} Kospi200={Kospi200} Kospi={Kospi} Kosdaq={Kosdaq} Invers={Invers} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -314,14 +282,6 @@ function App() {
                 <SwiperSlide style={swiperSlideStyle} >
                     <WeightAvgPage2 swiperRef={swiperRef} ELW_monthTable={ELW_monthTable} ELW_CallPutRatio_Maturity={ELW_CallPutRatio_Maturity} ElwWeightedAvgCheck={ElwWeightedAvgCheck} MarketDetail={MarketDetail} />
                 </SwiperSlide>
-                <SwiperSlide style={swiperSlideStyle} >
-                    <WeightAvgPage3 swiperRef={swiperRef} ELW_monthTable={ELW_monthTable} ELW_CallPutRatio_Maturity={ELW_CallPutRatio_Maturity} ElwWeightedAvgCheck={ElwWeightedAvgCheck} Exchange={Exchange} MarketDetail={MarketDetail} />
-                </SwiperSlide>
-
-                <SwiperSlide style={swiperSlideStyle} >
-                    <CtpPage swiperRef={swiperRef} ElwBarData={ElwBarData} ElwWeightedAvg={ElwWeightedAvg} />
-                </SwiperSlide>
-
 
             </Swiper>
         </div >
@@ -346,4 +306,8 @@ const swiperSlideStyle = { backgroundColor: "#404040", color: '#efe9e9ed', paddi
 
 {/* <SwiperSlide style={swiperSlideStyle} >
                     <TreasuryStockPage swiperRef={swiperRef} />
+                </SwiperSlide> */}
+
+{/* <SwiperSlide style={swiperSlideStyle} >
+                    <CtpPage swiperRef={swiperRef} ElwBarData={ElwBarData} ElwWeightedAvg={ElwWeightedAvg} />
                 </SwiperSlide> */}

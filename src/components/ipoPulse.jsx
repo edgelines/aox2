@@ -228,7 +228,7 @@ export default function IpoPulsePage({ swiperRef }) {
     return (
         <>
             {/* Thumnail Chart */}
-            <Grid container>
+            <Grid container sx={{ mt: -0.5 }}>
                 <Grid container>
                     {chartData ?
                         Object.entries(chartData).map(([quarter, items], index) => (

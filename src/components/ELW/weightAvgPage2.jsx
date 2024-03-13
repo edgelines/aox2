@@ -10,23 +10,10 @@ import { API } from '../util/config';
 import { update_5M } from '../util/util';
 
 export default function WeightAvgPage2({ swiperRef, ELW_monthTable, ELW_CallPutRatio_Maturity, ElwWeightedAvgCheck, MarketDetail }) {
-    const [month1X, setMonth1X] = useState({});
-    const [month2X, setMonth2X] = useState({});
-    const [month3X, setMonth3X] = useState({});
+    const [dayGr, setDayGr] = useState({ series: null, categories: null });
+    const [ElwRatioData, setElwRatioData] = useState({ series: null, categories: null });
     const [month2Data, setMonth2Data] = useState({});
     const [month1Value, setMonth1Value] = useState([]);
-    const month = ELW_monthTable && ELW_monthTable[0] ? [parseInt(ELW_monthTable[0].최종거래일.split('/')[1]), parseInt(ELW_monthTable[1].최종거래일.split('/')[1]), parseInt(ELW_monthTable[2].최종거래일.split('/')[1])] : ['', '', '']
-    const monthTitle = { fontSize: '16px' }
-    const categories = ['B6', 'B5', 'B4', 'B3', 'B2', 'B1', '09:02', '09:05', '09:07', '09:10'];
-    var HH = 9, MM = 10
-    for (var i = 0; i < 80; i++) {
-        MM = MM + 5
-        if (MM >= 60) {
-            HH += 1
-            MM = 0
-        }
-        categories.push(String(HH).padStart(2, '0') + ':' + String(MM).padStart(2, '0'))
-    }
 
     const fetchData = async () => {
         await axios.get(`${API}/elwData/Month4`).then((res) => {
@@ -70,88 +57,53 @@ export default function WeightAvgPage2({ swiperRef, ELW_monthTable, ELW_CallPutR
             setMonth2Data(month);
             setMonth1Value(CTP1);
         })
-        await axios.get(API + "/elwData/ELWx").then((res) => {
-            var Month1_1일 = [], Month1_2일 = [], Month1_3일 = [], Month1_5일 = [], Month1_1_5일 = [], Month1 = [],
-                Month2_1일 = [], Month2_2일 = [], Month2_3일 = [], Month2_5일 = [], Month2_1_5일 = [], Month2 = [],
-                Month3_1일 = [], Month3_2일 = [], Month3_3일 = [], Month3_5일 = [], Month3_1_5일 = [], Month3 = [];
-            res.data.map((value, index, array) => {
-                Month1_1일.push(value['Month1_1일'])
-                Month1_1_5일.push(value['Month1_1_5일'])
-                Month1_2일.push(value['Month1_2일'])
-                Month1_3일.push(value['Month1_3일'])
-                Month1_5일.push(value['Month1_5일'])
-                Month2_1일.push(value['Month2_1일'])
-                Month2_2일.push(value['Month2_2일'])
-                Month2_3일.push(value['Month2_3일'])
-                Month2_5일.push(value['Month2_5일'])
-                Month2_1_5일.push(value['Month2_1_5일'])
-                Month3_1일.push(value['Month3_1일'])
-                Month3_2일.push(value['Month3_2일'])
-                Month3_3일.push(value['Month3_3일'])
-                Month3_5일.push(value['Month3_5일'])
-                Month3_1_5일.push(value['Month3_1_5일'])
+        await axios.get(`${API}/elwData/DayGr`).then((response) => {
+            setDayGr({
+                series: [{
+                    name: 'Call 잔존 : ' + response.data.call1,
+                    data: response.data.data1,
+                    color: '#FCAB2F',
+                    yAxis: 0
+                }, {
+                    name: 'Put 잔존 : ' + response.data.put1,
+                    data: response.data.data3,
+                    color: '#00F3FF',
+                    yAxis: 0
+                }, {
+                    name: 'Call 잔존 : ' + response.data.call2,
+                    data: response.data.data2,
+                    color: 'tomato',
+                }, {
+                    name: 'Put 잔존 : ' + response.data.put2,
+                    data: response.data.data4,
+                    color: 'dodgerblue',
+                }], categories: response.data.Day
             })
-            Month1 = Month1.concat(Month1_1일, Month1_2일, Month1_3일, Month1_5일)
-            Month2 = Month2.concat(Month2_1일, Month2_2일, Month2_3일, Month2_5일)
-            Month3 = Month2.concat(Month3_1일, Month3_2일, Month3_3일, Month3_5일)
-            let Month1Min = Math.min(...Month1)
-            let Month2Min = Math.min(...Month2)
-            let Month3Min = Math.min(...Month3)
-            const M1 = {
-                series: [
-                    {
-                        zIndex: 3, name: "1일", color: "tomato", data: Month1_1일,
-                    }, {
-                        name: "1.5일", color: "greenyellow", data: Month1_1_5일,
-                    }, {
-                        name: "2일", color: "dodgerblue", data: Month1_2일,
-                    }, {
-                        name: "3일", color: "violet", data: Month1_3일,
-                    }, {
-                        name: "5일", color: "#efe9e9ed", data: Month1_5일,
-                    }
-                ], min: Month1Min
-            }
-            const M2 = {
-                series: [
-                    {
-                        zIndex: 3, name: "1일", color: "tomato", data: Month2_1일,
-                    }, {
-                        name: "1.5일", color: "greenyellow", data: Month2_1_5일,
-                    }, {
-                        name: "2일", color: "dodgerblue", data: Month2_2일,
-                    }, {
-                        name: "3일", color: "violet", data: Month2_3일,
-                    }, {
-                        name: "5일", color: "#efe9e9ed", data: Month2_5일,
-                    }
-                ], min: Month2Min
-            }
-            const M3 = {
-                series: [
-                    {
-                        zIndex: 3, name: "1일", color: "tomato", data: Month3_1일,
-                    }, {
-                        name: "1.5일", color: "gold", data: Month3_1_5일,
-                    }, {
-                        name: "2일", color: "dodgerblue", data: Month3_2일,
-                    }, {
-                        name: "3일", color: "violet", data: Month3_3일,
-                    }, {
-                        name: "5일", color: "#efe9e9ed", data: Month3_5일,
-                    }
-                ], min: Month3Min
-            }
-            setMonth1X(M1)
-            setMonth2X(M2)
-            setMonth3X(M3)
         })
+        await axios.get(`${API}/elwData/ElwRatioData`).then((response) => {
+            setElwRatioData({
+                series: [
+                    {
+                        name: '콜',
+                        color: '#FCAB2F',
+                        pointPlacement: -0.08,
+                        pointWidth: 20, //bar 너비 지정.
+                        grouping: false,
+                        data: response.data.call
+                    }, {
+                        name: '풋',
+                        color: '#00A7B3',
+                        pointPlacement: 0.08,
+                        pointWidth: 20, //bar 너비 지정.
+                        grouping: false,
+                        data: response.data.put
+                    }],
+                categories: response.data.category
+            })
+        });
     };
 
-    useEffect(() => {
-        fetchData();
-
-    }, [])
+    useEffect(() => { fetchData(); }, [])
 
     // 30초 주기 업데이트
     useEffect(() => {
@@ -206,20 +158,12 @@ export default function WeightAvgPage2({ swiperRef, ELW_monthTable, ELW_CallPutR
         <Grid container spacing={1} >
             <Box sx={{ fontSize: '3rem', position: 'absolute', transform: 'translate(97vw, 1vh)' }} >2</Box>
             <Grid item xs={6}>
-                <Box sx={{ mt: 1 }}>
-                    <span style={monthTitle}> {month[0]}월 만기</span>
-                    <Box sx={{ mt: -3 }}>
-                        <CoreChart data={month1X.series} height={318} name={'xValue'} categories={categories} min={month1X.min} lengendX={20} />
-                    </Box>
-                    <span style={monthTitle}> {month[1]}월 만기</span>
-                    <Box sx={{ mt: -4 }}>
-                        <CoreChart data={month2X.series} height={318} name={'xValue'} categories={categories} min={month2X.min} lengendX={20} />
-                    </Box>
-                    <span style={monthTitle}> {month[2]}월 만기</span>
-                    <Box sx={{ mt: -5 }}>
-                        <CoreChart data={month3X.series} height={318} name={'xValue'} categories={categories} min={month3X.min} lengendX={20} />
-                    </Box>
-                </Box>
+                <Grid item xs={12} sx={{ mt: 2 }}>
+                    <CoreChart data={dayGr.series} height={440} name={'dayGr'} categories={dayGr.categories} credit={update_5M} creditsPositionY={66} />
+                </Grid>
+                <Grid item xs={12} >
+                    <CoreChart data={ElwRatioData.series} height={440} name={'ElwRatioData'} categories={ElwRatioData.categories} type={'column'} credit={update_5M} />
+                </Grid>
             </Grid>
             <Grid item xs={6}>
                 <Box sx={{ fontSize: '1.5rem', fontWeight: 'bold' }} >
@@ -248,77 +192,6 @@ export default function WeightAvgPage2({ swiperRef, ELW_monthTable, ELW_CallPutR
                         }) : <Skeleton variant="rectangular" animation="wave" />
                     }
                 </Grid>
-                {/* <Grid container justifyContent="flex-end" alignItems="center" onMouseLeave={handlePopoverCloseAll}>
-                    {month2Data.categories && month2Row && month2Row.length > 0 ?
-                        month2Data.categories.map((value, index) => {
-                            return <>
-                                <Grid item xs={1.15} key={index}>
-                                    <Typography
-                                        aria-owns={openPopover2[index] ? 'mouse-over-popover' : undefined}
-                                        aria-haspopup="true"
-                                        onMouseEnter={(event) => handlePopoverOpen2(event, index)}
-                                        onMouseLeave={() => handlePopoverClose2(index)}
-                                        sx={{ fontSize: '10px', color: '#efe9e9ed', cursor: 'pointer' }}
-                                    >{value.slice(3, 5)}</Typography>
-                                    <Popover
-                                        id="mouse-over-popover"
-                                        sx={{
-                                            pointerEvents: 'none',
-                                        }}
-                                        open={openPopover2[index]}
-                                        anchorEl={anchorEl2[index]}
-                                        anchorOrigin={{
-                                            vertical: 'bottom',
-                                            horizontal: 'left',
-                                        }}
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'left',
-                                        }}
-                                        onClose={() => handlePopoverClose2(index)}
-                                        disableRestoreFocus
-                                    >
-                                        <Typography>
-                                            <Table size="small" sx={{ fontSize: '10px' }}>
-                                                <TableHead>
-                                                    <TableRow>
-                                                        <TableCell>권리유형</TableCell>
-                                                        <TableCell>행사가</TableCell>
-                                                        <TableCell>종목명</TableCell>
-                                                        <TableCell>최종거래일</TableCell>
-                                                        <TableCell>3일평균거래대금</TableCell>
-                                                    </TableRow>
-                                                </TableHead>
-                                                <TableBody>
-                                                    {
-                                                        month2Row.map((rowvalue) => {
-                                                            if (rowvalue.월구분 === index + 1) {
-                                                                const color = rowvalue.권리유형 === '콜' ? '#fee0b4' : '#b3fbff'
-                                                                const 거래대금 = rowvalue['3일평균거래대금'] >= 100000000 ? `${numberWithCommas(parseInt(rowvalue['3일평균거래대금'] / 100000000))} 억원` : `${numberWithCommas(rowvalue['3일평균거래대금'])} 원`
-                                                                return (
-                                                                    <TableRow key={rowvalue.종목코드} sx={{ backgroundColor: color }}>
-                                                                        <TableCell>{rowvalue.권리유형}</TableCell>
-                                                                        <TableCell>{rowvalue.행사가}</TableCell>
-                                                                        <TableCell>{rowvalue.종목명}</TableCell>
-                                                                        <TableCell>{rowvalue.최종거래일}</TableCell>
-                                                                        <TableCell>{거래대금}</TableCell>
-                                                                    </TableRow>
-                                                                );
-                                                            }
-                                                            return null; // 월구분이 일치하지 않는 경우 null 반환
-                                                        }
-                                                        )
-                                                    }
-                                                </TableBody>
-                                            </Table>
-                                        </Typography>
-                                    </Popover>
-                                </Grid>
-                            </>
-                        })
-                        : <Skeleton variant="rounded" animation="wave" />
-                    }
-                </Grid> */}
             </Grid>
         </Grid>
     )

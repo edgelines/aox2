@@ -70,7 +70,7 @@ const DataTable = ({ data, categoriseColorMap, swiperRef, onCategory }) => {
 
     const columns = [
         {
-            field: 'category', headerName: 'Category', width: 80,
+            field: 'category', headerName: 'Category', width: 70,
             align: 'left', headerAlign: 'center',
             renderCell: (params) => {
                 return (
@@ -83,7 +83,7 @@ const DataTable = ({ data, categoriseColorMap, swiperRef, onCategory }) => {
         ...data[0][Object.keys(data[0])[0]].map((d) => ({
             field: `${d.year}-${d.month}`,
             headerName: `${d.year} / ${d.month}`,
-            width: 113, align: 'right', headerAlign: 'center',
+            width: 100, align: 'right', headerAlign: 'center',
             renderCell: (params) => {
                 // 현재 셀에 해당하는 전월대비 값
                 const prevMonthField = `${params.field}전월대비`;
@@ -101,13 +101,10 @@ const DataTable = ({ data, categoriseColorMap, swiperRef, onCategory }) => {
                 return (
                     <div>
                         <span>
-                            {`${params.value} ( `}
+                            {`${params.value} , `}
                         </span>
                         <span style={{ color: color }}>
                             {` ${prevMonthValue.toFixed(2)} `}
-                        </span>
-                        <span>
-                            )
                         </span>
                     </div>
                 );
@@ -410,7 +407,7 @@ const CPI = ({ swiperRef, prepareChartData, prepareChartDataDetail }) => {
                     <FundarmentalChart data={chartData} height={430} name={'CPI'} rangeSelector={6} creditsPositionX={1} />
                 </div>
                 <Grid item container>
-                    <Grid item xs={2.5}>
+                    <Grid item xs={2.3}>
                         <Grid item container>
                             <Grid item xs={7}>
                                 <ToggleButtonGroup
@@ -458,7 +455,6 @@ const CPI = ({ swiperRef, prepareChartData, prepareChartDataDetail }) => {
                             </Grid>
                         </Grid>
                     </Grid>
-
 
                     <Grid item xs={9.3}>
                         {

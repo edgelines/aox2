@@ -49,33 +49,33 @@ export default function CoreChart({ data, height, name, categories, type, min, h
                 { color: 'greenyellow', width: 2, value: 70, dashStyle: 'shortdash', zIndex: 5, }],
                 gridLineWidth: 0.2, tickAmount: 9, max: 80,
             }],
-            xValue: [
-                {
-                    title: { text: "" },
-                    gridLineWidth: 0.3,
-                    labels: {
-                        align: 'right', x: -5, y: 4.5,
-                        style: {
-                            color: '#efe9e9ed',
-                            fontSize: '12px'
-                        },
-                    },
-                    min: min,
-                },
-            ],
-            xValue1: [
-                {
-                    title: { text: "" },
-                    gridLineWidth: 0.3,
-                    labels: {
-                        align: 'right', x: -5, y: 4.5,
-                        style: {
-                            color: '#efe9e9ed',
-                            fontSize: '12px'
-                        },
-                    },
-                },
-            ],
+            // xValue: [
+            //     {
+            //         title: { text: "" },
+            //         gridLineWidth: 0.3,
+            //         labels: {
+            //             align: 'right', x: -5, y: 4.5,
+            //             style: {
+            //                 color: '#efe9e9ed',
+            //                 fontSize: '12px'
+            //             },
+            //         },
+            //         min: min,
+            //     },
+            // ],
+            // xValue1: [
+            //     {
+            //         title: { text: "" },
+            //         gridLineWidth: 0.3,
+            //         labels: {
+            //             align: 'right', x: -5, y: 4.5,
+            //             style: {
+            //                 color: '#efe9e9ed',
+            //                 fontSize: '12px'
+            //             },
+            //         },
+            //     },
+            // ],
             mixedX: [
                 {
                     title: { text: null },
@@ -531,9 +531,9 @@ export default function CoreChart({ data, height, name, categories, type, min, h
                     return '<b>' + this.series.name + '  /  ' + this.point.category + '</b><br/>'
                 },
             },
-            xValue: { hideDelay: 2, shared: true, crosshairs: true, backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#fcfcfc" }, formatter: function () { return ["<b>" + this.x + "</b><br/>"].concat(this.points ? this.points.map(function (point) { return ("<b>" + point.series.name + "</b>" + " : " + parseFloat(point.y).toFixed(3) + "<br/>"); }) : []); }, },
-            xValue1: { hideDelay: 2, shared: true, crosshairs: true, backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#fcfcfc" }, formatter: function () { return ["<b>" + this.x + "</b><br/>"].concat(this.points ? this.points.map(function (point) { return ("<b>" + point.series.name + "</b>" + " : " + parseFloat(point.y).toFixed(3) + "<br/>"); }) : []); }, },
-            mixedX: { hideDelay: 2, shared: true, crosshairs: true, backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#fcfcfc" }, formatter: function () { return ["<b>" + this.x + "</b><br/>"].concat(this.points ? this.points.map(function (point) { return ("<b>" + point.series.name + "</b>" + " : " + parseFloat(point.y).toFixed(3) + "<br/>"); }) : []); }, },
+            // xValue: { hideDelay: 2, shared: true, crosshairs: true, backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#fcfcfc" }, formatter: function () { return ["<b>" + this.x + "</b><br/>"].concat(this.points ? this.points.map(function (point) { return ("<b>" + point.series.name + "</b>" + " : " + parseFloat(point.y).toFixed(3) + "<br/>"); }) : []); }, },
+            // xValue1: { hideDelay: 2, shared: true, crosshairs: true, backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#fcfcfc" }, formatter: function () { return ["<b>" + this.x + "</b><br/>"].concat(this.points ? this.points.map(function (point) { return ("<b>" + point.series.name + "</b>" + " : " + parseFloat(point.y).toFixed(3) + "<br/>"); }) : []); }, },
+            // mixedX: { hideDelay: 2, shared: true, crosshairs: true, backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#fcfcfc" }, formatter: function () { return ["<b>" + this.x + "</b><br/>"].concat(this.points ? this.points.map(function (point) { return ("<b>" + point.series.name + "</b>" + " : " + parseFloat(point.y).toFixed(3) + "<br/>"); }) : []); }, },
             VixColumn: { enabled: false },
             Kospi200GroupBubble: {
                 useHTML: true,
@@ -663,21 +663,21 @@ export default function CoreChart({ data, height, name, categories, type, min, h
                 lineColor: '#efe9e9ed', // x축 하단 라인 색상
                 gridLineWidth: 0,// x축 그래프 뒤에 깔리는 선 굵기 지정.(0으로 지정 시 사라짐)
             }
-            if (name === 'xValue') {
-                const x축라벨 = { color: "#efe9e9ed", fontSize: "11px" };
-                const y축이동 = 238;
-                const texts = ["B<br/>5", "B<br/>4", "B<br/>3", "B<br/>2", "B<br/>1", "09:07", "09:30", "10:00",
-                    "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00"];
-                const positions = [0, 1, 2, 3, 4, 8, 13, 19, 25, 31, 37, 43, 49, 55, 61, 67, 73, 79];
-                result.plotLines = texts.map((text, index) => createPlotLine(text, positions[index], x축라벨, y축이동));
-                result.labels = { y: 26, style: { color: "#404040", fontSize: "19px", }, rotation: 0, };
-                result.plotBands = [{ color: "rgba(111,111,111,0.4)", from: -1, to: 5, },];
+            // if (name === 'xValue') {
+            //     const x축라벨 = { color: "#efe9e9ed", fontSize: "11px" };
+            //     const y축이동 = 238;
+            //     const texts = ["B<br/>5", "B<br/>4", "B<br/>3", "B<br/>2", "B<br/>1", "09:07", "09:30", "10:00",
+            //         "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00"];
+            //     const positions = [0, 1, 2, 3, 4, 8, 13, 19, 25, 31, 37, 43, 49, 55, 61, 67, 73, 79];
+            //     result.plotLines = texts.map((text, index) => createPlotLine(text, positions[index], x축라벨, y축이동));
+            //     result.labels = { y: 26, style: { color: "#404040", fontSize: "19px", }, rotation: 0, };
+            //     result.plotBands = [{ color: "rgba(111,111,111,0.4)", from: -1, to: 5, },];
 
-                result.gridLineWidth = 0;
-                result.tickWidth = 0;
-                result.max = 86;
-                return result;
-            } else if (name === 'trendData') {
+            //     result.gridLineWidth = 0;
+            //     result.tickWidth = 0;
+            //     result.max = 86;
+            //     return result;
+            if (name === 'trendData') {
                 result.tickInterval = 3;
                 result.labels = { style: { color: '#FCAB2F', fontSize: '11px' } };
                 result.categories = categories;

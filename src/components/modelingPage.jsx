@@ -2,13 +2,11 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Grid, Box, Typography, Skeleton, ToggleButtonGroup } from '@mui/material';
 import IndexChart from './util/IndexChart';
-import { StyledButton, StyledToggleButton } from './util/util';
+import { StyledButton, StyledToggleButton, update_5M } from './util/util';
 import MarketCurrentValue from './Index/marketCurrentValue.jsx'
-// import { customRsi, williamsR } from 'indicatorts';
 import { API, markerConfig } from './util/config';
-// import useInterval from './util/useInterval';
 
-export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail }) {
+export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail, Kospi200, Kospi, Kosdaq, Invers, IndexMA }) {
 
     const [lastValue, setLastValue] = useState({ ADR1: '', ADR2: '', ADR3: '', WillR1: '', WillR2: '', WillR3: '', WillR4: '', WillR5: '' })
     const [adrNum1, setAdrNum1] = useState(7);
@@ -22,10 +20,14 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
     const [williamsNum5, setWilliamsNum5] = useState(44);
 
     const [indexChartConfig, setIndexChartConfig] = useState({})
+    // const [mainData, setMainData] = useState('Kospi200');
+    const [formats, setFormats] = useState(() => ['MA50']);
+    const [chartData, setChartData] = useState([]);
 
     const [indexName, setIndexName] = useState('Kospi200')
     const handlePage = (event, value) => { if (value !== null) { setIndexName(value); } }
-
+    const handleFormat = (event, newFormats) => { if (newFormats !== null) { setFormats(newFormats); } };
+    // const handleMainData = (event, newAlignment) => { if (newAlignment !== null) { setMainData(newAlignment); } };
     const handleValueChange = (type, direction) => {
         if (type === "ADR1") {
             setAdrNum1(prev => prev + (direction === "UP" ? 1 : -1))
@@ -103,8 +105,6 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
         indexData.push(getIndexData(indexName))
         const res = await Promise.all(indexData);
 
-        // const resKospi200 = await axios.get(`${API}/modeling/Kospi200`);
-
         // Promise 객체를 사용하여 모든 데이터 수집을 기다림
         const promises = [];
         promises.push(getADR(adrNum1, 'ADR1', indexName));
@@ -119,20 +119,52 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
         const updatedData = await Promise.all(promises);
         // Kospi200 데이터와 업데이트된 ADR 데이터를 병합
 
-        const newIndexChartConfig = [
+        let newIndexChartConfig = [
             {
                 name: indexName, id: 'candlestick',
                 type: 'candlestick', yAxis: 0, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false,
-                data: res[0].data
+                data: res[0].data, isCandle: true,
             },
             ...updatedData,
         ];
+
         setIndexChartConfig(newIndexChartConfig);
     };
 
-    // useEffect(() => { fetchData(adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5); }, [])
-    useEffect(() => { fetchData(adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5, indexName); }, [indexName, adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5])
+    useEffect(() => {
+        fetchData(adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5, indexName);
+    }, [indexName, adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5])
 
+    useEffect(() => {
+        let data;
+        switch (indexName) {
+            case 'Kospi200':
+                data = Kospi200;
+                break;
+            case 'Kospi':
+                data = Kospi;
+                break;
+            case 'Kosdaq':
+                data = Kosdaq;
+                break;
+            case 'Invers':
+                data = Invers;
+                break;
+            default:
+                data = Kospi200;
+        }
+
+        // formats에 따른 데이터 변형 로직
+        if (formats.includes('MA50')) {
+            data = [...data, ...IndexMA.MA50]
+        }
+
+        if (formats.includes('MA112')) {
+            data = [...data, ...IndexMA.MA112]
+        }
+        setChartData(data)
+
+    }, [indexName, formats, Kospi200, Kospi, Kosdaq, Invers])
     // 60초 주기 업데이트
     useEffect(() => {
         const now = new Date();
@@ -171,13 +203,6 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
         return () => clearTimeout(timeoutId);
     }, [])
 
-    // // 5분 주기 업데이트
-    // useInterval(fetchData, 1000 * 60 * 5, {
-    //     startHour: 9,
-    //     endHour: 16,
-    //     daysOff: [0, 6], // 일요일(0)과 토요일(6)은 제외
-    // });
-
 
     const indicators = [
         { name: `ADR1`, value: `ADR ( ${adrNum1} )`, color: colorMap.ADR1 },
@@ -205,7 +230,7 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
     return (
         <Grid container spacing={1}>
             {/* Chart */}
-            <Grid item xs={10.5}> <IndexChart data={indexChartConfig} height={940} name={'Modeling'} rangeSelector={3} creditsPositionX={1} /> </Grid>
+            <Grid item xs={5}> <IndexChart data={indexChartConfig} height={940} name={'Modeling'} rangeSelector={1} creditsPositionX={1} /> </Grid>
 
             {/* Config, Indicators, Infomation */}
             <Grid item xs={1.5} container sx={{ height: '940px' }}>
@@ -252,6 +277,14 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
                         <StyledToggleButton fontSize={'12px'} value="Kospi200">Kospi200</StyledToggleButton>
                         <StyledToggleButton fontSize={'12px'} value="Kospi">Kospi</StyledToggleButton>
                         <StyledToggleButton fontSize={'12px'} value="Kosdaq">Kosdaq</StyledToggleButton>
+                    </ToggleButtonGroup>
+
+                    <ToggleButtonGroup
+                        value={formats}
+                        onChange={handleFormat}
+                    >
+                        <StyledToggleButton fontSize={'12px'} aria-label="MA50" value="MA50">MA50</StyledToggleButton>
+                        <StyledToggleButton fontSize={'12px'} aria-label="MA112" value="MA112">MA112</StyledToggleButton>
                     </ToggleButtonGroup>
 
                     <Grid container sx={{ mb: '50px' }}></Grid>
@@ -314,6 +347,29 @@ export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail })
                     <Grid container sx={{ mb: '60px' }}></Grid>
                 </Grid>
 
+            </Grid>
+
+            {/* Btn */}
+            {/* <Grid item xs={0.5}>
+                <Box>
+                    <ToggleButtonGroup
+                        value={mainData}
+                        exclusive
+                        onChange={handleMainData}
+                        orientation="vertical"
+                        aria-label="text alignment"
+                    >
+                        <StyledToggleButton aria-label="Kospi200" value="Kospi200">코스피200</StyledToggleButton>
+                        <StyledToggleButton aria-label="Kospi" value="Kospi">코스피</StyledToggleButton>
+                        <StyledToggleButton aria-label="Kosdaq" value="Kosdaq">코스닥</StyledToggleButton>
+                        <StyledToggleButton aria-label="Invers" value="Invers">인버스</StyledToggleButton>
+                    </ToggleButtonGroup>
+                </Box>
+
+            </Grid> */}
+            {/* Index */}
+            <Grid item xs={5.5}>
+                <IndexChart data={chartData} height={940} name={'IndexMA'} rangeSelector={2} xAxisType={'datetime'} credit={update_5M} creditsPositionX={1} />
             </Grid>
         </Grid>
     )

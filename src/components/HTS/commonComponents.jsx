@@ -13,10 +13,10 @@ export const TrendTables = ({ swiperRef, statistics, data1, data2, data3, data5,
             field: '연속거래일', headerName: ' ', width: 5,
             align: 'center', headerAlign: 'center',
         }, {
-            field: '종목명', headerName: '종목명', width: 90,
+            field: '종목명', headerName: '종목명', width: 75,
             align: 'left', headerAlign: 'center',
         }, {
-            field: '시가총액', headerName: '시총(억)', width: 65,
+            field: '시가총액', headerName: '시총(억)', width: 60,
             align: 'right', headerAlign: 'center',
             valueFormatter: (params) => {
                 if (params.value == null) {
@@ -55,15 +55,15 @@ export const TrendTables = ({ swiperRef, statistics, data1, data2, data3, data5,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderProgress(params)
     }, {
-        field: '보험기타금융', headerName: '보험', width: 45,
+        field: '보험기타금융', headerName: '보험', width: 35,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderProgress(params)
     }, {
-        field: '연기금', headerName: '연기금', width: 45,
+        field: '연기금', headerName: '연기금', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderProgress(params)
     }, {
-        field: '기타법인', headerName: '기타법인', width: 45,
+        field: '기타법인', headerName: '기타법인', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderProgress(params)
     }]
@@ -79,9 +79,12 @@ export const TrendTables = ({ swiperRef, statistics, data1, data2, data3, data5,
     },
     ]
     const indicators = [
-        { name: 'table1', adjustWidth: '22px' },
-        { name: 'table2', adjustWidth: '465px' },
-        { name: 'table3', adjustWidth: '1110px' },
+        { name: 'table1', adjustWidth: '180px' },
+        { name: 'table2', adjustWidth: '610px' },
+        { name: 'table3', adjustWidth: '1200px' },
+        // { name: 'table1', adjustWidth: '22px' },
+        // { name: 'table2', adjustWidth: '465px' },
+        // { name: 'table3', adjustWidth: '1110px' },
     ]
     const tableHeight = 440
 
@@ -151,7 +154,7 @@ export const TrendTables = ({ swiperRef, statistics, data1, data2, data3, data5,
                 {
                     Array.isArray(countBtn.table1) ?
                         indicators.map((indicator, index) => (
-                            <Box key={indicator.name} sx={{ position: 'absolute', left: indicator.adjustWidth, top: `${tableHeight + 55}px`, zIndex: 90 }}>
+                            <Box key={indicator.name} sx={{ position: 'absolute', left: indicator.adjustWidth, top: `${tableHeight + 64}px`, zIndex: 90 }}>
                                 <Grid container sx={{ width: '130px' }}>
                                     <Grid item xs={1} container direction="row" alignItems="center" sx={{ pr: 2 }}>
                                         {countBtn[indicator.name][0]}

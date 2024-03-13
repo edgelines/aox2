@@ -50,26 +50,26 @@ export const IndexMA = createSlice({
     },
 });
 
-// MarketADR 
-export const getMarketKospi200 = createAsyncThunk("GET/MarketKospi200", async () => {
-    const res = await axios.get(`${API}/MarketKospi200`);
-    return { data: res.data };
-});
-export const MarketKospi200 = createSlice({
-    name: "MarketKospi200",
-    initialState: { data: [], status: 'idle', error: null },
-    reducers: {},
-    extraReducers: {
-        [getMarketKospi200.pending]: (state) => {
-            state.status = 'loading';
-        },
-        [getMarketKospi200.fulfilled]: (state, { payload }) => { state.data = payload.data; },
-        [getMarketKospi200.rejected]: (state, action) => {
-            state.status = 'failed';
-            state.error = action.error.message;
-        }
-    },
-});
+// // MarketADR 
+// export const getMarketKospi200 = createAsyncThunk("GET/MarketKospi200", async () => {
+//     const res = await axios.get(`${API}/MarketKospi200`);
+//     return { data: res.data };
+// });
+// export const MarketKospi200 = createSlice({
+//     name: "MarketKospi200",
+//     initialState: { data: [], status: 'idle', error: null },
+//     reducers: {},
+//     extraReducers: {
+//         [getMarketKospi200.pending]: (state) => {
+//             state.status = 'loading';
+//         },
+//         [getMarketKospi200.fulfilled]: (state, { payload }) => { state.data = payload.data; },
+//         [getMarketKospi200.rejected]: (state, action) => {
+//             state.status = 'failed';
+//             state.error = action.error.message;
+//         }
+//     },
+// });
 
 export const getVixMA = createAsyncThunk("GET/VixMA", async () => {
     const res = await axios.get(`${API}/indices/VixMA`);
