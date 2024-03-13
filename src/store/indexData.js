@@ -71,61 +71,61 @@ export const IndexMA = createSlice({
 //     },
 // });
 
-export const getVixMA = createAsyncThunk("GET/VixMA", async () => {
-    const res = await axios.get(`${API}/indices/VixMA`);
-    const lineStyle = { type: 'spline', yAxis: 0, animation: false, zIndex: 3, marker: { enabled: false, states: { hover: { enabled: false } } }, }
-    const hidenStyle = { dashStyle: 'shortdash', visible: false }
+// export const getVixMA = createAsyncThunk("GET/VixMA", async () => {
+//     const res = await axios.get(`${API}/indices/VixMA`);
+//     const lineStyle = { type: 'spline', yAxis: 0, animation: false, zIndex: 3, marker: { enabled: false, states: { hover: { enabled: false } } }, }
+//     const hidenStyle = { dashStyle: 'shortdash', visible: false }
 
-    return [{
-        name: 'Vix',
-        data: res.data.VIX,
-        type: 'candlestick',
-        yAxis: 0,
-        upLineColor: "orangered",
-        upColor: "orangered",
-        lineColor: "dodgerblue",
-        color: "dodgerblue",
-        zIndex: 2,
-        animation: false, isCandle: true,
+//     return [{
+//         name: 'Vix',
+//         data: res.data.VIX,
+//         type: 'candlestick',
+//         yAxis: 0,
+//         upLineColor: "orangered",
+//         upColor: "orangered",
+//         lineColor: "dodgerblue",
+//         color: "dodgerblue",
+//         zIndex: 2,
+//         animation: false, isCandle: true,
 
-    }, {
-        ...lineStyle, ...hidenStyle, name: '2D', color: '#efe9e9ed', data: res.data.MA2, lineWidth: 1.5,
-    }, {
-        ...lineStyle, name: '3D', color: 'tomato', data: res.data.MA3, lineWidth: 1.5
-    }, {
-        ...lineStyle, ...hidenStyle, name: '4D', color: 'coral', data: res.data.MA4, lineWidth: 1.5,
-    }, {
-        ...lineStyle, name: '5D', color: 'gold', data: res.data.MA5, lineWidth: 1.5
-    }, {
-        ...lineStyle, ...hidenStyle, name: '6D', color: 'orange', data: res.data.MA6, lineWidth: 1.5,
-    }, {
-        ...lineStyle, ...hidenStyle, name: '9D', color: 'lime', data: res.data.MA9, lineWidth: 1.5,
-    }, {
-        ...lineStyle, ...hidenStyle, name: '10D', color: 'greenyellow', data: res.data.MA10, lineWidth: 1,
-    }, {
-        ...lineStyle, name: '12D', color: 'mediumseagreen', data: res.data.MA12, lineWidth: 1
-    }, {
-        ...lineStyle, ...hidenStyle, name: '15D', color: 'limegreen', data: res.data.MA15, lineWidth: 1,
-    }, {
-        ...lineStyle, name: '18D', color: 'skyblue', data: res.data.MA18, lineWidth: 1
-    }, {
-        ...lineStyle, ...hidenStyle, name: '20D', color: 'cadetblue', data: res.data.MA20, lineWidth: 1,
-    }, {
-        ...lineStyle, ...hidenStyle, name: '25D', color: 'violet', data: res.data.MA25, lineWidth: 1,
-    }, {
-        ...lineStyle, name: '27D', color: 'dodgerblue', data: res.data.MA27, lineWidth: 1
-    }, {
-        ...lineStyle, name: '36D', color: 'orchid', data: res.data.MA36, lineWidth: 1
-    }, {
-        ...lineStyle, name: '45D', color: 'pink', data: res.data.MA45, lineWidth: 1
-    }, {
-        ...lineStyle, name: '60D', color: 'magenta', data: res.data.MA60, lineWidth: 1
-    }, {
-        ...lineStyle, name: '112D', color: 'brown', data: res.data.MA112, lineWidth: 1
-    }, {
-        ...lineStyle, name: '224D', color: '#efe9e9ed', data: res.data.MA224, lineWidth: 1
-    }];
-});
+//     }, {
+//         ...lineStyle, ...hidenStyle, name: '2D', color: '#efe9e9ed', data: res.data.MA2, lineWidth: 1.5,
+//     }, {
+//         ...lineStyle, name: '3D', color: 'tomato', data: res.data.MA3, lineWidth: 1.5
+//     }, {
+//         ...lineStyle, ...hidenStyle, name: '4D', color: 'coral', data: res.data.MA4, lineWidth: 1.5,
+//     }, {
+//         ...lineStyle, name: '5D', color: 'gold', data: res.data.MA5, lineWidth: 1.5
+//     }, {
+//         ...lineStyle, ...hidenStyle, name: '6D', color: 'orange', data: res.data.MA6, lineWidth: 1.5,
+//     }, {
+//         ...lineStyle, ...hidenStyle, name: '9D', color: 'lime', data: res.data.MA9, lineWidth: 1.5,
+//     }, {
+//         ...lineStyle, ...hidenStyle, name: '10D', color: 'greenyellow', data: res.data.MA10, lineWidth: 1,
+//     }, {
+//         ...lineStyle, name: '12D', color: 'mediumseagreen', data: res.data.MA12, lineWidth: 1
+//     }, {
+//         ...lineStyle, ...hidenStyle, name: '15D', color: 'limegreen', data: res.data.MA15, lineWidth: 1,
+//     }, {
+//         ...lineStyle, name: '18D', color: 'skyblue', data: res.data.MA18, lineWidth: 1
+//     }, {
+//         ...lineStyle, ...hidenStyle, name: '20D', color: 'cadetblue', data: res.data.MA20, lineWidth: 1,
+//     }, {
+//         ...lineStyle, ...hidenStyle, name: '25D', color: 'violet', data: res.data.MA25, lineWidth: 1,
+//     }, {
+//         ...lineStyle, name: '27D', color: 'dodgerblue', data: res.data.MA27, lineWidth: 1
+//     }, {
+//         ...lineStyle, name: '36D', color: 'orchid', data: res.data.MA36, lineWidth: 1
+//     }, {
+//         ...lineStyle, name: '45D', color: 'pink', data: res.data.MA45, lineWidth: 1
+//     }, {
+//         ...lineStyle, name: '60D', color: 'magenta', data: res.data.MA60, lineWidth: 1
+//     }, {
+//         ...lineStyle, name: '112D', color: 'brown', data: res.data.MA112, lineWidth: 1
+//     }, {
+//         ...lineStyle, name: '224D', color: '#efe9e9ed', data: res.data.MA224, lineWidth: 1
+//     }];
+// });
 
 export const getVix = createAsyncThunk("GET/Vix", async () => {
     const response = await axios.get(`${API}/indices/VixMA?last=ture`);
@@ -538,14 +538,14 @@ export const Kospi200 = createSlice({
 
 
 
-export const VixMA = createSlice({
-    name: "VixMA",
-    initialState: [],
-    reducers: {},
-    extraReducers: {
-        [getVixMA.fulfilled]: (state, { payload }) => [...payload],
-    },
-});
+// export const VixMA = createSlice({
+//     name: "VixMA",
+//     initialState: [],
+//     reducers: {},
+//     extraReducers: {
+//         [getVixMA.fulfilled]: (state, { payload }) => [...payload],
+//     },
+// });
 
 
 export const MarketDetail = createSlice({

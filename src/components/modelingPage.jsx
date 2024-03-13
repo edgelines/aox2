@@ -6,7 +6,7 @@ import { StyledButton, StyledToggleButton, update_5M } from './util/util';
 import MarketCurrentValue from './Index/marketCurrentValue.jsx'
 import { API, markerConfig } from './util/config';
 
-export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail, Kospi200, Kospi, Kosdaq, Invers, IndexMA }) {
+export default function ModelingPage({ swiperRef, Vix, Exchange, MarketDetail, Kospi200, Kospi, Kosdaq, IndexMA, Invers }) {
 
     const [lastValue, setLastValue] = useState({ ADR1: '', ADR2: '', ADR3: '', WillR1: '', WillR2: '', WillR3: '', WillR4: '', WillR5: '' })
     const [adrNum1, setAdrNum1] = useState(7);

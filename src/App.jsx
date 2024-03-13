@@ -2,10 +2,8 @@ import './App.css';
 import React, { useState, useEffect, useRef } from "react";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { getStockSectors, getKospi200BubbleCategoryGruop, getKospi200BubbleCategory } from "./store/stockSectors.js";
-import { getABC } from "./store/AxBxC.js";
-import { getSearchInfo, getScheduleItemEvent } from "./store/info.js";
-import { getIndexMA, getVixMA, getVix, getMarketDetail, getKospi200, getKospi, getKosdaq, getInvers, getExchange } from './store/indexData.js';
+import { getKospi200BubbleCategoryGruop, getKospi200BubbleCategory } from "./store/stockSectors.js";
+import { getIndexMA, getVix, getMarketDetail, getKospi200, getKospi, getKosdaq, getInvers, getExchange } from './store/indexData.js';
 import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvgCheck } from './store/ELW.js';
 // Websokect
 // import { websocketConnectWA1, websocketConnectWA2, } from './store/actions/websocketActions';
@@ -13,24 +11,12 @@ import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvgCheck
 // Components
 import SchedulePage from './components/schedulePage.jsx';
 import SectorsChartPage from './components/sectorsChartPage.jsx';
-// import SectorSearchPage from './components/sectorSearchPage.jsx';
-// import OldAoxStockPage from './components/OldAoX/stockPage.jsx'
-// import CallPutPage from './components/ELW/CallPutPage.jsx';
 import DetailPage from './components/ELW/detailPage.jsx'
 import MainPage from './components/mainPage.jsx'
-// import TreasuryStockPage from './components/TreasuryStock.jsx'
-// import StockSearchPage from './components/StockSearch';
-// import StockSearchMonitoringPage from './components/StockSearchMonitoring';
-// import CtpPage from './components/ELW/CtpPage.jsx'
 import ModelingPage from './components/modelingPage.jsx';
 import WeightAvgPage1 from './components/ELW/weightAvgPage1.jsx';
 import WeightAvgPage2 from './components/ELW/weightAvgPage2.jsx';
-// import WeightAvgPage3 from './components/ELW/weightAvgPage3.jsx';
-
-// import HTS from './components/hts';
-// import IpoPulse from './components/ipoPulse';
 import SearchFinancial from './components/searchFinancial';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import "swiper/css";
 import "swiper/css/pagination";
@@ -38,41 +24,28 @@ import "swiper/css/navigation";
 import { Keyboard, Mousewheel, Pagination } from "swiper/modules";
 import axios from 'axios';
 import { API } from './components/util/config'
-import useInterval from './components/util/useInterval';
+// import useInterval from './components/util/useInterval';
 
 function App() {
     const [SectorsChartData, setSectorsChartData] = useState([]);
-    const [ABC1, setABC1] = useState([]);
-    const [ABC2, setABC2] = useState([]);
 
     const dispatch = useDispatch();
-    const StockSectors = useSelector((state) => state.StockSectors);
     const Kospi200BubbleCategoryGruop = useSelector((state) => state.Kospi200BubbleCategoryGruop);
     const Kospi200BubbleCategory = useSelector((state) => state.Kospi200BubbleCategory);
-
-    // const StockSearch = useSelector((state) => state.StockSearch);
-    // const StockSearchTracking = useSelector((state) => state.StockSearchTracking)
-    // const StockSearchTrackingStatistics = useSelector((state) => state.StockSearchTrackingStatistics)
-    const SearchInfo = useSelector((state) => state.SearchInfo);
-    const ABC = useSelector((state) => state.ABC)
-
+    // const ABC = useSelector((state) => state.ABC)
     const ELW_monthTable = useSelector((state) => state.ELW_monthTable);
     const ELW_CallPutRatio_Maturity = useSelector((state) => state.ELW_CallPutRatio_Maturity);
-    // const ElwBarData = useSelector((state) => state.ElwBarData)
-    // const ElwWeightedAvg = useSelector((state) => state.ElwWeightedAvg);
     const ElwWeightedAvgCheck = useSelector((state) => state.ElwWeightedAvgCheck);
     const MarketDetail = useSelector((state) => state.MarketDetail);
 
     // index Data
     const IndexMA = useSelector((state) => state.IndexMA);
-    const VixMA = useSelector((state) => state.VixMA);
     const Vix = useSelector((state) => state.Vix);
     const Kospi200 = useSelector((state) => state.Kospi200);
     const Kospi = useSelector((state) => state.Kospi);
     const Kosdaq = useSelector((state) => state.Kosdaq);
     const Invers = useSelector((state) => state.Invers);
     // const MarketKospi200 = useSelector((state) => state.MarketKospi200);
-    const ScheduleItemEvent = useSelector((state) => state.ScheduleItemEvent);
     const Exchange = useSelector((state) => state.Exchange);
     const swiperRef = useRef(null);
     // const WA1 = useSelector(state => state.websocket.WA_1);
@@ -98,33 +71,22 @@ function App() {
     // 5분 주기 ( Index Data )
     const fetchData5Min = async () => {
         await dispatch(getMarketDetail());
-        await dispatch(getStockSectors());
         await dispatch(getKospi200BubbleCategoryGruop());
         await dispatch(getKospi200BubbleCategory());
-        await dispatch(getABC());
         await dispatch(getELW_monthTable());
         await dispatch(getELW_CallPutRatio_Maturity());
-        // await dispatch(getElwWeightedAvg());
         await dispatch(getElwWeightedAvgCheck());
         await dispatch(getIndexMA());
         await dispatch(getKospi200());
         await dispatch(getKospi());
         await dispatch(getKosdaq());
         await dispatch(getInvers());
-        // await dispatch(getMarketKospi200());
         await dispatch(getExchange());
-        // await dispatch(getElwBarData());
         await postReq();
-        // await dispatch(getStockSearch());
-        // await dispatch(getStockSearchTrackingStatistics());
     }
     // 하루 주기
     const fetchData1Day = async () => {
-        await dispatch(getSearchInfo());
-        await dispatch(getScheduleItemEvent())
-        await dispatch(getVixMA());
         await dispatch(getVix());
-        // await dispatch(getStockSearchTracking());
         // dispatch(websocketConnectWA1());
         // dispatch(websocketConnectWA2());
     }
@@ -214,12 +176,6 @@ function App() {
         postReq();
     }, [checkboxStatusUp, checkboxStatusDown, checkboxStatusTup, checkboxAll])
 
-    useEffect(() => {
-        if (ABC.status === 'succeeded') {
-            setABC1(ABC.data1.data)
-            setABC2(ABC.data2.data)
-        }
-    }, [ABC])
     // Swiper Slider Bottom Page Number Style
     const handleSlideChange = (swiper) => {
         const paginationEl = swiper.pagination.el;
@@ -244,9 +200,8 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <SchedulePage swiperRef={swiperRef}
-                        StockSectors={StockSectors} ABC1={ABC1} ABC2={ABC2}
-                        SearchInfo={SearchInfo} Exchange={Exchange} Vix={Vix} VixMA={VixMA}
-                        SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
+                        Exchange={Exchange} Vix={Vix}
+                        SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes}
                     />
                 </SwiperSlide>
 
@@ -297,6 +252,18 @@ export default App;
 
 const swiperSlideStyle = { backgroundColor: "#404040", color: '#efe9e9ed', paddingLeft: '2vh', paddingRight: '2vh', paddingTop: '0.2vh' }
 
+
+// import { getScheduleItemEvent } from "./store/info.js";
+// import SectorSearchPage from './components/sectorSearchPage.jsx';
+// import OldAoxStockPage from './components/OldAoX/stockPage.jsx'
+// import CallPutPage from './components/ELW/CallPutPage.jsx';
+// import TreasuryStockPage from './components/TreasuryStock.jsx'
+// import StockSearchPage from './components/StockSearch';
+// import StockSearchMonitoringPage from './components/StockSearchMonitoring';
+// import CtpPage from './components/ELW/CtpPage.jsx'
+// import WeightAvgPage3 from './components/ELW/weightAvgPage3.jsx';
+// import HTS from './components/hts';
+// import IpoPulse from './components/ipoPulse';
 {/* <SwiperSlide style={swiperSlideStyle} >
                     <OldAoxStockPage swiperRef={swiperRef} />
                 </SwiperSlide> */}

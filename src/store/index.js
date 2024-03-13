@@ -3,11 +3,11 @@ import { configureStore } from "@reduxjs/toolkit";
 // import rootSaga from './rootSaga';
 // import websocketReducer from './reducers/websocketReducer';
 
-import { StockSectors, Kospi200BubbleCategoryGruop, Kospi200BubbleCategory } from "./stockSectors.js";
+import { Kospi200BubbleCategoryGruop, Kospi200BubbleCategory } from "./stockSectors.js";
 // import { StockSectorsThemes } from "./stockPrice.js";
-import { ABC } from "./AxBxC.js";
-import { SearchInfo, ScheduleItemEvent } from "./info.js";
-import { IndexMA, VixMA, Vix, MarketDetail, Kospi200, Kospi, Kosdaq, Invers, Exchange } from "./indexData.js";
+// import { ABC } from "./AxBxC.js";
+// import { ScheduleItemEvent } from "./info.js";
+import { IndexMA, Vix, MarketDetail, Kospi200, Kospi, Kosdaq, Invers, Exchange } from "./indexData.js";
 import { ELW_monthTable, ELW_CallPutRatio_Maturity, ElwWeightedAvgCheck } from "./ELW.js";
 // import { StockSearch, StockSearchTracking, StockSearchTrackingStatistics } from './stockSearch.js';
 
@@ -15,23 +15,10 @@ import { ELW_monthTable, ELW_CallPutRatio_Maturity, ElwWeightedAvgCheck } from "
 
 export default configureStore({
     reducer: {
-        StockSectors: StockSectors.reducer,
         Kospi200BubbleCategoryGruop: Kospi200BubbleCategoryGruop.reducer,
         Kospi200BubbleCategory: Kospi200BubbleCategory.reducer,
-        // StockPrice: StockPrice.reducer,
-        // StockSectorsThemes: StockSectorsThemes.reducer,
-        ABC: ABC.reducer,
-        // ABC1: ABC1.reducer,
-        // ABC2: ABC2.reducer,
-        // StockThemeByItem: StockThemeByItem.reducer,
-        // StockSectorByItem: StockSectorByItem.reducer,
-        // StockSearch: StockSearch.reducer,
-        // StockSearchTracking: StockSearchTracking.reducer,
-        // StockSearchTrackingStatistics: StockSearchTrackingStatistics.reducer,
-        SearchInfo: SearchInfo.reducer,
-        ScheduleItemEvent: ScheduleItemEvent.reducer,
         IndexMA: IndexMA.reducer,
-        VixMA: VixMA.reducer,
+
         Vix: Vix.reducer,
 
         ELW_monthTable: ELW_monthTable.reducer,

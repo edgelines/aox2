@@ -23,7 +23,7 @@ import { numberWithCommas } from './util/util';
 import { API } from './util/config';
 import useInterval from './util/useInterval';
 
-export default function SchedulePage({ swiperRef, StockSectors, ABC1, ABC2, SearchInfo, SectorsChartData, SectorsRanksThemes, ScheduleItemEvent, Exchange, Vix, VixMA }) {
+export default function SchedulePage({ swiperRef, SectorsChartData, SectorsRanksThemes, Exchange, Vix }) {
 
     const [schedule, setSchedule] = useState();
     const [page, setPage] = useState(1);
@@ -145,12 +145,10 @@ export default function SchedulePage({ swiperRef, StockSectors, ABC1, ABC2, Sear
                     {sectorPage === 'IpoPulse' && <IpoPulse swiperRef={swiperRef} />}
                     {sectorPage === 'HTS' && <HTS swiperRef={swiperRef} SectorsChartData={SectorsChartData} />}
                     {sectorPage === 'SectorSearchPage' && <SectorSearchPage
-                        StockSectors={StockSectors} swiperRef={swiperRef} ABC1={ABC1} ABC2={ABC2}
-                        SearchInfo={SearchInfo}
-                        SectorsChartData={SectorsChartData} SectorsRanksThemes={SectorsRanksThemes} ScheduleItemEvent={ScheduleItemEvent}
+                        swiperRef={swiperRef} SectorsChartData={SectorsChartData} SectorsRanksThemes={SectorsRanksThemes}
                     />}
                     {/* {sectorPage === 'PERPBR' && <Pbr swiperRef={swiperRef} />} */}
-                    {sectorPage === 'WeightAvgPage3' && <WeightAvgPage3 swiperRef={swiperRef} Exchange={Exchange} Vix={Vix} VixMA={VixMA} />}
+                    {sectorPage === 'WeightAvgPage3' && <WeightAvgPage3 swiperRef={swiperRef} Exchange={Exchange} Vix={Vix} />}
                 </Grid>
             </Grid>
         </>

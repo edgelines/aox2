@@ -17,12 +17,12 @@ require('highcharts/modules/exporting')(Highcharts)
 require('highcharts/modules/accessibility')(Highcharts)
 
 
-export default function WeightAvgPage3({ swiperRef, Exchange, Vix, VixMA }) {
+export default function WeightAvgPage3({ swiperRef, Exchange, Vix }) {
     const [kospiPbr, setKospiPbr] = useState();
     const [kospi200Pbr, setKospi200Pbr] = useState();
     const [kosdaqPbr, setKosdaqPbr] = useState();
     const [moneyIndex, setMoneyIndex] = useState();
-    // const [exchange, setExchange] = useState({});
+    const [VixMA, setVixMA] = useState([])
     const [page, setPage] = useState('Kospi200');
     const handlePage = (event, value) => { if (value !== null) { setPage(value); } }
 
@@ -111,6 +111,60 @@ export default function WeightAvgPage3({ swiperRef, Exchange, Vix, VixMA }) {
                 // params: { index: 2, period: 560 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
             }])
         });
+
+        const res = await axios.get(`${API}/indices/VixMA`);
+        const lineStyle = { type: 'spline', yAxis: 0, animation: false, zIndex: 3, marker: { enabled: false, states: { hover: { enabled: false } } }, }
+        const hidenStyle = { dashStyle: 'shortdash', visible: false }
+        const vix_ma = [{
+            name: 'Vix',
+            data: res.data.VIX,
+            type: 'candlestick',
+            yAxis: 0,
+            upLineColor: "orangered",
+            upColor: "orangered",
+            lineColor: "dodgerblue",
+            color: "dodgerblue",
+            zIndex: 2,
+            animation: false, isCandle: true,
+
+        }, {
+            ...lineStyle, ...hidenStyle, name: '2D', color: '#efe9e9ed', data: res.data.MA2, lineWidth: 1.5,
+        }, {
+            ...lineStyle, name: '3D', color: 'tomato', data: res.data.MA3, lineWidth: 1.5
+        }, {
+            ...lineStyle, ...hidenStyle, name: '4D', color: 'coral', data: res.data.MA4, lineWidth: 1.5,
+        }, {
+            ...lineStyle, name: '5D', color: 'gold', data: res.data.MA5, lineWidth: 1.5
+        }, {
+            ...lineStyle, ...hidenStyle, name: '6D', color: 'orange', data: res.data.MA6, lineWidth: 1.5,
+        }, {
+            ...lineStyle, ...hidenStyle, name: '9D', color: 'lime', data: res.data.MA9, lineWidth: 1.5,
+        }, {
+            ...lineStyle, ...hidenStyle, name: '10D', color: 'greenyellow', data: res.data.MA10, lineWidth: 1,
+        }, {
+            ...lineStyle, name: '12D', color: 'mediumseagreen', data: res.data.MA12, lineWidth: 1
+        }, {
+            ...lineStyle, ...hidenStyle, name: '15D', color: 'limegreen', data: res.data.MA15, lineWidth: 1,
+        }, {
+            ...lineStyle, name: '18D', color: 'skyblue', data: res.data.MA18, lineWidth: 1
+        }, {
+            ...lineStyle, ...hidenStyle, name: '20D', color: 'cadetblue', data: res.data.MA20, lineWidth: 1,
+        }, {
+            ...lineStyle, ...hidenStyle, name: '25D', color: 'violet', data: res.data.MA25, lineWidth: 1,
+        }, {
+            ...lineStyle, name: '27D', color: 'dodgerblue', data: res.data.MA27, lineWidth: 1
+        }, {
+            ...lineStyle, name: '36D', color: 'orchid', data: res.data.MA36, lineWidth: 1
+        }, {
+            ...lineStyle, name: '45D', color: 'pink', data: res.data.MA45, lineWidth: 1
+        }, {
+            ...lineStyle, name: '60D', color: 'magenta', data: res.data.MA60, lineWidth: 1
+        }, {
+            ...lineStyle, name: '112D', color: 'brown', data: res.data.MA112, lineWidth: 1
+        }, {
+            ...lineStyle, name: '224D', color: '#efe9e9ed', data: res.data.MA224, lineWidth: 1
+        }];
+        setVixMA(vix_ma);
     }
     useEffect(() => {
         // fetchData();

@@ -22,14 +22,19 @@ import { API, STOCK } from './util/config';
 import { SectorsName15 } from './util/util';
 import useInterval from './util/useInterval';
 
-export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, SearchInfo, SectorsChartData, SectorsRanksThemes, ScheduleItemEvent }) {
+export default function SectorsRank({ swiperRef, SectorsChartData, SectorsRanksThemes }) {
 
-    // const [loading, setLoading] = useState(true);
     const [repeatedKeyword, setRepeatedKeyword] = useState([]);
-    // const [filteredData, setFilteredData] = useState(StockPrice);
+
+    const [StockSectors, setStockSectors] = useState([]);
+    // 검색 정보 가져오기 [{search : '이지홀딩스', 'separator' : '종목'}, {search : '돼지', 'separator' : '테마'} ... ]
+    const [SearchInfo, setSearchInfo] = useState([]);
+    // 날짜별 종목별 이벤트 정보 가져오기 [{"date":"2023-07-03","item":"KC코트렐","event":"권리락(유상증자)"},{"date":"2023-07-03","item":"큐라티스","event":"추가상장(CB전환 및 주식전환)"},{"date":"2023-07-03","item":"한일단조","event":"추가상장(CB전환)"},{"date":"2023-07-03","item":"인산가","event":"추가상장(CB전환)"},{"date":"2023-07-03","item":"소프트센","event":"추가상장(CB전환)"}
+    const [ScheduleItemEvent, setScheduleItemEvent] = useState([]);
+    const [ABC1, setABC1] = useState([]);
+    const [ABC2, setABC2] = useState([]);
 
     const [tableM1M2, setTableM1M2] = useState([]);
-
     const [filteredStockTable, setFilteredStockTable] = useState([]); // 필터링된 종목 Table
     const [filteredThemeTable, setFilteredThemeTable] = useState([]); // 필터링된 테마 Table
     // 필터된 종목들이 테마에 의한것인지 업종에 의한것인지 확인 
@@ -266,52 +271,28 @@ export default function SectorsRank({ StockSectors, swiperRef, ABC1, ABC2, Searc
             setSearchItemEvent(itemData ? { stockName: stockName, data: [itemData] } : []);
         }
     };
+
+    const fetchData = async () => {
+        const res = await axios.get(`${API}/industry/stockSectors`);
+        setStockSectors(res.data);
+        const response = await axios.get(`${API}/formula/stockSearchInfo`);
+        setSearchInfo(response.data);
+
+        const ScheduleItemEvent = await axios.get(`${API}/schedule/StockEvent`);
+        setScheduleItemEvent(ScheduleItemEvent.data);
+
+        const ABC = await axios.get(`${API}/abc/themeBySecByItem`);
+        setABC1(ABC.data[0].data);
+        setABC2(ABC.data[1].data);
+        // return { data1: response.data[0], data2: response.data[1] };
+
+    }
+    useEffect(() => { fetchData() }, [])
     useEffect(() => {
         getPost();
     }, [volumeRange, reserveRatio, ratioRange, marketCap, volumeAvg])
 
-    // // 5분 주기 업데이트
-    // useInterval(getPost, 1000 * 60 * 5, {
-    //     startHour: 9,
-    //     endHour: 16,
-    //     daysOff: [0, 6], // 일요일(0)과 토요일(6)은 제외
-    // });
 
-    // // 5분 주기 업데이트
-    // useEffect(() => {
-    //     const now = new Date();
-    //     const hour = now.getHours();
-    //     const minutes = now.getMinutes();
-    //     const seconds = now.getSeconds();
-    //     let delay;
-    //     if (hour < 9 || (hour === 9 && minutes < 1)) {
-    //         delay = ((9 - hour - 1) * 60 + (61 - minutes)) * 60 - seconds;
-    //     } else {
-    //         // 이미 9시 1분 이후라면, 다음 5분 간격 시작까지 대기 (예: 9시 3분이라면 9시 6분까지 대기)
-    //         delay = (5 - (minutes - 1) % 5) * 60 - seconds;
-    //     }
-    //     // 9시 정각이나 그 이후의 다음 분 시작부터 1분 주기로 데이터 업데이트
-    //     const startUpdates = () => {
-    //         const intervalId = setInterval(() => {
-    //             const now = new Date();
-    //             const hour = now.getHours();
-    //             const dayOfWeek = now.getDay();
-    //             if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
-    //                 getPost();
-    //             } else if (hour >= 16) {
-    //                 // 3시 30분 이후라면 인터벌 종료
-    //                 clearInterval(intervalId);
-    //             }
-    //         }, 1000 * 60 * 5);
-    //         return intervalId;
-    //     };
-    //     // 첫 업데이트 시작
-    //     const timeoutId = setTimeout(() => {
-    //         startUpdates();
-    //     }, delay * 1000);
-
-    //     return () => clearTimeout(timeoutId);
-    // }, [])
 
     useEffect(() => {
 
