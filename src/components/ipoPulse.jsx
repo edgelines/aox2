@@ -530,7 +530,7 @@ export default function IpoPulsePage({ swiperRef }) {
 
                 {/* 우측 기업 정보 */}
                 <Grid item xs={3.5}>
-                    <Grid item container sx={{ minHeight: 109 }}>
+                    <Grid container sx={{ minHeight: 109 }}>
                         <Stack direction='column' spacing={1} sx={{ pl: 2, pr: 2 }}>
                             {
                                 Array.isArray(stock.기업개요) ?
@@ -541,10 +541,10 @@ export default function IpoPulsePage({ swiperRef }) {
                             }
                         </Stack>
                     </Grid>
-                    <Grid item container sx={{ minHeight: 233 }}>
+                    <Grid container sx={{ minHeight: 233 }}>
                         <Financial annual={stock.연간실적} quarter={stock.분기실적} />
                     </Grid>
-                    <Grid item container sx={{ mt: 1 }}>
+                    <Grid container sx={{ mt: 1 }}>
                         {
                             Array.isArray(stockChart.price) ?
                                 // <Grid item container sx={{ width: '98%' }}>
