@@ -48,15 +48,20 @@ export function Industry({ swiperRef, market, time, date, SectorsChartData, apiR
         try {
             setParamsType(type);
             const name = type === '업종명' ? item.업종명 || item.중복_업종명 : item.테마명
-            const cleanedName = name.replace(/ ★/g, '');
+            const cleanedName = name.replace(/ ★/g, '').replace(/\[[1-9]\] /g, '');
             setParamsName(cleanedName);
 
             if (type === '업종명') {
                 setSectorsName(cleanedName);
                 const name15 = SectorsName15(cleanedName)
-                if (name15 !== '없음') {
+                const excludedNames = ['없음', '카드', '손해보험', '복합유틸리티', '복합기업', '전기유틸리티', '생명보험', '다각화된소비자서비스', '사무용전자제품', '담배', '기타금융', '문구류', '판매업체', '전문소매', '출판']
+                if (!excludedNames.includes(name15)) {
                     setSectorsChartDataSelected(SectorsChartData[name15]);
                 }
+
+                // if (name15 !== '없음' && name15 !== '카드' && name15 !== '손해보험' && name15 !=='복합유틸리티'&& name15 !=='복합기업'&& name15 !=='전기유틸리티'&& name15 !=='생명보험'&& name15 !=='다각화된소비자서비스'&& name15 !=='사무용전자제품'&& name15 !=='담배'&& name15 !=='기타금융'&& name15 !=='문구류'&& name15 !=='판매업체'&& name15 !=='전문소매'&& name15 !=='출판' ) {
+                //     setSectorsChartDataSelected(SectorsChartData[name15]);
+                // }
             }
 
         } catch (error) {
