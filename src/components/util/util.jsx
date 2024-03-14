@@ -36,7 +36,7 @@ export const StyledToggleButton = styled(ToggleButton)(({ theme, fontSize, textA
     },
     '&.Mui-disabled': {
         backgroundColor: '#404040',
-        color: '#efe9e9ed',
+        color: '#909090',
     },
     '&:hover': { // 비활성화 상태에서의 마우스 오버 스타일
         backgroundColor: '#505050', // 비활성화 상태에서의 마우스 오버 배경색

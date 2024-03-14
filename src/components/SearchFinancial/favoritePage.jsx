@@ -6,25 +6,24 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { StyledButton, DataTableStyleDefault, StyledToggleButton } from '../util/util';
 import CrossChart from './crossChart';
 import { customTheme } from './util';
-import { API } from '../util/config';
+import { API, TEST } from '../util/config';
 import { stockTable_columns } from './tableColumns';
 
 // 
-export default function CrossChartPage({ swiperRef, tableData, industry, getStockCode, getStockChartData }) {
+export default function FavoritePage({ swiperRef, industry, getStockCode, getStockChartData }) {
     // List
     const categories1 = [['가결산합산/전년도대비', '가결산'], ['전분기대비', '분기'], ['전년동분기대비', '전년동분기대비']]
     const categories2 = ['매출', '영업이익', '당기순이익']
     const allItemList = [['전체 종목', '전체종목'], ['전체 흑자', '흑자기업'], ['전체 미집계', '미집계']]
 
-    // const [tableData, setTableData] = useState([]);
-
+    const [tableData, setTableData] = useState([]);
     const [selectedIndustries, setSelectedIndustries] = useState(industry);
     const [filter, setFilter] = useState({ field: null, industry: null })
     const [stockTableData, setStockTableData] = useState([]);
 
     // chart data params
-    const [aggregated, setAggregated] = useState(true); // 집계 미집계 
-    const [surplus, setSurplus] = useState(true); // 흑자, 전체
+    const [aggregated, setAggregated] = useState(null); // 집계 미집계 
+    const [surplus, setSurplus] = useState(false); // 흑자, 전체
     const [category1, setCategory1] = useState('분기')
     const [category2, setCategory2] = useState(() => ['매출', '영업이익', '당기순이익'])
     const [chartData, setChartData] = useState([]);
@@ -81,18 +80,13 @@ export default function CrossChartPage({ swiperRef, tableData, industry, getStoc
         setSelectedIndustries(null);
     }
 
-    // const fetchData = async () => {
-    //     const res = await axios.get(`${API}/formula/searchFinancial`);
-    //     setTableData(res.data);
-    //     setSelectedIndustries(res.data[0].업종명)
-    // }
-
     const getCrossChartData = async () => {
         const postData = {
             aggregated: aggregated, surplus: surplus,
-            target_industry: [selectedIndustries], target_category1: [category1], target_category2: category2,
+            target_industry: [selectedIndustries], target_category1: [category1], target_category2: category2, favorite: true
         }
-        const res = await axios.post(`${API}/formula/crossChart`, postData);
+        const res = await axios.post(`${TEST}/crossChart`, postData);
+        // const res = await axios.post(`${API}/formula/crossChart`, postData);
         setChartData(res.data);
         // console.log(res.data);
         // console.log(field, industry);
@@ -101,22 +95,26 @@ export default function CrossChartPage({ swiperRef, tableData, industry, getStoc
     // < 하단 테이블 >
     const handlerIndustryStockData = async () => {
         const postData = {
-            // aggregated: aggregated, surplus: surplus,
-            // target_industry: [selectedIndustries], target_category1: [category1], target_category2: category2,
-            target_category: surplus == true ? ['흑자'] : null, target_industry: [selectedIndustries], market: null
+            target_category: surplus == true ? ['흑자'] : null,
+            target_industry: [selectedIndustries], market: null, favorite: true
         }
-        const res = await axios.post(`${API}/formula/findData`, postData);
+        const res = await axios.post(`${TEST}/findData`, postData);
+        // const res = await axios.post(`${API}/formula/findData`, postData);
         setStockTableData(res.data);
         // console.log(res.data);
     }
-    // useEffect(() => { fetchData() }, [])
+
+    const fetchData = async () => {
+        const res = await axios.get(`${TEST}/searchFinancialFavorite`);
+        setTableData(res.data);
+    }
+    useEffect(() => { fetchData() }, [])
     useEffect(() => {
         setSelectedIndustries(industry);
     }, [industry])
     useEffect(() => {
         getCrossChartData();
         handlerIndustryStockData();
-        console.log(industry);
         // if (selectedIndustries !== null) {
         //     getCrossChartData();
         //     handlerIndustryStockData()

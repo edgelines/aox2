@@ -1,3 +1,5 @@
+import { createTheme } from '@mui/material/styles';
+
 export const stockTable_columns = [
     {
         field: 'id', headerName: '순번', width: 20,
@@ -72,3 +74,29 @@ export const stockTable_columns = [
         align: 'right', headerAlign: 'center',
     }
 ]
+
+export const customTheme = createTheme({
+    components: {
+        MuiDataGrid: {
+            styleOverrides: {
+                root: {
+                    '& .MuiDataGrid-row': {
+                        fontSize: '10px',
+                        color: '#efe9e9ed'
+                    },
+                },
+                // columnHeaderWrapper: {
+                //     minHeight: '9px',
+                //     // lineHeight: '20px',
+                // },
+                columnHeader: {
+                    fontSize: '9px',
+                    color: '#efe9e9ed'
+                },
+            },
+            // defaultProps: {
+            //     headerHeight: 15,
+            // },
+        },
+    },
+});
