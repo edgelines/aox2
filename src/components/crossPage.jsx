@@ -17,7 +17,6 @@ export default function SearchFinancial({ swiperRef }) {
     const [filter, setFilter] = useState({ field: null, industry: null })
 
     const [tableData, setTableData] = useState([]);
-    const [industry, setIndustry] = useState(null);
     const [stockTableData, setStockTableData] = useState([]);
     const [stock, setStock] = useState({});
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
@@ -31,7 +30,6 @@ export default function SearchFinancial({ swiperRef }) {
     const fetchData = async () => {
         const res = await axios.get(`${API}/formula/searchFinancial`);
         setTableData(res.data);
-        setIndustry(res.data[0].업종명);
     }
 
     const onIndustryClick = (업종명, market, field) => {
@@ -72,7 +70,8 @@ export default function SearchFinancial({ swiperRef }) {
 
         if (field != 'id' && field != '업종명' && field != '흑자기업수' && field != '순위') {
             const postData = {
-                target_category: field == '전체종목수' ? null : [field], target_industry: [industry], market: market
+                aggregated: null,
+                target_category: field == '전체종목수' ? null : [field], target_industry: [industry], market: market, favorite: false
             }
             const res = await axios.post(`${API}/formula/findData`, postData);
             setStockTableData(res.data);
@@ -102,9 +101,9 @@ export default function SearchFinancial({ swiperRef }) {
                 </Grid>
 
                 <ContentsComponent
-                    swiperRef={swiperRef} page={page} tableData={tableData} industry={industry}
+                    swiperRef={swiperRef} page={page} tableData={tableData}
                     getIndustryStockData={getIndustryStockData} onIndustryClick={onIndustryClick} getStockCode={getStockCode} getStockChartData={getStockChartData} />
-                {page !== 'Cross' ?
+                {page !== 'Cross' && page !== 'Favorite' ?
                     <>
 
                         <Grid item container sx={{ minHeight: 30 }}>

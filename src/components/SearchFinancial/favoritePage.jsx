@@ -85,27 +85,30 @@ export default function FavoritePage({ swiperRef, industry, getStockCode, getSto
             aggregated: aggregated, surplus: surplus,
             target_industry: [selectedIndustries], target_category1: [category1], target_category2: category2, favorite: true
         }
-        const res = await axios.post(`${TEST}/crossChart`, postData);
-        // const res = await axios.post(`${API}/formula/crossChart`, postData);
-        setChartData(res.data);
+        // const res = await axios.post(`${TEST}/crossChart`, postData);
+        const res = await axios.post(`${API}/formula/crossChart`, postData);
+        setChartData(res.data.chart);
+        setStockTableData(res.data.table);
         // console.log(res.data);
         // console.log(field, industry);
     }
 
     // < 하단 테이블 >
-    const handlerIndustryStockData = async () => {
-        const postData = {
-            target_category: surplus == true ? ['흑자'] : null,
-            target_industry: [selectedIndustries], market: null, favorite: true
-        }
-        const res = await axios.post(`${TEST}/findData`, postData);
-        // const res = await axios.post(`${API}/formula/findData`, postData);
-        setStockTableData(res.data);
-        // console.log(res.data);
-    }
+    // const handlerIndustryStockData = async () => {
+    //     const postData = {
+    //         aggregated: aggregated,
+    //         target_category: surplus == true ? ['흑자'] : null,
+    //         target_industry: [selectedIndustries], market: null, favorite: true
+    //     }
+    //     // const res = await axios.post(`${TEST}/findData`, postData);
+    //     const res = await axios.post(`${API}/formula/findData`, postData);
+    //     setStockTableData(res.data);
+    //     // console.log(res.data);
+    // }
 
     const fetchData = async () => {
-        const res = await axios.get(`${TEST}/searchFinancialFavorite`);
+        // const res = await axios.get(`${TEST}/searchFinancialFavorite`);
+        const res = await axios.get(`${API}/formula/searchFinancialFavorite`);
         setTableData(res.data);
     }
     useEffect(() => { fetchData() }, [])
@@ -114,7 +117,7 @@ export default function FavoritePage({ swiperRef, industry, getStockCode, getSto
     }, [industry])
     useEffect(() => {
         getCrossChartData();
-        handlerIndustryStockData();
+        // handlerIndustryStockData();
         // if (selectedIndustries !== null) {
         //     getCrossChartData();
         //     handlerIndustryStockData()

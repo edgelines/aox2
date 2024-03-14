@@ -16,7 +16,7 @@ import MainPage from './components/mainPage.jsx'
 import ModelingPage from './components/modelingPage.jsx';
 import WeightAvgPage1 from './components/ELW/weightAvgPage1.jsx';
 import WeightAvgPage2 from './components/ELW/weightAvgPage2.jsx';
-import SearchFinancial from './components/searchFinancial';
+// import SearchFinancial from './components/searchFinancial';
 import CrossPage from './components/crossPage';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import "swiper/css";

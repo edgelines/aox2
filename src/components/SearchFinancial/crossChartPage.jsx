@@ -6,11 +6,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { StyledButton, DataTableStyleDefault, StyledToggleButton } from '../util/util';
 import CrossChart from './crossChart';
 import { customTheme } from './util';
-import { API } from '../util/config';
+import { API, TEST } from '../util/config';
 import { stockTable_columns } from './tableColumns';
 
 // 
-export default function CrossChartPage({ swiperRef, tableData, industry, getStockCode, getStockChartData }) {
+export default function CrossChartPage({ swiperRef, tableData, getStockCode, getStockChartData }) {
     // List
     const categories1 = [['가결산합산/전년도대비', '가결산'], ['전분기대비', '분기'], ['전년동분기대비', '전년동분기대비']]
     const categories2 = ['매출', '영업이익', '당기순이익']
@@ -18,7 +18,7 @@ export default function CrossChartPage({ swiperRef, tableData, industry, getStoc
 
     // const [tableData, setTableData] = useState([]);
 
-    const [selectedIndustries, setSelectedIndustries] = useState(industry);
+    const [selectedIndustries, setSelectedIndustries] = useState(null);
     const [filter, setFilter] = useState({ field: null, industry: null })
     const [stockTableData, setStockTableData] = useState([]);
 
@@ -90,33 +90,33 @@ export default function CrossChartPage({ swiperRef, tableData, industry, getStoc
     const getCrossChartData = async () => {
         const postData = {
             aggregated: aggregated, surplus: surplus,
-            target_industry: [selectedIndustries], target_category1: [category1], target_category2: category2,
+            target_industry: [selectedIndustries], target_category1: [category1], target_category2: category2, favorite: false
         }
         const res = await axios.post(`${API}/formula/crossChart`, postData);
-        setChartData(res.data);
+        setChartData(res.data.chart);
+        setStockTableData(res.data.table);
         // console.log(res.data);
         // console.log(field, industry);
     }
 
     // < 하단 테이블 >
-    const handlerIndustryStockData = async () => {
-        const postData = {
-            // aggregated: aggregated, surplus: surplus,
-            // target_industry: [selectedIndustries], target_category1: [category1], target_category2: category2,
-            target_category: surplus == true ? ['흑자'] : null, target_industry: [selectedIndustries], market: null
-        }
-        const res = await axios.post(`${API}/formula/findData`, postData);
-        setStockTableData(res.data);
-        // console.log(res.data);
-    }
+    // const handlerIndustryStockData = async () => {
+    //     const postData = {
+    //         aggregated: aggregated,
+    //         // aggregated: aggregated, surplus: surplus,
+    //         // target_industry: [selectedIndustries], target_category1: [category1], target_category2: category2,
+    //         target_category: surplus == true ? ['흑자'] : null, target_industry: [selectedIndustries], market: null, favorite: false
+    //     }
+    //     // const res = await axios.post(`${TEST}/findData`, postData);
+    //     const res = await axios.post(`${API}/formula/findData`, postData);
+    //     setStockTableData(res.data);
+    //     // console.log(res.data);
+    // }
     // useEffect(() => { fetchData() }, [])
-    useEffect(() => {
-        setSelectedIndustries(industry);
-    }, [industry])
+
     useEffect(() => {
         getCrossChartData();
-        handlerIndustryStockData();
-        console.log(industry);
+        // handlerIndustryStockData();
         // if (selectedIndustries !== null) {
         //     getCrossChartData();
         //     handlerIndustryStockData()
