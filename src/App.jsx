@@ -17,6 +17,7 @@ import ModelingPage from './components/modelingPage.jsx';
 import WeightAvgPage1 from './components/ELW/weightAvgPage1.jsx';
 import WeightAvgPage2 from './components/ELW/weightAvgPage2.jsx';
 import SearchFinancial from './components/searchFinancial';
+import CrossPage from './components/crossPage';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import "swiper/css";
 import "swiper/css/pagination";
@@ -194,8 +195,9 @@ function App() {
                 onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
+                {/* <SearchFinancial swiperRef={swiperRef} /> */}
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <SearchFinancial swiperRef={swiperRef} />
+                    <CrossPage swiperRef={swiperRef} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -206,7 +208,8 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <SearchFinancial swiperRef={swiperRef} />
+                    <CrossPage swiperRef={swiperRef} />
+
                 </SwiperSlide>
 
                 <SwiperSlide style={{ backgroundColor: "#404040", color: '#efe9e9ed' }}>
