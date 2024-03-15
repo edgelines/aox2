@@ -3,15 +3,13 @@ import { numberWithCommas } from '../util/util'
 import Highcharts from 'highcharts/highstock'
 import HighchartsReact from 'highcharts-react-official'
 import HighchartsMore from 'highcharts/highcharts-more'
-import UploadRoundedIcon from '@mui/icons-material/UploadRounded';
-import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
 
 HighchartsMore(Highcharts)
 require('highcharts/modules/accessibility')(Highcharts)
 
 export default function CrossChart({ data, height, getStockCode, getStockChartData }) {
     const [chartOptions, setChartOptions] = useState({
-        chart: { type: 'scatter', height: height, backgroundColor: 'rgba(255, 255, 255, 0)', zoomType: 'xy' },
+        chart: { type: 'scatter', height: height, backgroundColor: 'rgba(255, 255, 255, 0)', zoomType: 'xy', animation: false },
         credits: { enabled: false }, title: { text: null },
         navigation: { buttonOptions: { enabled: false } },
         xAxis: {

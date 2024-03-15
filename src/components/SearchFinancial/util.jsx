@@ -6,7 +6,7 @@ export const customTheme = createTheme({
             styleOverrides: {
                 root: {
                     '& .MuiDataGrid-row': {
-                        fontSize: '10px',
+                        fontSize: '11px',
                         color: '#efe9e9ed'
                     },
                 },

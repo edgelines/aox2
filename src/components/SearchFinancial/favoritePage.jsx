@@ -152,6 +152,8 @@ export default function FavoritePage({ swiperRef, industry, getStockCode, getSto
                                     '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
                                     '[data-field="전체종목수"]': { borderLeft: '1.5px solid #ccc', borderRight: '1.5px solid #ccc' },
                                     '[data-field="흑자기업"]': { borderRight: '1.5px solid #ccc' },
+                                    '&& .MuiDataGrid-cell:focus': { outline: 'solid #ff0000 1px;', backgroundColor: 'rgba(255, 0, 0, 0.2)' },
+                                    '&& .Mui-selected': { backgroundColor: 'rgba(255, 215, 0, 0.2)' }
                                 }}
                             />
                         ) : (<div>로딩 중...</div>)}

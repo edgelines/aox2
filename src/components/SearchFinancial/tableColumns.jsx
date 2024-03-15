@@ -1,4 +1,6 @@
+// import * as React from 'react';
 import { createTheme } from '@mui/material/styles';
+// import Chip from '@mui/material/Chip';
 
 export const stockTable_columns = [
     {
@@ -71,7 +73,27 @@ export const stockTable_columns = [
         }
     }, {
         field: '테마명', headerName: '테마명', width: 400,
-        align: 'right', headerAlign: 'center',
+        align: 'left', headerAlign: 'center',
+        // valueFormatter: (params) => {
+        //     console.log(params.value);
+        //     if (params.value == null) { return ''; }
+        //     return params.value.map(item => (<Chip label={item} size='small' color='primary' variant='outlined' />));
+        // }
+        // renderCell: (params) => (
+        //     <>
+        //         {params.value.map((item, index) => (
+        //             <Chip key={index} label={item} size="small" variant="outlined" sx={{
+        //                 height: 'auto',
+        //                 fontSize: '11px',
+        //                 color: '#efe9e9ed',
+        //                 '& .MuiChip-label': {
+        //                     display: 'block',
+        //                     whiteSpace: 'normal',
+        //                 }
+        //             }} />
+        //         ))}
+        //     </>
+        // )
     }
 ]
 
@@ -93,6 +115,12 @@ export const customTheme = createTheme({
                     fontSize: '9px',
                     color: '#efe9e9ed'
                 },
+                // rowSelected: {
+                //     backgroundColor: 'rgba(255, 215, 0, 0.55)', // 선택된 행의 배경색 변경
+                //     '&:hover': {
+                //         backgroundColor: 'rgba(255, 215, 0, 0.75)', // 호버 상태일 때의 배경색 변경
+                //     },
+                // },
             },
             // defaultProps: {
             //     headerHeight: 15,

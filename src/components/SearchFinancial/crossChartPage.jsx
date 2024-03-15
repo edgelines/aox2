@@ -140,7 +140,7 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
                                     handleSelectedIndustries(params);
                                     // getIndustryStockData(params);
                                 }}
-                                disableRowSelectionOnClick
+                                // disableRowSelectionOnClick
                                 sx={{
                                     color: 'white', border: 'none',
                                     ...DataTableStyleDefault,
@@ -151,6 +151,14 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
                                     '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
                                     '[data-field="전체종목수"]': { borderLeft: '1.5px solid #ccc', borderRight: '1.5px solid #ccc' },
                                     '[data-field="흑자기업"]': { borderRight: '1.5px solid #ccc' },
+                                    '&& .MuiDataGrid-cell:focus': { outline: 'solid #ff0000 1px;', backgroundColor: 'rgba(255, 0, 0, 0.2)' },
+                                    '&& .Mui-selected': { backgroundColor: 'rgba(255, 215, 0, 0.2)' }
+                                    // [`& .${gridClasses.rowSelected}`]: {
+                                    //     backgroundColor: 'rgba(255, 215, 0, 0.55)', // 선택된 행의 배경색 변경
+                                    //     '&:hover': {
+                                    //         backgroundColor: 'rgba(255, 215, 0, 0.75)', // 호버 상태일 때의 배경색 변경
+                                    //     },
+                                    // },
                                 }}
                             />
                         ) : (<div>로딩 중...</div>)}
