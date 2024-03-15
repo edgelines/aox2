@@ -3,14 +3,15 @@ import axios from 'axios';
 import { Grid, Typography, ToggleButtonGroup } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { StyledButton, DataTableStyleDefault, StyledToggleButton } from '../util/util';
+import { StyledButton, DataTableStyleDefault, StyledToggleButton, SectorsName15 } from '../util/util';
 import CrossChart from './crossChart';
 import { customTheme } from './util';
 import { API, TEST } from '../util/config';
-import { stockTable_columns } from './tableColumns';
+import { stockTable_columns, table_columns } from './tableColumns';
+import SectorChart from '../SectorsPage/sectorChart';
 
 // 
-export default function CrossChartPage({ swiperRef, tableData, getStockCode, getStockChartData }) {
+export default function CrossChartPage({ swiperRef, tableData, getStockCode, getStockChartData, SectorsChartData }) {
     // List
     const categories1 = [['가결산합산/전년도대비', '가결산'], ['전분기대비', '분기'], ['전년동분기대비', '전년동분기대비']]
     const categories2 = ['매출', '영업이익', '당기순이익']
@@ -21,7 +22,9 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
     const [selectedIndustries, setSelectedIndustries] = useState(null);
     const [filter, setFilter] = useState({ field: null, industry: null })
     const [stockTableData, setStockTableData] = useState([]);
-
+    const [chartType, setChartType] = useState(true); // true : cross, false : industry
+    const [SectorsName, setSectorsName] = useState('');
+    const [SectorsChartDataSelected, setSectorsChartDataSelected] = useState([]);
     // chart data params
     const [aggregated, setAggregated] = useState(true); // 집계 미집계 
     const [surplus, setSurplus] = useState(true); // 흑자, 전체
@@ -33,26 +36,42 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
 
     /** 업종 Table Click Event */
     const handleSelectedIndustries = async (params) => {
-        switch (params.field) {
-            case '흑자기업':
-                setAggregated(true);
-                setSurplus(true);
-                break;
+        if (params.field !== '순위') {
+            setChartType(true);
+            switch (params.field) {
+                case '흑자기업':
+                    setAggregated(true);
+                    setSurplus(true);
+                    break;
 
-            case '미집계':
-                setAggregated(false);
-                setSurplus(false);
-                break;
+                case '미집계':
+                    setAggregated(false);
+                    setSurplus(false);
+                    break;
 
-            default:
-                setAggregated(null);
-                setSurplus(false);
-                break;
+                default:
+                    setCategory1('가결산');
+                    setAggregated(null);
+                    setSurplus(false);
+                    break;
+            }
+            setSelectedIndustries(params.row.업종명);
+            setFilter({ field: params.field, industry: params.row.업종명 })
+            setAllItem(null);
+        } else {
+            setChartType(false);
+            sectorSelected(params.row)
         }
-        setSelectedIndustries(params.row.업종명);
-        setFilter({ field: params.field, industry: params.row.업종명 })
-        setAllItem(null);
     };
+
+    const sectorSelected = (sector) => { // 업종 클릭시 
+        const name = SectorsName15(sector.업종명)
+        setSectorsName(sector.업종명)
+        const excludedNames = ['없음', '카드', '손해보험', '복합유틸리티', '복합기업', '전기유틸리티', '생명보험', '다각화된소비자서비스', '사무용전자제품', '담배', '기타금융', '문구류', '판매업체', '전문소매', '출판']
+        if (!excludedNames.includes(name)) {
+            setSectorsChartDataSelected(SectorsChartData[name]);
+        }
+    }
 
     const handleCategory1 = (event, value) => {
         if (value !== null) { setCategory1(value); }
@@ -122,6 +141,7 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
         //     handlerIndustryStockData()
         // }
     }, [selectedIndustries, aggregated, surplus, category1, category2])
+
 
     return (
         <Grid container sx={{ mt: 1, pr: 1 }}>
@@ -217,7 +237,15 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
 
                 {/* Chart */}
                 <Grid item container>
-                    <CrossChart data={chartData} height={380} getStockCode={getStockCode} getStockChartData={getStockChartData} />
+                    {
+                        !chartType ?
+                            <Grid container>
+                                <SectorChart data={SectorsChartDataSelected} height={300} sectorName={SectorsName} />
+                                <StyledButton fontSize={'12px'} onClick={() => setChartType(true)}>CrossChart</StyledButton>
+                            </Grid>
+                            :
+                            <CrossChart data={chartData} height={380} getStockCode={getStockCode} getStockChartData={getStockChartData} />
+                    }
                 </Grid>
             </Grid>
 
@@ -237,6 +265,12 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
                         </StyledToggleButton>
                     ))}
                 </ToggleButtonGroup>
+
+                {
+                    filter.field === null ? '' :
+                        <Typography>{filter.industry}, {filter.field}</Typography>
+                }
+
             </Grid>
 
             {/* 업종명 / 선택자 */}
@@ -282,32 +316,3 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
         </Grid>
     )
 }
-
-const table_columns = [
-    // {
-    //     field: 'id', headerName: '순번', width: 20,
-    //     align: 'center', headerAlign: 'center',
-    //     valueFormatter: (params) => {
-    //         return parseInt(params.value) + 1;
-    //     }
-    // }, 
-    {
-        field: '순위', headerName: '업종순위', width: 65,
-        align: 'center', headerAlign: 'left',
-    }, {
-        field: '업종명', headerName: '업종명', width: 135,
-        align: 'left', headerAlign: 'center',
-    }, {
-        field: '전일대비', headerName: '전일대비', width: 60,
-        align: 'left', headerAlign: 'center',
-    }, {
-        field: '전체종목수', headerName: '전체종목수', width: 65,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: '흑자기업', headerName: '흑자기업', width: 60,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: '미집계', headerName: '미집계', width: 60,
-        align: 'right', headerAlign: 'center',
-    }
-]

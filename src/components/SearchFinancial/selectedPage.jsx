@@ -82,7 +82,7 @@ const table_columns = [
 ]
 
 
-export const ContentsComponent = ({ swiperRef, page, tableData, industry, getIndustryStockData, onIndustryClick, getStockCode, getStockChartData }) => {
+export const ContentsComponent = ({ swiperRef, page, tableData, SectorsChartData, getIndustryStockData, onIndustryClick, getStockCode, getStockChartData }) => {
 
     switch (page) {
         case 'Tree':
@@ -90,9 +90,9 @@ export const ContentsComponent = ({ swiperRef, page, tableData, industry, getInd
         case 'Table':
             return <Table swiperRef={swiperRef} tableData={tableData} getIndustryStockData={getIndustryStockData} />
         case 'Favorite':
-            return <Favorite swiperRef={swiperRef} industry={industry} getStockCode={getStockCode} getStockChartData={getStockChartData} ></Favorite>
+            return <Favorite swiperRef={swiperRef} SectorsChartData={SectorsChartData} getStockCode={getStockCode} getStockChartData={getStockChartData} ></Favorite>
         default:
-            return <Cross swiperRef={swiperRef} tableData={tableData} industry={industry} getStockCode={getStockCode} getStockChartData={getStockChartData} />
+            return <Cross swiperRef={swiperRef} tableData={tableData} SectorsChartData={SectorsChartData} getStockCode={getStockCode} getStockChartData={getStockChartData} />
     }
 
 }
@@ -218,22 +218,21 @@ export function Tree({ tableData, onIndustryClick }) {
     )
 }
 
-export function Cross({ swiperRef, tableData, onIndustryClick, getStockCode, getStockChartData }) {
-
+export function Cross({ swiperRef, tableData, SectorsChartData, onIndustryClick, getStockCode, getStockChartData }) {
     return (
         <Grid container>
             <CrossChartPage swiperRef={swiperRef}
-                getStockCode={getStockCode} tableData={tableData}
+                getStockCode={getStockCode} tableData={tableData} SectorsChartData={SectorsChartData}
                 onIndustryClick={(업종명) => onIndustryClick(업종명, null, '흑자기업')} getStockChartData={getStockChartData} />
         </Grid>
     )
 }
 
-const Favorite = ({ swiperRef, onIndustryClick, getStockCode, getStockChartData }) => {
+const Favorite = ({ swiperRef, SectorsChartData, onIndustryClick, getStockCode, getStockChartData }) => {
     return (
         <Grid container>
             <FavoritePage swiperRef={swiperRef}
-                getStockCode={getStockCode}
+                getStockCode={getStockCode} SectorsChartData={SectorsChartData}
                 onIndustryClick={(업종명) => onIndustryClick(업종명, null, '흑자기업')} getStockChartData={getStockChartData} />
         </Grid>
     )

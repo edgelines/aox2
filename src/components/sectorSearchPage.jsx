@@ -221,8 +221,6 @@ export default function SectorsRank({ swiperRef, SectorsChartData, SectorsRanksT
         const name = SectorsName15(sector.업종명)
         setSectorsName(sector.업종명);
         if (name !== '없음') { setSectorsChartDataSelected(SectorsChartData[name]); }
-        // if (SectorsChartData && Object.keys(SectorsChartData).length > 0) { // SectorsChartData 데이터가 다 불러져왔을때 실행
-        // }
     }
 
 

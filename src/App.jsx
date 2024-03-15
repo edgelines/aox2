@@ -195,9 +195,8 @@ function App() {
                 onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
-                {/* <SearchFinancial swiperRef={swiperRef} /> */}
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <CrossPage swiperRef={swiperRef} />
+                    <CrossPage swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -208,7 +207,7 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <CrossPage swiperRef={swiperRef} />
+                    <CrossPage swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
 
                 </SwiperSlide>
 

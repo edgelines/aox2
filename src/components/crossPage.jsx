@@ -11,7 +11,7 @@ import { stockTable_columns, customTheme } from './SearchFinancial/tableColumns'
 // import CrossChartPage from './SearchFinancial/crossChartPage';
 import { API, STOCK } from './util/config';
 
-export default function SearchFinancial({ swiperRef }) {
+export default function SearchFinancial({ swiperRef, SectorsChartData }) {
     const [page, setPage] = useState('Cross');
     const [timeframe, setTimeframe] = useState('day')
     const [filter, setFilter] = useState({ field: null, industry: null })
@@ -101,7 +101,7 @@ export default function SearchFinancial({ swiperRef }) {
                 </Grid>
 
                 <ContentsComponent
-                    swiperRef={swiperRef} page={page} tableData={tableData}
+                    swiperRef={swiperRef} page={page} tableData={tableData} SectorsChartData={SectorsChartData}
                     getIndustryStockData={getIndustryStockData} onIndustryClick={onIndustryClick} getStockCode={getStockCode} getStockChartData={getStockChartData} />
                 {page !== 'Cross' && page !== 'Favorite' ?
                     <>

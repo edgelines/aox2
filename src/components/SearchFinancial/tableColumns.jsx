@@ -128,3 +128,26 @@ export const customTheme = createTheme({
         },
     },
 });
+
+// Cross, Favorite 좌측상단 Table Columns
+export const table_columns = [
+    {
+        field: '순위', headerName: '업종순위', width: 65,
+        align: 'center', headerAlign: 'left',
+    }, {
+        field: '업종명', headerName: '업종명', width: 135,
+        align: 'left', headerAlign: 'center',
+    }, {
+        field: '전일대비', headerName: '전일대비', width: 60,
+        align: 'left', headerAlign: 'center',
+    }, {
+        field: '전체종목수', headerName: '전체종목수', width: 65,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: '흑자기업', headerName: '흑자기업', width: 60,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: '미집계', headerName: '미집계', width: 60,
+        align: 'right', headerAlign: 'center',
+    }
+]
