@@ -204,7 +204,7 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <CrossPage swiperRef={swiperRef} />
+                    <CrossPage swiperRef={swiperRef} Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
