@@ -10,7 +10,7 @@ import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvgCheck
 
 // Components
 import SchedulePage from './components/schedulePage.jsx';
-import SectorsChartPage from './components/sectorsChartPage.jsx';
+// import SectorsChartPage from './components/sectorsChartPage.jsx';
 import DetailPage from './components/ELW/detailPage.jsx'
 import MainPage from './components/mainPage.jsx'
 import ModelingPage from './components/modelingPage.jsx';
@@ -23,12 +23,12 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Keyboard, Mousewheel, Pagination } from "swiper/modules";
-import axios from 'axios';
-import { API } from './components/util/config'
+// import axios from 'axios';
+// import { API } from './components/util/config'
 // import useInterval from './components/util/useInterval';
 
 function App() {
-    const [SectorsChartData, setSectorsChartData] = useState([]);
+    // const [SectorsChartData, setSectorsChartData] = useState([]);
 
     const dispatch = useDispatch();
     const Kospi200BubbleCategoryGruop = useSelector((state) => state.Kospi200BubbleCategoryGruop);
@@ -52,22 +52,22 @@ function App() {
     // const WA1 = useSelector(state => state.websocket.WA_1);
     // const WA2 = useSelector(state => state.websocket.WA_2);
     // sectorsChartPage State
-    const handleCheckboxStatusUp = (data) => { setCheckboxStatusUp(data) }
-    const handleCheckboxStatusDown = (data) => { setCheckboxStatusDown(data) }
-    const handleCheckboxStatusTup = (data) => { setCheckboxStatusTup(data) }
-    const handleCheckboxStatusAll = (data) => { setCheckboxAll(data) }
+    // const handleCheckboxStatusUp = (data) => { setCheckboxStatusUp(data) }
+    // const handleCheckboxStatusDown = (data) => { setCheckboxStatusDown(data) }
+    // const handleCheckboxStatusTup = (data) => { setCheckboxStatusTup(data) }
+    // const handleCheckboxStatusAll = (data) => { setCheckboxAll(data) }
 
-    const [checkboxStatusUp, setCheckboxStatusUp] = useState({ rank1: true, rank2: true, rank3: true, rank4: true }); // 전일대비 순위가 상승한 업종
-    const [checkboxStatusTup, setCheckboxStatusTup] = useState({ rank1: false, rank2: false, rank3: false, rank4: false }); // TOM 대비 순위가 상승한 업종
-    const [checkboxStatusDown, setCheckboxStatusDown] = useState({ rank1: true, rank2: true, rank3: true, rank4: true }); // 전일대비 순위가 하락한 업종
+    // const [checkboxStatusUp, setCheckboxStatusUp] = useState({ rank1: true, rank2: true, rank3: true, rank4: true }); // 전일대비 순위가 상승한 업종
+    // const [checkboxStatusTup, setCheckboxStatusTup] = useState({ rank1: false, rank2: false, rank3: false, rank4: false }); // TOM 대비 순위가 상승한 업종
+    // const [checkboxStatusDown, setCheckboxStatusDown] = useState({ rank1: true, rank2: true, rank3: true, rank4: true }); // 전일대비 순위가 하락한 업종
 
-    const [checkboxAll, setCheckboxAll] = useState({ up: false, down: false, tomUp: false, tomDown: false });
-    const rankRange = { rank1: [1, 14], rank2: [15, 25], rank3: [26, 54], rank4: [55, 80] };
-    const [filteredChartData, setFilteredChartData] = useState({
-        반도체1: [], 반도체2: [], IT1: [], IT2: [], 조선: [], 건설1: [], 건설2: [], 금융: [], B2C: [], BIO1: [], BIO2: [], 식품: [], 아웃도어1: [], 아웃도어2: []
-    });
-    // 각 구간별 CheckBox BTN을 통해 필터된 업종들
-    const [sectorsRanksThemes, setSectorsRanksThemes] = useState([]);
+    // const [checkboxAll, setCheckboxAll] = useState({ up: false, down: false, tomUp: false, tomDown: false });
+    // const rankRange = { rank1: [1, 14], rank2: [15, 25], rank3: [26, 54], rank4: [55, 80] };
+    // const [filteredChartData, setFilteredChartData] = useState({
+    //     반도체1: [], 반도체2: [], IT1: [], IT2: [], 조선: [], 건설1: [], 건설2: [], 금융: [], B2C: [], BIO1: [], BIO2: [], 식품: [], 아웃도어1: [], 아웃도어2: []
+    // });
+    // // 각 구간별 CheckBox BTN을 통해 필터된 업종들
+    // const [sectorsRanksThemes, setSectorsRanksThemes] = useState([]);
 
     // 5분 주기 ( Index Data )
     const fetchData5Min = async () => {
@@ -83,7 +83,7 @@ function App() {
         await dispatch(getKosdaq());
         await dispatch(getInvers());
         await dispatch(getExchange());
-        await postReq();
+        // await postReq();
     }
     // 하루 주기
     const fetchData1Day = async () => {
@@ -159,23 +159,23 @@ function App() {
         };
     }, [dispatch]);
 
-    const postReq = async () => {
-        const postData = {
-            checkboxStatusUp: checkboxStatusUp,
-            checkboxStatusTup: checkboxStatusTup,
-            checkboxStatusDown: checkboxStatusDown,
-            rankRange: rankRange
-        }
-        const res = await axios.post(`${API}/industryChartData/getThemes`, postData)
-        setSectorsChartData(res.data.origin);
-        setFilteredChartData(res.data.industryGr);
-        setSectorsRanksThemes(res.data.topThemes)
-    }
+    // const postReq = async () => {
+    //     const postData = {
+    //         checkboxStatusUp: checkboxStatusUp,
+    //         checkboxStatusTup: checkboxStatusTup,
+    //         checkboxStatusDown: checkboxStatusDown,
+    //         rankRange: rankRange
+    //     }
+    //     const res = await axios.post(`${API}/industryChartData/getThemes`, postData)
+    //     setSectorsChartData(res.data.origin);
+    //     setFilteredChartData(res.data.industryGr);
+    //     setSectorsRanksThemes(res.data.topThemes)
+    // }
 
-    // sectorsChartPage Render
-    useEffect(() => {
-        postReq();
-    }, [checkboxStatusUp, checkboxStatusDown, checkboxStatusTup, checkboxAll])
+    // // sectorsChartPage Render
+    // useEffect(() => {
+    //     postReq();
+    // }, [checkboxStatusUp, checkboxStatusDown, checkboxStatusTup, checkboxAll])
 
     // Swiper Slider Bottom Page Number Style
     const handleSlideChange = (swiper) => {
@@ -196,34 +196,15 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <CrossPage swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
+                    <CrossPage swiperRef={swiperRef} Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <SchedulePage swiperRef={swiperRef}
-                        Exchange={Exchange} Vix={Vix}
-                        SectorsChartData={SectorsChartData} SectorsRanksThemes={sectorsRanksThemes}
-                    />
+                    <SchedulePage swiperRef={swiperRef} Exchange={Exchange} Vix={Vix} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <CrossPage swiperRef={swiperRef} SectorsChartData={SectorsChartData} />
-
-                </SwiperSlide>
-
-                <SwiperSlide style={{ backgroundColor: "#404040", color: '#efe9e9ed' }}>
-                    <SectorsChartPage
-                        filteredChartData={filteredChartData} sectorsRanksThemes={sectorsRanksThemes}
-                        Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop}
-                        checkboxStatusUp={checkboxStatusUp}
-                        checkboxStatusDown={checkboxStatusDown}
-                        checkboxStatusTup={checkboxStatusTup}
-                        checkboxAll={checkboxAll}
-                        onCheckboxStatusUp={handleCheckboxStatusUp}
-                        onCheckboxStatusDown={handleCheckboxStatusDown}
-                        onCheckboxStatusTup={handleCheckboxStatusTup}
-                        onCheckboxAll={handleCheckboxStatusAll}
-                    />
+                    <CrossPage swiperRef={swiperRef} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -285,3 +266,18 @@ const swiperSlideStyle = { backgroundColor: "#404040", color: '#efe9e9ed', paddi
 {/* <SwiperSlide style={swiperSlideStyle} >
                     <CtpPage swiperRef={swiperRef} ElwBarData={ElwBarData} ElwWeightedAvg={ElwWeightedAvg} />
                 </SwiperSlide> */}
+
+            //     <SwiperSlide style={{ backgroundColor: "#404040", color: '#efe9e9ed' }}>
+            //     <SectorsChartPage
+            //         filteredChartData={filteredChartData} sectorsRanksThemes={sectorsRanksThemes}
+            //         Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop}
+            //         checkboxStatusUp={checkboxStatusUp}
+            //         checkboxStatusDown={checkboxStatusDown}
+            //         checkboxStatusTup={checkboxStatusTup}
+            //         checkboxAll={checkboxAll}
+            //         onCheckboxStatusUp={handleCheckboxStatusUp}
+            //         onCheckboxStatusDown={handleCheckboxStatusDown}
+            //         onCheckboxStatusTup={handleCheckboxStatusTup}
+            //         onCheckboxAll={handleCheckboxStatusAll}
+            //     />
+            // </SwiperSlide>

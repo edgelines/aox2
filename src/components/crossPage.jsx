@@ -11,7 +11,7 @@ import { stockTable_columns, customTheme } from './SearchFinancial/tableColumns'
 // import CrossChartPage from './SearchFinancial/crossChartPage';
 import { API, STOCK } from './util/config';
 
-export default function SearchFinancial({ swiperRef, SectorsChartData }) {
+export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop }) {
     const [page, setPage] = useState('Cross');
     const [timeframe, setTimeframe] = useState('day')
     const [filter, setFilter] = useState({ field: null, industry: null })
@@ -82,7 +82,7 @@ export default function SearchFinancial({ swiperRef, SectorsChartData }) {
     return (
         <Grid container>
             {/* 좌 : Table, TreeMap, ChrossChart */}
-            <Grid item xs={8}>
+            <Grid item xs={page === 'Industry' ? 12 : 8}>
                 {/* Selected BTN */}
                 <Grid item container sx={{ mt: 0.5 }}>
                     <ToggleButtonGroup
@@ -97,13 +97,15 @@ export default function SearchFinancial({ swiperRef, SectorsChartData }) {
                         <StyledToggleButton fontSize={'10px'} value="Favorite">Favorite</StyledToggleButton>
                         <StyledToggleButton fontSize={'10px'} value="Tree">Tree</StyledToggleButton>
                         <StyledToggleButton fontSize={'10px'} value="Table">Table</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="Industry">Industry</StyledToggleButton>
                     </ToggleButtonGroup>
                 </Grid>
 
                 <ContentsComponent
-                    swiperRef={swiperRef} page={page} tableData={tableData} SectorsChartData={SectorsChartData}
+                    swiperRef={swiperRef} page={page} tableData={tableData}
+                    Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop}
                     getIndustryStockData={getIndustryStockData} onIndustryClick={onIndustryClick} getStockCode={getStockCode} getStockChartData={getStockChartData} />
-                {page !== 'Cross' && page !== 'Favorite' ?
+                {page !== 'Cross' && page !== 'Favorite' && page !== 'Industry' ?
                     <>
 
                         <Grid item container sx={{ minHeight: 30 }}>
@@ -146,11 +148,13 @@ export default function SearchFinancial({ swiperRef, SectorsChartData }) {
                 }
 
             </Grid>
-
             {/* 우 : 종목정보 */}
-            <Grid item xs={4}>
-                <SearchFinancialInfo swiperRef={swiperRef} stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} timeframe={timeframe} handleTimeframe={handleTimeframe} />
-            </Grid>
+            {page !== 'Industry' ?
+                <Grid item xs={4}>
+                    <SearchFinancialInfo swiperRef={swiperRef} stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} timeframe={timeframe} handleTimeframe={handleTimeframe} />
+                </Grid>
+                : <></>
+            }
 
         </Grid>
     )

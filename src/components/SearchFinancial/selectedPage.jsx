@@ -10,6 +10,7 @@ import CrossChartPage from './crossChartPage';
 import TreeMap from './treeMap';
 import FavoritePage from './favoritePage';
 import { API } from '../util/config';
+import SectorsChartPage from '../sectorsChartPage.jsx';
 
 const table_columns = [
     {
@@ -82,7 +83,7 @@ const table_columns = [
 ]
 
 
-export const ContentsComponent = ({ swiperRef, page, tableData, SectorsChartData, getIndustryStockData, onIndustryClick, getStockCode, getStockChartData }) => {
+export const ContentsComponent = ({ swiperRef, page, tableData, getIndustryStockData, onIndustryClick, getStockCode, getStockChartData, Kospi200BubbleCategoryGruop }) => {
 
     switch (page) {
         case 'Tree':
@@ -90,9 +91,11 @@ export const ContentsComponent = ({ swiperRef, page, tableData, SectorsChartData
         case 'Table':
             return <Table swiperRef={swiperRef} tableData={tableData} getIndustryStockData={getIndustryStockData} />
         case 'Favorite':
-            return <Favorite swiperRef={swiperRef} SectorsChartData={SectorsChartData} getStockCode={getStockCode} getStockChartData={getStockChartData} ></Favorite>
+            return <Favorite swiperRef={swiperRef} getStockCode={getStockCode} getStockChartData={getStockChartData} ></Favorite>
+        case 'Industry':
+            return <SectorsChartPage Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop} />
         default:
-            return <Cross swiperRef={swiperRef} tableData={tableData} SectorsChartData={SectorsChartData} getStockCode={getStockCode} getStockChartData={getStockChartData} />
+            return <Cross swiperRef={swiperRef} tableData={tableData} getStockCode={getStockCode} getStockChartData={getStockChartData} />
     }
 
 }
@@ -218,21 +221,21 @@ export function Tree({ tableData, onIndustryClick }) {
     )
 }
 
-export function Cross({ swiperRef, tableData, SectorsChartData, onIndustryClick, getStockCode, getStockChartData }) {
+export function Cross({ swiperRef, tableData, onIndustryClick, getStockCode, getStockChartData }) {
     return (
         <Grid container>
             <CrossChartPage swiperRef={swiperRef}
-                getStockCode={getStockCode} tableData={tableData} SectorsChartData={SectorsChartData}
+                getStockCode={getStockCode} tableData={tableData}
                 onIndustryClick={(업종명) => onIndustryClick(업종명, null, '흑자기업')} getStockChartData={getStockChartData} />
         </Grid>
     )
 }
 
-const Favorite = ({ swiperRef, SectorsChartData, onIndustryClick, getStockCode, getStockChartData }) => {
+const Favorite = ({ swiperRef, onIndustryClick, getStockCode, getStockChartData }) => {
     return (
         <Grid container>
             <FavoritePage swiperRef={swiperRef}
-                getStockCode={getStockCode} SectorsChartData={SectorsChartData}
+                getStockCode={getStockCode}
                 onIndustryClick={(업종명) => onIndustryClick(업종명, null, '흑자기업')} getStockChartData={getStockChartData} />
         </Grid>
     )

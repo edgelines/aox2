@@ -58,14 +58,14 @@ export default function MonthTable({ swiperRef, ELW_monthTable, fontSize, ELW_Ca
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {['WA2', 'WA3', 'WA4', 'WA1'].map((wa, index) => {
+                                    {['WA2', 'WA3', 'WA1'].map((wa, index) => {
                                         const 차이1 = ELW_monthTable[3][wa] - ELW_monthTable[0][wa]
                                         const 차이2 = ELW_monthTable[4][wa] - ELW_monthTable[1][wa]
                                         const 차이3 = ELW_monthTable[5][wa] - ELW_monthTable[2][wa]
                                         const color1 = 차이1 > 0 ? 'tomato' : 'deepskyblue';
                                         const color2 = 차이2 > 0 ? 'tomato' : 'deepskyblue';
                                         const color3 = 차이3 > 0 ? 'tomato' : 'deepskyblue';
-                                        const name = ['WA2 - Top7 5일', 'WA3 - Top7 3일', 'WA4 - Top5 3일', 'WA1 - Top10 2일']
+                                        const name = ['WA2 - Top7 5일', 'WA3 - Top7 3일', 'WA1 - Top10 2일']
                                         return <TableRow key={index}>
                                             <TableCell sx={tableBodyStyle} align='center'>{name[index]}</TableCell>
                                             <TableCell sx={tableBodyStyle} align='center'>{ELW_monthTable[3][wa].toFixed(2)}</TableCell>
@@ -80,11 +80,10 @@ export default function MonthTable({ swiperRef, ELW_monthTable, fontSize, ELW_Ca
                                     <TableRow>
                                         <TableCell sx={tableAvg} align='center'>Avg.</TableCell>
                                         {['3', '4', '5'].map(idx => {
-                                            const avg = (ELW_monthTable[idx]['WA2'] + ELW_monthTable[idx]['WA3'] + ELW_monthTable[idx]['WA4'] + ELW_monthTable[idx]['WA1']) / 4;
+                                            const avg = (ELW_monthTable[idx]['WA2'] + ELW_monthTable[idx]['WA3'] + ELW_monthTable[idx]['WA1']) / 3;
                                             const diffAvg = (ELW_monthTable[idx]['WA2'] - ELW_monthTable[idx - 3]['WA2'] +
                                                 ELW_monthTable[idx]['WA3'] - ELW_monthTable[idx - 3]['WA3'] +
-                                                ELW_monthTable[idx]['WA4'] - ELW_monthTable[idx - 3]['WA4'] +
-                                                ELW_monthTable[idx]['WA1'] - ELW_monthTable[idx - 3]['WA1']) / 4;
+                                                ELW_monthTable[idx]['WA1'] - ELW_monthTable[idx - 3]['WA1']) / 3;
                                             return (
                                                 <>
                                                     <TableCell sx={tableAvg} align='center'>{avg.toFixed(2)}</TableCell>

@@ -61,12 +61,13 @@ export default function FavoritePage({ swiperRef, getStockCode, getStockChartDat
             sectorSelected(params.row)
         }
     };
-    const sectorSelected = (sector) => { // 업종 클릭시 
+    const sectorSelected = async (sector) => { // 업종 클릭시 
         const name = SectorsName15(sector.업종명)
         setSectorsName(sector.업종명)
         const excludedNames = ['없음', '카드', '손해보험', '복합유틸리티', '복합기업', '전기유틸리티', '생명보험', '다각화된소비자서비스', '사무용전자제품', '담배', '기타금융', '문구류', '판매업체', '전문소매', '출판']
         if (!excludedNames.includes(name)) {
-            setSectorsChartDataSelected(SectorsChartData[name]);
+            const res = await axios.get(`${API}/industryChartData/getChart?name=${name}`);
+            setSectorsChartDataSelected(res.data);
         }
     }
     const handleCategory1 = (event, value) => {

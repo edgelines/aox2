@@ -23,7 +23,7 @@ import { numberWithCommas } from './util/util';
 import { API } from './util/config';
 import useInterval from './util/useInterval';
 
-export default function SchedulePage({ swiperRef, SectorsChartData, SectorsRanksThemes, Exchange, Vix }) {
+export default function SchedulePage({ swiperRef, SectorsRanksThemes, Exchange, Vix }) {
 
     const [schedule, setSchedule] = useState();
     const [page, setPage] = useState(1);
@@ -143,9 +143,9 @@ export default function SchedulePage({ swiperRef, SectorsChartData, SectorsRanks
                     {sectorPage === 'Fundarmental2' && <FundarmentalPage2 swiperRef={swiperRef} />}
                     {sectorPage === 'Fundarmental3' && <FundarmentalPage3 swiperRef={swiperRef} />}
                     {sectorPage === 'IpoPulse' && <IpoPulse swiperRef={swiperRef} />}
-                    {sectorPage === 'HTS' && <HTS swiperRef={swiperRef} SectorsChartData={SectorsChartData} />}
+                    {sectorPage === 'HTS' && <HTS swiperRef={swiperRef} />}
                     {sectorPage === 'SectorSearchPage' && <SectorSearchPage
-                        swiperRef={swiperRef} SectorsChartData={SectorsChartData} SectorsRanksThemes={SectorsRanksThemes}
+                        swiperRef={swiperRef} SectorsRanksThemes={SectorsRanksThemes}
                     />}
                     {/* {sectorPage === 'PERPBR' && <Pbr swiperRef={swiperRef} />} */}
                     {sectorPage === 'WeightAvgPage3' && <WeightAvgPage3 swiperRef={swiperRef} Exchange={Exchange} Vix={Vix} />}

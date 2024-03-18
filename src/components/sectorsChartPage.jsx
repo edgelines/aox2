@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { API } from './util/config';
 import { Box, Grid, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
@@ -21,8 +23,8 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 
 export default function SectorsChartPage({
     Kospi200BubbleCategoryGruop,
-    onCheckboxStatusUp, onCheckboxStatusDown, onCheckboxStatusTup, onCheckboxAll,
-    filteredChartData, sectorsRanksThemes, checkboxStatusUp, checkboxStatusDown, checkboxStatusTup, checkboxAll
+    // onCheckboxStatusUp, onCheckboxStatusDown, onCheckboxStatusTup, onCheckboxAll,
+    // filteredChartData,  checkboxStatusUp, checkboxStatusDown, checkboxStatusTup, checkboxAll
 }) {
     const [togglePage, setTogglePage] = useState('Bubble');
     const [filteredStockTable, setFilteredStockTable] = useState([]); // 필터링된 종목 Table
@@ -32,20 +34,38 @@ export default function SectorsChartPage({
         if (newAlignment !== null) { setTogglePage(newAlignment); }
     }
 
+    // sectorsChartPage State
+    // const handleCheckboxStatusUp = (data) => { setCheckboxStatusUp(data) }
+    // const handleCheckboxStatusDown = (data) => { setCheckboxStatusDown(data) }
+    // const handleCheckboxStatusTup = (data) => { setCheckboxStatusTup(data) }
+    // const handleCheckboxStatusAll = (data) => { setCheckboxAll(data) }
+    // const [SectorsChartData, setSectorsChartData] = useState([]);
+    const [checkboxStatusUp, setCheckboxStatusUp] = useState({ rank1: true, rank2: true, rank3: true, rank4: true }); // 전일대비 순위가 상승한 업종
+    const [checkboxStatusTup, setCheckboxStatusTup] = useState({ rank1: false, rank2: false, rank3: false, rank4: false }); // TOM 대비 순위가 상승한 업종
+    const [checkboxStatusDown, setCheckboxStatusDown] = useState({ rank1: true, rank2: true, rank3: true, rank4: true }); // 전일대비 순위가 하락한 업종
+
+    const [checkboxAll, setCheckboxAll] = useState({ up: false, down: false, tomUp: false, tomDown: false });
+    const rankRange = { rank1: [1, 14], rank2: [15, 25], rank3: [26, 54], rank4: [55, 80] };
+    const [filteredChartData, setFilteredChartData] = useState({
+        반도체1: [], 반도체2: [], IT1: [], IT2: [], 조선: [], 건설1: [], 건설2: [], 금융: [], B2C: [], BIO1: [], BIO2: [], 식품: [], 아웃도어1: [], 아웃도어2: []
+    });
+    // 각 구간별 CheckBox BTN을 통해 필터된 업종들
+    const [sectorsRanksThemes, setSectorsRanksThemes] = useState([]);
+
     // Check Box Function
     const handleCheckboxChange = (rank, check) => {
         if (check === 'up') {
-            onCheckboxStatusUp((prevStatus) => ({
+            setCheckboxStatusUp((prevStatus) => ({
                 ...prevStatus,
                 [rank]: !prevStatus[rank]
             }));
         } else if (check === 'down') {
-            onCheckboxStatusDown((prevStatus) => ({
+            setCheckboxStatusDown((prevStatus) => ({
                 ...prevStatus,
                 [rank]: !prevStatus[rank]
             }));
         } else if (check === 'tomUp') {
-            onCheckboxStatusTup((prevStatus) => ({
+            setCheckboxStatusTup((prevStatus) => ({
                 ...prevStatus,
                 [rank]: !prevStatus[rank]
             }));
@@ -54,24 +74,24 @@ export default function SectorsChartPage({
     const handleCheckAllChange = (event, check) => {
         const newCheckedValue = event.target.checked;
 
-        onCheckboxAll(prevState => ({ ...prevState, [check]: newCheckedValue }));
+        setCheckboxAll(prevState => ({ ...prevState, [check]: newCheckedValue }));
 
         if (check === 'up') {
-            onCheckboxStatusUp({
+            setCheckboxStatusUp({
                 rank1: newCheckedValue,
                 rank2: newCheckedValue,
                 rank3: newCheckedValue,
                 rank4: newCheckedValue
             });
         } else if (check === 'down') {
-            onCheckboxStatusDown({
+            setCheckboxStatusDown({
                 rank1: newCheckedValue,
                 rank2: newCheckedValue,
                 rank3: newCheckedValue,
                 rank4: newCheckedValue
             });
         } else if (check === 'tomUp') {
-            onCheckboxStatusTup({
+            setCheckboxStatusTup({
                 rank1: newCheckedValue,
                 rank2: newCheckedValue,
                 rank3: newCheckedValue,
@@ -81,21 +101,21 @@ export default function SectorsChartPage({
     }
     const handlePreset = (event, value) => {
         if (value === 'A') {
-            onCheckboxStatusUp({ rank1: true, rank2: true, rank3: true, rank4: true });
-            onCheckboxStatusTup({ rank1: true, rank2: true, rank3: true, rank4: true });
-            onCheckboxStatusDown({ rank1: false, rank2: false, rank3: false, rank4: false });
+            setCheckboxStatusUp({ rank1: true, rank2: true, rank3: true, rank4: true });
+            setCheckboxStatusTup({ rank1: true, rank2: true, rank3: true, rank4: true });
+            setCheckboxStatusDown({ rank1: false, rank2: false, rank3: false, rank4: false });
             setPreset(value);
         }
         else if (value === 'B') {
-            onCheckboxStatusUp({ rank1: false, rank2: false, rank3: false, rank4: true });
-            onCheckboxStatusTup({ rank1: false, rank2: false, rank3: false, rank4: true });
-            onCheckboxStatusDown({ rank1: true, rank2: true, rank3: true, rank4: true });
+            setCheckboxStatusUp({ rank1: false, rank2: false, rank3: false, rank4: true });
+            setCheckboxStatusTup({ rank1: false, rank2: false, rank3: false, rank4: true });
+            setCheckboxStatusDown({ rank1: true, rank2: true, rank3: true, rank4: true });
             setPreset(value);
         }
         else if (value === 'C') {
-            onCheckboxStatusUp({ rank1: true, rank2: true, rank3: true, rank4: true });
-            onCheckboxStatusTup({ rank1: false, rank2: false, rank3: false, rank4: false });
-            onCheckboxStatusDown({ rank1: true, rank2: true, rank3: true, rank4: true });
+            setCheckboxStatusUp({ rank1: true, rank2: true, rank3: true, rank4: true });
+            setCheckboxStatusTup({ rank1: false, rank2: false, rank3: false, rank4: false });
+            setCheckboxStatusDown({ rank1: true, rank2: true, rank3: true, rank4: true });
             setPreset(value);
         }
 
@@ -108,6 +128,25 @@ export default function SectorsChartPage({
         }));
         setFilteredStockTable(result);
     }
+
+    const postReq = async () => {
+        const postData = {
+            checkboxStatusUp: checkboxStatusUp,
+            checkboxStatusTup: checkboxStatusTup,
+            checkboxStatusDown: checkboxStatusDown,
+            rankRange: rankRange
+        }
+        const res = await axios.post(`${API}/industryChartData/getThemes`, postData)
+        // setSectorsChartData(res.data.origin);
+        setFilteredChartData(res.data.industryGr);
+        setSectorsRanksThemes(res.data.topThemes)
+    }
+
+    // sectorsChartPage Render
+    useEffect(() => {
+        postReq();
+    }, [checkboxStatusUp, checkboxStatusDown, checkboxStatusTup, checkboxAll])
+
     //Table Cols
     const filteredStockTableCol = [ // 가운데 종목/등락률/전일대비
         { field: 'item', headerName: '종목명', width: 120 },

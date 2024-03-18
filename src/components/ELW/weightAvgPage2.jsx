@@ -180,7 +180,7 @@ export default function WeightAvgPage2({ swiperRef, ELW_monthTable, ELW_CallPutR
                     <MarketCurrentValue MarketDetail={MarketDetail} />
                 </Box>
                 <MonthChart data={month2Data.series} height={840} categories={month2Data.categories} min={month2Data.min} credit={update_5M} />
-                <Box sx={{ position: 'absolute', transform: 'translate(2.6vw, -280px)', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}><MonthTable ELW_monthTable={ELW_monthTable} ELW_CallPutRatio_Maturity={ELW_CallPutRatio_Maturity} /></Box>
+                <Box sx={{ position: 'absolute', transform: 'translate(2.6vw, -240px)', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}><MonthTable ELW_monthTable={ELW_monthTable} ELW_CallPutRatio_Maturity={ELW_CallPutRatio_Maturity} /></Box>
                 <Grid container justifyContent="flex-end" alignItems="center">
                     {month1Value && month1Value.length > 0 ?
                         month1Value.map((value, index) => {
