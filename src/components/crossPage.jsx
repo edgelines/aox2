@@ -103,7 +103,6 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
 
                 <ContentsComponent
                     swiperRef={swiperRef} page={page} tableData={tableData}
-                    Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop}
                     getIndustryStockData={getIndustryStockData} onIndustryClick={onIndustryClick} getStockCode={getStockCode} getStockChartData={getStockChartData} />
                 {page !== 'Cross' && page !== 'Favorite' && page !== 'Industry' ?
                     <>

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { API } from '../components/util/config'
+import { API } from '../../components/util/config'
 
 // export const getStockSectors = createAsyncThunk("GET/STOCKSECTORS", async () => {
 //     const res = await axios.get(`${API}/industry/stockSectors`);

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Grid, Box, Table, Skeleton, Modal, Backdrop, ToggleButtonGroup } from '@mui/material';
 import CoreChart from './util/CoreChart';
+import GroupDataChart_Min from './Main/GroupDataChart_Min';
 import { numberWithCommas, StyledToggleButton, update_5M } from './util/util';
 import Kospi200CurrentValue from './Index/kospi200CurrentValue';
 import NewKospi200Group, { BubbleChartLegend } from './util/BubbleChart'
@@ -17,18 +18,16 @@ HighchartsMore(Highcharts)
 SolidGauge(Highcharts)
 
 // export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200BubbleCategory, ElwWeightedAvgCheck, Exchange }) {
-export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200BubbleCategory, MarketDetail, ElwWeightedAvgCheck, Exchange }) {
-    // const updateA = 'Updates-10m'
-    // const updateB = 'Updates-5m'
+export default function MainPage({ Vix, MarketDetail, ElwWeightedAvgCheck, Exchange }) {
     // let ws = null;
     // const [MarketDetail, setMarketDetail] = useState({ data: [], status: 'loading' });
     const [bubbleData, setBubbleData] = useState({});
-    const [groupDataMin, setGroupDataMin] = useState({})
     const [groupData, setGroupData] = useState({})
+    const [groupDataMin, setGroupDataMin] = useState({})
 
     const [gisuDayImg, setGisuDayImg] = useState(null);
     const [kospi200Img, setKospi200Img] = useState(null);
-    // const [exchange, setExchange] = useState({});
+
     const [market, setMarket] = useState({});
     const [marketAct, setMarketAct] = useState({});
     const [table2, setTable2] = useState([]);
@@ -38,35 +37,47 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
     const [foreigner, setForeigner] = useState({});
     const [institutional, setInstitutional] = useState({});
     const [individual, setIndividual] = useState({});
-    //trendDataBar
-    // const [trendDataBar, setTrendDataBar] = useState({ kospi200: [], kospi: [], kosdaq: [], futures: [], call: [], put: [] })
+
+    const [Kospi200Bubble, setKospi200Bubble] = useState([]);
 
     const [today, setToday] = useState(null);
     const [time, setTime] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const handleOpen = () => setOpenModal(true);
     const handleClose = () => setOpenModal(false);
-    const handleBubbleDataPage = (event, value) => {
+    const handleBubbleDataPage = async (event, value) => {
         if (value !== null) {
             setBubbleDataPage(value);
         }
-    }
+        if (value === 'BubbleCategory') {
+            const res = await axios.get(`${API}/aox/BubbleDataCategoryGroup`);
+            setKospi200Bubble(res.data);
+        } else if (value === 'BubbleCapital') {
+            const res = await axios.get(`${API}/aox/BubbleDataCategory`);
+            setKospi200Bubble(res.data);
+        } else if (value === 'groupDataMin') {
+            const res = await axios.get(`${API}/aox/groupData?dbName=GroupDataMin`);
+            setGroupDataMin({ series1: res.data.series1, series2: res.data.series2, categories: res.data.categories })
+        } else if (value === 'groupData') {
+            const res = await axios.get(`${API}/aox/groupData?dbName=GroupDataLine`);
+            setGroupData({ series1: res.data.series1, series2: res.data.series2, categories: res.data.categories })
+        }
+    };
     const getData = async (name) => {
         const res = await axios.get(`${API}/aox/${name}`)
         return res.data
     }
-    const fetchData = async () => {
+    const fetchData = async (bubbleDataPage) => {
         const uniq = "?" + new Date().getTime();
         setGisuDayImg(`/img/gisu_kospi200.jpg${uniq}`);
         setKospi200Img(`https://t1.daumcdn.net/finance/chart/kr/daumstock/d/mini/K2G01P.png${uniq}`);
 
-        // const APIname = ['bubbleData', 'marketDaily', 'trendData'];
-        const APIname = ['bubbleData', 'groupData?dbName=GroupDataLine', 'marketDaily', 'trendData', 'groupData?dbName=GroupDataMin'];
+
+        const APIname = ['bubbleData', 'groupData?dbName=GroupDataLine', 'marketDaily', 'trendData'];
 
         const chartDataPromises = APIname.map(name => getData(name));
 
-        // const [bubbleData, marketDaily, trendData] = await Promise.all(chartDataPromises);
-        const [bubbleData, groupData, marketDaily, trendData, GroupDataMin] = await Promise.all(chartDataPromises);
+        const [bubbleData, groupData, marketDaily, trendData] = await Promise.all(chartDataPromises);
 
         setBubbleData({
             series: [{
@@ -76,7 +87,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
             }],
             categories: bubbleData.categories
         });
-        // handleBubbleDataPage(bubbleDataPage);
+
         setGroupData({ series1: groupData.series1, series2: groupData.series2, categories: groupData.categories })
         setMarket({ series: marketDaily.series, categories: marketDaily.categories });
 
@@ -91,8 +102,6 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
             yAxis1Abs: trendData.yAxis1Abs,
             yAxis2Abs: trendData.yAxis2Abs,
         });
-
-        setGroupDataMin({ series1: GroupDataMin.series1, series2: GroupDataMin.series2, categories: GroupDataMin.categories });
 
     };
 
@@ -112,7 +121,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
         setTime(time);
     }
     useEffect(() => {
-        fetchData();
+        fetchData(bubbleDataPage);
         setDate();
         // connectWebsocket();
         // return () => { if (ws) ws.close(); };
@@ -148,7 +157,7 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                 const hour = now.getHours();
                 const dayOfWeek = now.getDay();
                 if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
-                    fetchData();
+                    fetchData(bubbleDataPage);
                 } else if (hour >= 16) {
                     // 3시 30분 이후라면 인터벌 종료
                     clearInterval(intervalId);
@@ -236,41 +245,13 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
                         onChange={handleBubbleDataPage}
                     >
                         <StyledToggleButton value="groupData">Line 일봉</StyledToggleButton>
-                        <StyledToggleButton value="C">Bubble 카테고리</StyledToggleButton>
-                        <StyledToggleButton value="A">Bubble 시가총액</StyledToggleButton>
-                        <StyledToggleButton value="groupDataLine">Line 분봉</StyledToggleButton>
+                        <StyledToggleButton value="BubbleCategory">Bubble 카테고리</StyledToggleButton>
+                        <StyledToggleButton value="BubbleCapital">Bubble 시가총액</StyledToggleButton>
+                        <StyledToggleButton value="groupDataMin">Line 분봉</StyledToggleButton>
                     </ToggleButtonGroup>
                 </Box>
-                {bubbleDataPage === 'A' ?
-                    <>
-                        <Box sx={{ mt: 1 }}>
-                            <NewKospi200Group data={Kospi200BubbleCategory} height={470} />
-                            <BubbleChartLegend guideNum={1.4} girdNum={1.9} />
-                        </Box>
-                    </>
-                    : bubbleDataPage === 'groupData' ?
-                        <>
-                            <CoreChart data={groupData.series1} height={280} name={'groupData'} categories={groupData.categories} lengendX={43} />
-                            <Box sx={{ position: 'absolute', transform: 'translate(20vw, -1.5vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
-                                {update_5M}
-                            </Box>
-                            <CoreChart data={groupData.series2} height={280} name={'groupData'} categories={groupData.categories} lengendX={43} />
-                        </>
-                        : bubbleDataPage === 'C' ?
-                            <>
-                                <Box sx={{ mt: 1 }}>
-                                    <NewKospi200Group data={Kospi200BubbleCategoryGruop} height={470} name={'Group'} />
-                                    <BubbleChartLegend guideNum={1.2} girdNum={2.1} />
-                                </Box>
-                            </> :
-                            <>
-                                <CoreChart data={groupDataMin.series1} height={280} name={'groupDataMin'} categories={groupDataMin.categories} lengendX={43} />
-                                <Box sx={{ position: 'absolute', transform: 'translate(21vw, -1.5vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
-                                    {update_5M}
-                                </Box>
-                                <CoreChart data={groupDataMin.series2} height={280} name={'groupDataMin'} categories={groupDataMin.categories} lengendX={43} />
-                            </>
-                }
+
+                <ContentsComponent page={bubbleDataPage} Kospi200Bubble={Kospi200Bubble} groupData={groupData} groupDataMin={groupDataMin} />
 
             </Grid>
 
@@ -489,6 +470,47 @@ export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200Bub
     )
 }
 
+// Selected Components
+const ContentsComponent = ({ page, Kospi200Bubble, groupData, groupDataMin }) => {
+    switch (page) {
+        case 'BubbleCapital':
+            return <>
+                <Box sx={{ mt: 1 }}>
+                    <NewKospi200Group data={Kospi200Bubble} height={470} />
+                    <BubbleChartLegend guideNum={1.4} girdNum={1.9} />
+                </Box>
+            </>
+        case 'BubbleCategory':
+            return <>
+                <Box sx={{ mt: 1 }}>
+                    <NewKospi200Group data={Kospi200Bubble} height={470} name={'Group'} />
+
+                    <BubbleChartLegend guideNum={1.2} girdNum={2.1} />
+                </Box>
+            </>
+        case 'groupDataMin':
+            return <>
+                <GroupDataChart_Min data={groupDataMin.series1} height={280} categories={groupDataMin.categories} lengendX={43} />
+                <Box sx={{ position: 'absolute', transform: 'translate(21vw, -1.5vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
+                    {update_5M}
+                </Box>
+                <GroupDataChart_Min data={groupDataMin.series2} height={280} categories={groupDataMin.categories} lengendX={43} />
+            </>
+
+        default:
+            return <>
+                <CoreChart data={groupData.series1} height={280} name={'groupData'} categories={groupData.categories} lengendX={43} />
+                <Box sx={{ position: 'absolute', transform: 'translate(20vw, -1.5vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
+                    {update_5M}
+                </Box>
+                <CoreChart data={groupData.series2} height={280} name={'groupData'} categories={groupData.categories} lengendX={43} />
+            </>
+    }
+
+}
+
+
+// Highchart Components
 const MarketActChart = ({ data, height, name }) => {
     // const chartRef = useRef(null)
     const [chartOptions, setChartOptions] = useState({

@@ -22,16 +22,21 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 // import axios from 'axios';
 
 export default function SectorsChartPage({
-    Kospi200BubbleCategoryGruop,
+    // Kospi200BubbleCategoryGruop,
     // onCheckboxStatusUp, onCheckboxStatusDown, onCheckboxStatusTup, onCheckboxAll,
     // filteredChartData,  checkboxStatusUp, checkboxStatusDown, checkboxStatusTup, checkboxAll
 }) {
     const [togglePage, setTogglePage] = useState('Bubble');
     const [filteredStockTable, setFilteredStockTable] = useState([]); // 필터링된 종목 Table
     const [preset, setPreset] = useState('C')
+    const [Kospi200BubbleCategoryGruop, setKospi200BubbleCategoryGruop] = useState([]);
     // togglePage BTN
-    const handleTogglePage = (event, newAlignment) => {
+    const handleTogglePage = async (event, newAlignment) => {
         if (newAlignment !== null) { setTogglePage(newAlignment); }
+        if (newAlignment === 'Bubble') {
+            const res = await axios.get(`${API}/BubbleDataCategoryGroup`);
+            setKospi200BubbleCategoryGruop(res.data);
+        }
     }
 
     // sectorsChartPage State
@@ -128,7 +133,10 @@ export default function SectorsChartPage({
         }));
         setFilteredStockTable(result);
     }
-
+    const getBubbleData = async () => {
+        const res = await axios.get(`${API}/BubbleDataCategory`);
+        setKospi200BubbleCategoryGruop(res.data);
+    }
     const postReq = async () => {
         const postData = {
             checkboxStatusUp: checkboxStatusUp,
@@ -141,7 +149,7 @@ export default function SectorsChartPage({
         setFilteredChartData(res.data.industryGr);
         setSectorsRanksThemes(res.data.topThemes)
     }
-
+    useEffect(() => { getBubbleData() }, [])
     // sectorsChartPage Render
     useEffect(() => {
         postReq();

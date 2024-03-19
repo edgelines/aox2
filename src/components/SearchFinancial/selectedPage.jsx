@@ -83,7 +83,7 @@ const table_columns = [
 ]
 
 
-export const ContentsComponent = ({ swiperRef, page, tableData, getIndustryStockData, onIndustryClick, getStockCode, getStockChartData, Kospi200BubbleCategoryGruop }) => {
+export const ContentsComponent = ({ swiperRef, page, tableData, getIndustryStockData, onIndustryClick, getStockCode, getStockChartData }) => {
 
     switch (page) {
         case 'Tree':
@@ -93,7 +93,7 @@ export const ContentsComponent = ({ swiperRef, page, tableData, getIndustryStock
         case 'Favorite':
             return <Favorite swiperRef={swiperRef} getStockCode={getStockCode} getStockChartData={getStockChartData} ></Favorite>
         case 'Industry':
-            return <SectorsChartPage Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop} />
+            return <SectorsChartPage />
         default:
             return <Cross swiperRef={swiperRef} tableData={tableData} getStockCode={getStockCode} getStockChartData={getStockChartData} />
     }

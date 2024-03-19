@@ -2,8 +2,8 @@ import './App.css';
 import React, { useState, useEffect, useRef } from "react";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { getKospi200BubbleCategoryGruop, getKospi200BubbleCategory } from "./store/stockSectors.js";
-import { getIndexMA, getVix, getMarketDetail, getKospi200, getKospi, getKosdaq, getInvers, getExchange } from './store/indexData.js';
+// import { getKospi200BubbleCategoryGruop, getKospi200BubbleCategory } from "./store/stockSectors.js";
+import { getVix, getMarketDetail, getExchange } from './store/indexData.js';
 import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvgCheck } from './store/ELW.js';
 // Websokect
 // import { websocketConnectWA1, websocketConnectWA2, } from './store/actions/websocketActions';
@@ -28,62 +28,28 @@ import { Keyboard, Mousewheel, Pagination } from "swiper/modules";
 // import useInterval from './components/util/useInterval';
 
 function App() {
-    // const [SectorsChartData, setSectorsChartData] = useState([]);
-
     const dispatch = useDispatch();
-    const Kospi200BubbleCategoryGruop = useSelector((state) => state.Kospi200BubbleCategoryGruop);
-    const Kospi200BubbleCategory = useSelector((state) => state.Kospi200BubbleCategory);
-    // const ABC = useSelector((state) => state.ABC)
     const ELW_monthTable = useSelector((state) => state.ELW_monthTable);
     const ELW_CallPutRatio_Maturity = useSelector((state) => state.ELW_CallPutRatio_Maturity);
     const ElwWeightedAvgCheck = useSelector((state) => state.ElwWeightedAvgCheck);
     const MarketDetail = useSelector((state) => state.MarketDetail);
 
     // index Data
-    const IndexMA = useSelector((state) => state.IndexMA);
     const Vix = useSelector((state) => state.Vix);
-    const Kospi200 = useSelector((state) => state.Kospi200);
-    const Kospi = useSelector((state) => state.Kospi);
-    const Kosdaq = useSelector((state) => state.Kosdaq);
-    const Invers = useSelector((state) => state.Invers);
+
     // const MarketKospi200 = useSelector((state) => state.MarketKospi200);
     const Exchange = useSelector((state) => state.Exchange);
     const swiperRef = useRef(null);
     // const WA1 = useSelector(state => state.websocket.WA_1);
     // const WA2 = useSelector(state => state.websocket.WA_2);
-    // sectorsChartPage State
-    // const handleCheckboxStatusUp = (data) => { setCheckboxStatusUp(data) }
-    // const handleCheckboxStatusDown = (data) => { setCheckboxStatusDown(data) }
-    // const handleCheckboxStatusTup = (data) => { setCheckboxStatusTup(data) }
-    // const handleCheckboxStatusAll = (data) => { setCheckboxAll(data) }
-
-    // const [checkboxStatusUp, setCheckboxStatusUp] = useState({ rank1: true, rank2: true, rank3: true, rank4: true }); // 전일대비 순위가 상승한 업종
-    // const [checkboxStatusTup, setCheckboxStatusTup] = useState({ rank1: false, rank2: false, rank3: false, rank4: false }); // TOM 대비 순위가 상승한 업종
-    // const [checkboxStatusDown, setCheckboxStatusDown] = useState({ rank1: true, rank2: true, rank3: true, rank4: true }); // 전일대비 순위가 하락한 업종
-
-    // const [checkboxAll, setCheckboxAll] = useState({ up: false, down: false, tomUp: false, tomDown: false });
-    // const rankRange = { rank1: [1, 14], rank2: [15, 25], rank3: [26, 54], rank4: [55, 80] };
-    // const [filteredChartData, setFilteredChartData] = useState({
-    //     반도체1: [], 반도체2: [], IT1: [], IT2: [], 조선: [], 건설1: [], 건설2: [], 금융: [], B2C: [], BIO1: [], BIO2: [], 식품: [], 아웃도어1: [], 아웃도어2: []
-    // });
-    // // 각 구간별 CheckBox BTN을 통해 필터된 업종들
-    // const [sectorsRanksThemes, setSectorsRanksThemes] = useState([]);
 
     // 5분 주기 ( Index Data )
     const fetchData5Min = async () => {
         await dispatch(getMarketDetail());
-        await dispatch(getKospi200BubbleCategoryGruop());
-        await dispatch(getKospi200BubbleCategory());
         await dispatch(getELW_monthTable());
         await dispatch(getELW_CallPutRatio_Maturity());
         await dispatch(getElwWeightedAvgCheck());
-        await dispatch(getIndexMA());
-        await dispatch(getKospi200());
-        await dispatch(getKospi());
-        await dispatch(getKosdaq());
-        await dispatch(getInvers());
         await dispatch(getExchange());
-        // await postReq();
     }
     // 하루 주기
     const fetchData1Day = async () => {
@@ -94,7 +60,6 @@ function App() {
 
     // 첫 랜더링
     useEffect(() => {
-        // fetchData();
         fetchData5Min();
         fetchData1Day();
     }, [dispatch])
@@ -159,24 +124,6 @@ function App() {
         };
     }, [dispatch]);
 
-    // const postReq = async () => {
-    //     const postData = {
-    //         checkboxStatusUp: checkboxStatusUp,
-    //         checkboxStatusTup: checkboxStatusTup,
-    //         checkboxStatusDown: checkboxStatusDown,
-    //         rankRange: rankRange
-    //     }
-    //     const res = await axios.post(`${API}/industryChartData/getThemes`, postData)
-    //     setSectorsChartData(res.data.origin);
-    //     setFilteredChartData(res.data.industryGr);
-    //     setSectorsRanksThemes(res.data.topThemes)
-    // }
-
-    // // sectorsChartPage Render
-    // useEffect(() => {
-    //     postReq();
-    // }, [checkboxStatusUp, checkboxStatusDown, checkboxStatusTup, checkboxAll])
-
     // Swiper Slider Bottom Page Number Style
     const handleSlideChange = (swiper) => {
         const paginationEl = swiper.pagination.el;
@@ -196,7 +143,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <CrossPage swiperRef={swiperRef} Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop} />
+                    <ModelingPage Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -204,11 +151,11 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <CrossPage swiperRef={swiperRef} Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop} />
+                    <CrossPage swiperRef={swiperRef} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <MainPage Vix={Vix} Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop} Kospi200BubbleCategory={Kospi200BubbleCategory} MarketDetail={MarketDetail} ElwWeightedAvgCheck={ElwWeightedAvgCheck} Exchange={Exchange} />
+                    <MainPage Vix={Vix} MarketDetail={MarketDetail} ElwWeightedAvgCheck={ElwWeightedAvgCheck} Exchange={Exchange} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -216,7 +163,7 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <ModelingPage swiperRef={swiperRef} Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} IndexMA={IndexMA} Kospi200={Kospi200} Kospi={Kospi} Kosdaq={Kosdaq} Invers={Invers} />
+                    <ModelingPage Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >

@@ -49,92 +49,7 @@ export default function CoreChart({ data, height, name, categories, type, min, h
                 { color: 'greenyellow', width: 2, value: 70, dashStyle: 'shortdash', zIndex: 5, }],
                 gridLineWidth: 0.2, tickAmount: 9, max: 80,
             }],
-            // xValue: [
-            //     {
-            //         title: { text: "" },
-            //         gridLineWidth: 0.3,
-            //         labels: {
-            //             align: 'right', x: -5, y: 4.5,
-            //             style: {
-            //                 color: '#efe9e9ed',
-            //                 fontSize: '12px'
-            //             },
-            //         },
-            //         min: min,
-            //     },
-            // ],
-            // xValue1: [
-            //     {
-            //         title: { text: "" },
-            //         gridLineWidth: 0.3,
-            //         labels: {
-            //             align: 'right', x: -5, y: 4.5,
-            //             style: {
-            //                 color: '#efe9e9ed',
-            //                 fontSize: '12px'
-            //             },
-            //         },
-            //     },
-            // ],
-            mixedX: [
-                {
-                    title: { text: null },
-                    gridLineWidth: 0.3,
-                    labels: {
-                        align: 'right', x: -5, y: 4.5,
-                        style: {
-                            color: '#efe9e9ed',
-                            fontSize: '12px'
-                        },
-                    },
-                    min: min,
-                },
-                {
-                    title: { text: null },
-                    opposite: true,
-                    gridLineWidth: 0.3,
-                    labels: {
-                        align: 'right', x: -1, y: 4.5,
-                        style: {
-                            color: '#efe9e9ed',
-                            fontSize: '12px'
-                        },
-                    },
-                    plotLines: [
-                        {
-                            color: "coral",
-                            width: 1,
-                            value: 65,
-                            dashStyle: "shortdash",
-                            label: {
-                                text: "65",
-                                align: "right",
-                                x: -1,
-                                y: -5,
-                                style: {
-                                    color: "#efe9e9ed",
-                                },
-                            },
-                        },
-                        {
-                            color: "dodgerblue",
-                            width: 1,
-                            value: 35,
-                            dashStyle: "shortdash",
-                            label: {
-                                text: "35",
-                                align: "right",
-                                x: -1,
-                                y: -5,
-                                style: {
-                                    color: "#efe9e9ed",
-                                },
-                            },
-                        },
-                    ],
 
-                },
-            ],
             VixColumn: [{ title: { text: null }, labels: { style: { color: '#efe9e9ed', fontSize: '12px' }, formatter: function () { return this.value; }, }, max: 100, min: 0, plotLines: [{ color: 'paleturquoise', width: 2, value: 20, zIndex: 5, }], gridLineWidth: 0.2, tickAmount: 6 }],
             Kospi200GroupBubble: {
                 lineWidth: 0,
@@ -159,137 +74,7 @@ export default function CoreChart({ data, height, name, categories, type, min, h
                     zIndex: -1
                 }],
             },
-            groupDataMin: [{
-                title: { enabled: false },
-                labels: {
-                    style: { color: '#efe9e9ed', fontSize: '12px' }, formatter: function () {
-                        return this.value + ' %';
-                    }
-                },
-                ceiling: 100,
-                gridLineWidth: 0,
-            }, {
-                title: { enabled: false },
-                gridLineWidth: 0,
-                labels: {
-                    enabled: false,
-                    style: { color: '#efe9e9ed', fontSize: '12px' }, formatter: function () {
-                        return parseInt(this.value) + ' %';
-                    }
-                },
-                plotLines: [
-                    {
-                        color: "violet",
-                        width: 1,
-                        value: 76.4,
-                        dashStyle: "shortdash",
-                        label: {
-                            text: "76.4%",
-                            align: "right",
-                            x: 0,
-                            y: -5,
-                            style: {
-                                color: "#efe9e9ed",
-                            },
-                        },
-                    },
-                    {
-                        color: "red",
-                        width: 2,
-                        value: 61.8,
-                        dashStyle: "shortdash",
-                        label: {
-                            text: "61.8%",
-                            align: "right",
-                            x: 0,
-                            y: -5,
-                            style: {
-                                color: "#efe9e9ed",
-                            },
-                        },
-                    },
-                    {
-                        color: "coral",
-                        width: 1,
-                        value: 50,
-                        dashStyle: "shortdash",
-                        label: {
-                            text: "50%",
-                            align: "right",
-                            x: 0,
-                            y: -5,
-                            style: {
-                                color: "#efe9e9ed",
-                            },
-                        },
-                    },
-                    {
-                        color: "gold",
-                        width: 1,
-                        value: 38.2,
-                        dashStyle: "solid",
-                        label: {
-                            text: "38.2%",
-                            align: "right",
-                            x: 0,
-                            y: -5,
-                            style: {
-                                color: "#efe9e9ed",
-                            },
-                        },
-                    },
-                    {
-                        color: "skyblue",
-                        width: 2,
-                        value: 23.6,
-                        dashStyle: "shortdash",
-                        label: {
-                            text: "23.6%",
-                            align: "right",
-                            x: 0,
-                            y: -5,
-                            style: {
-                                color: "#efe9e9ed",
-                            },
-                        },
-                    },
-                    {
-                        color: "dodgerblue",
-                        width: 2,
-                        value: 10,
-                        dashStyle: "shortdash",
-                        label: {
-                            text: "10%",
-                            align: "right",
-                            x: 0,
-                            y: -5,
-                            style: {
-                                color: "#efe9e9ed",
-                            },
-                        },
-                    },
-                    {
-                        color: "dodgerblue",
-                        width: 2,
-                        value: 80,
-                        dashStyle: "shortdash",
-                        label: {
-                            text: "80%",
-                            align: "right",
-                            x: 0,
-                            y: -5,
-                            style: {
-                                color: "#efe9e9ed",
-                            },
-                        },
-                    },
-                ],
-                opposite: true,
-                ceiling: 100,
-                tickAmount: 5,
-                gridLineWidth: 0.2,
-                max: 100
-            }],
+
             groupData: [{
                 title: { enabled: false },
                 labels: {
@@ -520,20 +305,28 @@ export default function CoreChart({ data, height, name, categories, type, min, h
                             }) : []
                     );
                 },
-                backgroundColor: '#404040',
-                style: { color: '#e8e3e3' }
+                backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#e8e3e3" },
             },
             ElwRatioData: {
                 crosshairs: true,
-                backgroundColor: '#404040',
-                style: { color: '#e8e3e3' },
+                backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#e8e3e3" },
                 formatter: function () {
                     return '<b>' + this.series.name + '  /  ' + this.point.category + '</b><br/>'
                 },
             },
-            // xValue: { hideDelay: 2, shared: true, crosshairs: true, backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#fcfcfc" }, formatter: function () { return ["<b>" + this.x + "</b><br/>"].concat(this.points ? this.points.map(function (point) { return ("<b>" + point.series.name + "</b>" + " : " + parseFloat(point.y).toFixed(3) + "<br/>"); }) : []); }, },
-            // xValue1: { hideDelay: 2, shared: true, crosshairs: true, backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#fcfcfc" }, formatter: function () { return ["<b>" + this.x + "</b><br/>"].concat(this.points ? this.points.map(function (point) { return ("<b>" + point.series.name + "</b>" + " : " + parseFloat(point.y).toFixed(3) + "<br/>"); }) : []); }, },
-            // mixedX: { hideDelay: 2, shared: true, crosshairs: true, backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#fcfcfc" }, formatter: function () { return ["<b>" + this.x + "</b><br/>"].concat(this.points ? this.points.map(function (point) { return ("<b>" + point.series.name + "</b>" + " : " + parseFloat(point.y).toFixed(3) + "<br/>"); }) : []); }, },
+            groupData: {
+                crosshairs: true,
+                shared: true,
+                backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#e8e3e3" },
+                formatter: function () {
+                    return ['<b>' + this.x + '</b><br/>'].concat(
+                        this.points ?
+                            this.points.map(function (point) {
+                                return `${point.series.name} : ${parseFloat(point.y).toFixed(1)} % <br/>`;
+                            }) : []
+                    );
+                },
+            },
             VixColumn: { enabled: false },
             Kospi200GroupBubble: {
                 useHTML: true,
@@ -546,43 +339,40 @@ export default function CoreChart({ data, height, name, categories, type, min, h
                 backgroundColor: '#404040',
                 style: { color: '#e8e3e3' }
             },
-            Kospi200GroupDataLine: {
-                split: true,
-                shared: true,
-                crosshairs: true,
-                hideDelay: 2,
-                formatter: function () {
-                    return ['<b>' + this.x + '</b>'].concat(
-                        this.points ?
-                            this.points.map(function (point) {
-                                return point.series.name + ' : ' + parseFloat(point.y).toFixed(1) + ' %';
-                            }) : []
-                    );
-                },
-                backgroundColor: '#404040',
-                style: { color: '#e8e3e3' }
-            },
-            Kospi200GroupData: {
-                split: true,
-                shared: true,
-                crosshairs: true,
-                hideDelay: 2,
-                formatter: function () {
-                    return ['<b>' + this.x + '</b>'].concat(
-                        this.points ?
-                            this.points.map(function (point) {
-                                return point.series.name + ' : ' + parseFloat(point.y).toFixed(1) + ' %';
-                            }) : []
-                    );
-                },
-                backgroundColor: '#404040',
-                style: { color: '#e8e3e3' }
-            },
+            // Kospi200GroupDataLine: {
+            //     split: true,
+            //     shared: true,
+            //     crosshairs: true,
+            //     hideDelay: 2,
+            //     formatter: function () {
+            //         return ['<b>' + this.x + '</b>'].concat(
+            //             this.points ?
+            //                 this.points.map(function (point) {
+            //                     return point.series.name + ' : ' + parseFloat(point.y).toFixed(1) + ' %';
+            //                 }) : []
+            //         );
+            //     },
+            //     backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#e8e3e3" },
+            // },
+            // Kospi200GroupData: {
+            //     split: true,
+            //     shared: true,
+            //     crosshairs: true,
+            //     hideDelay: 2,
+            //     formatter: function () {
+            //         return ['<b>' + this.x + '</b>'].concat(
+            //             this.points ?
+            //                 this.points.map(function (point) {
+            //                     return point.series.name + ' : ' + parseFloat(point.y).toFixed(1) + ' %';
+            //                 }) : []
+            //         );
+            //     },
+            //     backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#e8e3e3" },
+            // },
             trendData: {
                 crosshairs: true,
                 hideDelay: 10,
-                backgroundColor: '#404040',
-                style: { color: '#e8e3e3' },
+                backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#e8e3e3" },
                 formatter: function () {
                     if (this.series.name == '콜옵션') {
                         if (this.point.y > 0) {
@@ -617,7 +407,7 @@ export default function CoreChart({ data, height, name, categories, type, min, h
 
         const plotOptionsRender = () => {
             const result = { series: { cursor: 'pointer', marker: { lineWidth: 0, symbol: 'circle' }, animation: false, }, }
-            if (name === 'xValue' || name === 'xValue1' || name === 'mixedX' || name === 'market') {
+            if (name === 'market') {
                 return { series: { animation: false, marker: { radius: 1.8, lineWidth: 0, symbol: "circle", }, lineWidth: 1, }, }
             } else if (name === 'VixColumn') {
                 return {
@@ -663,20 +453,7 @@ export default function CoreChart({ data, height, name, categories, type, min, h
                 lineColor: '#efe9e9ed', // x축 하단 라인 색상
                 gridLineWidth: 0,// x축 그래프 뒤에 깔리는 선 굵기 지정.(0으로 지정 시 사라짐)
             }
-            // if (name === 'xValue') {
-            //     const x축라벨 = { color: "#efe9e9ed", fontSize: "11px" };
-            //     const y축이동 = 238;
-            //     const texts = ["B<br/>5", "B<br/>4", "B<br/>3", "B<br/>2", "B<br/>1", "09:07", "09:30", "10:00",
-            //         "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00"];
-            //     const positions = [0, 1, 2, 3, 4, 8, 13, 19, 25, 31, 37, 43, 49, 55, 61, 67, 73, 79];
-            //     result.plotLines = texts.map((text, index) => createPlotLine(text, positions[index], x축라벨, y축이동));
-            //     result.labels = { y: 26, style: { color: "#404040", fontSize: "19px", }, rotation: 0, };
-            //     result.plotBands = [{ color: "rgba(111,111,111,0.4)", from: -1, to: 5, },];
 
-            //     result.gridLineWidth = 0;
-            //     result.tickWidth = 0;
-            //     result.max = 86;
-            //     return result;
             if (name === 'trendData') {
                 result.tickInterval = 3;
                 result.labels = { style: { color: '#FCAB2F', fontSize: '11px' } };
