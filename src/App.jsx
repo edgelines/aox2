@@ -143,7 +143,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <ModelingPage Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} />
+                    <MainPage Vix={Vix} MarketDetail={MarketDetail} ElwWeightedAvgCheck={ElwWeightedAvgCheck} Exchange={Exchange} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >

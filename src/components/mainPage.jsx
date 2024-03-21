@@ -12,7 +12,7 @@ import HighchartsReact from 'highcharts-react-official'
 import HighchartsMore from 'highcharts/highcharts-more'
 import SolidGauge from "highcharts/modules/solid-gauge";
 import { parseInt } from 'lodash';
-import { API } from './util/config';
+import { API, TEST } from './util/config';
 // import useInterval from './util/useInterval';
 HighchartsMore(Highcharts)
 SolidGauge(Highcharts)
@@ -58,50 +58,83 @@ export default function MainPage({ Vix, MarketDetail, ElwWeightedAvgCheck, Excha
         } else if (value === 'groupDataMin') {
             const res = await axios.get(`${API}/aox/groupData?dbName=GroupDataMin`);
             setGroupDataMin({ series1: res.data.series1, series2: res.data.series2, categories: res.data.categories })
-        } else if (value === 'groupData') {
-            const res = await axios.get(`${API}/aox/groupData?dbName=GroupDataLine`);
-            setGroupData({ series1: res.data.series1, series2: res.data.series2, categories: res.data.categories })
+            // } else if (value === 'groupData') {
+            //     const res = await axios.get(`${API}/aox/groupData?dbName=GroupDataLine`);
+            //     setGroupData({ series1: res.data.series1, series2: res.data.series2, categories: res.data.categories })
         }
     };
     const getData = async (name) => {
         const res = await axios.get(`${API}/aox/${name}`)
         return res.data
     }
-    const fetchData = async (bubbleDataPage) => {
+
+    const MainRef = useRef(null);
+
+    // Streaming Test
+    useEffect(() => {
+        MainRef.current = new EventSource(`${API}/aox/main`);
+        MainRef.current.onopen = () => { };
+        MainRef.current.onmessage = (event) => {
+            const res = JSON.parse(event.data);
+            setForeigner(res.TrendData.foreigner);
+            setInstitutional(res.TrendData.institutional);
+            setIndividual(res.TrendData.individual);
+            setTable2(res.TrendData.table2);
+            setTrendData({
+                series: res.TrendData.series,
+                categories: res.TrendData.categories,
+                yAxis0Abs: res.TrendData.yAxis0Abs,
+                yAxis1Abs: res.TrendData.yAxis1Abs,
+                yAxis2Abs: res.TrendData.yAxis2Abs,
+            });
+
+            setBubbleData(res.BubbleData);
+            setMarket(res.MarketDaily);
+
+            setGroupData(res.GroupData);
+
+        };
+        return () => {
+            // 컴포넌트 언마운트 시 연결 종료
+            MainRef.current.close();
+        };
+    }, [])
+
+    const fetchData = async () => {
         const uniq = "?" + new Date().getTime();
         setGisuDayImg(`/img/gisu_kospi200.jpg${uniq}`);
         setKospi200Img(`https://t1.daumcdn.net/finance/chart/kr/daumstock/d/mini/K2G01P.png${uniq}`);
 
 
-        const APIname = ['bubbleData', 'groupData?dbName=GroupDataLine', 'marketDaily', 'trendData'];
+        // const APIname = ['bubbleData', 'groupData?dbName=GroupDataLine', 'marketDaily', 'trendData'];
 
-        const chartDataPromises = APIname.map(name => getData(name));
+        // const chartDataPromises = APIname.map(name => getData(name));
 
-        const [bubbleData, groupData, marketDaily, trendData] = await Promise.all(chartDataPromises);
+        // const [bubbleData, groupData, marketDaily, trendData] = await Promise.all(chartDataPromises);
 
-        setBubbleData({
-            series: [{
-                name: bubbleData.name,
-                data: bubbleData.data,
-                animation: false,
-            }],
-            categories: bubbleData.categories
-        });
+        // setBubbleData({
+        //     series: [{
+        //         name: bubbleData.name,
+        //         data: bubbleData.data,
+        //         animation: false,
+        //     }],
+        //     categories: bubbleData.categories
+        // });
 
-        setGroupData({ series1: groupData.series1, series2: groupData.series2, categories: groupData.categories })
-        setMarket({ series: marketDaily.series, categories: marketDaily.categories });
+        // setGroupData({ series1: groupData.series1, series2: groupData.series2, categories: groupData.categories })
+        // setMarket({ series: marketDaily.series, categories: marketDaily.categories });
 
-        setForeigner(trendData.foreigner);
-        setInstitutional(trendData.institutional);
-        setIndividual(trendData.individual);
-        setTable2(trendData.table2);
-        setTrendData({
-            series: trendData.series,
-            categories: trendData.categories,
-            yAxis0Abs: trendData.yAxis0Abs,
-            yAxis1Abs: trendData.yAxis1Abs,
-            yAxis2Abs: trendData.yAxis2Abs,
-        });
+        // setForeigner(trendData.foreigner);
+        // setInstitutional(trendData.institutional);
+        // setIndividual(trendData.individual);
+        // setTable2(trendData.table2);
+        // setTrendData({
+        //     series: trendData.series,
+        //     categories: trendData.categories,
+        //     yAxis0Abs: trendData.yAxis0Abs,
+        //     yAxis1Abs: trendData.yAxis1Abs,
+        //     yAxis2Abs: trendData.yAxis2Abs,
+        // });
 
     };
 
@@ -121,7 +154,7 @@ export default function MainPage({ Vix, MarketDetail, ElwWeightedAvgCheck, Excha
         setTime(time);
     }
     useEffect(() => {
-        fetchData(bubbleDataPage);
+        fetchData();
         setDate();
         // connectWebsocket();
         // return () => { if (ws) ws.close(); };
@@ -157,7 +190,7 @@ export default function MainPage({ Vix, MarketDetail, ElwWeightedAvgCheck, Excha
                 const hour = now.getHours();
                 const dayOfWeek = now.getDay();
                 if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
-                    fetchData(bubbleDataPage);
+                    fetchData();
                 } else if (hour >= 16) {
                     // 3시 30분 이후라면 인터벌 종료
                     clearInterval(intervalId);
@@ -588,7 +621,7 @@ const MarketActChart = ({ data, height, name }) => {
 
 const BarChart = ({ data, height, name, credit }) => {
     const [chartOptions, setChartOptions] = useState({
-        chart: { type: 'bar', height: height, backgroundColor: 'rgba(255, 255, 255, 0)' },
+        chart: { type: 'bar', height: height, animation: false, backgroundColor: 'rgba(255, 255, 255, 0)' },
         credits: credit ? { enabled: true, text: credit } : { enabled: false },
         title: { text: null, },
         legend: { align: 'left', verticalAlign: 'top', borderWidth: 0, verticalAlign: 'top', symbolRadius: 0, symbolWidth: 10, symbolHeight: 10, itemDistance: 17, itemStyle: { color: '#efe9e9ed', fontSize: '12px', fontWeight: '400' }, itemHiddenStyle: { color: "#000000" }, itemHoverStyle: { color: "gold" }, x: 30, y: 0, },

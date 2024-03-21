@@ -339,36 +339,7 @@ export default function CoreChart({ data, height, name, categories, type, min, h
                 backgroundColor: '#404040',
                 style: { color: '#e8e3e3' }
             },
-            // Kospi200GroupDataLine: {
-            //     split: true,
-            //     shared: true,
-            //     crosshairs: true,
-            //     hideDelay: 2,
-            //     formatter: function () {
-            //         return ['<b>' + this.x + '</b>'].concat(
-            //             this.points ?
-            //                 this.points.map(function (point) {
-            //                     return point.series.name + ' : ' + parseFloat(point.y).toFixed(1) + ' %';
-            //                 }) : []
-            //         );
-            //     },
-            //     backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#e8e3e3" },
-            // },
-            // Kospi200GroupData: {
-            //     split: true,
-            //     shared: true,
-            //     crosshairs: true,
-            //     hideDelay: 2,
-            //     formatter: function () {
-            //         return ['<b>' + this.x + '</b>'].concat(
-            //             this.points ?
-            //                 this.points.map(function (point) {
-            //                     return point.series.name + ' : ' + parseFloat(point.y).toFixed(1) + ' %';
-            //                 }) : []
-            //         );
-            //     },
-            //     backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#e8e3e3" },
-            // },
+
             trendData: {
                 crosshairs: true,
                 hideDelay: 10,
@@ -505,16 +476,11 @@ export default function CoreChart({ data, height, name, categories, type, min, h
 
     }, [data]);
     return (
-        // <>
-        //     {data ?
-        //         <div ref={chartRef} />
-        //         : <Skeleton variant="rounded" height={height} animation="wave" />
-        //     }
-        // </>
+
         <HighchartsReact
             highcharts={Highcharts}
             options={chartOptions}
-        // constructorType={'stockChart'}
+
         />
     )
 }
