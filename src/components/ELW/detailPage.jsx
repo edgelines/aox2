@@ -45,6 +45,7 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail }) {
 
     // Streaming Test
     useEffect(() => {
+        fetchData1st();
         // GpoKospi200Ref.current = new EventSource(`${API}/aox/gpo`);
         // GpoKospi200Ref.current.onopen = () => { };
         // GpoKospi200Ref.current.onmessage = (event) => {
@@ -114,8 +115,6 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail }) {
             });
         };
     }, [])
-
-    useEffect(() => { fetchData1st(); }, [])
 
     useEffect(() => {
         if (OnUS) {
