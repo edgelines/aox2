@@ -8,7 +8,9 @@ require('highcharts/indicators/indicators')(Highcharts)
 require('highcharts/modules/exporting')(Highcharts)
 require('highcharts/modules/accessibility')(Highcharts)
 
-export default function GpoChart({ data1, data2, data3, height, kospi200, credit, creditsPositionX, creditsPositionY }) {
+export default function GpoChart({ data1, data2, data3, height, kospi200, credit, creditsPositionX, creditsPositionY, yMinValue }) {
+    // const chartRef = useRef(null);
+    // const [chartData, setChartData] = useState(data);
     const [chartOptions, setChartOptions] = useState({
         rangeSelector: {
             selected: 1, inputDateFormat: "%Y-%m-%d", inputStyle: { color: "#efe9e9ed" }, labelStyle: { color: "#efe9e9ed" },
@@ -52,17 +54,6 @@ export default function GpoChart({ data1, data2, data3, height, kospi200, credit
         navigator: {
             height: 15, margin: 10,
             series: { color: Highcharts.getOptions().colors[0], lineColor: "dodgerblue", lineWidth: 0 },
-            xAxis: {
-                events: {
-                    afterSetExtremes: function (e) {
-                        if (e.trigger === 'navigator') return;
-                        const chart = this.chart;
-                        const dataMax = chart.xAxis[0].dataMax;
-                        const range = e.max - e.min;
-                        chart.xAxis[0].setExtremes(dataMax - (range / 2), dataMax);
-                    }
-                }
-            }
         },
         navigation: { buttonOptions: { enabled: false } },
     })
@@ -203,7 +194,9 @@ export default function GpoChart({ data1, data2, data3, height, kospi200, credit
         }
 
         setChartOptions({
+            rangeSelector: { selected: 1 },
             xAxis: { plotBands: plotBands1 },
+            yAxis: [{ min: 0 }, { min: yMinValue }],
             series: [
                 { data: kospi200, lineColor: "dodgerblue", color: "dodgerblue", upLineColor: "tomato", upColor: "tomato", yAxis: 1, type: "candlestick", animation: false, zIndex: 4 },
                 { data: data1.data0, color: "#FCAB2F", yAxis: 0, type: "spline", animation: false, zIndex: 4, lineWidth: 3 },
@@ -234,21 +227,8 @@ export default function GpoChart({ data1, data2, data3, height, kospi200, credit
                 { data: data3.data12, color: "forestgreen", yAxis: 0, type: "spline", animation: false, zIndex: 4, lineWidth: 3 },
             ],
         })
-
-        // if (chartRef.current) {
-        //     Highcharts.stockChart(chartRef.current, {
-
-        //         series: 
-        //     });
-        // }
     }, [data1, data2, data3]);
     return (
-        // <>
-        //     {data1 || kospi200 ?
-        //         <div ref={chartRef} />
-        //         : <Skeleton variant="rounded" height={height} animation="wave" />
-        //     }
-        // </>
         <HighchartsReact
             highcharts={Highcharts}
             options={chartOptions}

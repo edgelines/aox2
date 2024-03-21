@@ -122,7 +122,7 @@ export default function ModelingPage({ Vix, Exchange, MarketDetail }) {
             {
                 name: indexName, id: 'candlestick',
                 type: 'candlestick', yAxis: 0, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false,
-                data: res[0].data, isCandle: true,
+                data: res[0].data, isCandle: true
             },
             ...updatedData,
         ];

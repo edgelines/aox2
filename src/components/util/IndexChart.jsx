@@ -505,7 +505,6 @@ export default function Chart({ data = [], height, name, hidenLegend, rangeSelec
         if (data && data.length > 0) {
             updateLastCandle(data);
         }
-        console.log(data);
     }, [data])
     /** 새로운 데이터 읽어왔을때 마지막 값만 변환 */
     const updateLastCandle = (newData) => {
@@ -516,7 +515,6 @@ export default function Chart({ data = [], height, name, hidenLegend, rangeSelec
             if (lastDataIndex >= 0) {
                 // newData 배열에서 해당 시리즈의 새 데이터 포인트를 찾습니다.
                 const newLastData = newData[index];
-                console.log(newLastData);
                 // 새 데이터 포인트로 마지막 값 업데이트
                 series.data[lastDataIndex].update(newLastData);
             }

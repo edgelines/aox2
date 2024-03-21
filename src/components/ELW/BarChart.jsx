@@ -27,7 +27,7 @@ export default function ELW_BarChart({ data, height, credit }) {
             crosshairs: true, distance: 55,
             formatter: function () {
                 return '<b>' + this.series.name + '<br/>행사가 : <span style="color:greenyellow;">' + this.point.category + '</b></span><br/>' +
-                    '거래량: ' + Math.abs(this.point.y).toLocaleString('ko-KR');
+                    '거래대금: ' + Math.abs(parseInt(this.point.y / 100000000)).toLocaleString('ko-KR') + ' 억원';
             },
             backgroundColor: '#404040', style: { color: '#e8e3e3' }
             // '종목명 : ' + this.point.call_list +

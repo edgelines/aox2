@@ -5,7 +5,7 @@ import CoreChart from '../util/CoreChart.jsx';
 import GpoChart from './GpoChart.jsx';
 import ELW_BarChart from './BarChart.jsx';
 import MarketCurrentValue from '../Index/marketCurrentValue.jsx';
-import { API, myJSON, API_FILE } from '../util/config.jsx';
+import { API, myJSON, API_FILE, TEST } from '../util/config.jsx';
 import { update_5M } from '../util/util';
 
 export default function DetailPage({ swiperRef, Vix, MarketDetail }) {
@@ -18,6 +18,7 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail }) {
     const [elwWeightedAvg, setElwWeightedAvg] = useState([])
     const ELW_data = [ELW_data1, ELW_data2, ELW_data3]
     const [kospi200, setKospi200] = useState(null);
+    const [kospi200MinValue, setKospi200MinValue] = useState(0);
     const [exNow_KR, setExNow_KR] = useState({});
     const [exNow_US, setExNow_US] = useState({});
     const [dataUS, setDataUS] = useState({});
@@ -32,85 +33,90 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail }) {
             setExNow_US(res.data.commitData);
             setDataUS(res.data.DataUS)
         });
-    }
-
-    const fetchData = async () => {
-        await axios.get(API + "/elwData/WeightedAvg").then((res) => { setElwWeightedAvg(res.data); })
-
-        await axios.get(myJSON + "/Kospi200_GPOchart").then((response) => { setKospi200(response.data.data); });
 
         await axios.get(`${API_FILE}/indexData/exNow_KR`).then((res) => {
             setExNow_KR(res.data);
         });
+    }
 
-        await axios.get(`${API}/elwData/ElwBarData`).then((res) => {
-            var data1 = res.data.filter(item => item.월구분 === '1')
-            var data2 = res.data.filter(item => item.월구분 === '2')
-            var data3 = res.data.filter(item => item.월구분 === '3')
-            const dataFilter = (data) => {
-                var tmp1 = [], tmp2 = [], tmp3 = [], tmp4 = [], tmp5 = [], tmp6 = [], tmp7 = []
-                data.forEach((value) => {
-                    tmp1.push(parseFloat(value.콜_5일평균거래대금));
-                    tmp2.push(parseFloat(value.콜_거래대금));
-                    tmp3.push(parseFloat(value.풋_5일평균거래대금));
-                    tmp4.push(parseFloat(value.풋_거래대금));
-                    tmp5.push(parseFloat(value.행사가));
-                    tmp6.push(parseFloat(Math.abs(value.콜_거래대금)));
-                    tmp7.push(parseFloat(Math.abs(value.풋_거래대금)));
-                })
-                var title = data[0].잔존만기;
-                var sum1 = tmp6.reduce(function add(sum, currValue) { return sum + currValue; }, 0);
-                var sum2 = tmp7.reduce(function add(sum, currValue) { return sum + currValue; }, 0);
-                var 비율 = ' [ C : <span style="color:greenyellow;">' + (sum1 / (sum1 + sum2)).toFixed(2) + '</span>, P : <span style="color:greenyellow;">' + (sum2 / (sum1 + sum2)).toFixed(2) + '</span> ]';
-                var 콜범주 = 'Call ( ' + "<span style='color:greenyellow;'>" + parseInt(sum1 / 100000000).toLocaleString('ko-KR') + "</span>" + ' 억 )';
-                var 풋범주 = 'Put ( ' + "<span style='color:greenyellow;'>" + parseInt(sum2 / 100000000).toLocaleString('ko-KR') + "</span>" + ' 억 )';
-                return { title: title, 콜5일: tmp1, 콜: tmp2, 풋5일: tmp3, 풋: tmp4, 행사가: tmp5, 비율: 비율, 콜범주: 콜범주, 풋범주: 풋범주, 콜비율: (sum1 / (sum1 + sum2)).toFixed(2), 풋비율: (sum2 / (sum1 + sum2)).toFixed(2) }
-            }
-            setELW_data1(dataFilter(data1));
-            setELW_data2(dataFilter(data2));
-            setELW_data3(dataFilter(data3));
-            // console.log(dataFilter(data1));
-        })
-    };
+    const GpoKospi200Ref = useRef(null);
+    const CtpRef = useRef(null);
+    const WeightedAvgRef = useRef(null);
 
-    useEffect(() => { fetchData(); fetchData1st(); }, [])
-
+    // Streaming Test
     useEffect(() => {
-        const now = new Date();
-        const hour = now.getHours();
-        const minutes = now.getMinutes();
-        const seconds = now.getSeconds();
-        // 현재 시간이 9시 1분 이전이라면, 9시 1분까지 남은 시간 계산
-        let delay;
-        if (hour < 9 || (hour === 9 && minutes < 1)) {
-            delay = ((9 - hour - 1) * 60 + (61 - minutes)) * 60 - seconds;
-        } else {
-            // 이미 9시 1분 이후라면, 다음 5분 간격 시작까지 대기 (예: 9시 3분이라면 9시 6분까지 대기)
-            delay = (5 - (minutes - 1) % 5) * 60 - seconds;
-        }
-        // 9시 정각이나 그 이후의 다음 분 시작부터 1분 주기로 데이터 업데이트
-        const startUpdates = () => {
-            const intervalId = setInterval(() => {
-                const now = new Date();
-                const hour = now.getHours();
-                const dayOfWeek = now.getDay();
-                if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
-                    fetchData();
-                } else if (hour >= 16) {
-                    // 3시 30분 이후라면 인터벌 종료
-                    clearInterval(intervalId);
-                }
-            }, 1000 * 60 * 5);
-            return intervalId;
+        // GpoKospi200Ref.current = new EventSource(`${API}/aox/gpo`);
+        // GpoKospi200Ref.current.onopen = () => { };
+        // GpoKospi200Ref.current.onmessage = (event) => {
+        //     const res = JSON.parse(event.data);
+        //     setKospi200(res.data);
+        //     setKospi200MinValue(res.min);
+        // };
+        // CtpRef.current = new EventSource(`${API}/elwData/CTP`);
+        // CtpRef.current.onopen = () => { };
+        // CtpRef.current.onmessage = (event) => {
+        //     const res = JSON.parse(event.data);
+        //     setELW_data1(res[0]);
+        //     setELW_data2(res[1]);
+        //     setELW_data3(res[2]);
+        // };
+        // WeightedAvgRef.current = new EventSource(`${API}/elwData/WeightedAvg`);
+        // WeightedAvgRef.current.onopen = () => { };
+        // WeightedAvgRef.current.onmessage = (event) => {
+        //     const res = JSON.parse(event.data);
+        //     setElwWeightedAvg(res);
+        // };
+
+        // EventSource를 설정하고 이벤트 리스너를 추가하는 함수
+        const setupEventSource = (ref, url, onMessage) => {
+            ref.current = new EventSource(url);
+            ref.current.onopen = () => console.log(`${url} connection opened.`);
+            ref.current.onmessage = event => onMessage(event);
+            ref.current.onerror = error => console.error(`Error with event source ${url}:`, error);
         };
-        // 첫 업데이트 시작
-        const timeoutId = setTimeout(() => {
-            startUpdates();
-        }, delay * 1000);
 
-        return () => clearTimeout(timeoutId); // 컴포넌트가 unmount될 때 타이머 제거
+        // 각 EventSource에 대한 onmessage 핸들러
+        const handleGpoKospi200Message = event => {
+            const res = JSON.parse(event.data);
+            setKospi200(res.data);
+            setKospi200MinValue(res.min);
+        };
 
+        const handleCtpMessage = event => {
+            const res = JSON.parse(event.data);
+            setELW_data1(res[0]);
+            setELW_data2(res[1]);
+            setELW_data3(res[2]);
+        };
+
+        const handleWeightedAvgMessage = event => {
+            const res = JSON.parse(event.data);
+            setElwWeightedAvg(res);
+        };
+
+        // 각 EventSource 설정
+        setupEventSource(GpoKospi200Ref, `${API}/aox/gpo`, handleGpoKospi200Message);
+        setupEventSource(CtpRef, `${API}/elwData/CTP`, handleCtpMessage);
+        setupEventSource(WeightedAvgRef, `${API}/elwData/WeightedAvg`, handleWeightedAvgMessage);
+
+
+        return () => {
+            // 컴포넌트 언마운트 시 연결 종료
+            // GpoKospi200Ref.current.close();
+            // CtpRef.current.close();
+            // WeightedAvgRef.current.close();
+
+            [GpoKospi200Ref, CtpRef, WeightedAvgRef].forEach(ref => {
+                if (ref.current) {
+                    ref.current.close();
+                    // console.log(`Connection closed for ${ref.current.url}`);
+                }
+            });
+        };
     }, [])
+
+    useEffect(() => { fetchData1st(); }, [])
+
     useEffect(() => {
         if (OnUS) {
             setSeletedUS(dataUS)
@@ -169,7 +175,7 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail }) {
                     <MarketCurrentValue MarketDetail={MarketDetail} />
                 </Box>
 
-                <GpoChart data1={exNow_KR} data2={exNow_US} data3={selectedUS} kospi200={kospi200} height={450} />
+                <GpoChart data1={exNow_KR} data2={exNow_US} data3={selectedUS} kospi200={kospi200} height={450} yMinValue={kospi200MinValue} />
 
             </Grid>
         </Grid>
