@@ -15,7 +15,7 @@ Highcharts.setOptions({
     }
 });
 
-const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, willR, height, indicators, price, net, boxTransform, treasury }) => {
+const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, willR, height, indicators, price, net, boxTransform, treasury, treasuryPrice }) => {
 
     const [chartOptions, setChartOptions] = useState({
         chart: { animation: false, height: height ? height : 360, },
@@ -324,6 +324,16 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                                 <Typography sx={typographyStyle}>
                                     W33 : {willR.w33}
                                 </Typography>
+                            </Stack>
+                        </>
+                        : <></>
+                    }
+                </Box>
+                <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(10px, 300px)`, zIndex: 100 }}>
+                    {(Array.isArray(stockItemData)) && stockItemData.length > 0 ?
+                        <>
+                            <Stack direction='row' spacing={2} sx={{ pl: 2, pr: 2 }}>
+                                <Typography sx={typographyStyle}>{treasuryPrice}</Typography>
                             </Stack>
                         </>
                         : <></>

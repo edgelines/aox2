@@ -13,7 +13,7 @@ import { API, STOCK } from './util/config';
 
 export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop }) {
     const [page, setPage] = useState('Cross');
-    const [eventDrop, setEventDrop] = useState(null);
+    const [eventDrop, setEventDrop] = useState('');
     const [timeframe, setTimeframe] = useState('day');
     const [filter, setFilter] = useState({ field: null, industry: null })
 
@@ -22,7 +22,7 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
     const [stock, setStock] = useState({});
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
 
-    const handlePage = (event, value) => { if (value !== null) { setPage(value); setEventDrop(null); } }
+    const handlePage = (event, value) => { if (value !== null) { setPage(value); setEventDrop(''); } }
     const handleTimeframe = (event, value) => { if (value !== null) { setTimeframe(value); } }
     const handleFavorite = async () => {
         setStock({ ...stock, Favorite: !stock.Favorite })
@@ -62,7 +62,7 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
     const getStockChartData = async (code) => {
         // console.log(code);
         const res = await axios.get(`${STOCK}/get/${code}`);
-        setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, willR: res.data.willR, net: res.data.net })
+        setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, treasuryPrice: res.data.treasuryPrice, willR: res.data.willR, net: res.data.net })
     }
     const getIndustryStockData = async (params) => {
         let field = params.field;
