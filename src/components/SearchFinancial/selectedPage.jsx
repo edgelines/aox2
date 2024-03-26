@@ -83,7 +83,7 @@ const table_columns = [
 ]
 
 
-export const ContentsComponent = ({ swiperRef, page, tableData, getIndustryStockData, onIndustryClick, getStockCode, getStockChartData }) => {
+export const ContentsComponent = ({ swiperRef, page, tableData, eventDrop, getIndustryStockData, onIndustryClick, getStockCode, getStockChartData }) => {
 
     switch (page) {
         case 'Tree':
@@ -94,6 +94,10 @@ export const ContentsComponent = ({ swiperRef, page, tableData, getIndustryStock
             return <Favorite swiperRef={swiperRef} getStockCode={getStockCode} getStockChartData={getStockChartData} ></Favorite>
         case 'Industry':
             return <SectorsChartPage />
+        case 'Event':
+            return <EventPage swiperRef={swiperRef} eventDrop={eventDrop} getStockCode={getStockCode} getStockChartData={getStockChartData} />
+        case 'Treasury':
+            return <TreasuryPage swiperRef={swiperRef} getStockCode={getStockCode} getStockChartData={getStockChartData} />
         default:
             return <Cross swiperRef={swiperRef} tableData={tableData} getStockCode={getStockCode} getStockChartData={getStockChartData} />
     }
@@ -237,6 +241,227 @@ const Favorite = ({ swiperRef, onIndustryClick, getStockCode, getStockChartData 
             <FavoritePage swiperRef={swiperRef}
                 getStockCode={getStockCode}
                 onIndustryClick={(업종명) => onIndustryClick(업종명, null, '흑자기업')} getStockChartData={getStockChartData} />
+        </Grid>
+    )
+}
+
+const eventColumns = [
+    {
+        field: '날짜', headerName: '날짜', width: 85,
+        align: 'center', headerAlign: 'center',
+    }, {
+        field: '업종명', headerName: '업종명', width: 125,
+        align: 'left', headerAlign: 'center',
+    }, {
+        field: '종목명', headerName: '종목명', width: 125,
+        align: 'left', headerAlign: 'center',
+    }, {
+        field: '시가총액', headerName: '시가총액', width: 70,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == null) { return ''; }
+            return `${(parseInt(params.value / 100000000)).toLocaleString('kr')}`;
+        }
+    }, {
+        field: '연간', headerName: '전년도 순이익합', width: 75,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == null) { return ''; }
+            return `${(parseInt(params.value)).toLocaleString('kr')}`;
+        }
+    }, {
+        field: '1Q', headerName: '1Q', width: 60,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == null) { return ''; }
+            return `${(parseInt(params.value)).toLocaleString('kr')}`;
+        }
+    }, {
+        field: '2Q', headerName: '2Q', width: 60,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == null) { return ''; }
+            return `${(parseInt(params.value)).toLocaleString('kr')}`;
+        }
+    }, {
+        field: '3Q', headerName: '3Q', width: 60,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == null) { return ''; }
+            return `${(parseInt(params.value)).toLocaleString('kr')}`;
+        }
+    }, {
+        field: '4Q', headerName: '4Q', width: 60,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == null) { return ''; }
+            return `${(parseInt(params.value)).toLocaleString('kr')}`;
+        }
+    }, {
+        field: '부채비율', headerName: '부채비율', width: 70,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == null) { return ''; }
+            return `${(parseInt(params.value)).toLocaleString('kr')} %`;
+        }
+    }, {
+        field: '유보율', headerName: '유보율', width: 75,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == null) { return ''; }
+            return `${(parseInt(params.value)).toLocaleString('kr')} %`;
+        }
+    }, {
+        field: 'TRIMA_8', headerName: '8', width: 50,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == true) { return '◎'; }
+            return '';
+        }
+    }, {
+        field: 'TRIMA_16', headerName: '16', width: 50,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == true) { return '◎'; }
+            return '';
+        }
+    }, {
+        field: 'TRIMA_27', headerName: '27', width: 50,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == true) { return '◎'; }
+            return '';
+        }
+    }, {
+        field: 'TRIMA_41', headerName: '41', width: 50,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == true) { return '◎'; }
+            return '';
+        }
+    }
+]
+
+const EventPage = ({ swiperRef, eventDrop, getStockCode, getStockChartData }) => {
+    const [data, setData] = useState([]);
+    const [past, setPast] = useState(false);
+    const fetchData = async (eventDrop) => {
+        const postData = {
+            past: past, event: eventDrop,
+        }
+        const res = await axios.post(`${API}/formula/eventData`, postData);
+        setData(res.data);
+    }
+    useEffect(() => {
+        fetchData(eventDrop);
+    }, [past, eventDrop])
+
+    return (
+        <Grid container sx={{ pr: 1 }}>
+            <Grid item container sx={{ mt: 1, mb: 1 }}>
+                <StyledToggleButton
+                    value='check'
+                    selected={past}
+                    onChange={() => {
+                        setPast(!past);
+                    }}
+                    sx={{ fontSize: '9px' }}>
+                    {past ? '과거부터' : '현재부터'}
+                </StyledToggleButton>
+
+                <StyledTypography_StockInfo fontSize={'16px'} sx={{ ml: 10, pt: 1 }}>
+                    Event : {eventDrop ? eventDrop : ''}
+                </StyledTypography_StockInfo>
+            </Grid>
+
+            <Grid item container sx={{ height: 800, width: "100%" }}
+                onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+            >
+                <ThemeProvider theme={customTheme}>
+                    <DataGrid
+                        rows={data}
+                        columns={eventColumns}
+                        // getRowHeight={() => 'auto'}
+                        rowHeight={25}
+                        onCellClick={(params, event) => {
+                            getStockCode(params.row);
+                            getStockChartData(params.row.종목코드);
+                        }}
+                        disableRowSelectionOnClick
+                        sx={{
+                            color: 'white', border: 'none',
+                            ...DataTableStyleDefault,
+                            [`& .${gridClasses.cell}`]: { py: 1, },
+                            '.MuiTablePagination-root': { color: '#efe9e9ed' },
+                            '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
+                            '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
+                            '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
+                            '[data-field="부채비율"]': { borderLeft: '1.5px solid #ccc' },
+                            '[data-field="테마명"]': { borderLeft: '1.5px solid #ccc' },
+                        }}
+                    />
+                </ThemeProvider>
+            </Grid>
+        </Grid>
+    )
+}
+
+const TreasuryPage = ({ swiperRef, getStockCode, getStockChartData }) => {
+    const [data, setData] = useState([]);
+    const [treasury, setTreasury] = useState(true);
+    const fetchData = async () => {
+        const postData = { treasury: treasury }
+        const res = await axios.post(`${API}/formula/treasuryData`, postData);
+        setData(res.data);
+    }
+    useEffect(() => {
+        fetchData();
+    }, [treasury])
+
+    return (
+        <Grid container sx={{ pr: 1 }}>
+            <Grid item container sx={{ mt: 1, mb: 1 }}>
+                <StyledToggleButton
+                    value='check'
+                    selected={treasury}
+                    onChange={() => {
+                        setTreasury(!treasury);
+                    }}
+                    sx={{ fontSize: '9px' }}>
+                    {treasury ? '취득' : '처분'}
+                </StyledToggleButton>
+            </Grid>
+
+            <Grid item container sx={{ height: 800, width: "100%" }}
+                onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+            >
+                <ThemeProvider theme={customTheme}>
+                    <DataGrid
+                        rows={data}
+                        columns={eventColumns}
+                        // getRowHeight={() => 'auto'}
+                        rowHeight={25}
+                        onCellClick={(params, event) => {
+                            getStockCode(params.row);
+                            getStockChartData(params.row.종목코드);
+                        }}
+                        disableRowSelectionOnClick
+                        sx={{
+                            color: 'white', border: 'none',
+                            ...DataTableStyleDefault,
+                            [`& .${gridClasses.cell}`]: { py: 1, },
+                            '.MuiTablePagination-root': { color: '#efe9e9ed' },
+                            '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
+                            '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
+                            '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
+                            '[data-field="부채비율"]': { borderLeft: '1.5px solid #ccc' },
+                            '[data-field="테마명"]': { borderLeft: '1.5px solid #ccc' },
+                        }}
+                    />
+                </ThemeProvider>
+            </Grid>
         </Grid>
     )
 }

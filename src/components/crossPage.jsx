@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, Stack, Typography, ToggleButtonGroup } from '@mui/material';
+import { Grid, Stack, Typography, ToggleButtonGroup, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault, StyledToggleButton } from './util/util';
@@ -13,7 +13,8 @@ import { API, STOCK } from './util/config';
 
 export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop }) {
     const [page, setPage] = useState('Cross');
-    const [timeframe, setTimeframe] = useState('day')
+    const [eventDrop, setEventDrop] = useState(null);
+    const [timeframe, setTimeframe] = useState('day');
     const [filter, setFilter] = useState({ field: null, industry: null })
 
     const [tableData, setTableData] = useState([]);
@@ -21,12 +22,13 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
     const [stock, setStock] = useState({});
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
 
-    const handlePage = (event, value) => { if (value !== null) { setPage(value); } }
+    const handlePage = (event, value) => { if (value !== null) { setPage(value); setEventDrop(null); } }
     const handleTimeframe = (event, value) => { if (value !== null) { setTimeframe(value); } }
     const handleFavorite = async () => {
         setStock({ ...stock, Favorite: !stock.Favorite })
         await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
     }
+    const handleEventChange = (event) => { if (event !== null) { setPage('Event'); setEventDrop(event.target.value); } }
     const fetchData = async () => {
         const res = await axios.get(`${API}/formula/searchFinancial`);
         setTableData(res.data);
@@ -98,15 +100,33 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
                         <StyledToggleButton fontSize={'10px'} value="Tree">Tree</StyledToggleButton>
                         <StyledToggleButton fontSize={'10px'} value="Table">Table</StyledToggleButton>
                         <StyledToggleButton fontSize={'10px'} value="Industry">Industry</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="Treasury">Treasury</StyledToggleButton>
+                        <FormControl variant="standard" sx={{ minWidth: 100 }}>
+                            <InputLabel sx={{ fontSize: '12px', color: '#efe9e9ed', pl: 3 }}>Event</InputLabel>
+                            <Select
+                                value={eventDrop}
+                                label="Event"
+                                onChange={handleEventChange}
+                                sx={{ color: '#efe9e9ed', fontSize: '11px' }}
+                            >
+                                <MenuItem sx={{ fontSize: '11px' }} value={'보호예수'}>보호예수</MenuItem>
+                                <MenuItem sx={{ fontSize: '11px' }} value={'유상증자'}>유상증자</MenuItem>
+                                <MenuItem sx={{ fontSize: '11px' }} value={'무상증자'}>무상증자</MenuItem>
+                                <MenuItem sx={{ fontSize: '11px' }} value={'변경상장'}>변경상장</MenuItem>
+                                <MenuItem sx={{ fontSize: '11px' }} value={'주식병합'}>주식병합</MenuItem>
+                                <MenuItem sx={{ fontSize: '11px' }} value={'감자'}>감자</MenuItem>
+                                <MenuItem sx={{ fontSize: '11px' }} value={'CB'}>CB행사</MenuItem>
+                                <MenuItem sx={{ fontSize: '11px' }} value={'BW'}>BW전환</MenuItem>
+                            </Select>
+                        </FormControl>
                     </ToggleButtonGroup>
                 </Grid>
 
                 <ContentsComponent
-                    swiperRef={swiperRef} page={page} tableData={tableData}
+                    swiperRef={swiperRef} page={page} tableData={tableData} eventDrop={eventDrop}
                     getIndustryStockData={getIndustryStockData} onIndustryClick={onIndustryClick} getStockCode={getStockCode} getStockChartData={getStockChartData} />
-                {page !== 'Cross' && page !== 'Favorite' && page !== 'Industry' ?
+                {page !== 'Cross' && page !== 'Favorite' && page !== 'Industry' && page !== 'Event' && page !== 'Treasury' ?
                     <>
-
                         <Grid item container sx={{ minHeight: 30 }}>
                             {
                                 filter.field === null ? '' :
