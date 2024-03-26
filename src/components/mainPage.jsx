@@ -71,34 +71,35 @@ export default function MainPage({ Vix, MarketDetail, ElwWeightedAvgCheck, Excha
     const MainRef = useRef(null);
 
     // Streaming Test
-    useEffect(() => {
-        MainRef.current = new EventSource(`${API}/aox/main`);
-        MainRef.current.onopen = () => { };
-        MainRef.current.onmessage = (event) => {
-            const res = JSON.parse(event.data);
-            setForeigner(res.TrendData.foreigner);
-            setInstitutional(res.TrendData.institutional);
-            setIndividual(res.TrendData.individual);
-            setTable2(res.TrendData.table2);
-            setTrendData({
-                series: res.TrendData.series,
-                categories: res.TrendData.categories,
-                yAxis0Abs: res.TrendData.yAxis0Abs,
-                yAxis1Abs: res.TrendData.yAxis1Abs,
-                yAxis2Abs: res.TrendData.yAxis2Abs,
-            });
+    // useEffect(() => {
+    //     MainRef.current = new EventSource(`${API}/aox/main`);
+    //     MainRef.current.onopen = () => { };
+    //     MainRef.current.onmessage = (event) => {
+    //         const res = JSON.parse(event.data);
+    //         console.log(res);
+    //         setForeigner(res.TrendData.foreigner);
+    //         setInstitutional(res.TrendData.institutional);
+    //         setIndividual(res.TrendData.individual);
+    //         setTable2(res.TrendData.table2);
+    //         setTrendData({
+    //             series: res.TrendData.series,
+    //             categories: res.TrendData.categories,
+    //             yAxis0Abs: res.TrendData.yAxis0Abs,
+    //             yAxis1Abs: res.TrendData.yAxis1Abs,
+    //             yAxis2Abs: res.TrendData.yAxis2Abs,
+    //         });
 
-            setBubbleData(res.BubbleData);
-            setMarket(res.MarketDaily);
+    //         setBubbleData(res.BubbleData);
+    //         setMarket(res.MarketDaily);
 
-            setGroupData(res.GroupData);
+    //         setGroupData(res.GroupData);
 
-        };
-        return () => {
-            // 컴포넌트 언마운트 시 연결 종료
-            MainRef.current.close();
-        };
-    }, [])
+    //     };
+    //     return () => {
+    //         // 컴포넌트 언마운트 시 연결 종료
+    //         MainRef.current.close();
+    //     };
+    // }, [])
 
     const fetchData = async () => {
         const uniq = "?" + new Date().getTime();
@@ -106,35 +107,35 @@ export default function MainPage({ Vix, MarketDetail, ElwWeightedAvgCheck, Excha
         setKospi200Img(`https://t1.daumcdn.net/finance/chart/kr/daumstock/d/mini/K2G01P.png${uniq}`);
 
 
-        // const APIname = ['bubbleData', 'groupData?dbName=GroupDataLine', 'marketDaily', 'trendData'];
+        const APIname = ['bubbleData', 'groupData?dbName=GroupDataLine', 'marketDaily', 'trendData'];
 
-        // const chartDataPromises = APIname.map(name => getData(name));
+        const chartDataPromises = APIname.map(name => getData(name));
 
-        // const [bubbleData, groupData, marketDaily, trendData] = await Promise.all(chartDataPromises);
+        const [bubbleData, groupData, marketDaily, trendData] = await Promise.all(chartDataPromises);
 
-        // setBubbleData({
-        //     series: [{
-        //         name: bubbleData.name,
-        //         data: bubbleData.data,
-        //         animation: false,
-        //     }],
-        //     categories: bubbleData.categories
-        // });
+        setBubbleData({
+            series: [{
+                name: bubbleData.name,
+                data: bubbleData.data,
+                animation: false,
+            }],
+            categories: bubbleData.categories
+        });
 
-        // setGroupData({ series1: groupData.series1, series2: groupData.series2, categories: groupData.categories })
-        // setMarket({ series: marketDaily.series, categories: marketDaily.categories });
+        setGroupData({ series1: groupData.series1, series2: groupData.series2, categories: groupData.categories })
+        setMarket({ series: marketDaily.series, categories: marketDaily.categories });
 
-        // setForeigner(trendData.foreigner);
-        // setInstitutional(trendData.institutional);
-        // setIndividual(trendData.individual);
-        // setTable2(trendData.table2);
-        // setTrendData({
-        //     series: trendData.series,
-        //     categories: trendData.categories,
-        //     yAxis0Abs: trendData.yAxis0Abs,
-        //     yAxis1Abs: trendData.yAxis1Abs,
-        //     yAxis2Abs: trendData.yAxis2Abs,
-        // });
+        setForeigner(trendData.foreigner);
+        setInstitutional(trendData.institutional);
+        setIndividual(trendData.individual);
+        setTable2(trendData.table2);
+        setTrendData({
+            series: trendData.series,
+            categories: trendData.categories,
+            yAxis0Abs: trendData.yAxis0Abs,
+            yAxis1Abs: trendData.yAxis1Abs,
+            yAxis2Abs: trendData.yAxis2Abs,
+        });
 
     };
 
