@@ -196,10 +196,10 @@ export default function GpoChart({ data1, data2, data3, height, kospi200, credit
         setChartOptions({
             rangeSelector: { selected: 1 },
             xAxis: { plotBands: plotBands1 },
-            yAxis: [{ min: 0 }, { min: yMinValue }],
+            yAxis: [{}, { min: yMinValue }],
             series: [
-                { data: kospi200, lineColor: "dodgerblue", color: "dodgerblue", upLineColor: "tomato", upColor: "tomato", yAxis: 1, type: "candlestick", animation: false, zIndex: 4 },
                 { data: data1.data0, color: "#FCAB2F", yAxis: 0, type: "spline", animation: false, zIndex: 4, lineWidth: 3 },
+                { data: kospi200, lineColor: "dodgerblue", color: "dodgerblue", upLineColor: "tomato", upColor: "tomato", yAxis: 1, type: "candlestick", animation: false, zIndex: 4 },
                 { data: data1.data1, color: "#FCAB2F", yAxis: 0, type: "spline", animation: false, zIndex: 4, lineWidth: 3 },
                 { data: data1.data2, color: "#FCAB2F", yAxis: 0, type: "spline", animation: false, zIndex: 4, lineWidth: 3 },
                 { data: data1.data3, color: "#FCAB2F", yAxis: 0, type: "spline", animation: false, zIndex: 4, lineWidth: 3 },
