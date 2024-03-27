@@ -11,26 +11,6 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
     const [chartOptions, setChartOptions] = useState({
         chart: {
             type: 'scatter', height: height, backgroundColor: 'rgba(255, 255, 255, 0)', zoomType: 'xy', animation: false,
-            // events: {
-            //     load: function () {
-            //         // Draw rectangle for 1st quadrant
-            //         this.renderer.rect(this.plotLeft + this.plotWidth / 2, this.plotTop, this.plotWidth / 2, this.plotHeight / 2)
-            //             .attr({
-            //                 fill: 'rgba(255, 200, 200, 0.5)', // Light red
-            //                 zIndex: 0
-            //             })
-            //             .add();
-
-            //         // Draw rectangle for 3rd quadrant
-            //         this.renderer.rect(this.plotLeft, this.plotTop + this.plotHeight / 2, this.plotWidth / 2, this.plotHeight / 2)
-            //             .attr({
-            //                 fill: 'rgba(173, 216, 230, 0.5)', // Light blue
-            //                 zIndex: 0
-            //             })
-            //             .add();
-            //     }
-            // },
-
         },
         credits: { enabled: false }, title: { text: null },
         navigation: { buttonOptions: { enabled: false } },
@@ -44,19 +24,6 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
             },
             tickLength: 0,
             plotLines: [{ value: 0, width: 2, color: '#fff', zIndex: 2 }],
-            // plotBands: [{
-            //     color: 'rgba(255, 200, 200, 0.15)',
-            //     from: 0,
-            //     to: 999999,
-            //     label: {
-            //         text: '매출, 영업이익 상승',
-            //         align: 'right',
-            //         style: {
-            //             color: '#efe9e9ed',
-            //             fontSize: '10px'
-            //         }
-            //     }
-            // }]
         },
         yAxis: {
             title: { text: '매출 성장률 %', style: { color: '#efe9e9ed' } },
@@ -70,12 +37,7 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
             plotLines: [{ value: 0, width: 2, color: '#fff' },],
             gridLineWidth: 0.2,
             tickAmount: 5,
-            // plotBands: [{
-            //     color: '#404040',
-            //     from: 0,
-            //     to: -999999,
-            //     zIndex: 1
-            // }]
+
         },
         tooltip: {
             split: true, shared: true, crosshairs: true,

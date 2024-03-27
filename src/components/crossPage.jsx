@@ -100,6 +100,7 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
                         <StyledToggleButton fontSize={'10px'} value="Tree">Tree</StyledToggleButton>
                         <StyledToggleButton fontSize={'10px'} value="Table">Table</StyledToggleButton>
                         <StyledToggleButton fontSize={'10px'} value="Industry">Industry</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="Trend">Trend</StyledToggleButton>
                         <StyledToggleButton fontSize={'10px'} value="Treasury">Treasury</StyledToggleButton>
                         <FormControl variant="standard" sx={{ minWidth: 100 }}>
                             <InputLabel sx={{ fontSize: '12px', color: '#efe9e9ed', pl: 3 }}>Event</InputLabel>
@@ -125,7 +126,7 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
                 <ContentsComponent
                     swiperRef={swiperRef} page={page} tableData={tableData} eventDrop={eventDrop}
                     getIndustryStockData={getIndustryStockData} onIndustryClick={onIndustryClick} getStockCode={getStockCode} getStockChartData={getStockChartData} />
-                {page !== 'Cross' && page !== 'Favorite' && page !== 'Industry' && page !== 'Event' && page !== 'Treasury' ?
+                {page === 'Tree' || page === 'Table' || page === 'Trend' ?
                     <>
                         <Grid item container sx={{ minHeight: 30 }}>
                             {

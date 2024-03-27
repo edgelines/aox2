@@ -6,7 +6,7 @@ require('highcharts/modules/accessibility')(Highcharts)
 require('highcharts/modules/heatmap')(Highcharts)
 require('highcharts/modules/treemap')(Highcharts)
 
-const Treemap = ({ data, backgroundColor, fontColor, onIndustryClick, height }) => {
+const Treemap = ({ data, backgroundColor, fontColor, onIndustryClick, height, dataName }) => {
     const [chartOptions, setChartOptions] = useState({
         chart: { animation: false, height: height ? height : null, backgroundColor: backgroundColor || '#404040' },
         title: { text: null, },
@@ -45,12 +45,34 @@ const Treemap = ({ data, backgroundColor, fontColor, onIndustryClick, height }) 
 
 
     useEffect(() => {
-        const mapData = data.map((val, index) => ({
-            ...val,
-            name: `${val.업종명}<br/>${val.흑자기업} / ${val.전체종목수}`,
-            value: val.전체종목수,
-            colorValue: val.흑자기업,
-        }))
+        var mapData;
+        if (!Array.isArray(data)) {
+            return;
+        }
+
+        if (dataName === 'Industry') {
+            mapData = data.map((val, index) => ({
+                ...val,
+                name: `${val.업종명}<br/>${val.종목수} / ${val.전체종목수}`,
+                value: val.전체종목수,
+                colorValue: val.종목수,
+            }))
+
+        } else if (dataName === 'Themes') {
+            mapData = data.map((val, index) => ({
+                ...val,
+                name: `${val.테마명}<br/>${val.종목수} / ${val.전체종목수}`,
+                value: val.전체종목수,
+                colorValue: val.종목수,
+            }))
+        } else {
+            mapData = data.map((val, index) => ({
+                ...val,
+                name: `${val.업종명}<br/>${val.흑자기업} / ${val.전체종목수}`,
+                value: val.전체종목수,
+                colorValue: val.흑자기업,
+            }))
+        }
         setChartOptions({
             series: [
                 {

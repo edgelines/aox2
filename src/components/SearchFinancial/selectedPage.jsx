@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, Stack, Typography, ToggleButtonGroup } from '@mui/material';
+import { Grid, Stack, Typography, ToggleButtonGroup, Table } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault, StyledToggleButton } from '../util/util';
@@ -9,7 +9,7 @@ import { customTheme } from './util';
 import CrossChartPage from './crossChartPage';
 import TreeMap from './treeMap';
 import FavoritePage from './favoritePage';
-import { API } from '../util/config';
+import { API, TEST } from '../util/config';
 import SectorsChartPage from '../sectorsChartPage.jsx';
 
 const table_columns = [
@@ -89,7 +89,7 @@ export const ContentsComponent = ({ swiperRef, page, tableData, eventDrop, getIn
         case 'Tree':
             return <Tree tableData={tableData} onIndustryClick={onIndustryClick} />
         case 'Table':
-            return <Table swiperRef={swiperRef} tableData={tableData} getIndustryStockData={getIndustryStockData} />
+            return <TablePage swiperRef={swiperRef} tableData={tableData} getIndustryStockData={getIndustryStockData} />
         case 'Favorite':
             return <Favorite swiperRef={swiperRef} getStockCode={getStockCode} getStockChartData={getStockChartData} ></Favorite>
         case 'Industry':
@@ -98,6 +98,8 @@ export const ContentsComponent = ({ swiperRef, page, tableData, eventDrop, getIn
             return <EventPage swiperRef={swiperRef} eventDrop={eventDrop} getStockCode={getStockCode} getStockChartData={getStockChartData} />
         case 'Treasury':
             return <TreasuryPage swiperRef={swiperRef} getStockCode={getStockCode} getStockChartData={getStockChartData} />
+        case 'Trend':
+            return <TrendPage swiperRef={swiperRef} />
         default:
             return <Cross swiperRef={swiperRef} tableData={tableData} getStockCode={getStockCode} getStockChartData={getStockChartData} />
     }
@@ -105,7 +107,7 @@ export const ContentsComponent = ({ swiperRef, page, tableData, eventDrop, getIn
 }
 
 
-export function Table({ swiperRef, tableData, getIndustryStockData }) {
+export function TablePage({ swiperRef, tableData, getIndustryStockData }) {
     return (
         <Grid container sx={{ pr: 2 }}>
             <Grid item container>
@@ -463,5 +465,102 @@ const TreasuryPage = ({ swiperRef, getStockCode, getStockChartData }) => {
                 </ThemeProvider>
             </Grid>
         </Grid>
+    )
+}
+
+const TrendPage = ({ swiperRef }) => {
+
+    const [stockMarket, setStockMarket] = useState(null);  // 초기값 : null, 거래소 선택 ( 코스피200, 코스피, 코스닥)
+    const [cross, setCross] = useState(true); // 상승 : true, 하락 : false
+    // Btn
+    const [switchChart, setSwitchChart] = useState(false) // TreeMap : false, Line : True
+
+    const [loading, setLoading] = useState(false);
+    const [goldenCross, setGoldenCross] = useState({});
+    const [deadCross, setDeadCross] = useState({});
+    const [treeMapIndustry, setTreeMapIndustry] = useState([]);
+    const [treeMapThemes, setTreeMapThemes] = useState([]);
+
+    // handler
+    const handleCross = (event, exchange) => {
+        console.log(event, exchange);
+    }
+
+    const fetchData = async () => {
+        const postData = { stockMarket: stockMarket, cross: cross }
+        const res = await axios.post(`${TEST}/trendData`, postData);
+        setGoldenCross(res.data.text.GoldenCross);
+        setDeadCross(res.data.text.DeadCross);
+        setTreeMapIndustry(res.data.treeMap_industry);
+        setTreeMapThemes(res.data.treeMap_themes);
+        setLoading(true);
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, [stockMarket, cross])
+
+    return (
+        <>
+            {
+                loading ?
+                    <Grid container>
+                        <Grid item xs={2}>
+                            <StyledToggleButton
+                                value='check'
+                                selected={switchChart}
+                                onChange={() => {
+                                    setSwitchChart(!switchChart);
+                                }}
+                                sx={{ fontSize: '9px' }}>
+                                {switchChart ? 'Tree Map' : 'Line Chart'}
+                            </StyledToggleButton>
+
+                            <Table sx={{ mt: 1, fontSize: '11px', borderBottom: '1px solid #efe9e9ed' }}>
+                                <thead>
+                                    <tr style={{ borderBottom: '1px solid #efe9e9ed' }}>
+                                        <th colSpan={3}>Golden Cross</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {Object.keys(goldenCross).map((exchange, index) => (
+                                        <tr key={exchange} style={{ borderBottom: index === 2 ? '1px solid #efe9e9ed' : 0 }}
+                                            onClick={(event) => handleCross(event, exchange)}
+                                        >
+                                            <td>{exchange}</td>
+                                            <td>{goldenCross[exchange][0]}</td>
+                                            <td>{goldenCross[exchange][1]}</td>
+                                        </tr>
+                                    )
+                                    )}
+                                </tbody>
+                                <thead>
+                                    <tr style={{ borderBottom: '1px solid #efe9e9ed' }}>
+                                        <th colSpan={3}>Dead Cross</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {Object.keys(deadCross).map(exchange => (
+                                        <tr key={exchange}>
+                                            <td>{exchange}</td>
+                                            <td>{deadCross[exchange][0]}</td>
+                                            <td>{deadCross[exchange][1]}</td>
+                                        </tr>
+                                    )
+                                    )}
+                                </tbody>
+                            </Table>
+                        </Grid>
+                        <Grid item xs={5}>
+                            <TreeMap data={treeMapIndustry} height={420} dataName={'Industry'} />
+                        </Grid>
+                        <Grid item xs={5}>
+                            <TreeMap data={treeMapThemes} height={420} dataName={'Themes'} />
+                        </Grid>
+                    </Grid>
+                    : <div>Loading</div>
+            }
+        </>
+
     )
 }

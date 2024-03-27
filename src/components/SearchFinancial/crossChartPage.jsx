@@ -6,7 +6,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { StyledButton, DataTableStyleDefault, StyledToggleButton, SectorsName15 } from '../util/util';
 import CrossChart from './crossChart';
 import { customTheme } from './util';
-import { API, TEST } from '../util/config';
+import { API } from '../util/config';
 import { stockTable_columns, table_columns } from './tableColumns';
 import SectorChart from '../SectorsPage/sectorChart';
 
@@ -74,14 +74,8 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
         }
     }
 
-    const handleCategory1 = (event, value) => {
-        if (value !== null) { setCategory1(value); }
-    };
-    const handleCategory2 = (event, newCategory) => {
-        if (newCategory.length) {
-            setCategory2(newCategory);
-        }
-    };
+    const handleCategory1 = (event, value) => { if (value !== null) { setCategory1(value); } };
+    const handleCategory2 = (event, newCategory) => { if (newCategory.length) { setCategory2(newCategory); } };
     const handleAllItem = (event, value) => {
         setAllItem(value);
         switch (value) {
@@ -119,28 +113,8 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
         // console.log(field, industry);
     }
 
-    // < 하단 테이블 >
-    // const handlerIndustryStockData = async () => {
-    //     const postData = {
-    //         aggregated: aggregated,
-    //         // aggregated: aggregated, surplus: surplus,
-    //         // target_industry: [selectedIndustries], target_category1: [category1], target_category2: category2,
-    //         target_category: surplus == true ? ['흑자'] : null, target_industry: [selectedIndustries], market: null, favorite: false
-    //     }
-    //     // const res = await axios.post(`${TEST}/findData`, postData);
-    //     const res = await axios.post(`${API}/formula/findData`, postData);
-    //     setStockTableData(res.data);
-    //     // console.log(res.data);
-    // }
-    // useEffect(() => { fetchData() }, [])
-
     useEffect(() => {
         getCrossChartData();
-        // handlerIndustryStockData();
-        // if (selectedIndustries !== null) {
-        //     getCrossChartData();
-        //     handlerIndustryStockData()
-        // }
     }, [selectedIndustries, aggregated, surplus, category1, category2])
 
 
