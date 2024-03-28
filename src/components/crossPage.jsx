@@ -12,7 +12,8 @@ import { stockTable_columns, customTheme } from './SearchFinancial/tableColumns'
 import { API, STOCK } from './util/config';
 
 export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop }) {
-    const [page, setPage] = useState('Cross');
+    const [page, setPage] = useState('Trend');
+    // const [page, setPage] = useState('Cross');
     const [eventDrop, setEventDrop] = useState('');
     const [timeframe, setTimeframe] = useState('day');
     const [filter, setFilter] = useState({ field: null, industry: null })
@@ -126,7 +127,7 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
                 <ContentsComponent
                     swiperRef={swiperRef} page={page} tableData={tableData} eventDrop={eventDrop}
                     getIndustryStockData={getIndustryStockData} onIndustryClick={onIndustryClick} getStockCode={getStockCode} getStockChartData={getStockChartData} />
-                {page === 'Tree' || page === 'Table' || page === 'Trend' ?
+                {page === 'Tree' || page === 'Table' ?
                     <>
                         <Grid item container sx={{ minHeight: 30 }}>
                             {

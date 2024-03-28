@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, Stack, Typography, ToggleButtonGroup, Table } from '@mui/material';
+import { Skeleton, Grid, Stack, Typography, ToggleButtonGroup, Table } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault, StyledToggleButton } from '../util/util';
@@ -9,6 +9,7 @@ import { customTheme } from './util';
 import CrossChartPage from './crossChartPage';
 import TreeMap from './treeMap';
 import FavoritePage from './favoritePage';
+import CoreChart from '../util/CoreChart';
 import { API, TEST } from '../util/config';
 import SectorsChartPage from '../sectorsChartPage.jsx';
 
@@ -473,32 +474,38 @@ const TrendPage = ({ swiperRef }) => {
     const [stockMarket, setStockMarket] = useState(null);  // 초기값 : null, 거래소 선택 ( 코스피200, 코스피, 코스닥)
     const [cross, setCross] = useState(true); // 상승 : true, 하락 : false
     // Btn
-    const [switchChart, setSwitchChart] = useState(false) // TreeMap : false, Line : True
+    const [chartType, setChartType] = useState(false) // TreeMap : false, Line : True
 
     const [loading, setLoading] = useState(false);
+    const [tableData, setTableData] = useState([]);
     const [goldenCross, setGoldenCross] = useState({});
     const [deadCross, setDeadCross] = useState({});
     const [treeMapIndustry, setTreeMapIndustry] = useState([]);
     const [treeMapThemes, setTreeMapThemes] = useState([]);
-
+    const [lineData, setLineData] = useState({});
     // handler
     const handleCross = (event, exchange) => {
         console.log(event, exchange);
     }
 
     const fetchData = async () => {
-        const postData = { stockMarket: stockMarket, cross: cross }
+        const postData = { stockMarket: stockMarket, cross: cross, chartType: chartType }
         const res = await axios.post(`${TEST}/trendData`, postData);
         setGoldenCross(res.data.text.GoldenCross);
         setDeadCross(res.data.text.DeadCross);
-        setTreeMapIndustry(res.data.treeMap_industry);
-        setTreeMapThemes(res.data.treeMap_themes);
+        if (chartType) {
+            setLineData(res.data.line_data);
+        } else {
+            setTreeMapIndustry(res.data.treeMap_industry);
+            setTreeMapThemes(res.data.treeMap_themes);
+        }
+        // setTableData(res.data.table);
         setLoading(true);
     }
 
     useEffect(() => {
         fetchData();
-    }, [stockMarket, cross])
+    }, [stockMarket, cross, chartType])
 
     return (
         <>
@@ -508,12 +515,12 @@ const TrendPage = ({ swiperRef }) => {
                         <Grid item xs={2}>
                             <StyledToggleButton
                                 value='check'
-                                selected={switchChart}
+                                selected={chartType}
                                 onChange={() => {
-                                    setSwitchChart(!switchChart);
+                                    setChartType(!chartType);
                                 }}
                                 sx={{ fontSize: '9px' }}>
-                                {switchChart ? 'Tree Map' : 'Line Chart'}
+                                {chartType ? 'Line Chart' : 'Tree Map'}
                             </StyledToggleButton>
 
                             <Table sx={{ mt: 1, fontSize: '11px', borderBottom: '1px solid #efe9e9ed' }}>
@@ -551,15 +558,56 @@ const TrendPage = ({ swiperRef }) => {
                                 </tbody>
                             </Table>
                         </Grid>
-                        <Grid item xs={5}>
-                            <TreeMap data={treeMapIndustry} height={420} dataName={'Industry'} />
-                        </Grid>
-                        <Grid item xs={5}>
-                            <TreeMap data={treeMapThemes} height={420} dataName={'Themes'} />
-                        </Grid>
+
+                        {chartType ?
+                            <Grid item xs={10}>
+                                <CoreChart data={lineData.series} categories={lineData.categories} height={400} name={'WMA6Cross'} />
+                            </Grid>
+                            :
+                            <>
+                                <Grid item xs={5}>
+                                    <TreeMap data={treeMapIndustry} height={420} dataName={'Industry'} />
+                                </Grid>
+                                <Grid item xs={5}>
+                                    <TreeMap data={treeMapThemes} height={420} dataName={'Themes'} />
+                                </Grid>
+                            </>
+                        }
+
                     </Grid>
-                    : <div>Loading</div>
+                    : <Skeleton variant="rounded" width={420} />
             }
+
+            <Grid container sx={{ pr: 1, height: 800, width: "100%" }}
+                onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+            >
+                <ThemeProvider theme={customTheme}>
+                    <DataGrid
+                        rows={tableData}
+                        columns={eventColumns}
+                        // getRowHeight={() => 'auto'}
+                        rowHeight={25}
+                        onCellClick={(params, event) => {
+                            getStockCode(params.row);
+                            getStockChartData(params.row.종목코드);
+                        }}
+                        disableRowSelectionOnClick
+                        sx={{
+                            color: 'white', border: 'none',
+                            ...DataTableStyleDefault,
+                            [`& .${gridClasses.cell}`]: { py: 1, },
+                            '.MuiTablePagination-root': { color: '#efe9e9ed' },
+                            '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
+                            '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
+                            '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
+                            '[data-field="부채비율"]': { borderLeft: '1.5px solid #ccc' },
+                            '[data-field="테마명"]': { borderLeft: '1.5px solid #ccc' },
+                        }}
+                    />
+                </ThemeProvider>
+            </Grid>
+
         </>
 
     )

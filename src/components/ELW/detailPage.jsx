@@ -39,12 +39,55 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail }) {
         });
     }
 
+    const fetchData = async () => {
+        const res = await axios.get(`${API}/aox/gpo`);
+        setKospi200(res.data.data);
+        setKospi200MinValue(res.data.min);
+    }
+
     const GpoKospi200Ref = useRef(null);
     const CtpRef = useRef(null);
     const WeightedAvgRef = useRef(null);
 
+    useEffect(() => {
+        const now = new Date();
+        const hour = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+        // 현재 시간이 9시 이전이라면, 9시까지 남은 시간 계산
+        let delay;
+        if (hour < 9) {
+            delay = ((9 - hour - 1) * 60 + (60 - minutes)) * 60 + (60 - seconds);
+        } else {
+            delay = 60 - seconds;
+        }
+
+        const startUpdates = () => {
+            const intervalId = setInterval(() => {
+                const now = new Date();
+                const hour = now.getHours();
+                const dayOfWeek = now.getDay();
+                if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
+                    fetchData();
+                } else if (hour >= 16) {
+                    // 3시 30분 이후라면 인터벌 종료
+                    clearInterval(intervalId);
+                }
+            }, 1000 * 60 * 5);
+            return intervalId;
+        };
+        // 첫 업데이트 시작
+        const timeoutId = setTimeout(() => {
+            // fetchData();
+            startUpdates();
+        }, delay * 1000);
+
+        return () => clearTimeout(timeoutId);
+    }, [])
+
     // Streaming Test
     useEffect(() => {
+        fetchData();
         fetchData1st();
         // GpoKospi200Ref.current = new EventSource(`${API}/aox/gpo`);
         // GpoKospi200Ref.current.onopen = () => { };
@@ -96,7 +139,7 @@ export default function DetailPage({ swiperRef, Vix, MarketDetail }) {
         };
 
         // 각 EventSource 설정
-        setupEventSource(GpoKospi200Ref, `${API}/aox/gpo`, handleGpoKospi200Message);
+        // setupEventSource(GpoKospi200Ref, `${API}/aox/gpo`, handleGpoKospi200Message);
         setupEventSource(CtpRef, `${API}/elwData/CTP`, handleCtpMessage);
         setupEventSource(WeightedAvgRef, `${API}/elwData/WeightedAvg`, handleWeightedAvgMessage);
 

@@ -291,6 +291,141 @@ export default function CoreChart({ data, height, name, categories, type, min, h
                     ],
                 },
             ],
+            WMA6Cross: [
+                {
+                    title: { text: "" },
+                    labels: { style: { color: '#efe9e9ed', fontSize: '11px' }, formatter: function () { return this.value.toLocaleString('ko-KR') + ' %'; }, },
+                    // labels: { enabled: false, format: "{value:.1%}" },
+                    // plotLines: [
+                    //     {
+                    //         className: "market_labels",
+                    //         color: "violet",
+                    //         width: 1,
+                    //         value: 0.85,
+                    //         dashStyle: "shortdash",
+                    //         label: {
+                    //             text: "85%",
+                    //             align: "right",
+                    //             x: 0,
+                    //             y: -5,
+                    //             style: {
+                    //                 color: "#efe9e9ed",
+                    //             },
+                    //         },
+                    //     },
+                    //     {
+                    //         className: "market_labels",
+                    //         color: "red",
+                    //         width: 2,
+                    //         value: 0.75,
+                    //         dashStyle: "shortdash",
+                    //         label: {
+                    //             text: "75%",
+                    //             align: "right",
+                    //             x: 0,
+                    //             y: -5,
+                    //             style: {
+                    //                 color: "#efe9e9ed",
+                    //             },
+                    //         },
+                    //     },
+                    //     {
+                    //         color: "coral",
+                    //         width: 1,
+                    //         value: 0.55,
+                    //         dashStyle: "shortdash",
+                    //         label: {
+                    //             text: "55%",
+                    //             align: "right",
+                    //             x: 0,
+                    //             y: -5,
+                    //             style: {
+                    //                 color: "#efe9e9ed",
+                    //             },
+                    //         },
+                    //     },
+                    //     {
+                    //         color: "gold",
+                    //         width: 1,
+                    //         value: 0.4,
+                    //         dashStyle: "solid",
+                    //         label: {
+                    //             text: "40%",
+                    //             align: "right",
+                    //             x: 0,
+                    //             y: -5,
+                    //             style: {
+                    //                 color: "#efe9e9ed",
+                    //             },
+                    //         },
+                    //     },
+                    //     {
+                    //         color: "skyblue",
+                    //         width: 2,
+                    //         value: 0.2,
+                    //         dashStyle: "shortdash",
+                    //         label: {
+                    //             text: "20%",
+                    //             align: "right",
+                    //             x: 0,
+                    //             y: -5,
+                    //             style: {
+                    //                 color: "#efe9e9ed",
+                    //             },
+                    //         },
+                    //     },
+                    //     {
+                    //         color: "dodgerblue",
+                    //         width: 2,
+                    //         value: 0.1,
+                    //         dashStyle: "shortdash",
+                    //         label: {
+                    //             text: "10%",
+                    //             align: "right",
+                    //             x: 0,
+                    //             y: -5,
+                    //             style: {
+                    //                 color: "#efe9e9ed",
+                    //             },
+                    //         },
+                    //     },
+                    //     {
+                    //         color: "#efe9e9ed",
+                    //         width: 2,
+                    //         value: 1,
+                    //         dashStyle: "solid",
+                    //         label: {
+                    //             text: "ELW Put",
+                    //             align: "right",
+                    //             x: 0,
+                    //             y: 18,
+                    //             style: {
+                    //                 color: "#efe9e9ed",
+                    //                 fontSize: "12px",
+                    //                 // fontWeight: 'bold',
+                    //             },
+                    //         },
+                    //     },
+                    //     {
+                    //         color: "#efe9e9ed",
+                    //         width: 0,
+                    //         value: 0,
+                    //         dashStyle: "solid",
+                    //         label: {
+                    //             text: "ELW Call",
+                    //             align: "right",
+                    //             x: 0,
+                    //             y: -6,
+                    //             style: {
+                    //                 color: "#efe9e9ed",
+                    //                 fontSize: "12px",
+                    //                 // fontWeight: 'bold',
+                    //             },
+                    //         },
+                    //     },
+                    // ],
+                },
+            ],
         }
         const tooltip = {
             dayGr: {
@@ -374,11 +509,12 @@ export default function CoreChart({ data, height, name, categories, type, min, h
                 },
             },
             market: { hideDelay: 2, shared: true, crosshairs: true, backgroundColor: "#404040", style: { color: "#fcfcfc" }, formatter: function () { return ["<b>" + this.x + "</b><br/>"].concat(this.points ? this.points.map(function (point) { return ("<b>" + point.series.name + "</b>" + " : " + parseInt(point.y * 100) + "%<br/>"); }) : []); }, },
+            WMA6Cross: { hideDelay: 2, shared: true, crosshairs: true, backgroundColor: "rgba(64, 64, 64, 0.25)", style: { color: "#e8e3e3" }, formatter: function () { return ["<b>" + this.x + "</b><br/>"].concat(this.points ? this.points.map(function (point) { return ("<b>" + point.series.name + "</b>" + " : " + point.y + "%<br/>"); }) : []); }, },
         }
 
         const plotOptionsRender = () => {
             const result = { series: { cursor: 'pointer', marker: { lineWidth: 0, symbol: 'circle' }, animation: false, }, }
-            if (name === 'market') {
+            if (name === 'market' || name === 'WMA6Cross') {
                 return { series: { animation: false, marker: { radius: 1.8, lineWidth: 0, symbol: "circle", }, lineWidth: 1, }, }
             } else if (name === 'VixColumn') {
                 return {
@@ -428,7 +564,6 @@ export default function CoreChart({ data, height, name, categories, type, min, h
             if (name === 'trendData') {
                 result.tickInterval = 3;
                 result.labels = { style: { color: '#FCAB2F', fontSize: '11px' } };
-                result.categories = categories;
                 return result;
             } else if (name === 'groupDataMin') {
                 const plotLinesLabelY = 210;
