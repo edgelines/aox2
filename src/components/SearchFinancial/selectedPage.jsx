@@ -249,10 +249,13 @@ const Favorite = ({ swiperRef, onIndustryClick, getStockCode, getStockChartData 
 }
 
 const baseColumns = [{
-    field: '업종명', headerName: '업종명', width: 125,
+    field: '업종명', headerName: '업종명', width: 90,
     align: 'left', headerAlign: 'center',
 }, {
-    field: '종목명', headerName: '종목명', width: 125,
+    field: '종목명', headerName: '종목명', width: 90,
+    align: 'left', headerAlign: 'center',
+}, {
+    field: '등락률', headerName: '%', width: 30,
     align: 'left', headerAlign: 'center',
 }, {
     field: '시가총액', headerName: '시가총액', width: 70,
@@ -311,28 +314,28 @@ const baseColumns = [{
         return `${(parseInt(params.value)).toLocaleString('kr')} %`;
     }
 }, {
-    field: 'TRIMA_8', headerName: '8', width: 50,
+    field: 'TRIMA_8', headerName: '8', width: 40,
     align: 'right', headerAlign: 'center',
     valueFormatter: (params) => {
         if (params.value == true) { return '◎'; }
         return '';
     }
 }, {
-    field: 'TRIMA_16', headerName: '16', width: 50,
+    field: 'TRIMA_16', headerName: '16', width: 40,
     align: 'right', headerAlign: 'center',
     valueFormatter: (params) => {
         if (params.value == true) { return '◎'; }
         return '';
     }
 }, {
-    field: 'TRIMA_27', headerName: '27', width: 50,
+    field: 'TRIMA_27', headerName: '27', width: 40,
     align: 'right', headerAlign: 'center',
     valueFormatter: (params) => {
         if (params.value == true) { return '◎'; }
         return '';
     }
 }, {
-    field: 'TRIMA_41', headerName: '41', width: 50,
+    field: 'TRIMA_41', headerName: '41', width: 40,
     align: 'right', headerAlign: 'center',
     valueFormatter: (params) => {
         if (params.value == true) { return '◎'; }
