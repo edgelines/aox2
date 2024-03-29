@@ -248,101 +248,112 @@ const Favorite = ({ swiperRef, onIndustryClick, getStockCode, getStockChartData 
     )
 }
 
+const baseColumns = [{
+    field: '업종명', headerName: '업종명', width: 125,
+    align: 'left', headerAlign: 'center',
+}, {
+    field: '종목명', headerName: '종목명', width: 125,
+    align: 'left', headerAlign: 'center',
+}, {
+    field: '시가총액', headerName: '시가총액', width: 70,
+    align: 'right', headerAlign: 'center',
+    valueFormatter: (params) => {
+        if (params.value == null) { return ''; }
+        return `${(parseInt(params.value / 100000000)).toLocaleString('kr')}`;
+    }
+}, {
+    field: '연간', headerName: '전년도 순이익합', width: 75,
+    align: 'right', headerAlign: 'center',
+    valueFormatter: (params) => {
+        if (params.value == null) { return ''; }
+        return `${(parseInt(params.value)).toLocaleString('kr')}`;
+    }
+}, {
+    field: '1Q', headerName: '1Q', width: 60,
+    align: 'right', headerAlign: 'center',
+    valueFormatter: (params) => {
+        if (params.value == null) { return ''; }
+        return `${(parseInt(params.value)).toLocaleString('kr')}`;
+    }
+}, {
+    field: '2Q', headerName: '2Q', width: 60,
+    align: 'right', headerAlign: 'center',
+    valueFormatter: (params) => {
+        if (params.value == null) { return ''; }
+        return `${(parseInt(params.value)).toLocaleString('kr')}`;
+    }
+}, {
+    field: '3Q', headerName: '3Q', width: 60,
+    align: 'right', headerAlign: 'center',
+    valueFormatter: (params) => {
+        if (params.value == null) { return ''; }
+        return `${(parseInt(params.value)).toLocaleString('kr')}`;
+    }
+}, {
+    field: '4Q', headerName: '4Q', width: 60,
+    align: 'right', headerAlign: 'center',
+    valueFormatter: (params) => {
+        if (params.value == null) { return ''; }
+        return `${(parseInt(params.value)).toLocaleString('kr')}`;
+    }
+}, {
+    field: '부채비율', headerName: '부채비율', width: 70,
+    align: 'right', headerAlign: 'center',
+    valueFormatter: (params) => {
+        if (params.value == null) { return ''; }
+        return `${(parseInt(params.value)).toLocaleString('kr')} %`;
+    }
+}, {
+    field: '유보율', headerName: '유보율', width: 75,
+    align: 'right', headerAlign: 'center',
+    valueFormatter: (params) => {
+        if (params.value == null) { return ''; }
+        return `${(parseInt(params.value)).toLocaleString('kr')} %`;
+    }
+}, {
+    field: 'TRIMA_8', headerName: '8', width: 50,
+    align: 'right', headerAlign: 'center',
+    valueFormatter: (params) => {
+        if (params.value == true) { return '◎'; }
+        return '';
+    }
+}, {
+    field: 'TRIMA_16', headerName: '16', width: 50,
+    align: 'right', headerAlign: 'center',
+    valueFormatter: (params) => {
+        if (params.value == true) { return '◎'; }
+        return '';
+    }
+}, {
+    field: 'TRIMA_27', headerName: '27', width: 50,
+    align: 'right', headerAlign: 'center',
+    valueFormatter: (params) => {
+        if (params.value == true) { return '◎'; }
+        return '';
+    }
+}, {
+    field: 'TRIMA_41', headerName: '41', width: 50,
+    align: 'right', headerAlign: 'center',
+    valueFormatter: (params) => {
+        if (params.value == true) { return '◎'; }
+        return '';
+    }
+}]
+const trendColumns = [
+    {
+        field: 'id', headerName: '순번', width: 20,
+        align: 'center', headerAlign: 'center',
+        valueFormatter: (params) => {
+            return parseInt(params.value) + 1;
+        }
+    }, ...baseColumns,
+]
+
 const eventColumns = [
     {
         field: '날짜', headerName: '날짜', width: 85,
         align: 'center', headerAlign: 'center',
-    }, {
-        field: '업종명', headerName: '업종명', width: 125,
-        align: 'left', headerAlign: 'center',
-    }, {
-        field: '종목명', headerName: '종목명', width: 125,
-        align: 'left', headerAlign: 'center',
-    }, {
-        field: '시가총액', headerName: '시가총액', width: 70,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            if (params.value == null) { return ''; }
-            return `${(parseInt(params.value / 100000000)).toLocaleString('kr')}`;
-        }
-    }, {
-        field: '연간', headerName: '전년도 순이익합', width: 75,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            if (params.value == null) { return ''; }
-            return `${(parseInt(params.value)).toLocaleString('kr')}`;
-        }
-    }, {
-        field: '1Q', headerName: '1Q', width: 60,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            if (params.value == null) { return ''; }
-            return `${(parseInt(params.value)).toLocaleString('kr')}`;
-        }
-    }, {
-        field: '2Q', headerName: '2Q', width: 60,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            if (params.value == null) { return ''; }
-            return `${(parseInt(params.value)).toLocaleString('kr')}`;
-        }
-    }, {
-        field: '3Q', headerName: '3Q', width: 60,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            if (params.value == null) { return ''; }
-            return `${(parseInt(params.value)).toLocaleString('kr')}`;
-        }
-    }, {
-        field: '4Q', headerName: '4Q', width: 60,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            if (params.value == null) { return ''; }
-            return `${(parseInt(params.value)).toLocaleString('kr')}`;
-        }
-    }, {
-        field: '부채비율', headerName: '부채비율', width: 70,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            if (params.value == null) { return ''; }
-            return `${(parseInt(params.value)).toLocaleString('kr')} %`;
-        }
-    }, {
-        field: '유보율', headerName: '유보율', width: 75,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            if (params.value == null) { return ''; }
-            return `${(parseInt(params.value)).toLocaleString('kr')} %`;
-        }
-    }, {
-        field: 'TRIMA_8', headerName: '8', width: 50,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            if (params.value == true) { return '◎'; }
-            return '';
-        }
-    }, {
-        field: 'TRIMA_16', headerName: '16', width: 50,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            if (params.value == true) { return '◎'; }
-            return '';
-        }
-    }, {
-        field: 'TRIMA_27', headerName: '27', width: 50,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            if (params.value == true) { return '◎'; }
-            return '';
-        }
-    }, {
-        field: 'TRIMA_41', headerName: '41', width: 50,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            if (params.value == true) { return '◎'; }
-            return '';
-        }
-    }
+    }, ...baseColumns,
 ]
 
 const EventPage = ({ swiperRef, eventDrop, getStockCode, getStockChartData }) => {
@@ -499,8 +510,9 @@ const TrendPage = ({ swiperRef }) => {
             setTreeMapIndustry(res.data.treeMap_industry);
             setTreeMapThemes(res.data.treeMap_themes);
         }
-        // setTableData(res.data.table);
+        setTableData(res.data.table);
         setLoading(true);
+        // console.log(res.data.table);
     }
 
     useEffect(() => {
@@ -578,14 +590,14 @@ const TrendPage = ({ swiperRef }) => {
                     : <Skeleton variant="rounded" width={420} />
             }
 
-            <Grid container sx={{ pr: 1, height: 800, width: "100%" }}
+            <Grid container sx={{ pr: 1, height: 450, width: "100%" }}
                 onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                 onMouseLeave={() => swiperRef.current.mousewheel.enable()}
             >
                 <ThemeProvider theme={customTheme}>
                     <DataGrid
                         rows={tableData}
-                        columns={eventColumns}
+                        columns={trendColumns}
                         // getRowHeight={() => 'auto'}
                         rowHeight={25}
                         onCellClick={(params, event) => {
