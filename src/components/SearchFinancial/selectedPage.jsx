@@ -347,6 +347,35 @@ const trendColumns = [
             return parseInt(params.value) + 1;
         }
     }, ...baseColumns,
+    {
+        field: 'MA_14', headerName: '14', width: 50,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == true) { return '◎'; }
+            return '';
+        }
+    }, {
+        field: 'MA_high_14', headerName: '14_H', width: 50,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == true) { return '◎'; }
+            return '';
+        }
+    }, {
+        field: 'MA_18', headerName: '18', width: 50,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == true) { return '◎'; }
+            return '';
+        }
+    }, {
+        field: 'MA_high_18', headerName: '18_H', width: 50,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            if (params.value == true) { return '◎'; }
+            return '';
+        }
+    }
 ]
 
 const eventColumns = [
