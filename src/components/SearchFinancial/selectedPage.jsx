@@ -5,7 +5,7 @@ import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault, StyledToggleButton } from '../util/util';
 import { StyledTypography_StockInfo } from '../util/htsUtil';
-import { customTheme } from './util';
+import { customTheme, trendColumns, eventColumns } from './util';
 import CrossChartPage from './crossChartPage';
 import TreeMap from './treeMap';
 import FavoritePage from './favoritePage';
@@ -108,7 +108,7 @@ export const ContentsComponent = ({ swiperRef, page, tableData, eventDrop, getIn
 }
 
 
-export function TablePage({ swiperRef, tableData, getIndustryStockData }) {
+function TablePage({ swiperRef, tableData, getIndustryStockData }) {
     return (
         <Grid container sx={{ pr: 2 }}>
             <Grid item container>
@@ -156,7 +156,7 @@ export function TablePage({ swiperRef, tableData, getIndustryStockData }) {
     )
 }
 
-export function Tree({ tableData, onIndustryClick }) {
+function Tree({ tableData, onIndustryClick }) {
     const [page, setPage] = useState('All');
     const [treeMapData, setTreeMapData] = useState({});
     const handlePage = (event, value) => { if (value !== null) { setPage(value); } }
@@ -228,7 +228,7 @@ export function Tree({ tableData, onIndustryClick }) {
     )
 }
 
-export function Cross({ swiperRef, tableData, onIndustryClick, getStockCode, getStockChartData }) {
+function Cross({ swiperRef, tableData, onIndustryClick, getStockCode, getStockChartData }) {
     return (
         <Grid container>
             <CrossChartPage swiperRef={swiperRef}
@@ -248,149 +248,7 @@ const Favorite = ({ swiperRef, onIndustryClick, getStockCode, getStockChartData 
     )
 }
 
-const baseColumns = [{
-    field: '업종명', headerName: '업종명', width: 90,
-    align: 'left', headerAlign: 'center',
-}, {
-    field: '종목명', headerName: '종목명', width: 90,
-    align: 'left', headerAlign: 'center',
-}, {
-    field: '등락률', headerName: '%', width: 30,
-    align: 'right', headerAlign: 'center',
-    valueFormatter: (params) => {
-        if (params.value == null) { return ''; }
-        return `${params.value.toFixed(1)}`;
-    }
-}, {
-    field: '시가총액', headerName: '시가총액', width: 70,
-    align: 'right', headerAlign: 'center',
-    valueFormatter: (params) => {
-        if (params.value == null) { return ''; }
-        return `${(parseInt(params.value / 100000000)).toLocaleString('kr')}`;
-    }
-}, {
-    field: '연간', headerName: '전년도 순이익합', width: 75,
-    align: 'right', headerAlign: 'center',
-    valueFormatter: (params) => {
-        if (params.value == null) { return ''; }
-        return `${(parseInt(params.value)).toLocaleString('kr')}`;
-    }
-}, {
-    field: '1Q', headerName: '1Q', width: 60,
-    align: 'right', headerAlign: 'center',
-    valueFormatter: (params) => {
-        if (params.value == null) { return ''; }
-        return `${(parseInt(params.value)).toLocaleString('kr')}`;
-    }
-}, {
-    field: '2Q', headerName: '2Q', width: 60,
-    align: 'right', headerAlign: 'center',
-    valueFormatter: (params) => {
-        if (params.value == null) { return ''; }
-        return `${(parseInt(params.value)).toLocaleString('kr')}`;
-    }
-}, {
-    field: '3Q', headerName: '3Q', width: 60,
-    align: 'right', headerAlign: 'center',
-    valueFormatter: (params) => {
-        if (params.value == null) { return ''; }
-        return `${(parseInt(params.value)).toLocaleString('kr')}`;
-    }
-}, {
-    field: '4Q', headerName: '4Q', width: 60,
-    align: 'right', headerAlign: 'center',
-    valueFormatter: (params) => {
-        if (params.value == null) { return ''; }
-        return `${(parseInt(params.value)).toLocaleString('kr')}`;
-    }
-}, {
-    field: '부채비율', headerName: '부채비율', width: 70,
-    align: 'right', headerAlign: 'center',
-    valueFormatter: (params) => {
-        if (params.value == null) { return ''; }
-        return `${(parseInt(params.value)).toLocaleString('kr')} %`;
-    }
-}, {
-    field: '유보율', headerName: '유보율', width: 75,
-    align: 'right', headerAlign: 'center',
-    valueFormatter: (params) => {
-        if (params.value == null) { return ''; }
-        return `${(parseInt(params.value)).toLocaleString('kr')} %`;
-    }
-}, {
-    field: 'TRIMA_8', headerName: '8', width: 40,
-    align: 'right', headerAlign: 'center',
-    valueFormatter: (params) => {
-        if (params.value == true) { return '◎'; }
-        return '';
-    }
-}, {
-    field: 'TRIMA_16', headerName: '16', width: 40,
-    align: 'right', headerAlign: 'center',
-    valueFormatter: (params) => {
-        if (params.value == true) { return '◎'; }
-        return '';
-    }
-}, {
-    field: 'TRIMA_27', headerName: '27', width: 40,
-    align: 'right', headerAlign: 'center',
-    valueFormatter: (params) => {
-        if (params.value == true) { return '◎'; }
-        return '';
-    }
-}, {
-    field: 'TRIMA_41', headerName: '41', width: 40,
-    align: 'right', headerAlign: 'center',
-    valueFormatter: (params) => {
-        if (params.value == true) { return '◎'; }
-        return '';
-    }
-}]
-const trendColumns = [
-    {
-        field: 'id', headerName: '순번', width: 20,
-        align: 'center', headerAlign: 'center',
-        valueFormatter: (params) => {
-            return parseInt(params.value) + 1;
-        }
-    }, ...baseColumns,
-    {
-        field: 'MA_14', headerName: '14', width: 50,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            if (params.value == true) { return '◎'; }
-            return '';
-        }
-    }, {
-        field: 'MA_high_14', headerName: '14_H', width: 50,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            if (params.value == true) { return '◎'; }
-            return '';
-        }
-    }, {
-        field: 'MA_18', headerName: '18', width: 50,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            if (params.value == true) { return '◎'; }
-            return '';
-        }
-    }, {
-        field: 'MA_high_18', headerName: '18_H', width: 50,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            if (params.value == true) { return '◎'; }
-            return '';
-        }
-    }
-]
 
-const eventColumns = [
-    {
-        field: '날짜', headerName: '날짜', width: 85,
-        align: 'center', headerAlign: 'center',
-    }, ...baseColumns,
-]
 
 const EventPage = ({ swiperRef, eventDrop, getStockCode, getStockChartData }) => {
     const [data, setData] = useState([]);
@@ -399,6 +257,7 @@ const EventPage = ({ swiperRef, eventDrop, getStockCode, getStockChartData }) =>
         const postData = {
             past: past, event: eventDrop,
         }
+        // const res = await axios.post(`${TEST}/eventData`, postData);
         const res = await axios.post(`${API}/formula/eventData`, postData);
         setData(res.data);
     }
@@ -462,6 +321,7 @@ const TreasuryPage = ({ swiperRef, getStockCode, getStockChartData }) => {
     const [treasury, setTreasury] = useState(true);
     const fetchData = async () => {
         const postData = { treasury: treasury }
+        // const res = await axios.post(`${TEST}/treasuryData`, postData);
         const res = await axios.post(`${API}/formula/treasuryData`, postData);
         setData(res.data);
     }
@@ -507,6 +367,7 @@ const TreasuryPage = ({ swiperRef, getStockCode, getStockChartData }) => {
                             '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
                             '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
                             '[data-field="부채비율"]': { borderLeft: '1.5px solid #ccc' },
+                            '[data-field="TRIMA_41"]': { borderRight: '1.5px solid #ccc' },
                             '[data-field="테마명"]': { borderLeft: '1.5px solid #ccc' },
                         }}
                     />

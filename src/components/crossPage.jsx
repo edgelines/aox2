@@ -12,8 +12,8 @@ import { stockTable_columns, customTheme } from './SearchFinancial/tableColumns'
 import { API, STOCK } from './util/config';
 
 export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop }) {
-    const [page, setPage] = useState('Trend');
-    // const [page, setPage] = useState('Cross');
+    // const [page, setPage] = useState('Tree');
+    const [page, setPage] = useState('Cross');
     const [eventDrop, setEventDrop] = useState('');
     const [timeframe, setTimeframe] = useState('day');
     const [filter, setFilter] = useState({ field: null, industry: null })
@@ -111,6 +111,7 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
                                 onChange={handleEventChange}
                                 sx={{ color: '#efe9e9ed', fontSize: '11px' }}
                             >
+                                <MenuItem sx={{ fontSize: '11px' }} value={'IR'}>IR</MenuItem>
                                 <MenuItem sx={{ fontSize: '11px' }} value={'보호예수'}>보호예수</MenuItem>
                                 <MenuItem sx={{ fontSize: '11px' }} value={'유상증자'}>유상증자</MenuItem>
                                 <MenuItem sx={{ fontSize: '11px' }} value={'무상증자'}>무상증자</MenuItem>
