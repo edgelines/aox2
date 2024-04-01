@@ -256,7 +256,11 @@ const baseColumns = [{
     align: 'left', headerAlign: 'center',
 }, {
     field: '등락률', headerName: '%', width: 30,
-    align: 'left', headerAlign: 'center',
+    align: 'right', headerAlign: 'center',
+    valueFormatter: (params) => {
+        if (params.value == null) { return ''; }
+        return `${params.value.toFixed(1)}`;
+    }
 }, {
     field: '시가총액', headerName: '시가총액', width: 70,
     align: 'right', headerAlign: 'center',
@@ -516,6 +520,7 @@ const TrendPage = ({ swiperRef }) => {
 
     const [stockMarket, setStockMarket] = useState(null);  // 초기값 : null, 거래소 선택 ( 코스피200, 코스피, 코스닥)
     const [cross, setCross] = useState(true); // 상승 : true, 하락 : false
+    const [treemapSelectedName, setTreemapSelectedName] = useState({ selected: false, type: null, name: null })
     // Btn
     const [chartType, setChartType] = useState(false) // TreeMap : false, Line : True
 
@@ -531,10 +536,14 @@ const TrendPage = ({ swiperRef }) => {
         console.log(event, exchange);
     }
 
+    const handleOnIndustryClick = async (item, type) => {
+        setTreemapSelectedName({ selected: true, type: type, name: item });
+    }
+
     const fetchData = async () => {
-        const postData = { stockMarket: stockMarket, cross: cross, chartType: chartType }
-        // const res = await axios.post(`${TEST}/trendData`, postData);
-        const res = await axios.post(`${API}/formula/trendData`, postData);
+        const postData = { stockMarket: stockMarket, cross: cross, chartType: chartType, treemapSelectedName: treemapSelectedName }
+        const res = await axios.post(`${TEST}/trendData`, postData);
+        // const res = await axios.post(`${API}/formula/trendData`, postData);
         setGoldenCross(res.data.text.GoldenCross);
         setDeadCross(res.data.text.DeadCross);
         if (chartType) {
@@ -550,7 +559,7 @@ const TrendPage = ({ swiperRef }) => {
 
     useEffect(() => {
         fetchData();
-    }, [stockMarket, cross, chartType])
+    }, [stockMarket, cross, chartType, treemapSelectedName])
 
     return (
         <>
@@ -566,6 +575,15 @@ const TrendPage = ({ swiperRef }) => {
                                 }}
                                 sx={{ fontSize: '9px' }}>
                                 {chartType ? 'Line Chart' : 'Tree Map'}
+                            </StyledToggleButton>
+                            <StyledToggleButton
+                                value='check'
+                                selected={treemapSelectedName.selected}
+                                onChange={() => {
+                                    setTreemapSelectedName({ selected: false, type: null, name: null })
+                                }}
+                                sx={{ fontSize: '9px' }}>
+                                {treemapSelectedName.type === 'Industry' ? '업종선택됨' : treemapSelectedName.type === 'Themes' ? '테마선택됨' : 'ALL'}
                             </StyledToggleButton>
 
                             <Table sx={{ mt: 1, fontSize: '11px', borderBottom: '1px solid #efe9e9ed' }}>
@@ -611,10 +629,10 @@ const TrendPage = ({ swiperRef }) => {
                             :
                             <>
                                 <Grid item xs={5}>
-                                    <TreeMap data={treeMapIndustry} height={420} dataName={'Industry'} />
+                                    <TreeMap data={treeMapIndustry} height={420} dataName={'Industry'} onIndustryClick={(item) => handleOnIndustryClick(item, 'Industry')} />
                                 </Grid>
                                 <Grid item xs={5}>
-                                    <TreeMap data={treeMapThemes} height={420} dataName={'Themes'} />
+                                    <TreeMap data={treeMapThemes} height={420} dataName={'Themes'} onIndustryClick={(item) => handleOnIndustryClick(item, 'Themes')} />
                                 </Grid>
                             </>
                         }

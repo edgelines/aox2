@@ -16,7 +16,11 @@ const Treemap = ({ data, backgroundColor, fontColor, onIndustryClick, height, da
                 animation: false,
                 events: {
                     click: function (e) {
-                        onIndustryClick(e.point.업종명);
+                        if (dataName === 'Themes') {
+                            onIndustryClick(e.point.테마명);
+                        } else {
+                            onIndustryClick(e.point.업종명);
+                        }
                     }
                 }
             },
