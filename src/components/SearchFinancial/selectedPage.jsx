@@ -542,8 +542,8 @@ const TrendPage = ({ swiperRef }) => {
 
     const fetchData = async () => {
         const postData = { stockMarket: stockMarket, cross: cross, chartType: chartType, treemapSelectedName: treemapSelectedName }
-        const res = await axios.post(`${TEST}/trendData`, postData);
-        // const res = await axios.post(`${API}/formula/trendData`, postData);
+        // const res = await axios.post(`${TEST}/trendData`, postData);
+        const res = await axios.post(`${API}/formula/trendData`, postData);
         setGoldenCross(res.data.text.GoldenCross);
         setDeadCross(res.data.text.DeadCross);
         if (chartType) {
