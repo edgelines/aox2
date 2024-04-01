@@ -227,7 +227,7 @@ export default function GpoChart({ data1, data2, data3, height, kospi200, credit
                 { data: data3.data12, color: "forestgreen", yAxis: 0, type: "spline", animation: false, zIndex: 4, lineWidth: 3 },
             ],
         })
-    }, [data1, data2, data3]);
+    }, [data1, data2, data3, kospi200]);
     return (
         <HighchartsReact
             highcharts={Highcharts}
