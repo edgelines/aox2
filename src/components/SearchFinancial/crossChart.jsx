@@ -64,7 +64,7 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
     };
 
     useEffect(() => {
-        // console.log(data);
+        console.log(data);
         setChartOptions({
             plotOptions: plotOption,
             series: [{
@@ -82,7 +82,6 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
                     영업이익: group['영업이익'],
                     당기순이익: group['당기순이익'],
                     marker: {
-                        // radius: 2.4 // 마커 크기 설정
                         radius: Math.sqrt(Math.abs(group['당기순이익증가율']) / 30) > 2 ? Math.sqrt(Math.abs(group['당기순이익증가율']) / 60) + 1 : 3 // 마커 크기 설정
                     }
                 })),

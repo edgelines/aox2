@@ -5,12 +5,13 @@ import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault, StyledToggleButton } from '../util/util';
 import { StyledTypography_StockInfo } from '../util/htsUtil';
-import { customTheme, trendColumns, eventColumns } from './util';
+import { customTheme } from './util';
 import CrossChartPage from './crossChartPage';
 import TreeMap from './treeMap';
 import FavoritePage from './favoritePage';
 import CoreChart from '../util/CoreChart';
 import { API, TEST } from '../util/config';
+import { trendColumns, eventColumns, ranksThemesColumns, ranksWillrColumns, dateThemesColumns, dateWillrColumns } from './tableColumns';
 import SectorsChartPage from '../sectorsChartPage.jsx';
 
 const table_columns = [
@@ -253,34 +254,55 @@ const Favorite = ({ swiperRef, onIndustryClick, getStockCode, getStockChartData 
 const EventPage = ({ swiperRef, eventDrop, getStockCode, getStockChartData }) => {
     const [data, setData] = useState([]);
     const [past, setPast] = useState(false);
+    const [tableColumnsName, setTableColumnsName] = useState('trima')
+    const handleTableColumnsChange = (event, value) => { if (value !== null) { setTableColumnsName(value); } }
     const fetchData = async (eventDrop) => {
-        const postData = {
-            past: past, event: eventDrop,
-        }
-        // const res = await axios.post(`${TEST}/eventData`, postData);
-        const res = await axios.post(`${API}/formula/eventData`, postData);
+        const postData = { past: past, event: eventDrop, tableColumnsName: tableColumnsName }
+        const res = await axios.post(`${TEST}/eventData`, postData);
+        // const res = await axios.post(`${API}/formula/eventData`, postData);
         setData(res.data);
     }
     useEffect(() => {
         fetchData(eventDrop);
-    }, [past, eventDrop])
+    }, [past, eventDrop, tableColumnsName])
 
     return (
         <Grid container sx={{ pr: 1 }}>
             <Grid item container sx={{ mt: 1, mb: 1 }}>
-                <StyledToggleButton
-                    value='check'
-                    selected={past}
-                    onChange={() => {
-                        setPast(!past);
-                    }}
-                    sx={{ fontSize: '9px' }}>
-                    {past ? '과거부터' : '현재부터'}
-                </StyledToggleButton>
+                <Grid item xs={1}>
+                    <StyledToggleButton
+                        value='check'
+                        selected={past}
+                        onChange={() => {
+                            setPast(!past);
+                        }}
+                        sx={{ fontSize: '9px' }}>
+                        {past ? '과거부터' : '현재부터'}
+                    </StyledToggleButton>
+                </Grid>
 
-                <StyledTypography_StockInfo fontSize={'16px'} sx={{ ml: 10, pt: 1 }}>
-                    Event : {eventDrop ? eventDrop : ''}
-                </StyledTypography_StockInfo>
+                <Grid item xs={3}>
+                    <StyledTypography_StockInfo fontSize={'16px'} sx={{ ml: 10, pt: 1 }}>
+                        Event : {eventDrop ? eventDrop : ''}
+                    </StyledTypography_StockInfo>
+                </Grid>
+
+                <Grid item xs={8}>
+                    <Grid item container direction='row' alignItems="center" justifyContent="flex-end" sx={{ pr: 3, mb: 1 }}>
+                        <ToggleButtonGroup
+                            color='info'
+                            exclusive
+                            size="small"
+                            value={tableColumnsName}
+                            onChange={handleTableColumnsChange}
+                            sx={{ pl: 1.3 }}
+                        >
+                            <StyledToggleButton fontSize={'10px'} value="themes">Themes</StyledToggleButton>
+                            <StyledToggleButton fontSize={'10px'} value="trima">Trima</StyledToggleButton>
+                            <StyledToggleButton fontSize={'10px'} value="willR">WiilR</StyledToggleButton>
+                        </ToggleButtonGroup>
+                    </Grid>
+                </Grid>
             </Grid>
 
             <Grid item container sx={{ height: 800, width: "100%" }}
@@ -290,7 +312,7 @@ const EventPage = ({ swiperRef, eventDrop, getStockCode, getStockChartData }) =>
                 <ThemeProvider theme={customTheme}>
                     <DataGrid
                         rows={data}
-                        columns={eventColumns}
+                        columns={tableColumnsName == 'trima' ? eventColumns : tableColumnsName == 'themes' ? dateThemesColumns : dateWillrColumns}
                         // getRowHeight={() => 'auto'}
                         rowHeight={25}
                         onCellClick={(params, event) => {
@@ -319,30 +341,49 @@ const EventPage = ({ swiperRef, eventDrop, getStockCode, getStockChartData }) =>
 const TreasuryPage = ({ swiperRef, getStockCode, getStockChartData }) => {
     const [data, setData] = useState([]);
     const [treasury, setTreasury] = useState(true);
+    const [tableColumnsName, setTableColumnsName] = useState('trima')
+    const handleTableColumnsChange = (event, value) => { if (value !== null) { setTableColumnsName(value); } }
     const fetchData = async () => {
-        const postData = { treasury: treasury }
+        const postData = { treasury: treasury, tableColumnsName: tableColumnsName }
         // const res = await axios.post(`${TEST}/treasuryData`, postData);
         const res = await axios.post(`${API}/formula/treasuryData`, postData);
         setData(res.data);
     }
     useEffect(() => {
         fetchData();
-    }, [treasury])
+    }, [treasury, tableColumnsName])
 
     return (
         <Grid container sx={{ pr: 1 }}>
             <Grid item container sx={{ mt: 1, mb: 1 }}>
-                <StyledToggleButton
-                    value='check'
-                    selected={treasury}
-                    onChange={() => {
-                        setTreasury(!treasury);
-                    }}
-                    sx={{ fontSize: '9px' }}>
-                    {treasury ? '취득' : '처분'}
-                </StyledToggleButton>
+                <Grid item xs={1} >
+                    <StyledToggleButton
+                        value='check'
+                        selected={treasury}
+                        onChange={() => {
+                            setTreasury(!treasury);
+                        }}
+                        sx={{ fontSize: '9px' }}>
+                        {treasury ? '취득' : '처분'}
+                    </StyledToggleButton>
+                </Grid>
+                <Grid item xs={11}>
+                    <Grid item container direction='row' alignItems="center" justifyContent="flex-end" sx={{ pr: 3, mb: 1 }}>
+                        <ToggleButtonGroup
+                            color='info'
+                            exclusive
+                            size="small"
+                            value={tableColumnsName}
+                            onChange={handleTableColumnsChange}
+                            sx={{ pl: 1.3 }}
+                        >
+                            <StyledToggleButton fontSize={'10px'} value="themes">Themes</StyledToggleButton>
+                            <StyledToggleButton fontSize={'10px'} value="trima">Trima</StyledToggleButton>
+                            <StyledToggleButton fontSize={'10px'} value="willR">WiilR</StyledToggleButton>
+                        </ToggleButtonGroup>
+                    </Grid>
+                </Grid>
             </Grid>
-
             <Grid item container sx={{ height: 800, width: "100%" }}
                 onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                 onMouseLeave={() => swiperRef.current.mousewheel.enable()}
@@ -350,7 +391,7 @@ const TreasuryPage = ({ swiperRef, getStockCode, getStockChartData }) => {
                 <ThemeProvider theme={customTheme}>
                     <DataGrid
                         rows={data}
-                        columns={eventColumns}
+                        columns={tableColumnsName == 'trima' ? eventColumns : tableColumnsName == 'themes' ? dateThemesColumns : dateWillrColumns}
                         // getRowHeight={() => 'auto'}
                         rowHeight={25}
                         onCellClick={(params, event) => {
@@ -382,6 +423,7 @@ const TrendPage = ({ swiperRef, getStockCode, getStockChartData }) => {
     const [stockMarket, setStockMarket] = useState(null);  // 초기값 : null, 거래소 선택 ( 코스피200, 코스피, 코스닥)
     const [cross, setCross] = useState(true); // 상승 : true, 하락 : false
     const [treemapSelectedName, setTreemapSelectedName] = useState({ selected: false, type: null, name: null })
+    const [tableColumnsName, setTableColumnsName] = useState('trima')
     // Btn
     const [chartType, setChartType] = useState(false) // TreeMap : false, Line : True
 
@@ -396,13 +438,13 @@ const TrendPage = ({ swiperRef, getStockCode, getStockChartData }) => {
     const handleCross = (event, exchange) => {
         console.log(event, exchange);
     }
-
+    const handleTableColumnsChange = (event, value) => { if (value !== null) { setTableColumnsName(value); } }
     const handleOnIndustryClick = async (item, type) => {
         setTreemapSelectedName({ selected: true, type: type, name: item });
     }
 
     const fetchData = async () => {
-        const postData = { stockMarket: stockMarket, cross: cross, chartType: chartType, treemapSelectedName: treemapSelectedName }
+        const postData = { stockMarket: stockMarket, cross: cross, chartType: chartType, treemapSelectedName: treemapSelectedName, tableColumnsName: tableColumnsName }
         // const res = await axios.post(`${TEST}/trendData`, postData);
         const res = await axios.post(`${API}/formula/trendData`, postData);
         setGoldenCross(res.data.text.GoldenCross);
@@ -420,7 +462,7 @@ const TrendPage = ({ swiperRef, getStockCode, getStockChartData }) => {
 
     useEffect(() => {
         fetchData();
-    }, [stockMarket, cross, chartType, treemapSelectedName])
+    }, [stockMarket, cross, chartType, treemapSelectedName, tableColumnsName])
 
     return (
         <>
@@ -501,7 +543,22 @@ const TrendPage = ({ swiperRef, getStockCode, getStockChartData }) => {
                     </Grid>
                     : <Skeleton variant="rounded" width={420} />
             }
+            <Grid container direction='row' alignItems="center" justifyContent="flex-end" sx={{ pr: 3, mb: 1 }}>
 
+                <ToggleButtonGroup
+                    color='info'
+                    exclusive
+                    size="small"
+                    value={tableColumnsName}
+                    onChange={handleTableColumnsChange}
+                    sx={{ pl: 1.3 }}
+                >
+                    <StyledToggleButton fontSize={'10px'} value="themes">Themes</StyledToggleButton>
+                    <StyledToggleButton fontSize={'10px'} value="trima">Trima</StyledToggleButton>
+                    <StyledToggleButton fontSize={'10px'} value="willR">WiilR</StyledToggleButton>
+                </ToggleButtonGroup>
+
+            </Grid>
             <Grid container sx={{ pr: 1, height: 450, width: "100%" }}
                 onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                 onMouseLeave={() => swiperRef.current.mousewheel.enable()}
@@ -509,7 +566,7 @@ const TrendPage = ({ swiperRef, getStockCode, getStockChartData }) => {
                 <ThemeProvider theme={customTheme}>
                     <DataGrid
                         rows={tableData}
-                        columns={trendColumns}
+                        columns={tableColumnsName == 'trima' ? trendColumns : tableColumnsName == 'themes' ? ranksThemesColumns : ranksWillrColumns}
                         // getRowHeight={() => 'auto'}
                         rowHeight={25}
                         onCellClick={(params, event) => {
