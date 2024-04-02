@@ -61,8 +61,8 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
     }
 
     const getStockChartData = async (code) => {
-        // console.log(code);
         const res = await axios.get(`${STOCK}/get/${code}`);
+        console.log(res.data);
         setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, treasuryPrice: res.data.treasuryPrice, willR: res.data.willR, net: res.data.net })
     }
     const getIndustryStockData = async (params) => {

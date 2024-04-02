@@ -100,7 +100,7 @@ export const ContentsComponent = ({ swiperRef, page, tableData, eventDrop, getIn
         case 'Treasury':
             return <TreasuryPage swiperRef={swiperRef} getStockCode={getStockCode} getStockChartData={getStockChartData} />
         case 'Trend':
-            return <TrendPage swiperRef={swiperRef} />
+            return <TrendPage swiperRef={swiperRef} getStockCode={getStockCode} getStockChartData={getStockChartData} />
         default:
             return <Cross swiperRef={swiperRef} tableData={tableData} getStockCode={getStockCode} getStockChartData={getStockChartData} />
     }
@@ -377,7 +377,7 @@ const TreasuryPage = ({ swiperRef, getStockCode, getStockChartData }) => {
     )
 }
 
-const TrendPage = ({ swiperRef }) => {
+const TrendPage = ({ swiperRef, getStockCode, getStockChartData }) => {
 
     const [stockMarket, setStockMarket] = useState(null);  // 초기값 : null, 거래소 선택 ( 코스피200, 코스피, 코스닥)
     const [cross, setCross] = useState(true); // 상승 : true, 하락 : false
