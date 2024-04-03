@@ -8,6 +8,7 @@ HighchartsMore(Highcharts)
 require('highcharts/modules/accessibility')(Highcharts)
 
 export default function CrossChart({ data, height, getStockCode, getStockChartData }) {
+    const chartRef = useRef(null);
     const [chartOptions, setChartOptions] = useState({
         chart: {
             type: 'scatter', height: height, backgroundColor: 'rgba(255, 255, 255, 0)', zoomType: 'xy', animation: false,
@@ -50,6 +51,7 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
                 순이익: ${this.point.당기순이익증가율 > 0 ? '▲' : '▼'} ${numberWithCommas(this.point.당기순이익증가율)} % (${numberWithCommas(this.point.당기순이익)} 억)`
             },
         },
+
     })
     const plotOption = {
         scatter: {
@@ -64,27 +66,11 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
     };
 
     useEffect(() => {
-        console.log(data);
         setChartOptions({
             plotOptions: plotOption,
             series: [{
                 name: '종목',
-                data: data.map(group => ({
-                    x: group['영업이익증가율'], // x축 값은 랜덤
-                    y: group['매출액증가율'], // y축 값은 '공모가 대비' 비율
-                    name: group['종목명'], // 포인트 이름 설정
-                    color: group['당기순이익증가율'] > 0 ? 'tomato' : 'dodgerblue',
-                    당기순이익증가율: group['당기순이익증가율'],
-                    종목코드: group['종목코드'],
-                    종목명: group['종목명'],
-                    업종명: group['업종명'],
-                    매출액: group['매출액'],
-                    영업이익: group['영업이익'],
-                    당기순이익: group['당기순이익'],
-                    marker: {
-                        radius: Math.sqrt(Math.abs(group['당기순이익증가율']) / 30) > 2 ? Math.sqrt(Math.abs(group['당기순이익증가율']) / 60) + 1 : 3 // 마커 크기 설정
-                    }
-                })),
+                data: data,
                 point: {
                     events: {
                         click: function () {
@@ -99,6 +85,18 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
 
         })
     }, [data]);
+
+    // useEffect(() => {
+    //     if (chartRef && chartRef.current && data) {
+    //         chartRef.current.chart.update({
+    //             series: [{
+    //                 data: data
+    //             }]
+    //         });
+    //     }
+    // }, [data]); // chartData가 변경될 때마다 실행
+
+
     return (
         <HighchartsReact
             highcharts={Highcharts}

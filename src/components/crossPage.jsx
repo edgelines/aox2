@@ -7,7 +7,8 @@ import { DataTableStyleDefault, StyledToggleButton } from './util/util';
 import SearchFinancialInfo from './SearchFinancial/info';
 // import TreeMap from './SearchFinancial/treeMap';
 import { ContentsComponent } from './SearchFinancial/selectedPage';
-import { stockTable_columns, customTheme } from './SearchFinancial/tableColumns';
+import { stockTable_columns, customTheme, trendColumns, ranksThemesColumns, ranksWillrColumns } from './SearchFinancial/tableColumns';
+
 // import CrossChartPage from './SearchFinancial/crossChartPage';
 import { API, STOCK } from './util/config';
 
@@ -17,7 +18,7 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
     const [eventDrop, setEventDrop] = useState('');
     const [timeframe, setTimeframe] = useState('day');
     const [filter, setFilter] = useState({ field: null, industry: null })
-
+    const [tableColumnsName, setTableColumnsName] = useState('themes')
     const [tableData, setTableData] = useState([]);
     const [stockTableData, setStockTableData] = useState([]);
     const [stock, setStock] = useState({});
@@ -30,6 +31,7 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
         await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
     }
     const handleEventChange = (event) => { if (event !== null) { setPage('Event'); setEventDrop(event.target.value); } }
+    const handleTableColumnsChange = (event, value) => { if (value !== null) { setTableColumnsName(value); } }
     const fetchData = async () => {
         const res = await axios.get(`${API}/formula/searchFinancial`);
         setTableData(res.data);
@@ -62,7 +64,6 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
 
     const getStockChartData = async (code) => {
         const res = await axios.get(`${STOCK}/get/${code}`);
-        console.log(res.data);
         setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, treasuryPrice: res.data.treasuryPrice, willR: res.data.willR, net: res.data.net })
     }
     const getIndustryStockData = async (params) => {
@@ -74,7 +75,11 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
         if (field != 'id' && field != '업종명' && field != '흑자기업수' && field != '순위') {
             const postData = {
                 aggregated: null,
-                target_category: field == '전체종목수' ? null : [field], target_industry: [industry], market: market, favorite: false
+                target_category: field == '전체종목수' ? null : [field],
+                target_industry: [industry],
+                market: market,
+                favorite: false,
+                tableColumnsName: tableColumnsName
             }
             const res = await axios.post(`${API}/formula/findData`, postData);
             setStockTableData(res.data);
@@ -131,10 +136,31 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
                 {page === 'Tree' || page === 'Table' ?
                     <>
                         <Grid item container sx={{ minHeight: 30 }}>
-                            {
-                                filter.field === null ? '' :
-                                    <Typography>{filter.industry}, {filter.field}</Typography>
-                            }
+                            <Grid item xs={4}>
+                                {
+                                    filter.field === null ? '' :
+                                        <Grid item container direction='row' alignItems="center" justifyContent="flex-start">
+                                            <Typography>{filter.industry}, {filter.field}</Typography>
+                                        </Grid>
+                                }
+                            </Grid>
+
+                            <Grid item xs={8}>
+                                <Grid item container direction='row' alignItems="center" justifyContent="flex-end" sx={{ pr: 3, mb: 1 }}>
+                                    <ToggleButtonGroup
+                                        color='info'
+                                        exclusive
+                                        size="small"
+                                        value={tableColumnsName}
+                                        onChange={handleTableColumnsChange}
+                                        sx={{ pl: 1.3 }}
+                                    >
+                                        <StyledToggleButton fontSize={'10px'} value="themes">Themes</StyledToggleButton>
+                                        <StyledToggleButton fontSize={'10px'} value="trima">Trima</StyledToggleButton>
+                                        <StyledToggleButton fontSize={'10px'} value="willR">WiilR</StyledToggleButton>
+                                    </ToggleButtonGroup>
+                                </Grid>
+                            </Grid>
                         </Grid>
                         <Grid item container sx={{ height: 440, width: "100%" }}
                             onMouseEnter={() => swiperRef.current.mousewheel.disable()}
@@ -143,7 +169,7 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
                             <ThemeProvider theme={customTheme}>
                                 <DataGrid
                                     rows={stockTableData}
-                                    columns={stockTable_columns}
+                                    columns={tableColumnsName == 'trima' ? trendColumns : tableColumnsName == 'themes' ? ranksThemesColumns : ranksWillrColumns}
                                     // rowHeight={25}
                                     getRowHeight={() => 'auto'}
                                     onCellClick={(params, event) => {

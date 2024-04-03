@@ -6,8 +6,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { StyledButton, DataTableStyleDefault, StyledToggleButton, SectorsName15 } from '../util/util';
 import CrossChart from './crossChart';
 import { customTheme } from './util';
-import { API } from '../util/config';
-import { stockTable_columns, table_columns } from './tableColumns';
+import { API, TEST } from '../util/config';
+import { table_columns, trendColumns, ranksThemesColumns, ranksWillrColumns } from './tableColumns';
 import SectorChart from '../SectorsPage/sectorChart';
 
 // 
@@ -16,10 +16,10 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
     const categories1 = [['가결산합산/전년도대비', '가결산'], ['전분기대비', '분기'], ['전년동분기대비', '전년동분기대비']]
     const categories2 = ['매출', '영업이익', '당기순이익']
     const allItemList = [['전체 종목', '전체종목'], ['전체 흑자', '흑자기업'], ['전체 미집계', '미집계']]
-
+    const [tableColumnsName, setTableColumnsName] = useState('themes')
     // const [tableData, setTableData] = useState([]);
-
     const [selectedIndustries, setSelectedIndustries] = useState(null);
+    // const [selectedIndustries, setSelectedIndustries] = useState('반도체와반도체장비');
     const [filter, setFilter] = useState({ field: null, industry: null })
     const [stockTableData, setStockTableData] = useState([]);
     const [chartType, setChartType] = useState(true); // true : cross, false : industry
@@ -63,7 +63,7 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
             sectorSelected(params.row)
         }
     };
-
+    const handleTableColumnsChange = (event, value) => { if (value !== null) { setTableColumnsName(value); } }
     const sectorSelected = async (sector) => { // 업종 클릭시 
         const name = SectorsName15(sector.업종명)
         setSectorsName(sector.업종명)
@@ -95,28 +95,26 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
         setSelectedIndustries(null);
     }
 
-    // const fetchData = async () => {
-    //     const res = await axios.get(`${API}/formula/searchFinancial`);
-    //     setTableData(res.data);
-    //     setSelectedIndustries(res.data[0].업종명)
-    // }
-
     const getCrossChartData = async () => {
         const postData = {
-            aggregated: aggregated, surplus: surplus,
-            target_industry: [selectedIndustries], target_category1: [category1], target_category2: category2, favorite: false
+            aggregated: aggregated,
+            surplus: surplus,
+            target_industry: [selectedIndustries],
+            target_category1: [category1],
+            target_category2: category2,
+            favorite: false,
+            tableColumnsName: tableColumnsName
         }
+        // const res = await axios.post(`${TEST}/crossChart`, postData);
         const res = await axios.post(`${API}/formula/crossChart`, postData);
         setChartData(res.data.chart);
         setStockTableData(res.data.table);
-        // console.log(res.data);
         // console.log(field, industry);
     }
 
     useEffect(() => {
         getCrossChartData();
-    }, [selectedIndustries, aggregated, surplus, category1, category2])
-
+    }, [tableColumnsName, selectedIndustries, aggregated, surplus, category1, category2])
 
     return (
         <Grid container sx={{ mt: 1, pr: 1 }}>
@@ -242,7 +240,7 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
                 </ToggleButtonGroup>
 
                 {
-                    filter.field === null ? '' :
+                    filter.industry === null ? '' :
                         <Typography>{filter.industry}, {filter.field}</Typography>
                 }
 
@@ -250,10 +248,32 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
 
             {/* 업종명 / 선택자 */}
             <Grid item container sx={{ minHeight: 30 }}>
-                {
-                    filter.field === null ? '' :
-                        <Typography>{filter.industry}, {filter.field}</Typography>
-                }
+                <Grid item xs={4}>
+                    {
+                        filter.field === null ? '' :
+                            <Grid item container direction='row' alignItems="center" justifyContent="flex-start">
+                                <Typography>{filter.industry}, {filter.field}</Typography>
+                            </Grid>
+                    }
+                </Grid>
+
+                <Grid item xs={8}>
+                    <Grid item container direction='row' alignItems="center" justifyContent="flex-end" sx={{ pr: 3, mb: 1 }}>
+                        <ToggleButtonGroup
+                            color='info'
+                            exclusive
+                            size="small"
+                            value={tableColumnsName}
+                            onChange={handleTableColumnsChange}
+                            sx={{ pl: 1.3 }}
+                        >
+                            <StyledToggleButton fontSize={'10px'} value="themes">Themes</StyledToggleButton>
+                            <StyledToggleButton fontSize={'10px'} value="trima">Trima</StyledToggleButton>
+                            <StyledToggleButton fontSize={'10px'} value="willR">WiilR</StyledToggleButton>
+                        </ToggleButtonGroup>
+                    </Grid>
+                </Grid>
+
             </Grid>
 
             {/* 하단 종목 리스트 */}
@@ -264,7 +284,7 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
                 <ThemeProvider theme={customTheme}>
                     <DataGrid
                         rows={stockTableData}
-                        columns={stockTable_columns}
+                        columns={tableColumnsName == 'trima' ? trendColumns : tableColumnsName == 'themes' ? ranksThemesColumns : ranksWillrColumns}
                         getRowHeight={() => 'auto'}
                         // rowHeight={25}
                         onCellClick={(params, event) => {

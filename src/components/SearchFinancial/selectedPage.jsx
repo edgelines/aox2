@@ -258,8 +258,8 @@ const EventPage = ({ swiperRef, eventDrop, getStockCode, getStockChartData }) =>
     const handleTableColumnsChange = (event, value) => { if (value !== null) { setTableColumnsName(value); } }
     const fetchData = async (eventDrop) => {
         const postData = { past: past, event: eventDrop, tableColumnsName: tableColumnsName }
-        const res = await axios.post(`${TEST}/eventData`, postData);
-        // const res = await axios.post(`${API}/formula/eventData`, postData);
+        // const res = await axios.post(`${TEST}/eventData`, postData);
+        const res = await axios.post(`${API}/formula/eventData`, postData);
         setData(res.data);
     }
     useEffect(() => {
