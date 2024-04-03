@@ -187,6 +187,7 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
                                         '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
                                         '[data-field="부채비율"]': { borderLeft: '1.5px solid #ccc' },
                                         '[data-field="테마명"]': { borderLeft: '1.5px solid #ccc' },
+                                        '[data-field="TRIMA_41"]': { borderRight: '1.5px solid #ccc' },
                                     }}
                                 />
                             </ThemeProvider>
