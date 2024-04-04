@@ -3,37 +3,78 @@ import axios from 'axios';
 import { Grid, Box, Table, TableHead, TableBody, TableRow, TableCell, Skeleton, Popover, Typography } from '@mui/material';
 import MonthChart from './monthChart';
 import MarketCurrentValue from '../Index/marketCurrentValue'
-import MonthTable from './weightAvgTable'
+import MonthTableComponent from './weightAvgTable'
 import { numberWithCommas, update_5M } from '../util/util';
 import WeightAvgCheck from './weightAvgCheck';
-import { API } from '../util/config';
+import { API, API_WS } from '../util/config';
 
-export default function WeightAvgPage1({ swiperRef, ELW_monthTable, ELW_CallPutRatio_Maturity, ElwWeightedAvgCheck, MarketDetail }) {
+export default function WeightAvgPage1({ swiperRef }) {
     const 매매동향당일누적스타일 = { borderRight: '1px solid #757575' }
 
     const [month1Data, setMonth1Data] = useState({});
     const [month2Data, setMonth2Data] = useState({});
     const [month1Value, setMonth1Value] = useState([]);
     const [table2, setTable2] = useState([]);
+    const [MonthTable, setMonthTable] = useState([]);
+    const [CallPutRatio_Maturity, setCallPutRatio_Maturity] = useState([]);
+    const [WeightedAvgCheck, setWeightedAvgCheck] = useState([]);
+    const [MarketDetail, setMarketDetail] = useState([]);
 
-    const WeightAvgRef = useRef(null);
-
-    // Streaming Test
     useEffect(() => {
-        WeightAvgRef.current = new EventSource(`${API}/elwData/weightAvgPage1`);
-        WeightAvgRef.current.onopen = () => { };
-        WeightAvgRef.current.onmessage = (event) => {
-            const res = JSON.parse(event.data);
+        const ws = new WebSocket(`${API_WS}/weightAvgPage1`);
+
+        ws.onopen = () => {
+            console.log('weightAvgPage1 WebSocket Connected');
+        };
+
+        ws.onmessage = (event) => {
+            const res = JSON.parse(event.data)
             setMonth1Data({ series: res.WA1.series, min: res.WA1.min, categories: res.WA1.categories });
             setMonth2Data({ series: res.WA2.series, min: res.WA2.min, categories: res.WA2.categories });
             setMonth1Value(res.WA1.CTP);
             setTable2(res.TrendData);
+
+            setMonthTable(res.MonthTable);
+            setCallPutRatio_Maturity(res.CallPutRatio_Maturity);
+            setWeightedAvgCheck(res.WeightedAvgCheck);
+            setMarketDetail(res.MarketDetail);
+
+
+            // setMessages(prevMessages => [...prevMessages, event.data]);
         };
+
+        ws.onerror = (error) => {
+            console.error('weightAvgPage1 WebSocket Error: ', error);
+        };
+
+        ws.onclose = () => {
+            console.log('weightAvgPage1 WebSocket Disconnected');
+        };
+
+        // 컴포넌트가 언마운트될 때 WebSocket 연결 종료
         return () => {
-            // 컴포넌트 언마운트 시 연결 종료
-            WeightAvgRef.current.close();
+            ws.close();
         };
-    }, [])
+    }, []); // 빈 배열을 전달하여 컴포넌트 마운트 시 한 번만 실행되도록 함
+
+    // const WeightAvgRef = useRef(null);
+
+    // // Streaming Test
+    // useEffect(() => {
+    //     WeightAvgRef.current = new EventSource(`${API}/elwData/weightAvgPage1`);
+    //     WeightAvgRef.current.onopen = () => { };
+    //     WeightAvgRef.current.onmessage = (event) => {
+    //         const res = JSON.parse(event.data);
+    //         setMonth1Data({ series: res.WA1.series, min: res.WA1.min, categories: res.WA1.categories });
+    //         setMonth2Data({ series: res.WA2.series, min: res.WA2.min, categories: res.WA2.categories });
+    //         setMonth1Value(res.WA1.CTP);
+    //         setTable2(res.TrendData);
+    //     };
+    //     return () => {
+    //         // 컴포넌트 언마운트 시 연결 종료
+    //         WeightAvgRef.current.close();
+    //     };
+    // }, [])
 
     return (
         <Grid container spacing={1} >
@@ -47,7 +88,7 @@ export default function WeightAvgPage1({ swiperRef, ELW_monthTable, ELW_CallPutR
                     <span style={{ color: 'greenyellow' }}> 10</span> [거래대금]
                 </Box>
                 <Box sx={{ position: 'absolute', transform: 'translate(27.6vw, 5vh)', zIndex: 5, justifyItems: 'right', p: 1 }}>
-                    <WeightAvgCheck ElwWeightedAvgCheck={ElwWeightedAvgCheck} />
+                    <WeightAvgCheck ElwWeightedAvgCheck={WeightedAvgCheck} />
                 </Box>
 
                 <Box sx={{ position: 'absolute', transform: 'translate(45px, 605px)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)', width: '25vw' }}>
@@ -134,14 +175,16 @@ export default function WeightAvgPage1({ swiperRef, ELW_monthTable, ELW_CallPutR
                     <span style={{ color: 'greenyellow' }}> 7</span> [거래대금]
                 </Box>
                 <Box sx={{ position: 'absolute', transform: 'translate(27.6vw, 5vh)', zIndex: 5, justifyItems: 'right', p: 1 }}>
-                    <WeightAvgCheck ElwWeightedAvgCheck={ElwWeightedAvgCheck} />
+                    <WeightAvgCheck ElwWeightedAvgCheck={WeightedAvgCheck} />
                 </Box>
                 <Box sx={{ position: 'absolute', transform: 'translate(3vw, 60px)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
                     <MarketCurrentValue MarketDetail={MarketDetail} />
                 </Box>
                 <MonthChart data={month2Data.series} height={840} categories={month2Data.categories} min={month2Data.min} credit={update_5M} />
 
-                <Box sx={{ position: 'absolute', transform: 'translate(2.6vw, -240px)', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}><MonthTable ELW_monthTable={ELW_monthTable} ELW_CallPutRatio_Maturity={ELW_CallPutRatio_Maturity} /></Box>
+                <Box sx={{ position: 'absolute', transform: 'translate(2.6vw, -240px)', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+                    <MonthTableComponent ELW_monthTable={MonthTable} ELW_CallPutRatio_Maturity={CallPutRatio_Maturity} />
+                </Box>
 
                 <Grid container justifyContent="flex-end" alignItems="center">
                     {month1Value && month1Value.length > 0 ?

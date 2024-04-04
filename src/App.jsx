@@ -2,11 +2,10 @@ import './App.css';
 import React, { useState, useEffect, useRef } from "react";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-// import { getKospi200BubbleCategoryGruop, getKospi200BubbleCategory } from "./store/stockSectors.js";
-import { getVix, getMarketDetail, getExchange } from './store/indexData.js';
-import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvgCheck } from './store/ELW.js';
-// Websokect
-// import { websocketConnectWA1, websocketConnectWA2, } from './store/actions/websocketActions';
+import { getExchange } from './store/indexData.js';
+// import { getVix, getMarketDetail, getExchange } from './store/indexData.js';
+// import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvgCheck } from './store/ELW.js';
+
 
 // Components
 import SchedulePage from './components/schedulePage.jsx';
@@ -25,14 +24,14 @@ import "swiper/css/navigation";
 import { Keyboard, Mousewheel, Pagination } from "swiper/modules";
 // import axios from 'axios';
 // import { API } from './components/util/config'
-// import useInterval from './components/util/useInterval';
+
 
 function App() {
     const dispatch = useDispatch();
-    const ELW_monthTable = useSelector((state) => state.ELW_monthTable);
-    const ELW_CallPutRatio_Maturity = useSelector((state) => state.ELW_CallPutRatio_Maturity);
-    const ElwWeightedAvgCheck = useSelector((state) => state.ElwWeightedAvgCheck);
-    const MarketDetail = useSelector((state) => state.MarketDetail);
+    // const ELW_monthTable = useSelector((state) => state.ELW_monthTable);
+    // const ELW_CallPutRatio_Maturity = useSelector((state) => state.ELW_CallPutRatio_Maturity);
+    // const ElwWeightedAvgCheck = useSelector((state) => state.ElwWeightedAvgCheck);
+    // const MarketDetail = useSelector((state) => state.MarketDetail);
 
     // index Data
     const Vix = useSelector((state) => state.Vix);
@@ -40,28 +39,24 @@ function App() {
     // const MarketKospi200 = useSelector((state) => state.MarketKospi200);
     const Exchange = useSelector((state) => state.Exchange);
     const swiperRef = useRef(null);
-    // const WA1 = useSelector(state => state.websocket.WA_1);
-    // const WA2 = useSelector(state => state.websocket.WA_2);
 
     // 5분 주기 ( Index Data )
     const fetchData5Min = async () => {
-        await dispatch(getMarketDetail());
-        await dispatch(getELW_monthTable());
-        await dispatch(getELW_CallPutRatio_Maturity());
-        await dispatch(getElwWeightedAvgCheck());
+        // await dispatch(getMarketDetail());
+        // await dispatch(getELW_monthTable());
+        // await dispatch(getELW_CallPutRatio_Maturity());
+        // await dispatch(getElwWeightedAvgCheck());
         await dispatch(getExchange());
     }
     // 하루 주기
-    const fetchData1Day = async () => {
-        await dispatch(getVix());
-        // dispatch(websocketConnectWA1());
-        // dispatch(websocketConnectWA2());
-    }
+    // const fetchData1Day = async () => {
+    //     await dispatch(getVix());
+    // }
 
     // 첫 랜더링
     useEffect(() => {
         fetchData5Min();
-        fetchData1Day();
+        // fetchData1Day();
     }, [dispatch])
 
     // 5분 주기 업데이트
@@ -100,29 +95,29 @@ function App() {
         return () => clearTimeout(timeoutId);
     }, [dispatch])
 
-    // 하루 주기 업데이트 
-    useEffect(() => {
-        function scheduleNextUpdate() {
-            const now = new Date();
-            const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 8, 42, 0);
+    // // 하루 주기 업데이트 
+    // useEffect(() => {
+    //     function scheduleNextUpdate() {
+    //         const now = new Date();
+    //         const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 8, 42, 0);
 
-            const msUntilTomorrow = tomorrow.getTime() - now.getTime();
-            return setTimeout(update, msUntilTomorrow);
-        }
+    //         const msUntilTomorrow = tomorrow.getTime() - now.getTime();
+    //         return setTimeout(update, msUntilTomorrow);
+    //     }
 
-        function update() {
-            fetchData1Day();
-            // Schedule the next update
-            scheduleNextUpdate();
-        }
+    //     function update() {
+    //         fetchData1Day();
+    //         // Schedule the next update
+    //         scheduleNextUpdate();
+    //     }
 
-        // Schedule the first update
-        const timeoutId = scheduleNextUpdate();
+    //     // Schedule the first update
+    //     const timeoutId = scheduleNextUpdate();
 
-        return () => {
-            clearTimeout(timeoutId);
-        };
-    }, [dispatch]);
+    //     return () => {
+    //         clearTimeout(timeoutId);
+    //     };
+    // }, [dispatch]);
 
     // Swiper Slider Bottom Page Number Style
     const handleSlideChange = (swiper) => {
@@ -143,7 +138,8 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <MainPage Vix={Vix} MarketDetail={MarketDetail} ElwWeightedAvgCheck={ElwWeightedAvgCheck} Exchange={Exchange} />
+                    <CrossPage swiperRef={swiperRef} />
+                    
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -155,22 +151,22 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <MainPage Vix={Vix} MarketDetail={MarketDetail} ElwWeightedAvgCheck={ElwWeightedAvgCheck} Exchange={Exchange} />
+                    <MainPage />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <DetailPage Vix={Vix} MarketDetail={MarketDetail} />
+                    <DetailPage />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <ModelingPage Vix={Vix} Exchange={Exchange} MarketDetail={MarketDetail} />
+                    <ModelingPage />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <WeightAvgPage1 swiperRef={swiperRef} ELW_monthTable={ELW_monthTable} ELW_CallPutRatio_Maturity={ELW_CallPutRatio_Maturity} ElwWeightedAvgCheck={ElwWeightedAvgCheck} MarketDetail={MarketDetail} />
+                    <WeightAvgPage1 swiperRef={swiperRef} />
                 </SwiperSlide>
                 <SwiperSlide style={swiperSlideStyle} >
-                    <WeightAvgPage2 swiperRef={swiperRef} ELW_monthTable={ELW_monthTable} ELW_CallPutRatio_Maturity={ELW_CallPutRatio_Maturity} ElwWeightedAvgCheck={ElwWeightedAvgCheck} MarketDetail={MarketDetail} />
+                    <WeightAvgPage2 swiperRef={swiperRef} />
                 </SwiperSlide>
 
             </Swiper>

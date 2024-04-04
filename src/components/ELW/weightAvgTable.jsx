@@ -8,20 +8,6 @@ export default function MonthTable({ swiperRef, ELW_monthTable, fontSize, ELW_Ca
     const tableBodyStyle = { ...tableStyle, borderBottom: 'none' }
     const tableBodyStyle2 = { borderBottom: 'none', ...fontSizeStyle }
     const tableAvg = { color: 'greenyellow', borderBottom: 'none', borderTop: '1px solid #efe9e9ed', ...fontSizeStyle }
-    const dataFilter = (data) => {
-        var tmp6 = [], tmp7 = []
-        data.forEach((value) => {
-            tmp6.push(parseFloat(Math.abs(value.콜_거래대금)));
-            tmp7.push(parseFloat(Math.abs(value.풋_거래대금)));
-        })
-        var title = data[0].잔존만기;
-        var sum1 = tmp6.reduce(function add(sum, currValue) { return sum + currValue; }, 0);
-        var sum2 = tmp7.reduce(function add(sum, currValue) { return sum + currValue; }, 0);
-        // console.log('잔존만기', title, 'sum1', sum1, 'sum2', sum2)
-        return [title, (sum1 / (sum1 + sum2)).toFixed(2), (sum2 / (sum1 + sum2)).toFixed(2)]
-        // return { title: title, 콜비율: (sum1 / (sum1 + sum2)).toFixed(2), 풋비율: (sum2 / (sum1 + sum2)).toFixed(2) }
-    }
-
     return (
         <Grid container spacing={1} >
             <Grid item xs={12}>
@@ -32,20 +18,20 @@ export default function MonthTable({ swiperRef, ELW_monthTable, fontSize, ELW_Ca
                                 <TableHead>
                                     <TableRow>
                                         <TableCell padding={'none'} sx={tableBodyStyle}></TableCell>
-                                        <TableCell padding={'none'} sx={tableBodyStyle} align='center' colSpan={2}>잔존만기 : <span style={{ color: 'greenyellow' }}>{ELW_CallPutRatio_Maturity.M1.title}</span></TableCell>
-                                        <TableCell padding={'none'} sx={tableBodyStyle} align='center' colSpan={2}>잔존만기 : <span style={{ color: 'greenyellow' }}>{ELW_CallPutRatio_Maturity.M2.title}</span></TableCell>
-                                        <TableCell padding={'none'} sx={tableBodyStyle} align='center' colSpan={2}>잔존만기 : <span style={{ color: 'greenyellow' }}>{ELW_CallPutRatio_Maturity.M3.title}</span></TableCell>
+                                        <TableCell padding={'none'} sx={tableBodyStyle} align='center' colSpan={2}>잔존만기 : <span style={{ color: 'greenyellow' }}>{ELW_CallPutRatio_Maturity[0].title}</span></TableCell>
+                                        <TableCell padding={'none'} sx={tableBodyStyle} align='center' colSpan={2}>잔존만기 : <span style={{ color: 'greenyellow' }}>{ELW_CallPutRatio_Maturity[1].title}</span></TableCell>
+                                        <TableCell padding={'none'} sx={tableBodyStyle} align='center' colSpan={2}>잔존만기 : <span style={{ color: 'greenyellow' }}>{ELW_CallPutRatio_Maturity[2].title}</span></TableCell>
                                     </TableRow>
                                     <TableRow>
                                         <TableCell padding={'none'} sx={tableBodyStyle}></TableCell>
                                         <TableCell padding={'none'} sx={tableBodyStyle} align='center' colSpan={2}>
-                                            C <span style={{ color: '#FCAB2F' }}>{ELW_CallPutRatio_Maturity.M1.콜비율}</span>  : P <span style={{ color: '#00F3FF' }}>{ELW_CallPutRatio_Maturity.M1.풋비율}</span>
+                                            C <span style={{ color: '#FCAB2F' }}>{ELW_CallPutRatio_Maturity[0].콜비율}</span>  : P <span style={{ color: '#00F3FF' }}>{ELW_CallPutRatio_Maturity[0].풋비율}</span>
                                         </TableCell>
                                         <TableCell padding={'none'} sx={tableBodyStyle} align='center' colSpan={2}>
-                                            C <span style={{ color: '#FCAB2F' }}>{ELW_CallPutRatio_Maturity.M2.콜비율}</span>  : P <span style={{ color: '#00F3FF' }}>{ELW_CallPutRatio_Maturity.M2.풋비율}</span>
+                                            C <span style={{ color: '#FCAB2F' }}>{ELW_CallPutRatio_Maturity[1].콜비율}</span>  : P <span style={{ color: '#00F3FF' }}>{ELW_CallPutRatio_Maturity[1].풋비율}</span>
                                         </TableCell>
                                         <TableCell padding={'none'} sx={tableBodyStyle} align='center' colSpan={2}>
-                                            C <span style={{ color: '#FCAB2F' }}>{ELW_CallPutRatio_Maturity.M3.콜비율}</span>  : P <span style={{ color: '#00F3FF' }}>{ELW_CallPutRatio_Maturity.M3.풋비율}</span>
+                                            C <span style={{ color: '#FCAB2F' }}>{ELW_CallPutRatio_Maturity[2].콜비율}</span>  : P <span style={{ color: '#00F3FF' }}>{ELW_CallPutRatio_Maturity[2].풋비율}</span>
                                         </TableCell>
                                     </TableRow>
                                     <TableRow>

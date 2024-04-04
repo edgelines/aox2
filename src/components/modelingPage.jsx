@@ -4,9 +4,13 @@ import { Grid, Box, Typography, Skeleton, ToggleButtonGroup } from '@mui/materia
 import IndexChart from './util/IndexChart';
 import { StyledButton, StyledToggleButton, update_5M } from './util/util';
 import MarketCurrentValue from './Index/marketCurrentValue.jsx'
-import { API, markerConfig } from './util/config';
+import { API, API_WS, markerConfig } from './util/config';
 
-export default function ModelingPage({ Vix, Exchange, MarketDetail }) {
+export default function ModelingPage({ }) {
+
+    const [Vix, setVix] = useState([]);
+    const [Exchange, setExchange] = useState([]);
+    const [MarketDetail, setMarketDetail] = useState([]);
 
     const [lastValue, setLastValue] = useState({ ADR1: '', ADR2: '', ADR3: '', WillR1: '', WillR2: '', WillR3: '', WillR4: '', WillR5: '' })
     const [adrNum1, setAdrNum1] = useState(7);
@@ -258,6 +262,34 @@ export default function ModelingPage({ Vix, Exchange, MarketDetail }) {
 
         return () => clearTimeout(timeoutId);
     }, [])
+
+    useEffect(() => {
+        const ws = new WebSocket(`${API_WS}/modelingPage`);
+
+        ws.onopen = () => {
+            console.log('modelingPage WebSocket Connected');
+        };
+
+        ws.onmessage = (event) => {
+            const res = JSON.parse(event.data)
+            setVix(res.Vix);
+            setExchange(res.Exchange);
+            setMarketDetail(res.MarketDetail);
+        };
+
+        ws.onerror = (error) => {
+            console.error('modelingPage WebSocket Error: ', error);
+        };
+
+        ws.onclose = () => {
+            console.log('modelingPage WebSocket Disconnected');
+        };
+
+        // 컴포넌트가 언마운트될 때 WebSocket 연결 종료
+        return () => {
+            ws.close();
+        };
+    }, []); // 빈 배열을 전달하여 컴포넌트 마운트 시 한 번만 실행되도록 함
 
 
     const indicators = [

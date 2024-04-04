@@ -12,15 +12,20 @@ import HighchartsReact from 'highcharts-react-official'
 import HighchartsMore from 'highcharts/highcharts-more'
 import SolidGauge from "highcharts/modules/solid-gauge";
 import { parseInt } from 'lodash';
-import { API, TEST } from './util/config';
-// import useInterval from './util/useInterval';
+import { API, API_WS } from './util/config';
+
 HighchartsMore(Highcharts)
 SolidGauge(Highcharts)
 
-// export default function MainPage({ Vix, Kospi200BubbleCategoryGruop, Kospi200BubbleCategory, ElwWeightedAvgCheck, Exchange }) {
-export default function MainPage({ Vix, MarketDetail, ElwWeightedAvgCheck, Exchange }) {
-    // let ws = null;
-    // const [MarketDetail, setMarketDetail] = useState({ data: [], status: 'loading' });
+
+export default function MainPage({ }) {
+
+    const [Vix, setVix] = useState([]);
+    const [MarketDetail, setMarketDetail] = useState([]);
+    const [WeightedAvgCheck, setWeightedAvgCheck] = useState([]);
+    const [Exchange, setExchange] = useState([]);
+
+
     const [bubbleData, setBubbleData] = useState({});
     const [groupData, setGroupData] = useState({})
     const [groupDataMin, setGroupDataMin] = useState({})
@@ -58,86 +63,16 @@ export default function MainPage({ Vix, MarketDetail, ElwWeightedAvgCheck, Excha
         } else if (value === 'groupDataMin') {
             const res = await axios.get(`${API}/aox/groupData?dbName=GroupDataMin`);
             setGroupDataMin({ series1: res.data.series1, series2: res.data.series2, categories: res.data.categories })
-            // } else if (value === 'groupData') {
-            //     const res = await axios.get(`${API}/aox/groupData?dbName=GroupDataLine`);
-            //     setGroupData({ series1: res.data.series1, series2: res.data.series2, categories: res.data.categories })
         }
     };
-    const getData = async (name) => {
-        const res = await axios.get(`${API}/aox/${name}`)
-        return res.data
-    }
-
-    const MainRef = useRef(null);
-
-    // Streaming Test
-    // useEffect(() => {
-    //     MainRef.current = new EventSource(`${API}/aox/main`);
-    //     MainRef.current.onopen = () => { };
-    //     MainRef.current.onmessage = (event) => {
-    //         const res = JSON.parse(event.data);
-    //         console.log(res);
-    //         setForeigner(res.TrendData.foreigner);
-    //         setInstitutional(res.TrendData.institutional);
-    //         setIndividual(res.TrendData.individual);
-    //         setTable2(res.TrendData.table2);
-    //         setTrendData({
-    //             series: res.TrendData.series,
-    //             categories: res.TrendData.categories,
-    //             yAxis0Abs: res.TrendData.yAxis0Abs,
-    //             yAxis1Abs: res.TrendData.yAxis1Abs,
-    //             yAxis2Abs: res.TrendData.yAxis2Abs,
-    //         });
-
-    //         setBubbleData(res.BubbleData);
-    //         setMarket(res.MarketDaily);
-
-    //         setGroupData(res.GroupData);
-
-    //     };
-    //     return () => {
-    //         // 컴포넌트 언마운트 시 연결 종료
-    //         MainRef.current.close();
-    //     };
-    // }, [])
-
-    const fetchData = async () => {
-        const uniq = "?" + new Date().getTime();
-        setGisuDayImg(`/img/gisu_kospi200.jpg${uniq}`);
-        setKospi200Img(`https://t1.daumcdn.net/finance/chart/kr/daumstock/d/mini/K2G01P.png${uniq}`);
 
 
-        const APIname = ['bubbleData', 'groupData?dbName=GroupDataLine', 'marketDaily', 'trendData'];
 
-        const chartDataPromises = APIname.map(name => getData(name));
-
-        const [bubbleData, groupData, marketDaily, trendData] = await Promise.all(chartDataPromises);
-
-        setBubbleData({
-            series: [{
-                name: bubbleData.name,
-                data: bubbleData.data,
-                animation: false,
-            }],
-            categories: bubbleData.categories
-        });
-
-        setGroupData({ series1: groupData.series1, series2: groupData.series2, categories: groupData.categories })
-        setMarket({ series: marketDaily.series, categories: marketDaily.categories });
-
-        setForeigner(trendData.foreigner);
-        setInstitutional(trendData.institutional);
-        setIndividual(trendData.individual);
-        setTable2(trendData.table2);
-        setTrendData({
-            series: trendData.series,
-            categories: trendData.categories,
-            yAxis0Abs: trendData.yAxis0Abs,
-            yAxis1Abs: trendData.yAxis1Abs,
-            yAxis2Abs: trendData.yAxis2Abs,
-        });
-
-    };
+    // const fetchData = async () => {
+    //     const uniq = "?" + new Date().getTime();
+    //     setGisuDayImg(`/img/gisu_kospi200.jpg${uniq}`);
+    //     setKospi200Img(`https://t1.daumcdn.net/finance/chart/kr/daumstock/d/mini/K2G01P.png${uniq}`);
+    // };
 
     const setDate = () => {
         var now = new Date();
@@ -154,59 +89,106 @@ export default function MainPage({ Vix, MarketDetail, ElwWeightedAvgCheck, Excha
         setToday(date);
         setTime(time);
     }
+
+
     useEffect(() => {
-        fetchData();
-        setDate();
-        // connectWebsocket();
-        // return () => { if (ws) ws.close(); };
-    }, [])
+        const ws = new WebSocket(`${API_WS}/mainPage`);
+
+        ws.onopen = () => {
+            console.log('mainPage WebSocket Connected');
+            setDate();
+            // fetchData();
+        };
+
+        ws.onmessage = (event) => {
+            const res = JSON.parse(event.data);
+            setForeigner(res.TrendData.foreigner);
+            setInstitutional(res.TrendData.institutional);
+            setIndividual(res.TrendData.individual);
+            setTable2(res.TrendData.table2);
+            setTrendData({
+                series: res.TrendData.series,
+                categories: res.TrendData.categories,
+                yAxis0Abs: res.TrendData.yAxis0Abs,
+                yAxis1Abs: res.TrendData.yAxis1Abs,
+                yAxis2Abs: res.TrendData.yAxis2Abs,
+            });
+
+            setBubbleData(res.BubbleData);
+            setMarket(res.MarketDaily);
+            setGroupData(res.GroupData);
+            setVix(res.Vix);
+            setMarketDetail(res.MarketDetail);
+            setMarketAct({
+                kospi200: res.MarketDetail[0]['상승%'] * 100,
+                kospi: res.MarketDetail[1]['상승%'] * 100,
+                kosdaq: res.MarketDetail[2]['상승%'] * 100,
+                name: ['200', 'Kospi', 'Kosdaq']
+            });
+            setWeightedAvgCheck(res.WeightedAvgCheck);
+            setExchange(res.Exchange);
+            const uniq = "?" + new Date().getTime();
+            setGisuDayImg(`/img/gisu_kospi200.jpg${uniq}`);
+            setKospi200Img(`https://t1.daumcdn.net/finance/chart/kr/daumstock/d/mini/K2G01P.png${uniq}`);
+
+        };
+
+        ws.onerror = (error) => {
+            console.error('mainPage WebSocket Error: ', error);
+        };
+
+        ws.onclose = () => {
+            console.log('mainPage WebSocket Disconnected');
+        };
+
+        // 컴포넌트가 언마운트될 때 WebSocket 연결 종료
+        return () => {
+            ws.close();
+        };
+    }, []); // 빈 배열을 전달하여 컴포넌트 마운트 시 한 번만 실행되도록 함
+
 
     useEffect(() => {
         if (MarketDetail.status == 'succeeded') {
-            setMarketAct({
-                kospi200: MarketDetail.data[0]['상승%'] * 100,
-                kospi: MarketDetail.data[1]['상승%'] * 100,
-                kosdaq: MarketDetail.data[2]['상승%'] * 100,
-                name: ['200', 'Kospi', 'Kosdaq']
-            });
+
         }
     }, [MarketDetail])
     // 60초 주기 업데이트
-    useEffect(() => {
-        const now = new Date();
-        const hour = now.getHours();
-        const minutes = now.getMinutes();
-        const seconds = now.getSeconds();
-        // 현재 시간이 9시 이전이라면, 9시까지 남은 시간 계산
-        let delay;
-        if (hour < 9) {
-            delay = ((9 - hour - 1) * 60 + (60 - minutes)) * 60 + (60 - seconds);
-        } else {
-            delay = 60 - seconds;
-        }
+    // useEffect(() => {
+    //     const now = new Date();
+    //     const hour = now.getHours();
+    //     const minutes = now.getMinutes();
+    //     const seconds = now.getSeconds();
+    //     // 현재 시간이 9시 이전이라면, 9시까지 남은 시간 계산
+    //     let delay;
+    //     if (hour < 9) {
+    //         delay = ((9 - hour - 1) * 60 + (60 - minutes)) * 60 + (60 - seconds);
+    //     } else {
+    //         delay = 60 - seconds;
+    //     }
 
-        const startUpdates = () => {
-            const intervalId = setInterval(() => {
-                const now = new Date();
-                const hour = now.getHours();
-                const dayOfWeek = now.getDay();
-                if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
-                    fetchData();
-                } else if (hour >= 16) {
-                    // 3시 30분 이후라면 인터벌 종료
-                    clearInterval(intervalId);
-                }
-            }, 1000 * 60 * 2);
-            return intervalId;
-        };
-        // 첫 업데이트 시작
-        const timeoutId = setTimeout(() => {
-            // fetchData();
-            startUpdates();
-        }, delay * 1000);
+    //     const startUpdates = () => {
+    //         const intervalId = setInterval(() => {
+    //             const now = new Date();
+    //             const hour = now.getHours();
+    //             const dayOfWeek = now.getDay();
+    //             if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
+    //                 fetchData();
+    //             } else if (hour >= 16) {
+    //                 // 3시 30분 이후라면 인터벌 종료
+    //                 clearInterval(intervalId);
+    //             }
+    //         }, 1000 * 60 * 2);
+    //         return intervalId;
+    //     };
+    //     // 첫 업데이트 시작
+    //     const timeoutId = setTimeout(() => {
+    //         // fetchData();
+    //         startUpdates();
+    //     }, delay * 1000);
 
-        return () => clearTimeout(timeoutId);
-    }, [])
+    //     return () => clearTimeout(timeoutId);
+    // }, [])
 
     // 시계 1초마다
     useEffect(() => {
@@ -299,7 +281,7 @@ export default function MainPage({ Vix, MarketDetail, ElwWeightedAvgCheck, Excha
                 </Box>
 
                 <Box sx={{ position: 'absolute', transform: 'translate(31.5vw, 5vh)', zIndex: 5, justifyItems: 'right', p: 1 }}>
-                    <WeightAvgCheck ElwWeightedAvgCheck={ElwWeightedAvgCheck} />
+                    <WeightAvgCheck ElwWeightedAvgCheck={WeightedAvgCheck} />
                 </Box>
 
                 <CoreChart data={market.series} height={350} name={'market'} categories={market.categories} lengendX={1} LengendY={0} />
@@ -343,8 +325,8 @@ export default function MainPage({ Vix, MarketDetail, ElwWeightedAvgCheck, Excha
                         </Box>
                     </Grid>
                     {
-                        MarketDetail.data && MarketDetail.data.length > 0 ?
-                            <Grid item xs={5} sx={{ border: MarketDetail.data[0].전일대비 > 0 ? '2px solid tomato' : '2px solid deepskyblue', borderRadius: '10px' }}>
+                        MarketDetail && MarketDetail.length > 0 ?
+                            <Grid item xs={5} sx={{ border: MarketDetail[0].전일대비 > 0 ? '2px solid tomato' : '2px solid deepskyblue', borderRadius: '10px' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'right' }}>
                                     <img src={kospi200Img} style={{ width: '100%' }} />
                                 </Box>
@@ -375,7 +357,7 @@ export default function MainPage({ Vix, MarketDetail, ElwWeightedAvgCheck, Excha
                 </Grid>
 
                 <Grid item xs={12}>
-                    {MarketDetail.data && MarketDetail.data.length > 0 ?
+                    {MarketDetail && MarketDetail.length > 0 ?
                         <Table sx={{ fontSize: '0.7rem', borderBottom: '1px solid #efe9e9ed', mt: 1 }}>
                             <thead>
                                 <tr style={{ borderBottom: '1px solid #efe9e9ed' }}>
@@ -389,7 +371,7 @@ export default function MainPage({ Vix, MarketDetail, ElwWeightedAvgCheck, Excha
                                 </tr>
                             </thead>
                             <tbody>
-                                {MarketDetail.data.map((value, index) => (
+                                {MarketDetail.map((value, index) => (
                                     <tr key={index}>
                                         {value.업종명 === 'Kospi200' ?
                                             <td style={{ color: 'greenyellow' }}>코스피200</td> : value.업종명 === 'Kospi' ?
