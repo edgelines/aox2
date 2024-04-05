@@ -2,7 +2,7 @@ import './App.css';
 import React, { useState, useEffect, useRef } from "react";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { getExchange } from './store/indexData.js';
+import { getVix, getExchange } from './store/indexData.js';
 // import { getVix, getMarketDetail, getExchange } from './store/indexData.js';
 // import { getELW_monthTable, getELW_CallPutRatio_Maturity, getElwWeightedAvgCheck } from './store/ELW.js';
 
@@ -48,15 +48,15 @@ function App() {
         // await dispatch(getElwWeightedAvgCheck());
         await dispatch(getExchange());
     }
-    // 하루 주기
-    // const fetchData1Day = async () => {
-    //     await dispatch(getVix());
-    // }
+    //하루 주기
+    const fetchData1Day = async () => {
+        await dispatch(getVix());
+    }
 
     // 첫 랜더링
     useEffect(() => {
         fetchData5Min();
-        // fetchData1Day();
+        fetchData1Day();
     }, [dispatch])
 
     // 5분 주기 업데이트
@@ -95,29 +95,29 @@ function App() {
         return () => clearTimeout(timeoutId);
     }, [dispatch])
 
-    // // 하루 주기 업데이트 
-    // useEffect(() => {
-    //     function scheduleNextUpdate() {
-    //         const now = new Date();
-    //         const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 8, 42, 0);
+    // 하루 주기 업데이트 
+    useEffect(() => {
+        function scheduleNextUpdate() {
+            const now = new Date();
+            const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 8, 42, 0);
 
-    //         const msUntilTomorrow = tomorrow.getTime() - now.getTime();
-    //         return setTimeout(update, msUntilTomorrow);
-    //     }
+            const msUntilTomorrow = tomorrow.getTime() - now.getTime();
+            return setTimeout(update, msUntilTomorrow);
+        }
 
-    //     function update() {
-    //         fetchData1Day();
-    //         // Schedule the next update
-    //         scheduleNextUpdate();
-    //     }
+        function update() {
+            fetchData1Day();
+            // Schedule the next update
+            scheduleNextUpdate();
+        }
 
-    //     // Schedule the first update
-    //     const timeoutId = scheduleNextUpdate();
+        // Schedule the first update
+        const timeoutId = scheduleNextUpdate();
 
-    //     return () => {
-    //         clearTimeout(timeoutId);
-    //     };
-    // }, [dispatch]);
+        return () => {
+            clearTimeout(timeoutId);
+        };
+    }, [dispatch]);
 
     // Swiper Slider Bottom Page Number Style
     const handleSlideChange = (swiper) => {
@@ -138,8 +138,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <CrossPage swiperRef={swiperRef} />
-                    
+                    <WeightAvgPage2 swiperRef={swiperRef} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
