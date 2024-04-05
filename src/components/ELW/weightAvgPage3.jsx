@@ -17,12 +17,14 @@ require('highcharts/modules/exporting')(Highcharts)
 require('highcharts/modules/accessibility')(Highcharts)
 
 
-export default function WeightAvgPage3({ swiperRef, Exchange, Vix }) {
+export default function WeightAvgPage3({ swiperRef }) {
     const [kospiPbr, setKospiPbr] = useState();
     const [kospi200Pbr, setKospi200Pbr] = useState();
     const [kosdaqPbr, setKosdaqPbr] = useState();
     const [moneyIndex, setMoneyIndex] = useState();
-    const [VixMA, setVixMA] = useState([])
+    const [VixMA, setVixMA] = useState([]);
+    const [Exchange, setExchange] = useState({});
+    const [Vix, setVix] = useState({});
     const [page, setPage] = useState('Kospi200');
     const handlePage = (event, value) => { if (value !== null) { setPage(value); } }
 
@@ -165,6 +167,23 @@ export default function WeightAvgPage3({ swiperRef, Exchange, Vix }) {
             ...lineStyle, name: '224D', color: '#efe9e9ed', data: res.data.MA224, lineWidth: 1
         }];
         setVixMA(vix_ma);
+
+        await axios.get(`${API}/exchange`).then(res => {
+            var value = res.data[0].환율
+            var net = res.data[0].증감
+            var comparison = res.data[0].변동
+            setExchange({ value: value, comparison: comparison, net: net })
+        });
+
+        await axios.get(`${API}/indices/VixMA?last=ture`).then(res => {
+            var tmp = res.data;
+            // 최근데이터가 0, 전날이 1
+            var 전일대비 = tmp[0].종가 - tmp[1].종가
+            var 값 = tmp[0].종가.toFixed(2)
+            setVix({ value: 값, net: 전일대비.toFixed(2) });
+
+        })
+
     }
     useEffect(() => {
         // fetchData();

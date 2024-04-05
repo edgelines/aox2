@@ -23,7 +23,7 @@ import { numberWithCommas } from './util/util';
 import { API } from './util/config';
 import useInterval from './util/useInterval';
 
-export default function SchedulePage({ swiperRef, SectorsRanksThemes, Exchange, Vix }) {
+export default function SchedulePage({ swiperRef }) {
 
     const [schedule, setSchedule] = useState();
     const [page, setPage] = useState(1);
@@ -44,14 +44,8 @@ export default function SchedulePage({ swiperRef, SectorsRanksThemes, Exchange, 
         <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('COEX')}>COEX</Button>,
         <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('날씨')}>Weather</Button>,
         <Button variant={'text'} sx={btnStyle} onClick={() => window.open('https://oec.world/en', '_blank')}>World Export</Button>,
-
         <Button variant={'text'} sx={btnStyle} onClick={() => window.open('https://www.kokstock.com/stock/ipo_listing.asp', '_blank')}>공모주 상장일정</Button>,
         <Button variant={'text'} sx={btnStyle} onClick={() => window.open('http://www.38.co.kr/html/ipo/ir_data.php', '_blank')}>IR 자료</Button>,
-
-        // <Divider sx={{ borderColor: 'white', mt: 1.5, mb: 1.5 }} />,
-        // <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('Bloomberg')}>Bloomberg</Button>,
-        // <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('CNBC')}>CNBC</Button>,
-        // <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('Investing')}>Investing</Button>,
         <Divider sx={{ borderColor: 'white', mt: 1.5, mb: 1.5 }} />,
         <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('Fundarmental')}>CPI/PPI</Button>,
         <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('Fundarmental1')}>Oil/금속/환율/코인</Button>,
@@ -62,7 +56,6 @@ export default function SchedulePage({ swiperRef, SectorsRanksThemes, Exchange, 
         <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('HTS')}>추정매매동향</Button>,
         <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('IpoPulse')}>신규상장</Button>,
         <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('WeightAvgPage3')}>환율/PBR/VIX</Button>,
-        // <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('PERPBR')}>PER/PBR</Button>,
     ]
     const fetchData = async () => {
         const res = await axios.get(`${API}/fundamental/FOMC_clock`);
@@ -130,25 +123,14 @@ export default function SchedulePage({ swiperRef, SectorsRanksThemes, Exchange, 
                     {sectorPage === 'DataLab' && <NaverDataLab swiperRef={swiperRef} />}
                     {sectorPage === 'COEX' && <COEX swiperRef={swiperRef} />}
                     {sectorPage === 'FlixPatrol' && <FlixPatrol swiperRef={swiperRef} />}
-                    {/* {sectorPage === 'Bloomberg' && <Iframe swiperRef={swiperRef} targetUrl={'https://www.bloomberg.com/'} />}
-                    {sectorPage === 'CNBC' && <Iframe swiperRef={swiperRef} targetUrl={'https://www.cnbc.com/world/?region=world'} />}
-                    {sectorPage === 'Investing' && <Iframe swiperRef={swiperRef} targetUrl={'https://kr.investing.com/'} />}
-                    {sectorPage === 'Export' && <Iframe swiperRef={swiperRef} targetUrl={'https://oec.world/en'} />} */}
-                    {/* {sectorPage === '점도표' && <Iframe swiperRef={swiperRef} targetUrl={'https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html'} />} */}
-                    {/* {sectorPage === '공모주' && <Iframe swiperRef={swiperRef} targetUrl={'https://www.kokstock.com/stock/ipo_listing.asp'} />}
-                    {sectorPage === 'IR' && <Iframe swiperRef={swiperRef} targetUrl={'http://www.38.co.kr/html/ipo/ir_data.php'} />} */}
-                    {/* {sectorPage === '통계지표' && <Iframe swiperRef={swiperRef} targetUrl={'https://ecos.bok.or.kr/#/StatisticsByTheme/KoreanStat100'} />} */}
                     {sectorPage === 'Fundarmental' && <Fundarmental swiperRef={swiperRef} />}
                     {sectorPage === 'Fundarmental1' && <FundarmentalPage1 swiperRef={swiperRef} />}
                     {sectorPage === 'Fundarmental2' && <FundarmentalPage2 swiperRef={swiperRef} />}
                     {sectorPage === 'Fundarmental3' && <FundarmentalPage3 swiperRef={swiperRef} />}
                     {sectorPage === 'IpoPulse' && <IpoPulse swiperRef={swiperRef} />}
                     {sectorPage === 'HTS' && <HTS swiperRef={swiperRef} />}
-                    {sectorPage === 'SectorSearchPage' && <SectorSearchPage
-                        swiperRef={swiperRef} SectorsRanksThemes={SectorsRanksThemes}
-                    />}
-                    {/* {sectorPage === 'PERPBR' && <Pbr swiperRef={swiperRef} />} */}
-                    {sectorPage === 'WeightAvgPage3' && <WeightAvgPage3 swiperRef={swiperRef} Exchange={Exchange} Vix={Vix} />}
+                    {sectorPage === 'SectorSearchPage' && <SectorSearchPage swiperRef={swiperRef} />}
+                    {sectorPage === 'WeightAvgPage3' && <WeightAvgPage3 swiperRef={swiperRef} />}
                 </Grid>
             </Grid>
         </>
@@ -312,17 +294,6 @@ function Schedule({ schedule, date, handlePageChange, ipoSubPage, swiperRef }) {
     )
 }
 
-// function Iframe({ swiperRef, targetUrl }) {
-//     return (
-//         <div style={{ height: "98vh", width: "100%" }}
-//             onMouseEnter={() => swiperRef.current.mousewheel.disable()}
-//             onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-//         >
-//             <iframe src={targetUrl} width="100%" height="100%" frameBorder="0" scrolling="no" />
-
-//         </div>
-//     )
-// }
 
 function ImageUpdater() {
     const [world, setWorld] = useState([
