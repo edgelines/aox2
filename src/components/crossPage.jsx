@@ -66,56 +66,56 @@ export default function SearchFinancial({ swiperRef }) {
     }
     const getStockChartData = async (code) => {
         setStockCode(code);
-        // const res = await axios.get(`${STOCK}/get/${code}`);
-        // setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, treasuryPrice: res.data.treasuryPrice, willR: res.data.willR, net: res.data.net })
+        const res = await axios.get(`${STOCK}/get/${code}`);
+        setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, treasuryPrice: res.data.treasuryPrice, willR: res.data.willR, net: res.data.net })
     }
 
-    useEffect(() => {
-        const websocket = new WebSocket(`${API_WS}/stockChart`);
+    // useEffect(() => {
+    //     const websocket = new WebSocket(`${API_WS}/stockChart`);
 
-        websocket.onopen = () => {
-            console.log('Connected to the server');
-        };
+    //     websocket.onopen = () => {
+    //         console.log('Connected to the server');
+    //     };
 
-        websocket.onmessage = (event) => {
+    //     websocket.onmessage = (event) => {
 
-            const res = JSON.parse(event.data)
-            console.log(res);
-            setStockChart({
-                price: res.price,
-                volume: res.volume,
-                treasury: [],
-                treasuryPrice: [],
-                treasury: res.treasury,
-                treasuryPrice: res.treasuryPrice,
-                willR: res.willR,
-                net: res.net
-            })
-        };
+    //         const res = JSON.parse(event.data)
+    //         console.log(res);
+    //         setStockChart({
+    //             price: res.price,
+    //             volume: res.volume,
+    //             treasury: [],
+    //             treasuryPrice: [],
+    //             treasury: res.treasury,
+    //             treasuryPrice: res.treasuryPrice,
+    //             willR: res.willR,
+    //             net: res.net
+    //         })
+    //     };
 
-        websocket.onerror = (error) => {
-            console.log('WebSocket error: ', error);
-        };
+    //     websocket.onerror = (error) => {
+    //         console.log('WebSocket error: ', error);
+    //     };
 
-        setStockWS(websocket); // 웹소켓 인스턴스를 상태에 저장
-        // console.log(websocket);
+    //     setStockWS(websocket); // 웹소켓 인스턴스를 상태에 저장
+    //     // console.log(websocket);
 
-        // 컴포넌트 언마운트 시 웹소켓 연결 종료
-        return () => {
-            websocket.close();
-        };
-    }, []);
+    //     // 컴포넌트 언마운트 시 웹소켓 연결 종료
+    //     return () => {
+    //         websocket.close();
+    //     };
+    // }, []);
 
-    useEffect(() => {
-        // field 상태가 변경될 때 데이터 전송
-        const sendData = (stockCode) => {
-            if (stockWS && stockWS.readyState === WebSocket.OPEN && stockCode) {
-                const data = { code: stockCode };
-                stockWS.send(JSON.stringify(data));
-            }
-        };
-        sendData(stockCode);
-    }, [stockWS, stockCode]); // field 또는 ws 상태가 변경될 때마다 실행
+    // useEffect(() => {
+    //     // field 상태가 변경될 때 데이터 전송
+    //     const sendData = (stockCode) => {
+    //         if (stockWS && stockWS.readyState === WebSocket.OPEN && stockCode) {
+    //             const data = { code: stockCode };
+    //             stockWS.send(JSON.stringify(data));
+    //         }
+    //     };
+    //     sendData(stockCode);
+    // }, [stockWS, stockCode]); // field 또는 ws 상태가 변경될 때마다 실행
 
     const getIndustryStockData = async (params) => {
         let field = params.field;
