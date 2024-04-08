@@ -29,172 +29,64 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { MarketKospi200 } from '../store/indexData';
-import { API, JSON } from './util/config';
+import { API_WS } from './util/config';
 
 HighchartsMore(Highcharts)
 SolidGauge(Highcharts)
 require('highcharts/modules/accessibility')(Highcharts)
 
 export default function TestPage({ swiperRef }) {
-
-    const [treasuryStock, setTreasuryStock] = useState([]);
-    // const [stockPriceDailyList, setStockPriceDailyList] = useState([]);
-    const getCurrentPrice = async (code) => {
-        const res = await axios.get(`${API}StockData/${code}`)
-        //  종목 현재가만 정리되어있는 json파일 불러오기.
-    };
-    // Fetch Data
-    const fetchData = async () => {
-
-        const stock = await axios.get(`${API}StockPriceDailyList`);
-        const stockData = stock.data;
-        // setStockPriceDailyList(stock.data);
-        const res = await axios.get(`${API}TreasuryStock`);
-
-        const data = res.data.map((item, index) => {
-            const matchedStock = stockData.find(data => data.종목코드 === item.종목코드);
-            const 현재가 = matchedStock ? matchedStock.현재가 : null;
-
-            return {
-                ...item,
-                현재가,
-                id: index,
-            }
-        })
-        setTreasuryStock(data);
-    }
+    const [message, setMessage] = useState('');
+    const [field, setField] = useState(''); // 상태 추가
+    const [ws, setWs] = useState(null); // 웹소켓 인스턴스를 상태로 관리
 
     useEffect(() => {
-        fetchData();
-    }, [])
+        const websocket = new WebSocket(`${API_WS}/test`);
 
-    const treasuryStockColumns = [
-        {
-            field: '종목명', headerName: '종목명', width: 100,
-            renderCell: (params) => {
-                const 종목명 = params.value
-                const 현재가 = parseInt(params.row.현재가);
-                const 평균단가 = parseInt(params.row.평균단가);
+        websocket.onopen = () => {
+            console.log('Connected to the server');
+        };
 
-                let color, fontWeight;
-                if (현재가 < 평균단가) {
-                    color = 'tomato';
-                    fontWeight = 'bold';
-                } else {
-                    color = 'white';
-                }
+        websocket.onmessage = (event) => {
+            console.log('Message from server ', event.data);
+            setMessage(event.data);
+        };
 
-                return (
-                    <span style={{ color: color, fontWeight: fontWeight }}>
-                        {종목명}
-                    </span>
-                );
-            }
-        },
-        {
-            field: '최대값', headerName: '최대값', width: 72, valueFormatter: (params) => {
-                if (params.value == null) { return ''; }
-                return (params.value).toLocaleString('kr');
-            }
-        },
-        {
-            field: '최소값', headerName: '최소값', width: 72, valueFormatter: (params) => {
-                if (params.value == null) { return ''; }
-                return (params.value).toLocaleString('kr');
-            }
-        },
-        {
-            field: '평균단가', headerName: '평균가', width: 72, valueFormatter: (params) => {
-                if (params.value == null) { return ''; }
-                return (parseInt(params.value)).toLocaleString('kr');
-            }
-        },
-        {
-            field: '현재가', headerName: '현재가', width: 72,
-            renderCell: (params) => {
-                const 현재가 = parseInt(params.value);
-                const 평균단가 = parseInt(params.row.평균단가);
+        websocket.onerror = (error) => {
+            console.log('WebSocket error: ', error);
+        };
 
-                let color, fontWeight;
-                if (현재가 < 평균단가) {
-                    color = 'tomato';
-                    fontWeight = 'bold';
-                } else {
-                    color = 'white';
-                }
+        setWs(websocket); // 웹소켓 인스턴스를 상태에 저장
+        console.log(websocket);
 
-                return (
-                    <span style={{ color: color, fontWeight: fontWeight }}>
-                        {현재가.toLocaleString('kr')}
-                    </span>
-                );
+        // 컴포넌트 언마운트 시 웹소켓 연결 종료
+        return () => {
+            websocket.close();
+        };
+    }, []);
+
+    useEffect(() => {
+        // field 상태가 변경될 때 데이터 전송
+        const sendData = () => {
+            if (ws && ws.readyState === WebSocket.OPEN && field) {
+                const data = { action: "update", data: { id: 1, value: field } };
+                ws.send(JSON.stringify(data));
             }
-        },
-        {
-            field: '총액', headerName: '총액', width: 100, valueFormatter: (params) => {
-                if (params.value == null) { return ''; }
-                return (parseInt(params.value)).toLocaleString('kr');
-            }
-        },
-        { field: '거래일', headerName: '거래일', width: 100, },
-        {
-            field: '취득처분', headerName: '취득/처분', width: 100,
-            renderCell: (params) => {
-                if (params.value === '취득') { return (<span style={{ color: 'tomato', fontWeight: 'bold' }}>{params.value}</span>); }
-                return (<span style={{ color: 'dodgerblue' }}>{params.value}</span>);
-            },
-        },
-    ]
+        };
+        console.log(field, ws, WebSocket.OPEN);
+        sendData();
+    }, [field, ws]); // field 또는 ws 상태가 변경될 때마다 실행
+
+    // 예시 버튼 클릭 핸들러
+    const handleClick = () => {
+        setField('newValue'); // 여기서 실제 필요한 로직으로 `field` 상태 업데이트
+    };
+
     return (
         <Grid container spacing={1} >
-            <Grid item xs={5}>
-                <div style={{ height: "90vh", width: "100%" }}
-                    onMouseEnter={() => swiperRef.current.mousewheel.disable()}
-                    onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-                >
-                    <ThemeProvider theme={customTheme}>
-                        <DataGrid rows={treasuryStock} hideFooter rowHeight={25} columns={treasuryStockColumns} sx={{
-                            color: 'white', border: 'none',
-                            '.MuiDataGrid-columnSeparator': {
-                                display: 'none',
-                            },
-                            '.MuiDataGrid-columnHeaders': {
-                                minHeight: '30px !important',  // 원하는 높이 값으로 설정
-                                maxHeight: '30px !important',  // 원하는 높이 값으로 설정
-                                lineHeight: '30px !important',  // 원하는 높이 값으로 설정
-                                backgroundColor: 'rgba(230, 230, 230, 0.1)'
-                            },
-                        }}
-                        />
-                    </ThemeProvider>
-                </div>
-
-            </Grid>
+            <button onClick={handleClick}>Send Data via WebSocket</button>
+            <h2>Server Response</h2>
+            <p>{message}</p>
         </Grid>
     )
 }
-
-
-const customTheme = createTheme({
-    components: {
-        MuiDataGrid: {
-            styleOverrides: {
-                root: {
-                    '& .MuiDataGrid-row': {
-                        fontSize: '10.5px', // 전체 폰트 크기를 원하는 값으로 설정합니다.
-                    },
-                },
-                columnHeaderWrapper: {
-                    minHeight: '10px', // 헤더 높이를 원하는 값으로 설정합니다.
-                    // lineHeight: '20px',
-                },
-                columnHeader: {
-                    fontSize: '10.5px', // 헤더 폰트 크기를 원하는 값으로 설정합니다.
-                },
-            },
-            defaultProps: {
-                headerHeight: 20,
-            },
-        },
-    },
-});

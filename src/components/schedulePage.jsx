@@ -20,7 +20,7 @@ import IpoPulse from './ipoPulse';
 import WeightAvgPage3 from './ELW/weightAvgPage3.jsx';
 // import Pbr from './Index/PBR';
 import { numberWithCommas } from './util/util';
-import { API } from './util/config';
+import { API, API_WS } from './util/config';
 import useInterval from './util/useInterval';
 
 export default function SchedulePage({ swiperRef }) {

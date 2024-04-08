@@ -10,9 +10,9 @@ import { ContentsComponent } from './SearchFinancial/selectedPage';
 import { stockTable_columns, customTheme, trendColumns, ranksThemesColumns, ranksWillrColumns } from './SearchFinancial/tableColumns';
 
 // import CrossChartPage from './SearchFinancial/crossChartPage';
-import { API, STOCK } from './util/config';
+import { API, STOCK, API_WS } from './util/config';
 
-export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop }) {
+export default function SearchFinancial({ swiperRef }) {
     // const [page, setPage] = useState('Tree');
     const [page, setPage] = useState('Cross');
     const [eventDrop, setEventDrop] = useState('');
@@ -23,6 +23,9 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
     const [stockTableData, setStockTableData] = useState([]);
     const [stock, setStock] = useState({});
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
+
+    const [stockCode, setStockCode] = useState(null);
+    const [stockWS, setStockWS] = useState(null);
 
     const handlePage = (event, value) => { if (value !== null) { setPage(value); setEventDrop(''); } }
     const handleTimeframe = (event, value) => { if (value !== null) { setTimeframe(value); } }
@@ -61,11 +64,59 @@ export default function SearchFinancial({ swiperRef, Kospi200BubbleCategoryGruop
             console.log(e);
         }
     }
-
     const getStockChartData = async (code) => {
-        const res = await axios.get(`${STOCK}/get/${code}`);
-        setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, treasuryPrice: res.data.treasuryPrice, willR: res.data.willR, net: res.data.net })
+        setStockCode(code);
+        // const res = await axios.get(`${STOCK}/get/${code}`);
+        // setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, treasuryPrice: res.data.treasuryPrice, willR: res.data.willR, net: res.data.net })
     }
+
+    useEffect(() => {
+        const websocket = new WebSocket(`${API_WS}/stockChart`);
+
+        websocket.onopen = () => {
+            console.log('Connected to the server');
+        };
+
+        websocket.onmessage = (event) => {
+
+            const res = JSON.parse(event.data)
+            console.log(res);
+            setStockChart({
+                price: res.price,
+                volume: res.volume,
+                treasury: [],
+                treasuryPrice: [],
+                treasury: res.treasury,
+                treasuryPrice: res.treasuryPrice,
+                willR: res.willR,
+                net: res.net
+            })
+        };
+
+        websocket.onerror = (error) => {
+            console.log('WebSocket error: ', error);
+        };
+
+        setStockWS(websocket); // 웹소켓 인스턴스를 상태에 저장
+        // console.log(websocket);
+
+        // 컴포넌트 언마운트 시 웹소켓 연결 종료
+        return () => {
+            websocket.close();
+        };
+    }, []);
+
+    useEffect(() => {
+        // field 상태가 변경될 때 데이터 전송
+        const sendData = (stockCode) => {
+            if (stockWS && stockWS.readyState === WebSocket.OPEN && stockCode) {
+                const data = { code: stockCode };
+                stockWS.send(JSON.stringify(data));
+            }
+        };
+        sendData(stockCode);
+    }, [stockWS, stockCode]); // field 또는 ws 상태가 변경될 때마다 실행
+
     const getIndustryStockData = async (params) => {
         let field = params.field;
         let industry = params.row.업종명;
