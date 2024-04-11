@@ -10,7 +10,7 @@ import { ContentsComponent } from './SearchFinancial/selectedPage';
 import { stockTable_columns, customTheme, trendColumns, ranksThemesColumns, ranksWillrColumns } from './SearchFinancial/tableColumns';
 
 // import CrossChartPage from './SearchFinancial/crossChartPage';
-import { API, STOCK, API_WS } from './util/config';
+import { API, STOCK, API_WS, TEST } from './util/config';
 
 export default function SearchFinancial({ swiperRef }) {
     // const [page, setPage] = useState('Tree');
@@ -66,8 +66,10 @@ export default function SearchFinancial({ swiperRef }) {
     }
     const getStockChartData = async (code) => {
         setStockCode(code);
+        // const res = await axios.get(`${TEST}/get/${code}`);
         const res = await axios.get(`${STOCK}/get/${code}`);
-        setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, treasuryPrice: res.data.treasuryPrice, willR: res.data.willR, net: res.data.net })
+        // console.log(res.data);
+        setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, treasuryPrice: res.data.treasuryPrice, willR: res.data.willR, net: res.data.net, MA: res.data.MA })
     }
 
     // useEffect(() => {

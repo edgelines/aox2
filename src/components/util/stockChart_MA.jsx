@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Box, Typography, Grid, Stack } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Highcharts from 'highcharts/highstock'
-import { trima } from 'indicatorts';
 import HighchartsReact from 'highcharts-react-official'
 import { numberWithCommas } from './util'
 require('highcharts/indicators/indicators')(Highcharts)
@@ -15,7 +14,7 @@ Highcharts.setOptions({
     }
 });
 
-const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, willR, height, indicators, price, net, boxTransform, treasury, treasuryPrice }) => {
+const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, willR, height, indicators, price, net, boxTransform, treasury, treasuryPrice, MA }) => {
 
     const [chartOptions, setChartOptions] = useState({
         chart: { animation: false, height: height ? height : 360, },
@@ -165,72 +164,127 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
     const 저가가중 = {
         type: 'wma', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } },
     }
+    const 이평기본 = { type: 'spline', animation: false, }
 
     const getSeriesData = () => {
-        // 겹치는 데이터를 먼저 생성합니다.
-        let seriesData = [{
-            data: stockItemData, name: stockName, showInLegend: false, isCandle: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-            id: 'candlestick', type: 'candlestick', upLineColor: "orangered", upColor: "orangered", lineColor: "dodgerblue", color: "dodgerblue",
-        }, {
-            type: 'column', id: 'volume', name: 'volume', showInLegend: false,
-            data: volumeData, animation: false, yAxis: 1,
-        }, {
-            ...종가단순, color: "black", name: '3', lineWidth: 0.5,
-            params: { index: 3, period: 3 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }, {
-            ...종가단순, color: "green", name: '5', lineWidth: 0.5,
-            params: { index: 3, period: 5 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }, {
-            ...종가단순, color: "tomato", name: '9', lineWidth: 0.5,
-            params: { index: 3, period: 9 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }, {
-            ...종가단순, color: "orange", name: '14', lineWidth: 0.5,
-            params: { index: 3, period: 14 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }, {
-            ...종가단순, color: "blue", name: '18', lineWidth: 1,
-            params: { index: 3, period: 18 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }, {
-            ...종가단순, color: "red", name: '55', lineWidth: 1,
-            params: { index: 3, period: 55 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }, {
-            ...종가단순, color: "brown", name: '112', lineWidth: 1,
-            params: { index: 3, period: 112 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }, {
-            ...종가단순, color: "forestgreen", name: '224', lineWidth: 1,
-            params: { index: 3, period: 224 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }, {
-            ...종가단순, color: "forestgreen", name: '448 종단', lineWidth: 1,
-            params: { index: 3, period: 448 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }, {
-            ...저가가중, color: "black", name: '165', lineWidth: 0.5,
-            params: { index: 2, period: 165 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }, {
-            ...저가가중, color: "black", name: '175 저가', lineWidth: 0.5,
-            params: { index: 2, period: 175 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }, {
-            type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
-            color: 'tomato',
-            dashStyle: 'shortdash',
-            name: 'W-9', id: 'williamsr-9',
-            lineWidth: 1,
-            params: { index: 3, period: 9 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }, {
-            type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
-            color: 'forestgreen',
-            dashStyle: 'shortdash',
-            name: 'W-14', id: 'williamsr-14',
-            lineWidth: 1,
-            params: { index: 3, period: 14 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }, {
-            type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
-            color: 'black',
-            dashStyle: 'shortdash',
-            name: 'W-33', id: 'williamsr-33',
-            lineWidth: 1,
-            params: { index: 3, period: 33 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
-        }];
 
-        return seriesData;
+        if (MA) {
+            let seriesData = [{
+                data: stockItemData, name: stockName, showInLegend: false, isCandle: true, marker: { enabled: false, states: { hover: { enabled: false } } },
+                id: 'candlestick', type: 'candlestick', upLineColor: "orangered", upColor: "orangered", lineColor: "dodgerblue", color: "dodgerblue",
+            }, {
+                type: 'column', id: 'volume', name: 'volume', showInLegend: false,
+                data: volumeData, animation: false, yAxis: 1,
+            }, {
+                ...이평기본, data: MA.wma_5, color: "black", name: '5저가', lineWidth: 0.5,
+            }, {
+                ...이평기본, data: MA.wma_6, color: "black", name: '6중가', lineWidth: 0.5,
+            }, {
+                ...이평기본, data: MA.gmean_6, color: "black", name: '6고기', lineWidth: 0.5,
+            }, {
+                ...이평기본, data: MA.gmean_105, color: "gray", name: '105고기', lineWidth: 1,
+            }, {
+                ...이평기본, data: MA.ma_83, color: "orange", name: '83저단', lineWidth: 1,
+            }, {
+                ...이평기본, data: MA.ema_112, color: "green", name: '112', lineWidth: 1,
+            }, {
+                ...이평기본, data: MA.ema_224, color: "brown", name: '224저지', lineWidth: 1,
+            }, {
+                ...이평기본, data: MA.trima_112, color: "tomato", name: '112', lineWidth: 1,
+            }, {
+                ...이평기본, data: MA.trima_133, color: "dodgerblue", name: '133', lineWidth: 1,
+
+            }, {
+                type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
+                color: 'tomato',
+                dashStyle: 'shortdash',
+                name: 'W-9', id: 'williamsr-9',
+                lineWidth: 1,
+                params: { index: 3, period: 9 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            }, {
+                type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
+                color: 'forestgreen',
+                dashStyle: 'shortdash',
+                name: 'W-14', id: 'williamsr-14',
+                lineWidth: 1,
+                params: { index: 3, period: 14 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            }, {
+                type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
+                color: 'black',
+                dashStyle: 'shortdash',
+                name: 'W-33', id: 'williamsr-33',
+                lineWidth: 1,
+                params: { index: 3, period: 33 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            }];
+
+            return seriesData
+        } else {
+            let seriesData = [{
+                data: stockItemData, name: stockName, showInLegend: false, isCandle: true, marker: { enabled: false, states: { hover: { enabled: false } } },
+                id: 'candlestick', type: 'candlestick', upLineColor: "orangered", upColor: "orangered", lineColor: "dodgerblue", color: "dodgerblue",
+            }, {
+                type: 'column', id: 'volume', name: 'volume', showInLegend: false,
+                data: volumeData, animation: false, yAxis: 1,
+            }, {
+                ...종가단순, color: "black", name: '3', lineWidth: 0.5,
+                params: { index: 3, period: 3 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            }, {
+                ...종가단순, color: "green", name: '5', lineWidth: 0.5,
+                params: { index: 3, period: 5 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            }, {
+                ...종가단순, color: "tomato", name: '9', lineWidth: 0.5,
+                params: { index: 3, period: 9 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            }, {
+                ...종가단순, color: "orange", name: '14', lineWidth: 0.5,
+                params: { index: 3, period: 14 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            }, {
+                ...종가단순, color: "blue", name: '18', lineWidth: 1,
+                params: { index: 3, period: 18 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            }, {
+                ...종가단순, color: "red", name: '55', lineWidth: 1,
+                params: { index: 3, period: 55 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            }, {
+                ...종가단순, color: "brown", name: '112', lineWidth: 1,
+                params: { index: 3, period: 112 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            }, {
+                ...종가단순, color: "forestgreen", name: '224', lineWidth: 1,
+                params: { index: 3, period: 224 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            }, {
+                ...종가단순, color: "forestgreen", name: '448 종단', lineWidth: 1,
+                params: { index: 3, period: 448 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            }, {
+                ...저가가중, color: "black", name: '165', lineWidth: 0.5,
+                params: { index: 2, period: 165 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            }, {
+                ...저가가중, color: "black", name: '175 저가', lineWidth: 0.5,
+                params: { index: 2, period: 175 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            }, {
+                type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
+                color: 'tomato',
+                dashStyle: 'shortdash',
+                name: 'W-9', id: 'williamsr-9',
+                lineWidth: 1,
+                params: { index: 3, period: 9 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            }, {
+                type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
+                color: 'forestgreen',
+                dashStyle: 'shortdash',
+                name: 'W-14', id: 'williamsr-14',
+                lineWidth: 1,
+                params: { index: 3, period: 14 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            }, {
+                type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
+                color: 'black',
+                dashStyle: 'shortdash',
+                name: 'W-33', id: 'williamsr-33',
+                lineWidth: 1,
+                params: { index: 3, period: 33 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            }];
+
+            return seriesData;
+        }
+
+
     };
 
     useEffect(() => {
