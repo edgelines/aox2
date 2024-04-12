@@ -51,7 +51,7 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, hand
     )
 }
 
-const StockInfo = ({ data, handleFavorite }) => {
+export const StockInfo = ({ data, handleFavorite }) => {
     const tableCellStyle = { textAlign: 'left', fontSize: '12px', height: 22 }
     return (
         <Grid container>

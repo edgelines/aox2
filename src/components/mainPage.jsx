@@ -148,11 +148,7 @@ export default function MainPage({ }) {
     }, []); // 빈 배열을 전달하여 컴포넌트 마운트 시 한 번만 실행되도록 함
 
 
-    useEffect(() => {
-        if (MarketDetail.status == 'succeeded') {
 
-        }
-    }, [MarketDetail])
     // 60초 주기 업데이트
     // useEffect(() => {
     //     const now = new Date();

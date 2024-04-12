@@ -13,7 +13,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Keyboard, Mousewheel, Pagination } from "swiper/modules";
-
+import LeadSectors from './components/leadSectors';
+import TestPage from './components/testPage';
 function App() {
 
     const swiperRef = useRef(null);
@@ -35,8 +36,9 @@ function App() {
                 onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
+
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <SchedulePage swiperRef={swiperRef} />
+                    <LeadSectors swiperRef={swiperRef} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -45,6 +47,10 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <CrossPage swiperRef={swiperRef} />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <LeadSectors swiperRef={swiperRef} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -74,50 +80,3 @@ function App() {
 export default App;
 
 const swiperSlideStyle = { backgroundColor: "#404040", color: '#efe9e9ed', paddingLeft: '2vh', paddingRight: '2vh', paddingTop: '0.2vh' }
-
-
-// import { getScheduleItemEvent } from "./store/info.js";
-// import SectorSearchPage from './components/sectorSearchPage.jsx';
-// import OldAoxStockPage from './components/OldAoX/stockPage.jsx'
-// import CallPutPage from './components/ELW/CallPutPage.jsx';
-// import TreasuryStockPage from './components/TreasuryStock.jsx'
-// import StockSearchPage from './components/StockSearch';
-// import StockSearchMonitoringPage from './components/StockSearchMonitoring';
-// import CtpPage from './components/ELW/CtpPage.jsx'
-// import WeightAvgPage3 from './components/ELW/weightAvgPage3.jsx';
-// import HTS from './components/hts';
-// import IpoPulse from './components/ipoPulse';
-{/* <SwiperSlide style={swiperSlideStyle} >
-                    <OldAoxStockPage swiperRef={swiperRef} />
-                </SwiperSlide> */}
-
-{/* <SwiperSlide style={swiperSlideStyle} >
-                    <StockSearchPage swiperRef={swiperRef} StockSearch={StockSearch} StockSearchTracking={StockSearchTracking} />
-                </SwiperSlide>
-
-                <SwiperSlide style={swiperSlideStyle} >
-                    <StockSearchMonitoringPage swiperRef={swiperRef} StockSearchTrackingStatistics={StockSearchTrackingStatistics} />
-                </SwiperSlide> */}
-
-{/* <SwiperSlide style={swiperSlideStyle} >
-                    <TreasuryStockPage swiperRef={swiperRef} />
-                </SwiperSlide> */}
-
-{/* <SwiperSlide style={swiperSlideStyle} >
-                    <CtpPage swiperRef={swiperRef} ElwBarData={ElwBarData} ElwWeightedAvg={ElwWeightedAvg} />
-                </SwiperSlide> */}
-
-            //     <SwiperSlide style={{ backgroundColor: "#404040", color: '#efe9e9ed' }}>
-            //     <SectorsChartPage
-            //         filteredChartData={filteredChartData} sectorsRanksThemes={sectorsRanksThemes}
-            //         Kospi200BubbleCategoryGruop={Kospi200BubbleCategoryGruop}
-            //         checkboxStatusUp={checkboxStatusUp}
-            //         checkboxStatusDown={checkboxStatusDown}
-            //         checkboxStatusTup={checkboxStatusTup}
-            //         checkboxAll={checkboxAll}
-            //         onCheckboxStatusUp={handleCheckboxStatusUp}
-            //         onCheckboxStatusDown={handleCheckboxStatusDown}
-            //         onCheckboxStatusTup={handleCheckboxStatusTup}
-            //         onCheckboxAll={handleCheckboxStatusAll}
-            //     />
-            // </SwiperSlide>
