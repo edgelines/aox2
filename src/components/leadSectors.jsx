@@ -15,7 +15,7 @@ import { API, API_WS, STOCK, TEST } from './util/config';
 
 
 
-export default function TestPage({ swiperRef }) {
+export default function LeadSectorsPage({ swiperRef }) {
     // const [message, setMessage] = useState('');
     // const [field, setField] = useState(''); // 상태 추가
     // const [ws, setWs] = useState(null); // 웹소켓 인스턴스를 상태로 관리
@@ -87,7 +87,6 @@ export default function TestPage({ swiperRef }) {
 
     useEffect(() => {
         const ws = new WebSocket(`${API_WS}/LeadSectors`);
-
         ws.onopen = () => {
             console.log('Lead Sectors WebSocket Connected');
         };
@@ -123,26 +122,24 @@ export default function TestPage({ swiperRef }) {
     return (
         <Grid container spacing={1} >
             {/* Clock Box */}
-            <Box sx={{ position: 'absolute', transform: 'translate(600px, 400px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'center' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(740px, 400px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
                 <Grid container >{today}</Grid>
                 <Grid container >{time}</Grid>
+                <Typography sx={{ fontSize: '12px', color: 'dodgerblue' }} >100% 미만</Typography>
+                <Typography sx={{ fontSize: '12px', color: 'Lawngreen' }} >100%~200%</Typography>
+                <Typography sx={{ fontSize: '12px', color: 'gold' }} >200%~300%</Typography>
+                <Typography sx={{ fontSize: '12px', color: 'orange' }} >300%~400%</Typography>
+                <Typography sx={{ fontSize: '12px', color: 'tomato' }} >400% 이상</Typography>
             </Box>
 
-            <Box sx={{ position: 'absolute', transform: 'translate(700px, 800px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
-                <Typography sx={{ fontSize: '11px', color: 'dodgerblue' }} >100% 미만</Typography>
-                <Typography sx={{ fontSize: '11px', color: 'Lawngreen' }} >100%~200%</Typography>
-                <Typography sx={{ fontSize: '11px', color: 'gold' }} >200%~300%</Typography>
-                <Typography sx={{ fontSize: '11px', color: 'orange' }} >300%~400%</Typography>
-                <Typography sx={{ fontSize: '11px', color: 'tomato' }} >400% 이상</Typography>
-            </Box>
 
             {/* Main Chart */}
-            <Grid item xs={5}>
+            <Grid item xs={5.2}>
                 <FilterStockChart data={chartData.series} height={930} yAxis={chartData.yAxis} getInfo={getInfo} />
             </Grid>
 
             {/* 가운데 Table */}
-            <Grid item xs={2}>
+            <Grid item xs={1.6}>
 
                 <Grid item container
                     sx={{ height: '430px' }}
@@ -213,9 +210,9 @@ export default function TestPage({ swiperRef }) {
             </Grid>
 
             {/* Stock Info */}
-            <Grid item xs={5}>
+            <Grid item xs={5.2}>
                 <Grid item container>
-                    <SectorChart data={SectorsChartDataSelected} sectorName={SectorsName} />
+                    <SectorChart data={SectorsChartDataSelected} sectorName={SectorsName} height={220} />
                 </Grid>
 
                 <Grid item container >

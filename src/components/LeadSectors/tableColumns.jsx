@@ -45,45 +45,13 @@ export const customTheme = createTheme({
 });
 
 
-// export const customTheme = createTheme({
-//     components: {
-//         MuiDataGrid: {
-//             styleOverrides: {
-//                 root: {
-//                     '& .MuiDataGrid-row': {
-//                         fontSize: '10px',
-//                         color: '#efe9e9ed'
-//                     },
-//                 },
-//                 // columnHeaderWrapper: {
-//                 //     minHeight: '9px',
-//                 //     // lineHeight: '20px',
-//                 // },
-//                 columnHeader: {
-//                     fontSize: '9px',
-//                     color: '#efe9e9ed'
-//                 },
-//                 // rowSelected: {
-//                 //     backgroundColor: 'rgba(255, 215, 0, 0.55)', // 선택된 행의 배경색 변경
-//                 //     '&:hover': {
-//                 //         backgroundColor: 'rgba(255, 215, 0, 0.75)', // 호버 상태일 때의 배경색 변경
-//                 //     },
-//                 // },
-//             },
-//             // defaultProps: {
-//             //     headerHeight: 15,
-//             // },
-//         },
-//     },
-// });
-
 // Lead Sector 중앙 상단 Table Columns
 export const themesTableColumns = [
     {
-        field: '테마명', headerName: '테마명', width: 130,
+        field: '테마명', headerName: '테마명', width: 160,
         align: 'left', headerAlign: 'left',
     }, {
-        field: '전체종목수', headerName: '갯수', width: 60,
+        field: '전체종목수', headerName: '갯수', width: 50,
         align: 'right', headerAlign: 'center',
     }
 ]
