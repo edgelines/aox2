@@ -76,7 +76,7 @@ export default function FilterStockChart({ data, height, yAxis, getInfo }) {
             // footerFormat: '</table>',
             // followPointer: true,
             formatter: function () {
-                return `<b>${this.point.종목명}</b><br/><p>등락률 : ${this.point.x}</p><br/><p>전일대비% : ${parseInt(this.point.전일대비거래량 * 100)}%</p>`
+                return `<b>${this.point.종목명}</b><br/><p>등락률 : ${this.point.x}</p><br/><p>전일대비% : ${parseInt(this.point.전일대비거래량 * 100).toLocaleString('kr')}%</p>`
                 // return '<b>' + this.series.name + '  /  ' + this.point.category + '</b><br/>'
             },
         },
@@ -84,8 +84,8 @@ export default function FilterStockChart({ data, height, yAxis, getInfo }) {
         plotOptions: {
 
             bubble: {
-                minSize: 20,
-                maxSize: 20,
+                minSize: 13,
+                maxSize: 13,
                 point: {
                     events: {
                         click: function () {
