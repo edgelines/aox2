@@ -125,11 +125,15 @@ export default function LeadSectorsPage({ swiperRef }) {
             <Box sx={{ position: 'absolute', transform: 'translate(740px, 400px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
                 <Grid container >{today}</Grid>
                 <Grid container >{time}</Grid>
+                <Grid container sx={{ mb: 2 }}></Grid>
                 <Typography sx={{ fontSize: '12px', color: 'dodgerblue' }} >100% 미만</Typography>
                 <Typography sx={{ fontSize: '12px', color: 'Lawngreen' }} >100%~200%</Typography>
                 <Typography sx={{ fontSize: '12px', color: 'gold' }} >200%~300%</Typography>
                 <Typography sx={{ fontSize: '12px', color: 'orange' }} >300%~400%</Typography>
                 <Typography sx={{ fontSize: '12px', color: 'tomato' }} >400% 이상</Typography>
+                <Grid container sx={{ mb: 2 }}></Grid>
+                <Typography sx={{ fontSize: '12px', color: 'dodgerblue' }} >X : 전전일대비</Typography>
+                <Typography sx={{ fontSize: '12px', color: 'tomato' }} >X : 전일대비</Typography>
             </Box>
 
 

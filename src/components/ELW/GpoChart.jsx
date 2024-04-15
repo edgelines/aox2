@@ -84,13 +84,14 @@ export default function GpoChart({ data1, data2, data3, height, kospi200, credit
         let plotBands1 = [];
         // Kospi200
         for (let i = 11; i > -1; i--) {
-            const days = ['47', '43', '41', '39', '21', '10', '6', '만기']
+            const days = ['53', '47', '43', '41', '39', '21', '10', '6', '만기']
             days.forEach((item) => {
                 const 만기월_key = `지난달${i}_만기월`;
                 const value_key = `지난달${i}_${item}`;  // 47을 예로 들었지만, 다른 값들에 대해서도 확장할 수 있습니다
 
                 let yValue;
                 switch (item) {
+                    case '53': yValue = label41; break;
                     case '41': yValue = label41; break;
                     case '39': yValue = label39; break;
                     case '21': yValue = label21; break;
@@ -135,13 +136,14 @@ export default function GpoChart({ data1, data2, data3, height, kospi200, credit
         }
         // US
         for (let i = 13; i > -1; i--) {
-            const days = ['47', '43', '41', '39', '21', '10', '5', '만기']
+            const days = ['54', '47', '43', '41', '39', '21', '10', '5', '만기']
             days.forEach((item) => {
                 const 만기월_key = `지난달${i}_만기월`;
                 const value_key = `지난달${i}_${item}`;  // 47을 예로 들었지만, 다른 값들에 대해서도 확장할 수 있습니다
 
                 let yValue;
                 switch (item) {
+                    case '47': yValue = labelU42; break;
                     case '47': yValue = labelU48; break;
                     case '43': yValue = labelU42; break;
                     case '41': yValue = labelU48; break;
