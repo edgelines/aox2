@@ -19,7 +19,7 @@ export default function FilterStockChart({ data, height, yAxis, getInfo }) {
         legend: { enabled: false }, title: { text: null },
 
 
-        xAxis: {
+        xAxis: [{
             gridLineWidth: 1,
             title: {
                 text: null
@@ -39,7 +39,18 @@ export default function FilterStockChart({ data, height, yAxis, getInfo }) {
                 value: 0,
                 zIndex: 3
             }],
-        },
+            max: 31,
+            opposite: false,
+        }, {
+            labels: {
+                style: { color: '#efe9e9ed', fontSize: '11px' }, formatter: function () {
+                    var color = this.value > 0 ? '#FCAB2F' : this.value < 0 ? '#00F3FF' : '#efe9e9ed';
+                    return `<span style="color: ${color}">${this.value} %</span>`
+                }
+            },
+            opposite: true,
+            linkedTo: 0
+        }],
 
         yAxis: {
             startOnTick: false,

@@ -19,6 +19,8 @@ export default function TestPage({ swiperRef }) {
     // const [message, setMessage] = useState('');
     // const [field, setField] = useState(''); // 상태 추가
     // const [ws, setWs] = useState(null); // 웹소켓 인스턴스를 상태로 관리
+    const [today, setToday] = useState(null);
+    const [time, setTime] = useState(null);
     const [SectorsName, setSectorsName] = useState(null);
     const [stock, setStock] = useState({});
 
@@ -67,6 +69,21 @@ export default function TestPage({ swiperRef }) {
         //     console.log(res.data); ${item.종목코드}
 
     }
+    const setDate = () => {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1 < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1;
+        var day = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
+        var hour = now.getHours() < 10 ? "0" + now.getHours() : now.getHours();
+        var min = now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes();
+        var sec = now.getSeconds() < 10 ? "0" + now.getSeconds() : now.getSeconds();
+        var amPM = 'AM'
+        if (hour >= 12) { amPM = 'PM' }
+        var date = year + '-' + month + '-' + day;
+        var time = `${hour}:${min}:${sec} ${amPM}`;
+        setToday(date);
+        setTime(time);
+    }
 
     useEffect(() => {
         const ws = new WebSocket(`${API_WS}/LeadSectors`);
@@ -94,10 +111,31 @@ export default function TestPage({ swiperRef }) {
             ws.close();
         };
     }, []); // 빈 배열을 전달하여 컴포넌트 마운트 시 한 번만 실행되도록 함
+    // 시계 1초마다
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setDate();
+        }, 1000);
+        return () => clearInterval(timer);
+    }, [])
 
 
     return (
         <Grid container spacing={1} >
+            {/* Clock Box */}
+            <Box sx={{ position: 'absolute', transform: 'translate(600px, 400px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'center' }}>
+                <Grid container >{today}</Grid>
+                <Grid container >{time}</Grid>
+            </Box>
+
+            <Box sx={{ position: 'absolute', transform: 'translate(700px, 800px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
+                <Typography sx={{ fontSize: '11px', color: 'dodgerblue' }} >100% 미만</Typography>
+                <Typography sx={{ fontSize: '11px', color: 'Lawngreen' }} >100%~200%</Typography>
+                <Typography sx={{ fontSize: '11px', color: 'gold' }} >200%~300%</Typography>
+                <Typography sx={{ fontSize: '11px', color: 'orange' }} >300%~400%</Typography>
+                <Typography sx={{ fontSize: '11px', color: 'tomato' }} >400% 이상</Typography>
+            </Box>
+
             {/* Main Chart */}
             <Grid item xs={5}>
                 <FilterStockChart data={chartData.series} height={930} yAxis={chartData.yAxis} getInfo={getInfo} />
@@ -105,7 +143,9 @@ export default function TestPage({ swiperRef }) {
 
             {/* 가운데 Table */}
             <Grid item xs={2}>
-                <div style={{ height: '430px', width: "100%" }}
+
+                <Grid item container
+                    sx={{ height: '430px' }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
@@ -134,9 +174,11 @@ export default function TestPage({ swiperRef }) {
                             }}
                         />
                     </ThemeProvider>
-                </div>
 
-                <div style={{ height: '430px', width: "100%", mt: 1 }}
+                </Grid>
+
+                <Grid item container
+                    sx={{ height: '430px', mt: 2 }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
@@ -165,7 +207,9 @@ export default function TestPage({ swiperRef }) {
                             }}
                         />
                     </ThemeProvider>
-                </div>
+
+                </Grid>
+
             </Grid>
 
             {/* Stock Info */}
@@ -174,7 +218,7 @@ export default function TestPage({ swiperRef }) {
                     <SectorChart data={SectorsChartDataSelected} sectorName={SectorsName} />
                 </Grid>
 
-                <Grid item container>
+                <Grid item container >
                     <StockChart_MA height={470} boxTransform={`translate(10px, 53px)`}
                         stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} stockName={stock.종목명} price={stock.현재가} net={stockChart.net}
                         willR={stockChart.willR} treasuryPrice={stockChart.treasuryPrice} treasury={stockChart.treasury} MA={stockChart.MA} />
@@ -201,6 +245,6 @@ export default function TestPage({ swiperRef }) {
             </Grid>
 
 
-        </Grid>
+        </Grid >
     )
 }
