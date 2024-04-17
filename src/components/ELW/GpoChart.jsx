@@ -143,7 +143,7 @@ export default function GpoChart({ data1, data2, data3, height, kospi200, credit
 
                 let yValue;
                 switch (item) {
-                    case '47': yValue = labelU42; break;
+                    case '54': yValue = labelU42; break;
                     case '47': yValue = labelU48; break;
                     case '43': yValue = labelU42; break;
                     case '41': yValue = labelU48; break;
