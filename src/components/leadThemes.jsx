@@ -15,7 +15,7 @@ import { API, API_WS, STOCK, TEST } from './util/config';
 
 
 
-export default function LeadSectorsPage({ swiperRef }) {
+export default function LeadThemesPage({ swiperRef }) {
     // const [message, setMessage] = useState('');
     // const [field, setField] = useState(''); // 상태 추가
     // const [ws, setWs] = useState(null); // 웹소켓 인스턴스를 상태로 관리
@@ -93,7 +93,7 @@ export default function LeadSectorsPage({ swiperRef }) {
     }
 
     useEffect(() => {
-        const ws = new WebSocket(`${API_WS}/LeadSectors`);
+        const ws = new WebSocket(`${API_WS}/LeadThemes`);
         ws.onopen = () => {
             console.log('Lead Sectors WebSocket Connected');
         };
@@ -101,8 +101,8 @@ export default function LeadSectorsPage({ swiperRef }) {
         ws.onmessage = (event) => {
             const res = JSON.parse(event.data);
             setChartData(res.chart);
-            setThemesTableData(res.themes);
-            setIndustryInfo(res.industryInfo);
+            // setThemesTableData(res.themes);
+            // setIndustryInfo(res.industryInfo);
         };
 
         ws.onerror = (error) => {
@@ -130,7 +130,7 @@ export default function LeadSectorsPage({ swiperRef }) {
     return (
         <Grid container >
             {/* Clock Box */}
-            <Box sx={{ position: 'absolute', transform: 'translate(800px, 400px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(720px, 400px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
                 <Grid container >{today}</Grid>
                 <Grid container >{time}</Grid>
                 <Grid container sx={{ mb: 2 }}></Grid>
@@ -145,62 +145,8 @@ export default function LeadSectorsPage({ swiperRef }) {
                 <Typography sx={{ fontSize: '12px', color: 'tomato' }} >X : 오늘기준</Typography>
             </Box>
 
-            {/* 업종 */}
-            <Grid item xs={1}>
-                <Grid item container sx={{ height: "74svh", width: "100%" }}
-                    onMouseEnter={() => swiperRef.current.mousewheel.disable()}
-                    onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-                >
-                    <ThemeProvider theme={customTheme}>
-                        <DataGrid rows={industryInfo.slice(0, industryInfo.length - 12)} hideFooter rowHeight={16} columns={industryTableColumns}
-                            onCellClick={(params, event) => {
-                                getInfo(params.row);
-                            }}
-                            getCellClassName={(params) => {
-                                if (params.id === 0) return '';
-                                if ((params.id + 1) % 60 === 0) return 'bottom-line-60';
-                                if ((params.id + 1) % 50 === 0) return 'bottom-line-50';
-                                if ((params.id + 1) % 40 === 0) return 'bottom-line-40';
-                                if ((params.id + 1) % 30 === 0) return 'bottom-line-30';
-                                if ((params.id + 1) % 20 === 0) return 'bottom-line-20';
-                                if ((params.id + 1) % 10 === 0) return 'bottom-line-10';
-                                return '';
-                                // return params.id % 10 === 0 ? 'bottom-line' : '';
-                            }}
-                            sx={{
-                                ...DataTableStyleDefault,
-                                '.bottom-line-10': { borderBottom: '2px solid red' },
-                                '.bottom-line-20': { borderBottom: '2px solid orange' },
-                                '.bottom-line-30': { borderBottom: '2px solid gold' },
-                                '.bottom-line-40': { borderBottom: '2px solid green' },
-                                '.bottom-line-50': { borderBottom: '2px solid dodgerblue' },
-                                '.bottom-line-60': { borderBottom: '2px solid purple' },
-                            }} />
-                    </ThemeProvider>
-                </Grid>
-                <Grid item container sx={{ height: "24svh", width: "100%", marginTop: '10px' }}
-                    onMouseEnter={() => swiperRef.current.mousewheel.disable()}
-                    onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-                >
-                    <ThemeProvider theme={customTheme}>
-                        <DataGrid rows={industryInfo.slice(industryInfo.length - 12)} columns={industryTableColumns} hideFooter rowHeight={16}
-                            onCellClick={(params, event) => {
-                                getInfo(params.row);
-                            }}
-                            sx={DataTableStyleDefault} />
-                    </ThemeProvider>
-                </Grid>
-                <div style={{ height: "24svh", width: "100%", marginTop: '10px' }}
-                    onMouseEnter={() => swiperRef.current.mousewheel.disable()}
-                    onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-                >
-
-                </div>
-
-            </Grid>
-
             {/* Main Chart */}
-            <Grid item xs={4.7}>
+            <Grid item xs={5.2}>
                 <FilterStockChart data={chartData.series} height={930} yAxis={chartData.yAxis} getInfo={getInfo} />
             </Grid>
 
@@ -276,7 +222,7 @@ export default function LeadSectorsPage({ swiperRef }) {
             </Grid>
 
             {/* Stock Info */}
-            <Grid item xs={4.7} sx={{ pl: 1 }}>
+            <Grid item xs={5.2} sx={{ pl: 1 }}>
                 <Grid item container>
                     <SectorChart data={SectorsChartDataSelected} sectorName={SectorsName} height={190} />
                 </Grid>

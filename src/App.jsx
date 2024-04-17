@@ -14,7 +14,8 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Keyboard, Mousewheel, Pagination } from "swiper/modules";
 import LeadSectors from './components/leadSectors';
-import TestPage from './components/testPage';
+import LeadThemes from './components/leadThemes';
+// import TestPage from './components/testPage';
 function App() {
 
     const swiperRef = useRef(null);
@@ -38,7 +39,7 @@ function App() {
             >
 
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <LeadSectors swiperRef={swiperRef} />
+                    <LeadThemes swiperRef={swiperRef} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -51,6 +52,10 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <LeadSectors swiperRef={swiperRef} />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <LeadThemes swiperRef={swiperRef} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
