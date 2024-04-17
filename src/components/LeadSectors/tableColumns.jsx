@@ -104,3 +104,28 @@ export const stockTableColumns = [
         }
     }
 ]
+
+
+// 전체 업종 등락률
+// 왼쪽 업종명/전일대비
+export const industryTableColumns = [
+    { field: '업종명', headerName: '업종명', width: 72 },
+    {
+        field: "전일대비",
+        headerName: "전일대비",
+        width: 60,
+        renderCell: (params) => {
+            const progress = renderProgress({ value: params.value, valueON: true, color: '#e89191', val2: 8 })
+            return (
+                <Box sx={{ position: 'relative', mt: -2 }}>
+                    <Box sx={{ position: 'absolute', zIndex: 1, marginLeft: 0.5 }}>
+                        {params.value.toFixed(2)} %
+                    </Box>
+                    <Box sx={{ position: 'absolute', zIndex: 0, width: 80, mt: -0.6, marginLeft: -0.5 }}>
+                        {progress}
+                    </Box>
+                </Box>
+            )
+        }
+    },
+];

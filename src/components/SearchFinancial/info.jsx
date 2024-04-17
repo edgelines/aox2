@@ -114,6 +114,42 @@ export const StockInfo = ({ data, handleFavorite }) => {
     )
 }
 
+export const StockInfoSimple = ({ data, handleFavorite }) => {
+    const tableCellStyle = { textAlign: 'left', fontSize: '12px', height: 22 }
+    return (
+        <Grid container>
+            <Grid item container sx={{ borderBottom: '2px solid #efe9e9ed' }} direction='row' alignItems="center" justifyContent="center">
+                <Grid item xs={1}>
+                    <IconButton size="small" color='error' onClick={() => handleFavorite()}>
+                        {data.Favorite ?
+                            <FavoriteIcon /> : <FavoriteBorderIcon />
+                        }
+                    </IconButton>
+                </Grid>
+
+                <Grid item xs={4.2}><StyledTypography_StockInfo textAlign='center' sx={{ color: data.시장 === 'K' ? '#FCAB2F' : 'greenyellow' }}>{data.종목명}</StyledTypography_StockInfo></Grid>
+                <Grid item xs={4.2}><StyledTypography_StockInfo textAlign='center' >{data.업종명}</StyledTypography_StockInfo></Grid>
+                <Grid item xs={2.6}><StyledTypography_StockInfo textAlign='center' >{data.시장 === 'K' ? 'Kospi' : 'Kosdaq'}</StyledTypography_StockInfo></Grid>
+            </Grid>
+
+            <Grid item container sx={{ pl: 2 }}>
+                <table style={{ width: '100%' }}>
+                    <tbody>
+                        <tr>
+                            <td style={tableCellStyle}>시가총액</td>
+                            <td style={tableCellStyle}>{parseInt((parseInt(data.시가총액) / 100000000).toFixed(0)).toLocaleString('kr')} 억</td>
+                            <td style={tableCellStyle}>상장주식수</td>
+                            <td style={tableCellStyle} colSpan={3}>{data.상장주식수 ? data.상장주식수.toLocaleString('kr') : ''}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </Grid>
+        </Grid>
+    )
+}
+
+
 const ContentsComponent = ({ page, annual, quarter, summary, themes, product, shareholder }) => {
 
     switch (page) {

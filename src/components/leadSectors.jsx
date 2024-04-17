@@ -6,11 +6,11 @@ import { useTheme, styled } from '@mui/material/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import FilterStockChart from './LeadSectors/chart';
 import SectorChart from './SectorsPage/sectorChart';
-import { customTheme, themesTableColumns, stockTableColumns, DataTableStyleDefault } from './LeadSectors/tableColumns';
+import { customTheme, themesTableColumns, stockTableColumns, DataTableStyleDefault, industryTableColumns } from './LeadSectors/tableColumns';
 import { SectorsName15 } from './util/util';
 import { StyledTypography_StockInfo, Financial, EtcInfo } from './util/htsUtil';
 import StockChart_MA from './util/stockChart_MA';
-import { StockInfo } from './SearchFinancial/info';
+import { StockInfoSimple } from './SearchFinancial/info';
 import { API, API_WS, STOCK, TEST } from './util/config';
 
 
@@ -24,6 +24,7 @@ export default function LeadSectorsPage({ swiperRef }) {
     const [SectorsName, setSectorsName] = useState(null);
     const [stock, setStock] = useState({});
 
+    const [industryInfo, setIndustryInfo] = useState([]);
     const [chartData, setChartData] = useState({ data: [], yAxis: { categories: null } });
     const [themesTableData, setThemesTableData] = useState([]);
     const [stockTableData, setStockTableData] = useState([]);
@@ -49,24 +50,30 @@ export default function LeadSectorsPage({ swiperRef }) {
             setSectorsChartDataSelected(res.data);
         }
 
-        // 종목정보
-        var res = await axios.get(`${API}/info/stockEtcInfo/${item.종목코드}`);
-        setStock({
-            종목명: item.종목명, 종목코드: item.종목코드, 업종명: item.업종명, 현재가: res.data.현재가,
-            시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, Favorite: res.data.Favorite,
-            PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,
-            N_PER: res.data.N_PER, N_PBR: res.data.N_PBR, 동일업종PER: res.data.동일업종PER,
-            이벤트: res.data.이벤트, 보호예수: res.data.보호예수,
-            최고가52주: res.data.최고가52주, 최저가52주: res.data.최저가52주, 기업개요: res.data.기업개요, 분기실적: res.data.분기실적, 연간실적: res.data.연간실적,
-            주요제품매출구성: res.data.주요제품매출구성, 주요주주: res.data.주요주주, 이벤트: res.data.이벤트, 보호예수: res.data.보호예수,
-            테마명: res.data.테마명
-        })
+        if (typeof item.종목코드 !== "undefined") {
+            // 종목정보
+            var res = await axios.get(`${API}/info/stockEtcInfo/${item.종목코드}`);
+            setStock({
+                종목명: item.종목명, 종목코드: item.종목코드, 업종명: item.업종명, 현재가: res.data.현재가,
+                시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, Favorite: res.data.Favorite,
+                // PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,
+                // N_PER: res.data.N_PER, N_PBR: res.data.N_PBR, 동일업종PER: res.data.동일업종PER,
+                // 이벤트: res.data.이벤트, 보호예수: res.data.보호예수,
+                // 최고가52주: res.data.최고가52주, 최저가52주: res.data.최저가52주, 기업개요: res.data.기업개요, 
+                분기실적: res.data.분기실적, 연간실적: res.data.연간실적,
+                // 주요제품매출구성: res.data.주요제품매출구성, 주요주주: res.data.주요주주, 이벤트: res.data.이벤트, 보호예수: res.data.보호예수,
+                // 테마명: res.data.테마명
+            })
 
-        // 종목차트
-        var res = await axios.get(`${STOCK}/get/${item.종목코드}`);
-        // console.log(res.data);
-        setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, treasuryPrice: res.data.treasuryPrice, willR: res.data.willR, net: res.data.net, MA: res.data.MA })
-        //     console.log(res.data); ${item.종목코드}
+            // 종목차트
+            var res = await axios.get(`${STOCK}/get/${item.종목코드}`);
+            // console.log(res.data);
+            setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, treasuryPrice: res.data.treasuryPrice, willR: res.data.willR, net: res.data.net, MA: res.data.MA })
+            //     console.log(res.data); ${item.종목코드}
+        } else {
+            setStock({});
+            setStockChart({ price: [], volume: [] });
+        }
 
     }
     const setDate = () => {
@@ -95,6 +102,7 @@ export default function LeadSectorsPage({ swiperRef }) {
             const res = JSON.parse(event.data);
             setChartData(res.chart);
             setThemesTableData(res.themes);
+            setIndustryInfo(res.industryInfo);
         };
 
         ws.onerror = (error) => {
@@ -120,7 +128,7 @@ export default function LeadSectorsPage({ swiperRef }) {
 
 
     return (
-        <Grid container spacing={1} >
+        <Grid container >
             {/* Clock Box */}
             <Box sx={{ position: 'absolute', transform: 'translate(740px, 400px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
                 <Grid container >{today}</Grid>
@@ -136,14 +144,67 @@ export default function LeadSectorsPage({ swiperRef }) {
                 <Typography sx={{ fontSize: '12px', color: 'tomato' }} >X : 전일대비</Typography>
             </Box>
 
+            {/* 업종 */}
+            <Grid item xs={1}>
+                <Grid item container sx={{ height: "74svh", width: "100%" }}
+                    onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                    onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+                >
+                    <ThemeProvider theme={customTheme}>
+                        <DataGrid rows={industryInfo.slice(0, industryInfo.length - 12)} hideFooter rowHeight={16} columns={industryTableColumns}
+                            onCellClick={(params, event) => {
+                                getInfo(params.row);
+                            }}
+                            getCellClassName={(params) => {
+                                if (params.id === 0) return '';
+                                if ((params.id + 1) % 60 === 0) return 'bottom-line-60';
+                                if ((params.id + 1) % 50 === 0) return 'bottom-line-50';
+                                if ((params.id + 1) % 40 === 0) return 'bottom-line-40';
+                                if ((params.id + 1) % 30 === 0) return 'bottom-line-30';
+                                if ((params.id + 1) % 20 === 0) return 'bottom-line-20';
+                                if ((params.id + 1) % 10 === 0) return 'bottom-line-10';
+                                return '';
+                                // return params.id % 10 === 0 ? 'bottom-line' : '';
+                            }}
+                            sx={{
+                                ...DataTableStyleDefault,
+                                '.bottom-line-10': { borderBottom: '2px solid red' },
+                                '.bottom-line-20': { borderBottom: '2px solid orange' },
+                                '.bottom-line-30': { borderBottom: '2px solid gold' },
+                                '.bottom-line-40': { borderBottom: '2px solid green' },
+                                '.bottom-line-50': { borderBottom: '2px solid dodgerblue' },
+                                '.bottom-line-60': { borderBottom: '2px solid purple' },
+                            }} />
+                    </ThemeProvider>
+                </Grid>
+                <Grid item container sx={{ height: "24svh", width: "100%", marginTop: '10px' }}
+                    onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                    onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+                >
+                    <ThemeProvider theme={customTheme}>
+                        <DataGrid rows={industryInfo.slice(industryInfo.length - 12)} columns={industryTableColumns} hideFooter rowHeight={16}
+                            onCellClick={(params, event) => {
+                                getInfo(params.row);
+                            }}
+                            sx={DataTableStyleDefault} />
+                    </ThemeProvider>
+                </Grid>
+                <div style={{ height: "24svh", width: "100%", marginTop: '10px' }}
+                    onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                    onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+                >
+
+                </div>
+
+            </Grid>
 
             {/* Main Chart */}
-            <Grid item xs={5.2}>
+            <Grid item xs={4.7}>
                 <FilterStockChart data={chartData.series} height={930} yAxis={chartData.yAxis} getInfo={getInfo} />
             </Grid>
 
             {/* 가운데 Table */}
-            <Grid item xs={1.6}>
+            <Grid item xs={1.6} sx={{ pl: 1 }}>
 
                 <Grid item container
                     sx={{ height: '430px' }}
@@ -214,33 +275,31 @@ export default function LeadSectorsPage({ swiperRef }) {
             </Grid>
 
             {/* Stock Info */}
-            <Grid item xs={5.2}>
+            <Grid item xs={4.7} sx={{ pl: 1 }}>
                 <Grid item container>
-                    <SectorChart data={SectorsChartDataSelected} sectorName={SectorsName} height={220} />
+                    <SectorChart data={SectorsChartDataSelected} sectorName={SectorsName} height={190} />
                 </Grid>
 
                 <Grid item container >
-                    <StockChart_MA height={470} boxTransform={`translate(10px, 53px)`}
-                        stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} stockName={stock.종목명} price={stock.현재가} net={stockChart.net}
+                    <StockChart_MA height={460} boxTransform={`translate(10px, 53px)`}
+                        stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} stockName={stock.종목명 ? stock.종목명 : ''} price={stock.현재가} net={stockChart.net}
                         willR={stockChart.willR} treasuryPrice={stockChart.treasuryPrice} treasury={stockChart.treasury} MA={stockChart.MA} />
                 </Grid>
 
                 <Grid item container sx={{ mt: 1 }}>
-                    <Grid item xs={6}>
+                    {stock.종목명 ?
+                        <Grid item xs={8}>
+                            <StockInfoSimple data={stock} handleFavorite={handleFavorite} />
+                            {
+                                Array.isArray(stock.연간실적) ?
+                                    <Financial annual={stock.연간실적} quarter={stock.분기실적} />
+                                    : <></>
+                            }
 
-                        {stock.종목명 ?
-                            <StockInfo data={stock} handleFavorite={handleFavorite} />
-                            : <></>
-                        }
-                    </Grid>
-                    <Grid item xs={6}>
-                        {
-                            Array.isArray(stock.연간실적) ?
-                                <Financial annual={stock.연간실적} quarter={stock.분기실적} />
-                                : <></>
-                        }
+                        </Grid>
 
-                    </Grid>
+                        : <></>
+                    }
                 </Grid>
 
             </Grid>
