@@ -130,7 +130,7 @@ export default function LeadSectorsPage({ swiperRef }) {
     return (
         <Grid container >
             {/* Clock Box */}
-            <Box sx={{ position: 'absolute', transform: 'translate(800px, 400px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(900px, 400px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
                 <Grid container >{today}</Grid>
                 <Grid container >{time}</Grid>
                 <Grid container sx={{ mb: 2 }}></Grid>
@@ -202,7 +202,7 @@ export default function LeadSectorsPage({ swiperRef }) {
             </Grid>
 
             {/* Main Chart */}
-            <Grid item xs={4.7}>
+            <Grid item xs={5.4}>
                 <FilterStockChart data={chartData.series} height={930} yAxis={chartData.yAxis} getInfo={getInfo} />
             </Grid>
 
@@ -278,7 +278,7 @@ export default function LeadSectorsPage({ swiperRef }) {
             </Grid>
 
             {/* Stock Info */}
-            <Grid item xs={4.7} sx={{ pl: 1 }}>
+            <Grid item xs={4} sx={{ pl: 1 }}>
                 <Grid item container>
                     <SectorChart data={SectorsChartDataSelected} sectorName={SectorsName} height={190} />
                 </Grid>
@@ -291,15 +291,15 @@ export default function LeadSectorsPage({ swiperRef }) {
 
                 <Grid item container sx={{ mt: 1 }}>
                     {stock.종목명 ?
-                        <Grid item xs={8}>
+                        <>
+                            {/* <Grid item xs={8}> */}
                             <StockInfoSimple data={stock} handleFavorite={handleFavorite} />
                             {
                                 Array.isArray(stock.연간실적) ?
                                     <Financial annual={stock.연간실적} quarter={stock.분기실적} />
                                     : <></>
                             }
-
-                        </Grid>
+                        </>
 
                         : <></>
                     }
