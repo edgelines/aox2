@@ -50,7 +50,7 @@ const SectorChart = ({ data, sectorName, height, legendY }) => {
                 },
                 tooltip: { shared: true, crosshairs: true, hideDelay: 2, backgroundColor: 'rgba(255, 255, 255, 0.5)' },
                 plotOptions: { series: { cursor: 'pointer', marker: { lineWidth: 0, symbol: 'circle' }, animation: false, }, },
-                series: data.map((item, index) => {
+                series: data.length > 1 ? data.map((item, index) => {
                     const colors = ['magenta', 'gold', 'greenyellow', 'aqua', 'honeydew'];
                     // const isHighlighted = sectorName ? item.업종명 === sectorName : false;
                     const isHighlighted = item.업종명 === sectorName; // sectorName과 일치하는지 확인
@@ -63,7 +63,7 @@ const SectorChart = ({ data, sectorName, height, legendY }) => {
                         // lineWidth: isHighlighted ? 3.5 : 0.4, // 일치하면 굵기를 3으로, 아니면 1로 설정
                         showInLegend: item.data !== null,
                     };
-                })
+                }) : []
             });
         }
     }, [data]);

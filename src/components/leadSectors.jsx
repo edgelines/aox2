@@ -30,6 +30,7 @@ export default function LeadSectorsPage({ swiperRef }) {
     const [stockTableData, setStockTableData] = useState([]);
     const [SectorsChartDataSelected, setSectorsChartDataSelected] = useState([]);
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
+    const [tableInfo, setTableInfo] = useState({ industry: null, kospi: null, kosdaq: null })
 
     // hanlder
     const handleFavorite = async () => {
@@ -103,6 +104,7 @@ export default function LeadSectorsPage({ swiperRef }) {
             setChartData(res.chart);
             setThemesTableData(res.themes);
             setIndustryInfo(res.industryInfo);
+            setTableInfo(res.tableInfo);
         };
 
         ws.onerror = (error) => {
@@ -145,6 +147,12 @@ export default function LeadSectorsPage({ swiperRef }) {
                 <Typography sx={{ fontSize: '12px' }} >전일대비거래량</Typography>
                 <Typography sx={{ fontSize: '12px', color: 'dodgerblue' }} >X : 어제기준</Typography>
                 <Typography sx={{ fontSize: '12px', color: 'tomato' }} >X : 오늘기준</Typography>
+                <Grid container sx={{ mb: 2 }}></Grid>
+                <Typography sx={{ fontSize: '12px' }} >코스피 : {tableInfo.kospi}</Typography>
+                <Typography sx={{ fontSize: '12px' }} >코스닥 : {tableInfo.kosdaq}</Typography>
+            </Box>
+            <Box sx={{ position: 'absolute', transform: 'translate(200px, 20px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
+                <Typography sx={{ fontSize: '15px' }} >업종 수 : {tableInfo.industry}</Typography>
             </Box>
 
             {/* 업종 */}
