@@ -134,7 +134,9 @@ export default function LeadSectorsPage({ swiperRef }) {
                 <Grid container >{today}</Grid>
                 <Grid container >{time}</Grid>
                 <Grid container sx={{ mb: 2 }}></Grid>
-                <Typography sx={{ fontSize: '12px', color: 'dodgerblue' }} >100% 미만</Typography>
+                <Typography sx={{ fontSize: '12px', color: 'mediumorchid' }} >50% 미만</Typography>
+                <Typography sx={{ fontSize: '12px', color: 'dodgerblue' }} >50%~75%</Typography>
+                <Typography sx={{ fontSize: '12px', color: 'skyblue' }} >75%~100%</Typography>
                 <Typography sx={{ fontSize: '12px', color: 'Lawngreen' }} >100%~200%</Typography>
                 <Typography sx={{ fontSize: '12px', color: 'gold' }} >200%~300%</Typography>
                 <Typography sx={{ fontSize: '12px', color: 'orange' }} >300%~400%</Typography>
