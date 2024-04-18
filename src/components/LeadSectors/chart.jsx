@@ -6,7 +6,7 @@ HighchartsMore(Highcharts)
 
 require('highcharts/modules/accessibility')(Highcharts)
 
-export default function FilterStockChart({ data, height, yAxis, getInfo }) {
+export default function FilterStockChart({ data, height, yAxis, getInfo, isThemes }) {
     const [chartOptions, setChartOptions] = useState({
         chart: {
             type: 'bubble',
@@ -101,7 +101,7 @@ export default function FilterStockChart({ data, height, yAxis, getInfo }) {
                     events: {
                         click: function () {
                             if (this.options.종목코드) {
-                                const msg = { 종목코드: this.options.종목코드, 업종명: this.options.업종명, 종목명: this.options.종목명 };
+                                const msg = { 종목코드: this.options.종목코드, 업종명: this.options.업종명, 종목명: this.options.종목명, 테마명: isThemes ? this.options.테마명 : '' };
                                 getInfo(msg)
                             }
                         }

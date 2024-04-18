@@ -105,6 +105,18 @@ export const stockTableColumns = [
     }
 ]
 
+export const industryColumns = [
+    {
+        field: '업종명', headerName: '업종명', width: 160,
+        align: 'left', headerAlign: 'left',
+    }, {
+        field: '전체종목수', headerName: '갯수', width: 50,
+        align: 'right', headerAlign: 'center',
+    }
+]
+
+
+
 
 // 전체 업종 등락률
 // 왼쪽 업종명/전일대비

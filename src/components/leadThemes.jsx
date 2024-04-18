@@ -6,7 +6,7 @@ import { useTheme, styled } from '@mui/material/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import FilterStockChart from './LeadSectors/chart';
 import SectorChart from './SectorsPage/sectorChart';
-import { customTheme, themesTableColumns, stockTableColumns, DataTableStyleDefault, industryTableColumns } from './LeadSectors/tableColumns';
+import { customTheme, themesTableColumns, stockTableColumns, DataTableStyleDefault, industryTableColumns, industryColumns } from './LeadSectors/tableColumns';
 import { SectorsName15 } from './util/util';
 import { StyledTypography_StockInfo, Financial, EtcInfo } from './util/htsUtil';
 import StockChart_MA from './util/stockChart_MA';
@@ -26,7 +26,7 @@ export default function LeadThemesPage({ swiperRef }) {
 
     const [industryInfo, setIndustryInfo] = useState([]);
     const [chartData, setChartData] = useState({ data: [], yAxis: { categories: null } });
-    const [themesTableData, setThemesTableData] = useState([]);
+    const [industryTableData, setIndustryTableData] = useState([]);
     const [stockTableData, setStockTableData] = useState([]);
     const [SectorsChartDataSelected, setSectorsChartDataSelected] = useState([]);
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
@@ -37,8 +37,8 @@ export default function LeadThemesPage({ swiperRef }) {
         await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
     }
     const getInfo = async (item) => {
-        var res = await axios.get(`${API}/industry/LeadSectorsTable/${item.업종명}`);
-        // var res = await axios.get(`${TEST}/LeadSectorsTable/${item.업종명}`);
+        var res = await axios.get(`${API}/themes/LeadThemesTable/${item.테마명}`);
+        // var res = await axios.get(`${TEST}/LeadThemesTable/${item.테마명}`);
         setStockTableData(res.data);
 
         // 업종 차트
@@ -101,6 +101,7 @@ export default function LeadThemesPage({ swiperRef }) {
         ws.onmessage = (event) => {
             const res = JSON.parse(event.data);
             setChartData(res.chart);
+            setIndustryTableData(res.industry);
             // setThemesTableData(res.themes);
             // setIndustryInfo(res.industryInfo);
         };
@@ -147,7 +148,7 @@ export default function LeadThemesPage({ swiperRef }) {
 
             {/* Main Chart */}
             <Grid item xs={5.2}>
-                <FilterStockChart data={chartData.series} height={930} yAxis={chartData.yAxis} getInfo={getInfo} />
+                <FilterStockChart data={chartData.series} height={930} yAxis={chartData.yAxis} getInfo={getInfo} isThemes={true} />
             </Grid>
 
             {/* 가운데 Table */}
@@ -160,8 +161,8 @@ export default function LeadThemesPage({ swiperRef }) {
                 >
                     <ThemeProvider theme={customTheme}>
                         <DataGrid
-                            rows={themesTableData}
-                            columns={themesTableColumns}
+                            rows={industryTableData}
+                            columns={industryColumns}
                             hideFooter rowHeight={20}
 
                             // onCellClick={(params, event) => {
