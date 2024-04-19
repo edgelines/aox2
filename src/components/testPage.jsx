@@ -6,14 +6,10 @@ import { useTheme, styled } from '@mui/material/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import FilterStockChart from './LeadSectors/chart';
 import { DataTableStyleDefault, StyledToggleButton } from './util/util';
-import Highcharts from 'highcharts/highstock'
-import HighchartsMore from 'highcharts/highcharts-more'
-import SolidGauge from "highcharts/modules/solid-gauge";
+import Chart from './Test/chart';
 import { API_WS, TEST } from './util/config';
 
-HighchartsMore(Highcharts)
-SolidGauge(Highcharts)
-require('highcharts/modules/accessibility')(Highcharts)
+
 
 export default function TestPage({ }) {
     const [message, setMessage] = useState('');
@@ -62,7 +58,7 @@ export default function TestPage({ }) {
 
     return (
         <Grid container >
-            <ToggleButtonGroup
+            {/* <ToggleButtonGroup
                 color='info'
                 exclusive
                 size="small"
@@ -74,7 +70,11 @@ export default function TestPage({ }) {
                 <StyledToggleButton fontSize={'10px'} value="사업내용">사업내용</StyledToggleButton>
                 <StyledToggleButton fontSize={'10px'} value="테마">테마</StyledToggleButton>
                 <StyledToggleButton fontSize={'10px'} value="주요">주요제품/주요주주</StyledToggleButton>
-            </ToggleButtonGroup>
+            </ToggleButtonGroup> */}
+
+            <Chart />
+
         </Grid>
+
     )
 }

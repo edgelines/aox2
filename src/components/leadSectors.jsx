@@ -287,9 +287,8 @@ export default function LeadSectorsPage({ swiperRef }) {
 
             {/* Stock Info */}
             <Grid item xs={3.5} sx={{ pl: 1 }}>
-                <Grid item container>
-                    <SectorChart data={SectorsChartDataSelected} sectorName={SectorsName} height={190} />
-                </Grid>
+
+                <SectorChart data={SectorsChartDataSelected} sectorName={SectorsName} height={190} />
 
                 <Grid item container >
                     <StockChart_MA height={460} boxTransform={`translate(10px, 53px)`}
