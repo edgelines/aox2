@@ -210,7 +210,7 @@ export default function LeadSectorsPage({ swiperRef }) {
             </Grid>
 
             {/* Main Chart */}
-            <Grid item xs={5.4}>
+            <Grid item xs={5.9}>
                 <FilterStockChart data={chartData.series} height={930} yAxis={chartData.yAxis} getInfo={getInfo} />
             </Grid>
 
@@ -286,7 +286,7 @@ export default function LeadSectorsPage({ swiperRef }) {
             </Grid>
 
             {/* Stock Info */}
-            <Grid item xs={4} sx={{ pl: 1 }}>
+            <Grid item xs={3.5} sx={{ pl: 1 }}>
                 <Grid item container>
                     <SectorChart data={SectorsChartDataSelected} sectorName={SectorsName} height={190} />
                 </Grid>
