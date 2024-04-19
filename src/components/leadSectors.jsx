@@ -151,8 +151,8 @@ export default function LeadSectorsPage({ swiperRef }) {
                 <Typography sx={{ fontSize: '12px' }} >코스피 : {tableInfo.kospi} 종목</Typography>
                 <Typography sx={{ fontSize: '12px' }} >코스닥 : {tableInfo.kosdaq} 종목</Typography>
             </Box>
-            <Box sx={{ position: 'absolute', transform: 'translate(200px, 20px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
-                <Typography sx={{ fontSize: '15px' }} >업종 수 : {tableInfo.industry}</Typography>
+            <Box sx={{ position: 'absolute', transform: 'translate(170px, 20px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
+                <Typography sx={{ fontSize: '15px' }} >업종 : {tableInfo.industry}개, 종목수 : {tableInfo.stock}개</Typography>
             </Box>
 
             {/* 업종 */}
