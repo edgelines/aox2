@@ -132,7 +132,7 @@ export default function LeadSectorsPage({ swiperRef }) {
     return (
         <Grid container >
             {/* Clock Box */}
-            <Box sx={{ position: 'absolute', transform: 'translate(900px, 400px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(980px, 400px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
                 <Grid container >{today}</Grid>
                 <Grid container >{time}</Grid>
                 <Grid container sx={{ mb: 2 }}></Grid>
