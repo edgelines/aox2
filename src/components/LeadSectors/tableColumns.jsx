@@ -48,11 +48,30 @@ export const customTheme = createTheme({
 // Lead Sector 중앙 상단 Table Columns
 export const themesTableColumns = [
     {
-        field: '테마명', headerName: '테마명', width: 160,
+        field: '순위', headerName: '순위', width: 50,
+        align: 'center', headerAlign: 'left',
+    }, {
+        field: '테마명', headerName: '테마명', width: 75,
         align: 'left', headerAlign: 'left',
     }, {
-        field: '전체종목수', headerName: '갯수', width: 50,
-        align: 'right', headerAlign: 'center',
+        field: '등락률', headerName: '등락률', width: 50,
+        align: 'left', headerAlign: 'left',
+        renderCell: (params) => {
+            const progress = renderProgress({ value: params.value, valueON: true, color: '#e89191', val2: 8 })
+            return (
+                <Box sx={{ position: 'relative', mt: -2 }}>
+                    <Box sx={{ position: 'absolute', zIndex: 1, marginLeft: 0.5 }}>
+                        {params.value} %
+                    </Box>
+                    <Box sx={{ position: 'absolute', zIndex: 0, width: 80, mt: -0.6, marginLeft: -0.5 }}>
+                        {progress}
+                    </Box>
+                </Box>
+            )
+        }
+    }, {
+        field: '종목수', headerName: '갯수', width: 50,
+        align: 'center', headerAlign: 'center',
     }
 ]
 
