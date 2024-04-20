@@ -23,7 +23,7 @@ export default function LeadSectorsPage({ swiperRef }) {
     const [time, setTime] = useState(null);
     const [SectorsName, setSectorsName] = useState(null);
     const [stock, setStock] = useState({});
-
+    const [selectedTitle, setSelectedTitle] = useState(null);
     const [industryInfo, setIndustryInfo] = useState([]);
     const [chartData, setChartData] = useState({ data: [], yAxis: { categories: null } });
     const [themesTableData, setThemesTableData] = useState([]);
@@ -45,6 +45,7 @@ export default function LeadSectorsPage({ swiperRef }) {
         // 업종 차트
         const name = SectorsName15(item.업종명)
         setSectorsName(item.업종명);
+        setSelectedTitle(`업종 : ${item.업종명} `);
         const excludedNames = ['없음', '카드', '손해보험', '복합유틸리티', '복합기업', '전기유틸리티', '생명보험', '다각화된소비자서비스', '사무용전자제품', '담배', '기타금융', '문구류', '판매업체', '전문소매', '출판']
         if (!excludedNames.includes(name)) {
             var res = await axios.get(`${API}/industryChartData/getChart?name=${name}`);
@@ -76,6 +77,13 @@ export default function LeadSectorsPage({ swiperRef }) {
             setStockChart({ price: [], volume: [] });
         }
 
+    }
+    const getInfoTheme = async (item) => {
+        const postData = { theme: item.테마명 }
+        // var res = await axios.post(`${TEST}/SelectedThemes`, postData);
+        var res = await axios.post(`${API}/themes/SelectedThemes`, postData);
+        setStockTableData(res.data);
+        setSelectedTitle(`테마 : ${item.테마명} `)
     }
     const setDate = () => {
         var now = new Date();
@@ -227,31 +235,23 @@ export default function LeadSectorsPage({ swiperRef }) {
                             rows={themesTableData}
                             columns={themesTableColumns}
                             hideFooter rowHeight={20}
-
-                            // onCellClick={(params, event) => {
-                            //     let item = params.row.item;
-                            //     let itemStr = "" + item;
-                            //     stockItemSelected({ 종목코드: params.row.종목코드, 종목명: itemStr, 업종명: params.row.업종명 });
-                            // }}
+                            onCellClick={(params, event) => {
+                                getInfoTheme(params.row);
+                            }}
                             sx={{
                                 color: 'white', border: 'none',
                                 ...DataTableStyleDefault,
                                 [`& .${gridClasses.cell}`]: { py: 1, },
-                                // '.MuiTablePagination-root': { color: '#efe9e9ed' },
-                                // '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
-                                // '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
-                                // '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
-                                // '[data-field="부채비율"]': { borderLeft: '1.5px solid #ccc' },
-                                // '[data-field="테마명"]': { borderLeft: '1.5px solid #ccc' },
-                                // '[data-field="TRIMA_41"]': { borderRight: '1.5px solid #ccc' },
                             }}
                         />
                     </ThemeProvider>
 
                 </Grid>
-
+                <Grid item container sx={{ mt: 1 }}>
+                    <Typography sx={{ fontSize: '13px' }}> {selectedTitle !== null ? selectedTitle : ''} </Typography>
+                </Grid>
                 <Grid item container
-                    sx={{ height: '430px', mt: 2 }}
+                    sx={{ height: '430px', mt: 1 }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
@@ -260,23 +260,13 @@ export default function LeadSectorsPage({ swiperRef }) {
                             rows={stockTableData}
                             columns={stockTableColumns}
                             hideFooter rowHeight={20}
-
-                            // onCellClick={(params, event) => {
-                            //     let item = params.row.item;
-                            //     let itemStr = "" + item;
-                            //     stockItemSelected({ 종목코드: params.row.종목코드, 종목명: itemStr, 업종명: params.row.업종명 });
-                            // }}
+                            onCellClick={(params, event) => {
+                                getInfo(params.row);
+                            }}
                             sx={{
                                 color: 'white', border: 'none',
                                 ...DataTableStyleDefault,
                                 [`& .${gridClasses.cell}`]: { py: 1, },
-                                // '.MuiTablePagination-root': { color: '#efe9e9ed' },
-                                // '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
-                                // '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
-                                // '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
-                                // '[data-field="부채비율"]': { borderLeft: '1.5px solid #ccc' },
-                                // '[data-field="테마명"]': { borderLeft: '1.5px solid #ccc' },
-                                // '[data-field="TRIMA_41"]': { borderRight: '1.5px solid #ccc' },
                             }}
                         />
                     </ThemeProvider>

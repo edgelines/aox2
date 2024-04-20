@@ -23,8 +23,8 @@ export default function LeadThemesPage({ swiperRef }) {
     const [time, setTime] = useState(null);
     const [SectorsName, setSectorsName] = useState(null);
     const [stock, setStock] = useState({});
+    const [selectedTitle, setSelectedTitle] = useState(null);
 
-    const [industryInfo, setIndustryInfo] = useState([]);
     const [chartData, setChartData] = useState({ data: [], yAxis: { categories: null } });
     const [industryTableData, setIndustryTableData] = useState([]);
     const [stockTableData, setStockTableData] = useState([]);
@@ -37,7 +37,10 @@ export default function LeadThemesPage({ swiperRef }) {
         await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
     }
     const getInfo = async (item) => {
-        var res = await axios.get(`${API}/themes/LeadThemesTable/${item.테마명}`);
+        const postData = { theme: item.테마명 }
+        var res = await axios.post(`${API}/themes/LeadThemesTable`, postData);
+
+        // var res = await axios.get(`${API}/themes/LeadThemesTable/${item.테마명}`);
         // var res = await axios.get(`${TEST}/LeadThemesTable/${item.테마명}`);
         setStockTableData(res.data);
 
@@ -188,7 +191,9 @@ export default function LeadThemesPage({ swiperRef }) {
                     </ThemeProvider>
 
                 </Grid>
-
+                <Grid item container>
+                    <Typography sx={{ fontSize: '13px' }}> {selectedTitle !== null ? selectedTitle : ''} </Typography>
+                </Grid>
                 <Grid item container
                     sx={{ height: '430px', mt: 2 }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
