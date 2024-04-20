@@ -61,7 +61,7 @@ export const themesTableColumns = [
             return (
                 <Box sx={{ position: 'relative', mt: -2 }}>
                     <Box sx={{ position: 'absolute', zIndex: 1, marginLeft: 0.5 }}>
-                        {params.value} %
+                        {params.value.toFixed(1)} %
                     </Box>
                     <Box sx={{ position: 'absolute', zIndex: 0, width: 80, mt: -0.6, marginLeft: -0.5 }}>
                         {progress}
