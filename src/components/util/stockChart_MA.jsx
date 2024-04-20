@@ -181,19 +181,18 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                 ...이평기본, data: MA.wma_6, color: "black", name: '6중가', lineWidth: 0.5,
             }, {
                 ...이평기본, data: MA.gmean_6, color: "black", name: '6고기', lineWidth: 0.5,
-            }, {
-                ...이평기본, data: MA.gmean_105, color: "gray", name: '105고기', lineWidth: 1,
+                // }, {
+                //     ...이평기본, data: MA.gmean_105, color: "gray", name: '105고기', lineWidth: 1,
             }, {
                 ...이평기본, data: MA.ma_83, color: "orange", name: '83저단', lineWidth: 1,
             }, {
-                ...이평기본, data: MA.ema_112, color: "brown", name: '112', lineWidth: 1,
+                ...이평기본, data: MA.ema_112, color: "brown", name: '112저지', lineWidth: 1,
             }, {
                 ...이평기본, data: MA.ema_224, color: "green", name: '224저지', lineWidth: 1,
             }, {
-                ...이평기본, data: MA.trima_112, color: "tomato", name: '112', lineWidth: 2, dashStyle: 'LongDash'
-            }, {
-                ...이평기본, data: MA.trima_133, color: "dodgerblue", name: '133', lineWidth: 2, dashStyle: 'LongDash'
-
+                ...이평기본, data: MA.trima_112, color: "tomato", name: '112저삼', lineWidth: 2, dashStyle: 'LongDash'
+                // }, {
+                //     ...이평기본, data: MA.trima_133, color: "dodgerblue", name: '133', lineWidth: 2, dashStyle: 'LongDash'
             }, {
                 type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
                 color: 'tomato',
@@ -353,7 +352,7 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
 
     }, [stockItemData]);
 
-    const typographyStyle = { color: 'black', fontWeight: 600, textAlign: 'left', fontSize: '18px' }
+    const typographyStyle = { color: 'black', fontWeight: 600, textAlign: 'left', fontSize: '15px' }
 
     return (
         <Grid container>
