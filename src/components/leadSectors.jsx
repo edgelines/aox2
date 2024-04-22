@@ -27,6 +27,7 @@ export default function LeadSectorsPage({ swiperRef }) {
     const [industryInfo, setIndustryInfo] = useState([]);
     const [chartData, setChartData] = useState({ data: [], yAxis: { categories: null } });
     const [themesTableData, setThemesTableData] = useState([]);
+    const [themesToStockData, setThemesToStockData] = useState([]);
     const [stockTableData, setStockTableData] = useState([]);
     const [SectorsChartDataSelected, setSectorsChartDataSelected] = useState([]);
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
@@ -82,7 +83,7 @@ export default function LeadSectorsPage({ swiperRef }) {
         const postData = { theme: item.테마명 }
         // var res = await axios.post(`${TEST}/SelectedThemes`, postData);
         var res = await axios.post(`${API}/themes/SelectedThemes`, postData);
-        setStockTableData(res.data);
+        setThemesToStockData(res.data);
         setSelectedTitle(`테마 : ${item.테마명} `)
     }
     const setDate = () => {
@@ -208,13 +209,6 @@ export default function LeadSectorsPage({ swiperRef }) {
                             sx={DataTableStyleDefault} />
                     </ThemeProvider>
                 </Grid>
-                <div style={{ height: "24svh", width: "100%", marginTop: '10px' }}
-                    onMouseEnter={() => swiperRef.current.mousewheel.disable()}
-                    onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-                >
-
-                </div>
-
             </Grid>
 
             {/* Main Chart */}
@@ -226,7 +220,7 @@ export default function LeadSectorsPage({ swiperRef }) {
             <Grid item xs={1.6} sx={{ pl: 1 }}>
 
                 <Grid item container
-                    sx={{ height: '430px' }}
+                    sx={{ height: '330px' }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
@@ -251,7 +245,26 @@ export default function LeadSectorsPage({ swiperRef }) {
                     <Typography sx={{ fontSize: '13px' }}> {selectedTitle !== null ? selectedTitle : ''} </Typography>
                 </Grid>
                 <Grid item container
-                    sx={{ height: '430px', mt: 1 }}
+                    sx={{ height: '280px', mt: 1 }}
+                    onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                    onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+                >
+                    <ThemeProvider theme={customTheme}>
+                        <DataGrid
+                            rows={themesToStockData}
+                            columns={stockTableColumns}
+                            hideFooter rowHeight={20}
+                            onCellClick={(params, event) => { getInfo(params.row); }}
+                            sx={{
+                                color: 'white', border: 'none',
+                                ...DataTableStyleDefault,
+                                [`& .${gridClasses.cell}`]: { py: 1, },
+                            }}
+                        />
+                    </ThemeProvider>
+                </Grid>
+                <Grid item container
+                    sx={{ height: '280px', mt: 1 }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
@@ -270,7 +283,6 @@ export default function LeadSectorsPage({ swiperRef }) {
                             }}
                         />
                     </ThemeProvider>
-
                 </Grid>
 
             </Grid>
