@@ -24,7 +24,7 @@ export default function LeadSectorsPage({ swiperRef }) {
     const [SectorsName, setSectorsName] = useState(null);
     const [stock, setStock] = useState({});
     const [selectedTitle, setSelectedTitle] = useState(null);
-
+    const [themesCounterIndustry, setThemesCounterIndustry] = useState([]);
     const [industryInfo, setIndustryInfo] = useState([]);
     const [chartData, setChartData] = useState({ data: [], yAxis: { categories: null } });
     const [themesTableData, setThemesTableData] = useState([]);
@@ -115,6 +115,7 @@ export default function LeadSectorsPage({ swiperRef }) {
             setThemesTableData(res.themes);
             setIndustryInfo(res.industryInfo);
             setTableInfo(res.tableInfo);
+            setThemesCounterIndustry(res.themesToIndustry)
         };
 
         ws.onerror = (error) => {
@@ -161,6 +162,22 @@ export default function LeadSectorsPage({ swiperRef }) {
                 <Typography sx={{ fontSize: '12px' }} >코스피 : {tableInfo.kospi} 종목</Typography>
                 <Typography sx={{ fontSize: '12px' }} >코스닥 : {tableInfo.kosdaq} 종목</Typography>
             </Box>
+
+            <Box sx={{ position: 'absolute', transform: 'translate(960px, 40px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+                {
+                    Array.isArray(themesCounterIndustry) && themesCounterIndustry.length > 0 ?
+                        themesCounterIndustry.map(item => (
+
+                            <Typography sx={{ fontSize: '12px' }}>
+                                {item.업종명}
+                            </Typography>
+
+                        ))
+                        : ''
+
+                }
+            </Box>
+
             <Box sx={{ position: 'absolute', transform: 'translate(170px, 20px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
                 <Typography sx={{ fontSize: '15px' }} >업종 : {tableInfo.industry}개, 종목수 : {tableInfo.stock}개</Typography>
             </Box>
