@@ -24,6 +24,7 @@ export default function LeadSectorsPage({ swiperRef }) {
     const [SectorsName, setSectorsName] = useState(null);
     const [stock, setStock] = useState({});
     const [selectedTitle, setSelectedTitle] = useState(null);
+
     const [industryInfo, setIndustryInfo] = useState([]);
     const [chartData, setChartData] = useState({ data: [], yAxis: { categories: null } });
     const [themesTableData, setThemesTableData] = useState([]);
@@ -46,7 +47,7 @@ export default function LeadSectorsPage({ swiperRef }) {
         // 업종 차트
         const name = SectorsName15(item.업종명)
         setSectorsName(item.업종명);
-        setSelectedTitle(`업종 : ${item.업종명} `);
+
         const excludedNames = ['없음', '카드', '손해보험', '복합유틸리티', '복합기업', '전기유틸리티', '생명보험', '다각화된소비자서비스', '사무용전자제품', '담배', '기타금융', '문구류', '판매업체', '전문소매', '출판']
         if (!excludedNames.includes(name)) {
             var res = await axios.get(`${API}/industryChartData/getChart?name=${name}`);
@@ -245,7 +246,7 @@ export default function LeadSectorsPage({ swiperRef }) {
                     <Typography sx={{ fontSize: '13px' }}> {selectedTitle !== null ? selectedTitle : ''} </Typography>
                 </Grid>
                 <Grid item container
-                    sx={{ height: '280px', mt: 1 }}
+                    sx={{ height: '250px', mt: 1 }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
@@ -262,6 +263,9 @@ export default function LeadSectorsPage({ swiperRef }) {
                             }}
                         />
                     </ThemeProvider>
+                </Grid>
+                <Grid item container sx={{ mt: 1 }}>
+                    <Typography sx={{ fontSize: '13px' }}> {SectorsName !== null ? `업종 : ${SectorsName}` : ''} </Typography>
                 </Grid>
                 <Grid item container
                     sx={{ height: '280px', mt: 1 }}
