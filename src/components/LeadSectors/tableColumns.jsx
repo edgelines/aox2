@@ -113,7 +113,7 @@ export const stockTableColumns = [
             return (
                 <Box sx={{ position: 'relative', mt: -2 }}>
                     <Box sx={{ position: 'absolute', zIndex: 1 }}>
-                        {params.value.toLocaleString('kr')} %
+                        {(params.value * 100).toLocaleString('kr')} %
                     </Box>
                     <Box sx={{ position: 'absolute', zIndex: 0, width: 100, mt: -0.6, marginLeft: -0.5 }}>
                         {progress}
