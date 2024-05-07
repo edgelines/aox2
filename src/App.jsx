@@ -15,7 +15,7 @@ import "swiper/css/navigation";
 import { Keyboard, Mousewheel, Pagination } from "swiper/modules";
 import LeadSectors from './components/leadSectors';
 import LeadThemes from './components/leadThemes';
-// import TestPage from './components/testPage';
+import TestPage from './components/testPage';
 function App() {
 
     const swiperRef = useRef(null);
@@ -38,8 +38,10 @@ function App() {
                 style={{ height: "100vh" }}
             >
 
+                {/* <TestPage swiperRef={swiperRef} /> */}
+                {/* <LeadSectors swiperRef={swiperRef} /> */}
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <LeadThemes swiperRef={swiperRef} />
+                    <LeadThemes swiperRef={swiperRef} 중복수={3} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -55,7 +57,11 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <LeadThemes swiperRef={swiperRef} />
+                    <LeadThemes swiperRef={swiperRef} 중복수={2} />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <LeadThemes swiperRef={swiperRef} 중복수={3} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >

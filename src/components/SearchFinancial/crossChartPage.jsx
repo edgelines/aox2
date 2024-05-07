@@ -17,9 +17,8 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
     const categories2 = ['매출', '영업이익', '당기순이익']
     const allItemList = [['전체 종목', '전체종목'], ['전체 흑자', '흑자기업'], ['전체 미집계', '미집계']]
     const [tableColumnsName, setTableColumnsName] = useState('themes')
-    // const [tableData, setTableData] = useState([]);
     const [selectedIndustries, setSelectedIndustries] = useState(null);
-    // const [selectedIndustries, setSelectedIndustries] = useState('반도체와반도체장비');
+
     const [filter, setFilter] = useState({ field: null, industry: null })
     const [stockTableData, setStockTableData] = useState([]);
     const [chartType, setChartType] = useState(true); // true : cross, false : industry

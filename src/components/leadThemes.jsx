@@ -15,7 +15,7 @@ import { API, API_WS, STOCK, TEST } from './util/config';
 
 
 
-export default function LeadThemesPage({ swiperRef }) {
+export default function LeadThemesPage({ swiperRef, 중복수 }) {
     // const [message, setMessage] = useState('');
     // const [field, setField] = useState(''); // 상태 추가
     // const [ws, setWs] = useState(null); // 웹소켓 인스턴스를 상태로 관리
@@ -96,7 +96,7 @@ export default function LeadThemesPage({ swiperRef }) {
     }
 
     useEffect(() => {
-        const ws = new WebSocket(`${API_WS}/LeadThemes`);
+        const ws = new WebSocket(`${API_WS}/LeadThemes${중복수}`);
         ws.onopen = () => {
             console.log('Lead Sectors WebSocket Connected');
         };
@@ -133,6 +133,10 @@ export default function LeadThemesPage({ swiperRef }) {
 
     return (
         <Grid container >
+            {/* Title */}
+            <Box sx={{ position: 'absolute', transform: 'translate(7px, 20px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+                ㅁ 표기 종목수 : {중복수}
+            </Box>
             {/* Clock Box */}
             <Box sx={{ position: 'absolute', transform: 'translate(720px, 400px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
                 <Grid container >{today}</Grid>
