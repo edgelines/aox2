@@ -30,6 +30,7 @@ export default function LeadThemesPage({ swiperRef, 중복수 }) {
     const [stockTableData, setStockTableData] = useState([]);
     const [SectorsChartDataSelected, setSectorsChartDataSelected] = useState([]);
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
+    const [checkStats, setCheckStats] = useState({ b1_kospi200: [] });
 
     // hanlder
     const handleFavorite = async () => {
@@ -105,6 +106,7 @@ export default function LeadThemesPage({ swiperRef, 중복수 }) {
             const res = JSON.parse(event.data);
             setChartData(res.chart);
             setIndustryTableData(res.industry);
+            setCheckStats(res.check);
             // setThemesTableData(res.themes);
             // setIndustryInfo(res.industryInfo);
         };
@@ -153,6 +155,16 @@ export default function LeadThemesPage({ swiperRef, 중복수 }) {
                 <Typography sx={{ fontSize: '12px' }} >전일대비거래량</Typography>
                 <Typography sx={{ fontSize: '12px', color: 'dodgerblue' }} >X : 어제기준</Typography>
                 <Typography sx={{ fontSize: '12px', color: 'tomato' }} >X : 오늘기준</Typography>
+            </Box>
+
+            <Box sx={{ position: 'absolute', transform: 'translate(7px, 855px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
+                {Array.isArray(checkStats.b1_kospi200) && checkStats.b1_kospi200.length > 0 ?
+                    <>
+                        <Typography sx={{ fontSize: '13px' }} > 코스피200 : {checkStats.now_kospi200.length} / {checkStats.b1_kospi200.length} ({parseInt(checkStats.now_kospi200.length / checkStats.b1_kospi200.length * 100)}%)</Typography>
+                        <Typography sx={{ fontSize: '13px' }} > 코스피 : {checkStats.now_kospi.length} / {checkStats.b1_kospi.length} ({parseInt(checkStats.now_kospi.length / checkStats.b1_kospi.length * 100)}%)</Typography>
+                        <Typography sx={{ fontSize: '13px' }} > 코스닥 : {checkStats.now_kosdaq.length} / {checkStats.b1_kosdaq.length} ({parseInt(checkStats.now_kosdaq.length / checkStats.b1_kosdaq.length * 100)}%)</Typography>
+                    </>
+                    : <></>}
             </Box>
 
             {/* Main Chart */}

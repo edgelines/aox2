@@ -33,6 +33,7 @@ export default function LeadSectorsPage({ swiperRef }) {
     const [SectorsChartDataSelected, setSectorsChartDataSelected] = useState([]);
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
     const [tableInfo, setTableInfo] = useState({ industry: null, kospi: null, kosdaq: null })
+    const [checkStats, setCheckStats] = useState({ b1_kospi200: [] });
 
     // hanlder
     const handleFavorite = async () => {
@@ -116,6 +117,7 @@ export default function LeadSectorsPage({ swiperRef }) {
             setIndustryInfo(res.industryInfo);
             setTableInfo(res.tableInfo);
             setThemesCounterIndustry(res.themesToIndustry)
+            setCheckStats(res.check);
         };
 
         ws.onerror = (error) => {
@@ -180,6 +182,16 @@ export default function LeadSectorsPage({ swiperRef }) {
 
             <Box sx={{ position: 'absolute', transform: 'translate(170px, 20px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
                 <Typography sx={{ fontSize: '15px' }} >업종 : {tableInfo.industry}개, 종목수 : {tableInfo.stock}개</Typography>
+            </Box>
+
+            <Box sx={{ position: 'absolute', transform: 'translate(170px, 855px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
+                {Array.isArray(checkStats.b1_kospi200) && checkStats.b1_kospi200.length > 0 ?
+                    <>
+                        <Typography sx={{ fontSize: '13px' }} > 코스피200 : {checkStats.now_kospi200.length} / {checkStats.b1_kospi200.length} ({parseInt(checkStats.now_kospi200.length / checkStats.b1_kospi200.length * 100)}%)</Typography>
+                        <Typography sx={{ fontSize: '13px' }} > 코스피 : {checkStats.now_kospi.length} / {checkStats.b1_kospi.length} ({parseInt(checkStats.now_kospi.length / checkStats.b1_kospi.length * 100)}%)</Typography>
+                        <Typography sx={{ fontSize: '13px' }} > 코스닥 : {checkStats.now_kosdaq.length} / {checkStats.b1_kosdaq.length} ({parseInt(checkStats.now_kosdaq.length / checkStats.b1_kosdaq.length * 100)}%)</Typography>
+                    </>
+                    : <></>}
             </Box>
 
             {/* 업종 */}
