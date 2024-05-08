@@ -39,13 +39,13 @@ function App() {
             >
 
                 {/* <TestPage swiperRef={swiperRef} /> */}
-
-                <SwiperSlide style={swiperSlideStyle} >
-                    {/* <LeadSectors swiperRef={swiperRef} /> */}
-                    <LeadThemes swiperRef={swiperRef} 중복수={3} />
-                </SwiperSlide>
+                {/* <LeadSectors swiperRef={swiperRef} /> */}
 
                 {/* <SwiperSlide style={swiperSlideStyle} >
+                    <LeadThemes swiperRef={swiperRef} 중복수={3} />
+                </SwiperSlide> */}
+
+                <SwiperSlide style={swiperSlideStyle} >
                     <SchedulePage swiperRef={swiperRef} />
                 </SwiperSlide>
 
@@ -82,7 +82,7 @@ function App() {
                 </SwiperSlide>
                 <SwiperSlide style={swiperSlideStyle} >
                     <WeightAvgPage2 swiperRef={swiperRef} />
-                </SwiperSlide> */}
+                </SwiperSlide>
 
             </Swiper>
         </div >
