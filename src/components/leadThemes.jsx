@@ -23,6 +23,7 @@ export default function LeadThemesPage({ swiperRef, 중복수 }) {
     const [time, setTime] = useState(null);
     const [SectorsName, setSectorsName] = useState(null);
     const [stock, setStock] = useState({});
+    const [savetime, setSavetime] = useState(null);
     const [selectedTitle, setSelectedTitle] = useState(null);
 
     const [chartData, setChartData] = useState({ data: [], yAxis: { categories: null } });
@@ -107,6 +108,7 @@ export default function LeadThemesPage({ swiperRef, 중복수 }) {
             setChartData(res.chart);
             setIndustryTableData(res.industry);
             setCheckStats(res.check);
+            setSavetime(res.savetime);
             // setThemesTableData(res.themes);
             // setIndustryInfo(res.industryInfo);
         };
@@ -136,8 +138,13 @@ export default function LeadThemesPage({ swiperRef, 중복수 }) {
     return (
         <Grid container >
             {/* Title */}
-            <Box sx={{ position: 'absolute', transform: 'translate(7px, 20px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
-                ㅁ 표기 종목수 : {중복수}
+            <Box sx={{ position: 'absolute', transform: 'translate(0px, 5px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+                <Grid container>
+                    ㅁ 표기 종목수 : {중복수}
+                </Grid>
+                <Grid container>
+                    {savetime}
+                </Grid>
             </Box>
             {/* Clock Box */}
             <Box sx={{ position: 'absolute', transform: 'translate(720px, 400px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>

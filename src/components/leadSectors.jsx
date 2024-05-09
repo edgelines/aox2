@@ -23,6 +23,7 @@ export default function LeadSectorsPage({ swiperRef }) {
     const [time, setTime] = useState(null);
     const [SectorsName, setSectorsName] = useState(null);
     const [stock, setStock] = useState({});
+    const [savetime, setSavetime] = useState(null);
     const [selectedTitle, setSelectedTitle] = useState(null);
     const [themesCounterIndustry, setThemesCounterIndustry] = useState([]);
     const [industryInfo, setIndustryInfo] = useState([]);
@@ -118,6 +119,7 @@ export default function LeadSectorsPage({ swiperRef }) {
             setTableInfo(res.tableInfo);
             setThemesCounterIndustry(res.themesToIndustry)
             setCheckStats(res.check);
+            setSavetime(res.savetime);
         };
 
         ws.onerror = (error) => {
@@ -180,11 +182,14 @@ export default function LeadSectorsPage({ swiperRef }) {
                 }
             </Box>
 
-            <Box sx={{ position: 'absolute', transform: 'translate(170px, 20px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(170px, 5px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
                 <Typography sx={{ fontSize: '15px' }} >업종 : {tableInfo.industry}개, 종목수 : {tableInfo.stock}개</Typography>
+                <Grid container>
+                    {savetime}
+                </Grid>
             </Box>
 
-            <Box sx={{ position: 'absolute', transform: 'translate(170px, 855px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(170px, 865px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
                 {Array.isArray(checkStats.b1_kospi200) && checkStats.b1_kospi200.length > 0 ?
                     <>
                         <Typography sx={{ fontSize: '13px' }} > 코스피200 : {checkStats.now_kospi200.length} / {checkStats.b1_kospi200.length} ({parseInt(checkStats.now_kospi200.length / checkStats.b1_kospi200.length * 100)}%)</Typography>

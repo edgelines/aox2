@@ -24,6 +24,7 @@ export default function FilterStockChart({ data, height, yAxis, getInfo, isTheme
                 text: null
             },
             labels: {
+                y: 13,
                 style: { color: '#efe9e9ed', fontSize: '11px' }, formatter: function () {
                     var color = this.value > 0 ? '#FCAB2F' : this.value < 0 ? '#00F3FF' : '#efe9e9ed';
                     return `<span style="color: ${color}">${this.value} %</span>`
@@ -52,7 +53,9 @@ export default function FilterStockChart({ data, height, yAxis, getInfo, isTheme
             linkedTo: 0
         }, {
             gridLineWidth: 0,
+            lineWidth: 0,
             labels: {
+                y: 10,
                 style: { color: '#efe9e9ed', fontSize: '11px' },
                 formatter: function () {
                     return `${(this.value * 100).toLocaleString('kr')} %`
