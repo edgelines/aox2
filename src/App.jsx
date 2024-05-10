@@ -15,6 +15,7 @@ import "swiper/css/navigation";
 import { Keyboard, Mousewheel, Pagination } from "swiper/modules";
 import LeadSectors from './components/leadSectors';
 import LeadThemes from './components/leadThemes';
+import LeadThemesTop from './components/leadThemesTop';
 import TestPage from './components/testPage';
 function App() {
 
@@ -42,7 +43,7 @@ function App() {
                 {/* <LeadSectors swiperRef={swiperRef} /> */}
 
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <LeadThemes swiperRef={swiperRef} 중복수={3} />
+                    <LeadThemesTop swiperRef={swiperRef} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -63,6 +64,10 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <LeadThemes swiperRef={swiperRef} 중복수={3} />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <LeadThemesTop swiperRef={swiperRef} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
