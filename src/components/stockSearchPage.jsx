@@ -115,13 +115,19 @@ export default function StockSearchPange({ swiperRef }) {
             <Grid item xs={4} container>
                 <SectorChart data={sectorsChartDataSelected} sectorName={sectorsName} height={190} />
 
+                <Grid item container>
+                    {sectorsName ?
+                        <Typography>{sectorsName}</Typography>
+                        : <></>
+                    }
+                </Grid>
 
                 <Grid item xs={6}
                     sx={{ height: '600px', p: 1 }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
-                    <Typography>업종</Typography>
+                    <Typography sx={{ fontSize: '12px', mb: 1 }}>업종</Typography>
                     <ThemeProvider theme={customTheme}>
                         <DataGrid
                             rows={stockTableData}
@@ -144,7 +150,7 @@ export default function StockSearchPange({ swiperRef }) {
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
-                    <Typography>테마</Typography>
+                    <Typography sx={{ fontSize: '12px', mb: 1 }}>테마</Typography>
                     <ThemeProvider theme={customTheme}>
                         <DataGrid
                             rows={themesTableData}
