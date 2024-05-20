@@ -16,6 +16,7 @@ import { Keyboard, Mousewheel, Pagination } from "swiper/modules";
 import LeadSectors from './components/leadSectors';
 import LeadThemes from './components/leadThemes';
 import LeadThemesTop from './components/leadThemesTop';
+import StockSearchPage from './components/stockSearchPage';
 import TestPage from './components/testPage';
 function App() {
 
@@ -40,14 +41,16 @@ function App() {
             >
 
                 {/* <TestPage swiperRef={swiperRef} /> */}
-                {/* <LeadSectors swiperRef={swiperRef} /> */}
-
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <LeadThemesTop swiperRef={swiperRef} />
+                    <StockSearchPage swiperRef={swiperRef} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <SchedulePage swiperRef={swiperRef} />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <StockSearchPage swiperRef={swiperRef} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >

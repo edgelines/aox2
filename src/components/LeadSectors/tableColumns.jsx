@@ -134,7 +134,31 @@ export const industryColumns = [
     }
 ]
 
-
+export const themesTableColumns_search = [
+    {
+        field: '순위', headerName: '순위', width: 50,
+        align: 'center', headerAlign: 'left',
+    }, {
+        field: '테마명', headerName: '테마명', width: 75,
+        align: 'left', headerAlign: 'left',
+    }, {
+        field: '등락률', headerName: '등락률', width: 50,
+        align: 'left', headerAlign: 'left',
+        renderCell: (params) => {
+            const progress = renderProgress({ value: params.value, valueON: true, color: '#e89191', val2: 8 })
+            return (
+                <Box sx={{ position: 'relative', mt: -2 }}>
+                    <Box sx={{ position: 'absolute', zIndex: 1, marginLeft: 0.5 }}>
+                        {params.value.toFixed(1)} %
+                    </Box>
+                    <Box sx={{ position: 'absolute', zIndex: 0, width: 80, mt: -0.6, marginLeft: -0.5 }}>
+                        {progress}
+                    </Box>
+                </Box>
+            )
+        }
+    }
+]
 
 
 // 전체 업종 등락률
