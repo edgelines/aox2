@@ -175,19 +175,19 @@ const StyledAutocomplete = styled(Autocomplete)(({ theme }) => ({
     '& .MuiAutocomplete-inputRoot': {
         color: '#efe9e9ed',
         '&.Mui-focused .MuiAutocomplete-input': {
-            color: '#404040',
+            color: '#efe9e9ed',
         },
     },
     '& .MuiAutocomplete-option': {
         color: '#efe9e9ed',
     },
-    // '& .MuiAutocomplete-option.Mui-focused': {
-    //     backgroundColor: '#d8d8d8',
-    // },
-    // '& .MuiAutocomplete-option.Mui-selected': {
-    //     backgroundColor: '#efe9e9ed',
-    //     color: '#404040',
-    // },
+    '& .MuiAutocomplete-option.Mui-focused': {
+        backgroundColor: '#d8d8d8',
+    },
+    '& .MuiAutocomplete-option.Mui-selected': {
+        backgroundColor: '#404040',
+        color: '#efe9e9ed',
+    },
     '& .MuiInputLabel-root': {
         color: '#efe9e9ed',
     },
