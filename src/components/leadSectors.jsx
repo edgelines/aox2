@@ -171,7 +171,7 @@ export default function LeadSectorsPage({ swiperRef }) {
                     <Table size='small'>
                         <TableHead>
                             <tr style={{ fontSize: '11px' }}>
-                                <td>업종명</td>
+                                <td>업종명(테마창 추출)</td>
                                 <td>갯수</td>
                                 <td>%</td>
                                 <td>V%</td>
@@ -184,8 +184,8 @@ export default function LeadSectorsPage({ swiperRef }) {
                                         <tr style={{ fontSize: '11px' }}>
                                             <td style={{ width: '120px' }}>{item.업종명}</td>
                                             <td style={{ width: '40px' }}>{item.전체종목수} 개</td>
-                                            <td style={{ width: '40px' }}>{item.등락률} %</td>
-                                            <td style={{ width: '40px' }}>{item.전일대비거래량} %</td>
+                                            <td style={{ width: '45px' }}>{item.등락률} %</td>
+                                            <td style={{ width: '45px' }}>{item.전일대비거래량} %</td>
                                         </tr>
                                     ))
                                     : ''
