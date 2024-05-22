@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, Box, Table, TableHead, TableBody, TableRow, TableCell, Skeleton, Modal, Backdrop, Switch, FormControlLabel, Popover, Typography, Slider } from '@mui/material';
+import { Grid, Box, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Typography } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
-import { useTheme, styled } from '@mui/material/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import FilterStockChart from './LeadSectors/chart';
 import SectorChart from './SectorsPage/sectorChart';
@@ -167,21 +166,37 @@ export default function LeadSectorsPage({ swiperRef }) {
                 <Typography sx={{ fontSize: '12px' }} >코스닥 : {tableInfo.kosdaq} 종목</Typography>
             </Box>
 
-            <Box sx={{ position: 'absolute', transform: 'translate(960px, 40px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
-                {
-                    Array.isArray(themesCounterIndustry) && themesCounterIndustry.length > 0 ?
-                        themesCounterIndustry.map(item => (
+            <Box sx={{ position: 'absolute', transform: 'translate(840px, 40px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+                <TableContainer >
+                    <Table size='small'>
+                        <TableHead>
+                            <tr style={{ fontSize: '11px' }}>
+                                <td>업종명</td>
+                                <td>갯수</td>
+                                <td>%</td>
+                                <td>V%</td>
+                            </tr>
+                        </TableHead>
+                        <TableBody>
+                            {
+                                Array.isArray(themesCounterIndustry) && themesCounterIndustry.length > 0 ?
+                                    themesCounterIndustry.map(item => (
+                                        <tr style={{ fontSize: '11px' }}>
+                                            <td style={{ width: '120px' }}>{item.업종명}</td>
+                                            <td style={{ width: '40px' }}>{item.전체종목수} 개</td>
+                                            <td style={{ width: '40px' }}>{item.등락률} %</td>
+                                            <td style={{ width: '40px' }}>{item.전일대비거래량} %</td>
+                                        </tr>
+                                    ))
+                                    : ''
 
-                            <Typography sx={{ fontSize: '12px' }}>
-                                {item.업종명}
-                            </Typography>
-
-                        ))
-                        : ''
-
-                }
+                            }
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </Box>
 
+            {/* Title / update time */}
             <Box sx={{ position: 'absolute', transform: 'translate(170px, 5px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
                 <Typography sx={{ fontSize: '15px' }} >업종 : {tableInfo.industry}개, 종목수 : {tableInfo.stock}개</Typography>
                 <Grid container>
@@ -189,6 +204,7 @@ export default function LeadSectorsPage({ swiperRef }) {
                 </Grid>
             </Box>
 
+            {/* 6중간가중 & 6저가기하 */}
             <Box sx={{ position: 'absolute', transform: 'translate(170px, 865px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
                 {Array.isArray(checkStats.b1_kospi200) && checkStats.b1_kospi200.length > 0 ?
                     <>
