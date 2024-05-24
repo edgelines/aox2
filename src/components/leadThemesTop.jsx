@@ -146,7 +146,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
                 </Grid>
             </Box>
             {/* Clock Box */}
-            <Box sx={{ position: 'absolute', transform: 'translate(720px, 400px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(800px, 400px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
                 <Grid container >{today}</Grid>
                 <Grid container >{time}</Grid>
                 <Grid container sx={{ mb: 2 }}></Grid>
