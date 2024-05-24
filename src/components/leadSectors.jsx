@@ -166,15 +166,15 @@ export default function LeadSectorsPage({ swiperRef }) {
                 <Typography sx={{ fontSize: '12px' }} >코스닥 : {tableInfo.kosdaq} 종목</Typography>
             </Box>
 
-            <Box sx={{ position: 'absolute', transform: 'translate(840px, 40px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(820px, 40px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
                 <TableContainer >
                     <Table size='small'>
                         <TableHead>
                             <tr style={{ fontSize: '11px' }}>
-                                <td>업종명(테마창 추출)</td>
-                                <td>갯수</td>
-                                <td>%</td>
-                                <td>V%</td>
+                                <td style={{}} >업종명(테마창 추출)</td>
+                                <td style={{ textAlign: 'center' }} >갯수</td>
+                                <td style={{ textAlign: 'center' }} >%</td>
+                                <td style={{ textAlign: 'center' }} >V%</td>
                             </tr>
                         </TableHead>
                         <TableBody>
@@ -183,9 +183,9 @@ export default function LeadSectorsPage({ swiperRef }) {
                                     themesCounterIndustry.map(item => (
                                         <tr style={{ fontSize: '11px' }}>
                                             <td style={{ width: '120px' }}>{item.업종명}</td>
-                                            <td style={{ width: '40px' }}>{item.전체종목수} 개</td>
-                                            <td style={{ width: '45px' }}>{item.등락률} %</td>
-                                            <td style={{ width: '45px' }}>{item.전일대비거래량} %</td>
+                                            <td style={{ width: '40px', textAlign: 'right' }}>{item.전체종목수} 개</td>
+                                            <td style={{ width: '45px', textAlign: 'right' }}>{item.등락률} %</td>
+                                            <td style={{ width: '45px', textAlign: 'right' }}>{item.전일대비거래량} %</td>
                                         </tr>
                                     ))
                                     : ''
