@@ -43,6 +43,8 @@ function App() {
                 {/* <TestPage swiperRef={swiperRef} /> */}
                 {/* <SwiperSlide style={swiperSlideStyle} >
                     <StockSearchPage swiperRef={swiperRef} />
+                    <LeadThemesTop swiperRef={swiperRef} />
+                    <LeadSectors swiperRef={swiperRef} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -63,10 +65,6 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <LeadThemes swiperRef={swiperRef} 중복수={2} />
-                </SwiperSlide>
-
-                <SwiperSlide style={swiperSlideStyle} >
-                    <LeadThemes swiperRef={swiperRef} 중복수={3} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
