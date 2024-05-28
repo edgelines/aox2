@@ -197,7 +197,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
                                         <tr style={{ fontSize: '11px' }}>
                                             <td style={{ width: '30px', textAlign: 'center' }}>{item.중복}</td>
                                             <td style={{ width: '70px', textAlign: 'right' }}>{item.종목명.substr(0, 6)}</td>
-                                            <td style={{ width: '45px', textAlign: 'right' }}>{item.순위}</td>
+                                            <td style={{ width: '45px', textAlign: 'center' }}>{item.순위}</td>
                                             <td style={{ width: '45px', textAlign: 'right' }}>{item.등락률} %</td>
                                             <td style={{ width: '45px', textAlign: 'right' }}>{item.전일대비거래량} %</td>
                                         </tr>
@@ -228,7 +228,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
                                         <tr style={{ fontSize: '11px' }}>
                                             <td style={{ width: '30px', textAlign: 'center' }}>{item.중복}</td>
                                             <td style={{ width: '70px', textAlign: 'right' }}>{item.종목명.substr(0, 6)}</td>
-                                            <td style={{ width: '45px', textAlign: 'right' }}>{item.순위}</td>
+                                            <td style={{ width: '45px', textAlign: 'center' }}>{item.순위}</td>
                                             <td style={{ width: '45px', textAlign: 'right' }}>{item.등락률} %</td>
                                             <td style={{ width: '45px', textAlign: 'right' }}>{item.전일대비거래량} %</td>
                                         </tr>
