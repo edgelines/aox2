@@ -150,7 +150,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
                 </Grid>
             </Box>
             {/* Clock Box */}
-            <Box sx={{ position: 'absolute', transform: 'translate(800px, 300px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(800px, 280px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
                 <Grid container >{today}</Grid>
                 <Grid container >{time}</Grid>
                 <Grid container sx={{ mb: 2 }}></Grid>
@@ -178,7 +178,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
             </Box>
 
             {/* filtered table */}
-            <Box sx={{ position: 'absolute', transform: 'translate(640px, 570px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(640px, 540px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
                 <TableContainer >
                     <Table size='small'>
                         <TableHead>
@@ -209,7 +209,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
                     </Table>
                 </TableContainer>
             </Box>
-            <Box sx={{ position: 'absolute', transform: 'translate(1600px, 570px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(1600px, 540px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
                 <TableContainer >
                     <Table size='small'>
                         <TableHead>
