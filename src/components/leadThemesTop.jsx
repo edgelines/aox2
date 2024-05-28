@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, Box, Table, TableHead, TableBody, TableRow, TableCell, Skeleton, Modal, Backdrop, Switch, FormControlLabel, Popover, Typography, Slider } from '@mui/material';
-import { DataGrid, gridClasses } from '@mui/x-data-grid';
-import { useTheme, styled } from '@mui/material/styles';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Grid, Box, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Skeleton, Modal, Backdrop, Switch, FormControlLabel, Popover, Typography, Slider } from '@mui/material';
+// import { DataGrid, gridClasses } from '@mui/x-data-grid';
+// import { useTheme, styled } from '@mui/material/styles';
+// import { createTheme, ThemeProvider } from '@mui/material/styles';
 import FilterStockChart from './LeadSectors/chart';
-import SectorChart from './SectorsPage/sectorChart';
-import { customTheme, themesTableColumns, stockTableColumns, DataTableStyleDefault, industryTableColumns, industryColumns } from './LeadSectors/tableColumns';
-import { SectorsName15 } from './util/util';
-import { StyledTypography_StockInfo, Financial, EtcInfo } from './util/htsUtil';
-import StockChart_MA from './util/stockChart_MA';
-import { StockInfoSimple } from './SearchFinancial/info';
+// import SectorChart from './SectorsPage/sectorChart';
+// import { customTheme, themesTableColumns, stockTableColumns, DataTableStyleDefault, industryTableColumns, industryColumns } from './LeadSectors/tableColumns';
+// import { SectorsName15 } from './util/util';
+// import { StyledTypography_StockInfo, Financial, EtcInfo } from './util/htsUtil';
+// import StockChart_MA from './util/stockChart_MA';
+// import { StockInfoSimple } from './SearchFinancial/info';
 import { API, API_WS, STOCK, TEST } from './util/config';
 
 
@@ -28,6 +28,8 @@ export default function LeadThemesTopPage({ swiperRef }) {
 
     const [chartData1, setChartData1] = useState({ data: [], yAxis: { categories: null } });
     const [chartData2, setChartData2] = useState({ data: [], yAxis: { categories: null } });
+    const [chartTable1, setChartTable1] = useState([]);
+    const [chartTable2, setChartTable2] = useState([]);
     // const [industryTableData, setIndustryTableData] = useState([]);
     // const [stockTableData, setStockTableData] = useState([]);
     // const [SectorsChartDataSelected, setSectorsChartDataSelected] = useState([]);
@@ -111,6 +113,8 @@ export default function LeadThemesTopPage({ swiperRef }) {
             // setIndustryTableData(res.industry);
             setCheckStats(res.check);
             setSavetime(res.savetime);
+            setChartTable1(res.table1)
+            setChartTable2(res.table2)
             // setThemesTableData(res.themes);
             // setIndustryInfo(res.industryInfo);
         };
@@ -146,7 +150,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
                 </Grid>
             </Box>
             {/* Clock Box */}
-            <Box sx={{ position: 'absolute', transform: 'translate(800px, 400px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(800px, 300px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
                 <Grid container >{today}</Grid>
                 <Grid container >{time}</Grid>
                 <Grid container sx={{ mb: 2 }}></Grid>
@@ -172,6 +176,71 @@ export default function LeadThemesTopPage({ swiperRef }) {
                     </>
                     : <></>}
             </Box>
+
+            {/* filtered table */}
+            <Box sx={{ position: 'absolute', transform: 'translate(660px, 570px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+                <TableContainer >
+                    <Table size='small'>
+                        <TableHead>
+                            <tr style={{ fontSize: '11px' }}>
+                                <td style={{ textAlign: 'center' }} >중복</td>
+                                <td style={{ textAlign: 'center' }} >종목명</td>
+                                <td style={{ textAlign: 'center' }} >순위</td>
+                                <td style={{ textAlign: 'center' }} >%</td>
+                                <td style={{ textAlign: 'center' }} >V%</td>
+                            </tr>
+                        </TableHead>
+                        <TableBody>
+                            {
+                                Array.isArray(chartTable1) && chartTable1.length > 0 ?
+                                    chartTable1.map(item => (
+                                        <tr style={{ fontSize: '11px' }}>
+                                            <td style={{ width: '30px', textAlign: 'center' }}>{item.중복}</td>
+                                            <td style={{ width: '70px', textAlign: 'right' }}>{item.종목명.substr(0, 6)}</td>
+                                            <td style={{ width: '45px', textAlign: 'right' }}>{item.순위}</td>
+                                            <td style={{ width: '45px', textAlign: 'right' }}>{item.등락률} %</td>
+                                            <td style={{ width: '45px', textAlign: 'right' }}>{item.전일대비거래량} %</td>
+                                        </tr>
+                                    ))
+                                    : ''
+
+                            }
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Box>
+            <Box sx={{ position: 'absolute', transform: 'translate(1620px, 570px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+                <TableContainer >
+                    <Table size='small'>
+                        <TableHead>
+                            <tr style={{ fontSize: '11px' }}>
+                                <td style={{ textAlign: 'center' }} >중복</td>
+                                <td style={{ textAlign: 'center' }} >종목명</td>
+                                <td style={{ textAlign: 'center' }} >순위</td>
+                                <td style={{ textAlign: 'center' }} >%</td>
+                                <td style={{ textAlign: 'center' }} >V%</td>
+                            </tr>
+                        </TableHead>
+                        <TableBody>
+                            {
+                                Array.isArray(chartTable2) && chartTable2.length > 0 ?
+                                    chartTable2.map(item => (
+                                        <tr style={{ fontSize: '11px' }}>
+                                            <td style={{ width: '30px', textAlign: 'center' }}>{item.중복}</td>
+                                            <td style={{ width: '70px', textAlign: 'right' }}>{item.종목명.substr(0, 6)}</td>
+                                            <td style={{ width: '45px', textAlign: 'right' }}>{item.순위}</td>
+                                            <td style={{ width: '45px', textAlign: 'right' }}>{item.등락률} %</td>
+                                            <td style={{ width: '45px', textAlign: 'right' }}>{item.전일대비거래량} %</td>
+                                        </tr>
+                                    ))
+                                    : ''
+
+                            }
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Box>
+
 
             {/* Main Chart1 */}
             <Grid item xs={5.9}>
