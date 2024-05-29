@@ -71,8 +71,10 @@ export default function TestPage({ }) {
                 <StyledToggleButton fontSize={'10px'} value="테마">테마</StyledToggleButton>
                 <StyledToggleButton fontSize={'10px'} value="주요">주요제품/주요주주</StyledToggleButton>
             </ToggleButtonGroup> */}
+            <Grid item xs={12}>
+                <Chart />
 
-            <Chart />
+            </Grid>
 
         </Grid>
 
