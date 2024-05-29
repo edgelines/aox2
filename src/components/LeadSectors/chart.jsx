@@ -82,16 +82,38 @@ export default function FilterStockChart({ data, height, yAxis, getInfo, isTheme
 
         tooltip: {
             formatter: function () {
-                if (this.point.series.options.isStock) {
-                    return `<b>${this.point.종목명}</b><br/><p>등락률 : ${this.point.x}</p><br/><p>전일대비% : ${parseInt(this.point.전일대비거래량 * 100).toLocaleString('kr')}%</p>`
-                } else {
-                    if (this.point.series.options.isToday) {
-                        return `<b>오늘</b> 기준<br/><p>${this.point.업종명}</p><br/><p>전일대비평균거래량 : ${(this.point.x * 100).toLocaleString('kr')} %</p><br/>`
-                    }
-                    else {
-                        return `<b>어제</b> 기준<br/><p>${this.point.업종명}</p><br/><p>전일대비평균거래량 : ${(this.point.x * 100).toLocaleString('kr')} %</p><br/>`
-                    }
+                const { series, 종목명, 업종명, 테마명, 전일대비거래량, x } = this.point;
+                const formattedVolume = (x * 100).toLocaleString('kr') + ' %'
+                const formattedDiff = parseInt(전일대비거래량 * 100).toLocaleString('kr') + ' %'
+
+                if (series.options.isStock) {
+                    return `<b>${종목명}</b><br/><p>등락률 : ${x}</p><br/><p>전일대비% : ${formattedDiff}</p>`;
                 }
+
+                const 기준 = series.options.isToday ? '오늘' : '어제';
+                const 명칭 = 업종명 != undefined ? 업종명 : 테마명;
+
+                return `<b>${기준}</b> 기준<br/><p>${명칭}</p><br/><p>전일대비평균거래량 : ${formattedVolume}</p><br/>`;
+
+                // if (this.point.series.options.isStock) {
+                //     return `<b>${this.point.종목명}</b><br/><p>등락률 : ${this.point.x}</p><br/><p>전일대비% : ${parseInt(this.point.전일대비거래량 * 100).toLocaleString('kr')}%</p>`
+                // } else {
+                //     if (this.point.series.options.isToday) {
+                //         if (this.point?.업종명 !== undefined) {
+                //             return `<b>오늘</b> 기준<br/><p>${this.point.업종명}</p><br/><p>전일대비평균거래량 : ${(this.point.x * 100).toLocaleString('kr')} %</p><br/>`
+                //         } else {
+                //             return `<b>오늘</b> 기준<br/><p>${this.point.테마명}</p><br/><p>전일대비평균거래량 : ${(this.point.x * 100).toLocaleString('kr')} %</p><br/>`
+                //         }
+                //     }
+                //     else {
+                //         if (this.point?.업종명 !== undefined) {
+                //             return `<b>어제</b> 기준<br/><p>${this.point.업종명}</p><br/><p>전일대비평균거래량 : ${(this.point.x * 100).toLocaleString('kr')} %</p><br/>`
+                //         } else {
+                //             return `<b>어제</b> 기준<br/><p>${this.point.테마명}</p><br/><p>전일대비평균거래량 : ${(this.point.x * 100).toLocaleString('kr')} %</p><br/>`
+                //         }
+
+                //     }
+                // }
             },
         },
 
