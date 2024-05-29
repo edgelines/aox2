@@ -16,6 +16,7 @@ import { Keyboard, Mousewheel, Pagination } from "swiper/modules";
 import LeadSectors from './components/leadSectors';
 import LeadThemes from './components/leadThemes';
 import LeadThemesTop from './components/leadThemesTop';
+import LeadThemesTop2 from './components/leadThemesTop2';
 import StockSearchPage from './components/stockSearchPage';
 import TestPage from './components/testPage';
 function App() {
@@ -39,12 +40,13 @@ function App() {
                 onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
-
+                {/* <LeadThemesTop swiperRef={swiperRef} /> */}
                 {/* <TestPage swiperRef={swiperRef} /> */}
+                {/* <StockSearchPage swiperRef={swiperRef} /> */}
+                {/* <LeadThemes swiperRef={swiperRef} 중복수={2} /> */}
+                {/* <LeadSectors swiperRef={swiperRef} /> */}
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <StockSearchPage swiperRef={swiperRef} />
-                    <LeadThemesTop swiperRef={swiperRef} />
-                    <LeadSectors swiperRef={swiperRef} />
+                    <LeadThemesTop2 swiperRef={swiperRef} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -69,6 +71,10 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <LeadThemesTop swiperRef={swiperRef} />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <LeadThemesTop2 swiperRef={swiperRef} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
