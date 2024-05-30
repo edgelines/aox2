@@ -85,7 +85,8 @@ export default function LeadThemesTopPage({ swiperRef }) {
                 </Grid>
             </Box>
             {/* Clock Box */}
-            <Box sx={{ position: 'absolute', transform: 'translate(800px, 280px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(650px, 280px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+                {/* <Box sx={{ position: 'absolute', transform: 'translate(800px, 280px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}> */}
                 <Grid container >{today}</Grid>
                 <Grid container >{time}</Grid>
                 <Grid container sx={{ mb: 2 }}></Grid>
@@ -113,7 +114,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
             </Box>
 
             {/* filtered table */}
-            <Box sx={{ position: 'absolute', transform: 'translate(640px, 540px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(500px, 540px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
                 <TableContainer >
                     <Table size='small'>
                         <TableHead>
@@ -144,7 +145,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
                     </Table>
                 </TableContainer>
             </Box>
-            <Box sx={{ position: 'absolute', transform: 'translate(1600px, 540px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(1300px, 540px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
                 <TableContainer >
                     <Table size='small'>
                         <TableHead>
@@ -178,7 +179,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
 
 
             {/* Main Chart1 */}
-            <Grid item xs={5.9}>
+            <Grid item xs={4.9}>
                 <FilterStockChart data={chartData1.series} height={930} yAxis={chartData1.yAxis} isThemes={true} />
             </Grid>
 
@@ -187,8 +188,13 @@ export default function LeadThemesTopPage({ swiperRef }) {
             </Grid>
 
             {/* Main Chart2 */}
-            <Grid item xs={5.9} >
+            <Grid item xs={4.9} >
                 <FilterStockChart data={chartData2.series} height={930} yAxis={chartData2.yAxis} isThemes={true} />
+            </Grid>
+
+            {/* 우측 여백 */}
+            <Grid item xs={2}>
+
             </Grid>
 
 
