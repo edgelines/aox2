@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Grid, Box, Table, Skeleton, Modal, Backdrop, ToggleButtonGroup } from '@mui/material';
 import CoreChart from './util/CoreChart';
 import GroupDataChart_Min from './Main/GroupDataChart_Min';
-import { numberWithCommas, StyledToggleButton, update_5M } from './util/util';
+import { numberWithCommas, StyledToggleButton } from './util/util';
 import Kospi200CurrentValue from './Index/kospi200CurrentValue';
 import NewKospi200Group, { BubbleChartLegend } from './util/BubbleChart'
 import WeightAvgCheck from './ELW/weightAvgCheck';
@@ -243,9 +243,6 @@ export default function MainPage({ }) {
             </Modal>
 
             <Grid item xs={3.9} >
-                <Box sx={{ position: 'absolute', transform: 'translate(21vw, 2.15vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
-                    {update_5M}
-                </Box>
                 <CoreChart data={bubbleData.series} height={330} name={'Kospi200GroupBubble'} categories={bubbleData.categories} type={'bubble'} lengendX={40} />
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'left' }}>
                     <ToggleButtonGroup
@@ -272,10 +269,6 @@ export default function MainPage({ }) {
                     <img src={gisuDayImg} onClick={handleOpen} />
                 </div>
 
-                <Box sx={{ position: 'absolute', transform: 'translate(27vw, 1.5vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
-                    {update_5M}
-                </Box>
-
                 <Box sx={{ position: 'absolute', transform: 'translate(31.5vw, 5vh)', zIndex: 5, justifyItems: 'right', p: 1 }}>
                     <WeightAvgCheck ElwWeightedAvgCheck={WeightedAvgCheck} />
                 </Box>
@@ -286,11 +279,7 @@ export default function MainPage({ }) {
                     <Kospi200CurrentValue hiddenTitle={true} valueFont={'2.7rem'} />
                 </Box>
 
-                <Box sx={{ position: 'absolute', transform: 'translate(32vw, 1.5vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
-                    {update_5M}
-                </Box>
-
-                <CoreChart data={trendData.series} height={410} name={'trendData'} categories={trendData.categories} type={'column'} credit={update_5M} yAxis0Abs={trendData.yAxis0Abs} yAxis1Abs={trendData.yAxis1Abs} yAxis2Abs={trendData.yAxis2Abs} />
+                <CoreChart data={trendData.series} height={410} name={'trendData'} categories={trendData.categories} type={'column'} yAxis0Abs={trendData.yAxis0Abs} yAxis1Abs={trendData.yAxis1Abs} yAxis2Abs={trendData.yAxis2Abs} />
             </Grid>
 
             <Grid item xs={3.5} >
@@ -455,9 +444,7 @@ export default function MainPage({ }) {
                         }
                         <Box sx={{ textAlign: 'right' }}>단위 : 콜/풋옵션 백만원, 그외 억원</Box>
                     </Grid>
-                    <Box sx={{ position: 'absolute', transform: 'translate(23.6vw, 17.5vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
-                        {update_5M}
-                    </Box>
+
                     <Grid item xs={12}>
                         <Grid container>
                             <Grid item xs={12} sx={{ mt: -2 }}>
@@ -503,18 +490,12 @@ const ContentsComponent = ({ page, Kospi200Bubble, groupData, groupDataMin }) =>
         case 'groupDataMin':
             return <>
                 <GroupDataChart_Min data={groupDataMin.series1} height={280} categories={groupDataMin.categories} lengendX={43} />
-                <Box sx={{ position: 'absolute', transform: 'translate(21vw, -1.5vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
-                    {update_5M}
-                </Box>
                 <GroupDataChart_Min data={groupDataMin.series2} height={280} categories={groupDataMin.categories} lengendX={43} />
             </>
 
         default:
             return <>
                 <CoreChart data={groupData.series1} height={280} name={'groupData'} categories={groupData.categories} lengendX={43} />
-                <Box sx={{ position: 'absolute', transform: 'translate(20vw, -1.5vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
-                    {update_5M}
-                </Box>
                 <CoreChart data={groupData.series2} height={280} name={'groupData'} categories={groupData.categories} lengendX={43} />
             </>
     }

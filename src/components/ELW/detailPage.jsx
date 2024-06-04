@@ -6,7 +6,6 @@ import GpoChart from './GpoChart.jsx';
 import ELW_BarChart from './BarChart.jsx';
 import MarketCurrentValue from '../Index/marketCurrentValue.jsx';
 import { API, API_WS, API_FILE, TEST } from '../util/config.jsx';
-import { update_5M } from '../util/util';
 
 export default function DetailPage({ swiperRef }) {
     // const vixData = [{ name: 'Vix', color: 'tomato', pointWidth: 8, data: [parseFloat(Vix.value)], animation: false }];
@@ -125,9 +124,6 @@ export default function DetailPage({ swiperRef }) {
                     />
                 </Box>
 
-                <Box sx={{ position: 'absolute', transform: 'translate(86.2vw, -2vh)', zIndex: 5, justifyItems: 'right', p: 1, color: '#999999', fontSize: '0.85rem' }}>
-                    {update_5M}
-                </Box>
                 <Box sx={{ position: 'absolute', transform: 'translate(77vw, 17vh)', zIndex: 5, justifyItems: 'right', backgroundColor: 'rgba(0, 0, 0, 0.5)', p: 1 }}>
                     <MarketCurrentValue MarketDetail={MarketDetail} />
                 </Box>

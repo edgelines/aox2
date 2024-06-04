@@ -45,8 +45,9 @@ function App() {
                 {/* <StockSearchPage swiperRef={swiperRef} /> */}
                 {/* <LeadThemes swiperRef={swiperRef} 중복수={2} /> */}
                 {/* <LeadSectors swiperRef={swiperRef} /> */}
+                {/* <LeadThemesTop2 swiperRef={swiperRef} /> */}
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <LeadThemesTop2 swiperRef={swiperRef} />
+                    
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >

@@ -4,7 +4,7 @@ import { Grid, Box, Table, TableHead, TableBody, TableRow, TableCell, Skeleton, 
 import MonthChart from './monthChart';
 import MarketCurrentValue from '../Index/marketCurrentValue'
 import MonthTableComponent from './weightAvgTable'
-import { numberWithCommas, update_5M } from '../util/util';
+import { numberWithCommas } from '../util/util';
 import WeightAvgCheck from './weightAvgCheck';
 import { API, API_WS } from '../util/config';
 
@@ -180,7 +180,7 @@ export default function WeightAvgPage1({ swiperRef }) {
                 <Box sx={{ position: 'absolute', transform: 'translate(3vw, 60px)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
                     <MarketCurrentValue MarketDetail={MarketDetail} />
                 </Box>
-                <MonthChart data={month2Data.series} height={840} categories={month2Data.categories} min={month2Data.min} credit={update_5M} />
+                <MonthChart data={month2Data.series} height={840} categories={month2Data.categories} min={month2Data.min} />
 
                 <Box sx={{ position: 'absolute', transform: 'translate(2.6vw, -240px)', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
                     <MonthTableComponent ELW_monthTable={MonthTable} ELW_CallPutRatio_Maturity={CallPutRatio_Maturity} />

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Grid, Box, Typography, Skeleton, ToggleButtonGroup } from '@mui/material';
 import IndexChart from './util/IndexChart';
-import { StyledButton, StyledToggleButton, update_5M } from './util/util';
+import { StyledButton, StyledToggleButton } from './util/util';
 import MarketCurrentValue from './Index/marketCurrentValue.jsx'
 import { API, API_WS, markerConfig } from './util/config';
 
@@ -459,7 +459,7 @@ export default function ModelingPage({ }) {
             </Grid> */}
             {/* Index */}
             <Grid item xs={5.5}>
-                <IndexChart data={chartData} height={940} name={'IndexMA'} rangeSelector={2} xAxisType={'datetime'} credit={update_5M} creditsPositionX={1} />
+                <IndexChart data={chartData} height={940} name={'IndexMA'} rangeSelector={2} xAxisType={'datetime'} creditsPositionX={1} />
             </Grid>
         </Grid>
     )

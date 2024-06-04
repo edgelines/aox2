@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import { Grid, Box, Skeleton } from '@mui/material';
 import MonthChart from './monthChart';
 import MarketCurrentValue from '../Index/marketCurrentValue'
@@ -7,7 +7,6 @@ import MonthTableComponent from './weightAvgTable'
 import CoreChart from '../util/CoreChart';
 import WeightAvgCheck from './weightAvgCheck';
 import { API, TEST, API_WS } from '../util/config';
-import { update_5M } from '../util/util';
 
 export default function WeightAvgPage2({ swiperRef }) {
     const [dayGr, setDayGr] = useState({ series: null, categories: null });
@@ -61,10 +60,10 @@ export default function WeightAvgPage2({ swiperRef }) {
             <Box sx={{ fontSize: '3rem', position: 'absolute', transform: 'translate(97vw, 1vh)' }} >2</Box>
             <Grid item xs={6}>
                 <Grid item xs={12} sx={{ mt: 2 }}>
-                    <CoreChart data={dayGr.series} height={440} name={'dayGr'} categories={dayGr.categories} credit={update_5M} creditsPositionY={66} />
+                    <CoreChart data={dayGr.series} height={440} name={'dayGr'} categories={dayGr.categories} creditsPositionY={66} />
                 </Grid>
                 <Grid item xs={12} >
-                    <CoreChart data={ElwRatioData.series} height={440} name={'ElwRatioData'} categories={ElwRatioData.categories} type={'column'} credit={update_5M} />
+                    <CoreChart data={ElwRatioData.series} height={440} name={'ElwRatioData'} categories={ElwRatioData.categories} type={'column'} />
                 </Grid>
             </Grid>
             <Grid item xs={6}>
@@ -82,7 +81,7 @@ export default function WeightAvgPage2({ swiperRef }) {
                 <Box sx={{ position: 'absolute', transform: 'translate(3vw, 60px)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
                     <MarketCurrentValue MarketDetail={MarketDetail} />
                 </Box>
-                <MonthChart data={month2Data.series} height={840} categories={month2Data.categories} min={month2Data.min} credit={update_5M} />
+                <MonthChart data={month2Data.series} height={840} categories={month2Data.categories} min={month2Data.min} />
 
                 <Box sx={{ position: 'absolute', transform: 'translate(2.6vw, -240px)', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
                     <MonthTableComponent ELW_monthTable={MonthTable} ELW_CallPutRatio_Maturity={CallPutRatio_Maturity} />
