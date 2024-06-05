@@ -7,7 +7,7 @@ import HighchartsMore from 'highcharts/highcharts-more'
 HighchartsMore(Highcharts)
 require('highcharts/modules/accessibility')(Highcharts)
 
-export default function CrossChart({ data, height, getStockCode, getStockChartData }) {
+export default function CrossChart({ data, height, getInfo }) {
     const chartRef = useRef(null);
     const [chartOptions, setChartOptions] = useState({
         chart: {
@@ -16,18 +16,18 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
         credits: { enabled: false }, title: { text: null },
         navigation: { buttonOptions: { enabled: false } },
         xAxis: {
-            title: { text: '영업이익 성장률 %', style: { color: '#efe9e9ed' } },
+            title: { text: '체결강도', style: { color: '#efe9e9ed' } },
             labels: {
                 style: { color: '#404040', fontSize: '11px' }, formatter: function () {
                     var color = this.value > 0 ? '#FCAB2F' : this.value < 0 ? '#00F3FF' : '#efe9e9ed';
-                    return `<span style="color: ${color}">${this.value.toLocaleString('kr')} %</span>`
+                    return `<span style="color: ${color}">${this.value.toLocaleString('kr')}</span>`
                 }
             },
             tickLength: 0,
-            plotLines: [{ value: 0, width: 2, color: '#fff', zIndex: 2 }],
+            plotLines: [{ value: 100, width: 2, color: '#fff', zIndex: 2 }],
         },
         yAxis: {
-            title: { text: '매출 성장률 %', style: { color: '#efe9e9ed' } },
+            title: { text: '전일대비 거래량 %', style: { color: '#efe9e9ed' } },
             labels: {
                 style: { color: '#efe9e9ed', fontSize: '11px' },
                 formatter: function () {
@@ -38,17 +38,17 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
             plotLines: [{ value: 0, width: 2, color: '#fff' },],
             gridLineWidth: 0.2,
             tickAmount: 5,
-
         },
         tooltip: {
             split: true, shared: true, crosshairs: true,
             backgroundColor: 'rgba(255, 255, 255, 0.5)',
             formatter: function () {
-                // console.log(this.point)
                 return `${this.point.name}<br/>
-                매출 : ${this.point.y > 0 ? '▲' : '▼'} ${numberWithCommas(this.point.y)} % (${numberWithCommas(this.point.매출액)} 억)<br/>
-                이익 : ${this.point.x > 0 ? '▲' : '▼'} ${numberWithCommas(this.point.x)} % (${numberWithCommas(this.point.영업이익)} 억)<br/>
-                순이익: ${this.point.당기순이익증가율 > 0 ? '▲' : '▼'} ${numberWithCommas(this.point.당기순이익증가율)} % (${numberWithCommas(this.point.당기순이익)} 억)`
+                등락률 : ${this.point.등락률} %<br/>
+                전일대비거래량 : ${this.point.y.toLocaleString('kr')} %<br/>
+                체결강도 : ${this.point.x.toLocaleString('kr')} <br/>
+                ${this.point.당일외국인순매수금액 > 0 ? '당일외국인순매수' : '당일외국인순매도'} : <span style="color : ${this.point.당일외국인순매수금액 > 0 ? 'red' : 'blue'}"> ${this.point.당일외국인순매수금액.toLocaleString('kr')} 백만원</span><br/>
+                ${this.point.당일기관순매수금액 > 0 ? '당일기관순매수' : '당일기관순매수'} : <span style="color : ${this.point.당일기관순매수금액 > 0 ? 'red' : 'blue'}"> ${this.point.당일기관순매수금액.toLocaleString('kr')} 백만원</span><br/>`
             },
         },
 
@@ -62,39 +62,25 @@ export default function CrossChart({ data, height, getStockCode, getStockChartDa
                 symbol: 'circle'
             },
             jitter: { x: 0.3 }
+        },
+        series: {
+            point: {
+                events: {
+                    click: function () {
+                        getInfo(this.options);
+                    }
+                }
+            }
         }
     };
 
     useEffect(() => {
         setChartOptions({
             plotOptions: plotOption,
-            series: [{
-                name: '종목',
-                data: data,
-                point: {
-                    events: {
-                        click: function () {
-                            // onCode(this.options);
-                            getStockCode(this.options);
-                            getStockChartData(this.options.종목코드);
-                            // setStockCode(this.options.종목코드);
-                        }
-                    }
-                }
-            }]
+            series: data,
 
         })
     }, [data]);
-
-    // useEffect(() => {
-    //     if (chartRef && chartRef.current && data) {
-    //         chartRef.current.chart.update({
-    //             series: [{
-    //                 data: data
-    //             }]
-    //         });
-    //     }
-    // }, [data]); // chartData가 변경될 때마다 실행
 
 
     return (

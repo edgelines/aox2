@@ -109,11 +109,11 @@ export const stockTableColumns = [
         // }
         renderCell: (params) => {
             const row = params.row;
-            const progress = renderProgress({ value: row.전일대비거래량, valueON: true, val2: 0.2, color: '#91bde8' })
+            const progress = renderProgress({ value: row.전일대비거래량, valueON: true, val2: 2, color: '#91bde8' })
             return (
                 <Box sx={{ position: 'relative', mt: -2 }}>
                     <Box sx={{ position: 'absolute', zIndex: 1 }}>
-                        {(params.value * 100).toLocaleString('kr')} %
+                        {(parseInt(params.value * 100)).toLocaleString('kr')} %
                     </Box>
                     <Box sx={{ position: 'absolute', zIndex: 0, width: 100, mt: -0.6, marginLeft: -0.5 }}>
                         {progress}
@@ -184,3 +184,34 @@ export const industryTableColumns = [
         }
     },
 ];
+
+
+// 체결강도 포함된 차트 페이지
+export const volumePowerColumns = [
+    { field: '업종명', headerName: '업종명', width: 120 },
+    ...stockTableColumns,
+    {
+        field: '체결강도', headerName: '체결강도', width: 60, align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            return params.value.toLocaleString('kr');
+        }
+    },
+    {
+        field: '당일외국인순매수금액', headerName: '외국인', width: 50, align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            const color = params.value > 0 ? '#FCAB2F' : '#00F3FF'
+            return (
+                <span style={{ color: color }}> {params.value.toLocaleString('kr')}</span>
+            )
+        }
+    },
+    {
+        field: '당일기관순매수금액', headerName: '기관', width: 50, align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            const color = params.value > 0 ? '#FCAB2F' : '#00F3FF'
+            return (
+                <span style={{ color: color }}> {params.value.toLocaleString('kr')}</span>
+            )
+        }
+    },
+]
