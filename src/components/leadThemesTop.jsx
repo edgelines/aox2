@@ -178,7 +178,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
             </Box>
 
             {/* filtered table */}
-            <Box sx={{ position: 'absolute', transform: 'translate(640px, 540px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(605px, 540px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
                 <TableContainer >
                     <Table size='small'>
                         <TableHead>
@@ -188,6 +188,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
                                 <td style={{ textAlign: 'center' }} >순위</td>
                                 <td style={{ textAlign: 'center' }} >%</td>
                                 <td style={{ textAlign: 'center' }} >V%</td>
+                                <td style={{ textAlign: 'center' }} >체결</td>
                             </tr>
                         </TableHead>
                         <TableBody>
@@ -200,6 +201,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
                                             <td style={{ width: '45px', textAlign: 'center' }}>{item.순위}</td>
                                             <td style={{ width: '50px', textAlign: 'right' }}>{item.등락률} %</td>
                                             <td style={{ width: '50px', textAlign: 'right' }}>{item.전일대비거래량} %</td>
+                                            <td style={{ width: '45px', textAlign: 'right' }}>{item.체결강도}</td>
                                         </tr>
                                     ))
                                     : ''
@@ -209,7 +211,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
                     </Table>
                 </TableContainer>
             </Box>
-            <Box sx={{ position: 'absolute', transform: 'translate(1600px, 540px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(1555px, 540px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
                 <TableContainer >
                     <Table size='small'>
                         <TableHead>
@@ -219,6 +221,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
                                 <td style={{ textAlign: 'center' }} >순위</td>
                                 <td style={{ textAlign: 'center' }} >%</td>
                                 <td style={{ textAlign: 'center' }} >V%</td>
+                                <td style={{ textAlign: 'center' }} >체결</td>
                             </tr>
                         </TableHead>
                         <TableBody>
@@ -231,6 +234,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
                                             <td style={{ width: '45px', textAlign: 'center' }}>{item.순위}</td>
                                             <td style={{ width: '50px', textAlign: 'right' }}>{item.등락률} %</td>
                                             <td style={{ width: '50px', textAlign: 'right' }}>{item.전일대비거래량} %</td>
+                                            <td style={{ width: '45px', textAlign: 'right' }}>{item.체결강도}</td>
                                         </tr>
                                     ))
                                     : ''
