@@ -61,7 +61,18 @@ export default function CrossChart({ data, height, getInfo }) {
                 radius: 2,
                 symbol: 'circle'
             },
-            jitter: { x: 0.3 }
+            jitter: { x: 0.3 },
+            dataLabels: {
+                enabled: true,
+                formatter: function () {
+                    return this.point.name; // this.point.name을 출력
+                },
+                style: {
+                    color: '#efe9e9ed', // 글자 색상
+                    textOutline: 'none', // 글꼴 테두리 제거
+                    fontSize: '12px' // 필요 시 글꼴 크기 설정
+                }
+            },
         },
         series: {
             point: {
