@@ -141,11 +141,18 @@ export default function LeadThemesTopPage({ swiperRef }) {
             </Box>
             <Box sx={{ position: 'absolute', transform: 'translate(600px, 5px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
 
-                <Typography>x축 : 체결강도</Typography>
-                <Typography>y축 : 전일대비거래량</Typography>
-                <Typography>원의크기 : 외국인+기관순매수 합산</Typography>
-                <Typography>원의색상 : 외국인+기관순매수 합산이 0보다 클경우 빨간색</Typography>
-                <Typography>외국인,기관 순매수 단위 : 백만원</Typography>
+                <Typography sx={{ fontSize: '12px' }}>x축 : 체결강도</Typography>
+                <Typography sx={{ fontSize: '12px' }}>y축 : 전일대비거래량</Typography>
+                <Typography sx={{ fontSize: '12px' }}>원의크기 : 외국인+기관순매수 합산</Typography>
+                <Typography sx={{ fontSize: '12px' }}>원의색상 : 외국인+기관순매수 합산이 0보다 클경우 빨간색</Typography>
+                <Typography sx={{ fontSize: '12px' }}>외국인,기관 순매수 단위 : 백만원</Typography>
+                <Typography sx={{ fontSize: '12px', color: 'mediumorchid' }} >3% 미만</Typography>
+                <Typography sx={{ fontSize: '12px', color: 'dodgerblue' }} >3%~6%</Typography>
+                <Typography sx={{ fontSize: '12px', color: 'skyblue' }} >6%~9%</Typography>
+                <Typography sx={{ fontSize: '12px', color: 'Lawngreen' }} >9%~12%</Typography>
+                <Typography sx={{ fontSize: '12px', color: 'gold' }} >12%~15%</Typography>
+                <Typography sx={{ fontSize: '12px', color: 'orange' }} >15%~18%</Typography>
+                <Typography sx={{ fontSize: '12px', color: 'tomato' }} >18%~24%</Typography>
 
             </Box>
 

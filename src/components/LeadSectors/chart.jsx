@@ -131,7 +131,18 @@ export default function FilterStockChart({ data, height, yAxis, getInfo, isTheme
                             }
                         }
                     }
-                }
+                },
+                dataLabels: {
+                    enabled: true,
+                    formatter: function () {
+                        return this.point.종목명; // this.point.name을 출력
+                    },
+                    style: {
+                        color: '#efe9e9ed', // 글자 색상
+                        textOutline: 'none', // 글꼴 테두리 제거
+                        fontSize: '10px' // 필요 시 글꼴 크기 설정
+                    }
+                },
 
             },
             series: {
@@ -140,6 +151,7 @@ export default function FilterStockChart({ data, height, yAxis, getInfo, isTheme
                 //     enabled: true,
                 //     format: '{point.name}'
                 // }
+
             },
 
         },

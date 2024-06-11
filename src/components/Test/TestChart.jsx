@@ -7,7 +7,7 @@ import HighchartsMore from 'highcharts/highcharts-more'
 HighchartsMore(Highcharts)
 require('highcharts/modules/accessibility')(Highcharts)
 
-export default function CrossChart({ data, height, getInfo }) {
+export default function TestChart({ data, height, getInfo }) {
     const chartRef = useRef(null);
     const [chartOptions, setChartOptions] = useState({
         chart: {
