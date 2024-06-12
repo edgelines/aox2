@@ -57,7 +57,8 @@ const NaverDataLabPage = ({ swiperRef }) => {
 
             if (!loading) {
                 // console.log('mapping : ', mapping);
-                const response = await axios.get(`${myJSON}/naverDataLab_${getKey}_${timeUnit}_${cid}`);
+                const response = await axios.get(`${API}/NaverDataLab_Detail/${getKey}_${timeUnit}_${cid}`);
+                // const response = await axios.get(`${myJSON}/naverDataLab_${getKey}_${timeUnit}_${cid}`);
                 setTableData(response.data);
                 // console.log('response.data[11].ranks[0].keyword : ', response.data[11].ranks[0].keyword);
                 // var key0 = getKeywordNum(response.data[11].ranks[0].keyword);

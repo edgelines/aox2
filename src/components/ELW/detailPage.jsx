@@ -5,7 +5,7 @@ import CoreChart from '../util/CoreChart.jsx';
 import GpoChart from './GpoChart.jsx';
 import ELW_BarChart from './BarChart.jsx';
 import MarketCurrentValue from '../Index/marketCurrentValue.jsx';
-import { API, API_WS, API_FILE, TEST } from '../util/config.jsx';
+import { API, API_WS } from '../util/config.jsx';
 
 export default function DetailPage({ swiperRef }) {
     // const vixData = [{ name: 'Vix', color: 'tomato', pointWidth: 8, data: [parseFloat(Vix.value)], animation: false }];
@@ -28,12 +28,12 @@ export default function DetailPage({ swiperRef }) {
 
     const handleOnUS = (event) => { setOnUS(event.target.checked); }
     const fetchData1st = async () => {
-        await axios.get(`${API_FILE}/indexData/exNow_US`).then((res) => {
+        await axios.get(`${API}/gpo/us`).then((res) => {
             setExNow_US(res.data.commitData);
             setDataUS(res.data.DataUS)
         });
-
-        await axios.get(`${API_FILE}/indexData/exNow_KR`).then((res) => {
+        // await axios.get(`${API_FILE}/testmsg2`).then((res) => {
+        await axios.get(`${API}/gpo/kr`).then((res) => {
             setExNow_KR(res.data);
         });
     }
@@ -42,7 +42,6 @@ export default function DetailPage({ swiperRef }) {
         const ws = new WebSocket(`${API_WS}/detailPage`);
 
         ws.onopen = () => {
-            console.log('detailPage WebSocket Connected');
             fetchData1st();
         };
 
