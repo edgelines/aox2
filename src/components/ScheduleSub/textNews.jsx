@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Grid, Box, Table, TableContainer, TableBody, TableHead, Modal, Backdrop, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { API, API_FILE } from '../util/config';
+import { API } from '../util/config';
 import useInterval from '../util/useInterval';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
