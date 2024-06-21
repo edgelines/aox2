@@ -19,6 +19,7 @@ import LeadThemesTop from './components/leadThemesTop';
 import LeadThemesTop2 from './components/leadThemesTop2';
 import LeadThemesTop3 from './components/leadThemesTop3';
 import StockSearchPage from './components/stockSearchPage';
+import MotionPage from './components/motionPage1';
 import TestPage from './components/testPage';
 function App() {
 
@@ -47,8 +48,9 @@ function App() {
                 {/* <LeadThemes swiperRef={swiperRef} 중복수={2} /> */}
                 {/* <LeadSectors swiperRef={swiperRef} /> */}
                 {/* <LeadThemesTop2 swiperRef={swiperRef} /> */}
+                {/* <LeadThemesTop3 swiperRef={swiperRef} /> */}
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <LeadThemesTop3 swiperRef={swiperRef} />
+                    <MotionPage />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -61,6 +63,10 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <CrossPage swiperRef={swiperRef} />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <MotionPage />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >

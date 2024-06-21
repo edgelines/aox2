@@ -1,22 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { IconButton, Box } from '@mui/material';
+import { IconButton, Slider, Grid, Box } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 
-const BarRaceDemo = ({ dataset, timeLine, height }) => {
+const MotionsChart = ({ dataset, timeLine, height }) => {
     const chartComponent = useRef(null);
     const startIndex = 0;
     const endIndex = 388;
     const [playing, setPlaying] = useState(false);
-    const [timeText, setTimeText] = useState(null);
     const [dataIndex, setDataIndex] = useState(startIndex);
     const [chartOptions, setChartOptions] = useState({
         chart: {
             type: 'scatter', height: height ? height : 400, backgroundColor: 'rgba(255, 255, 255, 0)',
         },
         credits: { enabled: false }, title: { text: null },
+        subtitle: { align: 'left', style: { color: '#efe9e9ed', fontSize: '18px', backgroundColor: 'rgba(0, 0, 0, 0.2)', }, floating: true, x: 70, y: 30 },
         navigation: { buttonOptions: { enabled: false } },
         xAxis: {
             title: { text: '체결강도', style: { color: '#efe9e9ed' } },
@@ -49,12 +49,25 @@ const BarRaceDemo = ({ dataset, timeLine, height }) => {
             split: true, shared: true, crosshairs: true,
             backgroundColor: 'rgba(255, 255, 255, 0.5)',
             formatter: function () {
-                return `${this.point.name}<br/>
-                등락률 : ${this.point.등락률} %<br/>
-                전일대비거래량 : ${this.point.y.toLocaleString('kr')} %<br/>
-                체결강도 : ${this.point.x.toLocaleString('kr')} <br/>
-                ${this.point.당일외국인순매수금액 > 0 ? '당일외국인순매수' : '당일외국인순매도'} : <span style="color : ${this.point.당일외국인순매수금액 > 0 ? 'red' : 'blue'}"> ${this.point.당일외국인순매수금액.toLocaleString('kr')} 백만원</span><br/>
-                ${this.point.당일기관순매수금액 > 0 ? '당일기관순매수' : '당일기관순매수'} : <span style="color : ${this.point.당일기관순매수금액 > 0 ? 'red' : 'blue'}"> ${this.point.당일기관순매수금액.toLocaleString('kr')} 백만원</span><br/>`
+                const formatAmount = (amount) => amount !== undefined ? amount.toLocaleString('kr') : '0';
+                const formatLabel = (amount, positiveLabel, negativeLabel) => amount > 0 ? positiveLabel : negativeLabel;
+                const formatColor = (amount) => amount > 0 ? 'red' : 'blue';
+                const foreignNetBuy = this.point.당일외국인순매수금액;
+                const institutionNetBuy = this.point.당일기관순매수금액;
+                return `
+                    ${this.point.name}<br/>
+                    등락률 : ${this.point.등락률} %<br/>
+                    전일대비거래량 : ${this.point.y.toLocaleString('kr')} %<br/>
+                    체결강도 : ${this.point.x.toLocaleString('kr')} <br/>
+                    ${formatLabel(foreignNetBuy, '당일외국인순매수', '당일외국인순매도')} : <span style="color : ${formatColor(foreignNetBuy)}"> ${formatAmount(foreignNetBuy)} 백만원</span><br/>
+                    ${formatLabel(institutionNetBuy, '당일기관순매수', '당일기관순매도')} : <span style="color : ${formatColor(institutionNetBuy)}"> ${formatAmount(institutionNetBuy)} 백만원</span><br/>
+                `;
+                // return `${this.point.name}<br/>
+                // 등락률 : ${this.point.등락률} %<br/>
+                // 전일대비거래량 : ${this.point.y.toLocaleString('kr')} %<br/>
+                // 체결강도 : ${this.point.x.toLocaleString('kr')} <br/>
+                // ${this.point.당일외국인순매수금액 > 0 ? '당일외국인순매수' : '당일외국인순매도'} : <span style="color : ${this.point.당일외국인순매수금액 > 0 ? 'red' : 'blue'}"> ${this.point.당일외국인순매수금액} 백만원</span><br/>
+                // ${this.point.당일기관순매수금액 > 0 ? '당일기관순매수' : '당일기관순매수'} : <span style="color : ${this.point.당일기관순매수금액 > 0 ? 'red' : 'blue'}"> ${this.point.당일기관순매수금액} 백만원</span><br/>`
             },
         },
         plotOptions: {
@@ -80,7 +93,7 @@ const BarRaceDemo = ({ dataset, timeLine, height }) => {
             },
             series: {
                 animation: {
-                    duration: 2000
+                    duration: 1000
                 }
             }
         },
@@ -91,7 +104,6 @@ const BarRaceDemo = ({ dataset, timeLine, height }) => {
         if (playing) {
             timer.current = setInterval(() => {
                 setDataIndex(prevIndex => {
-                    console.log(prevIndex);
                     if (prevIndex >= endIndex) {
                         clearInterval(timer.current);
                         setPlaying(false);
@@ -115,18 +127,12 @@ const BarRaceDemo = ({ dataset, timeLine, height }) => {
             })
         }
 
-        // const newSubtitle = getSubtitle(year, dataset);
-        //     chart.update({
-        //         subtitle: {
-        //             text: newSubtitle
-        //         }
-        //     });
         if (chart && dataIndex) {
             const newData = getData(dataIndex, dataset);
             chart.series[0].update(newData);
             chart.update({
                 subtitle: {
-                    text: timeLine[dataIndex]
+                    text: `${timeLine[dataIndex].split('.')[0]}시 ${timeLine[dataIndex].split('.')[1]}분`
                 }
             });
         }
@@ -144,7 +150,9 @@ const BarRaceDemo = ({ dataset, timeLine, height }) => {
     const getData = (dataIndex, dataset) => {
         return dataset[dataIndex];
     };
-
+    const handleRangeChange = (event) => {
+        setDataIndex(Number(event.target.value));
+    };
     return (
         <div>
             {/* <Box sx={{ position: 'absolute', transform: 'translate(40px, 50px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '18px', textAlign: 'left' }}>
@@ -155,10 +163,25 @@ const BarRaceDemo = ({ dataset, timeLine, height }) => {
                 options={chartOptions}
                 ref={chartComponent}
             />
-            <IconButton onClick={handlePlayPause} size="large" >
-                {playing ? <StopIcon sx={{ color: '#efe9e9ed' }} /> : <PlayArrowIcon sx={{ color: '#efe9e9ed' }} />}
-            </IconButton>
+            <Grid container spacing={2} alignItems="center">
 
+                <Grid item>
+                    <IconButton onClick={handlePlayPause} size="large" >
+                        {playing ? <StopIcon sx={{ color: '#efe9e9ed' }} /> : <PlayArrowIcon sx={{ color: '#efe9e9ed' }} />}
+                    </IconButton>
+                </Grid>
+                <Grid item xs>
+                    <Slider
+                        type="range"
+                        min={startIndex}
+                        max={endIndex}
+                        value={dataIndex}
+                        valueLabelDisplay="auto"
+
+                        onChange={handleRangeChange}
+                    />
+                </Grid>
+            </Grid>
             {/* <div>
                 <button onClick={handlePlayPause}>
                     {playing ? 'Pause' : 'Play'}
@@ -175,4 +198,4 @@ const BarRaceDemo = ({ dataset, timeLine, height }) => {
     );
 };
 
-export default BarRaceDemo;
+export default MotionsChart;

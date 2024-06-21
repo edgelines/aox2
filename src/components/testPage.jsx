@@ -7,6 +7,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import FilterStockChart from './LeadSectors/chart';
 import { DataTableStyleDefault, StyledToggleButton } from './util/util';
 import Chart from './Test/chart';
+import SampleChart from './Test/sampleChart';
 import { API_WS, TEST } from './util/config';
 
 
@@ -15,13 +16,24 @@ export default function TestPage({ }) {
     const [message, setMessage] = useState('');
     const [field, setField] = useState('재무'); // 상태 추가
     const [ws, setWs] = useState(null); // 웹소켓 인스턴스를 상태로 관리
+    const [dataset2, setDataset2] = useState({ time: [], data: [] });
+    const [timeLine, setTimeLine] = useState(null);
     const [dataset, setDataset] = useState(null);
     const handlePage = (event, value) => { if (value !== null) { setField(value); console.log(value) } }
 
     const fetchData = async () => {
-        const response = await fetch('https://demo-live-data.highcharts.com/population.json');
-        const data = await response.json();
-        setDataset(data);
+        // const response = await fetch('https://demo-live-data.highcharts.com/population.json');
+        // const data = await response.json();
+        // setDataset(data);
+
+        const res = await axios.get(`http://cycleofnature.iptime.org:2441/api/test/getPowerVolumeChart/20240614`);
+        const tmp = res.data.Data.map(item => ({
+            name: item.time,
+            data: item.data,
+        }))
+        console.log('get data : ', tmp);
+        setDataset2(tmp);
+        setTimeLine(res.data.시간);
     };
 
     useEffect(() => {
@@ -81,9 +93,11 @@ export default function TestPage({ }) {
                 <StyledToggleButton fontSize={'10px'} value="주요">주요제품/주요주주</StyledToggleButton>
             </ToggleButtonGroup> */}
             <Grid item xs={12}>
-                <Chart dataset={dataset} />
-
+                <Chart dataset={dataset2} timeLine={timeLine} />
             </Grid>
+            {/* <Grid item xs={12}>
+                <SampleChart dataset={dataset} />
+            </Grid> */}
 
         </Grid>
 
