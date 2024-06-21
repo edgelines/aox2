@@ -20,7 +20,7 @@ export default function IndustrykChart({ dataset, height, timeLine }) {
         chart: {
             type: 'bubble',
             zoomType: 'xy',
-            height: height ? height : null, backgroundColor: 'rgba(255, 255, 255, 0)',
+            height: height ? height : null, backgroundColor: 'rgba(255, 255, 255, 0)', animation: false,
         },
         subtitle: { align: 'left', style: { color: '#efe9e9ed', fontSize: '18px', backgroundColor: 'rgba(0, 0, 0, 0.2)', }, floating: true, x: 70, y: 30 },
         navigation: { buttonOptions: { enabled: false } }, credits: { enabled: false },

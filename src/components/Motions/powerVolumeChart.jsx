@@ -13,7 +13,7 @@ const MotionsChart = ({ dataset, timeLine, height }) => {
     const [dataIndex, setDataIndex] = useState(startIndex);
     const [chartOptions, setChartOptions] = useState({
         chart: {
-            type: 'scatter', height: height ? height : 400, backgroundColor: 'rgba(255, 255, 255, 0)',
+            type: 'scatter', height: height ? height : 400, backgroundColor: 'rgba(255, 255, 255, 0)', animation: false,
         },
         credits: { enabled: false }, title: { text: null },
         subtitle: { align: 'left', style: { color: '#efe9e9ed', fontSize: '18px', backgroundColor: 'rgba(0, 0, 0, 0.2)', }, floating: true, x: 70, y: 30 },
