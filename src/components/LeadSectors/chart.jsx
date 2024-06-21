@@ -101,8 +101,8 @@ export default function FilterStockChart({ data, height, yAxis, getInfo, isTheme
         plotOptions: {
 
             bubble: {
-                minSize: 13,
-                maxSize: 13,
+                minSize: 11,
+                maxSize: 11,
                 point: {
                     events: {
                         click: function () {
@@ -147,6 +147,7 @@ export default function FilterStockChart({ data, height, yAxis, getInfo, isTheme
 
 
     useEffect(() => {
+        console.log(data);
         setChartOptions({
             series: data,
             yAxis: yAxis
