@@ -99,7 +99,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
     useEffect(() => {
         const ws = new WebSocket(`${API_WS}/LeadThemesTop3`);
         ws.onopen = () => {
-            console.log('Lead Sectors WebSocket Connected');
+            console.log('Lead ThemesTop3 WebSocket Connected');
         };
 
         ws.onmessage = (event) => {
@@ -110,11 +110,11 @@ export default function LeadThemesTopPage({ swiperRef }) {
         };
 
         ws.onerror = (error) => {
-            console.error('Lead Sectors WebSocket Error: ', error);
+            console.error('Lead ThemesTop3 WebSocket Error: ', error);
         };
 
         ws.onclose = () => {
-            console.log('Lead Sectors WebSocket Disconnected');
+            console.log('Lead ThemesTop3 WebSocket Disconnected');
         };
 
         // 컴포넌트가 언마운트될 때 WebSocket 연결 종료

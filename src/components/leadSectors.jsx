@@ -112,7 +112,6 @@ export default function LeadSectorsPage({ swiperRef }) {
 
         ws.onmessage = (event) => {
             const res = JSON.parse(event.data);
-            console.log(res);
             setChartData(res.chart);
             setThemesTableData(res.themes);
             setIndustryInfo(res.industryInfo);
