@@ -147,7 +147,6 @@ export default function FilterStockChart({ data, height, yAxis, getInfo, isTheme
 
 
     useEffect(() => {
-        console.log(data);
         setChartOptions({
             series: data,
             yAxis: yAxis

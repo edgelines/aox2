@@ -9,7 +9,8 @@ module.exports = merge(common, {
     // devtool: "hidden-source-map",
     devtool: false, // 소스 맵 파일을 생성하지 않도록 설정
     output: {
-        path: path.resolve('D:/CheckMate/FastAPI/web/aox'),
+        path: path.resolve('./dist'),
+        // path: path.resolve('D:/CheckMate/FastAPI/web/aox'),
         filename: 'build.js',
         publicPath: '/', // 라우터 링크 못읽는 현상 수정
     },
@@ -18,7 +19,8 @@ module.exports = merge(common, {
             template: path.resolve(__dirname, 'src', 'index.html'),  // index.html 파일의 경로를 지정합니다.
             favicon: path.resolve(__dirname, 'src', 'favicon.ico'),
             inject: true,
-            filename: path.resolve('D:/CheckMate/FastAPI/web/aox/index.html')
+            filename: path.resolve('./dist/index.html')
+            // filename: path.resolve('D:/CheckMate/FastAPI/web/aox/index.html')
         }),
     ],
 });

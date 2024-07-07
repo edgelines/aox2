@@ -1,0 +1,10 @@
+version: '3'
+services:
+  react-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./dist:/usr/share/nginx/html
+    ports:
+      - "2222:80"
