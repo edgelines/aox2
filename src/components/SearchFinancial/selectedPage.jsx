@@ -10,7 +10,7 @@ import CrossChartPage from './crossChartPage';
 import TreeMap from './treeMap';
 import FavoritePage from './favoritePage';
 import CoreChart from '../util/CoreChart';
-import { API, TEST } from '../util/config';
+import { API } from '../util/config';
 import { trendColumns, eventColumns, ranksThemesColumns, ranksWillrColumns, dateThemesColumns, dateWillrColumns } from './tableColumns';
 import SectorsChartPage from '../sectorsChartPage.jsx';
 
@@ -256,7 +256,6 @@ const EventPage = ({ swiperRef, eventDrop, getStockCode, getStockChartData }) =>
     const handleTableColumnsChange = (event, value) => { if (value !== null) { setTableColumnsName(value); } }
     const fetchData = async (eventDrop) => {
         const postData = { past: past, event: eventDrop, tableColumnsName: tableColumnsName }
-        // const res = await axios.post(`${TEST}/eventData`, postData);
         const res = await axios.post(`${API}/formula/eventData`, postData);
         setData(res.data);
     }
@@ -344,7 +343,6 @@ const TreasuryPage = ({ swiperRef, getStockCode, getStockChartData }) => {
     const handleTableColumnsChange = (event, value) => { if (value !== null) { setTableColumnsName(value); } }
     const fetchData = async () => {
         const postData = { treasury: treasury, tableColumnsName: tableColumnsName }
-        // const res = await axios.post(`${TEST}/treasuryData`, postData);
         const res = await axios.post(`${API}/formula/treasuryData`, postData);
         setData(res.data);
     }
@@ -444,7 +442,6 @@ const TrendPage = ({ swiperRef, getStockCode, getStockChartData }) => {
 
     const fetchData = async () => {
         const postData = { stockMarket: stockMarket, cross: cross, chartType: chartType, treemapSelectedName: treemapSelectedName, tableColumnsName: tableColumnsName }
-        // const res = await axios.post(`${TEST}/trendData`, postData);
         const res = await axios.post(`${API}/formula/trendData`, postData);
         setGoldenCross(res.data.text.GoldenCross);
         setDeadCross(res.data.text.DeadCross);

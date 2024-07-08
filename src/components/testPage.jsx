@@ -8,7 +8,7 @@ import FilterStockChart from './LeadSectors/chart';
 import { DataTableStyleDefault, StyledToggleButton } from './util/util';
 import Chart from './Test/chart';
 import SampleChart from './Test/sampleChart';
-import { API_WS, TEST } from './util/config';
+import { API_WS } from './util/config';
 
 
 

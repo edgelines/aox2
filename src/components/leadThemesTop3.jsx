@@ -6,7 +6,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { customTheme, stockTableColumns, DataTableStyleDefault, volumePowerColumns } from './LeadSectors/tableColumns';
 
 import TestChart from './Test/TestChart';
-import { API, API_WS, STOCK, TEST } from './util/config';
+import { API, API_WS, STOCK } from './util/config';
 import { SectorsName15 } from './util/util';
 import StockChart_MA from './util/stockChart_MA';
 import SectorChart from './SectorsPage/sectorChart';
@@ -56,7 +56,6 @@ export default function LeadThemesTopPage({ swiperRef }) {
     }
     const getInfo = async (item) => {
         // var res = await axios.get(`${API}/industry/LeadSectorsTable/${item.업종명}`);
-        // // var res = await axios.get(`${TEST}/LeadSectorsTable/${item.업종명}`);
         // setStockTableData(res.data);
 
         // 업종 차트

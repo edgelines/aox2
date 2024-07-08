@@ -3,7 +3,7 @@ import axios from 'axios';
 import Highcharts from 'highcharts/highstock'
 import { Table, TableBody, TableCell, TableHead, TableRow, Grid, ToggleButton, ToggleButtonGroup, Skeleton, TableContainer } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { API, myJSON } from '../util/config';
+import { API } from '../util/config';
 require('highcharts/modules/accessibility')(Highcharts)
 
 const NaverDataLabPage = ({ swiperRef }) => {

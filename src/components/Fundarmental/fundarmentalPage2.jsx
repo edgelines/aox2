@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Grid } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Chart from './fundarmentalChart'
-import { API, myJSON } from '../util/config';
+import { API } from '../util/config';
 // 에너지, 비트코인, 금, 환율, 오일
 export default function FundarmentalPage2({ swiperRef }) {
     const chartHeight = 470

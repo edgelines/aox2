@@ -10,7 +10,7 @@ import { SectorsName15 } from './util/util';
 import { StyledTypography_StockInfo, Financial, EtcInfo } from './util/htsUtil';
 import StockChart_MA from './util/stockChart_MA';
 import { StockInfoSimple } from './SearchFinancial/info';
-import { API, API_WS, STOCK, TEST } from './util/config';
+import { API, API_WS, STOCK } from './util/config';
 
 
 
@@ -42,7 +42,6 @@ export default function LeadSectorsPage({ swiperRef }) {
     }
     const getInfo = async (item) => {
         var res = await axios.get(`${API}/industry/LeadSectorsTable/${item.업종명}`);
-        // var res = await axios.get(`${TEST}/LeadSectorsTable/${item.업종명}`);
         setStockTableData(res.data);
 
         // 업종 차트
@@ -83,7 +82,6 @@ export default function LeadSectorsPage({ swiperRef }) {
     }
     const getInfoTheme = async (item) => {
         const postData = { theme: item.테마명 }
-        // var res = await axios.post(`${TEST}/SelectedThemes`, postData);
         var res = await axios.post(`${API}/themes/SelectedThemes`, postData);
         setThemesToStockData(res.data);
         setSelectedTitle(`테마 : ${item.테마명} `)
@@ -112,7 +110,7 @@ export default function LeadSectorsPage({ swiperRef }) {
 
         ws.onmessage = (event) => {
             const res = JSON.parse(event.data);
-            console.log(res);
+            // console.log(res);
             setChartData(res.chart);
             setThemesTableData(res.themes);
             setIndustryInfo(res.industryInfo);

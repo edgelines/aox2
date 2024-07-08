@@ -7,7 +7,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
 import SearchFinancialInfo from './SearchFinancial/info';
 import SectorChart from './SectorsPage/sectorChart';
-import { API, STOCK, TEST } from './util/config';
+import { API, STOCK } from './util/config';
 import { SectorsName15 } from './util/util';
 import { customTheme, themesTableColumns_search, DataTableStyleDefault } from './LeadSectors/tableColumns';
 import { renderProgress } from './sectorSearchPage';
@@ -34,7 +34,6 @@ export default function StockSearchPange({ swiperRef }) {
 
     // func
     const fetchData = async () => {
-        // const res = await axios.get(`${TEST}/stockName`);
         const res = await axios.get(`${API}/industry/stockName`);
         setBaseStockName(res.data);
     }
@@ -77,7 +76,6 @@ export default function StockSearchPange({ swiperRef }) {
 
             const postData = { stockCode: item.종목코드 };
             var res = await axios.post(`${API}/themes/getStockThemes`, postData);
-            // var res = await axios.post(`${TEST}/getStockThemes`, postData);
             setThemesTableData(res.data);
 
         } else {

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Grid, Box, TableContainer, Table, TableHead, TableBody, Typography } from '@mui/material';
 import FilterStockChart from './LeadSectors/chart';
-import { API, API_WS, STOCK, TEST } from './util/config';
+import { API, API_WS } from './util/config';
 
 
 

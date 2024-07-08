@@ -32,7 +32,6 @@ export default function DetailPage({ swiperRef }) {
             setExNow_US(res.data.commitData);
             setDataUS(res.data.DataUS)
         });
-        // await axios.get(`${API_FILE}/testmsg2`).then((res) => {
         await axios.get(`${API}/gpo/kr`).then((res) => {
             setExNow_KR(res.data);
         });

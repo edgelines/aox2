@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Grid, Skeleton, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import PowerVolumeChart from './Motions/powerVolumeChart';
 import IndustrykChart from './Motions/IndustryChart';
-import { API, API_WS, TEST } from './util/config';
+import { API, API_WS } from './util/config';
 
 
 export default function MotionPage({ }) {

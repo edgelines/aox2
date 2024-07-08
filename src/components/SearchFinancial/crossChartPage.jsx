@@ -6,7 +6,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { StyledButton, DataTableStyleDefault, StyledToggleButton, SectorsName15 } from '../util/util';
 import CrossChart from './crossChart';
 import { customTheme } from './util';
-import { API, TEST } from '../util/config';
+import { API } from '../util/config';
 import { table_columns, trendColumns, ranksThemesColumns, ranksWillrColumns } from './tableColumns';
 import SectorChart from '../SectorsPage/sectorChart';
 
@@ -104,7 +104,6 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
             favorite: false,
             tableColumnsName: tableColumnsName
         }
-        // const res = await axios.post(`${TEST}/crossChart`, postData);
         const res = await axios.post(`${API}/formula/crossChart`, postData);
         setChartData(res.data.chart);
         setStockTableData(res.data.table);

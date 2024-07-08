@@ -66,7 +66,7 @@ const config = {
         new webpack.DefinePlugin({
             'process.env': JSON.stringify(process.env),
             'process.env.REACT_APP_API_URL': JSON.stringify(process.env.REACT_APP_API_URL),
-            'process.env.REACT_APP_API_JSON_URL': JSON.stringify(process.env.REACT_APP_API_JSON_URL),
+            // 'process.env.REACT_APP_API_JSON_URL': JSON.stringify(process.env.REACT_APP_API_JSON_URL),
         }),
     ],
 

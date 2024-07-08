@@ -86,7 +86,7 @@ export default function TestChart({ data, height, getInfo }) {
     };
 
     useEffect(() => {
-        console.log(data);
+        // console.log(data);
         setChartOptions({
             plotOptions: plotOption,
             series: data,

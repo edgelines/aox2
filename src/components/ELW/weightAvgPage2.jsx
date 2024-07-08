@@ -6,7 +6,7 @@ import MarketCurrentValue from '../Index/marketCurrentValue'
 import MonthTableComponent from './weightAvgTable'
 import CoreChart from '../util/CoreChart';
 import WeightAvgCheck from './weightAvgCheck';
-import { API, TEST, API_WS } from '../util/config';
+import { API_WS } from '../util/config';
 
 export default function WeightAvgPage2({ swiperRef }) {
     const [dayGr, setDayGr] = useState({ series: null, categories: null });

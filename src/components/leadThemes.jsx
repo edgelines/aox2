@@ -11,7 +11,7 @@ import { SectorsName15 } from './util/util';
 import { StyledTypography_StockInfo, Financial, EtcInfo } from './util/htsUtil';
 import StockChart_MA from './util/stockChart_MA';
 import { StockInfoSimple } from './SearchFinancial/info';
-import { API, API_WS, STOCK, TEST } from './util/config';
+import { API, API_WS, STOCK } from './util/config';
 
 
 
@@ -43,7 +43,7 @@ export default function LeadThemesPage({ swiperRef, 중복수 }) {
         var res = await axios.post(`${API}/themes/LeadThemesTable`, postData);
 
         // var res = await axios.get(`${API}/themes/LeadThemesTable/${item.테마명}`);
-        // var res = await axios.get(`${TEST}/LeadThemesTable/${item.테마명}`);
+
         setStockTableData(res.data);
 
         // 업종 차트
