@@ -50,7 +50,7 @@ function App() {
                 {/* <LeadThemesTop2 swiperRef={swiperRef} /> */}
                 {/* <LeadThemesTop3 swiperRef={swiperRef} /> */}
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <MotionPage />
+                    <LeadSectors swiperRef={swiperRef} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -77,9 +77,9 @@ function App() {
                     <LeadThemes swiperRef={swiperRef} 중복수={2} />
                 </SwiperSlide>
 
-                <SwiperSlide style={swiperSlideStyle} >
+                {/* <SwiperSlide style={swiperSlideStyle} >
                     <LeadThemesTop swiperRef={swiperRef} />
-                </SwiperSlide>
+                </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <LeadThemesTop2 swiperRef={swiperRef} />
