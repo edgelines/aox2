@@ -7,4 +7,4 @@ services:
     volumes:
       - ./dist:/usr/share/nginx/html
     ports:
-      - "2222:80"
+      - "2226:80"
