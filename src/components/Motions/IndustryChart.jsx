@@ -9,10 +9,11 @@ HighchartsMore(Highcharts)
 
 require('highcharts/modules/accessibility')(Highcharts)
 
-export default function IndustrykChart({ dataset, height, timeLine }) {
+export default function IndustryChart({ dataset, height, timeLine }) {
     const chartComponent = useRef(null);
     const startIndex = 0;
-    const endIndex = 388;
+    // const endIndex = 388;
+    const [endIndex, setEndIndex] = useState(190);
     const [playing, setPlaying] = useState(false);
     const [dataIndex, setDataIndex] = useState(startIndex);
     const timer = useRef(null);
@@ -167,6 +168,7 @@ export default function IndustrykChart({ dataset, height, timeLine }) {
                 series: dataset[0]['data'][0]['chart']['series'],
                 yAxis: dataset[0]['data'][0]['chart']['yAxis'],
             })
+            setEndIndex(dataset.length - 1);
         }
 
         if (chart && dataIndex) {

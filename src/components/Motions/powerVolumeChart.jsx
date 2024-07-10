@@ -8,7 +8,8 @@ import StopIcon from '@mui/icons-material/Stop';
 const MotionsChart = ({ dataset, timeLine, height }) => {
     const chartComponent = useRef(null);
     const startIndex = 0;
-    const endIndex = 388;
+    // const endIndex = 388;
+    const [endIndex, setEndIndex] = useState(190);
     const [playing, setPlaying] = useState(false);
     const [dataIndex, setDataIndex] = useState(startIndex);
     const [chartOptions, setChartOptions] = useState({
@@ -125,6 +126,7 @@ const MotionsChart = ({ dataset, timeLine, height }) => {
             setChartOptions({
                 series: dataset[0],
             })
+            setEndIndex(dataset.length - 1);
         }
 
         if (chart && dataIndex) {

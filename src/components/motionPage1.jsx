@@ -2,8 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Grid, Skeleton, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import PowerVolumeChart from './Motions/powerVolumeChart';
-import IndustrykChart from './Motions/IndustryChart';
-import { API, API_WS } from './util/config';
+import IndustryChart from './Motions/IndustryChart';
+import { API } from './util/config';
 
 
 export default function MotionPage({ }) {
@@ -12,6 +12,7 @@ export default function MotionPage({ }) {
     const [datelist, setDateList] = useState(null);
     const [date, setDate] = useState(null);
     const [timeLine, setTimeLine] = useState(null);
+    const [timeLineIndustry, setTimeLineIndustry] = useState(null);
     const [loadingPower, setLoadingPower] = useState(false);
     const [loadingIndustry, setLoadingIndustry] = useState(false);
 
@@ -40,7 +41,9 @@ export default function MotionPage({ }) {
                 data: item.data,
             }))
             setDatasetIndustry(tmp);
-            setTimeLine(res.data.시간);
+            console.log(tmp);
+            console.log(res.data.시간);
+            setTimeLineIndustry(res.data.시간);
         } catch (error) {
             console.error("Error fetching data : ", error);
         } finally {
@@ -83,7 +86,7 @@ export default function MotionPage({ }) {
                 {
                     loadingIndustry ?
                         <Skeleton animation="wave" height={930} /> :
-                        <IndustrykChart dataset={datasetIndustry} timeLine={timeLine} height={890} />
+                        <IndustryChart dataset={datasetIndustry} timeLine={timeLineIndustry} height={890} />
                 }
             </Grid>
             <Grid item xs={5.2}>

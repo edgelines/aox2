@@ -1,5 +1,7 @@
 ### Config
-- FastAPI, MongoDB, React
+- FastAPI, MongoDB, React, 
+
+docker-compose up --build
 
 ###
 - Cross Page
