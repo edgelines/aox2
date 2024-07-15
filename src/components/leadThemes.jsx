@@ -15,7 +15,7 @@ import { API, API_WS, STOCK } from './util/config';
 
 
 
-export default function LeadThemesPage({ swiperRef, 중복수 }) {
+export default function LeadThemesPage({ swiperRef }) {
     // const [message, setMessage] = useState('');
     // const [field, setField] = useState(''); // 상태 추가
     // const [ws, setWs] = useState(null); // 웹소켓 인스턴스를 상태로 관리
@@ -98,7 +98,7 @@ export default function LeadThemesPage({ swiperRef, 중복수 }) {
     }
 
     useEffect(() => {
-        const ws = new WebSocket(`${API_WS}/LeadThemes${중복수}`);
+        const ws = new WebSocket(`${API_WS}/LeadThemes2`);
         ws.onopen = () => {
             console.log('Lead Themes WebSocket Connected');
         };

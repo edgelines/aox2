@@ -15,7 +15,7 @@ import "swiper/css/navigation";
 import { Keyboard, Mousewheel, Pagination } from "swiper/modules";
 import LeadSectors from './components/leadSectors';
 import LeadThemes from './components/leadThemes';
-import LeadThemesTop from './components/leadThemesTop';
+// import LeadThemesTop from './components/leadThemesTop';
 import LeadThemesTop2 from './components/leadThemesTop2';
 import LeadThemesTop3 from './components/leadThemesTop3';
 import StockSearchPage from './components/stockSearchPage';
@@ -42,7 +42,7 @@ function App() {
                 onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
-                {/* <LeadThemesTop swiperRef={swiperRef} /> */}
+
                 {/* <TestPage swiperRef={swiperRef} /> */}
                 {/* <StockSearchPage swiperRef={swiperRef} /> */}
                 {/* <LeadThemes swiperRef={swiperRef} 중복수={2} /> */}
@@ -50,7 +50,11 @@ function App() {
                 {/* <LeadThemesTop2 swiperRef={swiperRef} /> */}
                 {/* <LeadThemesTop3 swiperRef={swiperRef} /> */}
                 {/* <SwiperSlide style={swiperSlideStyle} >
-                    <LeadSectors swiperRef={swiperRef} />
+                    <MotionPage />
+                </SwiperSlide> */}
+
+                {/* <SwiperSlide style={swiperSlideStyle} >
+                    <LeadThemesTop swiperRef={swiperRef} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -74,12 +78,8 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <LeadThemes swiperRef={swiperRef} 중복수={2} />
+                    <LeadThemes swiperRef={swiperRef} />
                 </SwiperSlide>
-
-                {/* <SwiperSlide style={swiperSlideStyle} >
-                    <LeadThemesTop swiperRef={swiperRef} />
-                </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <LeadThemesTop2 swiperRef={swiperRef} />
