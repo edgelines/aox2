@@ -49,12 +49,17 @@ function App() {
                 {/* <LeadSectors swiperRef={swiperRef} /> */}
                 {/* <LeadThemesTop2 swiperRef={swiperRef} /> */}
                 {/* <LeadThemesTop3 swiperRef={swiperRef} /> */}
-                {/* <SwiperSlide style={swiperSlideStyle} >
+                <SwiperSlide style={swiperSlideStyle} >
                     <MotionPage />
-                </SwiperSlide> */}
+                </SwiperSlide>
 
+                {/* 테마 Top 90개 */}
                 {/* <SwiperSlide style={swiperSlideStyle} >
                     <LeadThemesTop swiperRef={swiperRef} />
+                </SwiperSlide> */}
+                {/* 체결강도 - 전일대비거래량 */}
+                {/* <SwiperSlide style={swiperSlideStyle} >
+                    <LeadThemesTop3 swiperRef={swiperRef} />
                 </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
@@ -83,10 +88,6 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <LeadThemesTop2 swiperRef={swiperRef} />
-                </SwiperSlide>
-
-                <SwiperSlide style={swiperSlideStyle} >
-                    <LeadThemesTop3 swiperRef={swiperRef} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
