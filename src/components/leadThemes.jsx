@@ -140,7 +140,7 @@ export default function LeadThemesPage({ swiperRef }) {
             {/* Title */}
             <Box sx={{ position: 'absolute', transform: 'translate(0px, 5px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
                 <Grid container>
-                    ㅁ 표기 종목수 : {중복수}
+                    ㅁ 표기 종목수 : 2
                 </Grid>
                 <Grid container>
                     {savetime}
