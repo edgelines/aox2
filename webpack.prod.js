@@ -23,5 +23,5 @@ module.exports = merge(common, {
             // filename: path.resolve('D:/CheckMate/FastAPI/web/aox/index.html')
         }),
     ],
-    entry: './src/index.js',
+    // entry: './src/index.js',
 });

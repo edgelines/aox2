@@ -17,10 +17,10 @@ import LeadSectors from './components/leadSectors';
 import LeadThemes from './components/leadThemes';
 // import LeadThemesTop from './components/leadThemesTop';
 import LeadThemesTop2 from './components/leadThemesTop2';
-import LeadThemesTop3 from './components/leadThemesTop3';
+// import LeadThemesTop3 from './components/leadThemesTop3';
 import StockSearchPage from './components/stockSearchPage';
 import MotionPage from './components/motionPage1';
-import TestPage from './components/testPage';
+// import TestPage from './components/testPage';
 function App() {
 
     const swiperRef = useRef(null);
