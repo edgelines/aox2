@@ -49,9 +49,9 @@ function App() {
                 {/* <LeadSectors swiperRef={swiperRef} /> */}
                 {/* <LeadThemesTop2 swiperRef={swiperRef} /> */}
                 {/* <LeadThemesTop3 swiperRef={swiperRef} /> */}
-                <SwiperSlide style={swiperSlideStyle} >
+                {/* <SwiperSlide style={swiperSlideStyle} >
                     <MotionPage />
-                </SwiperSlide>
+                </SwiperSlide> */}
 
                 {/* 테마 Top 90개 */}
                 {/* <SwiperSlide style={swiperSlideStyle} >
