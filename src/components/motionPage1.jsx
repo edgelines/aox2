@@ -61,7 +61,8 @@ export default function MotionPage({ }) {
     const getDataRatio = async (num, date, setLoading, setDataset) => {
         setLoading(true);
         try {
-            const res = await axios.get(`http://localhost:2440/api/stockMotion/getRatioVolumeTrendScatterChart/${num}/${date}`);
+            // const res = await axios.get(`http://localhost:2440/api/stockMotion/getRatioVolumeTrendScatterChart/${num}/${date}`);
+            const res = await axios.get(`${API}/stockMotion/getRatioVolumeTrendScatterChart/${num}/${date}`);
             const tmp = res.data.Data.map(item => ({
                 name: item.time,
                 data: item.data,
@@ -77,57 +78,57 @@ export default function MotionPage({ }) {
         }
     }
 
-    const getDataRatio3 = async (date) => {
-        setLoadingRatio3(true);
-        try {
-            // const res = await axios.get(`${API}/stockMotion/getIndustryChart/${date}`)
-            const res = await axios.get(`http://localhost:2440/api/stockMotion/getRatioVolumeTrendScatterChart/3/${date}`)
-            const tmp = res.data.Data.map(item => ({
-                name: item.time,
-                data: item.data,
-            }));
-            setDataset3(tmp);
-            setTimeLine(res.data.시간);
-        } catch (error) {
-            console.error("Error fetching data : ", error);
-        } finally {
-            setLoadingRatio3(false);
-        }
-    }
-    const getDataRatio2 = async (date) => {
-        setLoadingRatio2(true);
-        try {
-            // const res = await axios.get(`${API}/stockMotion/getIndustryChart/${date}`)
-            const res = await axios.get(`http://localhost:2440/api/stockMotion/getRatioVolumeTrendScatterChart/2/${date}`)
-            const tmp = res.data.Data.map(item => ({
-                name: item.time,
-                data: item.data,
-            }));
-            setDataset2(tmp);
-            // setTimeLine(res.data.시간);
-        } catch (error) {
-            console.error("Error fetching data : ", error);
-        } finally {
-            setLoadingRatio2(false);
-        }
-    }
-    const getDataRatio1 = async (date) => {
-        setLoadingRatio1(true);
-        try {
-            // const res = await axios.get(`${API}/stockMotion/getIndustryChart/${date}`)
-            const res = await axios.get(`http://localhost:2440/api/stockMotion/getRatioVolumeTrendScatterChart/1/${date}`)
-            const tmp = res.data.Data.map(item => ({
-                name: item.time,
-                data: item.data,
-            }));
-            setDataset1(tmp);
-            // setTimeLine(res.data.시간);
-        } catch (error) {
-            console.error("Error fetching data : ", error);
-        } finally {
-            setLoadingRatio1(false);
-        }
-    }
+    // const getDataRatio3 = async (date) => {
+    //     setLoadingRatio3(true);
+    //     try {
+    //         // const res = await axios.get(`${API}/stockMotion/getIndustryChart/${date}`)
+    //         const res = await axios.get(`http://localhost:2440/api/stockMotion/getRatioVolumeTrendScatterChart/3/${date}`)
+    //         const tmp = res.data.Data.map(item => ({
+    //             name: item.time,
+    //             data: item.data,
+    //         }));
+    //         setDataset3(tmp);
+    //         setTimeLine(res.data.시간);
+    //     } catch (error) {
+    //         console.error("Error fetching data : ", error);
+    //     } finally {
+    //         setLoadingRatio3(false);
+    //     }
+    // }
+    // const getDataRatio2 = async (date) => {
+    //     setLoadingRatio2(true);
+    //     try {
+    //         // const res = await axios.get(`${API}/stockMotion/getIndustryChart/${date}`)
+    //         const res = await axios.get(`http://localhost:2440/api/stockMotion/getRatioVolumeTrendScatterChart/2/${date}`)
+    //         const tmp = res.data.Data.map(item => ({
+    //             name: item.time,
+    //             data: item.data,
+    //         }));
+    //         setDataset2(tmp);
+    //         // setTimeLine(res.data.시간);
+    //     } catch (error) {
+    //         console.error("Error fetching data : ", error);
+    //     } finally {
+    //         setLoadingRatio2(false);
+    //     }
+    // }
+    // const getDataRatio1 = async (date) => {
+    //     setLoadingRatio1(true);
+    //     try {
+    //         // const res = await axios.get(`${API}/stockMotion/getIndustryChart/${date}`)
+    //         const res = await axios.get(`http://localhost:2440/api/stockMotion/getRatioVolumeTrendScatterChart/1/${date}`)
+    //         const tmp = res.data.Data.map(item => ({
+    //             name: item.time,
+    //             data: item.data,
+    //         }));
+    //         setDataset1(tmp);
+    //         // setTimeLine(res.data.시간);
+    //     } catch (error) {
+    //         console.error("Error fetching data : ", error);
+    //     } finally {
+    //         setLoadingRatio1(false);
+    //     }
+    // }
 
     const fetchData = async () => {
         const res = await axios.get(`${API}/stockMotion/getBusinessDay`);

@@ -51,4 +51,5 @@ module.exports = merge(common, {
             },
         ],
     },
+    entry: './src/index_test.js',
 });
