@@ -130,6 +130,8 @@ export default function MotionPage({ }) {
     //     }
     // }
 
+    const handleEventChange = (event) => { if (event !== null) { setDate(event.target.value); } }
+
     const fetchData = async () => {
         const res = await axios.get(`${API}/stockMotion/getBusinessDay`);
         setDateList(res.data);
@@ -145,54 +147,45 @@ export default function MotionPage({ }) {
             getDataRatio(3, date, setLoadingRatio3, setDataset3);
             getDataRatio(2, date, setLoadingRatio2, setDataset2);
             getDataRatio(1, date, setLoadingRatio1, setDataset1);
-            // getDataPower(date);
-            // getDataRatio3(date);
-            // getDataRatio2(date);
-            // getDataRatio1(date);
         }
     }, [date])
 
     return (
         <Grid container spacing={1}>
-            <Grid item xs={0.8}>
-                <FormControl variant="standard" sx={{ minWidth: 100 }}>
-                    <Select value={date} sx={{ color: '#efe9e9ed', fontSize: '12px' }}>
-                        {datelist && datelist.length > 0 ?
-                            datelist.map(item => (
-                                <MenuItem value={item}>{item}</MenuItem>
-                            )) : <></>
-                        }
-                    </Select>
-                </FormControl>
-
-            </Grid>
-            <Grid item xs={5.6}>
+            <Grid item xs={6}>
                 {
                     loadingRatio3 ?
                         <Skeleton animation="wave" height={415} /> :
                         <RatioVolumeTrendScatterChart dataset={dataset3} timeLine={timeLine} height={415} title={'중복 3개 이상'} />
                 }
+
+                <Grid item container direction="row" justifyContent="flex-start" sx={{ height: 100, mt: 2 }}>
+                    <FormControl variant="standard" sx={{ minWidth: 100 }}>
+                        <Select
+                            onChange={handleEventChange}
+                            value={date} sx={{ color: '#efe9e9ed', fontSize: '12px' }}>
+                            {datelist && datelist.length > 0 ?
+                                datelist.map(item => (
+                                    <MenuItem value={item}>{item}</MenuItem>
+                                )) : <></>
+                            }
+                        </Select>
+                    </FormControl>
+
+                </Grid>
+            </Grid>
+            <Grid item xs={6}>
                 {
                     loadingRatio2 ?
                         <Skeleton animation="wave" height={415} /> :
                         <RatioVolumeTrendScatterChart dataset={dataset2} timeLine={timeLine} height={415} title={'중복 2개'} />
                 }
-            </Grid>
-            <Grid item xs={5.6}>
                 {
                     loadingRatio1 ?
                         <Skeleton animation="wave" height={415} /> :
                         <RatioVolumeTrendScatterChart dataset={dataset1} timeLine={timeLine} height={415} title={'중복 1개'} />
                 }
             </Grid>
-            {/* <Grid item xs={5.2}>
-                {
-                    loadingPower ?
-                        <Skeleton animation="wave" height={600} /> :
-                        <PowerVolumeChart dataset={dataset} timeLine={timeLine} date={date} datelist={datelist} />
-                }
-            </Grid> */}
-
 
         </Grid>
 

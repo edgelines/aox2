@@ -14,7 +14,7 @@ const MotionsChart = ({ dataset, timeLine, height, title }) => {
     const [dataIndex, setDataIndex] = useState(startIndex);
     const [chartOptions, setChartOptions] = useState({
         chart: {
-            type: 'scatter', height: height ? height : 400, backgroundColor: 'rgba(255, 255, 255, 0)',
+            type: 'scatter', height: height ? height : 400, backgroundColor: 'rgba(255, 255, 255, 0)', zoomType: 'xy',
         },
         credits: { enabled: false }, title: { text: null },
         subtitle: { align: 'left', style: { color: '#efe9e9ed', fontSize: '18px', backgroundColor: 'rgba(0, 0, 0, 0.2)', }, floating: true, x: 70, y: 30 },
@@ -94,7 +94,7 @@ const MotionsChart = ({ dataset, timeLine, height, title }) => {
             },
             series: {
                 animation: {
-                    duration: 1000
+                    duration: 2000
                 }
             }
         },
@@ -157,7 +157,7 @@ const MotionsChart = ({ dataset, timeLine, height, title }) => {
     };
     return (
         <div>
-            <Box sx={{ position: 'absolute', transform: 'translate(82px, 5px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '18px', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(450px, 5px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '18px', textAlign: 'right' }}>
                 {title}
             </Box>
             <HighchartsReact
