@@ -8,6 +8,11 @@ import { API } from './util/config';
 
 
 export default function MotionPage({ }) {
+
+    // config
+    const chartHeight = 600
+
+    // state
     const [dataset1, setDataset1] = useState({ time: [], data: [] });
     const [dataset2, setDataset2] = useState({ time: [], data: [] });
     const [dataset3, setDataset3] = useState({ time: [], data: [] });
@@ -146,7 +151,7 @@ export default function MotionPage({ }) {
         if (date !== null) {
             getDataRatio(3, date, setLoadingRatio3, setDataset3);
             getDataRatio(2, date, setLoadingRatio2, setDataset2);
-            getDataRatio(1, date, setLoadingRatio1, setDataset1);
+            // getDataRatio(1, date, setLoadingRatio1, setDataset1);
         }
     }, [date])
 
@@ -155,8 +160,8 @@ export default function MotionPage({ }) {
             <Grid item xs={6}>
                 {
                     loadingRatio3 ?
-                        <Skeleton animation="wave" height={415} /> :
-                        <RatioVolumeTrendScatterChart dataset={dataset3} timeLine={timeLine} height={415} title={'중복 3개 이상'} />
+                        <Skeleton animation="wave" height={chartHeight} /> :
+                        <RatioVolumeTrendScatterChart dataset={dataset3} timeLine={timeLine} height={chartHeight} title={'중복 3개 이상'} />
                 }
 
                 <Grid item container direction="row" justifyContent="flex-start" sx={{ height: 100, mt: 2 }}>
@@ -177,14 +182,14 @@ export default function MotionPage({ }) {
             <Grid item xs={6}>
                 {
                     loadingRatio2 ?
-                        <Skeleton animation="wave" height={415} /> :
-                        <RatioVolumeTrendScatterChart dataset={dataset2} timeLine={timeLine} height={415} title={'중복 2개'} />
+                        <Skeleton animation="wave" height={chartHeight} /> :
+                        <RatioVolumeTrendScatterChart dataset={dataset2} timeLine={timeLine} height={chartHeight} title={'중복 2개'} />
                 }
-                {
+                {/* {
                     loadingRatio1 ?
                         <Skeleton animation="wave" height={415} /> :
                         <RatioVolumeTrendScatterChart dataset={dataset1} timeLine={timeLine} height={415} title={'중복 1개'} />
-                }
+                } */}
             </Grid>
 
         </Grid>

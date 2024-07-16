@@ -27,9 +27,12 @@ const MotionsChart = ({ dataset, timeLine, height, title }) => {
                     return `<span style="color: ${color}">${this.value.toLocaleString('kr')}</span>`
                 }
             },
+            gridLineWidth: 0.2,
             tickLength: 0,
+            tickAmount: 21,
             // plotLines: [{ value: 100, width: 2, color: '#fff', zIndex: 2 }],
             max: 2000,
+            min: 0
             // min: 50
         },
         yAxis: {
@@ -41,11 +44,11 @@ const MotionsChart = ({ dataset, timeLine, height, title }) => {
                     return `<span style="color: ${color}">${this.value.toLocaleString('kr')} %</span>`
                 }
             },
-            plotLines: [{ value: 0, width: 1, color: '#fff' },],
+            // plotLines: [{ value: 0, width: 1, color: '#fff' },],
             gridLineWidth: 0.2,
-            tickAmount: 5,
-            max: 30
-            // max: 800
+            tickAmount: 7,
+            max: 30,
+            min: 0
         },
         tooltip: {
             split: true, shared: true, crosshairs: true,
@@ -101,6 +104,20 @@ const MotionsChart = ({ dataset, timeLine, height, title }) => {
     })
 
     const timer = useRef(null);
+
+
+    const marks = [
+        {
+            value: 58,
+            label: '9시 30분',
+        },
+        {
+            value: 118,
+            label: '10시 0분',
+        },
+    ];
+
+
     useEffect(() => {
         if (playing) {
             timer.current = setInterval(() => {
@@ -178,10 +195,19 @@ const MotionsChart = ({ dataset, timeLine, height, title }) => {
                         min={startIndex}
                         max={endIndex}
                         value={dataIndex}
+                        marks={marks}
                         valueLabelDisplay="auto"
-
                         onChange={handleRangeChange}
+                        valueLabelFormat={(dataIndex) => `${timeLine[dataIndex].split('.')[0]}시 ${timeLine[dataIndex].split('.')[1]}분 ${timeLine[dataIndex].split('.')[2]}초`}
+                        sx={{
+                            color: '#efe9e9ed',
+                            '.MuiSlider-markLabel': {
+                                color: '#efe9e9ed'
+                            },
+
+                        }}
                     />
+
                 </Grid>
             </Grid>
             {/* <div>
