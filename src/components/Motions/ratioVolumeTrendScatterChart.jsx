@@ -190,23 +190,27 @@ const MotionsChart = ({ dataset, timeLine, height, title }) => {
                     </IconButton>
                 </Grid>
                 <Grid item xs>
-                    <Slider
-                        type="range"
-                        min={startIndex}
-                        max={endIndex}
-                        value={dataIndex}
-                        marks={marks}
-                        valueLabelDisplay="auto"
-                        onChange={handleRangeChange}
-                        valueLabelFormat={(dataIndex) => `${timeLine[dataIndex].split('.')[0]}시 ${timeLine[dataIndex].split('.')[1]}분 ${timeLine[dataIndex].split('.')[2]}초`}
-                        sx={{
-                            color: '#efe9e9ed',
-                            '.MuiSlider-markLabel': {
-                                color: '#efe9e9ed'
-                            },
+                    {
+                        timeLine && timeLine.length ?
+                            <Slider
+                                type="range"
+                                min={startIndex}
+                                max={endIndex}
+                                value={dataIndex}
+                                marks={marks}
+                                valueLabelDisplay="auto"
+                                onChange={handleRangeChange}
+                                valueLabelFormat={(dataIndex) => `${timeLine[dataIndex].split('.')[0]}시 ${timeLine[dataIndex].split('.')[1]}분 ${timeLine[dataIndex].split('.')[2]}초`}
+                                sx={{
+                                    color: '#efe9e9ed',
+                                    '.MuiSlider-markLabel': {
+                                        color: '#efe9e9ed'
+                                    },
 
-                        }}
-                    />
+                                }}
+                            />
+                            : <></>
+                    }
 
                 </Grid>
             </Grid>
