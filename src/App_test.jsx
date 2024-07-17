@@ -51,7 +51,7 @@ function App() {
                 {/* <LeadThemesTop2 swiperRef={swiperRef} /> */}
                 {/* <LeadThemesTop3 swiperRef={swiperRef} /> */}
                 <SwiperSlide style={swiperSlideStyle} >
-                    <MotionPage2 />
+                    <MotionPage1 swiperRef={swiperRef} />
                 </SwiperSlide>
 
 

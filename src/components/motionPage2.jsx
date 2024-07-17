@@ -1,20 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Grid, Skeleton, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
-// import PowerVolumeChart from './Motions/powerVolumeChart';
-// import IndustryChart from './Motions/IndustryChart';
-// import dayjs from 'dayjs';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import RatioVolumeTrendScatterChart from './Motions/ratioVolumeTrendScatterChart.jsx'
 import { API } from './util/config.jsx';
 
 
-export default function MotionPage2({ }) {
+export default function MotionPage2({ swiperRef }) {
 
     // config
-    const chartHeight = 600
+    const chartHeight = 900
 
     // state
     const [dataset1, setDataset1] = useState({ time: [], data: [] });
@@ -27,40 +21,6 @@ export default function MotionPage2({ }) {
     // const [loadingRatio2, setLoadingRatio2] = useState(false);
     // const [loadingRatio3, setLoadingRatio3] = useState(false);
 
-    // const getDataPower = async (date) => {
-    //     setLoadingPower(true);
-    //     try {
-    //         const res = await axios.get(`${API}/stockMotion/getPowerVolumeChart/${date}`)
-    //         const tmp = res.data.Data.map(item => ({
-    //             name: item.time,
-    //             data: item.data,
-    //         }))
-    //         setDataset(tmp);
-    //         setTimeLine(res.data.시간);
-    //     } catch (error) {
-    //         console.error("Error fetching data : ", error);
-    //     } finally {
-    //         setLoadingPower(false);
-    //     }
-    // }
-    // const getDataIndustry = async (date) => {
-    //     setLoadingIndustry(true);
-    //     try {
-    //         const res = await axios.get(`${API}/stockMotion/getIndustryChart/${date}`)
-    //         const tmp = res.data.Data.map(item => ({
-    //             name: item.time,
-    //             data: item.data,
-    //         }))
-    //         setDatasetIndustry(tmp);
-    //         console.log(tmp);
-    //         console.log(res.data.시간);
-    //         setTimeLineIndustry(res.data.시간);
-    //     } catch (error) {
-    //         console.error("Error fetching data : ", error);
-    //     } finally {
-    //         setLoadingIndustry(false);
-    //     }
-    // }
 
     const getDataRatio = async (num, date, setLoading, setDataset) => {
         setLoading(true);
@@ -68,10 +28,11 @@ export default function MotionPage2({ }) {
             // const res = await axios.get(`http://localhost:2440/api/stockMotion/getRatioVolumeTrendScatterChart/${num}/${date}`);
             const res = await axios.get(`${API}/stockMotion/getRatioVolumeTrendScatterChart/${num}/${date}`);
             const tmp = res.data.Data.map(item => ({
-                name: item.time,
+                time: item.time,
                 data: item.data,
             }));
             setDataset(tmp);
+            console.log(tmp);
             setTimeLine(res.data.시간);
             // if (num === 3) {
 
@@ -110,8 +71,11 @@ export default function MotionPage2({ }) {
                 {
                     loadingRatio1 ?
                         <Skeleton animation="wave" height={chartHeight} /> :
-                        <RatioVolumeTrendScatterChart dataset={dataset1} timeLine={timeLine} height={chartHeight} title={'중복 1개'} />
+                        <RatioVolumeTrendScatterChart dataset={dataset1} timeLine={timeLine} height={chartHeight} title={'중복 1개'} swiperRef={swiperRef} />
                 }
+
+
+
                 {/* {
                     loadingRatio3 ?
                         <Skeleton animation="wave" height={chartHeight} /> :

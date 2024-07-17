@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Grid, Box, Table, TableHead, TableBody, TableRow, TableCell, Skeleton, Modal, Backdrop, Switch, FormControlLabel, Popover, Typography, Slider } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
-import { useTheme, styled } from '@mui/material/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import FilterStockChart from './LeadSectors/chart';
 import SectorChart from './SectorsPage/sectorChart';

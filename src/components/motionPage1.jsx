@@ -11,10 +11,10 @@ import RatioVolumeTrendScatterChart from './Motions/ratioVolumeTrendScatterChart
 import { API } from './util/config';
 
 
-export default function MotionPage({ }) {
+export default function MotionPage({ swiperRef }) {
 
     // config
-    const chartHeight = 600
+    const chartHeight = 900
 
     // state
     // const [dataset1, setDataset1] = useState({ time: [], data: [] });
@@ -114,7 +114,7 @@ export default function MotionPage({ }) {
                 {
                     loadingRatio3 ?
                         <Skeleton animation="wave" height={chartHeight} /> :
-                        <RatioVolumeTrendScatterChart dataset={dataset3} timeLine={timeLine} height={chartHeight} title={'중복 3개 이상'} />
+                        <RatioVolumeTrendScatterChart dataset={dataset3} timeLine={timeLine} height={chartHeight} title={'중복 3개 이상'} swiperRef={swiperRef} />
                 }
 
                 <Grid item container direction="row" justifyContent="flex-start" sx={{ height: 100, mt: 2 }}>
@@ -135,7 +135,7 @@ export default function MotionPage({ }) {
                 {
                     loadingRatio2 ?
                         <Skeleton animation="wave" height={chartHeight} /> :
-                        <RatioVolumeTrendScatterChart dataset={dataset2} timeLine={timeLine} height={chartHeight} title={'중복 2개'} />
+                        <RatioVolumeTrendScatterChart dataset={dataset2} timeLine={timeLine} height={chartHeight} title={'중복 2개'} swiperRef={swiperRef} />
                 }
                 {/* {
                     loadingRatio1 ?
