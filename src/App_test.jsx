@@ -19,7 +19,8 @@ import LeadThemes from './components/leadThemes';
 import LeadThemesTop2 from './components/leadThemesTop2';
 import LeadThemesTop3 from './components/leadThemesTop3';
 import StockSearchPage from './components/stockSearchPage';
-import MotionPage from './components/motionPage1';
+import MotionPage1 from './components/motionPage1';
+import MotionPage2 from './components/motionPage2';
 import TestPage from './components/testPage';
 function App() {
 
@@ -50,7 +51,7 @@ function App() {
                 {/* <LeadThemesTop2 swiperRef={swiperRef} /> */}
                 {/* <LeadThemesTop3 swiperRef={swiperRef} /> */}
                 <SwiperSlide style={swiperSlideStyle} >
-                    <MotionPage />
+                    <MotionPage2 />
                 </SwiperSlide>
 
 

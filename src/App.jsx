@@ -14,12 +14,13 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Keyboard, Mousewheel, Pagination } from "swiper/modules";
 import LeadSectors from './components/leadSectors';
-import LeadThemes from './components/leadThemes';
+// import LeadThemes from './components/leadThemes';
 // import LeadThemesTop from './components/leadThemesTop';
 import LeadThemesTop2 from './components/leadThemesTop2';
 // import LeadThemesTop3 from './components/leadThemesTop3';
 import StockSearchPage from './components/stockSearchPage';
-import MotionPage from './components/motionPage1';
+import MotionPage1 from './components/motionPage1';
+import MotionPage2 from './components/motionPage2';
 // import TestPage from './components/testPage';
 function App() {
 
@@ -75,16 +76,20 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <MotionPage />
+                    <MotionPage1 />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <MotionPage2 />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <LeadSectors swiperRef={swiperRef} />
                 </SwiperSlide>
 
-                <SwiperSlide style={swiperSlideStyle} >
+                {/* <SwiperSlide style={swiperSlideStyle} >
                     <LeadThemes swiperRef={swiperRef} />
-                </SwiperSlide>
+                </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <LeadThemesTop2 swiperRef={swiperRef} />
