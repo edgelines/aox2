@@ -30,8 +30,8 @@ const MotionsChart = ({ dataset, timeLine, height, title }) => {
             gridLineWidth: 0.2,
             tickLength: 0,
             tickAmount: 21,
-            // plotLines: [{ value: 100, width: 2, color: '#fff', zIndex: 2 }],
-            max: 2000,
+            plotLines: [{ value: 150, width: 1, color: 'dodgerblue', dashStyle: 'dash', zIndex: 2 }],
+            max: 1000,
             min: 0
             // min: 50
         },
@@ -46,7 +46,7 @@ const MotionsChart = ({ dataset, timeLine, height, title }) => {
             },
             // plotLines: [{ value: 0, width: 1, color: '#fff' },],
             gridLineWidth: 0.2,
-            tickAmount: 7,
+            tickAmount: 13,
             max: 30,
             min: 0
         },
@@ -62,16 +62,10 @@ const MotionsChart = ({ dataset, timeLine, height, title }) => {
                 return `
                     ${this.point.name}<br/>
                     등락률 : ${this.point.y} %<br/>
-                    전일대비거래량 : ${this.point.x.toLocaleString('kr')} %<br/>
+                    전일대비거래량 : ${this.point.전일대비거래량.toLocaleString('kr')} %<br/>
                     ${formatLabel(foreignNetBuy, '당일외국인순매수', '당일외국인순매도')} : <span style="color : ${formatColor(foreignNetBuy)}"> ${formatAmount(foreignNetBuy)} 백만원</span><br/>
                     ${formatLabel(institutionNetBuy, '당일기관순매수', '당일기관순매도')} : <span style="color : ${formatColor(institutionNetBuy)}"> ${formatAmount(institutionNetBuy)} 백만원</span><br/>
                 `;
-                // return `${this.point.name}<br/>
-                // 등락률 : ${this.point.등락률} %<br/>
-                // 전일대비거래량 : ${this.point.y.toLocaleString('kr')} %<br/>
-                // 체결강도 : ${this.point.x.toLocaleString('kr')} <br/>
-                // ${this.point.당일외국인순매수금액 > 0 ? '당일외국인순매수' : '당일외국인순매도'} : <span style="color : ${this.point.당일외국인순매수금액 > 0 ? 'red' : 'blue'}"> ${this.point.당일외국인순매수금액} 백만원</span><br/>
-                // ${this.point.당일기관순매수금액 > 0 ? '당일기관순매수' : '당일기관순매수'} : <span style="color : ${this.point.당일기관순매수금액 > 0 ? 'red' : 'blue'}"> ${this.point.당일기관순매수금액} 백만원</span><br/>`
             },
         },
         plotOptions: {
