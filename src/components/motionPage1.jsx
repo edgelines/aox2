@@ -1,8 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Grid, Skeleton, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
-import PowerVolumeChart from './Motions/powerVolumeChart';
-import IndustryChart from './Motions/IndustryChart';
+// import PowerVolumeChart from './Motions/powerVolumeChart';
+// import IndustryChart from './Motions/IndustryChart';
+// import dayjs from 'dayjs';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import RatioVolumeTrendScatterChart from './Motions/ratioVolumeTrendScatterChart.jsx'
 import { API } from './util/config';
 
@@ -141,6 +145,7 @@ export default function MotionPage({ }) {
         const res = await axios.get(`${API}/stockMotion/getBusinessDay`);
         setDateList(res.data);
         setDate(res.data[0])
+        // console.log(dayjs(res.data[0]))
     };
 
     useEffect(() => {
@@ -176,7 +181,6 @@ export default function MotionPage({ }) {
                             }
                         </Select>
                     </FormControl>
-
                 </Grid>
             </Grid>
             <Grid item xs={6}>

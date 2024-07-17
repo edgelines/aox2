@@ -109,11 +109,55 @@ const MotionsChart = ({ dataset, timeLine, height, title }) => {
     const marks = [
         {
             value: 58,
-            label: '9시 30분',
+            label: '9:30',
         },
         {
             value: 118,
-            label: '10시 0분',
+            label: '10:00',
+        },
+        {
+            value: 178,
+            label: '10:30',
+        },
+        // {
+        //     value: 238,
+        //     label: '11:00',
+        // },
+        {
+            value: 236,
+            label: '11:00',
+        },
+        {
+            value: 295,
+            label: '11:30',
+        },
+        {
+            value: 355,
+            label: '12:00',
+        },
+        {
+            value: 415,
+            label: '12:30',
+        },
+        {
+            value: 475,
+            label: '13:00',
+        },
+        {
+            value: 534,
+            label: '13:30',
+        },
+        {
+            value: 594,
+            label: '14:00',
+        },
+        {
+            value: 653,
+            label: '14:30',
+        },
+        {
+            value: 713,
+            label: '15:00',
         },
     ];
 
