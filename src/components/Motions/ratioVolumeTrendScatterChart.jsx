@@ -30,7 +30,12 @@ const MotionsChart = ({ dataset, timeLine, height, title }) => {
             gridLineWidth: 0.2,
             tickLength: 0,
             tickAmount: 21,
-            plotLines: [{ value: 150, width: 1, color: 'dodgerblue', dashStyle: 'dash', zIndex: 2 }],
+            plotLines: [
+                { value: 40, width: 1, color: 'gold', dashStyle: 'dash', zIndex: 2 }, {
+                    value: 90, width: 1, color: 'orange', dashStyle: 'dash', zIndex: 2
+                }, {
+                    value: 150, width: 1, color: 'tomato', dashStyle: 'dash', zIndex: 2
+                }],
             max: 1000,
             min: 0
             // min: 50
