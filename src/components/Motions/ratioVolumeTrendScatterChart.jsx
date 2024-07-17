@@ -17,7 +17,7 @@ const MotionsChart = ({ dataset, timeLine, height, title }) => {
             type: 'scatter', height: height ? height : 400, backgroundColor: 'rgba(255, 255, 255, 0)', zoomType: 'xy',
         },
         credits: { enabled: false }, title: { text: null },
-        subtitle: { align: 'left', style: { color: '#efe9e9ed', fontSize: '18px', backgroundColor: 'rgba(0, 0, 0, 0.2)', }, floating: true, x: 70, y: 30 },
+        subtitle: { align: 'right', style: { color: '#efe9e9ed', fontSize: '18px', backgroundColor: 'rgba(0, 0, 0, 0.2)', }, floating: true, x: 0, y: 30 },
         navigation: { buttonOptions: { enabled: false } },
         xAxis: {
             title: { text: '전일대비거래량', style: { color: '#efe9e9ed' } },
