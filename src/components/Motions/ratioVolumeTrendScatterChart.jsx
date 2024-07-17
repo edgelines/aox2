@@ -194,7 +194,7 @@ const MotionsChart = ({ dataset, timeLine, height, title }) => {
             chart.series[0].update(newData);
             chart.update({
                 subtitle: {
-                    text: `${timeLine[dataIndex].split('.')[0]}시 ${timeLine[dataIndex].split('.')[1]}분 ${timeLine[dataIndex].split('.')[2]}초`
+                    text: `${timeLine[dataIndex].split('.')[0]} : ${timeLine[dataIndex].split('.')[1]} : ${timeLine[dataIndex].split('.')[2]}`
                 }
             });
         }
@@ -243,7 +243,7 @@ const MotionsChart = ({ dataset, timeLine, height, title }) => {
                                 marks={marks}
                                 valueLabelDisplay="auto"
                                 onChange={handleRangeChange}
-                                valueLabelFormat={(dataIndex) => `${timeLine[dataIndex].split('.')[0]}시 ${timeLine[dataIndex].split('.')[1]}분 ${timeLine[dataIndex].split('.')[2]}초`}
+                                valueLabelFormat={(dataIndex) => `${timeLine[dataIndex].split('.')[0]} : ${timeLine[dataIndex].split('.')[1]} : ${timeLine[dataIndex].split('.')[2]}초`}
                                 sx={{
                                     color: '#efe9e9ed',
                                     '.MuiSlider-markLabel': {
