@@ -7,13 +7,17 @@ import StopIcon from '@mui/icons-material/Stop';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { customTheme, DataTableStyleDefault } from '../LeadSectors/tableColumns';
+import { renderProgress } from '../sectorSearchPage';
 
 const columns = [
     {
-        field: '종목명', headerName: '종목명', width: 160,
+        field: '업종명', headerName: '업종명', width: 120,
         align: 'left', headerAlign: 'left',
     }, {
-        field: 'y', headerName: '%', width: 50,
+        field: '종목명', headerName: '종목명', width: 100,
+        align: 'left', headerAlign: 'left',
+    }, {
+        field: 'y', headerName: 'R %', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
             const color = params.value > 0 ? '#FCAB2F' : '#00F3FF'
@@ -22,29 +26,34 @@ const columns = [
             )
         }
     }, {
-        field: '전일대비거래량', headerName: 'V%', width: 80,
+        field: '전일대비거래량', headerName: 'V %', width: 80,
         align: 'right', headerAlign: 'center',
         valueFormatter: (params) => {
             return `${params.value.toLocaleString('kr')} %`;
         }
     }, {
-        field: '당일기관순매수금액', headerName: '기관', width: 70,
+        field: '체결강도', headerName: '체결강도', width: 70,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
-            const color = params.value > 0 ? '#FCAB2F' : '#00F3FF'
+            const color = params.value > 100 ? '#e89191' : 'dodgerblue'
+            const progress = renderProgress({ value: params.value, valueON: true, color: color, val2: 0.07 })
             return (
-                <span style={{ color: color }}> {params.value.toLocaleString('kr')}</span>
+                <Box sx={{ position: 'relative', mt: -2 }}>
+                    <Box sx={{ position: 'absolute', zIndex: 1, marginLeft: -2 }}>
+                        {params.value.toLocaleString('kr')}
+                    </Box>
+                    <Box sx={{ position: 'absolute', zIndex: 0, width: 80, mt: -0.6, marginLeft: -5.5 }}>
+                        {progress}
+                    </Box>
+                </Box>
             )
         }
-    }, {
-        field: '당일외국인순매수금액', headerName: '외인', width: 70,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = params.value > 0 ? '#FCAB2F' : '#00F3FF'
-            return (
-                <span style={{ color: color }}> {params.value.toLocaleString('kr')}</span>
-            )
-        }
+        // renderCell: (params) => {
+        //     const color = params.value > 0 ? '#FCAB2F' : '#00F3FF'
+        //     return (
+        //         <span style={{ color: color }}> {params.value.toLocaleString('kr')}</span>
+        //     )
+        // }
     }
 ]
 
@@ -108,7 +117,7 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef }) => {
                 const foreignNetBuy = this.point.당일외국인순매수금액;
                 const institutionNetBuy = this.point.당일기관순매수금액;
                 return `
-                    ${this.point.name}<br/>
+                    ${this.point.종목명}<br/>
                     등락률 : ${this.point.y} %<br/>
                     전일대비거래량 : ${this.point.전일대비거래량.toLocaleString('kr')} %<br/>
                     ${formatLabel(foreignNetBuy, '당일외국인순매수', '당일외국인순매도')} : <span style="color : ${formatColor(foreignNetBuy)}"> ${formatAmount(foreignNetBuy)} 백만원</span><br/>
