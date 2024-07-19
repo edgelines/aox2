@@ -11,6 +11,7 @@ export default function MotionPage2({ swiperRef }) {
     const chartHeight = 900
 
     // state
+    const [dataset1Count, setDataset1Count] = useState(null);
     const [dataset1, setDataset1] = useState({ time: [], data: [] });
     const [datelist, setDateList] = useState(null);
     const [date, setDate] = useState(null);
@@ -22,7 +23,7 @@ export default function MotionPage2({ swiperRef }) {
     // const [loadingRatio3, setLoadingRatio3] = useState(false);
 
 
-    const getDataRatio = async (num, date, setLoading, setDataset) => {
+    const getDataRatio = async (num, date, setLoading, setDataset, setDatasetCount) => {
         setLoading(true);
         try {
             // const res = await axios.get(`http://localhost:2440/api/stockMotion/getRatioVolumeTrendScatterChart/${num}/${date}`);
@@ -33,6 +34,8 @@ export default function MotionPage2({ swiperRef }) {
             }));
             setDataset(tmp);
             setTimeLine(res.data.시간);
+            const count = await axios.get(`${API}/stockMotion/getRatioVolumeTrendScatterCount/${num}/${date}`);
+            setDatasetCount(count.data.Data);
             // if (num === 3) {
 
             // }
@@ -60,7 +63,7 @@ export default function MotionPage2({ swiperRef }) {
         if (date !== null) {
             // getDataRatio(3, date, setLoadingRatio3, setDataset3);
             // getDataRatio(2, date, setLoadingRatio2, setDataset2);
-            getDataRatio(1, date, setLoadingRatio1, setDataset1);
+            getDataRatio(1, date, setLoadingRatio1, setDataset1, setDataset1Count);
         }
     }, [date])
 
@@ -70,7 +73,10 @@ export default function MotionPage2({ swiperRef }) {
                 {
                     loadingRatio1 ?
                         <Skeleton animation="wave" height={chartHeight} /> :
-                        <RatioVolumeTrendScatterChart dataset={dataset1} timeLine={timeLine} height={chartHeight} title={'중복 1개'} swiperRef={swiperRef} />
+                        <RatioVolumeTrendScatterChart
+                            dataset={dataset1} timeLine={timeLine} height={chartHeight} title={'중복 1개'} swiperRef={swiperRef}
+                            datasetCount={dataset1Count}
+                        />
                 }
 
 

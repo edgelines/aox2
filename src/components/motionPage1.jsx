@@ -80,7 +80,7 @@ export default function MotionPage({ swiperRef }) {
             setDataset(tmp);
             const count = await axios.get(`${API}/stockMotion/getRatioVolumeTrendScatterCount/${num}/${date}`);
             setDatasetCount(count.data.Data);
-            console.log(count.data.Data);
+
             if (num === 3) {
                 setTimeLine(res.data.시간);
             }
