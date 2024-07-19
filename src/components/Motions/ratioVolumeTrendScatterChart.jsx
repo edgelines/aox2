@@ -350,14 +350,16 @@ const CountTable = ({ name, data, swiperRef, height }) => {
 
                     <TableBody>
                         {
-                            data.map(item => (
-                                <tr style={{ fontSize: '11px', p: 2 }}>
-                                    <td style={{ width: '120px' }}>
-                                        {name == '업종명' ? item.업종명 : item.테마명}
-                                    </td>
-                                    <td style={{ width: '40px', textAlign: 'left' }}>{item.갯수}</td>
-                                </tr>
-                            ))
+                            data && data.length > 0 ?
+                                data.map(item => (
+                                    <tr style={{ fontSize: '11px', p: 2 }}>
+                                        <td style={{ width: '120px' }}>
+                                            {name == '업종명' ? item.업종명 : item.테마명}
+                                        </td>
+                                        <td style={{ width: '40px', textAlign: 'left' }}>{item.갯수}</td>
+                                    </tr>
+                                ))
+                                : <>Loading</>
                         }
                     </TableBody>
                 </Table>
