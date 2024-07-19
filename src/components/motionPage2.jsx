@@ -32,7 +32,6 @@ export default function MotionPage2({ swiperRef }) {
                 data: item.data,
             }));
             setDataset(tmp);
-            console.log(tmp);
             setTimeLine(res.data.시간);
             // if (num === 3) {
 

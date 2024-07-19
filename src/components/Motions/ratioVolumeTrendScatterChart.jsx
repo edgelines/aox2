@@ -1,63 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { IconButton, Slider, Grid, Box } from '@mui/material';
+import { IconButton, Slider, Grid, Box, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { customTheme, DataTableStyleDefault } from '../LeadSectors/tableColumns';
-import { renderProgress } from '../sectorSearchPage';
+import { columns } from './MotionsColumns';
 
-const columns = [
-    {
-        field: '업종명', headerName: '업종명', width: 120,
-        align: 'left', headerAlign: 'left',
-    }, {
-        field: '종목명', headerName: '종목명', width: 100,
-        align: 'left', headerAlign: 'left',
-    }, {
-        field: 'y', headerName: 'R %', width: 50,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = params.value > 0 ? '#FCAB2F' : '#00F3FF'
-            return (
-                <span style={{ color: color }}> {params.value}</span>
-            )
-        }
-    }, {
-        field: '전일대비거래량', headerName: 'V %', width: 80,
-        align: 'right', headerAlign: 'center',
-        valueFormatter: (params) => {
-            return `${params.value.toLocaleString('kr')} %`;
-        }
-    }, {
-        field: '체결강도', headerName: '체결강도', width: 70,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = params.value > 100 ? '#e89191' : 'dodgerblue'
-            const progress = renderProgress({ value: params.value, valueON: true, color: color, val2: 0.07 })
-            return (
-                <Box sx={{ position: 'relative', mt: -2 }}>
-                    <Box sx={{ position: 'absolute', zIndex: 1, marginLeft: -2 }}>
-                        {params.value.toLocaleString('kr')}
-                    </Box>
-                    <Box sx={{ position: 'absolute', zIndex: 0, width: 80, mt: -0.6, marginLeft: -5.5 }}>
-                        {progress}
-                    </Box>
-                </Box>
-            )
-        }
-        // renderCell: (params) => {
-        //     const color = params.value > 0 ? '#FCAB2F' : '#00F3FF'
-        //     return (
-        //         <span style={{ color: color }}> {params.value.toLocaleString('kr')}</span>
-        //     )
-        // }
-    }
-]
 
-const MotionsChart = ({ dataset, timeLine, height, title, swiperRef }) => {
+
+const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCount }) => {
     const chartComponent = useRef(null);
     const startIndex = 0;
     // const endIndex = 388;
@@ -130,7 +84,7 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef }) => {
                 showInLegend: false,
                 animation: false,
                 marker: {
-                    radius: 2,
+                    radius: 2.8,
                     symbol: 'circle'
                 },
                 jitter: { x: 0.3 },
@@ -154,6 +108,7 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef }) => {
         },
     })
     const [tableData, setTableData] = useState([]);
+    const tableHeight = 330
     const timer = useRef(null);
 
 
@@ -324,49 +279,90 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef }) => {
             <Grid container
                 onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                 onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-                sx={{ height: 330 }}>
-                <ThemeProvider theme={customTheme}>
-                    <DataGrid
-                        rows={tableData}
-                        columns={columns}
-                        hideFooter rowHeight={20}
-                        initialState={{
-                            sorting: {
-                                sortModel: [{ field: '전일대비거래량', sort: 'desc' }],
-                            },
-                        }}
-                        // onCellClick={(params, event) => {
-                        //     let item = params.row.item;
-                        //     let itemStr = "" + item;
-                        //     stockItemSelected({ 종목코드: params.row.종목코드, 종목명: itemStr, 업종명: params.row.업종명 });
-                        // }}
-                        sx={{
-                            color: 'white', border: 'none',
-                            ...DataTableStyleDefault,
-                            [`& .${gridClasses.cell}`]: { py: 1, },
-                            // '.MuiTablePagination-root': { color: '#efe9e9ed' },
-                            // '[data-field="업종명"]': { borderRight: '1.5px solid #ccc' },
+                sx={{ height: tableHeight }}>
 
-                        }}
-                    />
-                </ThemeProvider>
+                <Grid item xs={8}>
+                    <ThemeProvider theme={customTheme}>
+                        <DataGrid
+                            rows={tableData}
+                            columns={columns}
+                            hideFooter rowHeight={20}
+                            initialState={{
+                                sorting: {
+                                    sortModel: [{ field: '전일대비거래량', sort: 'desc' }],
+                                },
+                            }}
+                            sx={{
+                                color: 'white', border: 'none',
+                                ...DataTableStyleDefault,
+                                [`& .${gridClasses.cell}`]: { py: 1, },
+                            }}
+                        />
+                    </ThemeProvider>
+                </Grid>
+
+                <Grid item container xs={4}>
+
+                    {
+                        datasetCount ?
+                            <>
+                                <Grid item xs={6}>
+
+                                    <CountTable name='업종명' data={datasetCount.업종} swiperRef={swiperRef} height={tableHeight} />
+
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <CountTable name='테마명' data={datasetCount.테마} swiperRef={swiperRef} height={tableHeight} />
+                                </Grid>
+                            </>
+                            : <>Loading</>
+                    }
+
+
+                </Grid>
+
 
 
             </Grid>
-            {/* <div>
-                <button onClick={handlePlayPause}>
-                    {playing ? 'Pause' : 'Play'}
-                </button>
-                <input
-                    type="range"
-                    min={startYear}
-                    max={endYear}
-                    value={year}
-                    onChange={handleRangeChange}
-                />
-            </div> */}
+
         </div>
     );
 };
 
 export default MotionsChart;
+
+
+const CountTable = ({ name, data, swiperRef, height }) => {
+
+    return (
+        <div
+            onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+            onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+        >
+            <TableContainer sx={{ height: height }}>
+                <Table size='small'>
+                    <TableHead>
+                        <tr style={{ fontSize: '11px' }}>
+                            <td style={{}} >{name}</td>
+                            <td style={{ textAlign: 'left' }} >#</td>
+                        </tr>
+                    </TableHead>
+
+                    <TableBody>
+                        {
+                            data.map(item => (
+                                <tr style={{ fontSize: '11px', p: 2 }}>
+                                    <td style={{ width: '120px' }}>
+                                        {name == '업종명' ? item.업종명 : item.테마명}
+                                    </td>
+                                    <td style={{ width: '40px', textAlign: 'left' }}>{item.갯수}</td>
+                                </tr>
+                            ))
+                        }
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+        </div>
+    )
+}

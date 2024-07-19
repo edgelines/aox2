@@ -5,7 +5,7 @@ import LeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import RightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import TextNews from './ScheduleSub/textNews';
-import IPO from './ScheduleSub/ipo';
+// import IPO from './ScheduleSub/ipo';
 import Weather from './ScheduleSub/weather';
 import COEX from './ScheduleSub/coex';
 import FlixPatrol from './ScheduleSub/flixPatrol';
@@ -287,9 +287,9 @@ function Schedule({ schedule, date, handlePageChange, ipoSubPage, swiperRef }) {
                     {ipoSubPage === '국내외지표이슈' && <ImageUpdater />}
                 </Box>
             </Grid>
-
-            {ipoSubPage === '국내외지표이슈' && <TextNews swiperRef={swiperRef} />}
-            {ipoSubPage === 'IPO' && <IPO swiperRef={swiperRef} />}
+            <TextNews swiperRef={swiperRef} />
+            {/* {ipoSubPage === '국내외지표이슈' && } */}
+            {/* {ipoSubPage === 'IPO' && <IPO swiperRef={swiperRef} />} */}
         </>
     )
 }

@@ -18,10 +18,11 @@ export default function MotionPage({ swiperRef }) {
 
     // state
     // const [dataset1, setDataset1] = useState({ time: [], data: [] });
+    // const [datasetIndustry, setDatasetIndustry] = useState({ time: [], data: [] });
     const [dataset2, setDataset2] = useState({ time: [], data: [] });
     const [dataset3, setDataset3] = useState({ time: [], data: [] });
-    // const [datasetIndustry, setDatasetIndustry] = useState({ time: [], data: [] });
-
+    const [dataset2Count, setDataset2Count] = useState([]);
+    const [dataset3Count, setDataset3Count] = useState([]);
 
     const [datelist, setDateList] = useState(null);
     const [date, setDate] = useState(null);
@@ -67,7 +68,7 @@ export default function MotionPage({ swiperRef }) {
     //     }
     // }
 
-    const getDataRatio = async (num, date, setLoading, setDataset) => {
+    const getDataRatio = async (num, date, setLoading, setDataset, setDatasetCount) => {
         setLoading(true);
         try {
             // const res = await axios.get(`http://localhost:2440/api/stockMotion/getRatioVolumeTrendScatterChart/${num}/${date}`);
@@ -77,6 +78,9 @@ export default function MotionPage({ swiperRef }) {
                 data: item.data,
             }));
             setDataset(tmp);
+            const count = await axios.get(`${API}/stockMotion/getRatioVolumeTrendScatterCount/${num}/${date}`);
+            setDatasetCount(count.data.Data);
+            console.log(count.data.Data);
             if (num === 3) {
                 setTimeLine(res.data.시간);
             }
@@ -102,8 +106,8 @@ export default function MotionPage({ swiperRef }) {
 
     useEffect(() => {
         if (date !== null) {
-            getDataRatio(3, date, setLoadingRatio3, setDataset3);
-            getDataRatio(2, date, setLoadingRatio2, setDataset2);
+            getDataRatio(3, date, setLoadingRatio3, setDataset3, setDataset3Count);
+            getDataRatio(2, date, setLoadingRatio2, setDataset2, setDataset2Count);
             // getDataRatio(1, date, setLoadingRatio1, setDataset1);
         }
     }, [date])
@@ -114,7 +118,10 @@ export default function MotionPage({ swiperRef }) {
                 {
                     loadingRatio3 ?
                         <Skeleton animation="wave" height={chartHeight} /> :
-                        <RatioVolumeTrendScatterChart dataset={dataset3} timeLine={timeLine} height={chartHeight} title={'중복 3개 이상'} swiperRef={swiperRef} />
+                        <RatioVolumeTrendScatterChart
+                            dataset={dataset3} timeLine={timeLine} height={chartHeight} title={'중복 3개 이상'} swiperRef={swiperRef}
+                            datasetCount={dataset3Count}
+                        />
                 }
 
                 <Grid item container direction="row" justifyContent="flex-start" sx={{ height: 100, mt: 2 }}>
@@ -135,7 +142,10 @@ export default function MotionPage({ swiperRef }) {
                 {
                     loadingRatio2 ?
                         <Skeleton animation="wave" height={chartHeight} /> :
-                        <RatioVolumeTrendScatterChart dataset={dataset2} timeLine={timeLine} height={chartHeight} title={'중복 2개'} swiperRef={swiperRef} />
+                        <RatioVolumeTrendScatterChart
+                            dataset={dataset2} timeLine={timeLine} height={chartHeight} title={'중복 2개'} swiperRef={swiperRef}
+                            datasetCount={dataset2Count}
+                        />
                 }
                 {/* {
                     loadingRatio1 ?
