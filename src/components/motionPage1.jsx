@@ -116,7 +116,6 @@ export default function MotionPage({ swiperRef }) {
 
             ws.current.onmessage = (event) => {
                 const res = JSON.parse(event.data);
-                console.log(res);
                 setDataset3(res.data3.series);
                 setDataset3Count(res.data3.count);
                 setDataset2(res.data2.series);
