@@ -15,8 +15,8 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
     const chartComponent = useRef(null);
     const startIndex = 0;
     // const endIndex = 388;
-    const [endIndex, setEndIndex] = useState(190);
-    const [playing, setPlaying] = useState(false);
+    // const [endIndex, setEndIndex] = useState(190);
+    // const [playing, setPlaying] = useState(false);
     const [dataIndex, setDataIndex] = useState(startIndex);
     const [chartOptions, setChartOptions] = useState({
         chart: {
@@ -109,126 +109,42 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
     })
     const [tableData, setTableData] = useState([]);
     const tableHeight = 330
-    const timer = useRef(null);
 
-
-    const marks = [
-        {
-            value: 58,
-            label: '9:30',
-        },
-        {
-            value: 118,
-            label: '10:00',
-        },
-        {
-            value: 178,
-            label: '10:30',
-        },
-        // {
-        //     value: 238,
-        //     label: '11:00',
-        // },
-        {
-            value: 236,
-            label: '11:00',
-        },
-        {
-            value: 295,
-            label: '11:30',
-        },
-        {
-            value: 355,
-            label: '12:00',
-        },
-        {
-            value: 415,
-            label: '12:30',
-        },
-        {
-            value: 475,
-            label: '13:00',
-        },
-        {
-            value: 534,
-            label: '13:30',
-        },
-        {
-            value: 594,
-            label: '14:00',
-        },
-        {
-            value: 653,
-            label: '14:30',
-        },
-        {
-            value: 713,
-            label: '15:00',
-        },
-    ];
-
-
-    useEffect(() => {
-        if (playing) {
-            timer.current = setInterval(() => {
-                setDataIndex(prevIndex => {
-                    if (prevIndex >= endIndex) {
-                        clearInterval(timer.current);
-                        setPlaying(false);
-                        return prevIndex;
-                    }
-                    return prevIndex + 1;
-                });
-            }, 1000);
-        } else {
-            clearInterval(timer.current);
-        }
-        return () => clearInterval(timer.current);
-    }, [playing]);
 
     useEffect(() => {
         let chart
         if (chartComponent.current && dataset.length > 0) {
             chart = chartComponent.current.chart;
             setChartOptions({
-                series: dataset[0],
+                series: dataset,
             })
-            setEndIndex(dataset.length - 1);
-            const table = handleTableData(dataIndex, dataset)
+            // setEndIndex(dataset.length - 1);
+            const table = handleTableData(dataset)
             setTableData(table);
+
+
         }
+    }, [dataset])
 
-        if (chart && dataIndex) {
-            const newData = getData(dataIndex, dataset);
-            chart.series[0].update(newData);
-            chart.update({
-                subtitle: {
-                    text: `${timeLine[dataIndex].split('.')[0]} : ${timeLine[dataIndex].split('.')[1]} : ${timeLine[dataIndex].split('.')[2]}`
-                }
-            });
-            const table = handleTableData(dataIndex, dataset)
-            setTableData(table);
-        }
-
-
-
-    }, [dataset, dataIndex])
-
+    // useEffect(() => {
+    //     let chart
+    //     if (chartComponent.current && dataset.length > 0) {
+    //         chart = chartComponent.current.chart;
+    //         if (timeLine) {
+    //             chart.update({
+    //                 subtitle: {
+    //                     text: `${timeLine.split('.')[0]} : ${timeLine.split('.')[1]} : ${timeLine.split('.')[2]}`
+    //                 }
+    //             });
+    //         }
+    //     }
+    // }, [timeLine])
     if (!dataset) return <div>Loading...</div>;
 
     // handler
-    const handlePlayPause = () => {
-        setPlaying(!playing);
-    }
 
-    const getData = (dataIndex, dataset) => {
-        return dataset[dataIndex];
-    };
-    const handleRangeChange = (event) => {
-        setDataIndex(Number(event.target.value));
-    };
-    const handleTableData = (dataIndex, dataset) => {
-        const tmp = dataset[dataIndex].data.map((item, index) => ({
+    const handleTableData = (dataset) => {
+        const tmp = dataset[0].data.map((item, index) => ({
             ...item, id: index
         }));
         return tmp
@@ -243,7 +159,7 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
                 options={chartOptions}
                 ref={chartComponent}
             />
-            <Grid container spacing={2} alignItems="center">
+            {/* <Grid container spacing={2} alignItems="center">
 
                 <Grid item>
                     <IconButton onClick={handlePlayPause} size="large" >
@@ -275,7 +191,7 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
 
                 </Grid>
 
-            </Grid>
+            </Grid> */}
             <Grid container
                 onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                 onMouseLeave={() => swiperRef.current.mousewheel.enable()}

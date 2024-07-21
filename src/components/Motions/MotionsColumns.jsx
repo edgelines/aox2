@@ -22,7 +22,7 @@ export const columns = [
             )
         }
     }, {
-        field: '전일대비거래량', headerName: 'V %', width: 80,
+        field: '전일대비거래량', headerName: 'V %', width: 60,
         align: 'right', headerAlign: 'center',
         valueFormatter: (params) => {
             return `${params.value.toLocaleString('kr')} %`;

@@ -44,12 +44,6 @@ function App() {
                 style={{ height: "100vh" }}
             >
 
-                {/* <TestPage swiperRef={swiperRef} /> */}
-                {/* <StockSearchPage swiperRef={swiperRef} /> */}
-                {/* <LeadThemes swiperRef={swiperRef} 중복수={2} /> */}
-                {/* <LeadSectors swiperRef={swiperRef} /> */}
-                {/* <LeadThemesTop2 swiperRef={swiperRef} /> */}
-                {/* <LeadThemesTop3 swiperRef={swiperRef} /> */}
                 <SwiperSlide style={swiperSlideStyle} >
                     <MotionPage1 swiperRef={swiperRef} />
                 </SwiperSlide>

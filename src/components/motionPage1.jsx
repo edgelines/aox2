@@ -1,15 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, Skeleton, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Grid, Skeleton, Select, MenuItem, FormControl, ToggleButtonGroup, Box } from '@mui/material';
 // import PowerVolumeChart from './Motions/powerVolumeChart';
 // import IndustryChart from './Motions/IndustryChart';
 // import dayjs from 'dayjs';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import RatioVolumeTrendScatterChartLive from './Motions/ratioVolumeTrendScatterChartLive.jsx'
 import RatioVolumeTrendScatterChart from './Motions/ratioVolumeTrendScatterChart.jsx'
-import { API } from './util/config';
-
+import { API, API_WS } from './util/config';
+import { StyledToggleButton } from './util/util';
 
 export default function MotionPage({ swiperRef }) {
 
@@ -17,6 +18,8 @@ export default function MotionPage({ swiperRef }) {
     const chartHeight = 900
 
     // state
+    const ws = useRef(null); // WebSocket 참조 하는 상태 생성
+    const [replaySwitch, setReplaySwitch] = useState(null);
     // const [dataset1, setDataset1] = useState({ time: [], data: [] });
     // const [datasetIndustry, setDatasetIndustry] = useState({ time: [], data: [] });
     const [dataset2, setDataset2] = useState({ time: [], data: [] });
@@ -73,11 +76,8 @@ export default function MotionPage({ swiperRef }) {
         try {
             // const res = await axios.get(`http://localhost:2440/api/stockMotion/getRatioVolumeTrendScatterChart/${num}/${date}`);
             const res = await axios.get(`${API}/stockMotion/getRatioVolumeTrendScatterChart/${num}/${date}`);
-            const tmp = res.data.Data.map(item => ({
-                name: item.time,
-                data: item.data,
-            }));
-            setDataset(tmp);
+
+            setDataset(res.data.Data);
             const count = await axios.get(`${API}/stockMotion/getRatioVolumeTrendScatterCount/${num}/${date}`);
             setDatasetCount(count.data.Data);
 
@@ -92,60 +92,133 @@ export default function MotionPage({ swiperRef }) {
     }
 
     const handleEventChange = (event) => { if (event !== null) { setDate(event.target.value); } }
+    const handleSwitchChange = async (event, value) => {
+        if (value !== null) {
+            setReplaySwitch(value);
+        }
+    };
 
     const fetchData = async () => {
         const res = await axios.get(`${API}/stockMotion/getBusinessDay`);
         setDateList(res.data);
-        setDate(res.data[0])
-        // console.log(dayjs(res.data[0]))
+        // setDate(res.data[0])
     };
 
+    useEffect(() => { fetchData(); setReplaySwitch('live') }, []);
+
     useEffect(() => {
-        fetchData();
-    }, []);
+        if (replaySwitch === 'live') {
+            // ws.current = new WebSocket(`ws://localhost:2440/ws/Motions1`);
+            ws.current = new WebSocket(`${API_WS}/Motions1`);
+            ws.current.onopen = () => {
+                console.log('Motions Page2 WebSocket Connected');
+            };
+
+            ws.current.onmessage = (event) => {
+                const res = JSON.parse(event.data);
+                console.log(res);
+                setDataset3(res.data3.series);
+                setDataset3Count(res.data3.count);
+                setDataset2(res.data2.series);
+                setDataset2Count(res.data2.count);
+                setTimeLine(res.data3.시간);
+            };
+
+            ws.current.onerror = (error) => {
+                console.error('Motions Page1 WebSocket Error: ', error);
+            };
+
+            ws.current.onclose = () => {
+                console.log('Motions Page1 WebSocket Disconnected');
+            };
+
+        } else if (replaySwitch === 'replay') {
+            if (ws.current) {
+                ws.current.close();
+            }
+            setDate(datelist[0]);
+        }
+        // 컴포넌트가 언마운트되거나 replaySwitch가 변경될 때 WebSocket 연결 해제
+        return () => {
+            if (ws.current) {
+                ws.current.close();
+                ws.current = null;
+            }
+        };
+
+    }, [replaySwitch]);
 
     useEffect(() => {
         if (date !== null) {
             getDataRatio(3, date, setLoadingRatio3, setDataset3, setDataset3Count);
             getDataRatio(2, date, setLoadingRatio2, setDataset2, setDataset2Count);
-            // getDataRatio(1, date, setLoadingRatio1, setDataset1);
         }
     }, [date])
 
     return (
         <Grid container spacing={1}>
+            <Grid item container xs={12}>
+                <Grid item xs={1}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'left' }}>
+                        <ToggleButtonGroup
+                            // orientation="vertical"
+                            color='info'
+                            exclusive
+                            size="small"
+                            value={replaySwitch}
+                            onChange={handleSwitchChange}
+                        >
+                            <StyledToggleButton value="live">LIVE</StyledToggleButton>
+                            <StyledToggleButton value="replay">REPLAY</StyledToggleButton>
+                        </ToggleButtonGroup>
+                    </Box>
+                </Grid>
+                {replaySwitch === 'replay' ?
+                    <Box sx={{ display: 'flex', alignItems: 'left' }}>
+                        {/* <Grid item container direction="row" justifyContent="flex-start" sx={{ height: 100, mt: 2 }}> */}
+                        <FormControl variant="standard" sx={{ minWidth: 100 }}>
+                            <Select
+                                onChange={handleEventChange}
+                                value={date} sx={{ color: '#efe9e9ed', fontSize: '12px' }}>
+                                {datelist && datelist.length > 0 ?
+                                    datelist.map(item => (
+                                        <MenuItem value={item}>{item}</MenuItem>
+                                    )) : <></>
+                                }
+                            </Select>
+                        </FormControl>
+                        {/* </Grid> */}
+                    </Box>
+                    : <></>}
+
+            </Grid>
             <Grid item xs={6}>
+                {replaySwitch === 'live' && <RatioVolumeTrendScatterChartLive
+                    dataset={dataset3} timeLine={timeLine} height={chartHeight} title={'중복 3개 이상'} swiperRef={swiperRef}
+                    datasetCount={dataset3Count}
+                />}
                 {
-                    loadingRatio3 ?
-                        <Skeleton animation="wave" height={chartHeight} /> :
+                    replaySwitch === 'replay' && !loadingRatio3 ?
                         <RatioVolumeTrendScatterChart
                             dataset={dataset3} timeLine={timeLine} height={chartHeight} title={'중복 3개 이상'} swiperRef={swiperRef}
                             datasetCount={dataset3Count}
-                        />
+                        /> :
+                        <Skeleton animation="wave" height={chartHeight} />
                 }
 
-                <Grid item container direction="row" justifyContent="flex-start" sx={{ height: 100, mt: 2 }}>
-                    <FormControl variant="standard" sx={{ minWidth: 100 }}>
-                        <Select
-                            onChange={handleEventChange}
-                            value={date} sx={{ color: '#efe9e9ed', fontSize: '12px' }}>
-                            {datelist && datelist.length > 0 ?
-                                datelist.map(item => (
-                                    <MenuItem value={item}>{item}</MenuItem>
-                                )) : <></>
-                            }
-                        </Select>
-                    </FormControl>
-                </Grid>
             </Grid>
             <Grid item xs={6}>
+                {replaySwitch === 'live' && <RatioVolumeTrendScatterChartLive
+                    dataset={dataset2} timeLine={timeLine} height={chartHeight} title={'중복 2개'} swiperRef={swiperRef}
+                    datasetCount={dataset2Count}
+                />}
                 {
-                    loadingRatio2 ?
-                        <Skeleton animation="wave" height={chartHeight} /> :
+                    replaySwitch === 'replay' && !loadingRatio2 ?
                         <RatioVolumeTrendScatterChart
                             dataset={dataset2} timeLine={timeLine} height={chartHeight} title={'중복 2개'} swiperRef={swiperRef}
                             datasetCount={dataset2Count}
-                        />
+                        /> :
+                        <Skeleton animation="wave" height={chartHeight} />
                 }
                 {/* {
                     loadingRatio1 ?
