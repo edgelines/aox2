@@ -65,18 +65,18 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
             split: true, shared: true, crosshairs: true,
             backgroundColor: 'rgba(255, 255, 255, 0.5)',
             formatter: function () {
-                const formatAmount = (amount) => amount !== undefined ? amount.toLocaleString('kr') : '0';
-                const formatLabel = (amount, positiveLabel, negativeLabel) => amount > 0 ? positiveLabel : negativeLabel;
-                const formatColor = (amount) => amount > 0 ? 'red' : 'blue';
-                const foreignNetBuy = this.point.당일외국인순매수금액;
-                const institutionNetBuy = this.point.당일기관순매수금액;
+                // const formatAmount = (amount) => amount !== undefined ? amount.toLocaleString('kr') : '0';
+                // const formatLabel = (amount, positiveLabel, negativeLabel) => amount > 0 ? positiveLabel : negativeLabel;
+                // const formatColor = (amount) => amount > 0 ? 'red' : 'blue';
+                // const foreignNetBuy = this.point.당일외국인순매수금액;
+                // const institutionNetBuy = this.point.당일기관순매수금액;
                 return `
                     ${this.point.종목명}<br/>
                     등락률 : ${this.point.y} %<br/>
                     전일대비거래량 : ${this.point.전일대비거래량.toLocaleString('kr')} %<br/>
-                    ${formatLabel(foreignNetBuy, '당일외국인순매수', '당일외국인순매도')} : <span style="color : ${formatColor(foreignNetBuy)}"> ${formatAmount(foreignNetBuy)} 백만원</span><br/>
-                    ${formatLabel(institutionNetBuy, '당일기관순매수', '당일기관순매도')} : <span style="color : ${formatColor(institutionNetBuy)}"> ${formatAmount(institutionNetBuy)} 백만원</span><br/>
-                `;
+                    `;
+                // ${formatLabel(foreignNetBuy, '당일외국인순매수', '당일외국인순매도')} : <span style="color : ${formatColor(foreignNetBuy)}"> ${formatAmount(foreignNetBuy)} 백만원</span><br/>
+                // ${formatLabel(institutionNetBuy, '당일기관순매수', '당일기관순매도')} : <span style="color : ${formatColor(institutionNetBuy)}"> ${formatAmount(institutionNetBuy)} 백만원</span><br/>
             },
         },
         plotOptions: {
