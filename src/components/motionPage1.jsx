@@ -11,6 +11,7 @@ import RatioVolumeTrendScatterChartLive from './Motions/ratioVolumeTrendScatterC
 import RatioVolumeTrendScatterChart from './Motions/ratioVolumeTrendScatterChart.jsx'
 import { API, API_WS } from './util/config';
 import { StyledToggleButton } from './util/util';
+import { formatDateString } from './util/formatDate.jsx'
 
 export default function MotionPage({ swiperRef }) {
 
@@ -181,7 +182,7 @@ export default function MotionPage({ swiperRef }) {
                                 value={date} sx={{ color: '#efe9e9ed', fontSize: '12px' }}>
                                 {datelist && datelist.length > 0 ?
                                     datelist.map(item => (
-                                        <MenuItem value={item}>{item}</MenuItem>
+                                        <MenuItem value={item}>{formatDateString(item)}</MenuItem>
                                     )) : <></>
                                 }
                             </Select>

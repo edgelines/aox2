@@ -45,7 +45,7 @@ function App() {
             >
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <MotionPage1 swiperRef={swiperRef} />
+                    <MotionPage2 swiperRef={swiperRef} />
                 </SwiperSlide>
 
 

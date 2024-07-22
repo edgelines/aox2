@@ -5,6 +5,7 @@ import RatioVolumeTrendScatterChart from './Motions/ratioVolumeTrendScatterChart
 import RatioVolumeTrendScatterChartLive from './Motions/ratioVolumeTrendScatterChartLive.jsx'
 import { API, API_WS } from './util/config.jsx';
 import { StyledToggleButton } from './util/util';
+import { formatDateString } from './util/formatDate.jsx'
 
 
 export default function MotionPage2({ swiperRef }) {
@@ -53,6 +54,9 @@ export default function MotionPage2({ swiperRef }) {
             setReplaySwitch(value);
         }
     };
+
+
+
     const fetchData = async () => {
         const res = await axios.get(`${API}/stockMotion/getBusinessDay`);
         setDateList(res.data);
@@ -126,19 +130,17 @@ export default function MotionPage2({ swiperRef }) {
                 </Grid>
                 {replaySwitch === 'replay' ?
                     <Box sx={{ display: 'flex', alignItems: 'left' }}>
-                        {/* <Grid item container direction="row" justifyContent="flex-start" sx={{ height: 100, mt: 2 }}> */}
                         <FormControl variant="standard" sx={{ minWidth: 100 }}>
                             <Select
                                 onChange={handleEventChange}
                                 value={date} sx={{ color: '#efe9e9ed', fontSize: '12px' }}>
                                 {datelist && datelist.length > 0 ?
                                     datelist.map(item => (
-                                        <MenuItem value={item}>{item}</MenuItem>
+                                        <MenuItem value={item}>{formatDateString(item)}</MenuItem>
                                     )) : <></>
                                 }
                             </Select>
                         </FormControl>
-                        {/* </Grid> */}
                     </Box>
                     : <></>}
 
