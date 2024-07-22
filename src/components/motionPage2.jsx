@@ -77,7 +77,7 @@ export default function MotionPage2({ swiperRef }) {
                 const res = JSON.parse(event.data);
                 setDataset1(res.data1.series);
                 setDataset1Count(res.data1.count);
-                setTimeLine(res.data1.시간);
+                setTimeLine(res.data1.savetime);
             };
 
             ws.current.onerror = (error) => {

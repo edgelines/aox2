@@ -126,19 +126,20 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
         }
     }, [dataset])
 
-    // useEffect(() => {
-    //     let chart
-    //     if (chartComponent.current && dataset.length > 0) {
-    //         chart = chartComponent.current.chart;
-    //         if (timeLine) {
-    //             chart.update({
-    //                 subtitle: {
-    //                     text: `${timeLine.split('.')[0]} : ${timeLine.split('.')[1]} : ${timeLine.split('.')[2]}`
-    //                 }
-    //             });
-    //         }
-    //     }
-    // }, [timeLine])
+    useEffect(() => {
+        let chart
+        if (chartComponent.current && dataset.length > 0) {
+            chart = chartComponent.current.chart;
+            if (timeLine) {
+                chart.update({
+                    subtitle: {
+                        text: timeLine
+                    }
+                });
+            }
+        }
+    }, [timeLine])
+
     if (!dataset) return <div>Loading...</div>;
 
     // handler
@@ -159,39 +160,7 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
                 options={chartOptions}
                 ref={chartComponent}
             />
-            {/* <Grid container spacing={2} alignItems="center">
 
-                <Grid item>
-                    <IconButton onClick={handlePlayPause} size="large" >
-                        {playing ? <StopIcon sx={{ color: '#efe9e9ed' }} /> : <PlayArrowIcon sx={{ color: '#efe9e9ed' }} />}
-                    </IconButton>
-                </Grid>
-                <Grid item xs>
-                    {
-                        timeLine && timeLine.length ?
-                            <Slider
-                                type="range"
-                                min={startIndex}
-                                max={endIndex}
-                                value={dataIndex}
-                                marks={marks}
-                                valueLabelDisplay="auto"
-                                onChange={handleRangeChange}
-                                valueLabelFormat={(dataIndex) => `${timeLine[dataIndex].split('.')[0]} : ${timeLine[dataIndex].split('.')[1]} : ${timeLine[dataIndex].split('.')[2]}초`}
-                                sx={{
-                                    color: '#efe9e9ed',
-                                    '.MuiSlider-markLabel': {
-                                        color: '#efe9e9ed'
-                                    },
-
-                                }}
-                            />
-                            : <></>
-                    }
-
-                </Grid>
-
-            </Grid> */}
             <Grid container
                 onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                 onMouseLeave={() => swiperRef.current.mousewheel.enable()}

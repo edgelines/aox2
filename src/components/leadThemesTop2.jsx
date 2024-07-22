@@ -45,13 +45,10 @@ export default function LeadThemesTopPage({ swiperRef }) {
             const res = JSON.parse(event.data);
             setChartData1(res.chart1);
             setChartData2(res.chart2);
-            // setIndustryTableData(res.industry);
             setCheckStats(res.check);
             setSavetime(res.savetime);
             setChartTable1(res.table1)
             setChartTable2(res.table2)
-            // setThemesTableData(res.themes);
-            // setIndustryInfo(res.industryInfo);
         };
 
         ws.onerror = (error) => {
