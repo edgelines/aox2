@@ -11,7 +11,7 @@ import { columns } from './MotionsColumns';
 
 
 
-const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCount }) => {
+const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCount, getInfo }) => {
     const chartComponent = useRef(null);
     const startIndex = 0;
     // const endIndex = 388;
@@ -103,6 +103,13 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
             series: {
                 animation: {
                     duration: 2000
+                },
+                point: {
+                    events: {
+                        click: function () {
+                            getInfo(this.options);
+                        }
+                    }
                 }
             }
         },
@@ -201,9 +208,16 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
         if (chart && dataIndex) {
             const newData = getData(dataIndex, dataset);
             chart.series[0].update(newData);
+
+            var HH, MM, SS;
+            HH = timeLine[dataIndex].split('.')[0]
+            MM = parseInt(timeLine[dataIndex].split('.')[1]) < 10 ? `0${timeLine[dataIndex].split('.')[1]}` : timeLine[dataIndex].split('.')[1]
+            SS = parseInt(timeLine[dataIndex].split('.')[2]) < 10 ? `0${timeLine[dataIndex].split('.')[2]}` : timeLine[dataIndex].split('.')[2]
+
             chart.update({
                 subtitle: {
-                    text: `${timeLine[dataIndex].split('.')[0]} : ${timeLine[dataIndex].split('.')[1]} : ${timeLine[dataIndex].split('.')[2]}`
+                    text: `${HH} : ${MM} : ${SS}`
+                    // text: `${timeLine[dataIndex].split('.')[0]} : ${timeLine[dataIndex].split('.')[1]} : ${timeLine[dataIndex].split('.')[2]}`
                 }
             });
             const table = handleTableData(dataIndex, dataset)
@@ -233,6 +247,15 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
         }));
         return tmp
     }
+
+    const formatTimeLine = (dataIndex) => {
+        var HH, MM, SS;
+        HH = timeLine[dataIndex].split('.')[0]
+        MM = parseInt(timeLine[dataIndex].split('.')[1]) < 10 ? `0${timeLine[dataIndex].split('.')[1]}` : timeLine[dataIndex].split('.')[1]
+        SS = parseInt(timeLine[dataIndex].split('.')[2]) < 10 ? `0${timeLine[dataIndex].split('.')[2]}` : timeLine[dataIndex].split('.')[2]
+        return `${HH} : ${MM} : ${SS}`
+    }
+
     return (
         <div>
             <Box sx={{ position: 'absolute', transform: 'translate(450px, 5px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '18px', textAlign: 'right' }}>
@@ -261,7 +284,8 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
                                 marks={marks}
                                 valueLabelDisplay="auto"
                                 onChange={handleRangeChange}
-                                valueLabelFormat={(dataIndex) => `${timeLine[dataIndex].split('.')[0]} : ${timeLine[dataIndex].split('.')[1]} : ${timeLine[dataIndex].split('.')[2]}초`}
+                                valueLabelFormat={(dataIndex) => formatTimeLine(dataIndex)}
+
                                 sx={{
                                     color: '#efe9e9ed',
                                     '.MuiSlider-markLabel': {
@@ -292,6 +316,9 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
                                     sorting: {
                                         sortModel: [{ field: 'y', sort: 'desc' }],
                                     },
+                                }}
+                                onCellClick={(params, event) => {
+                                    getInfo(params.row);
                                 }}
                                 sx={{
                                     color: 'white', border: 'none',

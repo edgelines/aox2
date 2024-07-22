@@ -21,24 +21,24 @@ export default function TestPage({ }) {
     const [dataset, setDataset] = useState(null);
     const handlePage = (event, value) => { if (value !== null) { setField(value); console.log(value) } }
 
-    const fetchData = async () => {
-        // const response = await fetch('https://demo-live-data.highcharts.com/population.json');
-        // const data = await response.json();
-        // setDataset(data);
+    // const fetchData = async () => {
+    //     // const response = await fetch('https://demo-live-data.highcharts.com/population.json');
+    //     // const data = await response.json();
+    //     // setDataset(data);
 
-        const res = await axios.get(`http://cycleofnature.iptime.org:2441/api/test/getPowerVolumeChart/20240614`);
-        const tmp = res.data.Data.map(item => ({
-            name: item.time,
-            data: item.data,
-        }))
-        console.log('get data : ', tmp);
-        setDataset2(tmp);
-        setTimeLine(res.data.시간);
-    };
+    //     const res = await axios.get(`http://cycleofnature.iptime.org:2441/api/test/getPowerVolumeChart/20240614`);
+    //     const tmp = res.data.Data.map(item => ({
+    //         name: item.time,
+    //         data: item.data,
+    //     }))
+    //     console.log('get data : ', tmp);
+    //     setDataset2(tmp);
+    //     setTimeLine(res.data.시간);
+    // };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
     // useEffect(() => {
     //     const websocket = new WebSocket(`${API_WS}/TestKeyworld`);
 
@@ -77,29 +77,44 @@ export default function TestPage({ }) {
     //     sendData(field);
     // }, [ws, field]); // field 또는 ws 상태가 변경될 때마다 실행
 
+    const legend = {
+        에너지: '#00FF99',
+        반도체: 'red',
+        건설: '#c9c9c9',
+        금융: '#00B0F0',
+        필수소재: '#fffc33',
+        사치재: 'orange',
+        게임: 'white',
+        바이오: '#70AD47',
+        기타: '#996633'
+    };
+
     return (
-        <Grid container >
-            {/* <ToggleButtonGroup
-                color='info'
-                exclusive
-                size="small"
-                value={field}
-                onChange={handlePage}
-                sx={{ pl: 1.3 }}
-            >
-                <StyledToggleButton fontSize={'10px'} value="재무">재무</StyledToggleButton>
-                <StyledToggleButton fontSize={'10px'} value="사업내용">사업내용</StyledToggleButton>
-                <StyledToggleButton fontSize={'10px'} value="테마">테마</StyledToggleButton>
-                <StyledToggleButton fontSize={'10px'} value="주요">주요제품/주요주주</StyledToggleButton>
-            </ToggleButtonGroup> */}
-            <Grid item xs={12}>
-                <Chart dataset={dataset2} timeLine={timeLine} />
-            </Grid>
-            {/* <Grid item xs={12}>
-                <SampleChart dataset={dataset} />
-            </Grid> */}
+        <Grid container spacing={2} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+
+            {Object.keys(legend).map((sector) => (
+                <Sector key={sector} legend={legend} name={sector} />
+            ))}
+
+
 
         </Grid>
 
+    )
+}
+
+
+const Sector = ({ legend, name }) => {
+    const color = legend[name];
+
+    return (
+        <Grid item sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography variant="body5" sx={{ color }}>
+                &#x25CF;
+            </Typography>
+            <Typography variant="body2">
+                {name}
+            </Typography>
+        </Grid>
     )
 }

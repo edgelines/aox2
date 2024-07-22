@@ -190,15 +190,15 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
             }, {
                 ...이평기본, data: MA.ema_224, color: "green", name: '224저지', lineWidth: 1,
             }, {
-                ...이평기본, data: MA.ema_448, color: "darkviolet", name: '224저지', lineWidth: 1,
+                ...이평기본, data: MA.ema_448, color: "darkviolet", name: '448저지', lineWidth: 1,
             }, {
                 ...이평기본, data: MA.trima_22, color: "dodgerblue", name: '22시삼', lineWidth: 2, dashStyle: 'LongDash'
             }, {
                 ...이평기본, data: MA.trima_112, color: "tomato", name: '112저삼', lineWidth: 2, dashStyle: 'LongDash'
             }, {
-                ...이평기본, data: MA.trima_183, color: "black", name: '183', lineWidth: 2, dashStyle: 'ShortDash'
+                ...이평기본, data: MA.trima_183, color: "black", name: '183저삼', lineWidth: 2, dashStyle: 'ShortDash'
             }, {
-                ...이평기본, data: MA.trima_515, color: "dodgerblue", name: '183', lineWidth: 1,
+                ...이평기본, data: MA.trima_515, color: "dodgerblue", name: '515저삼', lineWidth: 1,
             }, {
                 type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
                 color: 'tomato',

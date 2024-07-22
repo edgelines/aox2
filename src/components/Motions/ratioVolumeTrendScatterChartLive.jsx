@@ -11,7 +11,7 @@ import { columns } from './MotionsColumns';
 
 
 
-const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCount }) => {
+const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCount, getInfo }) => {
     const chartComponent = useRef(null);
     const startIndex = 0;
     // const endIndex = 388;
@@ -103,6 +103,13 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
             series: {
                 animation: {
                     duration: 2000
+                },
+                point: {
+                    events: {
+                        click: function () {
+                            getInfo(this.options);
+                        }
+                    }
                 }
             }
         },
@@ -177,6 +184,9 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
                                     sorting: {
                                         sortModel: [{ field: 'y', sort: 'desc' }],
                                     },
+                                }}
+                                onCellClick={(params, event) => {
+                                    getInfo(params.row);
                                 }}
                                 sx={{
                                     color: 'white', border: 'none',
