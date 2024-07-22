@@ -290,7 +290,7 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
                                 hideFooter rowHeight={20}
                                 initialState={{
                                     sorting: {
-                                        sortModel: [{ field: '전일대비거래량', sort: 'desc' }],
+                                        sortModel: [{ field: 'y', sort: 'desc' }],
                                     },
                                 }}
                                 sx={{

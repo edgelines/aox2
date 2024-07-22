@@ -21,6 +21,7 @@ import LeadThemesTop3 from './components/leadThemesTop3';
 import StockSearchPage from './components/stockSearchPage';
 import MotionPage1 from './components/motionPage1';
 import MotionPage2 from './components/motionPage2';
+import MotionPage from './components/motionPage.jsx'
 import TestPage from './components/testPage';
 function App() {
 
@@ -45,7 +46,7 @@ function App() {
             >
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <MotionPage2 swiperRef={swiperRef} />
+                    <MotionPage swiperRef={swiperRef} num={'1'} />
                 </SwiperSlide>
 
 
