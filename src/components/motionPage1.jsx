@@ -121,7 +121,7 @@ export default function MotionPage({ swiperRef }) {
                 setDataset3Count(res.data3.count);
                 setDataset2(res.data2.series);
                 setDataset2Count(res.data2.count);
-                setTimeLine(res.data3.시간);
+                setTimeLine(res.data3.savetime);
             };
 
             ws.current.onerror = (error) => {
