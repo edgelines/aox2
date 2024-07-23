@@ -238,17 +238,16 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
     }
 
     const getData = (dataIndex, dataset, selectedIndustry, selectedThemes) => {
-
         // 선택된 카테고리 필터링
-        // const filteredData = selectedCategory
-        // ? data.filter(item => item.업종명 === selectedCategory || item.테마명 === selectedCategory)
-        // : data;
-
-
-
         const filteredData = selectedIndustry.length > 0 || selectedThemes.length > 0
-            ? dataset[dataIndex].data.filter(item => selectedIndustry.includes(item.업종명) || selectedThemes.includes(item.테마명))
-            : dataset[dataIndex].data
+            ? dataset[0].data.filter(item => {
+                if (selectedIndustry.includes(item.업종명)) { return true; }
+
+                const itemThemes = item.테마명.split(', ').map(theme => theme.trim())
+                return itemThemes.some(theme => selectedThemes.includes(theme))
+                // selectedIndustry.includes(item.업종명) || 
+            })
+            : dataset[0].data
         const result = {
             time: dataset[dataIndex].time,
             data: filteredData

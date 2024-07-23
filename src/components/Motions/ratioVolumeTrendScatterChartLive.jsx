@@ -165,11 +165,22 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
         // 업종이나 테마를 선택했을때 데이터 필터
 
         const filteredData = selectedIndustry.length > 0 || selectedThemes.length > 0
-            ? dataset[0].data.filter(item => selectedIndustry.includes(item.업종명) || selectedThemes.includes(item.테마명))
+            ? dataset[0].data.filter(item => {
+                if (selectedIndustry.includes(item.업종명)) { return true; }
+
+                const itemThemes = item.테마명.split(', ').map(theme => theme.trim())
+                return itemThemes.some(theme => selectedThemes.includes(theme))
+                // selectedIndustry.includes(item.업종명) || 
+            })
             : dataset[0].data
         const result = {
             data: filteredData
         }
+
+
+
+        console.log(filteredData);
+
         return result;
 
     }
