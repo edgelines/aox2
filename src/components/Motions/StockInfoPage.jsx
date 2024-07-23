@@ -45,7 +45,7 @@ export default function StockInfoPage({ industryName, stock, stockChart, handleF
 
                         {
                             Array.isArray(stock.주요제품매출구성) ?
-                                <TableContainer sx={{ height: 300 }}>
+                                <TableContainer sx={{ height: 260 }}>
                                     <StyledTypography_StockInfo fontSize="12px" textAlign='center'>주요제품 매출구성</StyledTypography_StockInfo>
                                     <Table sx={{ mt: 1 }}>
                                         <TableBody>
