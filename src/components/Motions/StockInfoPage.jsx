@@ -20,6 +20,7 @@ export default function StockInfoPage({ industryName, stock, stockChart, handleF
 
     return (
         <Grid container>
+            {/* Top Stock Name */}
             <Grid item container sx={{ minHeight: 20 }}>
                 {stock.종목명 ?
                     <StockInfo data={stock} handleFavorite={handleFavorite} />
@@ -27,17 +28,20 @@ export default function StockInfoPage({ industryName, stock, stockChart, handleF
                 }
             </Grid>
 
+            {/* Stock Chart */}
             <Grid item container sx={{ mt: 1 }}>
                 <StockChart_MA height={600} boxTransform={`translate(10px, 53px)`}
                     stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} stockName={stock.종목명} price={stock.현재가} net={stockChart.net}
                     willR={stockChart.willR} treasuryPrice={stockChart.treasuryPrice} treasury={stockChart.treasury} MA={stockChart.MA} />
             </Grid>
 
+            {/* Bottom Infomation */}
             <Grid item container sx={{ mt: 1 }}>
 
+
                 <Grid item container>
-                    {/* 주요제품 매출 구성 */}
-                    <Grid item xs={3}>
+                    {/* 주요제품 매출 구성, 사업내용 */}
+                    <Grid item xs={4.2}>
 
                         {
                             Array.isArray(stock.주요제품매출구성) ?
@@ -53,20 +57,26 @@ export default function StockInfoPage({ industryName, stock, stockChart, handleF
                                             ))}
                                         </TableBody>
                                     </Table>
+                                    <StyledTypography_StockInfo fontSize="12px" textAlign='center' sx={{ mt: 2 }}>사업내용</StyledTypography_StockInfo>
+                                    <Grid container sx={{ mt: 1 }}>
+                                        <Stack direction='column' spacing={1} >
+                                            {stock.기업개요.map(item => (
+                                                <StyledTypography_StockInfo key={item} fontSize="12px">{item}</StyledTypography_StockInfo>
+                                            ))}
+                                        </Stack>
+                                    </Grid>
                                 </>
                                 :
                                 <></>
                         }
 
-
-                        {/* <ContentsComponent page={'주요'} themes={stock.테마명} product={stock.주요제품매출구성} shareholder={stock.주요주주} /> */}
                     </Grid>
 
                     {/* 간지 */}
-                    <Grid item xs={1}></Grid>
+                    <Grid item xs={0.3}></Grid>
 
                     {/* 재무 / 사업내용 / 테마  */}
-                    <Grid item xs={8}>
+                    <Grid item xs={7.5}>
                         <Grid item container sx={{ mt: 1 }}>
                             <ToggleButtonGroup
                                 color='info'
@@ -77,9 +87,9 @@ export default function StockInfoPage({ industryName, stock, stockChart, handleF
                                 sx={{ pl: 1.3 }}
                             >
                                 <StyledToggleButton fontSize={'10px'} value="재무">재무</StyledToggleButton>
-                                <StyledToggleButton fontSize={'10px'} value="사업내용">사업내용</StyledToggleButton>
+                                {/* <StyledToggleButton fontSize={'10px'} value="사업내용">사업내용</StyledToggleButton> */}
                                 <StyledToggleButton fontSize={'10px'} value="테마">테마</StyledToggleButton>
-                                <StyledToggleButton fontSize={'10px'} value="주요">주요제품/주요주주</StyledToggleButton>
+                                {/* <StyledToggleButton fontSize={'10px'} value="주요">주요제품/주요주주</StyledToggleButton> */}
                             </ToggleButtonGroup>
                         </Grid>
                         <Grid item container sx={{ minHeight: 210 }}>

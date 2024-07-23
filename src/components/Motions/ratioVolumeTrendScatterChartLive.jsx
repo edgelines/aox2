@@ -8,16 +8,17 @@ import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { customTheme, DataTableStyleDefault } from '../LeadSectors/tableColumns';
 import { columns } from './MotionsColumns';
-
+import { CountTable } from './CountTable'
 
 
 const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCount, getInfo }) => {
     const chartComponent = useRef(null);
-    const startIndex = 0;
+    // const startIndex = 0;
     // const endIndex = 388;
     // const [endIndex, setEndIndex] = useState(190);
     // const [playing, setPlaying] = useState(false);
-    const [dataIndex, setDataIndex] = useState(startIndex);
+    // const [dataIndex, setDataIndex] = useState(startIndex);
+
     const [chartOptions, setChartOptions] = useState({
         chart: {
             type: 'scatter', height: height ? height - 400 : 400, backgroundColor: 'rgba(255, 255, 255, 0)', zoomType: 'xy',
@@ -115,23 +116,28 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
         },
     })
     const [tableData, setTableData] = useState([]);
-    const tableHeight = 330
-
+    const tableHeight = 350
+    const [selectedIndustry, setSelectedIndustry] = useState([]);
+    const [selectedThemes, setSelectedThemes] = useState([]);
 
     useEffect(() => {
         let chart
         if (chartComponent.current && dataset.length > 0) {
             chart = chartComponent.current.chart;
+            // setChartOptions({
+            //     series: dataset,
+            // })
             setChartOptions({
-                series: dataset,
+                series: getData(dataset, selectedIndustry, selectedThemes),
             })
+            console.log(dataset);
             // setEndIndex(dataset.length - 1);
             const table = handleTableData(dataset)
             setTableData(table);
 
 
         }
-    }, [dataset])
+    }, [dataset, selectedIndustry, selectedThemes])
 
     useEffect(() => {
         let chart
@@ -157,6 +163,47 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
         }));
         return tmp
     }
+
+    const getData = (dataset, selectedIndustry, selectedThemes) => {
+        // 업종이나 테마를 선택했을때 데이터 필터
+
+        const filteredData = selectedIndustry.length > 0 || selectedThemes.length > 0
+            ? dataset[0].data.filter(item => selectedIndustry.includes(item.업종명) || selectedThemes.includes(item.테마명))
+            : dataset[0].data
+        const result = {
+            data: filteredData
+        }
+        return result;
+
+    }
+
+    const handleClick = (name, category) => {
+        if (name === '업종') {
+            setSelectedIndustry(prevSelected => {
+                if (prevSelected.includes(category)) {
+                    return prevSelected.filter(item => item !== category);
+                } else {
+                    return [...prevSelected, category];
+                }
+            })
+        } else {
+            setSelectedThemes(prevSelected => {
+                if (prevSelected.includes(category)) {
+                    return prevSelected.filter(item => item !== category);
+                } else {
+                    return [...prevSelected, category];
+                }
+            })
+        }
+    };
+    const handleReset = (name) => {
+        if (name === '업종') {
+            setSelectedIndustry([])
+        } else {
+            setSelectedThemes([])
+        }
+    }
+
     return (
         <div>
             <Box sx={{ position: 'absolute', transform: 'translate(450px, 5px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '18px', textAlign: 'right' }}>
@@ -198,18 +245,24 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
                     </TableContainer>
                 </Grid>
 
-                <Grid item container xs={4}>
+                <Grid item xs={0.1}></Grid>
+
+                <Grid item container xs={3.9}>
 
                     {
                         datasetCount ?
                             <>
                                 <Grid item xs={6}>
 
-                                    <CountTable name='업종명' data={datasetCount.업종} swiperRef={swiperRef} height={tableHeight} />
+                                    <CountTable name='업종' data={datasetCount.업종} swiperRef={swiperRef} height={tableHeight}
+                                        handleClick={handleClick} handleReset={handleReset}
+                                        selectedIndustry={selectedIndustry} selectedThemes={selectedThemes} />
 
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <CountTable name='테마명' data={datasetCount.테마} swiperRef={swiperRef} height={tableHeight} />
+                                    <CountTable name='테마' data={datasetCount.테마} swiperRef={swiperRef} height={tableHeight}
+                                        handleClick={handleClick} handleReset={handleReset}
+                                        selectedIndustry={selectedIndustry} selectedThemes={selectedThemes} />
                                 </Grid>
                             </>
                             : <>Loading</>
@@ -228,40 +281,3 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
 
 export default MotionsChart;
 
-
-const CountTable = ({ name, data, swiperRef, height }) => {
-
-    return (
-        <div
-            onMouseEnter={() => swiperRef.current.mousewheel.disable()}
-            onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-        >
-            <TableContainer sx={{ height: height }}>
-                <Table size='small'>
-                    <TableHead>
-                        <tr style={{ fontSize: '11px' }}>
-                            <td style={{}} >{name}</td>
-                            <td style={{ textAlign: 'left' }} >#</td>
-                        </tr>
-                    </TableHead>
-
-                    <TableBody>
-                        {
-                            data && data.length > 0 ?
-                                data.map(item => (
-                                    <tr style={{ fontSize: '11px', p: 2 }}>
-                                        <td style={{ width: '120px' }}>
-                                            {name == '업종명' ? item.업종명 : item.테마명}
-                                        </td>
-                                        <td style={{ width: '40px', textAlign: 'left' }}>{item.갯수}</td>
-                                    </tr>
-                                ))
-                                : <>Loading</>
-                        }
-                    </TableBody>
-                </Table>
-            </TableContainer>
-
-        </div>
-    )
-}

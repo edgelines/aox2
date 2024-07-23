@@ -7,7 +7,6 @@ export const formatDateString = (dateStr) => {
     const days = ['일', '월', '화', '수', '목', '금', '토'];
     const dayOfWeek = days[date.getDay()];
 
-    console.log(`${dateStr}_${dayOfWeek}`)
     return `${dateStr}_${dayOfWeek}`
 
 

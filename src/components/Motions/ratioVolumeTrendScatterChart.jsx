@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { IconButton, Slider, Grid, Box, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
+import { IconButton, Slider, Grid, Box, TableContainer, Table, TableHead, TableBody } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { customTheme, DataTableStyleDefault } from '../LeadSectors/tableColumns';
 import { columns } from './MotionsColumns';
-
+import { CountTable } from './CountTable'
 
 
 const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCount, getInfo }) => {
@@ -115,7 +115,9 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
         },
     })
     const [tableData, setTableData] = useState([]);
-    const tableHeight = 330
+    const [selectedIndustry, setSelectedIndustry] = useState([]);
+    const [selectedThemes, setSelectedThemes] = useState([]);
+    const tableHeight = 350
     const timer = useRef(null);
 
 
@@ -206,7 +208,7 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
         }
 
         if (chart && dataIndex) {
-            const newData = getData(dataIndex, dataset);
+            const newData = getData(dataIndex, dataset, selectedIndustry, selectedThemes);
             chart.series[0].update(newData);
 
             var HH, MM, SS;
@@ -226,7 +228,7 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
 
 
 
-    }, [dataset, dataIndex])
+    }, [dataset, dataIndex, selectedIndustry, selectedThemes])
 
     if (!dataset) return <div>Loading...</div>;
 
@@ -235,8 +237,23 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
         setPlaying(!playing);
     }
 
-    const getData = (dataIndex, dataset) => {
-        return dataset[dataIndex];
+    const getData = (dataIndex, dataset, selectedIndustry, selectedThemes) => {
+
+        // 선택된 카테고리 필터링
+        // const filteredData = selectedCategory
+        // ? data.filter(item => item.업종명 === selectedCategory || item.테마명 === selectedCategory)
+        // : data;
+
+
+
+        const filteredData = selectedIndustry.length > 0 || selectedThemes.length > 0
+            ? dataset[dataIndex].data.filter(item => selectedIndustry.includes(item.업종명) || selectedThemes.includes(item.테마명))
+            : dataset[dataIndex].data
+        const result = {
+            time: dataset[dataIndex].time,
+            data: filteredData
+        }
+        return result;
     };
     const handleRangeChange = (event) => {
         setDataIndex(Number(event.target.value));
@@ -246,6 +263,32 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
             ...item, id: index
         }));
         return tmp
+    }
+    const handleClick = (name, category) => {
+        if (name === '업종') {
+            setSelectedIndustry(prevSelected => {
+                if (prevSelected.includes(category)) {
+                    return prevSelected.filter(item => item !== category);
+                } else {
+                    return [...prevSelected, category];
+                }
+            })
+        } else {
+            setSelectedThemes(prevSelected => {
+                if (prevSelected.includes(category)) {
+                    return prevSelected.filter(item => item !== category);
+                } else {
+                    return [...prevSelected, category];
+                }
+            })
+        }
+    };
+    const handleReset = (name) => {
+        if (name === '업종') {
+            setSelectedIndustry([])
+        } else {
+            setSelectedThemes([])
+        }
     }
 
     const formatTimeLine = (dataIndex) => {
@@ -337,15 +380,20 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
                             <>
                                 <Grid item xs={6}>
 
-                                    <CountTable name='업종명' data={datasetCount.업종} swiperRef={swiperRef} height={tableHeight} />
+                                    <CountTable name='업종' data={datasetCount.업종} swiperRef={swiperRef} height={tableHeight}
+                                        handleClick={handleClick} handleReset={handleReset}
+                                        selectedIndustry={selectedIndustry} selectedThemes={selectedThemes} />
 
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <CountTable name='테마명' data={datasetCount.테마} swiperRef={swiperRef} height={tableHeight} />
+                                    <CountTable name='테마' data={datasetCount.테마} swiperRef={swiperRef} height={tableHeight}
+                                        handleClick={handleClick} handleReset={handleReset}
+                                        selectedIndustry={selectedIndustry} selectedThemes={selectedThemes} />
                                 </Grid>
                             </>
                             : <>Loading</>
                     }
+
 
 
                 </Grid>
@@ -361,39 +409,3 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
 export default MotionsChart;
 
 
-const CountTable = ({ name, data, swiperRef, height }) => {
-
-    return (
-        <div
-            onMouseEnter={() => swiperRef.current.mousewheel.disable()}
-            onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-        >
-            <TableContainer sx={{ height: height }}>
-                <Table size='small'>
-                    <TableHead>
-                        <tr style={{ fontSize: '11px' }}>
-                            <td style={{}} >{name}</td>
-                            <td style={{ textAlign: 'left' }} >#</td>
-                        </tr>
-                    </TableHead>
-
-                    <TableBody>
-                        {
-                            data && data.length > 0 ?
-                                data.map(item => (
-                                    <tr style={{ fontSize: '11px', p: 2 }}>
-                                        <td style={{ width: '120px' }}>
-                                            {name == '업종명' ? item.업종명 : item.테마명}
-                                        </td>
-                                        <td style={{ width: '40px', textAlign: 'left' }}>{item.갯수}</td>
-                                    </tr>
-                                ))
-                                : <>Loading</>
-                        }
-                    </TableBody>
-                </Table>
-            </TableContainer>
-
-        </div>
-    )
-}
