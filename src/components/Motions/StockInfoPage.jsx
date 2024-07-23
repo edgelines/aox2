@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Grid, Stack, Typography, ToggleButtonGroup, IconButton, Table, TableBody, TableRow, TableCell } from '@mui/material';
+import { Grid, Stack, ToggleButtonGroup, IconButton, Table, TableBody, TableContainer } from '@mui/material';
 import { StyledToggleButton } from '../util/util';
 import { StyledTypography_StockInfo, Financial, EtcInfo } from '../util/htsUtil';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -21,7 +21,7 @@ export default function StockInfoPage({ industryName, stock, stockChart, handleF
     return (
         <Grid container>
             {/* Top Stock Name */}
-            <Grid item container sx={{ minHeight: 20 }}>
+            <Grid item container sx={{ minHeight: 36 }}>
                 {stock.종목명 ?
                     <StockInfo data={stock} handleFavorite={handleFavorite} />
                     : <></>
@@ -45,7 +45,7 @@ export default function StockInfoPage({ industryName, stock, stockChart, handleF
 
                         {
                             Array.isArray(stock.주요제품매출구성) ?
-                                <>
+                                <TableContainer sx={{ height: 300 }}>
                                     <StyledTypography_StockInfo fontSize="12px" textAlign='center'>주요제품 매출구성</StyledTypography_StockInfo>
                                     <Table sx={{ mt: 1 }}>
                                         <TableBody>
@@ -65,7 +65,7 @@ export default function StockInfoPage({ industryName, stock, stockChart, handleF
                                             ))}
                                         </Stack>
                                     </Grid>
-                                </>
+                                </TableContainer>
                                 :
                                 <></>
                         }
