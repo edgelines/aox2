@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { IconButton, Slider, Grid, Box, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import StopIcon from '@mui/icons-material/Stop';
+import { Grid, Box, TableContainer } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { customTheme, DataTableStyleDefault } from '../LeadSectors/tableColumns';
 import { columns } from './MotionsColumns';
 import { CountTable } from './CountTable'
@@ -13,12 +11,6 @@ import { CountTable } from './CountTable'
 
 const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCount, getInfo }) => {
     const chartComponent = useRef(null);
-    // const startIndex = 0;
-    // const endIndex = 388;
-    // const [endIndex, setEndIndex] = useState(190);
-    // const [playing, setPlaying] = useState(false);
-    // const [dataIndex, setDataIndex] = useState(startIndex);
-
     const [chartOptions, setChartOptions] = useState({
         chart: {
             type: 'scatter', height: height ? height - 400 : 400, backgroundColor: 'rgba(255, 255, 255, 0)', zoomType: 'xy',
@@ -127,16 +119,21 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
             // setChartOptions({
             //     series: dataset,
             // })
+
             setChartOptions({
                 series: getData(dataset, selectedIndustry, selectedThemes),
             })
 
-            // setEndIndex(dataset.length - 1);
             const table = handleTableData(dataset)
             setTableData(table);
-
-
         }
+
+        chart = chartComponent.current.chart;
+        if (chart && chart.series && chart.series[0]) {
+            const newData = getData(dataset, selectedIndustry, selectedThemes);
+            chart.series[0].update(newData);
+        }
+
     }, [dataset, selectedIndustry, selectedThemes])
 
     useEffect(() => {

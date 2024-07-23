@@ -68,10 +68,6 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <StockSearchPage swiperRef={swiperRef} />
-                </SwiperSlide>
-
-                <SwiperSlide style={swiperSlideStyle} >
                     <CrossPage swiperRef={swiperRef} />
                 </SwiperSlide>
 
@@ -115,6 +111,10 @@ function App() {
                 </SwiperSlide>
                 <SwiperSlide style={swiperSlideStyle} >
                     <WeightAvgPage2 swiperRef={swiperRef} />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <StockSearchPage swiperRef={swiperRef} />
                 </SwiperSlide>
 
             </Swiper>
