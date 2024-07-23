@@ -130,7 +130,7 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
             setChartOptions({
                 series: getData(dataset, selectedIndustry, selectedThemes),
             })
-            console.log(dataset);
+
             // setEndIndex(dataset.length - 1);
             const table = handleTableData(dataset)
             setTableData(table);
