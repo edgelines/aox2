@@ -4,8 +4,8 @@ import HighchartsReact from 'highcharts-react-official';
 import { Grid, Box, TableContainer } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
-import { customTheme, DataTableStyleDefault } from '../LeadSectors/tableColumns';
-import { columns } from './MotionsColumns';
+import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
+import { customTheme, columns } from './MotionsColumns';
 import { CountTable } from './CountTable'
 
 
@@ -108,7 +108,7 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
         },
     })
     const [tableData, setTableData] = useState([]);
-    const tableHeight = 350
+    const tableHeight = 370
     const [selectedIndustry, setSelectedIndustry] = useState([]);
     const [selectedThemes, setSelectedThemes] = useState([]);
 
@@ -247,6 +247,7 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
                                     color: 'white', border: 'none',
                                     ...DataTableStyleDefault,
                                     [`& .${gridClasses.cell}`]: { py: 1, },
+                                    '[data-field="테마명"]': { fontSize: '9px' },
                                 }}
                             />
                         </ThemeProvider>

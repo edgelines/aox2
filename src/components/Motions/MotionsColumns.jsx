@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
 import { renderProgress } from '../sectorSearchPage';
 
 export const columns = [
@@ -58,6 +59,29 @@ export const columns = [
     }
 ]
 
-export const count_columns = [
-    {}
-]
+export const customTheme = createTheme({
+    components: {
+        MuiDataGrid: {
+            styleOverrides: {
+                root: {
+                    '& .MuiDataGrid-row': {
+                        fontSize: '10px', // 전체 폰트 크기를 원하는 값으로 설정합니다.
+                        color: '#efe9e9ed'
+                    },
+                },
+                columnHeaderWrapper: {
+                    minHeight: '10px', // 헤더 높이를 원하는 값으로 설정합니다.
+                    color: '#efe9e9ed'
+                    // lineHeight: '20px',
+                },
+                columnHeader: {
+                    fontSize: '11px', // 헤더 폰트 크기를 원하는 값으로 설정합니다.
+                    color: '#efe9e9ed'
+                },
+            },
+            defaultProps: {
+                headerHeight: 15,
+            },
+        },
+    },
+});
