@@ -23,28 +23,28 @@ export default function TextNews({ swiperRef, handleImgClick }) {
         { name: '다우 산업', code: 'us', url: 'DJI' },
         { name: '다우 운송', code: 'us', url: 'DJT' },
         { name: '필라델피아 반도체', code: 'us', url: 'SOX' },
-        { name: '브라질', code: 'br', url: 'BVSP' },
-        { name: '아르헨티나', code: 'ar', url: 'MERV' },
-        { name: '중국 CSI 300', code: 'sh', url: '000300' },
-        { name: '상해 종합', code: 'sh', url: '000001' },
-        { name: '상해A', code: 'sh', url: '000002' },
-        { name: '상해B ', code: 'sh', url: '000003' },
+        { name: '브라질', code: 'br', url: 'BRI@BVSP' },
+        { name: '아르헨티나', code: 'ar', url: 'ARI@MERV' },
+        { name: '중국 CSI 300', code: 'cn', url: '000300' },
+        { name: '상해 종합', code: 'cn', url: '000001' },
+        { name: '상해A', code: 'cn', url: '000002' },
+        { name: '상해B ', code: 'cn', url: '000003' },
+
         { name: '일본 TOPIX', code: 'jp', url: 'T0000' },
         { name: '일본 니케이', code: 'jp', url: 'NI225' },
         { name: '홍콩 H지수', code: 'hk', url: 'HSCE' },
         { name: '홍콩 항셍', code: 'hk', url: 'HSI' },
         { name: '홍콩 차이나대기업', code: 'hk', url: 'HSCC' },
-        { name: '말레이시아', code: 'my', url: 'KLSE' },
-        { name: '베트남', code: 'vn', url: 'VHIN' },
-        { name: '싱가포르', code: 'sg', url: 'STI' },
-        { name: '인도', code: 'in', url: 'BSE30' },
+        { name: '말레이시아', code: 'my', url: 'MYI@KLSE' },
+        { name: '싱가포르', code: 'sg', url: 'SGI@STI' },
+        { name: '인도', code: 'in', url: 'INI@BSE30' },
         { name: '대만', code: 'tw', url: 'TAIEX' },
-        { name: '인도네시아', code: 'id', url: 'JKSE' },
+        { name: '인도네시아', code: 'id', url: 'IDI@JKSE' },
         { name: '영국', code: 'gb', url: 'FTSE100' },
         { name: '독일', code: 'de', url: 'DAX30' },
         { name: '프랑스', code: 'fr', url: 'CAC40' },
-        { name: '이탈리아', code: 'it', url: 'FTSEMIB' },
-        { name: '헝가리', code: 'hu', url: 'BUX' },
+        { name: '이탈리아', code: 'it', url: 'ITI@FTSEMIB' },
+
     ]
     const [url, setUrl] = useState(null);
     const fetchData = async () => {
@@ -74,29 +74,8 @@ export default function TextNews({ swiperRef, handleImgClick }) {
         endHour: 8,
         daysOff: [0, 6], // 일요일(0)과 토요일(6)은 제외
     });
-    // useEffect(() => {
-    //     function scheduleNextUpdate() {
-    //         const now = new Date();
-    //         const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 8, 42, 0);
 
-    //         const msUntilTomorrow = tomorrow.getTime() - now.getTime();
-    //         return setTimeout(updateFinvizImg, msUntilTomorrow);
-    //     }
-
-    //     function updateFinvizImg() {
-    //         fetchData();
-    //         // Schedule the next update
-    //         scheduleNextUpdate();
-    //     }
-
-    //     // Schedule the first update
-    //     const timeoutId = scheduleNextUpdate();
-
-    //     return () => {
-    //         clearTimeout(timeoutId);
-    //     };
-    // }, []);
-
+    const uniq = "?t=" + new Date().getTime();
     const key = ['시한폭탄', '급락', '위험']
     const key2 = ['투자', '진출', '급등', '러브콜', '재개발']
 
@@ -209,7 +188,7 @@ export default function TextNews({ swiperRef, handleImgClick }) {
                                         {worldIndeces.map((item, i) => (
                                             <Grid item xs={4} key={i}>
                                                 <Box sx={worldIndexChartFont}>{item.name}</Box>
-                                                <img src={`https://t1.daumcdn.net/finance/chart/${item.code}/daumstock/${chartPreset}/mini/${item.url}.png?t=202307312230`} />
+                                                <img src={`https://t1.daumcdn.net/media/finance/chart/${item.code}/daumstock-mini/${chartPreset}/${item.url}.png${uniq}`} />
                                             </Grid>
                                         ))}
                                     </Grid>
