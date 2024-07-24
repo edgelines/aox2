@@ -240,7 +240,7 @@ function Schedule({ schedule, date, handlePageChange, ipoSubPage, swiperRef }) {
                 </Box>
 
                 {/* FOMC BOX */}
-                <Box sx={{ position: 'absolute', transform: 'translate(1360px, 440px)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)', paddingLeft: 2, paddingRight: 2 }}>
+                <Box sx={{ position: 'absolute', transform: 'translate(1360px, 460px)', zIndex: 5, backgroundColor: 'rgba(0, 0, 0, 0.2)', paddingLeft: 2, paddingRight: 2 }}>
                     <Box sx={{ fontSize: '1.5rem', fontWeight: 'bold', textAlign: 'left' }}>
                         The next FOMC meeting is in:
                     </Box>
@@ -282,7 +282,7 @@ function Schedule({ schedule, date, handlePageChange, ipoSubPage, swiperRef }) {
                 <Box sx={{
                     position: 'fixed',
                     width: '20vw',
-                    transform: 'translate(1360px, 90px)'
+                    transform: 'translate(1360px, 80px)'
                 }}>
                     {ipoSubPage === '국내외지표이슈' && <ImageUpdater />}
                 </Box>
@@ -298,7 +298,7 @@ function Schedule({ schedule, date, handlePageChange, ipoSubPage, swiperRef }) {
 function ImageUpdater() {
     const [world, setWorld] = useState([
         { name: '다우산업', point: '', net: '', div: '', url: "https://t1.daumcdn.net/finance/chart/us/daumindex/i/DJI.png" },
-        { name: '나스닥', point: '', net: '', div: '', url: "https://t1.daumcdn.net/finance/chart/us/daumindex/i/COMP.png" },
+        { name: '나스닥', point: '', net: '', div: '', url: "https://t1.daumcdn.net/media/finance/chart/us/daumstock-mini/d/COMP.png" },
         { name: '니케이', point: '', net: '', div: '', url: "https://t1.daumcdn.net/finance/chart/jp/daumindex/i/NI225.png" },
         { name: '상해종합', point: '', net: '', div: '', url: "https://t1.daumcdn.net/finance/chart/sh/daumindex/i/000001.png" },
         { name: '영국', point: '', net: '', div: '', url: "https://t1.daumcdn.net/finance/chart/gb/daumindex/i/FTSE100.png" },
@@ -315,12 +315,12 @@ function ImageUpdater() {
             var 영국 = res.data.find(item => item.지수명 === 'FTSE 100');
             var 독일 = res.data.find(item => item.지수명 === 'DAX');
             setWorld([
-                { name: '다우산업', point: 다우산업.현재가, net: 다우산업.등락률, div: 다우산업.전일대비, url: "https://t1.daumcdn.net/finance/chart/us/daumindex/i/DJI.png" + uniq, },
-                { name: '나스닥', point: 나스닥.현재가, net: 나스닥.등락률, div: 나스닥.전일대비, url: "https://t1.daumcdn.net/finance/chart/us/daumindex/i/COMP.png" + uniq, },
-                { name: '니케이', point: 니케이.현재가, net: 니케이.등락률, div: 니케이.전일대비, url: "https://t1.daumcdn.net/finance/chart/jp/daumindex/i/NI225.png" + uniq, },
-                { name: '상해종합', point: 상해종합.현재가, net: 상해종합.등락률, div: 상해종합.전일대비, url: "https://t1.daumcdn.net/finance/chart/sh/daumindex/i/000001.png" + uniq, },
-                { name: '영국', point: 영국.현재가, net: 영국.등락률, div: 영국.전일대비, url: "https://t1.daumcdn.net/finance/chart/gb/daumindex/i/FTSE100.png" + uniq, },
-                { name: '독일', point: 독일.현재가, net: 독일.등락률, div: 독일.전일대비, url: "https://t1.daumcdn.net/finance/chart/de/daumindex/i/DAX30.png" + uniq, },
+                { name: '다우산업', point: 다우산업.현재가, net: 다우산업.등락률, div: 다우산업.전일대비, url: "https://ssl.pstatic.net/imgfinance/chart/world/continent/DJI@DJI.png" + uniq, },
+                { name: '나스닥', point: 나스닥.현재가, net: 나스닥.등락률, div: 나스닥.전일대비, url: "https://ssl.pstatic.net/imgfinance/chart/world/continent/NAS@IXIC.png" + uniq, },
+                { name: '니케이', point: 니케이.현재가, net: 니케이.등락률, div: 니케이.전일대비, url: "https://ssl.pstatic.net/imgfinance/chart/world/continent/NII@NI225.png" + uniq, },
+                { name: '상해종합', point: 상해종합.현재가, net: 상해종합.등락률, div: 상해종합.전일대비, url: "https://ssl.pstatic.net/imgfinance/chart/world/continent/SHS@000001.png" + uniq, },
+                { name: '영국', point: 영국.현재가, net: 영국.등락률, div: 영국.전일대비, url: "https://ssl.pstatic.net/imgfinance/chart/world/continent/LNS@FTSE100.png" + uniq, },
+                { name: '독일', point: 독일.현재가, net: 독일.등락률, div: 독일.전일대비, url: "https://ssl.pstatic.net/imgfinance/chart/world/continent/XTR@DAX30.png" + uniq, },
             ])
         })
     }

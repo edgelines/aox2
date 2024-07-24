@@ -44,7 +44,7 @@ function App() {
             >
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <TestPage swiperRef={swiperRef} num={'3'} />
+                    <SchedulePage swiperRef={swiperRef} />
                 </SwiperSlide>
 
 
