@@ -208,6 +208,7 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
         }
 
         if (chart && dataIndex) {
+            chart = chartComponent.current.chart;
             const newData = getData(dataIndex, dataset, selectedIndustry, selectedThemes);
             chart.series[0].update(newData);
 
@@ -240,14 +241,14 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
     const getData = (dataIndex, dataset, selectedIndustry, selectedThemes) => {
         // 선택된 카테고리 필터링
         const filteredData = selectedIndustry.length > 0 || selectedThemes.length > 0
-            ? dataset[0].data.filter(item => {
+            ? dataset[dataIndex].data.filter(item => {
                 if (selectedIndustry.includes(item.업종명)) { return true; }
 
                 const itemThemes = item.테마명.split(', ').map(theme => theme.trim())
                 return itemThemes.some(theme => selectedThemes.includes(theme))
                 // selectedIndustry.includes(item.업종명) || 
             })
-            : dataset[0].data
+            : dataset[dataIndex].data
         const result = {
             time: dataset[dataIndex].time,
             data: filteredData

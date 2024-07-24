@@ -10,7 +10,7 @@ export default function Legend({ }) {
         금융: '#00B0F0',
         필수소재: '#fffc33',
         사치재: 'orange',
-        게임: 'white',
+        '게임&미디어': 'white',
         바이오: '#70AD47',
         기타: '#996633'
     };

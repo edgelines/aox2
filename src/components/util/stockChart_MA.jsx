@@ -146,7 +146,7 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
         inputEnabled: false,
         buttons: [{
             type: 'month',
-            count: 6,
+            count: 11,
             text: '일봉',
             // title: 'View 3 months'
         }, {
@@ -173,8 +173,19 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                 data: stockItemData, name: stockName, showInLegend: false, isCandle: true, marker: { enabled: false, states: { hover: { enabled: false } } },
                 id: 'candlestick', type: 'candlestick', upLineColor: "orangered", upColor: "orangered", lineColor: "dodgerblue", color: "dodgerblue",
             }, {
-                type: 'column', id: 'volume', name: 'volume', showInLegend: false,
-                data: volumeData, animation: false, yAxis: 1,
+                type: 'column', id: 'volume', name: 'volume', showInLegend: false, animation: false, yAxis: 1,
+                data: volumeData.map((item, index) => {
+                    const curr = volumeData[index][1];
+                    const prev = index > 0 ? volumeData[index - 1][1] : curr;
+                    const isUp = curr > prev;
+                    const color = isUp ? 'orangered' : 'dodgerblue';
+                    console.log(item[index]);
+                    return {
+                        x: item[0],
+                        y: item[1],
+                        color: color
+                    }
+                }),
             }, {
                 ...이평기본, data: MA.wma_5, color: "black", name: '5저가', lineWidth: 0.5,
             }, {
@@ -230,6 +241,11 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
             }, {
                 type: 'column', id: 'volume', name: 'volume', showInLegend: false,
                 data: volumeData, animation: false, yAxis: 1,
+                // color: 'rgba(0,0,0,0.2)', // 거래량의 기본 색상 설정
+                color: 'rgba(0,0,0,0.2)', // 거래량의 기본 색상 설정
+                upColor: 'red', // 상승할 때의 색상 설정
+                borderColor: 'rgba(0,0,0,0.2)', // 거래량의 테두리 색상 설정
+                threshold: null
             }, {
                 ...종가단순, color: "black", name: '3', lineWidth: 0.5,
                 params: { index: 3, period: 3 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음

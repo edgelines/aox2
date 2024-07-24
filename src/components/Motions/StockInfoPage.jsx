@@ -41,13 +41,12 @@ export default function StockInfoPage({ industryName, stock, stockChart, handleF
 
                 <Grid item container>
                     {/* 주요제품 매출 구성, 사업내용 */}
-                    <Grid item xs={4.2}>
+                    <Grid item xs={4.5}>
 
                         {
                             Array.isArray(stock.주요제품매출구성) ?
-                                <TableContainer sx={{ height: 260 }}>
-                                    <StyledTypography_StockInfo fontSize="12px" textAlign='center'>주요제품 매출구성</StyledTypography_StockInfo>
-                                    <Table sx={{ mt: 1 }}>
+                                <TableContainer sx={{ height: 280 }}>
+                                    <Table sx={{ mt: 1, borderBottom: '1px solid #fff' }}>
                                         <TableBody>
                                             {stock.주요제품매출구성.map(item => (
                                                 <tr key={item.제품명}>
@@ -57,7 +56,7 @@ export default function StockInfoPage({ industryName, stock, stockChart, handleF
                                             ))}
                                         </TableBody>
                                     </Table>
-                                    <StyledTypography_StockInfo fontSize="12px" textAlign='center' sx={{ mt: 2 }}>사업내용</StyledTypography_StockInfo>
+
                                     <Grid container sx={{ mt: 1 }}>
                                         <Stack direction='column' spacing={1} >
                                             {stock.기업개요.map(item => (
@@ -76,7 +75,7 @@ export default function StockInfoPage({ industryName, stock, stockChart, handleF
                     <Grid item xs={0.3}></Grid>
 
                     {/* 재무 / 사업내용 / 테마  */}
-                    <Grid item xs={7.5}>
+                    <Grid item xs={7}>
                         <Grid item container sx={{ mt: 1 }}>
                             <ToggleButtonGroup
                                 color='info'
