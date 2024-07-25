@@ -58,9 +58,11 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
             offset: 0,
             labels: {
                 align: 'right',
-                x: -3
+                x: -3,
+                style: { fontSize: '0px' },
             },
-            title: { text: 'Volume' }
+            title: { text: 'Volume' },
+            gridLineWidth: 0,
         }, {
             title: { enabled: false },
             gridLineWidth: 0.2,
@@ -71,7 +73,7 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                 style: { fontSize: '0px' }
             },
             plotLines: [{
-                color: 'tomato',
+                color: 'dodgerblue',
                 width: 0.5,
                 value: -80,
                 dashStyle: 'shortdash',//라인 스타일 지정 옵션
@@ -354,7 +356,7 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                         style: { fontSize: '0px' }
                     },
                     plotLines: [{
-                        color: 'tomato',
+                        color: 'dodgerblue',
                         width: 0.5,
                         value: -80,
                         dashStyle: 'shortdash',//라인 스타일 지정 옵션
@@ -390,10 +392,10 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                                 <Typography sx={typographyStyle}>
                                     {(parseInt(price)).toLocaleString('KR-KO')} 원
                                 </Typography>
-                                <Typography sx={typographyStyle}>
+                                <Typography sx={{ ...typographyStyle, color: 'tomato' }}>
                                     W9 : {willR.w9}
                                 </Typography>
-                                <Typography sx={typographyStyle}>
+                                <Typography sx={{ typographyStyle, color: 'forestgreen' }}>
                                     W14 : {willR.w14}
                                 </Typography>
                                 <Typography sx={typographyStyle}>
