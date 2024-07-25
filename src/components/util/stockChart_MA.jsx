@@ -14,7 +14,7 @@ Highcharts.setOptions({
     }
 });
 
-const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, willR, height, indicators, price, net, boxTransform, treasury, treasuryPrice, MA }) => {
+const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, willR, height, indicators, price, net, boxTransform, treasury, treasuryPrice, MA, volumeRatio }) => {
 
     const [chartOptions, setChartOptions] = useState({
         chart: { animation: false, height: height ? height : 360, },
@@ -46,19 +46,20 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
         navigation: { buttonOptions: { enabled: false }, },
         yAxis: [{
             enabled: true,
-            height: '80%',
+            height: '60%',
             labels: {
+                x: 30,
                 style: { fontSize: '11px' }, formatter: function () {
                     return (this.value).toLocaleString('ko-KR');
                 },
             },
         }, {
-            top: '80%',
+            top: '60%',
             height: '20%',
             offset: 0,
             labels: {
                 align: 'right',
-                x: -3,
+                x: 5,
                 style: { fontSize: '0px' },
             },
             title: { text: 'Volume' },
@@ -66,7 +67,7 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
         }, {
             title: { enabled: false },
             gridLineWidth: 0.2,
-            top: '80%',
+            top: '60%',
             opposite: false,
             height: '20%',
             labels: {
@@ -80,6 +81,26 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                 // zIndex: 5,
             }],
             crosshair: { width: 2, }
+        }, {
+            title: { text: 'CCI' },
+            gridLineWidth: 0.2,
+            offset: 0,
+            top: '80%',
+
+            height: '20%',
+            labels: {
+                align: 'right',
+                x: 5,
+                style: { fontSize: '0px' }
+            },
+            plotLines: [{
+                color: 'dodgerblue',
+                width: 0.5,
+                value: -80,
+                dashStyle: 'shortdash',//라인 스타일 지정 옵션
+                // zIndex: 5,
+            }],
+            crosshair: { width: 2, },
         }],
         xAxis: {
             // type: 'datetime',
@@ -123,6 +144,9 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                                 // return `${stockName}<br/> 종가 : ${numberWithCommas(point.point.close)}`;
                             } else if (point.series.options.isPercent) {
                                 return `${point.series.name} : ${parseInt(point.y)} %`;
+                            } else if (point.series.options.isIndicator) {
+                                return `${point.series.name} : ${parseInt(point.y)}`;
+
                             } else {
                                 return ''
                             }
@@ -209,7 +233,7 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
             }, {
                 ...이평기본, data: MA.trima_112, color: "tomato", name: '112저삼', lineWidth: 2, dashStyle: 'LongDash'
             }, {
-                ...이평기본, data: MA.trima_183, color: "black", name: '183저삼', lineWidth: 2, dashStyle: 'ShortDash'
+                ...이평기본, data: MA.trima_155, color: "black", name: '155저삼', lineWidth: 2, dashStyle: 'ShortDash'
             }, {
                 ...이평기본, data: MA.trima_515, color: "dodgerblue", name: '515저삼', lineWidth: 1,
             }, {
@@ -233,6 +257,14 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                 name: 'W-33', id: 'williamsr-33',
                 lineWidth: 1,
                 params: { index: 3, period: 33 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+            }, {
+                ...이평기본, data: MA.cci_4, color: "tomato", name: 'CCI-4', lineWidth: 0.5, yAxis: 3, isIndicator: true,
+            }, {
+                ...이평기본, data: MA.cci_4_sig, color: "dodgerblue", name: 'CCI-2-Sig', lineWidth: 0.5, yAxis: 3, isIndicator: true,
+            }, {
+                ...이평기본, data: MA.cci_11, color: "green", name: 'CCI-11', lineWidth: 0.5, yAxis: 3, isIndicator: true,
+            }, {
+                ...이평기본, data: MA.cci_11_sig, color: "black", name: 'CCI-4-Sig', lineWidth: 0.5, yAxis: 3, isIndicator: true,
             }];
 
             return seriesData
@@ -384,7 +416,7 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                 <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: boxTransform ? boxTransform : `translate(10px, 300px)`, zIndex: 100 }}>
                     {(Array.isArray(stockItemData)) && stockItemData.length > 0 ?
                         <>
-                            <Stack direction='row' spacing={2} sx={{ pl: 2, pr: 2 }}>
+                            <Stack direction='row' spacing={2} sx={{ pl: 2, pr: 2 }} useFlexGap flexWrap="wrap">
                                 <Typography sx={typographyStyle}>{stockName}</Typography>
                                 <Typography sx={{ ...typographyStyle, color: net > 0 ? 'red' : 'blue' }}>
                                     {net} %
@@ -400,6 +432,11 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                                 </Typography>
                                 <Typography sx={typographyStyle}>
                                     W33 : {willR.w33}
+                                </Typography>
+                            </Stack>
+                            <Stack direction='row' spacing={2} sx={{ pl: 2, pr: 2 }} useFlexGap flexWrap="wrap">
+                                <Typography sx={{ ...typographyStyle, color: volumeRatio > 100 ? 'red' : 'blue' }}>
+                                    전일대비거래량 : {volumeRatio ? volumeRatio : '-'} %
                                 </Typography>
                             </Stack>
                         </>

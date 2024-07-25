@@ -25,7 +25,7 @@ export default function MotionPage({ swiperRef, num }) {
     const [timeLine, setTimeLine] = useState(null);
     const [loadingRatio, setLoadingRatio] = useState(false);
 
-    const [industryName, setIndustryName] = useState(null)
+
     const [stock, setStock] = useState({ 종목명: null }); // 종목 정보
     const [stockChart, setStockChart] = useState({ price: [], volume: [] }); // 종목 차트
 
@@ -41,7 +41,7 @@ export default function MotionPage({ swiperRef, num }) {
 
         // 업종 차트
         // const name = SectorsName15(item.업종명)
-        setIndustryName(item.업종명);
+
 
         // const excludedNames = ['없음', '카드', '손해보험', '복합유틸리티', '복합기업', '전기유틸리티', '생명보험', '다각화된소비자서비스', '사무용전자제품', '담배', '기타금융', '문구류', '판매업체', '전문소매', '출판']
         // if (!excludedNames.includes(name)) {
@@ -68,7 +68,7 @@ export default function MotionPage({ swiperRef, num }) {
             var res = await axios.get(`${STOCK}/get/${item.종목코드}`);
 
             // console.log(res.data);
-            setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, treasuryPrice: res.data.treasuryPrice, willR: res.data.willR, net: res.data.net, MA: res.data.MA })
+            setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, treasuryPrice: res.data.treasuryPrice, willR: res.data.willR, net: res.data.net, MA: res.data.MA, volumeRatio: res.data.volumeRatio })
             //     console.log(res.data); ${item.종목코드}
 
             // const postData = { stockCode: item.종목코드 };
@@ -172,7 +172,7 @@ export default function MotionPage({ swiperRef, num }) {
 
 
             {/* Chart & Table */}
-            <Grid item xs={6}>
+            <Grid item xs={7}>
                 <Grid item container>
 
                     {/* Select */}
@@ -238,8 +238,8 @@ export default function MotionPage({ swiperRef, num }) {
 
 
             {/* Stock Information */}
-            <Grid item xs={6}>
-                <StockInfoPage industryName={industryName} stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} />
+            <Grid item xs={5}>
+                <StockInfoPage stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} />
 
             </Grid>
 

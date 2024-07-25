@@ -12,16 +12,13 @@ import StockChart_MA from '../util/stockChart_MA';
 // import { formatDateString } from './util/formatDate.jsx'
 
 
-export default function StockInfoPage({ industryName, stock, stockChart, handleFavorite }) {
-    const [page, setPage] = useState('재무');
+export default function StockInfoPage({ stock, stockChart, handleFavorite }) {
     const baseStyle = { fontSize: '10px', p: 0.1, textAlign: 'right' }
-    // Handler
-    const handlePage = (event, value) => { if (value !== null) { setPage(value); } }
 
     return (
         <Grid container>
             {/* Top Stock Name */}
-            <Grid item container sx={{ minHeight: 36 }}>
+            <Grid item container sx={{ minHeight: 36, maxHeight: 36 }}>
                 {stock.종목명 ?
                     <StockInfo data={stock} handleFavorite={handleFavorite} />
                     : <></>
@@ -30,9 +27,9 @@ export default function StockInfoPage({ industryName, stock, stockChart, handleF
 
             {/* Stock Chart */}
             <Grid item container sx={{ mt: 1 }}>
-                <StockChart_MA height={600} boxTransform={`translate(10px, 53px)`}
+                <StockChart_MA height={700} boxTransform={`translate(10px, 53px)`}
                     stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} stockName={stock.종목명} price={stock.현재가} net={stockChart.net}
-                    willR={stockChart.willR} treasuryPrice={stockChart.treasuryPrice} treasury={stockChart.treasury} MA={stockChart.MA} />
+                    willR={stockChart.willR} treasuryPrice={stockChart.treasuryPrice} treasury={stockChart.treasury} MA={stockChart.MA} volumeRatio={stockChart.volumeRatio} />
             </Grid>
 
             {/* Bottom Infomation */}
@@ -40,12 +37,13 @@ export default function StockInfoPage({ industryName, stock, stockChart, handleF
 
 
                 <Grid item container>
-                    {/* 주요제품 매출 구성, 사업내용 */}
+                    {/* 주요제품 매출 구성, 사업내용, 테마 */}
                     <Grid item xs={4.5}>
 
                         {
                             Array.isArray(stock.주요제품매출구성) ?
-                                <TableContainer sx={{ height: 280 }}>
+                                <TableContainer sx={{ height: 220 }}>
+
                                     <Table sx={{ mt: 1, borderBottom: '1px solid #fff' }}>
                                         <TableBody>
                                             {stock.주요제품매출구성.map(item => (
@@ -57,14 +55,26 @@ export default function StockInfoPage({ industryName, stock, stockChart, handleF
                                         </TableBody>
                                     </Table>
 
-                                    <Grid container sx={{ mt: 1 }}>
+                                    <Grid container sx={{ mt: 1, borderBottom: '1px solid #fff' }}>
                                         <Stack direction='column' spacing={1} >
                                             {stock.기업개요.map(item => (
                                                 <StyledTypography_StockInfo key={item} fontSize="12px">{item}</StyledTypography_StockInfo>
                                             ))}
                                         </Stack>
                                     </Grid>
+
+
+                                    <Grid container sx={{ mt: 1 }}>
+                                        <Stack direction='row' spacing={1} useFlexGap flexWrap="wrap" >
+                                            {stock.테마명.map(item => (
+                                                <StyledTypography_StockInfo key={item} fontSize="12px">{item}</StyledTypography_StockInfo>
+                                            ))}
+                                        </Stack>
+                                    </Grid>
+
+
                                 </TableContainer>
+
                                 :
                                 <></>
                         }
@@ -76,23 +86,15 @@ export default function StockInfoPage({ industryName, stock, stockChart, handleF
 
                     {/* 재무 / 사업내용 / 테마  */}
                     <Grid item xs={7}>
-                        <Grid item container sx={{ mt: 1 }}>
-                            <ToggleButtonGroup
-                                color='info'
-                                exclusive
-                                size="small"
-                                value={page}
-                                onChange={handlePage}
-                                sx={{ pl: 1.3 }}
-                            >
-                                <StyledToggleButton fontSize={'10px'} value="재무">재무</StyledToggleButton>
-                                {/* <StyledToggleButton fontSize={'10px'} value="사업내용">사업내용</StyledToggleButton> */}
-                                <StyledToggleButton fontSize={'10px'} value="테마">테마</StyledToggleButton>
-                                {/* <StyledToggleButton fontSize={'10px'} value="주요">주요제품/주요주주</StyledToggleButton> */}
-                            </ToggleButtonGroup>
-                        </Grid>
+
                         <Grid item container sx={{ minHeight: 210 }}>
-                            <ContentsComponent page={page} annual={stock.연간실적} quarter={stock.분기실적} summary={stock.기업개요} themes={stock.테마명} product={stock.주요제품매출구성} shareholder={stock.주요주주} />
+                            {Array.isArray(stock.연간실적) ?
+                                <Financial annual={stock.연간실적} quarter={stock.분기실적} />
+                                : <></>
+                            }
+
+
+                            {/* <ContentsComponent page={page} annual={stock.연간실적} quarter={stock.분기실적} summary={stock.기업개요} themes={stock.테마명} product={stock.주요제품매출구성} shareholder={stock.주요주주} /> */}
                         </Grid>
 
 
@@ -135,45 +137,4 @@ export const StockInfo = ({ data, handleFavorite }) => {
 
         </Grid>
     )
-}
-
-
-const ContentsComponent = ({ page, annual, quarter, summary, themes, product, shareholder }) => {
-    switch (page) {
-        case '사업내용':
-            if (Array.isArray(summary)) {
-                return <Grid container sx={{ mt: 3 }}>
-                    <Stack direction='column' spacing={1} sx={{ pl: 2, pr: 2 }}>
-                        {summary.map(item => (
-                            <StyledTypography_StockInfo key={item} fontSize="12px">{item}</StyledTypography_StockInfo>
-                        ))}
-                    </Stack>
-                </Grid>
-            }
-
-        case '테마':
-            if (Array.isArray(themes)) {
-                return <Grid container sx={{ mt: 3 }}>
-                    <Stack direction='column' spacing={1} sx={{ pl: 2, pr: 2 }}>
-                        {themes.map(item => (
-                            <StyledTypography_StockInfo key={item} fontSize="12px">{item}</StyledTypography_StockInfo>
-                        ))}
-                    </Stack>
-                </Grid>
-            }
-
-        case '주요':
-            if (Array.isArray(themes)) {
-                return <Grid container sx={{ mt: 3 }}>
-                    <EtcInfo product={product} shareholder={shareholder} />
-                </Grid>
-            }
-
-        default:
-            if (Array.isArray(annual)) {
-                return <Financial annual={annual} quarter={quarter} />
-            }
-    }
-
-
 }
