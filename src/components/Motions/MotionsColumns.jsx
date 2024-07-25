@@ -5,13 +5,13 @@ import { renderProgress } from '../sectorSearchPage';
 
 export const columns = [
     {
-        field: '업종명', headerName: '업종명', width: 90,
+        field: '업종명', headerName: '업종명', width: 80,
         align: 'left', headerAlign: 'left',
     }, {
-        field: '테마명', headerName: '테마명', width: 240,
+        field: '테마명', headerName: '테마명', width: 180,
         align: 'left', headerAlign: 'left',
     }, {
-        field: '종목명', headerName: '종목명', width: 90,
+        field: '종목명', headerName: '종목명', width: 80,
         align: 'left', headerAlign: 'left',
         renderCell: (params) => {
             return (
@@ -34,30 +34,32 @@ export const columns = [
             return `${params.value.toLocaleString('kr')} %`;
         }
     }, {
-        field: '체결강도', headerName: '체결강도', width: 70,
+        field: 'w9', headerName: 'w9', width: 40,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = params.value > 100 ? '#e89191' : 'dodgerblue'
-            const progress = renderProgress({ value: params.value, valueON: true, color: color, val2: 0.07 })
-            return (
-                <Box sx={{ position: 'relative', mt: -2 }}>
-                    <Box sx={{ position: 'absolute', zIndex: 1, marginLeft: -2 }}>
-                        {params.value.toLocaleString('kr')}
-                    </Box>
-                    <Box sx={{ position: 'absolute', zIndex: 0, width: 80, mt: -0.6, marginLeft: -5.5 }}>
-                        {progress}
-                    </Box>
-                </Box>
-            )
-        }
-        // renderCell: (params) => {
-        //     const color = params.value > 0 ? '#FCAB2F' : '#00F3FF'
-        //     return (
-        //         <span style={{ color: color }}> {params.value.toLocaleString('kr')}</span>
-        //     )
-        // }
+    }, {
+        field: 'w14', headerName: 'w14', width: 40,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'w33', headerName: 'w33', width: 40,
+        align: 'right', headerAlign: 'center',
     }
 ]
+// field: '체결강도', headerName: '체결강도', width: 70,
+// align: 'right', headerAlign: 'center',
+// renderCell: (params) => {
+//     const color = params.value > 100 ? '#e89191' : 'dodgerblue'
+//     const progress = renderProgress({ value: params.value, valueON: true, color: color, val2: 0.07 })
+//     return (
+//         <Box sx={{ position: 'relative', mt: -2 }}>
+//             <Box sx={{ position: 'absolute', zIndex: 1, marginLeft: -2 }}>
+//                 {params.value.toLocaleString('kr')}
+//             </Box>
+//             <Box sx={{ position: 'absolute', zIndex: 0, width: 80, mt: -0.6, marginLeft: -5.5 }}>
+//                 {progress}
+//             </Box>
+//         </Box>
+//     )
+// }
 
 export const customTheme = createTheme({
     components: {
