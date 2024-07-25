@@ -11,7 +11,8 @@ module.exports = merge(common, {
     output: {
         path: path.resolve('./dist'),
         // path: path.resolve('D:/CheckMate/FastAPI/web/aox'),
-        filename: 'build.js',
+        filename: '[name].[chunkhash:8].js',
+        // filename: 'build.js',
         publicPath: '/', // 라우터 링크 못읽는 현상 수정
     },
     plugins: [

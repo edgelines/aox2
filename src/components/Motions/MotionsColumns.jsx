@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box } from '@mui/material';
+// import { Box } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
-import { renderProgress } from '../sectorSearchPage';
+// import { renderProgress } from '../sectorSearchPage';
 
 export const columns = [
     {
