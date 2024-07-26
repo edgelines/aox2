@@ -20,6 +20,7 @@ export default function MotionPage({ swiperRef, num }) {
     const [replaySwitch, setReplaySwitch] = useState(null);
     const [datasetCount, setDatasetCount] = useState(null);
     const [dataset, setDataset] = useState({ time: [], data: [] });
+    const [classification, setClassification] = useState(null);
     const [datelist, setDateList] = useState(null);
     const [date, setDate] = useState(null);
     const [timeLine, setTimeLine] = useState(null);
@@ -132,6 +133,7 @@ export default function MotionPage({ swiperRef, num }) {
                 setDataset(res.series);
                 setDatasetCount(res.count);
                 setTimeLine(res.savetime);
+                setClassification(res.classification)
             };
 
             ws.current.onerror = (error) => {
@@ -215,7 +217,7 @@ export default function MotionPage({ swiperRef, num }) {
                     <Grid item>
                         {replaySwitch === 'live' && <RatioVolumeTrendScatterChartLive
                             dataset={dataset} timeLine={timeLine} height={chartHeight} title={`중복 ${num}개`} swiperRef={swiperRef}
-                            datasetCount={datasetCount}
+                            datasetCount={datasetCount} classification={classification}
                             getInfo={getInfo}
                         />}
 
@@ -239,7 +241,7 @@ export default function MotionPage({ swiperRef, num }) {
 
             {/* Stock Information */}
             <Grid item xs={5}>
-                <StockInfoPage stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} />
+                <StockInfoPage stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} swiperRef={swiperRef} />
 
             </Grid>
 

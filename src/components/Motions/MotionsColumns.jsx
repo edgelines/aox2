@@ -11,7 +11,7 @@ export const columns = [
         field: '테마명', headerName: '테마명', width: 180,
         align: 'left', headerAlign: 'left',
     }, {
-        field: '종목명', headerName: '종목명', width: 80,
+        field: '종목명', headerName: '종목명', width: 70,
         align: 'left', headerAlign: 'left',
         renderCell: (params) => {
             return (
@@ -41,6 +41,18 @@ export const columns = [
         align: 'right', headerAlign: 'center',
     }, {
         field: 'w33', headerName: 'w33', width: 40,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'CCI_4', headerName: 'C4', width: 40,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'CCI_2_Sig', headerName: 'S2', width: 40,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'CCI_11', headerName: 'C4', width: 40,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'CCI_4_Sig', headerName: 'S4', width: 40,
         align: 'right', headerAlign: 'center',
     }
 ]

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Grid, Stack, ToggleButtonGroup, IconButton, Table, TableBody, TableContainer } from '@mui/material';
-import { StyledToggleButton } from '../util/util';
+// import { StyledToggleButton } from '../util/util';
 import { StyledTypography_StockInfo, Financial, EtcInfo } from '../util/htsUtil';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -12,7 +12,7 @@ import StockChart_MA from '../util/stockChart_MA';
 // import { formatDateString } from './util/formatDate.jsx'
 
 
-export default function StockInfoPage({ stock, stockChart, handleFavorite }) {
+export default function StockInfoPage({ stock, stockChart, handleFavorite, swiperRef }) {
     const baseStyle = { fontSize: '10px', p: 0.1, textAlign: 'right' }
 
     return (
@@ -42,7 +42,10 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite }) {
 
                         {
                             Array.isArray(stock.주요제품매출구성) ?
-                                <TableContainer sx={{ height: 220 }}>
+                                <TableContainer sx={{ height: 220 }}
+                                    onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                                    onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+                                >
 
                                     <Table sx={{ mt: 1, borderBottom: '1px solid #fff' }}>
                                         <TableBody>

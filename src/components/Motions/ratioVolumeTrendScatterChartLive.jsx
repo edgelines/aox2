@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { Grid, Box, TableContainer } from '@mui/material';
+import { Grid, Box, TableContainer, Typography } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
 import { customTheme, columns } from './MotionsColumns';
 import { CountTable } from './CountTable'
+import { legend } from './legend';
 
 
-const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCount, getInfo }) => {
+const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCount, getInfo, classification }) => {
     const chartComponent = useRef(null);
     const [chartOptions, setChartOptions] = useState({
         chart: {
@@ -177,10 +178,6 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
             data: filteredData
         }
 
-
-
-        console.log(filteredData);
-
         return result;
 
     }
@@ -217,19 +214,27 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
             <Box sx={{ position: 'absolute', transform: 'translate(450px, 5px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '18px', textAlign: 'right' }}>
                 {title}
             </Box>
+            <Box sx={{ position: 'absolute', transform: 'translate(1000px, 45px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
+                {classification ?
+                    Object.keys(classification).map(item => (
+                        <Typography sx={{ fontSize: '11px', color: legend[item] }} key={item} >{item} : {classification[item]}</Typography>
+                    ))
+                    : <></>}
+            </Box>
+
+
             <HighchartsReact
                 highcharts={Highcharts}
                 options={chartOptions}
                 ref={chartComponent}
             />
 
-            <Grid container
-                onMouseEnter={() => swiperRef.current.mousewheel.disable()}
-                onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-            >
-
-                <Grid item xs={8}>
-                    <TableContainer sx={{ height: tableHeight }}>
+            <Grid container>
+                <Grid item xs={8.9}>
+                    <TableContainer sx={{ height: tableHeight }}
+                        onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                        onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+                    >
                         <ThemeProvider theme={customTheme}>
                             <DataGrid
                                 rows={tableData}
@@ -256,7 +261,7 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
 
                 <Grid item xs={0.1}></Grid>
 
-                <Grid item container xs={3.9}>
+                <Grid item container xs={3}>
 
                     {
                         datasetCount ?
