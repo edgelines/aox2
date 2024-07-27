@@ -10,14 +10,14 @@ import { CountTable } from './CountTable'
 import { legend } from './legend';
 
 
-const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCount, getInfo, classification }) => {
+const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getInfo, classification }) => {
     const chartComponent = useRef(null);
     const [chartOptions, setChartOptions] = useState({
         chart: {
             type: 'scatter', height: height ? height - 400 : 400, backgroundColor: 'rgba(255, 255, 255, 0)', zoomType: 'xy', width: 1070
         },
         credits: { enabled: false }, title: { text: null },
-        subtitle: { align: 'right', style: { color: '#efe9e9ed', fontSize: '18px', backgroundColor: 'rgba(0, 0, 0, 0.2)', }, floating: true, x: 0, y: 30 },
+        subtitle: { align: 'right', style: { color: '#efe9e9ed', fontSize: '12.5px', backgroundColor: 'rgba(0, 0, 0, 0.2)', }, floating: true, x: 0, y: 30 },
         navigation: { buttonOptions: { enabled: false } },
         xAxis: {
             title: { text: '전일대비거래량', style: { color: '#efe9e9ed' } },
@@ -211,13 +211,18 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
 
     return (
         <div>
-            <Box sx={{ position: 'absolute', transform: 'translate(450px, 5px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '18px', textAlign: 'right' }}>
-                {title}
-            </Box>
-            <Box sx={{ position: 'absolute', transform: 'translate(1000px, 45px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(990px, 45px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
                 {classification ?
                     Object.keys(classification).map(item => (
-                        <Typography sx={{ fontSize: '11px', color: legend[item] }} key={item} >{item} : {classification[item]}</Typography>
+
+                        <tr style={{ fontSize: '12.5px', p: 2 }} key={item}>
+                            <td style={{ color: legend[item] }}>
+                                {item}
+                            </td>
+                            <td style={{ textAlign: 'left' }}>{classification[item]}</td>
+                        </tr>
+
+                        // <Typography sx={{ fontSize: '12.5px', color: legend[item] }} key={item} >{item} : {classification[item]}</Typography>
                     ))
                     : <></>}
             </Box>

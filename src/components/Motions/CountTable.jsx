@@ -27,7 +27,7 @@ export const CountTable = ({ name, data, swiperRef, height, handleClick, handleR
                                     return (
                                         <tr style={{ fontSize: '11px', p: 2 }} key={`${category}_${item.갯수}`}>
                                             <td style={{ width: '120px', color: isSelectedIndustry || isSelectedThemes ? 'tomato' : '#efe9e9ed' }} onClick={() => handleClick(name, category)}>
-                                                {name == '업종' ? item.업종명 : item.테마명}
+                                                {name == '업종' ? item.업종명.slice(0, 8) : item.테마명}
                                             </td>
                                             <td style={{ width: '40px', textAlign: 'left' }}>{item.갯수}</td>
                                         </tr>

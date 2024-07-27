@@ -11,7 +11,7 @@ import { customTheme, columns } from './MotionsColumns';
 import { CountTable } from './CountTable'
 
 
-const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCount, getInfo }) => {
+const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getInfo }) => {
     const chartComponent = useRef(null);
     const startIndex = 0;
     // const endIndex = 388;
@@ -301,9 +301,6 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
 
     return (
         <div>
-            <Box sx={{ position: 'absolute', transform: 'translate(450px, 5px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '18px', textAlign: 'right' }}>
-                {title}
-            </Box>
             <HighchartsReact
                 highcharts={Highcharts}
                 options={chartOptions}
@@ -348,7 +345,7 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
                 onMouseLeave={() => swiperRef.current.mousewheel.enable()}
             >
 
-                <Grid item xs={8}>
+                <Grid item xs={8.9}>
                     <TableContainer sx={{ height: tableHeight }}>
                         <ThemeProvider theme={customTheme}>
                             <DataGrid
@@ -373,8 +370,8 @@ const MotionsChart = ({ dataset, timeLine, height, title, swiperRef, datasetCoun
                         </ThemeProvider>
                     </TableContainer>
                 </Grid>
-
-                <Grid item container xs={4}>
+                <Grid item xs={0.1}></Grid>
+                <Grid item container xs={3}>
 
                     {
                         datasetCount ?

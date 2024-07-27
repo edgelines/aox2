@@ -168,6 +168,9 @@ export default function MotionPage({ swiperRef, num }) {
 
     return (
         <Grid container spacing={1}>
+            <Box sx={{ position: 'absolute', transform: 'translate(105px, 10px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '16px', textAlign: 'right' }}>
+                {num === '3' ? 'Triple 3+' : num === '2' ? 'Double 2' : 'Single 1'}
+            </Box>
             <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(350px, 15px)`, zIndex: 10 }}>
                 <Legend />
             </Box>
@@ -216,7 +219,7 @@ export default function MotionPage({ swiperRef, num }) {
                     {/* Chart Component */}
                     <Grid item>
                         {replaySwitch === 'live' && <RatioVolumeTrendScatterChartLive
-                            dataset={dataset} timeLine={timeLine} height={chartHeight} title={`중복 ${num}개`} swiperRef={swiperRef}
+                            dataset={dataset} timeLine={timeLine} height={chartHeight} swiperRef={swiperRef}
                             datasetCount={datasetCount} classification={classification}
                             getInfo={getInfo}
                         />}
@@ -225,7 +228,7 @@ export default function MotionPage({ swiperRef, num }) {
                         {
                             replaySwitch === 'replay' && !loadingRatio ?
                                 <RatioVolumeTrendScatterChart
-                                    dataset={dataset} timeLine={timeLine} height={chartHeight} title={`중복 ${num}개`} swiperRef={swiperRef}
+                                    dataset={dataset} timeLine={timeLine} height={chartHeight} title={num === '3' ? 'Triple 3+' : num === '2' ? 'Double 2' : 'Single 1'} swiperRef={swiperRef}
                                     datasetCount={datasetCount}
                                     getInfo={getInfo}
                                 />
