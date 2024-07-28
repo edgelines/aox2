@@ -45,14 +45,20 @@ export const columns = [
     }, {
         field: 'CCI_4', headerName: 'C4', width: 40,
         align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            const color = params.value > 130 ? '#FCAB2F' : null
+            return (
+                <span style={{ color: color }}> {params.value.toFixed(1)}</span>
+            )
+        }
     }, {
-        field: 'CCI_2_Sig', headerName: 'S2', width: 40,
+        field: 'CCI_2_Sig', headerName: 'C4S', width: 40,
         align: 'right', headerAlign: 'center',
     }, {
-        field: 'CCI_11', headerName: 'C4', width: 40,
+        field: 'CCI_11', headerName: 'C11', width: 40,
         align: 'right', headerAlign: 'center',
     }, {
-        field: 'CCI_4_Sig', headerName: 'S4', width: 40,
+        field: 'CCI_4_Sig', headerName: 'C11S', width: 40,
         align: 'right', headerAlign: 'center',
     }
 ]
