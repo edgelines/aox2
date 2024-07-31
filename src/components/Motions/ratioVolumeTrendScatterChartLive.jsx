@@ -112,6 +112,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
     const tableHeight = 370
     const [selectedIndustry, setSelectedIndustry] = useState([]);
     const [selectedThemes, setSelectedThemes] = useState([]);
+    const [filterA, setFilterA] = useState({ trueCount: '', totalCount: '' });
 
     useEffect(() => {
         let chart
@@ -127,6 +128,11 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
 
             const table = handleTableData(dataset)
             setTableData(table);
+
+            const stat = handleFormula(dataset);
+            setFilterA({
+                trueCount: stat.trueCount, totalCount: stat.totalCount
+            })
         }
 
         chart = chartComponent.current.chart;
@@ -209,21 +215,36 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
         }
     }
 
+    const handleFormula = (dataset) => {
+        const trueCount = dataset[0].data.filter(item => item.filter_A).length;
+        const totalCount = dataset[0].data.length;
+        return { trueCount: trueCount, totalCount: totalCount }
+    }
+
+
     return (
         <div>
-            <Box sx={{ position: 'absolute', transform: 'translate(990px, 45px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(990px, 65px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
                 {classification ?
                     Object.keys(classification).map(item => (
 
-                        <tr style={{ fontSize: '12.5px', p: 2 }} key={item}>
+                        <tr style={{ fontSize: '12.5px' }} key={item}>
                             <td style={{ color: legend[item] }}>
                                 {item}
                             </td>
-                            <td style={{ textAlign: 'left' }}>{classification[item]}</td>
+                            <td style={{ textAlign: 'right', width: 17 }}>{classification[item]}</td>
                         </tr>
 
                         // <Typography sx={{ fontSize: '12.5px', color: legend[item] }} key={item} >{item} : {classification[item]}</Typography>
                     ))
+                    : <></>}
+            </Box>
+
+            <Box sx={{ position: 'absolute', transform: 'translate(962px, 45px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
+                {filterA.trueCount ?
+
+                    <Typography sx={{ fontSize: '12.5px' }} >A : {filterA.trueCount}  /  {filterA.totalCount} ( {parseInt(filterA.trueCount / filterA.totalCount * 100)} % )</Typography>
+
                     : <></>}
             </Box>
 

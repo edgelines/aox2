@@ -162,7 +162,7 @@ export default function MotionPage({ swiperRef, num }) {
 
     useEffect(() => {
         if (date !== null) {
-            getDataRatio(1, date, setLoadingRatio, setDataset, setDatasetCount);
+            getDataRatio(num, date, setLoadingRatio, setDataset, setDatasetCount);
         }
     }, [date])
 

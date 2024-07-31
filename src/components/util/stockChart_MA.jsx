@@ -229,7 +229,7 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
             }, {
                 ...이평기본, data: MA.ema_448, color: "darkviolet", name: '448저지', lineWidth: 1,
             }, {
-                ...이평기본, data: MA.trima_12, color: "dodgerblue", name: '20시삼', lineWidth: 2, dashStyle: 'LongDash'
+                ...이평기본, data: MA.trima_12, color: "dodgerblue", name: '12시삼', lineWidth: 2, dashStyle: 'LongDash'
             }, {
                 ...이평기본, data: MA.trima_18, color: "orange", name: '18시삼', lineWidth: 2, dashStyle: 'LongDash'
             }, {

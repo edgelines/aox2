@@ -7,6 +7,11 @@ export const columns = [
     {
         field: '업종명', headerName: '업종명', width: 80,
         align: 'left', headerAlign: 'left',
+        renderCell: (params) => {
+            return (
+                <span style={{ backgroundColor: params.row.color, color: '#404040' }}> {params.value}</span>
+            )
+        }
     }, {
         field: '테마명', headerName: '테마명', width: 180,
         align: 'left', headerAlign: 'left',
@@ -14,15 +19,20 @@ export const columns = [
         field: '종목명', headerName: '종목명', width: 70,
         align: 'left', headerAlign: 'left',
         renderCell: (params) => {
+            const filter_A = params.row.filter_A
+
+            const bgColor = filter_A ? '#FCAB2F' : null
+            const color = filter_A ? '#404040' : null
+
             return (
-                <span style={{ backgroundColor: params.row.color, color: '#404040' }}> {params.value}</span>
+                <span style={{ backgroundColor: bgColor, color: color }}> {params.value}</span>
             )
         }
     }, {
         field: 'y', headerName: 'R %', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
-            const color = params.value > 0 ? '#FCAB2F' : '#00F3FF'
+            const color = params.value > 10 ? '#FCAB2F' : '#00F3FF'
             return (
                 <span style={{ color: color }}> {params.value.toFixed(1)}</span>
             )
