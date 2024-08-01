@@ -36,20 +36,6 @@ export default function MotionPage({ swiperRef, num }) {
     }
 
     const getInfo = async (item) => {
-
-        // var res = await axios.get(`${API}/industry/LeadSectorsTable/${item.업종명}`);
-        // setStockTableData(res.data);
-
-        // 업종 차트
-        // const name = SectorsName15(item.업종명)
-
-
-        // const excludedNames = ['없음', '카드', '손해보험', '복합유틸리티', '복합기업', '전기유틸리티', '생명보험', '다각화된소비자서비스', '사무용전자제품', '담배', '기타금융', '문구류', '판매업체', '전문소매', '출판']
-        // if (!excludedNames.includes(name)) {
-        //     var res = await axios.get(`${API}/industryChartData/getChart?name=${name}`);
-        //     setSectorsChartDataSelected(res.data);
-        // }
-
         if (typeof item.종목코드 !== "undefined") {
             // 종목정보
             var res = await axios.get(`${API}/info/stockEtcInfo/${item.종목코드}`);
@@ -68,13 +54,17 @@ export default function MotionPage({ swiperRef, num }) {
             // 종목차트
             var res = await axios.get(`${STOCK}/get/${item.종목코드}`);
 
-            // console.log(res.data);
-            setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, treasuryPrice: res.data.treasuryPrice, willR: res.data.willR, net: res.data.net, MA: res.data.MA, volumeRatio: res.data.volumeRatio })
-            //     console.log(res.data); ${item.종목코드}
-
-            // const postData = { stockCode: item.종목코드 };
-            // var res = await axios.post(`${API}/themes/getStockThemes`, postData);
-            // setThemesTableData(res.data);
+            setStockChart({
+                price: res.data.price,
+                volume: res.data.volume,
+                treasury: res.data.treasury,
+                treasuryPrice: res.data.treasuryPrice,
+                willR: res.data.willR,
+                net: res.data.net,
+                MA: res.data.MA,
+                volumeRatio: res.data.volumeRatio,
+                DMI: res.data.DMI
+            })
 
         } else {
             setStock({ 종목명: null });

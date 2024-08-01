@@ -14,7 +14,7 @@ Highcharts.setOptions({
     }
 });
 
-const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, willR, height, indicators, price, net, boxTransform, treasury, treasuryPrice, MA, volumeRatio }) => {
+const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, willR, height, indicators, price, net, boxTransform, treasury, treasuryPrice, MA, volumeRatio, DMI }) => {
 
     const [chartOptions, setChartOptions] = useState({
         chart: { animation: false, height: height ? height : 360, },
@@ -86,7 +86,6 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
             gridLineWidth: 0.2,
             offset: 0,
             top: '80%',
-
             height: '20%',
             labels: {
                 align: 'right',
@@ -267,6 +266,10 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                 ...이평기본, data: MA.cci_11, color: "green", name: 'CCI-11', lineWidth: 0.5, yAxis: 3, isIndicator: true,
             }, {
                 ...이평기본, data: MA.cci_11_sig, color: "black", name: 'CCI-4-Sig', lineWidth: 0.5, yAxis: 3, isIndicator: true,
+                // }, {
+                //     ...이평기본, data: MA.dmi_7, color: "black", name: 'DMI-7', lineWidth: 0.5, yAxis: 5, isIndicator: true,
+                // }, {
+                //     ...이평기본, data: MA.dmi_17, color: "black", name: 'DMI-17', lineWidth: 0.5, yAxis: 5, isIndicator: true,
             }];
 
             return seriesData
@@ -434,6 +437,12 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                                 </Typography>
                                 <Typography sx={typographyStyle}>
                                     W33 : {willR.w33}
+                                </Typography>
+                                <Typography sx={typographyStyle}>
+                                    DMI-7 : {DMI.dmi_7}
+                                </Typography>
+                                <Typography sx={typographyStyle}>
+                                    DMI-17 : {DMI.dmi_17}
                                 </Typography>
                             </Stack>
                             <Stack direction='row' spacing={2} sx={{ pl: 2, pr: 2 }} useFlexGap flexWrap="wrap">
