@@ -80,7 +80,6 @@ export default function GpoChart({ data1, data2, data3, height, kospi200, credit
     const 컬러38 = "rgba(253, 104, 208, 0.8)";
 
     useEffect(() => {
-
         let plotBands1 = [];
         // Kospi200
         for (let i = 11; i > -1; i--) {
@@ -192,6 +191,7 @@ export default function GpoChart({ data1, data2, data3, height, kospi200, credit
                     from: data2[value_key],
                     to: data2[value_key],
                 });
+
             })
         }
 
