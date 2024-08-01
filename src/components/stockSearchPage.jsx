@@ -71,7 +71,17 @@ export default function StockSearchPange({ swiperRef }) {
             // 종목차트
             var res = await axios.get(`${STOCK}/get/${item.종목코드}`);
             // console.log(res.data);
-            setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, treasuryPrice: res.data.treasuryPrice, willR: res.data.willR, net: res.data.net, MA: res.data.MA })
+            setStockChart({
+                price: res.data.price,
+                volume: res.data.volume,
+                treasury: res.data.treasury,
+                treasuryPrice: res.data.treasuryPrice,
+                willR: res.data.willR,
+                net: res.data.net,
+                MA: res.data.MA,
+                volumeRatio: res.data.volumeRatio,
+                DMI: res.data.DMI
+            })
             //     console.log(res.data); ${item.종목코드}
 
             const postData = { stockCode: item.종목코드 };

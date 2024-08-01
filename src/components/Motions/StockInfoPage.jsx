@@ -27,7 +27,7 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, swipe
 
             {/* Stock Chart */}
             <Grid item container sx={{ mt: 1 }}>
-                <StockChart_MA height={700} boxTransform={`translate(10px, 53px)`}
+                <StockChart_MA height={670} boxTransform={`translate(10px, 53px)`}
                     stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} stockName={stock.종목명} price={stock.현재가} net={stockChart.net}
                     willR={stockChart.willR} treasuryPrice={stockChart.treasuryPrice} treasury={stockChart.treasury} MA={stockChart.MA} volumeRatio={stockChart.volumeRatio}
                     DMI={stockChart.DMI}
