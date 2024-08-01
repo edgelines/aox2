@@ -204,7 +204,6 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                     const prev = index > 0 ? volumeData[index - 1][1] : curr;
                     const isUp = curr > prev;
                     const color = isUp ? 'orangered' : 'dodgerblue';
-                    console.log(item[index]);
                     return {
                         x: item[0],
                         y: item[1],
