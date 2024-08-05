@@ -7,7 +7,8 @@ import StockInfoPage from './Motions/StockInfoPage.jsx';
 import { API, API_WS, STOCK } from './util/config.jsx';
 import { StyledToggleButton } from './util/util.jsx';
 import { formatDateString } from './util/formatDate.jsx';
-import Legend from './Motions/legend.jsx'
+import Legend from './Motions/legend.jsx';
+import WilliamsLegend from './Motions/williamsLegend.jsx';
 
 
 export default function MotionPage({ swiperRef, num }) {
@@ -120,6 +121,7 @@ export default function MotionPage({ swiperRef, num }) {
 
             ws.current.onmessage = (event) => {
                 const res = JSON.parse(event.data);
+                console.log(res.series);
                 setDataset(res.series);
                 setDatasetCount(res.count);
                 setTimeLine(res.savetime);
@@ -163,6 +165,9 @@ export default function MotionPage({ swiperRef, num }) {
             </Box>
             <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(350px, 15px)`, zIndex: 10 }}>
                 <Legend />
+            </Box>
+            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(1010px, 330px)`, zIndex: 10 }}>
+                <WilliamsLegend />
             </Box>
 
 

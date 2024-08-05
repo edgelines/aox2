@@ -3,6 +3,28 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createTheme } from '@mui/material/styles';
 // import { renderProgress } from '../sectorSearchPage';
 
+
+export const williamsColor = (value) => {
+    let color = null;
+    if (value >= -20) {
+        color = 'tomato';
+    } else if (value >= -35) {
+        color = 'orange';
+    } else if (value >= -50) {
+        color = 'gold';
+    } else if (value >= -65) {
+        color = 'yellow';
+    } else if (value >= -80) {
+        color = '#70AD47';
+    } else if (value >= -80) {
+        color = 'forestgreen';
+    } else {
+        color = 'dodgerblue';
+    }
+    return color;
+}
+
+
 export const columns = [
     {
         field: '업종명', headerName: '업종명', width: 80,
@@ -13,8 +35,11 @@ export const columns = [
             )
         }
     }, {
-        field: '테마명', headerName: '테마명', width: 180,
+        field: '테마명', headerName: '테마명', width: 120,
         align: 'left', headerAlign: 'left',
+    }, {
+        field: '테마갯수', headerName: '테마#', width: 50,
+        align: 'right', headerAlign: 'left',
     }, {
         field: '종목명', headerName: '종목명', width: 70,
         align: 'left', headerAlign: 'left',
@@ -46,12 +71,30 @@ export const columns = [
     }, {
         field: 'w9', headerName: 'w9', width: 40,
         align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            const color = williamsColor(params.value)
+            return (
+                <span style={{ backgroundColor: color, width: 40, color: color }}>{params.value}</span>
+            )
+        }
     }, {
         field: 'w14', headerName: 'w14', width: 40,
         align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            const color = williamsColor(params.value)
+            return (
+                <span style={{ backgroundColor: color, width: 40, color: color }}>{params.value}</span>
+            )
+        }
     }, {
         field: 'w33', headerName: 'w33', width: 40,
         align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            const color = williamsColor(params.value)
+            return (
+                <span style={{ backgroundColor: color, width: 40, color: color }}>{params.value}</span>
+            )
+        }
     }, {
         field: 'CCI_4', headerName: 'C4', width: 40,
         align: 'right', headerAlign: 'center',

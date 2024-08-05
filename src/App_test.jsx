@@ -42,11 +42,8 @@ function App() {
                 onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
-
                 <SwiperSlide style={swiperSlideStyle} >
-                    {/* <MotionPage swiperRef={swiperRef} num={'3'} /> */}
-                    <DetailPage />
-
+                    <MotionPage swiperRef={swiperRef} num={'3'} />
                 </SwiperSlide>
 
 

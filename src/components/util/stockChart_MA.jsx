@@ -422,33 +422,42 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                         <>
                             <Stack direction='row' spacing={2} sx={{ pl: 2, pr: 2 }} useFlexGap flexWrap="wrap">
                                 <Typography sx={typographyStyle}>{stockName}</Typography>
-                                <Typography sx={{ ...typographyStyle, color: net > 0 ? 'red' : 'blue' }}>
-                                    {net} %
-                                </Typography>
                                 <Typography sx={typographyStyle}>
                                     {(parseInt(price)).toLocaleString('KR-KO')} 원
                                 </Typography>
-                                <Typography sx={{ ...typographyStyle, color: 'tomato' }}>
-                                    W9 : {willR.w9}
+                                <Typography sx={{ ...typographyStyle, color: net > 0 ? 'red' : 'blue' }}>
+                                    {net} %
                                 </Typography>
-                                <Typography sx={{ typographyStyle, color: 'forestgreen' }}>
-                                    W14 : {willR.w14}
-                                </Typography>
-                                <Typography sx={typographyStyle}>
-                                    W33 : {willR.w33}
-                                </Typography>
-                                <Typography sx={typographyStyle}>
-                                    DMI-7 : {DMI.dmi_7}
-                                </Typography>
-                                <Typography sx={typographyStyle}>
-                                    DMI-17 : {DMI.dmi_17}
-                                </Typography>
-                            </Stack>
-                            <Stack direction='row' spacing={2} sx={{ pl: 2, pr: 2 }} useFlexGap flexWrap="wrap">
                                 <Typography sx={{ ...typographyStyle, color: volumeRatio > 100 ? 'red' : 'blue' }}>
-                                    전일대비거래량 : {volumeRatio ? volumeRatio : '-'} %
+                                    / {volumeRatio ? volumeRatio.toLocaleString('KR-KO') : '-'} %
                                 </Typography>
                             </Stack>
+                            <Grid item container sx={{ pl: 2 }}>
+                                <tbody>
+                                    <tr>
+                                        <td style={{ ...typographyStyle, color: 'tomato', width: 40 }}>W9</td>
+                                        <td style={{ ...typographyStyle, color: 'tomato', width: 30, textAlign: 'right' }}>{willR.w9}</td>
+                                        <td style={{ width: 50 }}></td>
+                                        <td style={{ ...typographyStyle, width: 80 }}>DMI 7</td>
+                                        <td style={{ ...typographyStyle, width: 30, textAlign: 'right' }}>{DMI.dmi_7}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style={{ ...typographyStyle, color: 'forestgreen', width: 40 }}>W14</td>
+                                        <td style={{ ...typographyStyle, color: 'forestgreen', width: 30, textAlign: 'right' }}>{willR.w14}</td>
+                                        <td style={{ width: 50 }}></td>
+                                        <td style={{ ...typographyStyle, width: 80 }}>DMI-17</td>
+                                        <td style={{ ...typographyStyle, width: 30, textAlign: 'right' }}>{DMI.dmi_17}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style={{ ...typographyStyle, width: 40 }}>W33</td>
+                                        <td style={{ ...typographyStyle, width: 30, textAlign: 'right' }}>{willR.w33}</td>
+                                        <td style={{ width: 50 }}></td>
+                                        <td style={{ width: 80 }}></td>
+                                        <td style={{ width: 30 }}></td>
+                                    </tr>
+
+                                </tbody>
+                            </Grid>
                         </>
                         : <></>
                     }
