@@ -31,7 +31,7 @@ export const columns = [
         align: 'left', headerAlign: 'left',
         renderCell: (params) => {
             return (
-                <span style={{ backgroundColor: params.row.color, color: '#404040' }}> {params.value}</span>
+                <span style={{ backgroundColor: params.row.color, color: '#404040' }}>{params.value}</span>
             )
         }
     }, {
@@ -50,7 +50,7 @@ export const columns = [
             const color = filter_A ? '#404040' : null
 
             return (
-                <span style={{ backgroundColor: bgColor, color: color }}> {params.value}</span>
+                <span style={{ backgroundColor: bgColor, color: color }}>{params.value}</span>
             )
         }
     }, {
@@ -74,7 +74,7 @@ export const columns = [
         renderCell: (params) => {
             const color = williamsColor(params.value)
             return (
-                <span style={{ backgroundColor: color, width: 40, color: color }}>{params.value}</span>
+                <span style={{ backgroundColor: color, width: 40, color: '#404040' }}>{params.value}</span>
             )
         }
     }, {
@@ -83,7 +83,7 @@ export const columns = [
         renderCell: (params) => {
             const color = williamsColor(params.value)
             return (
-                <span style={{ backgroundColor: color, width: 40, color: color }}>{params.value}</span>
+                <span style={{ backgroundColor: color, width: 40, color: '#404040' }}>{params.value}</span>
             )
         }
     }, {
@@ -92,7 +92,7 @@ export const columns = [
         renderCell: (params) => {
             const color = williamsColor(params.value)
             return (
-                <span style={{ backgroundColor: color, width: 40, color: color }}>{params.value}</span>
+                <span style={{ backgroundColor: color, width: 40, color: '#404040' }}>{params.value}</span>
             )
         }
     }, {
