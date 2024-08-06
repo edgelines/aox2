@@ -15,7 +15,7 @@ export const williamsColor = (value) => {
     } else if (value >= -65) {
         color = 'yellow';
     } else if (value >= -80) {
-        color = '#70AD47';
+        color = '#98da77';
     } else if (value >= -80) {
         color = 'forestgreen';
     } else {
