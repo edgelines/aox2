@@ -53,18 +53,23 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                     return (this.value).toLocaleString('ko-KR');
                 },
             },
+            plotLines: [
+                { color: 'black', width: 1, dashStyle: 'shortdash', value: 최대값 ? 최대값 : null, label: { text: '최대값', style: { fontWeight: 600 } } },
+                { color: 'black', width: 1, dashStyle: 'shortdash', value: 최소값 ? 최소값 : null, label: { text: '최소값', y: 15, style: { fontWeight: 600 } } },
+            ]
         }, {
             top: '60%',
             height: '20%',
             offset: 0,
             labels: {
                 align: 'right',
-                x: 5,
+                x: -3,
                 style: { fontSize: '0px' },
             },
             title: { text: 'Volume' },
             gridLineWidth: 0,
         }, {
+            // Williams R
             title: { enabled: false },
             gridLineWidth: 0.2,
             top: '60%',
@@ -75,10 +80,18 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
             },
             plotLines: [{
                 color: 'dodgerblue',
-                width: 0.5,
+                width: 1,
                 value: -80,
                 dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                // zIndex: 5,
+            }, {
+                color: 'black',
+                width: 0.5,
+                value: -50,
+                dashStyle: 'shortdash',//라인 스타일 지정 옵션
+            }, {
+                color: 'red',
+                width: 1,
+                value: -20,
             }],
             crosshair: { width: 2, }
         }, {
@@ -362,44 +375,7 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                         },
                     }]
                 },
-                yAxis: [{
-                    enabled: true,
-                    height: '60%',
-                    labels: {
-                        style: { fontSize: '11px' }, formatter: function () {
-                            return (this.value).toLocaleString('ko-KR');
-                        },
-                    },
-                    plotLines: [
-                        { color: 'black', width: 1, dashStyle: 'shortdash', value: 최대값 ? 최대값 : null, label: { text: '최대값', style: { fontWeight: 600 } } },
-                        { color: 'black', width: 1, dashStyle: 'shortdash', value: 최소값 ? 최소값 : null, label: { text: '최소값', y: 15, style: { fontWeight: 600 } } },
-                    ]
-                }, {
-                    top: '60%',
-                    height: '20%',
-                    offset: 0,
-                    labels: {
-                        align: 'right',
-                        x: -3
-                    },
-                    title: { text: 'Volume' }
-                }, {
-                    title: { enabled: false },
-                    gridLineWidth: 0.2,
-                    top: '80%',
-                    height: '20%',
-                    labels: {
-                        style: { fontSize: '0px' }
-                    },
-                    plotLines: [{
-                        color: 'dodgerblue',
-                        width: 0.5,
-                        value: -80,
-                        dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                        // zIndex: 5,
-                    }],
-                    crosshair: { width: 2, }
-                }]
+
             })
         } else {
             setChartOptions({
