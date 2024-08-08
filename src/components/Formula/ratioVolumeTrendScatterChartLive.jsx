@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup } from '@mui/material';
+import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, Stack } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
@@ -239,33 +239,43 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
             <Grid container>
 
                 <Grid item xs={12}>
-                    <ToggleButtonGroup
-                        // orientation="vertical"
-                        color='info'
-                        exclusive
-                        size="small"
-                        value={selectedDate}
-                        onChange={handleSelectedDate}
-                    >
-                        <StyledToggleButton value="b2">B-2</StyledToggleButton>
-                        <StyledToggleButton value="b1">B-1</StyledToggleButton>
-                        <StyledToggleButton value="now">NOW</StyledToggleButton>
-                    </ToggleButtonGroup>
-                    <IconButton onClick={() => handleBTN('marketGap', 'increase')}>
-                        <KeyboardArrowUpIcon />
-                    </IconButton>
-                    시총 : {marketGap} 이상
-                    <IconButton onClick={() => handleBTN('marketGap', 'decrease')}>
-                        <KeyboardArrowDownIcon />
-                    </IconButton>
+                    <Stack direction='row' alignItems="center" justifyContent="center">
+                        <ToggleButtonGroup
+                            // orientation="vertical"
+                            color='info'
+                            exclusive
+                            size="small"
+                            value={selectedDate}
+                            onChange={handleSelectedDate}
+                        >
+                            <StyledToggleButton fontSize={10} value="b2">B-2</StyledToggleButton>
+                            <StyledToggleButton fontSize={10} value="b1">B-1</StyledToggleButton>
+                            <StyledToggleButton fontSize={10} value="now">NOW</StyledToggleButton>
+                        </ToggleButtonGroup>
 
-                    <IconButton onClick={() => handleBTN('reserve', 'increase')}>
-                        <KeyboardArrowUpIcon />
-                    </IconButton>
-                    유보 : {reserve} 이상
-                    <IconButton onClick={() => handleBTN('reserve', 'decrease')}>
-                        <KeyboardArrowDownIcon />
-                    </IconButton>
+                        {/* 시총 */}
+                        <IconButton onClick={() => handleBTN('marketGap', 'increase')}>
+                            <KeyboardArrowUpIcon />
+                        </IconButton>
+                        <Typography sx={{ fontSize: 11 }}>
+                            시총 : {marketGap} 이상
+                        </Typography>
+                        <IconButton onClick={() => handleBTN('marketGap', 'decrease')}>
+                            <KeyboardArrowDownIcon />
+                        </IconButton>
+
+                        {/* 유보율 */}
+                        <IconButton onClick={() => handleBTN('reserve', 'increase')}>
+                            <KeyboardArrowUpIcon />
+                        </IconButton>
+                        <Typography sx={{ fontSize: 11 }}>
+                            유보 : {reserve} 이상
+                        </Typography>
+                        <IconButton onClick={() => handleBTN('reserve', 'decrease')}>
+                            <KeyboardArrowDownIcon />
+                        </IconButton>
+
+                    </Stack>
                 </Grid>
 
                 <Grid item xs={8.9}>

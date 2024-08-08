@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, Skeleton, Select, MenuItem, FormControl, ToggleButtonGroup, Box } from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 import RatioVolumeTrendScatterChartLive from './Formula/ratioVolumeTrendScatterChartLive.jsx'
 import StockInfoPage from './Motions/StockInfoPage.jsx';
 import { API, API_WS, STOCK } from './util/config.jsx';
-import { StyledToggleButton } from './util/util.jsx';
-import { formatDateString } from './util/formatDate.jsx';
 import Legend from './Motions/legend.jsx';
 import WilliamsLegend from './Motions/williamsLegend.jsx';
 
@@ -111,7 +109,19 @@ export default function FormulaPage({ swiperRef }) {
             <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(1010px, 330px)`, zIndex: 10 }}>
                 <WilliamsLegend />
             </Box>
-
+            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(10px, 505px)`, zIndex: 10 }}>
+                <Typography sx={{ fontSize: 12 }}> 조건 / DMI 3,4 : 10 이하, DMI 7,17 : 36 이하, W9, 14 : -80 이하, W33 : -79 ~ -40, Sig 2일 연속 완만 상승 </Typography>
+            </Box>
+            {
+                dataset[0].data.length == 0 ?
+                    <Box
+                        display="flex"
+                        alignItems="center"
+                        p={2}
+                        sx={{ width: 200, height: 100, backgroundColor: 'rgba(0, 0, 0, 0.60)', position: 'absolute', transform: `translate(500px, 330px)`, zIndex: 10 }}>
+                        <Typography>조건에 해당하는 종목 없음</Typography>
+                    </Box> : <></>
+            }
 
             {/* Chart & Table */}
             <Grid item xs={7}>
