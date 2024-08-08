@@ -79,7 +79,7 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                 style: { fontSize: '0px' }
             },
             plotLines: [{
-                color: 'dodgerblue',
+                color: 'blue',
                 width: 1,
                 value: -80,
                 dashStyle: 'shortdash',//라인 스타일 지정 옵션
@@ -95,7 +95,7 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
             }],
             crosshair: { width: 2, }
         }, {
-            title: { text: 'CCI' },
+            title: { text: 'DMI' },
             gridLineWidth: 0.2,
             offset: 0,
             top: '80%',
@@ -113,6 +113,17 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                 // zIndex: 5,
             }],
             crosshair: { width: 2, },
+        }, {
+            top: '80%',
+            height: '20%',
+            offset: 0,
+            opposite: false,
+            labels: {
+                align: 'right',
+                x: -3,
+                style: { fontSize: '0px' },
+            },
+            gridLineWidth: 0,
         }],
         xAxis: {
             // type: 'datetime',
@@ -251,33 +262,51 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                 ...이평기본, data: MA.trima_515, color: "dodgerblue", name: '515저삼', lineWidth: 1,
             }, {
                 type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
-                color: 'tomato',
-                dashStyle: 'shortdash',
+                color: 'tomato', dashStyle: 'shortdash',
                 name: 'W-9', id: 'williamsr-9',
                 lineWidth: 1,
                 params: { index: 3, period: 9 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+                // ...이평기본, marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
+                // color: 'tomato', dashStyle: 'shortdash',
+                // data: MA.w_9, name: 'W-9', lineWidth: 1, yAxis: 2,
             }, {
                 type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
-                color: 'forestgreen',
-                dashStyle: 'shortdash',
+                color: 'forestgreen', dashStyle: 'shortdash',
                 name: 'W-14', id: 'williamsr-14',
                 lineWidth: 1,
                 params: { index: 3, period: 14 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
+                // ...이평기본, marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
+                // color: 'forestgreen', dashStyle: 'shortdash',
+                // data: MA.w_14, name: 'W-14', lineWidth: 1, yAxis: 2,
             }, {
+                // ...이평기본, marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
+                // color: 'black', dashStyle: 'shortdash',
+                // data: MA.w_33, name: 'W-33', lineWidth: 1, yAxis: 2,
                 type: 'williamsr', animation: false, yAxis: 2, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
-                color: 'black',
-                dashStyle: 'shortdash',
+                color: 'black', dashStyle: 'shortdash',
                 name: 'W-33', id: 'williamsr-33',
                 lineWidth: 1,
                 params: { index: 3, period: 33 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
             }, {
-                ...이평기본, data: MA.cci_4, color: "tomato", name: 'CCI-4', lineWidth: 0.5, yAxis: 3, isIndicator: true,
+                ...이평기본, data: MA.dmi_7, color: "tomato", name: 'DMI-7', lineWidth: 0.5, yAxis: 3, isIndicator: true,
+                // ...이평기본, data: MA.cci_4, color: "tomato", name: 'CCI-4', lineWidth: 0.5, yAxis: 3, isIndicator: true,
             }, {
-                ...이평기본, data: MA.cci_4_sig, color: "dodgerblue", name: 'CCI-2-Sig', lineWidth: 0.5, yAxis: 3, isIndicator: true,
+                // ...이평기본, data: MA.cci_4_sig, color: "dodgerblue", name: 'CCI-2-Sig', lineWidth: 0.5, yAxis: 3, isIndicator: true,
+                ...이평기본, data: MA.dmi_17, color: "dodgerblue", name: 'DMI-17', lineWidth: 0.5, yAxis: 3, isIndicator: true,
             }, {
-                ...이평기본, data: MA.cci_11, color: "green", name: 'CCI-11', lineWidth: 0.5, yAxis: 3, isIndicator: true,
+                ...이평기본, data: MA.dmi_22, color: "green", name: 'DMI-22', lineWidth: 0.5, yAxis: 3, isIndicator: true,
+                // ...이평기본, data: MA.cci_11, color: "green", name: 'CCI-11', lineWidth: 0.5, yAxis: 3, isIndicator: true,
             }, {
-                ...이평기본, data: MA.cci_11_sig, color: "black", name: 'CCI-4-Sig', lineWidth: 0.5, yAxis: 3, isIndicator: true,
+                ...이평기본, marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
+                color: 'black', dashStyle: 'shortdash',
+                data: MA.w_33, name: 'W-33', lineWidth: 1, yAxis: 4,
+
+                // type: 'williamsr', animation: false, yAxis: 4, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
+
+                // name: 'W-33', id: 'williamsr-33',
+                // lineWidth: 1,
+                // params: { index: 3, period: 33 },
+                // ...이평기본, data: MA.cci_11_sig, color: "black", name: 'CCI-4-Sig', lineWidth: 0.5, yAxis: 3, isIndicator: true,
                 // }, {
                 //     ...이평기본, data: MA.dmi_7, color: "black", name: 'DMI-7', lineWidth: 0.5, yAxis: 5, isIndicator: true,
                 // }, {

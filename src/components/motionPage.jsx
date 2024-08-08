@@ -54,7 +54,6 @@ export default function MotionPage({ swiperRef, num }) {
 
             // 종목차트
             var res = await axios.get(`${STOCK}/get/${item.종목코드}`);
-
             setStockChart({
                 price: res.data.price,
                 volume: res.data.volume,
@@ -121,7 +120,6 @@ export default function MotionPage({ swiperRef, num }) {
 
             ws.current.onmessage = (event) => {
                 const res = JSON.parse(event.data);
-                console.log(res.series);
                 setDataset(res.series);
                 setDatasetCount(res.count);
                 setTimeLine(res.savetime);

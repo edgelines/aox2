@@ -19,7 +19,8 @@ import LeadThemes from './components/leadThemes';
 import LeadThemesTop2 from './components/leadThemesTop2';
 import LeadThemesTop3 from './components/leadThemesTop3';
 import StockSearchPage from './components/stockSearchPage';
-import MotionPage from './components/motionPage.jsx'
+import MotionPage from './components/motionPage.jsx';
+import FormulaPage from './components/formulaPage.jsx';
 import TestPage from './components/testPage';
 function App() {
 
@@ -43,7 +44,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 <SwiperSlide style={swiperSlideStyle} >
-                    <MotionPage swiperRef={swiperRef} num={'3'} />
+                    <FormulaPage swiperRef={swiperRef} />
                 </SwiperSlide>
 
 

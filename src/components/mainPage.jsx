@@ -67,13 +67,6 @@ export default function MainPage({ }) {
     };
 
 
-
-    // const fetchData = async () => {
-    //     const uniq = "?" + new Date().getTime();
-    //     setGisuDayImg(`/img/gisu_kospi200.jpg${uniq}`);
-    //     setKospi200Img(`https://t1.daumcdn.net/finance/chart/kr/daumstock/d/mini/K2G01P.png${uniq}`);
-    // };
-
     const setDate = () => {
         var now = new Date();
         var year = now.getFullYear();
@@ -193,39 +186,6 @@ export default function MainPage({ }) {
         }, 1000);
         return () => clearInterval(timer);
     }, [])
-
-    // const connectWebsocket = () => {
-    //     if (ws) {
-    //         ws.close();
-    //         ws = null;
-    //     }
-
-    //     // ws = new WebSocket(`${API_WS}/MarketDetail`);
-    //     ws.onopen = () => {
-    //         // 연결이 열리면 필요한 경우 서버에 데이터를 보낼 수 있습니다.
-    //     };
-    //     ws.onmessage = (event) => {
-    //         try {
-    //             const response = JSON.parse(event.data);
-
-    //             console.log(response);
-    //             setMarketDetail({ data: response, status: 'succeeded' });
-
-    //         } catch (err) {
-    //             console.error(event.data)
-    //             console.log(err)
-    //         }
-    //     };
-    //     ws.onerror = (error) => {
-    //         console.log(error);
-    //         ws.close();
-    //     };
-    //     ws.onclose = () => {
-    //         ws.close();
-    //         // 연결 종료 처리
-    //     };
-    // }
-
 
     return (
         <Grid container spacing={1} >
