@@ -113,7 +113,7 @@ export default function FormulaPage({ swiperRef }) {
                 <Typography sx={{ fontSize: 12 }}> 조건 / DMI 3,4 : 10 이하, DMI 7,17 : 36 이하, W9, 14 : -80 이하, W33 : -79 ~ -40, Sig 2일 연속 완만 상승 </Typography>
             </Box>
             {
-                dataset[0].data.length == 0 ?
+                dataset[0] && dataset[0].data.length == 0 ?
                     <Box
                         display="flex"
                         alignItems="center"
