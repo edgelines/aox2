@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import axios from 'axios';
 import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, Stack } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
@@ -9,6 +10,7 @@ import { customTheme, now_columns, b1_columns, b2_columns } from './MotionsColum
 import { CountTable } from '../Motions/CountTable'
 import { legend } from '../Motions/legend';
 import { StyledToggleButton } from '../util/util';
+import { API } from '../util/config.jsx';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
@@ -102,6 +104,15 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
     const [marketGap, setMarketGap] = useState(500);
     const [reserve, setReserve] = useState(300);
 
+    const fetchData = async () => {
+        const res = await axios.get(`${API}/formula/GetIndicatorScope`);
+        // const res = await axios.get(`http://localhost:2440/api/formula/GetIndicatorScope`);
+        setMarketGap(res.data.marketGap);
+        setReserve(res.data.reserve);
+    }
+
+    useEffect(() => { fetchData() }, [])
+
     useEffect(() => {
         let chart
         if (chartComponent.current && dataset.length > 0) {
@@ -193,19 +204,38 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
         }
     }
 
-    const handleBTN = (name, operation) => {
+    const handleBTN = async (name, operation) => {
+        let newMarketGap = marketGap;
+        let newReserve = reserve;
+
         if (name === 'marketGap') {
             if (operation === 'increase') {
-                setMarketGap(prev => prev + 50);
+                // setMarketGap(prev => prev + 50);
+                newMarketGap = marketGap + 50;
+                setMarketGap(newMarketGap);
             } else if (operation === 'decrease' && marketGap > 0) {
-                setMarketGap(prev => prev - 50);
+                // setMarketGap(prev => prev - 50);
+                newMarketGap = marketGap - 50;
+                setMarketGap(newMarketGap);
             }
         } else if (name === 'reserve') {
             if (operation === 'increase') {
-                setReserve(prev => prev + 50);
+                // setReserve(prev => prev + 50);
+                newReserve = reserve + 50;
+                setReserve(newReserve);
             } else if (operation === 'decrease' && reserve > 0) {
-                setReserve(prev => prev - 50);
+                // setReserve(prev => prev - 50);
+                newReserve = reserve - 50;
+                setReserve(newReserve);
             }
+        }
+
+        try {
+            await axios.post(`${API}/formula/IndicatorScope`, { marketGap: newMarketGap, reserve: newReserve });
+            // await axios.post('http://localhost:2440/api/formula/IndicatorScope', { marketGap: newMarketGap, reserve: newReserve });
+            // console.log({ marketGap: newMarketGap, reserve: newReserve })
+        } catch (error) {
+            console.error('Error saving data:', error);
         }
     }
     const handleSelectedDate = (event, value) => {
