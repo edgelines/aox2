@@ -32,23 +32,23 @@ function App() {
         paginationEl.style.color = '#efe9e9ed';
     };
 
-    // 매일 아침 새로고침 체크
-    useEffect(() => {
-        const checkTimeAndReload = () => {
-            const now = new Date();
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
+    // // 매일 아침 새로고침 체크
+    // useEffect(() => {
+    //     const checkTimeAndReload = () => {
+    //         const now = new Date();
+    //         const hours = now.getHours();
+    //         const minutes = now.getMinutes();
 
-            // 시간 체크
-            if (hours === 8 && minutes === 40) {
-                window.location.reload(); // 새로고침
-            }
+    //         // 시간 체크
+    //         if (hours === 8 && minutes === 40) {
+    //             window.location.reload(); // 새로고침
+    //         }
 
-        };
-        const intervalId = setInterval(checkTimeAndReload, 1000 * 60 * 10); // 60,000ms == 1min
+    //     };
+    //     const intervalId = setInterval(checkTimeAndReload, 1000 * 60 * 10); // 60,000ms == 1min
 
-        return () => clearInterval(intervalId);
-    }, []);
+    //     return () => clearInterval(intervalId);
+    // }, []);
 
     return (
         <div className="App">
