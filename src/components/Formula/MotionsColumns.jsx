@@ -36,7 +36,7 @@ export const base_columns = [{
     field: 'y', headerName: 'R %', width: 50,
     align: 'right', headerAlign: 'center',
     renderCell: (params) => {
-        const color = params.value > 10 ? 'tomato' : '#FCAB2F'
+        const color = params.value > 10 ? 'tomato' : params.value > 0 ? '#FCAB2F' : 'deepskyblue'
         return (
             <span style={{ color: color }}> {params.value.toFixed(1)}</span>
         )
