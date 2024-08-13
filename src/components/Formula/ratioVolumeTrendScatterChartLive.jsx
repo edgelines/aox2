@@ -127,7 +127,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
             const newData = getData(dataset, selectedIndustry, selectedThemes, marketGap, reserve);
             chart.series[0].update(newData);
         }
-        console.log(datasetCount);
+
     }, [dataset, selectedIndustry, selectedThemes, marketGap, reserve])
 
     useEffect(() => {
