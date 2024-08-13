@@ -95,6 +95,7 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
             }],
             crosshair: { width: 2, }
         }, {
+            // DMI
             title: { text: 'DMI' },
             gridLineWidth: 0.2,
             offset: 0,
@@ -106,11 +107,23 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                 style: { fontSize: '0px' }
             },
             plotLines: [{
-                color: 'dodgerblue',
+                color: 'red',
+                width: 1,
+                value: 80,
+            }, {
+                color: 'black',
                 width: 0.5,
-                value: -80,
-                dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                // zIndex: 5,
+                value: 50,
+            }, {
+                color: 'red',
+                width: 0.5,
+                value: 20,
+                dashStyle: 'shortdash',
+            }, {
+                color: 'blue',
+                width: 0.5,
+                value: 10,
+                dashStyle: 'shortdash',
             }],
             crosshair: { width: 2, },
         }, {
@@ -440,11 +453,11 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                             <Grid item container sx={{ pl: 2 }}>
                                 <tbody>
                                     <tr>
-                                        <td style={{ ...typographyStyle, color: 'tomato', width: 40 }}>W9</td>
-                                        <td style={{ ...typographyStyle, color: 'tomato', width: 30, textAlign: 'right' }}>{willR.w9}</td>
+                                        <td style={{ ...typographyStyle, width: 40 }}>W33</td>
+                                        <td style={{ ...typographyStyle, width: 30, textAlign: 'right' }}>{willR.w33}</td>
                                         <td style={{ width: 50 }}></td>
-                                        <td style={{ ...typographyStyle, width: 80 }}>DMI 7</td>
-                                        <td style={{ ...typographyStyle, width: 30, textAlign: 'right' }}>{DMI.dmi_7}</td>
+                                        <td style={{ ...typographyStyle, width: 80 }}>DMI-22</td>
+                                        <td style={{ ...typographyStyle, width: 30, textAlign: 'right' }}>{DMI.dmi_22}</td>
                                     </tr>
                                     <tr>
                                         <td style={{ ...typographyStyle, color: 'forestgreen', width: 40 }}>W14</td>
@@ -454,11 +467,11 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                                         <td style={{ ...typographyStyle, width: 30, textAlign: 'right' }}>{DMI.dmi_17}</td>
                                     </tr>
                                     <tr>
-                                        <td style={{ ...typographyStyle, width: 40 }}>W33</td>
-                                        <td style={{ ...typographyStyle, width: 30, textAlign: 'right' }}>{willR.w33}</td>
+                                        <td style={{ ...typographyStyle, color: 'tomato', width: 40 }}>W9</td>
+                                        <td style={{ ...typographyStyle, color: 'tomato', width: 30, textAlign: 'right' }}>{willR.w9}</td>
                                         <td style={{ width: 50 }}></td>
-                                        <td style={{ width: 80 }}></td>
-                                        <td style={{ width: 30 }}></td>
+                                        <td style={{ ...typographyStyle, width: 80 }}>DMI 7</td>
+                                        <td style={{ ...typographyStyle, width: 30, textAlign: 'right' }}>{DMI.dmi_7}</td>
                                     </tr>
 
                                 </tbody>
