@@ -58,7 +58,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
             gridLineWidth: 0.2,
             tickAmount: 13,
             max: 30,
-            min: -30
+            min: -5
         },
         tooltip: {
             split: true, shared: true, crosshairs: true,
@@ -111,7 +111,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
         setReserve(res.data.reserve);
     }
 
-    useEffect(() => { fetchData() }, [])
+    useEffect(() => { fetchData(); }, [])
 
     useEffect(() => {
         let chart
@@ -127,6 +127,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
             const newData = getData(dataset, selectedIndustry, selectedThemes, marketGap, reserve);
             chart.series[0].update(newData);
         }
+        console.log(datasetCount);
     }, [dataset, selectedIndustry, selectedThemes, marketGap, reserve])
 
     useEffect(() => {
