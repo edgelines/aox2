@@ -19,7 +19,7 @@ export default function MotionPage({ swiperRef, num }) {
 
     // state
     // const [post, setPost] = useState({ name: 'TestUp', xAxis: 'WillR14', yAxis: 'CCI_11' })
-    const [post, setPost] = useState({ name: 'TestUp', xAxis: 'WillR33', yAxis: 'CCI_4_Sig' })
+    const [post, setPost] = useState({ name: 'TestUp', xAxis: 'DMI_17', yAxis: 'WillR33' })
     const [dataset, setDataset] = useState({});
     const [datasetDown, setDatasetDown] = useState({});
 
@@ -34,15 +34,15 @@ export default function MotionPage({ swiperRef, num }) {
         }
         const res = await axios.post('http://localhost:2440/api/test/all_stocks_stats', postData);
         setDataset(res.data);
+        console.log(res.data);
+        // const postData2 = {
+        //     name: 'TestDown',
+        //     xAxis: post.xAxis,
+        //     yAxis: post.yAxis
+        // }
 
-        const postData2 = {
-            name: 'TestDown',
-            xAxis: post.xAxis,
-            yAxis: post.yAxis
-        }
-
-        const res2 = await axios.post('http://localhost:2440/api/test/all_stocks_stats', postData2);
-        setDatasetDown(res2.data);
+        // const res2 = await axios.post('http://localhost:2440/api/test/all_stocks_stats', postData2);
+        // setDatasetDown(res2.data);
     }
 
     useEffect(() => { fetchData(); }, [])
@@ -50,7 +50,7 @@ export default function MotionPage({ swiperRef, num }) {
     return (
         <Grid container spacing={1}>
 
-            <TestChart dataset={dataset} datasetDown={datasetDown} post={post} />
+            <TestChart dataset={dataset} post={post} />
 
         </Grid>
 
