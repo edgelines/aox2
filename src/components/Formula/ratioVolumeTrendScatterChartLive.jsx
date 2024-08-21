@@ -41,7 +41,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                 }, {
                     value: 150, width: 1, color: 'tomato', dashStyle: 'dash', zIndex: 2
                 }],
-            max: 1000,
+            max: 500,
             min: 0
             // min: 50
         },
