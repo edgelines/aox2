@@ -79,23 +79,43 @@ export const now_columns = [
             )
         }
     }, {
-        field: 'CCI_4', headerName: 'C4', width: 40,
+        field: 'DMI_7', headerName: 'D7', width: 40,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'DMI_17', headerName: 'D17', width: 40,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'TRIMA_14', headerName: 'T14', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
-            const color = params.value > 130 ? '#FCAB2F' : null
             return (
-                <span style={{ color: color }}> {params.value.toFixed(1)}</span>
+                <span> {params.value === false ? '' : '★'}</span>
             )
         }
     }, {
-        field: 'CCI_2_Sig', headerName: 'C4S', width: 40,
+        field: 'TRIMA_16', headerName: 'T16', width: 40,
         align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            return (
+                <span> {params.value === false ? '' : '★'}</span>
+            )
+        }
     }, {
-        field: 'CCI_11', headerName: 'C11', width: 40,
+        field: 'TRIMA_18', headerName: 'T18', width: 40,
         align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            return (
+                <span> {params.value === false ? '' : '★'}</span>
+            )
+        }
     }, {
-        field: 'CCI_4_Sig', headerName: 'C11S', width: 40,
+        field: 'TRIMA_20', headerName: 'T20', width: 40,
         align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            return (
+                <span> {params.value === false ? '' : '★'}</span>
+            )
+        }
     }
 ]
 

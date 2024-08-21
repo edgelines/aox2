@@ -158,7 +158,8 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
     const getData = (dataset, selectedIndustry, selectedThemes, marketGap, reserve) => {
         // 업종이나 테마를 선택했을때 데이터 필터
 
-        const baseData = dataset[0].data.filter(item => item.시가총액 >= marketGap && item.유보율 >= reserve);
+        const baseData = dataset[0].data;
+        // const baseData = dataset[0].data.filter(item => item.시가총액 >= marketGap && item.유보율 >= reserve);
 
         const filteredData = selectedIndustry.length > 0 || selectedThemes.length > 0
             ? baseData.filter(item => {
@@ -271,7 +272,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
 
                 <Grid item xs={12}>
                     <Stack direction='row' alignItems="center" justifyContent="center">
-                        <ToggleButtonGroup
+                        {/* <ToggleButtonGroup
                             // orientation="vertical"
                             color='info'
                             exclusive
@@ -282,10 +283,10 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                             <StyledToggleButton fontSize={10} value="b2">B-2</StyledToggleButton>
                             <StyledToggleButton fontSize={10} value="b1">B-1</StyledToggleButton>
                             <StyledToggleButton fontSize={10} value="now">NOW</StyledToggleButton>
-                        </ToggleButtonGroup>
+                        </ToggleButtonGroup> */}
 
                         {/* 시총 */}
-                        <IconButton onClick={() => handleBTN('marketGap', 'increase')}>
+                        {/* <IconButton onClick={() => handleBTN('marketGap', 'increase')}>
                             <KeyboardArrowUpIcon />
                         </IconButton>
                         <Typography sx={{ fontSize: 11 }}>
@@ -293,10 +294,10 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                         </Typography>
                         <IconButton onClick={() => handleBTN('marketGap', 'decrease')}>
                             <KeyboardArrowDownIcon />
-                        </IconButton>
+                        </IconButton> */}
 
                         {/* 유보율 */}
-                        <IconButton onClick={() => handleBTN('reserve', 'increase')}>
+                        {/* <IconButton onClick={() => handleBTN('reserve', 'increase')}>
                             <KeyboardArrowUpIcon />
                         </IconButton>
                         <Typography sx={{ fontSize: 11 }}>
@@ -304,12 +305,12 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                         </Typography>
                         <IconButton onClick={() => handleBTN('reserve', 'decrease')}>
                             <KeyboardArrowDownIcon />
-                        </IconButton>
+                        </IconButton> */}
 
                     </Stack>
                 </Grid>
 
-                <Grid item xs={8.9}>
+                <Grid item xs={9.9}>
                     <TableContainer sx={{ height: tableHeight }}
                         onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                         onMouseLeave={() => swiperRef.current.mousewheel.enable()}
@@ -340,20 +341,20 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
 
                 <Grid item xs={0.1}></Grid>
 
-                <Grid item container xs={3}>
+                <Grid item container xs={2}>
 
                     {
                         datasetCount ?
                             <>
-                                <Grid item xs={6}>
+                                <Grid item xs={12}>
 
-                                    <CountTable name='업종' data={datasetCount.업종} swiperRef={swiperRef} height={tableHeight}
+                                    <CountTable name='업종' data={datasetCount.업종} swiperRef={swiperRef} height={tableHeight / 2}
                                         handleClick={handleClick} handleReset={handleReset}
                                         selectedIndustry={selectedIndustry} selectedThemes={selectedThemes} />
 
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <CountTable name='테마' data={datasetCount.테마} swiperRef={swiperRef} height={tableHeight}
+                                <Grid item xs={12} sx={{ mt: 1 }}>
+                                    <CountTable name='테마' data={datasetCount.테마} swiperRef={swiperRef} height={tableHeight / 2}
                                         handleClick={handleClick} handleReset={handleReset}
                                         selectedIndustry={selectedIndustry} selectedThemes={selectedThemes} />
                                 </Grid>

@@ -109,10 +109,10 @@ export default function FormulaPage({ swiperRef }) {
             <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(1010px, 330px)`, zIndex: 10 }}>
                 <WilliamsLegend />
             </Box>
-            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(10px, 505px)`, zIndex: 10 }}>
-                <Typography sx={{ fontSize: 12 }}> Set A 조건 / W : -100 ~ - 80, DMI-7 : 0 ~ 15, DMI-17 : 0 ~ 20, 전일대비거래량 500% 이하, 이평구간 </Typography>
-                {/* <Typography sx={{ fontSize: 12 }}> 조건 / DMI 3,4 : 10 이하, DMI 7,17 : 36 이하, W9, 14 : -50 이하, W33 : -90 ~ -40, Sig 2일 연속 완만 상승 </Typography> */}
-            </Box>
+            {/* <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(10px, 505px)`, zIndex: 10 }}> */}
+            {/* <Typography sx={{ fontSize: 12 }}> Set A 조건 / W : -100 ~ - 80, DMI-7 : 0 ~ 15, DMI-17 : 0 ~ 20, 전일대비거래량 500% 이하, 이평구간 </Typography> */}
+            {/* <Typography sx={{ fontSize: 12 }}> 조건 / DMI 3,4 : 10 이하, DMI 7,17 : 36 이하, W9, 14 : -50 이하, W33 : -90 ~ -40, Sig 2일 연속 완만 상승 </Typography> */}
+            {/* </Box> */}
             {
                 dataset[0] && dataset[0].data.length == 0 ?
                     <Box

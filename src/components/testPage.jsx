@@ -24,7 +24,7 @@ export default function MotionPage({ }) {
     const [dataset8, setDataset8] = useState({});
     const [dataset9, setDataset9] = useState({});
 
-    const get_data = async (xAxis, yAxis, setDataset, setPost) => {
+    const get_data = async (xAxis, yAxis, setDataset) => {
         const postData = {
             xAxis: xAxis,
             yAxis: yAxis
