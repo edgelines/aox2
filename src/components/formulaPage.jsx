@@ -78,7 +78,6 @@ export default function FormulaPage({ swiperRef }) {
 
         ws.onmessage = (event) => {
             const res = JSON.parse(event.data);
-            console.log(res.count);
             setDataset(res.series);
             setDatasetCount(res.count);
             setTimeLine(res.savetime);

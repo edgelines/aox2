@@ -119,11 +119,11 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
             })
         }
 
-        chart = chartComponent.current.chart;
-        if (chart && chart.series && chart.series[0]) {
-            const newData = getData(dataset, selectedIndustry, selectedThemes, marketGap, reserve);
-            chart.series[0].update(newData);
-        }
+        // chart = chartComponent.current.chart;
+        // if (chart && chart.series && chart.series[0]) {
+        //     const newData = getData(dataset, selectedIndustry, selectedThemes, marketGap, reserve);
+        //     chart.series[0].update(newData);
+        // }
 
     }, [dataset, selectedIndustry, selectedThemes, marketGap, reserve])
 
@@ -163,9 +163,13 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                 // ? dataset[0].data.filter(item => {
                 if (selectedIndustry.includes(item.업종명)) { return true; }
 
-                const itemThemes = item.테마명.split(', ').map(theme => theme.trim())
-                return itemThemes.some(theme => selectedThemes.includes(theme))
+                // 테마 필터링 - item.테마명이 배열일 경우에만 처리
+                if (Array.isArray(item.테마명) && item.테마명.length > 0) {
+                    const itemThemes = item.테마명.map(theme => theme.trim());
+                    return itemThemes.some(theme => selectedThemes.includes(theme));
+                }
 
+                return false;
             })
             : baseData
 
