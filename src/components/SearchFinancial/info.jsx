@@ -178,7 +178,7 @@ const ContentsComponent = ({ page, annual, quarter, summary, themes, product, sh
             }
 
         case '주요':
-            if (Array.isArray(themes)) {
+            if (Array.isArray(product)) {
                 return <Grid container sx={{ mt: 3 }}>
                     <EtcInfo product={product} shareholder={shareholder} />
                 </Grid>

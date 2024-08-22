@@ -20,7 +20,7 @@ export const base_columns = [{
     field: '테마갯수', headerName: '테마#', width: 50,
     align: 'right', headerAlign: 'left',
 }, {
-    field: '종목명', headerName: '종목명', width: 70,
+    field: '종목명', headerName: '종목명', width: 65,
     align: 'left', headerAlign: 'left',
     renderCell: (params) => {
         const filter_A = params.row.filter_A
@@ -42,7 +42,7 @@ export const base_columns = [{
         )
     }
 }, {
-    field: '전일대비거래량', headerName: 'V %', width: 60,
+    field: '전일대비거래량', headerName: 'V %', width: 55,
     align: 'right', headerAlign: 'center',
     valueFormatter: (params) => {
         return `${params.value.toLocaleString('kr')} %`;
@@ -101,7 +101,7 @@ export const now_columns = [
             )
         }
     }, {
-        field: 'TRIMA_18', headerName: 'T18', width: 40,
+        field: 'TRIMA_18', headerName: 'T18', width: 30,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
             return (
@@ -109,7 +109,7 @@ export const now_columns = [
             )
         }
     }, {
-        field: 'TRIMA_20', headerName: 'T20', width: 40,
+        field: 'TRIMA_20', headerName: 'T20', width: 30,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
             return (

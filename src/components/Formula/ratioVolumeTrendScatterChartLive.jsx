@@ -9,13 +9,10 @@ import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
 import { customTheme, now_columns, b1_columns, b2_columns } from './MotionsColumns';
 import { CountTable } from '../Motions/CountTable'
 import { legend } from '../Motions/legend';
-import { StyledToggleButton } from '../util/util';
 import { API } from '../util/config.jsx';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getInfo, classification }) => {
-    const tableHeight = 370;
+    const tableHeight = 410;
     const chartComponent = useRef(null);
     const [chartOptions, setChartOptions] = useState({
         chart: {
@@ -41,7 +38,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                 }, {
                     value: 150, width: 1, color: 'tomato', dashStyle: 'dash', zIndex: 2
                 }],
-            max: 500,
+            max: 1000,
             min: 0
             // min: 50
         },
@@ -56,9 +53,9 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
             },
             // plotLines: [{ value: 0, width: 1, color: '#fff' },],
             gridLineWidth: 0.2,
-            tickAmount: 13,
+            tickAmount: 12,
             max: 30,
-            min: -5
+            min: -3
         },
         tooltip: {
             split: true, shared: true, crosshairs: true,
@@ -104,14 +101,14 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
     const [marketGap, setMarketGap] = useState(500);
     const [reserve, setReserve] = useState(300);
 
-    const fetchData = async () => {
-        const res = await axios.get(`${API}/formula/GetIndicatorScope`);
-        // const res = await axios.get(`http://localhost:2440/api/formula/GetIndicatorScope`);
-        setMarketGap(res.data.marketGap);
-        setReserve(res.data.reserve);
-    }
+    // const fetchData = async () => {
+    //     const res = await axios.get(`${API}/formula/GetIndicatorScope`);
+    //     // const res = await axios.get(`http://localhost:2440/api/formula/GetIndicatorScope`);
+    //     setMarketGap(res.data.marketGap);
+    //     setReserve(res.data.reserve);
+    // }
 
-    useEffect(() => { fetchData(); }, [])
+    // useEffect(() => { fetchData(); }, [])
 
     useEffect(() => {
         let chart
@@ -310,7 +307,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                     </Stack>
                 </Grid>
 
-                <Grid item xs={9.9}>
+                <Grid item xs={10}>
                     <TableContainer sx={{ height: tableHeight }}
                         onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                         onMouseLeave={() => swiperRef.current.mousewheel.enable()}
@@ -319,7 +316,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                             <DataGrid
                                 rows={tableData}
                                 columns={selectedDate === 'now' ? now_columns : selectedDate === 'b1' ? b1_columns : b2_columns}
-                                hideFooter rowHeight={20}
+                                rowHeight={20}
                                 initialState={{
                                     sorting: {
                                         sortModel: [{ field: 'w33', sort: 'desc' }],
@@ -333,13 +330,15 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                                     ...DataTableStyleDefault,
                                     [`& .${gridClasses.cell}`]: { py: 1, },
                                     '[data-field="테마명"]': { fontSize: '9px' },
+                                    '.MuiTablePagination-root': { color: '#efe9e9ed' },
+                                    '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
+                                    '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
                                 }}
                             />
                         </ThemeProvider>
                     </TableContainer>
                 </Grid>
 
-                <Grid item xs={0.1}></Grid>
 
                 <Grid item container xs={2}>
 
@@ -348,13 +347,13 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                             <>
                                 <Grid item xs={12}>
 
-                                    <CountTable name='업종' data={datasetCount.업종} swiperRef={swiperRef} height={tableHeight / 2}
+                                    <CountTable name='업종' data={datasetCount.업종} swiperRef={swiperRef} height={tableHeight / 2.2}
                                         handleClick={handleClick} handleReset={handleReset}
                                         selectedIndustry={selectedIndustry} selectedThemes={selectedThemes} />
 
                                 </Grid>
                                 <Grid item xs={12} sx={{ mt: 1 }}>
-                                    <CountTable name='테마' data={datasetCount.테마} swiperRef={swiperRef} height={tableHeight / 2}
+                                    <CountTable name='테마' data={datasetCount.테마} swiperRef={swiperRef} height={tableHeight / 2.2}
                                         handleClick={handleClick} handleReset={handleReset}
                                         selectedIndustry={selectedIndustry} selectedThemes={selectedThemes} />
                                 </Grid>

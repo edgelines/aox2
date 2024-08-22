@@ -62,18 +62,18 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, swipe
 
                                     <Grid container sx={{ mt: 1, borderBottom: '1px solid #fff' }}>
                                         <Stack direction='column' spacing={1} >
-                                            {stock.기업개요.map(item => (
+                                            {Array.isArray(stock.기업개요) ? stock.기업개요.map(item => (
                                                 <StyledTypography_StockInfo key={item} fontSize="12px">{item}</StyledTypography_StockInfo>
-                                            ))}
+                                            )) : <></>}
                                         </Stack>
                                     </Grid>
 
 
                                     <Grid container sx={{ mt: 1 }}>
                                         <Stack direction='row' spacing={1} useFlexGap flexWrap="wrap" >
-                                            {stock.테마명.map(item => (
+                                            {Array.isArray(stock.테마명) ? stock.테마명.map(item => (
                                                 <StyledTypography_StockInfo key={item} fontSize="12px">{item}</StyledTypography_StockInfo>
-                                            ))}
+                                            )) : <></>}
                                         </Stack>
                                     </Grid>
 
