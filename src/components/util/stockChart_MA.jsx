@@ -312,7 +312,7 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                 ...이평기본, data: MA.dmi_17, color: "dodgerblue", name: 'DMI-17', lineWidth: 0.5, yAxis: 3, isIndicator: true,
             }, {
                 ...이평기본, data: MA.dmi_22, color: "green", name: 'DMI-22', lineWidth: 0.5, yAxis: 3, isIndicator: true,
-                // ...이평기본, data: MA.cci_11, color: "green", name: 'CCI-11', lineWidth: 0.5, yAxis: 3, isIndicator: true,
+
             }, {
                 ...이평기본, marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
                 color: 'black', dashStyle: 'shortdash',

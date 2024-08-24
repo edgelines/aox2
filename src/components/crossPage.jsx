@@ -24,9 +24,6 @@ export default function SearchFinancial({ swiperRef }) {
     const [stock, setStock] = useState({});
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
 
-    const [stockCode, setStockCode] = useState(null);
-    const [stockWS, setStockWS] = useState(null);
-
     const handlePage = (event, value) => { if (value !== null) { setPage(value); setEventDrop(''); } }
     const handleTimeframe = (event, value) => { if (value !== null) { setTimeframe(value); } }
     const handleFavorite = async () => {
@@ -65,10 +62,20 @@ export default function SearchFinancial({ swiperRef }) {
         }
     }
     const getStockChartData = async (code) => {
-        setStockCode(code);
         const res = await axios.get(`${STOCK}/get/${code}`);
-        // console.log(res.data);
-        setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, treasuryPrice: res.data.treasuryPrice, willR: res.data.willR, net: res.data.net, MA: res.data.MA })
+        console.log(code);
+        console.log(res.data);
+        setStockChart({
+            price: res.data.price,
+            volume: res.data.volume,
+            treasury: res.data.treasury,
+            treasuryPrice: res.data.treasuryPrice,
+            willR: res.data.willR,
+            net: res.data.net,
+            MA: res.data.MA,
+            volumeRatio: res.data.volumeRatio,
+            DMI: res.data.DMI
+        })
     }
 
     // useEffect(() => {
