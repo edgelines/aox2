@@ -56,6 +56,9 @@ export default function SchedulePage({ swiperRef }) {
         <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('HTS')}>추정매매동향</Button>,
         <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('IpoPulse')}>신규상장</Button>,
         <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('WeightAvgPage3')}>환율/PBR/VIX</Button>,
+        <Divider sx={{ borderColor: 'white', mt: 1.5, mb: 1.5 }} />,
+        <Button variant={'text'} sx={btnStyle} onClick={() => window.open('https://www.windy.com/', '_blank')}>Windy</Button>,
+        <Button variant={'text'} sx={btnStyle} onClick={() => window.open('https://zoom.earth/', '_blank')}>zoom.earth</Button>,
     ]
     const fetchData = async () => {
         const res = await axios.get(`${API}/fundamental/FOMC_clock`);

@@ -44,8 +44,7 @@ function App() {
                 style={{ height: "100vh" }}
             >
                 <SwiperSlide style={swiperSlideStyle} >
-                    {/* <FormulaPage swiperRef={swiperRef} /> */}
-                    <CrossPage swiperRef={swiperRef} />
+                    <FormulaPage swiperRef={swiperRef} />
                     {/* <TestPage swiperRef={swiperRef} /> */}
                 </SwiperSlide>
 

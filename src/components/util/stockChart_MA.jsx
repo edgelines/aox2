@@ -253,8 +253,6 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                 ...이평기본, data: MA.wma_6, color: "black", name: '6중가', lineWidth: 0.5,
             }, {
                 ...이평기본, data: MA.gmean_6, color: "black", name: '6고기', lineWidth: 0.5,
-                // }, {
-                //     ...이평기본, data: MA.gmean_105, color: "gray", name: '105고기', lineWidth: 1,
             }, {
                 ...이평기본, data: MA.ma_83, color: "orange", name: '83저단', lineWidth: 1,
             }, {
