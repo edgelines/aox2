@@ -2,11 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Highcharts from 'highcharts/highstock'
 import HighchartsReact from 'highcharts-react-official'
-import { range } from 'lodash';
-// import { Skeleton } from '@mui/material';
 require('highcharts/indicators/indicators')(Highcharts)
 require('highcharts/modules/exporting')(Highcharts)
 require('highcharts/modules/accessibility')(Highcharts)
+require('highcharts/modules/boost')(Highcharts)
 
 export default function GpoChart({ data1, data2, data3, height, kospi200, credit, creditsPositionX, creditsPositionY, yMinValue }) {
     // const chartRef = useRef(null);
@@ -50,7 +49,7 @@ export default function GpoChart({ data1, data2, data3, height, kospi200, credit
             style: { color: "#e8e3e3" },
         },
         legend: { enabled: false },
-        boost: { useGPUTranslations: true },
+        boost: { useGPUTranslations: true, enabled: true },
         navigator: {
             height: 15, margin: 10,
             series: { color: Highcharts.getOptions().colors[0], lineColor: "dodgerblue", lineWidth: 0 },

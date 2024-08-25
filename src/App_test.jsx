@@ -56,3 +56,5 @@ function App() {
 export default App;
 
 const swiperSlideStyle = { backgroundColor: "#404040", color: '#efe9e9ed', paddingLeft: '2vh', paddingRight: '2vh', paddingTop: '0.2vh' }
+
+

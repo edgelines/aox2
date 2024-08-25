@@ -29,24 +29,6 @@ function App() {
         paginationEl.style.color = '#efe9e9ed';
     };
 
-    // // 매일 아침 새로고침 체크
-    // useEffect(() => {
-    //     const checkTimeAndReload = () => {
-    //         const now = new Date();
-    //         const hours = now.getHours();
-    //         const minutes = now.getMinutes();
-
-    //         // 시간 체크
-    //         if (hours === 8 && minutes === 40) {
-    //             window.location.reload(); // 새로고침
-    //         }
-
-    //     };
-    //     const intervalId = setInterval(checkTimeAndReload, 1000 * 60 * 10); // 60,000ms == 1min
-
-    //     return () => clearInterval(intervalId);
-    // }, []);
-
     return (
         <div className="App">
             <Swiper
@@ -60,25 +42,6 @@ function App() {
                 onSlideChange={handleSlideChange}
                 style={{ height: "100vh" }}
             >
-
-                {/* <TestPage swiperRef={swiperRef} /> */}
-                {/* <StockSearchPage swiperRef={swiperRef} /> */}
-                {/* <LeadThemes swiperRef={swiperRef} 중복수={2} /> */}
-                {/* <LeadSectors swiperRef={swiperRef} /> */}
-                {/* <LeadThemesTop2 swiperRef={swiperRef} /> */}
-                {/* <LeadThemesTop3 swiperRef={swiperRef} /> */}
-                {/* <SwiperSlide style={swiperSlideStyle} >
-                    <MotionPage />
-                </SwiperSlide> */}
-
-                {/* 테마 Top 90개 */}
-                {/* <SwiperSlide style={swiperSlideStyle} >
-                    <LeadThemesTop swiperRef={swiperRef} />
-                </SwiperSlide> */}
-                {/* 체결강도 - 전일대비거래량 */}
-                {/* <SwiperSlide style={swiperSlideStyle} >
-                    <LeadThemesTop3 swiperRef={swiperRef} />
-                </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <SchedulePage swiperRef={swiperRef} />
@@ -99,17 +62,11 @@ function App() {
                 <SwiperSlide style={swiperSlideStyle} >
                     <MotionPage swiperRef={swiperRef} num={'2'} />
                 </SwiperSlide>
-                {/* <SwiperSlide style={swiperSlideStyle} >
-                    <MotionPage swiperRef={swiperRef} num={'1'} />
-                </SwiperSlide> */}
+
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <LeadSectors swiperRef={swiperRef} />
                 </SwiperSlide>
-
-                {/* <SwiperSlide style={swiperSlideStyle} >
-                    <LeadThemes swiperRef={swiperRef} />
-                </SwiperSlide> */}
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <LeadThemesTop2 swiperRef={swiperRef} />
