@@ -207,57 +207,70 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
         }
     }
 
-    const handleBTN = async (name, operation) => {
-        let newMarketGap = marketGap;
-        let newReserve = reserve;
+    // const handleBTN = async (name, operation) => {
+    //     let newMarketGap = marketGap;
+    //     let newReserve = reserve;
 
-        if (name === 'marketGap') {
-            if (operation === 'increase') {
-                // setMarketGap(prev => prev + 50);
-                newMarketGap = marketGap + 50;
-                setMarketGap(newMarketGap);
-            } else if (operation === 'decrease' && marketGap > 0) {
-                // setMarketGap(prev => prev - 50);
-                newMarketGap = marketGap - 50;
-                setMarketGap(newMarketGap);
-            }
-        } else if (name === 'reserve') {
-            if (operation === 'increase') {
-                // setReserve(prev => prev + 50);
-                newReserve = reserve + 50;
-                setReserve(newReserve);
-            } else if (operation === 'decrease' && reserve > 0) {
-                // setReserve(prev => prev - 50);
-                newReserve = reserve - 50;
-                setReserve(newReserve);
-            }
-        }
+    //     if (name === 'marketGap') {
+    //         if (operation === 'increase') {
+    //             // setMarketGap(prev => prev + 50);
+    //             newMarketGap = marketGap + 50;
+    //             setMarketGap(newMarketGap);
+    //         } else if (operation === 'decrease' && marketGap > 0) {
+    //             // setMarketGap(prev => prev - 50);
+    //             newMarketGap = marketGap - 50;
+    //             setMarketGap(newMarketGap);
+    //         }
+    //     } else if (name === 'reserve') {
+    //         if (operation === 'increase') {
+    //             // setReserve(prev => prev + 50);
+    //             newReserve = reserve + 50;
+    //             setReserve(newReserve);
+    //         } else if (operation === 'decrease' && reserve > 0) {
+    //             // setReserve(prev => prev - 50);
+    //             newReserve = reserve - 50;
+    //             setReserve(newReserve);
+    //         }
+    //     }
 
-        try {
-            await axios.post(`${API}/formula/IndicatorScope`, { marketGap: newMarketGap, reserve: newReserve });
-            // await axios.post('http://localhost:2440/api/formula/IndicatorScope', { marketGap: newMarketGap, reserve: newReserve });
-            // console.log({ marketGap: newMarketGap, reserve: newReserve })
-        } catch (error) {
-            console.error('Error saving data:', error);
-        }
-    }
-    const handleSelectedDate = (event, value) => {
-        if (value !== null) { setSelectedDate(value); }
-    }
+    //     try {
+    //         await axios.post(`${API}/formula/IndicatorScope`, { marketGap: newMarketGap, reserve: newReserve });
+    //         // await axios.post('http://localhost:2440/api/formula/IndicatorScope', { marketGap: newMarketGap, reserve: newReserve });
+    //         // console.log({ marketGap: newMarketGap, reserve: newReserve })
+    //     } catch (error) {
+    //         console.error('Error saving data:', error);
+    //     }
+    // }
+    // const handleSelectedDate = (event, value) => {
+    //     if (value !== null) { setSelectedDate(value); }
+    // }
     return (
         <div>
             {/* Classification */}
             <Box sx={{ position: 'absolute', transform: 'translate(990px, 65px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
                 {classification ?
-                    Object.keys(classification).map(item => (
-
-                        <tr style={{ fontSize: '12.5px' }} key={item}>
-                            <td style={{ color: legend[item] }}>
-                                {item}
+                    <>
+                        {Object.keys(classification).map(item => (
+                            <tr style={{ fontSize: '12.5px' }} key={item}>
+                                <td style={{ color: legend[item] }}>
+                                    {item}
+                                </td>
+                                <td style={{ textAlign: 'right', width: 17 }}>{classification[item]}</td>
+                            </tr>
+                        ))}
+                        {/* Classification Sum */}
+                        <tr style={{ fontSize: '12.5px' }} >
+                            <td style={{ color: '#efe9e9ed' }}>
+                                합계
                             </td>
-                            <td style={{ textAlign: 'right', width: 17 }}>{classification[item]}</td>
+                            <td style={{ textAlign: 'right', width: 17 }}>
+                                {
+                                    Object.values(classification).reduce((sum, value) => sum + value, 0)
+                                }
+                            </td>
                         </tr>
-                    ))
+                    </>
+
                     : <></>}
             </Box>
 
