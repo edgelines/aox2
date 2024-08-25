@@ -7,7 +7,7 @@ import { numberWithCommas } from './util'
 require('highcharts/indicators/indicators')(Highcharts)
 require('highcharts/modules/exporting')(Highcharts)
 require('highcharts/modules/accessibility')(Highcharts)
-
+require('highcharts/modules/boost')(Highcharts)
 Highcharts.setOptions({
     global: {
         useUTC: false
@@ -194,13 +194,15 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
         plotOptions: {
             series: {
                 showInLegend: true,
-                boostThreshold: 1, // Boost 모듈 사용을 위한 boostThreshold 옵션 활성화
+                boostThreshold: 50, // Boost 모듈 사용을 위한 boostThreshold 옵션 활성화
+                // turboThreshold: 1,
             }
         },
         boost: {
             enabled: true, // Boost 모듈 사용 활성화
             useGPUTranslations: true,
             usePreallocated: true,
+            seriesThreshold: 10
         },
     })
     const 일봉 = {
@@ -304,28 +306,15 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
                 params: { index: 3, period: 33 }, // 시가, 고가, 저가, 종가 의 배열순서를 찾음
             }, {
                 ...이평기본, data: MA.dmi_7, color: "tomato", name: 'DMI-7', lineWidth: 0.5, yAxis: 3, isIndicator: true,
-                // ...이평기본, data: MA.cci_4, color: "tomato", name: 'CCI-4', lineWidth: 0.5, yAxis: 3, isIndicator: true,
             }, {
-                // ...이평기본, data: MA.cci_4_sig, color: "dodgerblue", name: 'CCI-2-Sig', lineWidth: 0.5, yAxis: 3, isIndicator: true,
                 ...이평기본, data: MA.dmi_17, color: "dodgerblue", name: 'DMI-17', lineWidth: 0.5, yAxis: 3, isIndicator: true,
             }, {
                 ...이평기본, data: MA.dmi_22, color: "green", name: 'DMI-22', lineWidth: 0.5, yAxis: 3, isIndicator: true,
 
             }, {
-                ...이평기본, marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
+                ...이평기본, marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: false, isPercent: true,
                 color: 'black', dashStyle: 'shortdash',
                 data: MA.w_33, name: 'W-33', lineWidth: 1, yAxis: 4,
-
-                // type: 'williamsr', animation: false, yAxis: 4, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } }, showInLegend: true, isPercent: true,
-
-                // name: 'W-33', id: 'williamsr-33',
-                // lineWidth: 1,
-                // params: { index: 3, period: 33 },
-                // ...이평기본, data: MA.cci_11_sig, color: "black", name: 'CCI-4-Sig', lineWidth: 0.5, yAxis: 3, isIndicator: true,
-                // }, {
-                //     ...이평기본, data: MA.dmi_7, color: "black", name: 'DMI-7', lineWidth: 0.5, yAxis: 5, isIndicator: true,
-                // }, {
-                //     ...이평기본, data: MA.dmi_17, color: "black", name: 'DMI-17', lineWidth: 0.5, yAxis: 5, isIndicator: true,
             }];
 
             return seriesData
