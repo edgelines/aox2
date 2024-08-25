@@ -72,7 +72,17 @@ export default function LeadThemesPage({ swiperRef }) {
             // 종목차트
             var res = await axios.get(`${STOCK}/get/${item.종목코드}`);
             // console.log(res.data);
-            setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, treasuryPrice: res.data.treasuryPrice, willR: res.data.willR, net: res.data.net, MA: res.data.MA })
+            setStockChart({
+                price: res.data.price,
+                volume: res.data.volume,
+                treasury: res.data.treasury,
+                treasuryPrice: res.data.treasuryPrice,
+                willR: res.data.willR,
+                net: res.data.net,
+                MA: res.data.MA,
+                volumeRatio: res.data.volumeRatio,
+                DMI: res.data.DMI
+            })
             //     console.log(res.data); ${item.종목코드}
         } else {
             setStock({});
@@ -259,8 +269,10 @@ export default function LeadThemesPage({ swiperRef }) {
 
                 <Grid item container >
                     <StockChart_MA height={460} boxTransform={`translate(10px, 53px)`}
-                        stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} stockName={stock.종목명 ? stock.종목명 : ''} price={stock.현재가} net={stockChart.net}
-                        willR={stockChart.willR} treasuryPrice={stockChart.treasuryPrice} treasury={stockChart.treasury} MA={stockChart.MA} />
+                        stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} stockName={stock.종목명} price={stock.현재가} net={stockChart.net}
+                        willR={stockChart.willR} treasuryPrice={stockChart.treasuryPrice} treasury={stockChart.treasury} MA={stockChart.MA} volumeRatio={stockChart.volumeRatio}
+                        DMI={stockChart.DMI}
+                    />
                 </Grid>
 
                 <Grid item container sx={{ mt: 1 }}>

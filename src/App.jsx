@@ -14,10 +14,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Keyboard, Mousewheel, Pagination } from "swiper/modules";
 import LeadSectors from './components/leadSectors';
-// import LeadThemes from './components/leadThemes';
-// import LeadThemesTop from './components/leadThemesTop';
 import LeadThemesTop2 from './components/leadThemesTop2';
-// import LeadThemesTop3 from './components/leadThemesTop3';
 import StockSearchPage from './components/stockSearchPage';
 import MotionPage from './components/motionPage.jsx'
 import FormulaPage from './components/formulaPage.jsx';

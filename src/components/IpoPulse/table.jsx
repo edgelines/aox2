@@ -34,9 +34,9 @@ export default function IpoPulseTable({ swiperRef, filter, checkBox, selectedInd
 
     // state
     const [tableData, setTableData] = useState([]);
-    const [chartData, setChartData] = useState({});
+    // const [chartData, setChartData] = useState({});
     const [industryTable, setIndustryTable] = useState([]);
-    const [totalCount, setTotalCount] = useState('')
+    // const [totalCount, setTotalCount] = useState('')
     const [stock, setStock] = useState({});
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
 
@@ -123,7 +123,17 @@ export default function IpoPulseTable({ swiperRef, filter, checkBox, selectedInd
 
     const getStockChartData = async (code) => {
         const res = await axios.get(`${STOCK}/get/${code}`);
-        setStockChart({ price: res.data.price, volume: res.data.volume })
+        setStockChart({
+            price: res.data.price,
+            volume: res.data.volume,
+            treasury: res.data.treasury,
+            treasuryPrice: res.data.treasuryPrice,
+            willR: res.data.willR,
+            net: res.data.net,
+            MA: res.data.MA,
+            volumeRatio: res.data.volumeRatio,
+            DMI: res.data.DMI
+        })
     }
 
     const fetchData = async (postData) => {
@@ -352,7 +362,13 @@ export default function IpoPulseTable({ swiperRef, filter, checkBox, selectedInd
                         {
                             Array.isArray(stockChart.price) ?
                                 <Grid container>
-                                    <StockChart_MA height={280} stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} price={stock.현재가} boxTransform={'translate(10px, 140px)'} />
+                                    <StockChart_MA height={280}
+                                        stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} stockName={stock.종목명} price={stock.현재가} net={stockChart.net}
+                                        willR={stockChart.willR} treasuryPrice={stockChart.treasuryPrice} treasury={stockChart.treasury} MA={stockChart.MA} volumeRatio={stockChart.volumeRatio}
+                                        DMI={stockChart.DMI}
+                                        timeSeries={stock.종목명} boxTransform={'translate(10px, 140px)'}
+
+                                    />
                                 </Grid>
                                 : <></>
                         }

@@ -48,7 +48,6 @@ export default function FormulaPage({ swiperRef }) {
             // 종목차트
             // var res = await axios.get(`http://localhost:2440/stockData/get/${item.종목코드}`);
             var res = await axios.get(`${STOCK}/get/${item.종목코드}`);
-            console.log(res.data.MA);
             setStockChart({
                 price: res.data.price,
                 volume: res.data.volume,

@@ -124,7 +124,17 @@ export default function IpoPulsePage({ swiperRef }) {
 
     const getStockChartData = async (code) => {
         const res = await axios.get(`${STOCK}/get/${code}`);
-        setStockChart({ price: res.data.price, volume: res.data.volume, treasury: res.data.treasury, treasuryPrice: res.data.treasuryPrice, willR: res.data.willR, net: res.data.net, MA: res.data.MA })
+        setStockChart({
+            price: res.data.price,
+            volume: res.data.volume,
+            treasury: res.data.treasury,
+            treasuryPrice: res.data.treasuryPrice,
+            willR: res.data.willR,
+            net: res.data.net,
+            MA: res.data.MA,
+            volumeRatio: res.data.volumeRatio,
+            DMI: res.data.DMI
+        })
     }
     const fetchChartData = async () => {
         const res = await axios.get(`${API}/ipoPulse/chart`);
@@ -549,9 +559,10 @@ export default function IpoPulsePage({ swiperRef }) {
                             Array.isArray(stockChart.price) ?
                                 // <Grid item container sx={{ width: '98%' }}>
                                 <StockChart_MA height={280} boxTransform={'translate(10px, 140px)'}
-                                    stockItemData={stockChart.price} volumeData={stockChart.volume} timeSeries={stock.종목명} price={stock.현재가} net={stockChart.net}
-                                    treasuryPrice={stockChart.treasuryPrice} treasury={stockChart.treasury}
-                                    willR={stockChart.willR} MA={stockChart.MA} />
+                                    stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} stockName={stock.종목명} price={stock.현재가} net={stockChart.net}
+                                    willR={stockChart.willR} treasuryPrice={stockChart.treasuryPrice} treasury={stockChart.treasury} MA={stockChart.MA} volumeRatio={stockChart.volumeRatio}
+                                    DMI={stockChart.DMI}
+                                />
                                 // </Grid>
                                 : <></>
                         }

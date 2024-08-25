@@ -1,16 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, Box, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Skeleton, Modal, Backdrop, Switch, FormControlLabel, Popover, Typography, Slider } from '@mui/material';
-// import { DataGrid, gridClasses } from '@mui/x-data-grid';
-// import { useTheme, styled } from '@mui/material/styles';
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Grid, Box, TableContainer, Table, TableHead, TableBody, Typography } from '@mui/material';
 import FilterStockChart from './LeadSectors/chart';
-// import SectorChart from './SectorsPage/sectorChart';
-// import { customTheme, themesTableColumns, stockTableColumns, DataTableStyleDefault, industryTableColumns, industryColumns } from './LeadSectors/tableColumns';
-// import { SectorsName15 } from './util/util';
-// import { StyledTypography_StockInfo, Financial, EtcInfo } from './util/htsUtil';
-// import StockChart_MA from './util/stockChart_MA';
-// import { StockInfoSimple } from './SearchFinancial/info';
 import { API, API_WS } from './util/config';
 
 
