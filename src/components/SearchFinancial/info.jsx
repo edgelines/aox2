@@ -6,7 +6,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StockChart_MA from '../util/stockChart_MA';
 
-export default function SearchFinancialInfo({ swiperRef, stock, stockChart, handleFavorite, timeframe, handleTimeframe }) {
+export default function SearchFinancialInfo({ swiperRef, stock, stockChart, handleFavorite, handleInvest, timeframe, handleTimeframe }) {
     const [page, setPage] = useState('재무');
 
     // Handler
@@ -17,7 +17,7 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, hand
 
             <Grid item container sx={{ minHeight: 170 }}>
                 {stock.종목명 ?
-                    <StockInfo data={stock} handleFavorite={handleFavorite} />
+                    <StockInfo data={stock} handleFavorite={handleFavorite} handleInvest={handleInvest} />
                     : <></>
                 }
 
@@ -53,7 +53,7 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, hand
     )
 }
 
-export const StockInfo = ({ data, handleFavorite }) => {
+export const StockInfo = ({ data, handleFavorite, handleInvest }) => {
     const tableCellStyle = { textAlign: 'left', fontSize: '12px', height: 22 }
     return (
         <Grid container>
@@ -65,10 +65,17 @@ export const StockInfo = ({ data, handleFavorite }) => {
                         }
                     </IconButton>
                 </Grid>
+                <Grid item xs={1}>
+                    <IconButton size="small" color='error' onClick={() => handleInvest()}>
+                        {data.Invest ?
+                            <PaidIcon /> : <AttachMoneyIcon />
+                        }
+                    </IconButton>
+                </Grid>
 
-                <Grid item xs={4.2}><StyledTypography_StockInfo textAlign='center' sx={{ color: data.시장 === 'K' ? '#FCAB2F' : 'greenyellow' }}>{data.종목명}</StyledTypography_StockInfo></Grid>
-                <Grid item xs={4.2}><StyledTypography_StockInfo textAlign='center' >{data.업종명}</StyledTypography_StockInfo></Grid>
-                <Grid item xs={2.6}><StyledTypography_StockInfo textAlign='center' >{data.시장 === 'K' ? 'Kospi' : 'Kosdaq'}</StyledTypography_StockInfo></Grid>
+                <Grid item xs={4}><StyledTypography_StockInfo textAlign='center' sx={{ color: data.시장 === 'K' ? '#FCAB2F' : 'greenyellow' }}>{data.종목명}</StyledTypography_StockInfo></Grid>
+                <Grid item xs={4}><StyledTypography_StockInfo textAlign='center' >{data.업종명}</StyledTypography_StockInfo></Grid>
+                <Grid item xs={2}><StyledTypography_StockInfo textAlign='center' >{data.시장 === 'K' ? 'Kospi' : 'Kosdaq'}</StyledTypography_StockInfo></Grid>
             </Grid>
 
             <Grid item container sx={{ pl: 2 }}>

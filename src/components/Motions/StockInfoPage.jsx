@@ -4,6 +4,8 @@ import { Grid, Stack, ToggleButtonGroup, IconButton, Table, TableBody, TableCont
 import { StyledTypography_StockInfo, Financial, EtcInfo } from '../util/htsUtil';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import PaidIcon from '@mui/icons-material/Paid';
 import StockChart_MA from '../util/stockChart_MA';
 
 
@@ -12,7 +14,7 @@ import StockChart_MA from '../util/stockChart_MA';
 // import { formatDateString } from './util/formatDate.jsx'
 
 
-export default function StockInfoPage({ stock, stockChart, handleFavorite, swiperRef }) {
+export default function StockInfoPage({ stock, stockChart, handleFavorite, handleInvest, swiperRef }) {
     const baseStyle = { fontSize: '10px', p: 0.1, textAlign: 'right' }
 
     return (
@@ -20,7 +22,7 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, swipe
             {/* Top Stock Name */}
             <Grid item container sx={{ minHeight: 36, maxHeight: 36 }}>
                 {stock.종목명 ?
-                    <StockInfo data={stock} handleFavorite={handleFavorite} />
+                    <StockInfo data={stock} handleFavorite={handleFavorite} handleInvest={handleInvest} />
                     : <></>
                 }
             </Grid>
@@ -118,7 +120,7 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, swipe
 }
 
 
-export const StockInfo = ({ data, handleFavorite }) => {
+export const StockInfo = ({ data, handleFavorite, handleInvest }) => {
 
     return (
         <Grid container>
@@ -127,6 +129,13 @@ export const StockInfo = ({ data, handleFavorite }) => {
                     <IconButton size="small" color='error' onClick={() => handleFavorite()}>
                         {data.Favorite ?
                             <FavoriteIcon /> : <FavoriteBorderIcon />
+                        }
+                    </IconButton>
+                </Grid>
+                <Grid item xs={1}>
+                    <IconButton size="small" color='error' onClick={() => handleInvest()}>
+                        {data.Invest ?
+                            <PaidIcon /> : <AttachMoneyIcon />
                         }
                     </IconButton>
                 </Grid>

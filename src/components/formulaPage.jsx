@@ -29,13 +29,18 @@ export default function FormulaPage({ swiperRef }) {
         await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
     }
 
+    const handleInvest = async () => {
+        setStock({ ...stock, Invest: !stock.Invest })
+        await axios.get(`${API}/stockInvest/${stock.종목코드}`);
+    }
+
     const getInfo = async (item) => {
         if (typeof item.종목코드 !== "undefined") {
             // 종목정보
             var res = await axios.get(`${API}/info/stockEtcInfo/${item.종목코드}`);
             setStock({
                 종목명: item.종목명, 종목코드: item.종목코드, 업종명: item.업종명, 현재가: res.data.현재가,
-                시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, Favorite: res.data.Favorite,
+                시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, Favorite: res.data.Favorite, Invest: res.data.Invest,
                 PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,
                 N_PER: res.data.N_PER, N_PBR: res.data.N_PBR, 동일업종PER: res.data.동일업종PER,
                 이벤트: res.data.이벤트, 보호예수: res.data.보호예수,
@@ -44,7 +49,6 @@ export default function FormulaPage({ swiperRef }) {
                 주요제품매출구성: res.data.주요제품매출구성, 주요주주: res.data.주요주주, 이벤트: res.data.이벤트, 보호예수: res.data.보호예수,
                 테마명: res.data.테마명
             })
-
             // 종목차트
             // var res = await axios.get(`http://localhost:2440/stockData/get/${item.종목코드}`);
             var res = await axios.get(`${STOCK}/get/${item.종목코드}`);
@@ -138,7 +142,7 @@ export default function FormulaPage({ swiperRef }) {
 
             {/* Stock Information */}
             <Grid item xs={5}>
-                <StockInfoPage stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} swiperRef={swiperRef} />
+                <StockInfoPage stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} handleInvest={handleInvest} swiperRef={swiperRef} />
 
             </Grid>
 

@@ -30,6 +30,10 @@ export default function SearchFinancial({ swiperRef }) {
         setStock({ ...stock, Favorite: !stock.Favorite })
         await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
     }
+    const handleInvest = async () => {
+        setStock({ ...stock, Invest: !stock.Invest })
+        await axios.get(`${API}/stockInvest/${stock.종목코드}`);
+    }
     const handleEventChange = (event) => { if (event !== null) { setPage('Event'); setEventDrop(event.target.value); } }
     const handleTableColumnsChange = (event, value) => { if (value !== null) { setTableColumnsName(value); } }
     const fetchData = async () => {
@@ -48,12 +52,13 @@ export default function SearchFinancial({ swiperRef }) {
         try {
             const res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
             setStock({
-                종목명: params.종목명, 종목코드: params.종목코드, 업종명: params.업종명, 현재가: res.data.현재가,
-                시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, Favorite: res.data.Favorite,
+                종목명: item.종목명, 종목코드: item.종목코드, 업종명: item.업종명, 현재가: res.data.현재가,
+                시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, Favorite: res.data.Favorite, Invest: res.data.Invest,
                 PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,
                 N_PER: res.data.N_PER, N_PBR: res.data.N_PBR, 동일업종PER: res.data.동일업종PER,
                 이벤트: res.data.이벤트, 보호예수: res.data.보호예수,
-                최고가52주: res.data.최고가52주, 최저가52주: res.data.최저가52주, 기업개요: res.data.기업개요, 분기실적: res.data.분기실적, 연간실적: res.data.연간실적,
+                최고가52주: res.data.최고가52주, 최저가52주: res.data.최저가52주, 기업개요: res.data.기업개요,
+                분기실적: res.data.분기실적, 연간실적: res.data.연간실적,
                 주요제품매출구성: res.data.주요제품매출구성, 주요주주: res.data.주요주주, 이벤트: res.data.이벤트, 보호예수: res.data.보호예수,
                 테마명: res.data.테마명
             })
@@ -259,7 +264,7 @@ export default function SearchFinancial({ swiperRef }) {
             {/* 우 : 종목정보 */}
             {page !== 'Industry' ?
                 <Grid item xs={4}>
-                    <SearchFinancialInfo swiperRef={swiperRef} stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} timeframe={timeframe} handleTimeframe={handleTimeframe} />
+                    <SearchFinancialInfo swiperRef={swiperRef} stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} timeframe={timeframe} handleTimeframe={handleTimeframe} handleInvest={handleInvest} />
                 </Grid>
                 : <></>
             }
