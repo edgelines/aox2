@@ -6,7 +6,7 @@ import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, S
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
-import { customTheme, now_columns, b1_columns, b2_columns } from './MotionsColumns';
+import { customTheme, now_columns } from './MotionsColumns';
 import { CountTable } from '../Motions/CountTable'
 import { legend } from '../Motions/legend';
 import { API } from '../util/config.jsx';
@@ -97,7 +97,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
     const [selectedIndustry, setSelectedIndustry] = useState([]);
     const [selectedThemes, setSelectedThemes] = useState([]);
 
-    const [selectedDate, setSelectedDate] = useState('now')
+    // const [selectedDate, setSelectedDate] = useState('now')
     const [marketGap, setMarketGap] = useState(500);
     const [reserve, setReserve] = useState(300);
 
@@ -332,7 +332,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                         <ThemeProvider theme={customTheme}>
                             <DataGrid
                                 rows={tableData}
-                                columns={selectedDate === 'now' ? now_columns : selectedDate === 'b1' ? b1_columns : b2_columns}
+                                columns={now_columns}
                                 rowHeight={20}
                                 initialState={{
                                     sorting: {

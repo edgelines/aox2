@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 // import { Box } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
+import { yellow } from '@mui/material/colors';
 // import { renderProgress } from '../sectorSearchPage';
 
 
@@ -45,9 +46,9 @@ export const columns = [
         align: 'left', headerAlign: 'left',
         renderCell: (params) => {
             const filter_A = params.row.filter_A
-
-            const bgColor = filter_A ? '#FCAB2F' : null
-            const color = filter_A ? '#404040' : null
+            const invest = params.row.Invest
+            const bgColor = filter_A ? '#FCAB2F' : invest ? yellow[500] : null
+            const color = filter_A ? '#404040' : invest ? '#404040' : null
 
             return (
                 <span style={{ backgroundColor: bgColor, color: color }}>{params.value}</span>

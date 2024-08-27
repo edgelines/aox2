@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 // import { Box } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import { williamsColor } from '../Motions/MotionsColumns';
+import { yellow } from '@mui/material/colors';
 // import { renderProgress } from '../sectorSearchPage';
 
 
@@ -24,9 +25,9 @@ export const base_columns = [{
     align: 'left', headerAlign: 'left',
     renderCell: (params) => {
         const filter_A = params.row.filter_A
-
-        const bgColor = filter_A ? '#FCAB2F' : null
-        const color = filter_A ? '#404040' : null
+        const invest = params.row.Invest
+        const bgColor = filter_A ? '#FCAB2F' : invest ? yellow[500] : null
+        const color = filter_A ? '#404040' : invest ? '#404040' : null
 
         return (
             <span style={{ backgroundColor: bgColor, color: color }}>{params.value}</span>
@@ -116,106 +117,6 @@ export const now_columns = [
                 <span> {params.value === false ? '' : '★'}</span>
             )
         }
-    }
-]
-
-export const b1_columns = [
-    ...base_columns,
-    {
-        field: 'B1_w9', headerName: 'w9', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = williamsColor(params.value)
-            return (
-                <span style={{ backgroundColor: color, width: 40, color: '#404040' }}>{params.value}</span>
-            )
-        }
-    }, {
-        field: 'B1_w14', headerName: 'w14', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = williamsColor(params.value)
-            return (
-                <span style={{ backgroundColor: color, width: 40, color: '#404040' }}>{params.value}</span>
-            )
-        }
-    }, {
-        field: 'B1_w33', headerName: 'w33', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = williamsColor(params.value)
-            return (
-                <span style={{ backgroundColor: color, width: 40, color: '#404040' }}>{params.value}</span>
-            )
-        }
-    }, {
-        field: 'B1_CCI_4', headerName: 'C4', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = params.value > 130 ? '#FCAB2F' : null
-            return (
-                <span style={{ color: color }}> {params.value.toFixed(1)}</span>
-            )
-        }
-    }, {
-        field: 'B1_CCI_2_Sig', headerName: 'C4S', width: 40,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: 'B1_CCI_11', headerName: 'C11', width: 40,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: 'B1_CCI_4_Sig', headerName: 'C11S', width: 40,
-        align: 'right', headerAlign: 'center',
-    }
-]
-
-export const b2_columns = [
-    ...base_columns,
-    {
-        field: 'B2_w9', headerName: 'w9', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = williamsColor(params.value)
-            return (
-                <span style={{ backgroundColor: color, width: 40, color: '#404040' }}>{params.value}</span>
-            )
-        }
-    }, {
-        field: 'B2_w14', headerName: 'w14', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = williamsColor(params.value)
-            return (
-                <span style={{ backgroundColor: color, width: 40, color: '#404040' }}>{params.value}</span>
-            )
-        }
-    }, {
-        field: 'B2_w33', headerName: 'w33', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = williamsColor(params.value)
-            return (
-                <span style={{ backgroundColor: color, width: 40, color: '#404040' }}>{params.value}</span>
-            )
-        }
-    }, {
-        field: 'B2_CCI_4', headerName: 'C4', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = params.value > 130 ? '#FCAB2F' : null
-            return (
-                <span style={{ color: color }}> {params.value.toFixed(1)}</span>
-            )
-        }
-    }, {
-        field: 'B2_CCI_2_Sig', headerName: 'C4S', width: 40,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: 'B2_CCI_11', headerName: 'C11', width: 40,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: 'B2_CCI_4_Sig', headerName: 'C11S', width: 40,
-        align: 'right', headerAlign: 'center',
     }
 ]
 

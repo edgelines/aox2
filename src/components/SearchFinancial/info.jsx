@@ -4,6 +4,8 @@ import { StyledToggleButton } from '../util/util';
 import { StyledTypography_StockInfo, Financial, EtcInfo } from '../util/htsUtil';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import PaidIcon from '@mui/icons-material/Paid';
 import StockChart_MA from '../util/stockChart_MA';
 
 export default function SearchFinancialInfo({ swiperRef, stock, stockChart, handleFavorite, handleInvest, timeframe, handleTimeframe }) {

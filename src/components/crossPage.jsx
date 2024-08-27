@@ -52,7 +52,7 @@ export default function SearchFinancial({ swiperRef }) {
         try {
             const res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
             setStock({
-                종목명: item.종목명, 종목코드: item.종목코드, 업종명: item.업종명, 현재가: res.data.현재가,
+                종목명: params.종목명, 종목코드: params.종목코드, 업종명: params.업종명, 현재가: res.data.현재가,
                 시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, Favorite: res.data.Favorite, Invest: res.data.Invest,
                 PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,
                 N_PER: res.data.N_PER, N_PBR: res.data.N_PBR, 동일업종PER: res.data.동일업종PER,
@@ -68,8 +68,6 @@ export default function SearchFinancial({ swiperRef }) {
     }
     const getStockChartData = async (code) => {
         const res = await axios.get(`${STOCK}/get/${code}`);
-        console.log(code);
-        console.log(res.data);
         setStockChart({
             price: res.data.price,
             volume: res.data.volume,
