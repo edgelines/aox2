@@ -39,11 +39,23 @@ export default function FormulaPage({ swiperRef }) {
     const handleInvest = async () => {
         setStock(prevStock => ({
             ...prevStock,
-            Invest: !prevStock.Invest,
             InvestCount: prevStock.InvestCount + 1
         }));
         try {
             await axios.get(`${API}/stockInvest/${stock.종목코드}`);
+        } catch (err) {
+            console.error('API 호출 실패 : ', err)
+        }
+    }
+
+    const handleInvestCancel = async () => {
+        setStock(prevStock => ({
+            ...prevStock,
+            Invest: !prevStock.Invest,
+            InvestCount: 0
+        }));
+        try {
+            await axios.get(`${API}/del/${stock.종목코드}`);
         } catch (err) {
             console.error('API 호출 실패 : ', err)
         }
@@ -77,9 +89,10 @@ export default function FormulaPage({ swiperRef }) {
                 net: res.data.net,
                 MA: res.data.MA,
                 volumeRatio: res.data.volumeRatio,
-                DMI: res.data.DMI
+                DMI: res.data.DMI,
+                series: res.data.series
             })
-
+            console.log(res.data);
         } else {
             setStock({ 종목명: null });
             setStockChart({ price: [], volume: [] });
@@ -158,7 +171,7 @@ export default function FormulaPage({ swiperRef }) {
 
             {/* Stock Information */}
             <Grid item xs={5}>
-                <StockInfoPage stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} handleInvest={handleInvest} swiperRef={swiperRef} />
+                <StockInfoPage stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} handleInvest={handleInvest} handleInvestCancel={handleInvestCancel} swiperRef={swiperRef} />
 
             </Grid>
 

@@ -49,11 +49,22 @@ export default function SearchFinancial({ swiperRef }) {
     const handleInvest = async () => {
         setStock(prevStock => ({
             ...prevStock,
-            Invest: !prevStock.Invest,
             InvestCount: prevStock.InvestCount + 1
         }));
         try {
             await axios.get(`${API}/stockInvest/${stock.종목코드}`);
+        } catch (err) {
+            console.error('API 호출 실패 : ', err)
+        }
+    }
+    const handleInvestCancel = async () => {
+        setStock(prevStock => ({
+            ...prevStock,
+            Invest: !prevStock.Invest,
+            InvestCount: 0
+        }));
+        try {
+            await axios.get(`${API}/del/${stock.종목코드}`);
         } catch (err) {
             console.error('API 호출 실패 : ', err)
         }
@@ -289,7 +300,11 @@ export default function SearchFinancial({ swiperRef }) {
             {/* 우 : 종목정보 */}
             {page !== 'Industry' ?
                 <Grid item xs={4}>
-                    <SearchFinancialInfo swiperRef={swiperRef} stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} timeframe={timeframe} handleTimeframe={handleTimeframe} handleInvest={handleInvest} />
+                    <SearchFinancialInfo swiperRef={swiperRef} stock={stock} stockChart={stockChart}
+                        handleFavorite={handleFavorite} timeframe={timeframe} handleTimeframe={handleTimeframe}
+                        handleInvest={handleInvest}
+                        handleInvestCancel={handleInvestCancel}
+                    />
                 </Grid>
                 : <></>
             }

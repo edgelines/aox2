@@ -46,11 +46,22 @@ export default function MotionPage({ swiperRef, num }) {
     const handleInvest = async () => {
         setStock(prevStock => ({
             ...prevStock,
-            Invest: !prevStock.Invest,
             InvestCount: prevStock.InvestCount + 1
         }));
         try {
             await axios.get(`${API}/stockInvest/${stock.종목코드}`);
+        } catch (err) {
+            console.error('API 호출 실패 : ', err)
+        }
+    }
+    const handleInvestCancel = async () => {
+        setStock(prevStock => ({
+            ...prevStock,
+            Invest: !prevStock.Invest,
+            InvestCount: 0
+        }));
+        try {
+            await axios.get(`${API}/del/${stock.종목코드}`);
         } catch (err) {
             console.error('API 호출 실패 : ', err)
         }
@@ -264,7 +275,9 @@ export default function MotionPage({ swiperRef, num }) {
 
             {/* Stock Information */}
             <Grid item xs={5}>
-                <StockInfoPage stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} handleInvest={handleInvest} swiperRef={swiperRef} />
+                <StockInfoPage stock={stock} stockChart={stockChart} swiperRef={swiperRef}
+                    handleFavorite={handleFavorite} handleInvest={handleInvest} handleInvestCancel={handleInvestCancel}
+                />
 
             </Grid>
 

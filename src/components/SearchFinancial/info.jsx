@@ -8,9 +8,10 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PaidIcon from '@mui/icons-material/Paid';
 import { yellow } from '@mui/material/colors';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import StockChart_MA from '../util/stockChart_MA';
 
-export default function SearchFinancialInfo({ swiperRef, stock, stockChart, handleFavorite, handleInvest, timeframe, handleTimeframe }) {
+export default function SearchFinancialInfo({ swiperRef, stock, stockChart, handleFavorite, handleInvest, handleInvestCancel, timeframe, handleTimeframe }) {
     const [page, setPage] = useState('재무');
 
     // Handler
@@ -21,7 +22,7 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, hand
 
             <Grid item container sx={{ minHeight: 170 }}>
                 {stock.종목명 ?
-                    <StockInfo data={stock} handleFavorite={handleFavorite} handleInvest={handleInvest} />
+                    <StockInfo data={stock} handleFavorite={handleFavorite} handleInvest={handleInvest} handleInvestCancel={handleInvestCancel} />
                     : <></>
                 }
 
@@ -57,7 +58,7 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, hand
     )
 }
 
-export const StockInfo = ({ data, handleFavorite, handleInvest }) => {
+export const StockInfo = ({ data, handleFavorite, handleInvest, handleInvestCancel }) => {
     const tableCellStyle = { textAlign: 'left', fontSize: '12px', height: 22 };
     const theme = createTheme({
         palette: {
@@ -72,14 +73,14 @@ export const StockInfo = ({ data, handleFavorite, handleInvest }) => {
     return (
         <Grid container>
             <Grid item container sx={{ borderBottom: '2px solid #efe9e9ed' }} direction='row' alignItems="center" justifyContent="center">
-                <Grid item xs={0.8}>
+                <Grid item xs={0.6}>
                     <IconButton size="small" color='error' onClick={() => handleFavorite()}>
                         {data.Favorite ?
                             <FavoriteIcon /> : <FavoriteBorderIcon />
                         }
                     </IconButton>
                 </Grid>
-                <Grid item xs={0.8}>
+                <Grid item xs={0.6}>
                     <ThemeProvider theme={theme}>
                         <IconButton size="small" color={data.Invest ? 'primary' : 'error'} onClick={() => handleInvest()} >
                             {data.Invest ?
@@ -92,6 +93,11 @@ export const StockInfo = ({ data, handleFavorite, handleInvest }) => {
                     <Typography>
                         {data.InvestCount > 0 ? data.InvestCount : ''}
                     </Typography>
+                </Grid>
+                <Grid item xs={0.4}>
+                    <IconButton size="small" color='error' onClick={() => handleInvestCancel()}>
+                        <CancelOutlinedIcon />
+                    </IconButton>
                 </Grid>
 
                 <Grid item xs={4}><StyledTypography_StockInfo textAlign='center' sx={{ color: data.시장 === 'K' ? '#FCAB2F' : 'greenyellow' }}>{data.종목명}</StyledTypography_StockInfo></Grid>

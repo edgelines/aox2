@@ -14,7 +14,7 @@ Highcharts.setOptions({
     }
 });
 
-const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, willR, height, indicators, price, net, boxTransform, treasury, treasuryPrice, MA, volumeRatio, DMI }) => {
+const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래일datetime, 최대값, 최소값, willR, height, indicators, price, net, boxTransform, treasury, treasuryPrice, MA, volumeRatio, DMI, series }) => {
 
     const [chartOptions, setChartOptions] = useState({
         chart: { animation: false, height: height ? height : 360, },
@@ -396,7 +396,8 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
         if (거래일datetime || indicators) {
             setChartOptions({
                 rangeSelector: 일봉,
-                series: getSeriesData(),
+                series: series,
+                // series: getSeriesData(),
                 xAxis: {
                     plotLines: [{
                         color: 'red', width: 2, value: 거래일datetime, label: {
@@ -414,10 +415,12 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
             setChartOptions({
                 rangeSelector: 일봉,
                 xAxis: { plotLines: treasury },
-                series: getSeriesData(),
+                series: series,
+                // series: getSeriesData(),
             })
         }
 
+        console.log(series);
 
     }, [stockItemData]);
 
