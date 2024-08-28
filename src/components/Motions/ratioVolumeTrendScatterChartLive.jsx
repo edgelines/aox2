@@ -8,7 +8,7 @@ import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
 import { customTheme, columns } from './MotionsColumns';
 import { CountTable } from './CountTable'
 import { legend } from './legend';
-
+import { blue } from '@mui/material/colors';
 
 const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getInfo, classification }) => {
     const chartComponent = useRef(null);
@@ -279,6 +279,9 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                                     ...DataTableStyleDefault,
                                     [`& .${gridClasses.cell}`]: { py: 1, },
                                     '[data-field="테마명"]': { fontSize: '9px' },
+                                    '& .MuiDataGrid-row.Mui-selected': {
+                                        backgroundColor: blue['A200'], // 원하는 배경색으로 변경
+                                    },
                                 }}
                             />
                         </ThemeProvider>

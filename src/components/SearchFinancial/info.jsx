@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Grid, Stack, Typography, ToggleButtonGroup, IconButton, Table, TableBody, TableRow, TableCell } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { StyledToggleButton } from '../util/util';
 import { StyledTypography_StockInfo, Financial, EtcInfo } from '../util/htsUtil';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PaidIcon from '@mui/icons-material/Paid';
+import { yellow } from '@mui/material/colors';
 import StockChart_MA from '../util/stockChart_MA';
 
 export default function SearchFinancialInfo({ swiperRef, stock, stockChart, handleFavorite, handleInvest, timeframe, handleTimeframe }) {
@@ -56,23 +58,40 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, hand
 }
 
 export const StockInfo = ({ data, handleFavorite, handleInvest }) => {
-    const tableCellStyle = { textAlign: 'left', fontSize: '12px', height: 22 }
+    const tableCellStyle = { textAlign: 'left', fontSize: '12px', height: 22 };
+    const theme = createTheme({
+        palette: {
+            primary: {
+                main: yellow[500],
+            },
+            secondary: {
+                main: '#f44336',
+            },
+        },
+    });
     return (
         <Grid container>
             <Grid item container sx={{ borderBottom: '2px solid #efe9e9ed' }} direction='row' alignItems="center" justifyContent="center">
-                <Grid item xs={1}>
+                <Grid item xs={0.8}>
                     <IconButton size="small" color='error' onClick={() => handleFavorite()}>
                         {data.Favorite ?
                             <FavoriteIcon /> : <FavoriteBorderIcon />
                         }
                     </IconButton>
                 </Grid>
-                <Grid item xs={1}>
-                    <IconButton size="small" color='error' onClick={() => handleInvest()}>
-                        {data.Invest ?
-                            <PaidIcon /> : <AttachMoneyIcon />
-                        }
-                    </IconButton>
+                <Grid item xs={0.8}>
+                    <ThemeProvider theme={theme}>
+                        <IconButton size="small" color={data.Invest ? 'primary' : 'error'} onClick={() => handleInvest()} >
+                            {data.Invest ?
+                                <PaidIcon /> : <AttachMoneyIcon />
+                            }
+                        </IconButton>
+                    </ThemeProvider>
+                </Grid>
+                <Grid item xs={0.4}>
+                    <Typography>
+                        {data.InvestCount > 0 ? data.InvestCount : ''}
+                    </Typography>
                 </Grid>
 
                 <Grid item xs={4}><StyledTypography_StockInfo textAlign='center' sx={{ color: data.시장 === 'K' ? '#FCAB2F' : 'greenyellow' }}>{data.종목명}</StyledTypography_StockInfo></Grid>

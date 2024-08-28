@@ -13,7 +13,7 @@ import CoreChart from '../util/CoreChart';
 import { API } from '../util/config';
 import { trendColumns, eventColumns, ranksThemesColumns, ranksWillrColumns, dateThemesColumns, dateWillrColumns } from './tableColumns';
 import SectorsChartPage from '../sectorsChartPage.jsx';
-
+import { blue } from '@mui/material/colors';
 const table_columns = [
     {
         field: 'id', headerName: '순번', width: 20,
@@ -132,7 +132,6 @@ function TablePage({ swiperRef, tableData, getIndustryStockData }) {
                         onCellClick={(params, event) => {
                             getIndustryStockData(params);
                         }}
-                        disableRowSelectionOnClick
                         sx={{
                             color: 'white', border: 'none',
                             ...DataTableStyleDefault,
@@ -147,6 +146,9 @@ function TablePage({ swiperRef, tableData, getIndustryStockData }) {
                             '[data-field="전년동분기대비"]': { borderRight: '2.5px solid #FCAB2F' },
                             '[data-field="전체종목수"]': { borderLeft: '2.5px solid #FCAB2F', borderRight: '1.5px solid #ccc' },
                             '[data-field="흑자기업"]': { borderRight: '1.5px solid #ccc' },
+                            '& .MuiDataGrid-row.Mui-selected': {
+                                backgroundColor: blue['A200'], // 원하는 배경색으로 변경
+                            },
                         }}
                     />
                 </ThemeProvider>
@@ -316,7 +318,6 @@ const EventPage = ({ swiperRef, eventDrop, getStockCode, getStockChartData }) =>
                             getStockCode(params.row);
                             getStockChartData(params.row.종목코드);
                         }}
-                        disableRowSelectionOnClick
                         sx={{
                             color: 'white', border: 'none',
                             ...DataTableStyleDefault,
@@ -328,6 +329,7 @@ const EventPage = ({ swiperRef, eventDrop, getStockCode, getStockChartData }) =>
                             '[data-field="부채비율"]': { borderLeft: '1.5px solid #ccc' },
                             '[data-field="테마명"]': { borderLeft: '1.5px solid #ccc' },
                             '[data-field="TRIMA_41"]': { borderRight: '1.5px solid #ccc' },
+                            '&& .Mui-selected': { backgroundColor: blue['A200'] }
                         }}
                     />
                 </ThemeProvider>
@@ -395,7 +397,6 @@ const TreasuryPage = ({ swiperRef, getStockCode, getStockChartData }) => {
                             getStockCode(params.row);
                             getStockChartData(params.row.종목코드);
                         }}
-                        disableRowSelectionOnClick
                         sx={{
                             color: 'white', border: 'none',
                             ...DataTableStyleDefault,
@@ -407,6 +408,7 @@ const TreasuryPage = ({ swiperRef, getStockCode, getStockChartData }) => {
                             '[data-field="부채비율"]': { borderLeft: '1.5px solid #ccc' },
                             '[data-field="TRIMA_41"]': { borderRight: '1.5px solid #ccc' },
                             '[data-field="테마명"]': { borderLeft: '1.5px solid #ccc' },
+                            '&& .Mui-selected': { backgroundColor: blue['A200'] }
                         }}
                     />
                 </ThemeProvider>
@@ -569,7 +571,6 @@ const TrendPage = ({ swiperRef, getStockCode, getStockChartData }) => {
                             getStockCode(params.row);
                             getStockChartData(params.row.종목코드);
                         }}
-                        disableRowSelectionOnClick
                         sx={{
                             color: 'white', border: 'none',
                             ...DataTableStyleDefault,
@@ -581,6 +582,7 @@ const TrendPage = ({ swiperRef, getStockCode, getStockChartData }) => {
                             '[data-field="부채비율"]': { borderLeft: '1.5px solid #ccc' },
                             '[data-field="테마명"]': { borderLeft: '1.5px solid #ccc' },
                             '[data-field="TRIMA_41"]': { borderRight: '1.5px solid #ccc' },
+                            '& .Mui-selected': { backgroundColor: blue['A200'] }
                         }}
                     />
                 </ThemeProvider>

@@ -9,7 +9,8 @@ import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
 import { customTheme, now_columns } from './MotionsColumns';
 import { CountTable } from '../Motions/CountTable'
 import { legend } from '../Motions/legend';
-import { API } from '../util/config.jsx';
+import { blue } from '@mui/material/colors';
+// import { API } from '../util/config.jsx';
 
 const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getInfo, classification }) => {
     const tableHeight = 410;
@@ -350,6 +351,9 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                                     '.MuiTablePagination-root': { color: '#efe9e9ed' },
                                     '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
                                     '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
+                                    '& .MuiDataGrid-row.Mui-selected': {
+                                        backgroundColor: blue['A200'], // 원하는 배경색으로 변경
+                                    },
                                 }}
                             />
                         </ThemeProvider>

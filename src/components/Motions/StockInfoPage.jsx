@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Grid, Stack, ToggleButtonGroup, IconButton, Table, TableBody, TableContainer } from '@mui/material';
+import { Grid, Stack, ToggleButtonGroup, IconButton, Table, TableBody, TableContainer, Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 // import { StyledToggleButton } from '../util/util';
 import { StyledTypography_StockInfo, Financial, EtcInfo } from '../util/htsUtil';
@@ -135,14 +135,14 @@ export const StockInfo = ({ data, handleFavorite, handleInvest }) => {
     return (
         <Grid container>
             <Grid item container sx={{ borderBottom: '2px solid #efe9e9ed' }} direction='row' alignItems="center" justifyContent="center">
-                <Grid item xs={1}>
+                <Grid item xs={0.8}>
                     <IconButton size="small" color='error' onClick={() => handleFavorite()}>
                         {data.Favorite ?
                             <FavoriteIcon /> : <FavoriteBorderIcon />
                         }
                     </IconButton>
                 </Grid>
-                <Grid item xs={1}>
+                <Grid item xs={0.8}>
                     <ThemeProvider theme={theme}>
                         <IconButton size="small" color={data.Invest ? 'primary' : 'error'} onClick={() => handleInvest()} >
                             {data.Invest ?
@@ -150,6 +150,11 @@ export const StockInfo = ({ data, handleFavorite, handleInvest }) => {
                             }
                         </IconButton>
                     </ThemeProvider>
+                </Grid>
+                <Grid item xs={0.4}>
+                    <Typography>
+                        {data.InvestCount > 0 ? data.InvestCount : ''}
+                    </Typography>
                 </Grid>
 
                 <Grid item xs={3}><StyledTypography_StockInfo textAlign='center' sx={{ color: data.시장 === 'K' ? '#FCAB2F' : 'greenyellow' }}>{data.종목명}</StyledTypography_StockInfo></Grid>

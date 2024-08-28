@@ -25,13 +25,28 @@ export default function FormulaPage({ swiperRef }) {
     const [stockChart, setStockChart] = useState({ price: [], volume: [] }); // 종목 차트
 
     const handleFavorite = async () => {
-        setStock({ ...stock, Favorite: !stock.Favorite })
-        await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
+        setStock(prevStock => ({
+            ...prevStock,
+            Favorite: !prevStock.Favorite
+        }));
+        try {
+            await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
+        } catch (err) {
+            console.error('API 호출 실패 : ', err)
+        }
     }
 
     const handleInvest = async () => {
-        setStock({ ...stock, Invest: !stock.Invest })
-        await axios.get(`${API}/stockInvest/${stock.종목코드}`);
+        setStock(prevStock => ({
+            ...prevStock,
+            Invest: !prevStock.Invest,
+            InvestCount: prevStock.InvestCount + 1
+        }));
+        try {
+            await axios.get(`${API}/stockInvest/${stock.종목코드}`);
+        } catch (err) {
+            console.error('API 호출 실패 : ', err)
+        }
     }
 
     const getInfo = async (item) => {
@@ -40,7 +55,8 @@ export default function FormulaPage({ swiperRef }) {
             var res = await axios.get(`${API}/info/stockEtcInfo/${item.종목코드}`);
             setStock({
                 종목명: item.종목명, 종목코드: item.종목코드, 업종명: item.업종명, 현재가: res.data.현재가,
-                시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, Favorite: res.data.Favorite, Invest: res.data.Invest,
+                시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, Favorite: res.data.Favorite,
+                Invest: res.data.Invest, InvestCount: res.data.InvestCount,
                 PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,
                 N_PER: res.data.N_PER, N_PBR: res.data.N_PBR, 동일업종PER: res.data.동일업종PER,
                 이벤트: res.data.이벤트, 보호예수: res.data.보호예수,

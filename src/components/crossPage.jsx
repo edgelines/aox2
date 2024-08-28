@@ -8,7 +8,7 @@ import SearchFinancialInfo from './SearchFinancial/info';
 // import TreeMap from './SearchFinancial/treeMap';
 import { ContentsComponent } from './SearchFinancial/selectedPage';
 import { stockTable_columns, customTheme, trendColumns, ranksThemesColumns, ranksWillrColumns } from './SearchFinancial/tableColumns';
-
+import { blue } from '@mui/material/colors';
 // import CrossChartPage from './SearchFinancial/crossChartPage';
 import { API, STOCK } from './util/config';
 
@@ -26,13 +26,37 @@ export default function SearchFinancial({ swiperRef }) {
 
     const handlePage = (event, value) => { if (value !== null) { setPage(value); setEventDrop(''); } }
     const handleTimeframe = (event, value) => { if (value !== null) { setTimeframe(value); } }
+    // const handleFavorite = async () => {
+    //     setStock({ ...stock, Favorite: !stock.Favorite })
+    //     await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
+    // }
+    // const handleInvest = async () => {
+    //     setStock({ ...stock, Invest: !stock.Invest })
+    //     await axios.get(`${API}/stockInvest/${stock.종목코드}`);
+    // }
     const handleFavorite = async () => {
-        setStock({ ...stock, Favorite: !stock.Favorite })
-        await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
+        setStock(prevStock => ({
+            ...prevStock,
+            Favorite: !prevStock.Favorite
+        }));
+        try {
+            await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
+        } catch (err) {
+            console.error('API 호출 실패 : ', err)
+        }
     }
+
     const handleInvest = async () => {
-        setStock({ ...stock, Invest: !stock.Invest })
-        await axios.get(`${API}/stockInvest/${stock.종목코드}`);
+        setStock(prevStock => ({
+            ...prevStock,
+            Invest: !prevStock.Invest,
+            InvestCount: prevStock.InvestCount + 1
+        }));
+        try {
+            await axios.get(`${API}/stockInvest/${stock.종목코드}`);
+        } catch (err) {
+            console.error('API 호출 실패 : ', err)
+        }
     }
     const handleEventChange = (event) => { if (event !== null) { setPage('Event'); setEventDrop(event.target.value); } }
     const handleTableColumnsChange = (event, value) => { if (value !== null) { setTableColumnsName(value); } }
@@ -53,7 +77,8 @@ export default function SearchFinancial({ swiperRef }) {
             const res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
             setStock({
                 종목명: params.종목명, 종목코드: params.종목코드, 업종명: params.업종명, 현재가: res.data.현재가,
-                시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, Favorite: res.data.Favorite, Invest: res.data.Invest,
+                시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, Favorite: res.data.Favorite,
+                Invest: res.data.Invest, InvestCount: res.data.InvestCount,
                 PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,
                 N_PER: res.data.N_PER, N_PBR: res.data.N_PBR, 동일업종PER: res.data.동일업종PER,
                 이벤트: res.data.이벤트, 보호예수: res.data.보호예수,
@@ -238,7 +263,6 @@ export default function SearchFinancial({ swiperRef }) {
                                         getStockCode(params.row);
                                         getStockChartData(params.row.종목코드);
                                     }}
-                                    disableRowSelectionOnClick
                                     sx={{
                                         color: 'white', border: 'none',
                                         ...DataTableStyleDefault,
@@ -250,6 +274,9 @@ export default function SearchFinancial({ swiperRef }) {
                                         '[data-field="부채비율"]': { borderLeft: '1.5px solid #ccc' },
                                         '[data-field="테마명"]': { borderLeft: '1.5px solid #ccc' },
                                         '[data-field="TRIMA_41"]': { borderRight: '1.5px solid #ccc' },
+                                        '& .MuiDataGrid-row.Mui-selected': {
+                                            backgroundColor: blue['A200'], // 원하는 배경색으로 변경
+                                        },
                                     }}
                                 />
                             </ThemeProvider>

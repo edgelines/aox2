@@ -9,7 +9,7 @@ import { customTheme } from './util';
 import { API } from '../util/config';
 import { table_columns, trendColumns, ranksThemesColumns, ranksWillrColumns } from './tableColumns';
 import SectorChart from '../SectorsPage/sectorChart';
-
+import { blue } from '@mui/material/colors';
 // 
 export default function CrossChartPage({ swiperRef, tableData, getStockCode, getStockChartData }) {
     // List
@@ -143,7 +143,8 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
                                     '[data-field="전체종목수"]': { borderLeft: '1.5px solid #ccc', borderRight: '1.5px solid #ccc' },
                                     '[data-field="흑자기업"]': { borderRight: '1.5px solid #ccc' },
                                     '&& .MuiDataGrid-cell:focus': { outline: 'solid #ff0000 1px;', backgroundColor: 'rgba(255, 0, 0, 0.2)' },
-                                    '&& .Mui-selected': { backgroundColor: 'rgba(255, 215, 0, 0.2)' }
+                                    '&& .Mui-selected': { backgroundColor: blue['A200'] }
+
                                     // [`& .${gridClasses.rowSelected}`]: {
                                     //     backgroundColor: 'rgba(255, 215, 0, 0.55)', // 선택된 행의 배경색 변경
                                     //     '&:hover': {
@@ -290,7 +291,6 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
                             // setStockCode(params.row.종목코드);
                             getStockChartData(params.row.종목코드);
                         }}
-                        disableRowSelectionOnClick
                         sx={{
                             color: 'white', border: 'none',
                             ...DataTableStyleDefault,
@@ -302,6 +302,7 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
                             '[data-field="부채비율"]': { borderLeft: '1.5px solid #ccc' },
                             '[data-field="테마명"]': { borderLeft: '1.5px solid #ccc' },
                             '[data-field="TRIMA_41"]': { borderRight: '1.5px solid #ccc' },
+                            '& .MuiDataGrid-row.Mui-selected': { backgroundColor: blue['A200'] }
                         }}
                     />
                 </ThemeProvider>
