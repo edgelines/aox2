@@ -396,8 +396,8 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
         if (거래일datetime || indicators) {
             setChartOptions({
                 rangeSelector: 일봉,
-                series: series,
-                // series: getSeriesData(),
+                // series: series,
+                series: getSeriesData(),
                 xAxis: {
                     plotLines: [{
                         color: 'red', width: 2, value: 거래일datetime, label: {
@@ -415,8 +415,8 @@ const StockChart = ({ stockItemData, stockName, rangeSelect, volumeData, 거래�
             setChartOptions({
                 rangeSelector: 일봉,
                 xAxis: { plotLines: treasury },
-                series: series,
-                // series: getSeriesData(),
+                // series: series,
+                series: getSeriesData(),
             })
         }
 
