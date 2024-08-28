@@ -27,9 +27,9 @@ export default function MotionPage({ swiperRef, num }) {
     const [timeLine, setTimeLine] = useState(null);
     const [loadingRatio, setLoadingRatio] = useState(false);
 
-
     const [stock, setStock] = useState({ 종목명: null }); // 종목 정보
     const [stockChart, setStockChart] = useState({ price: [], volume: [] }); // 종목 차트
+    const [selectedChartType, setSelectedChartType] = useState('A') // Chart Type
 
     const handleFavorite = async () => {
         setStock(prevStock => ({
@@ -66,14 +66,10 @@ export default function MotionPage({ swiperRef, num }) {
             console.error('API 호출 실패 : ', err)
         }
     }
-    // const handleFavorite = async () => {
-    //     setStock({ ...stock, Favorite: !stock.Favorite })
-    //     await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
-    // }
-    // const handleInvest = async () => {
-    //     setStock({ ...stock, Invest: !stock.Invest })
-    //     await axios.get(`${API}/stockInvest/${stock.종목코드}`);
-    // }
+    const handleSelectedChartType = async (event, value) => {
+        if (value !== null) { setSelectedChartType(value) }
+    }
+
     const getInfo = async (item) => {
         if (typeof item.종목코드 !== "undefined") {
             // 종목정보
@@ -92,17 +88,18 @@ export default function MotionPage({ swiperRef, num }) {
             })
 
             // 종목차트
-            var res = await axios.get(`${STOCK}/get/${item.종목코드}`);
+            var res = await axios.get(`${STOCK}/get/${item.종목코드}/${selectedChartType}`);
             setStockChart({
-                price: res.data.price,
-                volume: res.data.volume,
-                treasury: res.data.treasury,
-                treasuryPrice: res.data.treasuryPrice,
+                // price: res.data.price,
+                // volume: res.data.volume,
+                // MA: res.data.MA,
+                // treasury: res.data.treasury,
+                // treasuryPrice: res.data.treasuryPrice,
                 willR: res.data.willR,
                 net: res.data.net,
-                MA: res.data.MA,
                 volumeRatio: res.data.volumeRatio,
-                DMI: res.data.DMI
+                DMI: res.data.DMI,
+                series: res.data.series
             })
         } else {
             setStock({ 종목명: null });
@@ -194,6 +191,22 @@ export default function MotionPage({ swiperRef, num }) {
         }
     }, [date])
 
+    const getSelectedChartType = async () => {
+        if (typeof stock.종목코드 !== "undefined") {
+            var res = await axios.get(`${STOCK}/get/${stock.종목코드}/${selectedChartType}`);
+            setStockChart({
+                willR: res.data.willR,
+                net: res.data.net,
+                volumeRatio: res.data.volumeRatio,
+                DMI: res.data.DMI,
+                series: res.data.series
+            })
+        }
+    }
+    useEffect(() => {
+        getSelectedChartType()
+    }, [selectedChartType])
+
     return (
         <Grid container spacing={1}>
             <Box sx={{ position: 'absolute', transform: 'translate(105px, 10px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '16px', textAlign: 'right' }}>
@@ -277,6 +290,7 @@ export default function MotionPage({ swiperRef, num }) {
             <Grid item xs={5}>
                 <StockInfoPage stock={stock} stockChart={stockChart} swiperRef={swiperRef}
                     handleFavorite={handleFavorite} handleInvest={handleInvest} handleInvestCancel={handleInvestCancel}
+                    selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
                 />
 
             </Grid>

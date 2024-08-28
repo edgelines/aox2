@@ -34,11 +34,47 @@ export default function LeadSectorsPage({ swiperRef }) {
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
     const [tableInfo, setTableInfo] = useState({ industry: null, kospi: null, kosdaq: null })
     const [checkStats, setCheckStats] = useState({ b1_kospi200: [] });
+    const [selectedChartType, setSelectedChartType] = useState('A') // Chart Type
 
     // hanlder
     const handleFavorite = async () => {
-        setStock({ ...stock, Favorite: !stock.Favorite })
-        await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
+        setStock(prevStock => ({
+            ...prevStock,
+            Favorite: !prevStock.Favorite
+        }));
+        try {
+            await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
+        } catch (err) {
+            console.error('API 호출 실패 : ', err)
+        }
+    }
+
+    const handleInvest = async () => {
+        setStock(prevStock => ({
+            ...prevStock,
+            InvestCount: prevStock.InvestCount + 1
+        }));
+        try {
+            await axios.get(`${API}/stockInvest/${stock.종목코드}`);
+        } catch (err) {
+            console.error('API 호출 실패 : ', err)
+        }
+    }
+
+    const handleInvestCancel = async () => {
+        setStock(prevStock => ({
+            ...prevStock,
+            Invest: !prevStock.Invest,
+            InvestCount: 0
+        }));
+        try {
+            await axios.get(`${API}/del/${stock.종목코드}`);
+        } catch (err) {
+            console.error('API 호출 실패 : ', err)
+        }
+    }
+    const handleSelectedChartType = async (event, value) => {
+        if (value !== null) { setSelectedChartType(value) }
     }
     const getInfo = async (item) => {
         var res = await axios.get(`${API}/industry/LeadSectorsTable/${item.업종명}`);
@@ -70,18 +106,19 @@ export default function LeadSectorsPage({ swiperRef }) {
             })
 
             // 종목차트
-            var res = await axios.get(`${STOCK}/get/${item.종목코드}`);
+            var res = await axios.get(`${STOCK}/get/${item.종목코드}/${selectedChartType}`);
             // console.log(res.data);
             setStockChart({
-                price: res.data.price,
-                volume: res.data.volume,
-                treasury: res.data.treasury,
-                treasuryPrice: res.data.treasuryPrice,
+                // price: res.data.price,
+                // volume: res.data.volume,
+                // MA: res.data.MA,
+                // treasury: res.data.treasury,
+                // treasuryPrice: res.data.treasuryPrice,
                 willR: res.data.willR,
                 net: res.data.net,
-                MA: res.data.MA,
                 volumeRatio: res.data.volumeRatio,
-                DMI: res.data.DMI
+                DMI: res.data.DMI,
+                series: res.data.series
             })
             //     console.log(res.data); ${item.종목코드}
         } else {
@@ -150,6 +187,21 @@ export default function LeadSectorsPage({ swiperRef }) {
         }, 1000);
         return () => clearInterval(timer);
     }, [])
+    const getSelectedChartType = async () => {
+        if (typeof stock.종목코드 !== "undefined") {
+            var res = await axios.get(`${STOCK}/get/${stock.종목코드}/${selectedChartType}`);
+            setStockChart({
+                willR: res.data.willR,
+                net: res.data.net,
+                volumeRatio: res.data.volumeRatio,
+                DMI: res.data.DMI,
+                series: res.data.series
+            })
+        }
+    }
+    useEffect(() => {
+        getSelectedChartType()
+    }, [selectedChartType])
 
 
     return (
@@ -357,9 +409,11 @@ export default function LeadSectorsPage({ swiperRef }) {
 
                 <Grid item container >
                     <StockChart_MA height={460} boxTransform={`translate(10px, 53px)`}
-                        stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} stockName={stock.종목명} price={stock.현재가} net={stockChart.net}
-                        willR={stockChart.willR} treasuryPrice={stockChart.treasuryPrice} treasury={stockChart.treasury} MA={stockChart.MA} volumeRatio={stockChart.volumeRatio}
-                        DMI={stockChart.DMI}
+                        // stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} MA={stockChart.MA}
+                        stockName={stock.종목명} price={stock.현재가} net={stockChart.net} volumeRatio={stockChart.volumeRatio}
+                        willR={stockChart.willR} DMI={stockChart.DMI}
+                        series={stockChart.series}
+                        selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
                     />
                 </Grid>
 

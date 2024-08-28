@@ -40,7 +40,7 @@ export default function IpoPulsePage({ swiperRef }) {
     const [totalCount, setTotalCount] = useState('')
     const [stock, setStock] = useState({});
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
-
+    const [selectedChartType, setSelectedChartType] = useState('A') // Chart Type
     // Handler
     const handleCheckBox = (name) => {
         setCheckBox((prevStatus) => {
@@ -98,6 +98,9 @@ export default function IpoPulsePage({ swiperRef }) {
             }
         });
     }
+    const handleSelectedChartType = async (event, value) => {
+        if (value !== null) { setSelectedChartType(value) }
+    }
     // 키워드 클릭 시 호출되는 함수
     const handleSelectedIndustries = (keyword) => {
         if (selectedIndustries.includes(keyword)) {
@@ -123,17 +126,18 @@ export default function IpoPulsePage({ swiperRef }) {
     }
 
     const getStockChartData = async (code) => {
-        const res = await axios.get(`${STOCK}/get/${code}`);
+        const res = await axios.get(`${STOCK}/get/${code}/${selectedChartType}`);
         setStockChart({
-            price: res.data.price,
-            volume: res.data.volume,
-            treasury: res.data.treasury,
-            treasuryPrice: res.data.treasuryPrice,
+            // price: res.data.price,
+            // volume: res.data.volume,
+            // MA: res.data.MA,
+            // treasury: res.data.treasury,
+            // treasuryPrice: res.data.treasuryPrice,
             willR: res.data.willR,
             net: res.data.net,
-            MA: res.data.MA,
             volumeRatio: res.data.volumeRatio,
-            DMI: res.data.DMI
+            DMI: res.data.DMI,
+            series: res.data.series
         })
     }
     const fetchChartData = async () => {
@@ -163,7 +167,21 @@ export default function IpoPulsePage({ swiperRef }) {
     }, [checkBox, filter, selectedIndustries])
     useEffect(() => { fetchChartData(); }, [])
     useEffect(() => { fetchData(postData) }, [postData])
-
+    const getSelectedChartType = async () => {
+        if (typeof stock.종목코드 !== "undefined") {
+            var res = await axios.get(`${STOCK}/get/${stock.종목코드}/${selectedChartType}`);
+            setStockChart({
+                willR: res.data.willR,
+                net: res.data.net,
+                volumeRatio: res.data.volumeRatio,
+                DMI: res.data.DMI,
+                series: res.data.series
+            })
+        }
+    }
+    useEffect(() => {
+        getSelectedChartType()
+    }, [selectedChartType])
     // ChartData
     useEffect(() => {
         if (stock.종목코드 != null) { getStockChartData(stock.종목코드); }
@@ -554,14 +572,16 @@ export default function IpoPulsePage({ swiperRef }) {
                     <Grid container sx={{ minHeight: 233 }}>
                         <Financial annual={stock.연간실적} quarter={stock.분기실적} />
                     </Grid>
-                    <Grid container sx={{ mt: 1 }}>
+                    <Grid container>
                         {
-                            Array.isArray(stockChart.price) ?
+                            Array.isArray(stockChart.series) ?
                                 // <Grid item container sx={{ width: '98%' }}>
                                 <StockChart_MA height={280} boxTransform={'translate(10px, 140px)'}
-                                    stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} stockName={stock.종목명} price={stock.현재가} net={stockChart.net}
-                                    willR={stockChart.willR} treasuryPrice={stockChart.treasuryPrice} treasury={stockChart.treasury} MA={stockChart.MA} volumeRatio={stockChart.volumeRatio}
-                                    DMI={stockChart.DMI}
+                                    // stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} MA={stockChart.MA}
+                                    stockName={stock.종목명} price={stock.현재가} net={stockChart.net} volumeRatio={stockChart.volumeRatio}
+                                    willR={stockChart.willR} DMI={stockChart.DMI}
+                                    series={stockChart.series}
+                                    selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
                                 />
                                 // </Grid>
                                 : <></>

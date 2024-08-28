@@ -16,7 +16,7 @@ import { yellow } from '@mui/material/colors';
 // import { formatDateString } from './util/formatDate.jsx'
 
 
-export default function StockInfoPage({ stock, stockChart, handleFavorite, handleInvest, handleInvestCancel, swiperRef }) {
+export default function StockInfoPage({ stock, stockChart, handleFavorite, handleInvest, handleInvestCancel, swiperRef, selectedChartType, handleSelectedChartType }) {
     const baseStyle = { fontSize: '10px', p: 0.1, textAlign: 'right' }
 
     return (
@@ -31,10 +31,12 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
 
             {/* Stock Chart */}
             <Grid item container sx={{ mt: 1 }}>
-                <StockChart_MA height={670} boxTransform={`translate(10px, 53px)`}
-                    stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} stockName={stock.종목명} price={stock.현재가} net={stockChart.net}
-                    willR={stockChart.willR} treasuryPrice={stockChart.treasuryPrice} treasury={stockChart.treasury} MA={stockChart.MA} volumeRatio={stockChart.volumeRatio}
-                    DMI={stockChart.DMI} series={stockChart.series}
+                <StockChart_MA height={640} boxTransform={`translate(10px, 53px)`}
+                    // stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} MA={stockChart.MA}
+                    stockName={stock.종목명} price={stock.현재가} net={stockChart.net} volumeRatio={stockChart.volumeRatio}
+                    willR={stockChart.willR} DMI={stockChart.DMI}
+                    series={stockChart.series}
+                    selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
                 />
             </Grid>
 

@@ -11,7 +11,7 @@ import { yellow } from '@mui/material/colors';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import StockChart_MA from '../util/stockChart_MA';
 
-export default function SearchFinancialInfo({ swiperRef, stock, stockChart, handleFavorite, handleInvest, handleInvestCancel, timeframe, handleTimeframe }) {
+export default function SearchFinancialInfo({ swiperRef, stock, stockChart, handleFavorite, handleInvest, handleInvestCancel, selectedChartType, handleSelectedChartType }) {
     const [page, setPage] = useState('재무');
 
     // Handler
@@ -48,9 +48,10 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, hand
 
             <Grid item container sx={{ mt: 1 }}>
                 <StockChart_MA height={470} boxTransform={`translate(10px, 53px)`}
-                    stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} stockName={stock.종목명} price={stock.현재가} net={stockChart.net}
-                    willR={stockChart.willR} treasuryPrice={stockChart.treasuryPrice} treasury={stockChart.treasury} MA={stockChart.MA} volumeRatio={stockChart.volumeRatio}
-                    DMI={stockChart.DMI}
+                    stockName={stock.종목명} price={stock.현재가} net={stockChart.net} volumeRatio={stockChart.volumeRatio}
+                    willR={stockChart.willR} DMI={stockChart.DMI}
+                    series={stockChart.series}
+                    selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
                 />
             </Grid>
 

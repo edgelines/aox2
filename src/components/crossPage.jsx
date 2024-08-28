@@ -16,16 +16,17 @@ export default function SearchFinancial({ swiperRef }) {
     // const [page, setPage] = useState('Tree');
     const [page, setPage] = useState('Cross');
     const [eventDrop, setEventDrop] = useState('');
-    const [timeframe, setTimeframe] = useState('day');
+    // const [timeframe, setTimeframe] = useState('day');
     const [filter, setFilter] = useState({ field: null, industry: null })
     const [tableColumnsName, setTableColumnsName] = useState('themes')
     const [tableData, setTableData] = useState([]);
     const [stockTableData, setStockTableData] = useState([]);
     const [stock, setStock] = useState({});
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
+    const [selectedChartType, setSelectedChartType] = useState('A') // Chart Type
 
     const handlePage = (event, value) => { if (value !== null) { setPage(value); setEventDrop(''); } }
-    const handleTimeframe = (event, value) => { if (value !== null) { setTimeframe(value); } }
+    // const handleTimeframe = (event, value) => { if (value !== null) { setTimeframe(value); } }
     // const handleFavorite = async () => {
     //     setStock({ ...stock, Favorite: !stock.Favorite })
     //     await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
@@ -69,6 +70,9 @@ export default function SearchFinancial({ swiperRef }) {
             console.error('API 호출 실패 : ', err)
         }
     }
+    const handleSelectedChartType = async (event, value) => {
+        if (value !== null) { setSelectedChartType(value) }
+    }
     const handleEventChange = (event) => { if (event !== null) { setPage('Event'); setEventDrop(event.target.value); } }
     const handleTableColumnsChange = (event, value) => { if (value !== null) { setTableColumnsName(value); } }
     const fetchData = async () => {
@@ -103,17 +107,18 @@ export default function SearchFinancial({ swiperRef }) {
         }
     }
     const getStockChartData = async (code) => {
-        const res = await axios.get(`${STOCK}/get/${code}`);
+        const res = await axios.get(`${STOCK}/get/${code}/${selectedChartType}`);
         setStockChart({
-            price: res.data.price,
-            volume: res.data.volume,
-            treasury: res.data.treasury,
-            treasuryPrice: res.data.treasuryPrice,
+            // price: res.data.price,
+            // volume: res.data.volume,
+            // MA: res.data.MA,
+            // treasury: res.data.treasury,
+            // treasuryPrice: res.data.treasuryPrice,
             willR: res.data.willR,
             net: res.data.net,
-            MA: res.data.MA,
             volumeRatio: res.data.volumeRatio,
-            DMI: res.data.DMI
+            DMI: res.data.DMI,
+            series: res.data.series
         })
     }
 
@@ -184,6 +189,22 @@ export default function SearchFinancial({ swiperRef }) {
         }
     }
     useEffect(() => { fetchData() }, [page])
+
+    const getSelectedChartType = async () => {
+        if (typeof stock.종목코드 !== "undefined") {
+            var res = await axios.get(`${STOCK}/get/${stock.종목코드}/${selectedChartType}`);
+            setStockChart({
+                willR: res.data.willR,
+                net: res.data.net,
+                volumeRatio: res.data.volumeRatio,
+                DMI: res.data.DMI,
+                series: res.data.series
+            })
+        }
+    }
+    useEffect(() => {
+        getSelectedChartType()
+    }, [selectedChartType])
 
     return (
         <Grid container>
@@ -301,9 +322,10 @@ export default function SearchFinancial({ swiperRef }) {
             {page !== 'Industry' ?
                 <Grid item xs={4}>
                     <SearchFinancialInfo swiperRef={swiperRef} stock={stock} stockChart={stockChart}
-                        handleFavorite={handleFavorite} timeframe={timeframe} handleTimeframe={handleTimeframe}
+                        handleFavorite={handleFavorite}
                         handleInvest={handleInvest}
                         handleInvestCancel={handleInvestCancel}
+                        selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
                     />
                 </Grid>
                 : <></>

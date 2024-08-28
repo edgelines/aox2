@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
-import { Slider, Grid, IconButton, Switch, FormControl, FormControlLabel, Paper, Box, Divider, Stack, ListItem, ListItemText, Typography, TextField } from '@mui/material';
+import { Grid, Box, Typography, TextField } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
 import SearchFinancialInfo from './SearchFinancial/info';
 import SectorChart from './SectorsPage/sectorChart';
@@ -24,14 +24,47 @@ export default function StockSearchPange({ swiperRef }) {
     const [sectorsChartDataSelected, setSectorsChartDataSelected] = useState([]); // 업종 차트
     const [stock, setStock] = useState({ 종목명: null }); // 종목 정보
     const [stockChart, setStockChart] = useState({ price: [], volume: [] }); // 종목 차트
-
+    const [selectedChartType, setSelectedChartType] = useState('A')
     // handler
     const handleTimeframe = (event, value) => { if (value !== null) { setTimeframe(value); } }
     const handleFavorite = async () => {
-        setStock({ ...stock, Favorite: !stock.Favorite })
-        await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
+        setStock(prevStock => ({
+            ...prevStock,
+            Favorite: !prevStock.Favorite
+        }));
+        try {
+            await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
+        } catch (err) {
+            console.error('API 호출 실패 : ', err)
+        }
+    }
+    const handleInvest = async () => {
+        setStock(prevStock => ({
+            ...prevStock,
+            InvestCount: prevStock.InvestCount + 1
+        }));
+        try {
+            await axios.get(`${API}/stockInvest/${stock.종목코드}`);
+        } catch (err) {
+            console.error('API 호출 실패 : ', err)
+        }
     }
 
+    const handleInvestCancel = async () => {
+        setStock(prevStock => ({
+            ...prevStock,
+            Invest: !prevStock.Invest,
+            InvestCount: 0
+        }));
+        try {
+            await axios.get(`${API}/del/${stock.종목코드}`);
+        } catch (err) {
+            console.error('API 호출 실패 : ', err)
+        }
+    }
+    const handleSelectedChartType = async (event, value) => {
+        if (value !== null) { setSelectedChartType(value) }
+    }
     // func
     const fetchData = async () => {
         const res = await axios.get(`${API}/industry/stockName`);
@@ -69,18 +102,18 @@ export default function StockSearchPange({ swiperRef }) {
             })
 
             // 종목차트
-            var res = await axios.get(`${STOCK}/get/${item.종목코드}`);
-            // console.log(res.data);
+            var res = await axios.get(`${STOCK}/get/${item.종목코드}/${selectedChartType}`);
+
             setStockChart({
-                price: res.data.price,
-                volume: res.data.volume,
-                treasury: res.data.treasury,
-                treasuryPrice: res.data.treasuryPrice,
+                // price: res.data.price,
+                // volume: res.data.volume,
+                // treasury: res.data.treasury,
+                // treasuryPrice: res.data.treasuryPrice,
                 willR: res.data.willR,
                 net: res.data.net,
-                MA: res.data.MA,
                 volumeRatio: res.data.volumeRatio,
-                DMI: res.data.DMI
+                DMI: res.data.DMI,
+                series: res.data.series
             })
             //     console.log(res.data); ${item.종목코드}
 
@@ -97,6 +130,21 @@ export default function StockSearchPange({ swiperRef }) {
 
 
     useEffect(() => { fetchData(); }, [])
+    const getSelectedChartType = async () => {
+        if (typeof stock.종목코드 !== "undefined") {
+            var res = await axios.get(`${STOCK}/get/${stock.종목코드}/${selectedChartType}`);
+            setStockChart({
+                willR: res.data.willR,
+                net: res.data.net,
+                volumeRatio: res.data.volumeRatio,
+                DMI: res.data.DMI,
+                series: res.data.series
+            })
+        }
+    }
+    useEffect(() => {
+        getSelectedChartType()
+    }, [selectedChartType])
 
     return (
         <Grid container spacing={1} >
@@ -179,7 +227,10 @@ export default function StockSearchPange({ swiperRef }) {
             </Grid>
             {/* 우 : Grid */}
             <Grid item xs={4}>
-                <SearchFinancialInfo swiperRef={swiperRef} stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} timeframe={timeframe} handleTimeframe={handleTimeframe} />
+                <SearchFinancialInfo swiperRef={swiperRef} stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} timeframe={timeframe} handleTimeframe={handleTimeframe}
+                    handleInvest={handleInvest} handleInvestCancel={handleInvestCancel}
+                    selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
+                />
             </Grid>
         </Grid>
 

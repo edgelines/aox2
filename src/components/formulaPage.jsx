@@ -19,10 +19,10 @@ export default function FormulaPage({ swiperRef }) {
     const [classification, setClassification] = useState(null);
     const [timeLine, setTimeLine] = useState(null);
 
-
-
     const [stock, setStock] = useState({ 종목명: null }); // 종목 정보
     const [stockChart, setStockChart] = useState({ price: [], volume: [] }); // 종목 차트
+    const [selectedChartType, setSelectedChartType] = useState('A') // Chart Type
+
 
     const handleFavorite = async () => {
         setStock(prevStock => ({
@@ -61,6 +61,10 @@ export default function FormulaPage({ swiperRef }) {
         }
     }
 
+    const handleSelectedChartType = async (event, value) => {
+        if (value !== null) { setSelectedChartType(value) }
+    }
+
     const getInfo = async (item) => {
         if (typeof item.종목코드 !== "undefined") {
             // 종목정보
@@ -79,15 +83,15 @@ export default function FormulaPage({ swiperRef }) {
             })
             // 종목차트
             // var res = await axios.get(`http://localhost:2440/stockData/get/${item.종목코드}`);
-            var res = await axios.get(`${STOCK}/get/${item.종목코드}`);
+            var res = await axios.get(`${STOCK}/get/${item.종목코드}/${selectedChartType}`);
             setStockChart({
-                price: res.data.price,
-                volume: res.data.volume,
-                treasury: res.data.treasury,
-                treasuryPrice: res.data.treasuryPrice,
+                // price: res.data.price,
+                // volume: res.data.volume,
+                // MA: res.data.MA,
+                // treasury: res.data.treasury,
+                // treasuryPrice: res.data.treasuryPrice,
                 willR: res.data.willR,
                 net: res.data.net,
-                MA: res.data.MA,
                 volumeRatio: res.data.volumeRatio,
                 DMI: res.data.DMI,
                 series: res.data.series
@@ -132,6 +136,21 @@ export default function FormulaPage({ swiperRef }) {
         };
     }, []); // 빈 배열을 전달하여 컴포넌트 마운트 시 한 번만 실행되도록 함
 
+    const getSelectedChartType = async () => {
+        if (typeof stock.종목코드 !== "undefined") {
+            var res = await axios.get(`${STOCK}/get/${stock.종목코드}/${selectedChartType}`);
+            setStockChart({
+                willR: res.data.willR,
+                net: res.data.net,
+                volumeRatio: res.data.volumeRatio,
+                DMI: res.data.DMI,
+                series: res.data.series
+            })
+        }
+    }
+    useEffect(() => {
+        getSelectedChartType()
+    }, [selectedChartType])
 
 
     return (
@@ -171,7 +190,9 @@ export default function FormulaPage({ swiperRef }) {
 
             {/* Stock Information */}
             <Grid item xs={5}>
-                <StockInfoPage stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} handleInvest={handleInvest} handleInvestCancel={handleInvestCancel} swiperRef={swiperRef} />
+                <StockInfoPage stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} handleInvest={handleInvest} handleInvestCancel={handleInvestCancel} swiperRef={swiperRef}
+                    selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
+                />
 
             </Grid>
 
