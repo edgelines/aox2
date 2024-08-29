@@ -159,7 +159,7 @@ export default function FormulaPage({ swiperRef }) {
             <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(350px, 15px)`, zIndex: 10 }}>
                 <Legend />
             </Box>
-            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(1010px, 330px)`, zIndex: 10 }}>
+            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(850px, 330px)`, zIndex: 10 }}>
                 <WilliamsLegend />
             </Box>
             {/* <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(10px, 505px)`, zIndex: 10 }}>

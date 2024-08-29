@@ -17,7 +17,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
     const chartComponent = useRef(null);
     const [chartOptions, setChartOptions] = useState({
         chart: {
-            type: 'scatter', height: height ? height - 400 : 400, backgroundColor: 'rgba(255, 255, 255, 0)', zoomType: 'xy', width: 1070
+            type: 'scatter', height: height ? height - 400 : 400, backgroundColor: 'rgba(255, 255, 255, 0)', zoomType: 'xy'
         },
         credits: { enabled: false }, title: { text: null },
         subtitle: { align: 'right', style: { color: '#efe9e9ed', fontSize: '12.5px', backgroundColor: 'rgba(0, 0, 0, 0.2)', }, floating: true, x: 0, y: 30 },
@@ -98,25 +98,12 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
     const [selectedIndustry, setSelectedIndustry] = useState([]);
     const [selectedThemes, setSelectedThemes] = useState([]);
 
-    // const [selectedDate, setSelectedDate] = useState('now')
-    const [marketGap, setMarketGap] = useState(500);
-    const [reserve, setReserve] = useState(300);
-
-    // const fetchData = async () => {
-    //     const res = await axios.get(`${API}/formula/GetIndicatorScope`);
-    //     // const res = await axios.get(`http://localhost:2440/api/formula/GetIndicatorScope`);
-    //     setMarketGap(res.data.marketGap);
-    //     setReserve(res.data.reserve);
-    // }
-
-    // useEffect(() => { fetchData(); }, [])
-
     useEffect(() => {
         let chart
         if (chartComponent.current && dataset.length > 0) {
             chart = chartComponent.current.chart;
             setChartOptions({
-                series: getData(dataset, selectedIndustry, selectedThemes, marketGap, reserve),
+                series: getData(dataset, selectedIndustry, selectedThemes),
             })
         }
 
@@ -126,7 +113,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
         //     chart.series[0].update(newData);
         // }
 
-    }, [dataset, selectedIndustry, selectedThemes, marketGap, reserve])
+    }, [dataset, selectedIndustry, selectedThemes])
 
     useEffect(() => {
         let chart
@@ -153,7 +140,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
         return tmp
     }
 
-    const getData = (dataset, selectedIndustry, selectedThemes, marketGap, reserve) => {
+    const getData = (dataset, selectedIndustry, selectedThemes) => {
         // 업종이나 테마를 선택했을때 데이터 필터
 
         const baseData = dataset[0].data;
@@ -208,47 +195,10 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
         }
     }
 
-    // const handleBTN = async (name, operation) => {
-    //     let newMarketGap = marketGap;
-    //     let newReserve = reserve;
-
-    //     if (name === 'marketGap') {
-    //         if (operation === 'increase') {
-    //             // setMarketGap(prev => prev + 50);
-    //             newMarketGap = marketGap + 50;
-    //             setMarketGap(newMarketGap);
-    //         } else if (operation === 'decrease' && marketGap > 0) {
-    //             // setMarketGap(prev => prev - 50);
-    //             newMarketGap = marketGap - 50;
-    //             setMarketGap(newMarketGap);
-    //         }
-    //     } else if (name === 'reserve') {
-    //         if (operation === 'increase') {
-    //             // setReserve(prev => prev + 50);
-    //             newReserve = reserve + 50;
-    //             setReserve(newReserve);
-    //         } else if (operation === 'decrease' && reserve > 0) {
-    //             // setReserve(prev => prev - 50);
-    //             newReserve = reserve - 50;
-    //             setReserve(newReserve);
-    //         }
-    //     }
-
-    //     try {
-    //         await axios.post(`${API}/formula/IndicatorScope`, { marketGap: newMarketGap, reserve: newReserve });
-    //         // await axios.post('http://localhost:2440/api/formula/IndicatorScope', { marketGap: newMarketGap, reserve: newReserve });
-    //         // console.log({ marketGap: newMarketGap, reserve: newReserve })
-    //     } catch (error) {
-    //         console.error('Error saving data:', error);
-    //     }
-    // }
-    // const handleSelectedDate = (event, value) => {
-    //     if (value !== null) { setSelectedDate(value); }
-    // }
     return (
         <div>
             {/* Classification */}
-            <Box sx={{ position: 'absolute', transform: 'translate(990px, 65px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(840px, 65px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
                 {classification ?
                     <>
                         {Object.keys(classification).map(item => (
@@ -274,13 +224,40 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
 
                     : <></>}
             </Box>
+            <Grid container>
+                <Grid item xs={10}>
+                    {/* Chart */}
+                    <HighchartsReact
+                        highcharts={Highcharts}
+                        options={chartOptions}
+                        ref={chartComponent}
+                    />
+                </Grid>
 
-            {/* Chart */}
-            <HighchartsReact
-                highcharts={Highcharts}
-                options={chartOptions}
-                ref={chartComponent}
-            />
+                <Grid item container xs={2}>
+
+                    {
+                        datasetCount ?
+                            <>
+                                <Grid item xs={12} sx={{ mt: 1 }}>
+                                    <CountTable name='업종' data={datasetCount.업종} swiperRef={swiperRef} height={height / 4.1}
+                                        handleClick={handleClick} handleReset={handleReset}
+                                        selectedIndustry={selectedIndustry} selectedThemes={selectedThemes} />
+
+                                </Grid>
+                                <Grid item xs={12} >
+                                    <CountTable name='테마' data={datasetCount.테마} swiperRef={swiperRef} height={height / 4.1}
+                                        handleClick={handleClick} handleReset={handleReset}
+                                        selectedIndustry={selectedIndustry} selectedThemes={selectedThemes} />
+                                </Grid>
+                            </>
+                            : <>Loading</>
+                    }
+
+
+                </Grid>
+
+            </Grid>
 
             {/* Bottom Table */}
             <Grid container>
@@ -299,33 +276,10 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                             <StyledToggleButton fontSize={10} value="b1">B-1</StyledToggleButton>
                             <StyledToggleButton fontSize={10} value="now">NOW</StyledToggleButton>
                         </ToggleButtonGroup> */}
-
-                        {/* 시총 */}
-                        {/* <IconButton onClick={() => handleBTN('marketGap', 'increase')}>
-                            <KeyboardArrowUpIcon />
-                        </IconButton>
-                        <Typography sx={{ fontSize: 11 }}>
-                            시총 : {marketGap} 이상
-                        </Typography>
-                        <IconButton onClick={() => handleBTN('marketGap', 'decrease')}>
-                            <KeyboardArrowDownIcon />
-                        </IconButton> */}
-
-                        {/* 유보율 */}
-                        {/* <IconButton onClick={() => handleBTN('reserve', 'increase')}>
-                            <KeyboardArrowUpIcon />
-                        </IconButton>
-                        <Typography sx={{ fontSize: 11 }}>
-                            유보 : {reserve} 이상
-                        </Typography>
-                        <IconButton onClick={() => handleBTN('reserve', 'decrease')}>
-                            <KeyboardArrowDownIcon />
-                        </IconButton> */}
-
                     </Stack>
                 </Grid>
 
-                <Grid item xs={10}>
+                <Grid item xs={12}>
                     <TableContainer sx={{ height: tableHeight }}
                         onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                         onMouseLeave={() => swiperRef.current.mousewheel.enable()}
@@ -361,29 +315,6 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                 </Grid>
 
 
-                <Grid item container xs={2}>
-
-                    {
-                        datasetCount ?
-                            <>
-                                <Grid item xs={12}>
-
-                                    <CountTable name='업종' data={datasetCount.업종} swiperRef={swiperRef} height={tableHeight / 2.2}
-                                        handleClick={handleClick} handleReset={handleReset}
-                                        selectedIndustry={selectedIndustry} selectedThemes={selectedThemes} />
-
-                                </Grid>
-                                <Grid item xs={12} sx={{ mt: 1 }}>
-                                    <CountTable name='테마' data={datasetCount.테마} swiperRef={swiperRef} height={tableHeight / 2.2}
-                                        handleClick={handleClick} handleReset={handleReset}
-                                        selectedIndustry={selectedIndustry} selectedThemes={selectedThemes} />
-                                </Grid>
-                            </>
-                            : <>Loading</>
-                    }
-
-
-                </Grid>
 
 
 
