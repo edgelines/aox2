@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import axios from 'axios';
-import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, Stack } from '@mui/material';
+import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, Button, Stack, Snackbar } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
@@ -10,6 +10,8 @@ import { customTheme, now_columns } from './MotionsColumns';
 import { CountTable } from '../Motions/CountTable'
 import { legend } from '../Motions/legend';
 import { blue } from '@mui/material/colors';
+import SettingsIcon from '@mui/icons-material/Settings';
+import CloseIcon from '@mui/icons-material/Close';
 // import { API } from '../util/config.jsx';
 
 const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getInfo, classification }) => {
@@ -97,11 +99,25 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
     const [tableData, setTableData] = useState([]);
     const [selectedIndustry, setSelectedIndustry] = useState([]);
     const [selectedThemes, setSelectedThemes] = useState([]);
+    const [open, setOpen] = useState(false);
+    const handleSettingIconClick = () => {
+        setOpen(true);
+    };
 
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
     useEffect(() => {
         let chart
         if (chartComponent.current && dataset.length > 0) {
             chart = chartComponent.current.chart;
+            // chart.update({
+            //     series: getData(dataset, selectedIndustry, selectedThemes),
+            // })
             setChartOptions({
                 series: getData(dataset, selectedIndustry, selectedThemes),
             })
@@ -194,15 +210,43 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
             setSelectedThemes([])
         }
     }
+    const action = (
+        <>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </>
+    );
+
+    const message = (
+        <Box container sx={{ textAlign: 'left' }}>
+            <Typography sx={{ fontSize: '12px' }} >고가 또는 종가가 5중가 6중기*3% 이내</Typography>
+            <Typography sx={{ fontSize: '12px' }} >당일 등락률 -3% 이상</Typography>
+            <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>
+            <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
+            <Typography sx={{ fontSize: '12px' }} >1. 14시삼 또는 16시삼 돌파</Typography>
+            <Typography sx={{ fontSize: '12px' }} >2. W9 -60이하 and Dmi7 15 이하</Typography>
+            <Typography sx={{ fontSize: '12px' }} >W9 -60이하 and Dmi17 30 이하</Typography>
+            <Typography sx={{ fontSize: '12px' }} >W14 -60이하 and Dmi7 15 이하</Typography>
+            <Typography sx={{ fontSize: '12px' }} >W14 -60이하 and Dmi17 30 이하</Typography>
+            <Typography sx={{ fontSize: '12px' }} >W33 -60이하 and Dmi7 15 이하</Typography>
+            <Typography sx={{ fontSize: '12px' }} >W33 -60이하 and Dmi17 30 이하</Typography>
+        </Box>
+    )
 
     return (
         <div>
             {/* Classification */}
-            <Box sx={{ position: 'absolute', transform: 'translate(840px, 65px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(830px, 50px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
                 {classification ?
                     <>
                         {Object.keys(classification).map(item => (
-                            <tr style={{ fontSize: '12.5px' }} key={item}>
+                            <tr style={{ fontSize: '11.5px' }} key={item}>
                                 <td style={{ color: legend[item] }}>
                                     {item}
                                 </td>
@@ -210,9 +254,9 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                             </tr>
                         ))}
                         {/* Classification Sum */}
-                        <tr style={{ fontSize: '12.5px' }} >
+                        <tr style={{ fontSize: '11.5px' }} >
                             <td style={{ color: '#efe9e9ed' }}>
-                                합계
+                                -
                             </td>
                             <td style={{ textAlign: 'right', width: 17 }}>
                                 {
@@ -224,6 +268,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
 
                     : <></>}
             </Box>
+            {/* Top Scatter Chart & Industry, Themes Table */}
             <Grid container>
                 <Grid item xs={10}>
                     {/* Chart */}
@@ -260,9 +305,10 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
             </Grid>
 
             {/* Bottom Table */}
-            <Grid container>
+            <Grid container direction='row' sx={{ alignItems: 'center', justifyContent: "flex-end" }}>
 
-                <Grid item xs={12}>
+                <Grid item>
+
                     <Stack direction='row' alignItems="center" justifyContent="center">
                         {/* <ToggleButtonGroup
                             // orientation="vertical"
@@ -277,45 +323,54 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                             <StyledToggleButton fontSize={10} value="now">NOW</StyledToggleButton>
                         </ToggleButtonGroup> */}
                     </Stack>
+
+
+                </Grid>
+                <Grid item>
+                    <IconButton onClick={handleSettingIconClick} sx={{ color: '#efe9e9ed' }}>
+                        <SettingsIcon />
+                    </IconButton>
+                    <Snackbar
+                        open={open}
+                        autoHideDuration={6000}
+                        onClose={handleClose}
+                        message={message}
+                        action={action}
+                    />
                 </Grid>
 
-                <Grid item xs={12}>
-                    <TableContainer sx={{ height: tableHeight }}
-                        onMouseEnter={() => swiperRef.current.mousewheel.disable()}
-                        onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-                    >
-                        <ThemeProvider theme={customTheme}>
-                            <DataGrid
-                                rows={tableData}
-                                columns={now_columns}
-                                rowHeight={20}
-                                initialState={{
-                                    sorting: {
-                                        sortModel: [{ field: 'w33', sort: 'desc' }],
-                                    },
-                                }}
-                                onCellClick={(params, event) => {
-                                    getInfo(params.row);
-                                }}
-                                sx={{
-                                    color: 'white', border: 'none',
-                                    ...DataTableStyleDefault,
-                                    [`& .${gridClasses.cell}`]: { py: 1, },
-                                    '[data-field="테마명"]': { fontSize: '9px' },
-                                    '.MuiTablePagination-root': { color: '#efe9e9ed' },
-                                    '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
-                                    '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
-                                    '& .MuiDataGrid-row.Mui-selected': {
-                                        backgroundColor: blue['A200'], // 원하는 배경색으로 변경
-                                    },
-                                }}
-                            />
-                        </ThemeProvider>
-                    </TableContainer>
-                </Grid>
-
-
-
+                <TableContainer sx={{ height: tableHeight }}
+                    onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                    onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+                >
+                    <ThemeProvider theme={customTheme}>
+                        <DataGrid
+                            rows={tableData}
+                            columns={now_columns}
+                            rowHeight={20}
+                            initialState={{
+                                sorting: {
+                                    sortModel: [{ field: 'w33', sort: 'desc' }],
+                                },
+                            }}
+                            onCellClick={(params, event) => {
+                                getInfo(params.row);
+                            }}
+                            sx={{
+                                color: 'white', border: 'none',
+                                ...DataTableStyleDefault,
+                                [`& .${gridClasses.cell}`]: { py: 1, },
+                                '[data-field="테마명"]': { fontSize: '9px' },
+                                '.MuiTablePagination-root': { color: '#efe9e9ed' },
+                                '.MuiTablePagination-selectLabel': { color: '#efe9e9ed', marginBottom: '5px' },
+                                '.MuiTablePagination-displayedRows': { color: '#efe9e9ed', marginBottom: '1px' },
+                                '& .MuiDataGrid-row.Mui-selected': {
+                                    backgroundColor: blue['A200'], // 원하는 배경색으로 변경
+                                },
+                            }}
+                        />
+                    </ThemeProvider>
+                </TableContainer>
 
 
             </Grid>

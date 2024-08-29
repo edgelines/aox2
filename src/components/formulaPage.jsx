@@ -11,7 +11,7 @@ import WilliamsLegend from './Motions/williamsLegend.jsx';
 export default function FormulaPage({ swiperRef }) {
 
     // config
-    const chartHeight = 910
+    const chartHeight = 850
 
     // state
     const [datasetCount, setDatasetCount] = useState(null);
@@ -156,10 +156,10 @@ export default function FormulaPage({ swiperRef }) {
     return (
         <Grid container spacing={1}>
 
-            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(350px, 15px)`, zIndex: 10 }}>
+            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(292px, 12px)`, zIndex: 10 }}>
                 <Legend />
             </Box>
-            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(850px, 330px)`, zIndex: 10 }}>
+            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(850px, 260px)`, zIndex: 10 }}>
                 <WilliamsLegend />
             </Box>
             {/* <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(10px, 505px)`, zIndex: 10 }}>
