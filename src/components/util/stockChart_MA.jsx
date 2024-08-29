@@ -15,7 +15,7 @@ Highcharts.setOptions({
 });
 
 
-const StockChart = ({ stockName, 최대값, 최소값, willR, height, price, net, boxTransform, volumeRatio, DMI, series, selectedChartType, handleSelectedChartType }) => {
+const StockChart = ({ stockName, willR, height, price, net, boxTransform, volumeRatio, DMI, series, selectedChartType, handleSelectedChartType }) => {
 
     const [chartOptions, setChartOptions] = useState({
         chart: { animation: false, height: height ? height : 360, },
@@ -118,10 +118,6 @@ const StockChart = ({ stockName, 최대값, 최소값, willR, height, price, net
                 return (this.value).toLocaleString('ko-KR');
             },
         },
-        plotLines: [
-            { color: 'black', width: 1, dashStyle: 'shortdash', value: 최대값 ? 최대값 : null, label: { text: '최대값', style: { fontWeight: 600 } } },
-            { color: 'black', width: 1, dashStyle: 'shortdash', value: 최소값 ? 최소값 : null, label: { text: '최소값', y: 15, style: { fontWeight: 600 } } },
-        ]
     }, {
         top: '60%',
         height: '20%',
@@ -147,24 +143,49 @@ const StockChart = ({ stockName, 최대값, 최소값, willR, height, price, net
             color: 'black',
             width: 0.5,
             value: -100,
+            label: {
+                align: 'right',
+                text: '-100', y: 0,
+                style: { fontSize: '10px' }
+            },
         }, {
             color: 'black',
             width: 0.5,
             value: -90,
+            label: {
+                align: 'right',
+                text: '-90', y: 0,
+                style: { fontSize: '10px' }
+            },
         }, {
             color: 'blue',
             width: 1,
             value: -80,
-            dashStyle: 'shortdash',//라인 스타일 지정 옵션
+            dashStyle: 'shortdash',
+            label: {
+                align: 'right',
+                text: '-80', y: 0,
+                style: { fontSize: '10px' }
+            },
         }, {
             color: 'black',
             width: 0.5,
             value: -50,
-            dashStyle: 'shortdash',//라인 스타일 지정 옵션
+            dashStyle: 'shortdash',
+            label: {
+                align: 'right',
+                text: '-50', y: 0,
+                style: { fontSize: '10px' }
+            },
         }, {
             color: 'red',
             width: 1,
             value: -20,
+            label: {
+                align: 'right',
+                text: '-20', y: 0,
+                style: { fontSize: '10px' }
+            },
         }],
         crosshair: { width: 2, }
     }, {
@@ -183,24 +204,50 @@ const StockChart = ({ stockName, 최대값, 최소값, willR, height, price, net
             color: 'red',
             width: 1,
             value: 80,
+            label: {
+                align: 'right',
+                text: '80',
+                y: 0,
+                style: { fontSize: '10px' }
+            },
         }, {
             color: 'black',
             width: 0.5,
             value: 50,
+            label: {
+                align: 'right',
+                text: '50', y: 0,
+                style: { fontSize: '10px' }
+            },
         }, {
             color: 'red',
             width: 0.5,
             value: 20,
             dashStyle: 'shortdash',
+            label: {
+                align: 'right',
+                text: '20', y: 0,
+                style: { fontSize: '10px' }
+            },
         }, {
             color: 'blue',
             width: 0.5,
             value: 10,
             dashStyle: 'shortdash',
+            label: {
+                align: 'right',
+                text: '10', y: 0,
+                style: { fontSize: '10px' }
+            },
         }, {
             color: 'black',
             width: 0.5,
             value: 5,
+            label: {
+                align: 'right',
+                text: '5', y: 0,
+                style: { fontSize: '10px' }
+            },
         }],
         crosshair: { width: 2, },
     }, {
@@ -214,6 +261,29 @@ const StockChart = ({ stockName, 최대값, 최소값, willR, height, price, net
             style: { fontSize: '0px' },
         },
         gridLineWidth: 0,
+        plotLines: [{
+            color: 'red',
+            width: 1,
+            value: -90,
+            dashStyle: 'shortdash',
+            label: {
+                align: 'left',
+                text: '-90',
+                x: -10, y: 0,
+                style: { fontSize: '10px' }
+            },
+        }, {
+            color: 'blue',
+            width: 1,
+            value: -80,
+            dashStyle: 'shortdash',
+            label: {
+                align: 'left',
+                text: '-80',
+                x: -10, y: 0,
+                style: { fontSize: '10px' }
+            },
+        }]
     }]
 
     const yAis_B = [
@@ -226,10 +296,6 @@ const StockChart = ({ stockName, 최대값, 최소값, willR, height, price, net
                     return (this.value).toLocaleString('ko-KR');
                 },
             },
-            plotLines: [
-                { color: 'black', width: 1, dashStyle: 'shortdash', value: 최대값 ? 최대값 : null, label: { text: '최대값', style: { fontWeight: 600 } } },
-                { color: 'black', width: 1, dashStyle: 'shortdash', value: 최소값 ? 최소값 : null, label: { text: '최소값', y: 15, style: { fontWeight: 600 } } },
-            ]
         }
     ]
 
