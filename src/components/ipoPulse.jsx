@@ -41,7 +41,11 @@ export default function IpoPulsePage({ swiperRef }) {
     const [stock, setStock] = useState({});
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
     const [selectedChartType, setSelectedChartType] = useState('A') // Chart Type
+    const [selectedSubChartType, setSelectedSubChartType] = useState(false)
     // Handler
+    const handleSelectedSubChartType = () => {
+        setSelectedSubChartType(prevStock => (!prevStock));
+    }
     const handleCheckBox = (name) => {
         setCheckBox((prevStatus) => {
             if (name === 'All') {
@@ -582,6 +586,7 @@ export default function IpoPulsePage({ swiperRef }) {
                                     willR={stockChart.willR} DMI={stockChart.DMI}
                                     series={stockChart.series}
                                     selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
+                                    selectedSubChartType={selectedSubChartType} handleSelectedSubChartType={handleSelectedSubChartType}
                                 />
                                 // </Grid>
                                 : <></>

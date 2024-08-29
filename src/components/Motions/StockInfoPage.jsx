@@ -18,7 +18,10 @@ import { yellow } from '@mui/material/colors';
 
 export default function StockInfoPage({ stock, stockChart, handleFavorite, handleInvest, handleInvestCancel, swiperRef, selectedChartType, handleSelectedChartType }) {
     const baseStyle = { fontSize: '10px', p: 0.1, textAlign: 'right' }
-
+    const [selectedSubChartType, setSelectedSubChartType] = useState(false)
+    const handleSelectedSubChartType = () => {
+        setSelectedSubChartType(prevStock => (!prevStock));
+    }
     return (
         <Grid container>
             {/* Top Stock Name */}
@@ -37,82 +40,88 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
                     willR={stockChart.willR} DMI={stockChart.DMI}
                     series={stockChart.series}
                     selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
+                    selectedSubChartType={selectedSubChartType} handleSelectedSubChartType={handleSelectedSubChartType}
                 />
             </Grid>
 
             {/* Bottom Infomation */}
             <Grid item container sx={{ mt: 1 }}>
 
+                {
+                    !selectedSubChartType ?
+                        <Grid item container>
+                            {/* 주요제품 매출 구성, 사업내용, 테마 */}
+                            <Grid item xs={4.5}>
 
-                <Grid item container>
-                    {/* 주요제품 매출 구성, 사업내용, 테마 */}
-                    <Grid item xs={4.5}>
+                                {
+                                    Array.isArray(stock.주요제품매출구성) ?
+                                        <TableContainer sx={{ height: 220 }}
+                                            onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                                            onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+                                        >
 
-                        {
-                            Array.isArray(stock.주요제품매출구성) ?
-                                <TableContainer sx={{ height: 220 }}
-                                    onMouseEnter={() => swiperRef.current.mousewheel.disable()}
-                                    onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-                                >
+                                            <Table sx={{ mt: 1, borderBottom: '1px solid #fff' }}>
+                                                <TableBody>
+                                                    {stock.주요제품매출구성.map(item => (
+                                                        <tr key={item.제품명}>
+                                                            <td sx={{ color: '#efe9e9ed', ...baseStyle }} >{item.제품명}</td>
+                                                            <td sx={{ color: '#efe9e9ed', ...baseStyle }} >{parseInt(item.구성비)} %</td>
+                                                        </tr>
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
 
-                                    <Table sx={{ mt: 1, borderBottom: '1px solid #fff' }}>
-                                        <TableBody>
-                                            {stock.주요제품매출구성.map(item => (
-                                                <tr key={item.제품명}>
-                                                    <td sx={{ color: '#efe9e9ed', ...baseStyle }} >{item.제품명}</td>
-                                                    <td sx={{ color: '#efe9e9ed', ...baseStyle }} >{parseInt(item.구성비)} %</td>
-                                                </tr>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-
-                                    <Grid container sx={{ mt: 1, borderBottom: '1px solid #fff' }}>
-                                        <Stack direction='column' spacing={1} >
-                                            {Array.isArray(stock.기업개요) ? stock.기업개요.map(item => (
-                                                <StyledTypography_StockInfo key={item} fontSize="12px">{item}</StyledTypography_StockInfo>
-                                            )) : <></>}
-                                        </Stack>
-                                    </Grid>
-
-
-                                    <Grid container sx={{ mt: 1 }}>
-                                        <Stack direction='row' spacing={1} useFlexGap flexWrap="wrap" >
-                                            {Array.isArray(stock.테마명) ? stock.테마명.map(item => (
-                                                <StyledTypography_StockInfo key={item} fontSize="12px">{item}</StyledTypography_StockInfo>
-                                            )) : <></>}
-                                        </Stack>
-                                    </Grid>
+                                            <Grid container sx={{ mt: 1, borderBottom: '1px solid #fff' }}>
+                                                <Stack direction='column' spacing={1} >
+                                                    {Array.isArray(stock.기업개요) ? stock.기업개요.map(item => (
+                                                        <StyledTypography_StockInfo key={item} fontSize="12px">{item}</StyledTypography_StockInfo>
+                                                    )) : <></>}
+                                                </Stack>
+                                            </Grid>
 
 
-                                </TableContainer>
-
-                                :
-                                <></>
-                        }
-
-                    </Grid>
-
-                    {/* 간지 */}
-                    <Grid item xs={0.3}></Grid>
-
-                    {/* 재무 / 사업내용 / 테마  */}
-                    <Grid item xs={7}>
-
-                        <Grid item container sx={{ minHeight: 210 }}>
-                            {Array.isArray(stock.연간실적) ?
-                                <Financial annual={stock.연간실적} quarter={stock.분기실적} />
-                                : <></>
-                            }
+                                            <Grid container sx={{ mt: 1 }}>
+                                                <Stack direction='row' spacing={1} useFlexGap flexWrap="wrap" >
+                                                    {Array.isArray(stock.테마명) ? stock.테마명.map(item => (
+                                                        <StyledTypography_StockInfo key={item} fontSize="12px">{item}</StyledTypography_StockInfo>
+                                                    )) : <></>}
+                                                </Stack>
+                                            </Grid>
 
 
-                            {/* <ContentsComponent page={page} annual={stock.연간실적} quarter={stock.분기실적} summary={stock.기업개요} themes={stock.테마명} product={stock.주요제품매출구성} shareholder={stock.주요주주} /> */}
-                        </Grid>
+                                        </TableContainer>
+
+                                        :
+                                        <></>
+                                }
+
+                            </Grid>
+
+                            {/* 간지 */}
+                            <Grid item xs={0.3}></Grid>
+
+                            {/* 재무 / 사업내용 / 테마  */}
+                            <Grid item xs={7}>
+
+                                <Grid item container sx={{ minHeight: 210 }}>
+                                    {Array.isArray(stock.연간실적) ?
+                                        <Financial annual={stock.연간실적} quarter={stock.분기실적} />
+                                        : <></>
+                                    }
 
 
-                    </Grid>
+                                    {/* <ContentsComponent page={page} annual={stock.연간실적} quarter={stock.분기실적} summary={stock.기업개요} themes={stock.테마명} product={stock.주요제품매출구성} shareholder={stock.주요주주} /> */}
+                                </Grid>
 
 
-                </Grid>
+                            </Grid>
+
+
+                        </Grid> :
+                        <>
+                            Chart
+                        </>
+                }
 
 
             </Grid>
