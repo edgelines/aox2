@@ -211,13 +211,6 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
             setSelectedThemes([])
         }
     }
-    const action = (
-        <>
-
-        </>
-    );
-
-
 
     return (
         <div>

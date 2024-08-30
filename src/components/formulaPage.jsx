@@ -108,8 +108,8 @@ export default function FormulaPage({ swiperRef }) {
     }
 
     useEffect(() => {
-        // const ws = new WebSocket(`${API_WS}/Formula/${formulaType}`);
-        const ws = new WebSocket(`ws://localhost:2440/ws/Formula/${formulaType}`);
+        const ws = new WebSocket(`${API_WS}/Formula/${formulaType}`);
+        // const ws = new WebSocket(`ws://localhost:2440/ws/Formula/${formulaType}`);
         console.log(ws);
         ws.onopen = () => {
             console.log('Formula Page WebSocket Connected');
