@@ -12,7 +12,7 @@ export default function FormulaPage({ swiperRef }) {
 
     // config
     const chartHeight = 850
-
+    const ws = useRef(null); // WebSocket 참조 하는 상태 생성
     // state
     const [datasetCount, setDatasetCount] = useState(null);
     const [dataset, setDataset] = useState({ time: [], data: [] });
@@ -64,6 +64,9 @@ export default function FormulaPage({ swiperRef }) {
     const handleSelectedChartType = async (event, value) => {
         if (value !== null) { setSelectedChartType(value) }
     }
+    const handleFormulaType = async (event, value) => {
+        if (value !== null) { setFormulaType(value) }
+    }
 
     const getInfo = async (item) => {
         if (typeof item.종목코드 !== "undefined") {
@@ -104,12 +107,10 @@ export default function FormulaPage({ swiperRef }) {
 
     }
 
-
-    // useEffect(() => { fetchData(); setReplaySwitch('live') }, []);
-
     useEffect(() => {
-        const ws = new WebSocket(`${API_WS}/Formula`);
-        // const ws = new WebSocket(`ws://localhost:2440/ws/Formula`);
+        // const ws = new WebSocket(`${API_WS}/Formula/${formulaType}`);
+        const ws = new WebSocket(`ws://localhost:2440/ws/Formula/${formulaType}`);
+        console.log(ws);
         ws.onopen = () => {
             console.log('Formula Page WebSocket Connected');
         };
@@ -134,7 +135,7 @@ export default function FormulaPage({ swiperRef }) {
         return () => {
             ws.close();
         };
-    }, []); // 빈 배열을 전달하여 컴포넌트 마운트 시 한 번만 실행되도록 함
+    }, [formulaType]); // 빈 배열을 전달하여 컴포넌트 마운트 시 한 번만 실행되도록 함
 
     const getSelectedChartType = async () => {
         if (typeof stock.종목코드 !== "undefined") {
@@ -184,6 +185,7 @@ export default function FormulaPage({ swiperRef }) {
                     dataset={dataset} timeLine={timeLine} height={chartHeight} swiperRef={swiperRef}
                     datasetCount={datasetCount} classification={classification} tableSortColumn={'w33'}
                     getInfo={getInfo}
+                    formulaType={formulaType} handleFormulaType={handleFormulaType}
                 />
             </Grid>
 

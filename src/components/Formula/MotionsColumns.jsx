@@ -50,43 +50,43 @@ export const base_columns = [{
     }
 }]
 
-export const now_columns = [
+export const A_columns = [
     ...base_columns,
     {
-        field: 'w9', headerName: 'w9', width: 40,
+        field: 'w9', headerName: 'w9', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
             const color = williamsColor(params.value)
             return (
-                <span style={{ backgroundColor: color, width: 40, color: '#404040' }}>{params.value}</span>
+                <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
             )
         }
     }, {
-        field: 'w14', headerName: 'w14', width: 40,
+        field: 'w14', headerName: 'w14', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
             const color = williamsColor(params.value)
             return (
-                <span style={{ backgroundColor: color, width: 40, color: '#404040' }}>{params.value}</span>
+                <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
             )
         }
     }, {
-        field: 'w33', headerName: 'w33', width: 40,
+        field: 'w33', headerName: 'w33', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
             const color = williamsColor(params.value)
             return (
-                <span style={{ backgroundColor: color, width: 40, color: '#404040' }}>{params.value}</span>
+                <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
             )
         }
     }, {
-        field: 'DMI_7', headerName: 'D7', width: 40,
+        field: 'DMI_7', headerName: 'D7', width: 55,
         align: 'right', headerAlign: 'center',
     }, {
-        field: 'DMI_17', headerName: 'D17', width: 40,
+        field: 'DMI_17', headerName: 'D17', width: 55,
         align: 'right', headerAlign: 'center',
     }, {
-        field: 'TRIMA_14', headerName: 'T14', width: 40,
+        field: 'TRIMA_14', headerName: 'T14', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
             return (
@@ -94,7 +94,7 @@ export const now_columns = [
             )
         }
     }, {
-        field: 'TRIMA_16', headerName: 'T16', width: 40,
+        field: 'TRIMA_16', headerName: 'T16', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
             return (
@@ -102,7 +102,7 @@ export const now_columns = [
             )
         }
     }, {
-        field: 'TRIMA_18', headerName: 'T18', width: 40,
+        field: 'TRIMA_18', headerName: 'T18', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
             return (
@@ -110,13 +110,48 @@ export const now_columns = [
             )
         }
     }, {
-        field: 'TRIMA_20', headerName: 'T20', width: 40,
+        field: 'TRIMA_20', headerName: 'T20', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
             return (
                 <span> {params.value === false ? '' : '★'}</span>
             )
         }
+    }
+]
+
+export const B_columns = [
+    ...base_columns,
+    {
+        field: 'w6', headerName: 'w6', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            const color = williamsColor(params.value)
+            return (
+                <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
+            )
+        }
+    }, {
+        field: 'w14', headerName: 'w14', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            const color = williamsColor(params.value)
+            return (
+                <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
+            )
+        }
+    }, {
+        field: 'DMI_4', headerName: 'D4', width: 55,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'DMI_7', headerName: 'D7', width: 55,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'DMI_9', headerName: 'D9', width: 55,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'DMI_17', headerName: 'D17', width: 55,
+        align: 'right', headerAlign: 'center',
     }
 ]
 

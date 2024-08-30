@@ -1,91 +1,168 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, Skeleton, Select, MenuItem, FormControl, ToggleButtonGroup, Box, Typography } from '@mui/material';
-import RatioVolumeTrendScatterChart from './Motions/ratioVolumeTrendScatterChart.jsx'
-import RatioVolumeTrendScatterChartLive from './Motions/ratioVolumeTrendScatterChartLive.jsx'
-import StockInfoPage from './Motions/StockInfoPage.jsx';
+import { Grid, Skeleton, Select, MenuItem, FormControl, ToggleButtonGroup, Box, Typography, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
+import { DataGrid, gridClasses } from '@mui/x-data-grid';
+import { ThemeProvider } from '@mui/material/styles';
+import { customTheme } from './Motions/MotionsColumns';
+import { DataTableStyleDefault } from './LeadSectors/tableColumns';
+import { blue } from '@mui/material/colors';
 import { API, API_WS, STOCK } from './util/config.jsx';
-import { StyledToggleButton } from './util/util.jsx';
-import { formatDateString } from './util/formatDate.jsx';
+// import { StyledToggleButton } from './util/util.jsx';
+
+import { monthColumns, dayColumns } from './Report/columns.jsx';
 import TestChart from './Test/TestChart.jsx'
 
 
-export default function MotionPage({ }) {
-    const chartHeight = 400;
+export default function TestPage({ swiperRef }) {
+
 
     // state
-    const [dataset1, setDataset1] = useState({});
-    const [dataset2, setDataset2] = useState({});
-    const [dataset3, setDataset3] = useState({});
-    const [dataset4, setDataset4] = useState({});
-    const [dataset5, setDataset5] = useState({});
-    const [dataset6, setDataset6] = useState({});
-    const [dataset7, setDataset7] = useState({});
-    const [dataset8, setDataset8] = useState({});
-    const [dataset9, setDataset9] = useState({});
+    const [_date, set_Date] = useState({ year: null, month: null });
+    const [monthData, setMonthData] = useState([]);
+    const [dayData, setDayData] = useState([]);
+    const [statistics, setStatistics] = useState(null);
 
-    const get_data = async (xAxis, yAxis, setDataset) => {
+
+    const get_data = async (_date) => {
         const postData = {
-            xAxis: xAxis,
-            yAxis: yAxis
+            year: _date.year,
+            month: _date.month
         }
-        const res = await axios.post('http://localhost:2440/api/test/get_stocks_stats', postData);
-        setDataset({ ...res.data, xAxis: xAxis, yAxis: yAxis });
-
+        const res = await axios.post('http://localhost:2440/api/test/getMonthData', postData);
+        setMonthData(res.data.data);
+        setStatistics(res.data.statistics);
     }
 
     const fetchData = async () => {
-
-        get_data('CCI_4', 'WillR9', setDataset1);
-        get_data('CCI_11', 'WillR9', setDataset2);
-        get_data('CCI_4_Sig', 'CCI_4', setDataset3);
-
-        // get_data('CCI_11', 'WillR9', setDataset4);
-        // get_data('CCI_4', 'WillR9', setDataset5);
-        get_data('CCI_4', 'WillR14', setDataset4);
-        get_data('CCI_11', 'WillR14', setDataset5);
-        get_data('CCI_4_Sig', 'WillR14', setDataset6);
-
-        get_data('CCI_4', 'WillR33', setDataset7);
-        get_data('CCI_11', 'WillR33', setDataset8);
-        get_data('CCI_4_Sig', 'WillR33', setDataset9);
+        var today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth() + 1;
+        const date = { year: year, month: month }
+        set_Date(date)
+        get_data(date);
 
     }
 
+    // handler
+    const getCellClick = async (row) => {
+        const res = await axios.post('http://localhost:2440/api/test/getDayData', { 날짜: row.날짜.split('T')[0] });
+        setDayData(res.data);
+    }
+
+
+
     useEffect(() => { fetchData(); }, [])
+    // useEffect(() => { fetchData(); }, [])
+
+    const tableCellStyle = { color: '#efe9e9ed', fontSize: '11px' }
+
 
     return (
         <Grid container spacing={1}>
-            <Grid item xs={12}>
-                <Typography> A set, 전일대비거래량 500% 이하, 이평구간, 3일 이내</Typography>
+            <Grid item container xs={12}>
+                <Typography>Report Page</Typography>
             </Grid>
-            <Grid item xs={4}>
-                <TestChart dataset={dataset1} />
+
+            {/* Month Stats Data */}
+            <Grid item container xs={3}>
+                <TableContainer sx={{ height: 600 }}
+                    onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                    onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+                >
+                    <ThemeProvider theme={customTheme}>
+                        <DataGrid
+                            rows={monthData}
+                            columns={monthColumns}
+                            rowHeight={20}
+                            hideFooter
+                            onCellClick={(params, event) => {
+                                getCellClick(params.row);
+                            }}
+                            sx={{
+                                color: 'white', border: 'none',
+                                ...DataTableStyleDefault,
+                                [`& .${gridClasses.cell}`]: { py: 1, },
+                                // '[data-field="테마명"]': { fontSize: '9px' },
+
+                                '& .MuiDataGrid-row.Mui-selected': {
+                                    backgroundColor: blue['A200'], // 원하는 배경색으로 변경
+                                },
+                            }}
+                        />
+                    </ThemeProvider>
+                </TableContainer>
             </Grid>
-            <Grid item xs={4}>
-                <TestChart dataset={dataset2} />
+
+            {/* Chart, Day Stats Data */}
+            <Grid item container xs={5.5}>
+                <TableContainer sx={{ height: 600 }}
+                    onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                    onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+                >
+                    <ThemeProvider theme={customTheme}>
+                        <DataGrid
+                            rows={dayData}
+                            columns={dayColumns}
+                            rowHeight={20}
+                            hideFooter
+                            getRowId={(row) => row.id} // id 필드를 고유 식별자로 사용
+                            sx={{
+                                color: 'white', border: 'none',
+                                ...DataTableStyleDefault,
+                                [`& .${gridClasses.cell}`]: { py: 1, },
+                                // '[data-field="테마명"]': { fontSize: '9px' },
+
+                                '& .MuiDataGrid-row.Mui-selected': {
+                                    backgroundColor: blue['A200'], // 원하는 배경색으로 변경
+                                },
+                            }}
+                        />
+                    </ThemeProvider>
+                </TableContainer>
             </Grid>
-            <Grid item xs={4}>
-                <TestChart dataset={dataset3} />
+
+            {/* Statistics */}
+
+            <Grid item container xs={3.5}>
+                <TableContainer>
+                    <Table size='small'>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell sx={tableCellStyle} >보조지표</TableCell>
+                                <TableCell sx={tableCellStyle} >min</TableCell>
+                                <TableCell sx={tableCellStyle} >max</TableCell>
+                                <TableCell sx={tableCellStyle} >avg</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {/* {Object.keys(statistics).map(item => {
+                                const columns = ['w9', 'w14', 'w33', 'd7', 'd17']
+                                const columns2 = ['T14', 'T16', 'T18', 'T20']
+                                if (columns.includes(item)) {
+                                    return (
+                                        <TableRow key={item}>
+                                            <TableCell sx={tableCellStyle}>{item}</TableCell>
+                                            <TableCell sx={tableCellStyle}>{statistics[item]['min']}</TableCell>
+                                            <TableCell sx={tableCellStyle}>{statistics[item]['max']}</TableCell>
+                                            <TableCell sx={tableCellStyle}>{statistics[item]['avg']}</TableCell>
+                                        </TableRow>
+                                    )
+                                } else if (columns2.includes(item)) {
+                                    return (
+                                        <TableRow key={item}>
+                                            <TableCell sx={tableCellStyle}>{item}</TableCell>
+                                            <TableCell sx={tableCellStyle}>{statistics[item]} / {statistics['종목갯수']}</TableCell>
+                                        </TableRow>
+                                    )
+                                }
+
+                            })} */}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </Grid>
-            <Grid item xs={4}>
-                <TestChart dataset={dataset4} />
-            </Grid>
-            <Grid item xs={4}>
-                <TestChart dataset={dataset5} />
-            </Grid>
-            <Grid item xs={4}>
-                <TestChart dataset={dataset6} />
-            </Grid>
-            <Grid item xs={4}>
-                <TestChart dataset={dataset7} />
-            </Grid>
-            <Grid item xs={4}>
-                <TestChart dataset={dataset8} />
-            </Grid>
-            <Grid item xs={4}>
-                <TestChart dataset={dataset9} />
-            </Grid>
+
+
         </Grid>
 
     )

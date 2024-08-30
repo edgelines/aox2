@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import axios from 'axios';
-import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, Button, Stack, Snackbar } from '@mui/material';
+import { StyledToggleButton } from '../util/util';
+import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, Stack, Modal } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
-import { customTheme, now_columns } from './MotionsColumns';
+import { customTheme, A_columns, B_columns } from './MotionsColumns';
 import { CountTable } from '../Motions/CountTable'
 import { legend } from '../Motions/legend';
 import { blue } from '@mui/material/colors';
@@ -14,7 +15,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import CloseIcon from '@mui/icons-material/Close';
 // import { API } from '../util/config.jsx';
 
-const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getInfo, classification }) => {
+const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getInfo, classification, formulaType, handleFormulaType }) => {
     const tableHeight = 410;
     const chartComponent = useRef(null);
     const [chartOptions, setChartOptions] = useState({
@@ -212,32 +213,11 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
     }
     const action = (
         <>
-            <IconButton
-                size="small"
-                aria-label="close"
-                color="inherit"
-                onClick={handleClose}
-            >
-                <CloseIcon fontSize="small" />
-            </IconButton>
+
         </>
     );
 
-    const message = (
-        <Box container sx={{ textAlign: 'left' }}>
-            <Typography sx={{ fontSize: '12px' }} >고가 또는 종가가 5중가 6중기*3% 이내</Typography>
-            <Typography sx={{ fontSize: '12px' }} >당일 등락률 -3% 이상</Typography>
-            <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>
-            <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
-            <Typography sx={{ fontSize: '12px' }} >1. 14시삼 또는 16시삼 돌파</Typography>
-            <Typography sx={{ fontSize: '12px' }} >2. W9 -60이하 and Dmi7 15 이하</Typography>
-            <Typography sx={{ fontSize: '12px' }} >W9 -60이하 and Dmi17 30 이하</Typography>
-            <Typography sx={{ fontSize: '12px' }} >W14 -60이하 and Dmi7 15 이하</Typography>
-            <Typography sx={{ fontSize: '12px' }} >W14 -60이하 and Dmi17 30 이하</Typography>
-            <Typography sx={{ fontSize: '12px' }} >W33 -60이하 and Dmi7 15 이하</Typography>
-            <Typography sx={{ fontSize: '12px' }} >W33 -60이하 and Dmi17 30 이하</Typography>
-        </Box>
-    )
+
 
     return (
         <div>
@@ -305,38 +285,54 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
             </Grid>
 
             {/* Bottom Table */}
-            <Grid container direction='row' sx={{ alignItems: 'center', justifyContent: "flex-end" }}>
+            <Grid container direction='row' sx={{ alignItems: 'center', justifyContent: "space-between" }}>
 
+                {/* Formula Type */}
                 <Grid item>
-
                     <Stack direction='row' alignItems="center" justifyContent="center">
-                        {/* <ToggleButtonGroup
+                        <ToggleButtonGroup
                             // orientation="vertical"
                             color='info'
                             exclusive
                             size="small"
-                            value={selectedDate}
-                            onChange={handleSelectedDate}
+                            value={formulaType}
+                            onChange={handleFormulaType}
                         >
-                            <StyledToggleButton fontSize={10} value="b2">B-2</StyledToggleButton>
-                            <StyledToggleButton fontSize={10} value="b1">B-1</StyledToggleButton>
-                            <StyledToggleButton fontSize={10} value="now">NOW</StyledToggleButton>
-                        </ToggleButtonGroup> */}
+                            <StyledToggleButton fontSize={10} value="A">A-Type</StyledToggleButton>
+                            <StyledToggleButton fontSize={10} value="B">B-Type</StyledToggleButton>
+                        </ToggleButtonGroup>
                     </Stack>
 
 
                 </Grid>
+
+                {/* Formula Def */}
                 <Grid item>
                     <IconButton onClick={handleSettingIconClick} sx={{ color: '#efe9e9ed' }}>
                         <SettingsIcon />
                     </IconButton>
-                    <Snackbar
+                    <Modal
                         open={open}
-                        autoHideDuration={6000}
                         onClose={handleClose}
-                        message={message}
-                        action={action}
-                    />
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box sx={{
+                            textAlign: 'left',
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: 300,
+                            bgcolor: 'background.paper',
+                            // border: '2px solid #000',
+                            // boxShadow: 24,
+                            p: 1,
+                        }}>
+                            <TypeMessage type={formulaType} />
+                        </Box>
+
+                    </Modal>
                 </Grid>
 
                 <TableContainer sx={{ height: tableHeight }}
@@ -346,13 +342,13 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                     <ThemeProvider theme={customTheme}>
                         <DataGrid
                             rows={tableData}
-                            columns={now_columns}
+                            columns={formulaType === 'A' ? A_columns : B_columns}
                             rowHeight={20}
-                            initialState={{
-                                sorting: {
-                                    sortModel: [{ field: 'w33', sort: 'desc' }],
-                                },
-                            }}
+                            // initialState={{
+                            //     sorting: {
+                            //         sortModel: formulaType === 'A' ? [{ field: 'w33', sort: 'desc' }] : [{ field: 'D4', sort: 'desc' }],
+                            //     },
+                            // }}
                             onCellClick={(params, event) => {
                                 getInfo(params.row);
                             }}
@@ -381,3 +377,43 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
 
 export default MotionsChart;
 
+
+const TypeMessage = (type) => {
+    switch (type) {
+        case 'B':
+            return (<>
+                <Typography sx={{ fontSize: '12px' }} >D4 10 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >D7 10 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >D9 15 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >D17 30 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} ></Typography>
+                <Typography sx={{ fontSize: '12px' }} ></Typography>
+
+            </>)
+
+        default:
+            return (<>
+                {/* <IconButton
+                    size="small"
+                    aria-label="close"
+                    color="inherit"
+                    onClick={handleClose}
+                >
+                    <CloseIcon fontSize="small" />
+                </IconButton> */}
+                <Typography sx={{ fontSize: '12px' }} >고가 또는 종가가 5중가 6중기*3% 이내</Typography>
+                <Typography sx={{ fontSize: '12px' }} >당일 등락률 -3% 이상</Typography>
+                <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
+                <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
+                <Typography sx={{ fontSize: '12px' }} >1. 14시삼 또는 16시삼 돌파</Typography>
+                <Typography sx={{ fontSize: '12px' }} >2. W9 -60이하 and Dmi7 15 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >2. W9 -60이하 and Dmi17 30 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >2. W14 -60이하 and Dmi7 15 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >2. W14 -60이하 and Dmi17 30 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >2. W33 -60이하 and Dmi7 15 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >2. W33 -60이하 and Dmi17 30 이하</Typography>
+            </>)
+    }
+}
