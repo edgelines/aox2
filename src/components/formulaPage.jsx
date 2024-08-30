@@ -22,7 +22,7 @@ export default function FormulaPage({ swiperRef }) {
     const [stock, setStock] = useState({ 종목명: null }); // 종목 정보
     const [stockChart, setStockChart] = useState({ price: [], volume: [] }); // 종목 차트
     const [selectedChartType, setSelectedChartType] = useState('A') // Chart Type
-
+    const [formulaType, setFormulaType] = useState('A')
 
     const handleFavorite = async () => {
         setStock(prevStock => ({
@@ -42,7 +42,7 @@ export default function FormulaPage({ swiperRef }) {
             InvestCount: prevStock.InvestCount + 1
         }));
         try {
-            await axios.get(`${API}/stockInvest/${stock.종목코드}`);
+            await axios.get(`${API}/stockInvest/${stock.종목코드}?chart_type=${formulaType}`);
         } catch (err) {
             console.error('API 호출 실패 : ', err)
         }
@@ -55,7 +55,7 @@ export default function FormulaPage({ swiperRef }) {
             InvestCount: 0
         }));
         try {
-            await axios.get(`${API}/del/${stock.종목코드}`);
+            await axios.get(`${API}/del/${stock.종목코드}?chart_type=${formulaType}`);
         } catch (err) {
             console.error('API 호출 실패 : ', err)
         }
