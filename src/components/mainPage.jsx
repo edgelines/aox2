@@ -122,7 +122,7 @@ export default function MainPage({ }) {
             setExchange(res.Exchange);
             const uniq = "?" + new Date().getTime();
             setGisuDayImg(`/img/gisu_kospi200.jpg${uniq}`);
-            setKospi200Img(`t1.daumcdn.net/media/finance/chart/kr/daumstock-mini/d/K2G01P.png${uniq}`);
+            setKospi200Img(`https://t1.daumcdn.net/media/finance/chart/kr/daumstock-mini/d/K2G01P.png${uniq}`);
 
         };
 
