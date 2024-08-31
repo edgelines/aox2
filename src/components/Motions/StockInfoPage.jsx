@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Grid, Stack, ToggleButtonGroup, IconButton, Table, TableBody, TableContainer, Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
 // import { StyledToggleButton } from '../util/util';
 import { StyledTypography_StockInfo, Financial, EtcInfo } from '../util/htsUtil';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -8,20 +9,37 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PaidIcon from '@mui/icons-material/Paid';
 import StockChart_MA from '../util/stockChart_MA';
+import StockChart_Sub from '../util/StockChart_Sub.jsx';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import { yellow } from '@mui/material/colors';
-
-// import { API, API_WS } from './util/config.jsx';
+import { API } from '../util/config.jsx';
 // import { StyledToggleButton } from './util/util.jsx';
 // import { formatDateString } from './util/formatDate.jsx'
 
 
 export default function StockInfoPage({ stock, stockChart, handleFavorite, handleInvest, handleInvestCancel, swiperRef, selectedChartType, handleSelectedChartType }) {
     const baseStyle = { fontSize: '10px', p: 0.1, textAlign: 'right' }
-    const [selectedSubChartType, setSelectedSubChartType] = useState(false)
+    const [subChartData, setSubChartData] = useState();
+    const [selectedSubChartType, setSelectedSubChartType] = useState(false);
+
     const handleSelectedSubChartType = () => {
         setSelectedSubChartType(prevStock => (!prevStock));
     }
+
+    const getSubChartData = async () => {
+        // const res = await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
+        const res = await axios.get(`http://localhost:2440/stockData/sub/${stock.종목코드}`);
+        console.log(res.data);
+        setSubChartData(res.data);
+    }
+
+    useEffect(() => {
+        if (selectedSubChartType) {
+            getSubChartData();
+        }
+    }, [selectedSubChartType, stock])
+
+
     return (
         <Grid container>
             {/* Top Stock Name */}
@@ -118,9 +136,14 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
 
 
                         </Grid> :
-                        <>
-                            Chart
-                        </>
+                        <Grid item container>
+                            {
+                                Array.isArray(subChartData) ?
+                                    <StockChart_Sub
+                                        series={subChartData}
+                                    /> : <></>
+                            }
+                        </Grid>
                 }
 
 

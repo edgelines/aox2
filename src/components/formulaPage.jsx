@@ -99,7 +99,6 @@ export default function FormulaPage({ swiperRef }) {
                 DMI: res.data.DMI,
                 series: res.data.series
             })
-            console.log(res.data);
         } else {
             setStock({ 종목명: null });
             setStockChart({ price: [], volume: [] });
@@ -110,7 +109,6 @@ export default function FormulaPage({ swiperRef }) {
     useEffect(() => {
         const ws = new WebSocket(`${API_WS}/Formula/${formulaType}`);
         // const ws = new WebSocket(`ws://localhost:2440/ws/Formula/${formulaType}`);
-        console.log(ws);
         ws.onopen = () => {
             console.log('Formula Page WebSocket Connected');
         };
