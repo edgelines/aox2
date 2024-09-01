@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Typography, Grid, Stack, ToggleButtonGroup } from '@mui/material';
+import { Box, Typography, Grid, Stack, ToggleButtonGroup, TableBody } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Highcharts from 'highcharts/highstock'
 import HighchartsReact from 'highcharts-react-official'
@@ -355,7 +355,7 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
                                 </Typography>
                             </Stack>
                             <Grid item container sx={{ pl: 2 }}>
-                                <tbody>
+                                <TableBody>
                                     <tr>
                                         <td style={{ ...typographyStyle, width: 40 }}>W33</td>
                                         <td style={{ ...typographyStyle, width: 30, textAlign: 'right' }}>{willR.w33}</td>
@@ -378,7 +378,7 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
                                         <td style={{ ...typographyStyle, width: 30, textAlign: 'right' }}>{DMI.dmi_7}</td>
                                     </tr>
 
-                                </tbody>
+                                </TableBody>
                             </Grid>
                         </>
                         : <></>

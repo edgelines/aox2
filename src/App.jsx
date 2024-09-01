@@ -18,8 +18,8 @@ import LeadThemesTop2 from './components/leadThemesTop2';
 import StockSearchPage from './components/stockSearchPage';
 import MotionPage from './components/motionPage.jsx'
 import FormulaPage from './components/formulaPage.jsx';
+import ReportPage from './components/reportPage';
 
-// import TestPage from './components/testPage';
 function App() {
 
     const swiperRef = useRef(null);
@@ -49,6 +49,10 @@ function App() {
 
                 <SwiperSlide style={swiperSlideStyle} >
                     <CrossPage swiperRef={swiperRef} />
+                </SwiperSlide>
+
+                <SwiperSlide style={swiperSlideStyle} >
+                    <ReportPage swiperRef={swiperRef} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >

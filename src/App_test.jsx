@@ -20,6 +20,7 @@ import LeadThemesTop2 from './components/leadThemesTop2';
 import StockSearchPage from './components/stockSearchPage';
 import MotionPage from './components/motionPage.jsx';
 import FormulaPage from './components/formulaPage.jsx';
+import ReportPage from './components/reportPage';
 import TestPage from './components/testPage';
 function App() {
 
@@ -47,7 +48,7 @@ function App() {
                     {/* <CrossPage swiperRef={swiperRef} /> */}
                     {/* <MotionPage swiperRef={swiperRef} num={'2'} /> */}
                     <FormulaPage swiperRef={swiperRef} />
-                    {/* <TestPage swiperRef={swiperRef} /> */}
+                    {/* <ReportPage swiperRef={swiperRef} /> */}
                     {/* <StockSearchPage swiperRef={swiperRef} /> */}
                 </SwiperSlide>
 
