@@ -25,6 +25,9 @@ export const monthColumns = [{
 }]
 
 export const dayColumns = [{
+    field: 'Type', headerName: 'Type', width: 50,
+    align: 'center', headerAlign: 'center',
+}, {
     field: '종목명', headerName: '종목명', width: 90,
     align: 'center', headerAlign: 'center',
     renderCell: (params) => {

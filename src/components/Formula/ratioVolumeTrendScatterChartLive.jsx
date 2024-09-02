@@ -371,10 +371,17 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
 export default MotionsChart;
 
 
-const TypeMessage = (type) => {
-    switch (type) {
+const TypeMessage = (_type) => {
+    const __type = _type['type']
+    switch (__type) {
         case 'B':
             return (<>
+                <Typography sx={{ fontSize: '12px' }} >고가 또는 종가가 5중가 6중기*3% 이내</Typography>
+                <Typography sx={{ fontSize: '12px' }} >당일 등락률 -3% 이상</Typography>
+                <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
+                <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
                 <Typography sx={{ fontSize: '12px' }} >D4 10 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >D7 10 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >D9 15 이하</Typography>
@@ -386,14 +393,6 @@ const TypeMessage = (type) => {
 
         default:
             return (<>
-                {/* <IconButton
-                    size="small"
-                    aria-label="close"
-                    color="inherit"
-                    onClick={handleClose}
-                >
-                    <CloseIcon fontSize="small" />
-                </IconButton> */}
                 <Typography sx={{ fontSize: '12px' }} >고가 또는 종가가 5중가 6중기*3% 이내</Typography>
                 <Typography sx={{ fontSize: '12px' }} >당일 등락률 -3% 이상</Typography>
                 <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>

@@ -33,10 +33,10 @@ export default function TestPage({ swiperRef }) {
     const [selectedChartType, setSelectedChartType] = useState('A') // Chart Type
 
 
-    const get_data = async (_date) => {
+    const get_data = async (year, month) => {
         const postData = {
-            year: _date.year,
-            month: _date.month
+            year: year,
+            month: month
         }
         const res = await axios.post(`${API}/report/getMonthData`, postData);
         // const res = await axios.post('http://localhost:2440/api/report/getMonthData', postData);
@@ -44,16 +44,9 @@ export default function TestPage({ swiperRef }) {
         setStatistics(res.data.statistics);
     }
 
-    const fetchData = async () => {
-        var today = new Date();
-        const year = today.getFullYear();
-        const month = today.getMonth() + 1;
-        const date = { year: year, month: month }
-
-        set_Date(date);
-        get_data(date);
-
-    }
+    // const fetchData = async () => {
+    //     get_data(value.$y, value.$M);
+    // }
 
     // handler
     const getCellClick = async (row) => {
@@ -102,8 +95,8 @@ export default function TestPage({ swiperRef }) {
     }
 
 
-    useEffect(() => { fetchData(); }, [])
-    useEffect(() => { console.log(value.$y) }, [value])
+    // useEffect(() => { fetchData(); }, [])
+    useEffect(() => { get_data(value.$y, value.$M); }, [value])
 
     const tableCellStyle = { color: '#efe9e9ed', fontSize: '11px' }
 
