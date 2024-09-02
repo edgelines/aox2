@@ -27,9 +27,9 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
     }
 
     const getSubChartData = async () => {
-        // const res = await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
-        const res = await axios.get(`http://localhost:2440/stockData/sub/${stock.종목코드}`);
-        console.log(res.data);
+        const res = await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
+        // const res = await axios.get(`http://localhost:2440/stockData/sub/${stock.종목코드}`);
+        // console.log(res.data);
         setSubChartData(res.data);
     }
 

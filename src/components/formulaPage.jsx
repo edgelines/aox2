@@ -12,7 +12,7 @@ export default function FormulaPage({ swiperRef }) {
 
     // config
     const chartHeight = 850
-    const ws = useRef(null); // WebSocket 참조 하는 상태 생성
+    // const ws = useRef(null); // WebSocket 참조 하는 상태 생성
     // state
     const [datasetCount, setDatasetCount] = useState(null);
     const [dataset, setDataset] = useState({ time: [], data: [] });
