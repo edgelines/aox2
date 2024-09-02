@@ -1,20 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, Skeleton, Select, MenuItem, FormControl, ToggleButtonGroup, Box, Typography, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
+import { Grid, Skeleton, Select, MenuItem, FormControl, ToggleButtonGroup, Box, IconButton, Stack, Typography, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { customTheme } from './Motions/MotionsColumns';
 import { DataTableStyleDefault } from './LeadSectors/tableColumns';
 import { blue } from '@mui/material/colors';
 import { API, API_WS, STOCK } from './util/config.jsx';
-import dayjs from 'dayjs';
 import StockChart_MA from './util/stockChart_MA';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+// import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 // import { StyledToggleButton } from './util/util.jsx';
-
+import LeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import RightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { monthColumns, dayColumns } from './Report/columns.jsx';
 import TestChart from './Test/TestChart.jsx'
 
@@ -23,8 +23,12 @@ export default function TestPage({ swiperRef }) {
 
 
     // state
-    const [value, setValue] = React.useState(dayjs(new Date()));
-    const [_date, set_Date] = useState({ year: null, month: null });
+    // const [_date, set_Date] = useState({ year: null, month: null });
+    const [date, setDate] = useState(() => {
+        const today = new Date();
+        return { year: today.getFullYear(), month: today.getMonth() + 1 };
+    });
+
     const [monthData, setMonthData] = useState([]);
     const [dayData, setDayData] = useState([]);
     const [statistics, setStatistics] = useState({});
@@ -33,10 +37,10 @@ export default function TestPage({ swiperRef }) {
     const [selectedChartType, setSelectedChartType] = useState('A') // Chart Type
 
 
-    const get_data = async (year, month) => {
+    const get_data = async (_date) => {
         const postData = {
-            year: year,
-            month: month
+            year: _date.year,
+            month: _date.month
         }
         const res = await axios.post(`${API}/report/getMonthData`, postData);
         // const res = await axios.post('http://localhost:2440/api/report/getMonthData', postData);
@@ -45,10 +49,42 @@ export default function TestPage({ swiperRef }) {
     }
 
     // const fetchData = async () => {
-    //     get_data(value.$y, value.$M);
+    //     var today = new Date();
+    //     const year = today.getFullYear();
+    //     const month = today.getMonth() + 1;
+    //     const date = { year: year, month: month }
+
+    //     set_Date(date);
+    //     // get_data(date);
+
     // }
 
     // handler
+
+    const changeMonth = (offset) => {
+        setDate((prevDate) => {
+            let newMonth = prevDate.month + offset;
+            let newYear = prevDate.year;
+
+            if (newMonth < 1) {
+                newMonth = 12;
+                newYear -= 1;
+            } else if (newMonth > 12) {
+                newMonth = 1;
+                newYear += 1;
+            }
+
+            // 2024년 8월 미만으로 넘어가지 않도록 제한
+            if (newYear < 2024 || (newYear === 2024 && newMonth < 8)) {
+                return prevDate;
+            }
+            const today = new Date();
+            if (newYear > today.getFullYear() || newMonth > today.getMonth() + 2) {
+                return prevDate
+            }
+            return { year: newYear, month: newMonth };
+        });
+    };
     const getCellClick = async (row) => {
         const res = await axios.post(`${API}/report/getDayData`, { 날짜: row.날짜.split('T')[0] });
         // const res = await axios.post('http://localhost:2440/api/report/getDayData', { 날짜: row.날짜.split('T')[0] });
@@ -96,7 +132,11 @@ export default function TestPage({ swiperRef }) {
 
 
     // useEffect(() => { fetchData(); }, [])
-    useEffect(() => { get_data(value.$y, value.$M); }, [value])
+    useEffect(() => {
+        if (date && date.year && date.month) {
+            get_data(date);
+        }
+    }, [date]);
 
     const tableCellStyle = { color: '#efe9e9ed', fontSize: '11px' }
 
@@ -111,51 +151,45 @@ export default function TestPage({ swiperRef }) {
             <Grid item container xs={3}>
 
                 {/* Calendar */}
-                <Grid item xs={12}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DateCalendar
-                            sx={{
-                                '.MuiDateCalendar-root': {
-                                    color: '#bbdefb',
-                                    borderRadius: '2px',
-                                    borderWidth: '1px',
-                                    borderColor: '#2196f3',
-                                    border: '1px solid',
-                                    backgroundColor: '#0d47a1',
-                                },
-                            }}
-                            value={value}
-                            onChange={(newValue) => setValue(newValue)}
-                        />
-                    </LocalizationProvider>
+                <Grid item container >
+                    <Stack direction='row' alignItems="center" justifyContent="center" >
+                        <IconButton size="large" onClick={() => changeMonth(-1)}>
+                            <LeftIcon fontSize="large" sx={{ color: '#efe9e9ed' }} />
+                        </IconButton>
+                        <Typography>{date.year}. {date.month}</Typography>
+                        <IconButton size="large" onClick={() => changeMonth(1)}>
+                            <RightIcon fontSize="large" sx={{ color: '#efe9e9ed' }} />
+                        </IconButton>
+                    </Stack>
                 </Grid>
+                <Grid item container >
+                    <TableContainer sx={{ height: 600 }}
+                        onMouseEnter={() => swiperRef.current.mousewheel.disable()}
+                        onMouseLeave={() => swiperRef.current.mousewheel.enable()}
+                    >
+                        <ThemeProvider theme={customTheme}>
+                            <DataGrid
+                                rows={monthData}
+                                columns={monthColumns}
+                                rowHeight={20}
+                                hideFooter
+                                onCellClick={(params, event) => {
+                                    getCellClick(params.row);
+                                }}
+                                sx={{
+                                    color: 'white', border: 'none',
+                                    ...DataTableStyleDefault,
+                                    [`& .${gridClasses.cell}`]: { py: 1, },
+                                    // '[data-field="테마명"]': { fontSize: '9px' },
 
-                <TableContainer sx={{ height: 600 }}
-                    onMouseEnter={() => swiperRef.current.mousewheel.disable()}
-                    onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-                >
-                    <ThemeProvider theme={customTheme}>
-                        <DataGrid
-                            rows={monthData}
-                            columns={monthColumns}
-                            rowHeight={20}
-                            hideFooter
-                            onCellClick={(params, event) => {
-                                getCellClick(params.row);
-                            }}
-                            sx={{
-                                color: 'white', border: 'none',
-                                ...DataTableStyleDefault,
-                                [`& .${gridClasses.cell}`]: { py: 1, },
-                                // '[data-field="테마명"]': { fontSize: '9px' },
-
-                                '& .MuiDataGrid-row.Mui-selected': {
-                                    backgroundColor: blue['A200'], // 원하는 배경색으로 변경
-                                },
-                            }}
-                        />
-                    </ThemeProvider>
-                </TableContainer>
+                                    '& .MuiDataGrid-row.Mui-selected': {
+                                        backgroundColor: blue['A200'], // 원하는 배경색으로 변경
+                                    },
+                                }}
+                            />
+                        </ThemeProvider>
+                    </TableContainer>
+                </Grid>
             </Grid>
 
             {/* Chart, Day Stats Data */}
