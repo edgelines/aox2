@@ -12,7 +12,7 @@ import StockChart_MA from '../util/stockChart_MA';
 import StockChart_Sub from '../util/StockChart_Sub.jsx';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import { yellow } from '@mui/material/colors';
-import { API } from '../util/config.jsx';
+import { STOCK } from '../util/config.jsx';
 // import { StyledToggleButton } from './util/util.jsx';
 // import { formatDateString } from './util/formatDate.jsx'
 
@@ -27,7 +27,7 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
     }
 
     const getSubChartData = async () => {
-        const res = await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
+        const res = await axios.get(`${STOCK}/sub/${stock.종목코드}`);
         // const res = await axios.get(`http://localhost:2440/stockData/sub/${stock.종목코드}`);
         // console.log(res.data);
         setSubChartData(res.data);
