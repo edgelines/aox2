@@ -60,7 +60,7 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
                         const chart = this.chart;
                         const dataMax = chart.xAxis[0].dataMax;
                         const range = e.max - e.min;
-                        chart.xAxis[0].setExtremes(dataMax - (range / 2), dataMax);
+                        chart.xAxis[0].setExtremes(dataMax - (range / 1.8), dataMax);
                     }
                 }
             }
@@ -72,17 +72,15 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
             backgroundColor: 'rgba(255, 255, 255, 0.5)',
             style: { fontSize: '10px', },
             formatter: function () {
-                return [Highcharts.dateFormat('%y.%m.%d', this.x)].concat(
+                return [Highcharts.dateFormat('%y.%m.%d %H %M', this.x)].concat(
                     this.points ?
                         this.points.map(function (point) {
                             if (point.series.options.isCandle) {
                                 return `종가 : ${numberWithCommas(point.point.close)}`;
-                                // return `${stockName}<br/> 종가 : ${numberWithCommas(point.point.close)}`;
                             } else if (point.series.options.isPercent) {
                                 return `${point.series.name} : ${parseInt(point.y)} %`;
                             } else if (point.series.options.isIndicator) {
                                 return `${point.series.name} : ${parseInt(point.y)}`;
-
                             } else {
                                 return ''
                             }
@@ -297,11 +295,32 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
         }
     ]
 
+    const tooltip = (dateFormat) => {
+        return [Highcharts.dateFormat(dateFormat, this.x)].concat(
+            this.points ?
+                this.points.map(function (point) {
+                    if (point.series.options.isCandle) {
+                        return `종가 : ${numberWithCommas(point.point.close)}`;
+                    } else if (point.series.options.isPercent) {
+                        return `${point.series.name} : ${parseInt(point.y)} %`;
+                    } else if (point.series.options.isIndicator) {
+                        return `${point.series.name} : ${parseInt(point.y)}`;
+                    } else {
+                        return ''
+                    }
+
+                }) : []
+        );
+    }
+
 
     useEffect(() => {
         setChartOptions({
             series: series,
-            yAxis: selectedChartType == 'A' ? yAxis_A : yAis_B,
+            yAxis: selectedChartType == 'B' ? yAis_B : yAxis_A,
+            // tooltip: {
+            //     formatter: selectedChartType === 'A' ? tooltip('%y.%m.%d') : selectedChartType === 'B' ? tooltip('%y.%m.%d') : tooltip('%y.%m.%d %H:%M')
+            // }
         })
     }, [series]);
 
@@ -319,14 +338,17 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
                         value={selectedChartType}
                         onChange={handleSelectedChartType}
                     >
+                        <StyledToggleButton fontSize={10} value="5" >5분봉</StyledToggleButton>
+                        <StyledToggleButton fontSize={10} value="10">10분봉</StyledToggleButton>
+                        <StyledToggleButton fontSize={10} value="30">30분봉</StyledToggleButton>
+                        <StyledToggleButton fontSize={10} value="60">60분봉</StyledToggleButton>
                         <StyledToggleButton fontSize={10} value="A">A-Type</StyledToggleButton>
                         <StyledToggleButton fontSize={10} value="B">B-Type</StyledToggleButton>
                     </ToggleButtonGroup>
                 </Stack>
             </Grid>
 
-
-
+            {/* 보조지표 */}
             <Grid item>
                 <StyledToggleButton
                     value='check'

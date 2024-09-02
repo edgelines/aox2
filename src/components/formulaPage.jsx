@@ -22,7 +22,7 @@ export default function FormulaPage({ swiperRef }) {
     const [stock, setStock] = useState({ 종목명: null }); // 종목 정보
     const [stockChart, setStockChart] = useState({ price: [], volume: [] }); // 종목 차트
     const [selectedChartType, setSelectedChartType] = useState('A') // Chart Type
-    const [formulaType, setFormulaType] = useState('A')
+    const [formulaType, setFormulaType] = useState('A');
 
     const handleFavorite = async () => {
         setStock(prevStock => ({
@@ -62,7 +62,9 @@ export default function FormulaPage({ swiperRef }) {
     }
 
     const handleSelectedChartType = async (event, value) => {
-        if (value !== null) { setSelectedChartType(value) }
+        if (value !== null) {
+            setSelectedChartType(value)
+        }
     }
     const handleFormulaType = async (event, value) => {
         if (value !== null) { setFormulaType(value) }
