@@ -48,19 +48,7 @@ export default function TestPage({ swiperRef }) {
         setStatistics(res.data.statistics);
     }
 
-    // const fetchData = async () => {
-    //     var today = new Date();
-    //     const year = today.getFullYear();
-    //     const month = today.getMonth() + 1;
-    //     const date = { year: year, month: month }
-
-    //     set_Date(date);
-    //     // get_data(date);
-
-    // }
-
     // handler
-
     const changeMonth = (offset) => {
         setDate((prevDate) => {
             let newMonth = prevDate.month + offset;
@@ -130,8 +118,6 @@ export default function TestPage({ swiperRef }) {
 
     }
 
-
-    // useEffect(() => { fetchData(); }, [])
     useEffect(() => {
         if (date && date.year && date.month) {
             get_data(date);
@@ -151,7 +137,7 @@ export default function TestPage({ swiperRef }) {
             <Grid item container xs={3}>
 
                 {/* Calendar */}
-                <Grid item container >
+                <Grid item xs={12} >
                     <Stack direction='row' alignItems="center" justifyContent="center" >
                         <IconButton size="large" onClick={() => changeMonth(-1)}>
                             <LeftIcon fontSize="large" sx={{ color: '#efe9e9ed' }} />
@@ -163,7 +149,7 @@ export default function TestPage({ swiperRef }) {
                     </Stack>
                 </Grid>
                 <Grid item container >
-                    <TableContainer sx={{ height: 600 }}
+                    <TableContainer sx={{ height: 600, mt: -30 }}
                         onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                         onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                     >
@@ -180,8 +166,6 @@ export default function TestPage({ swiperRef }) {
                                     color: 'white', border: 'none',
                                     ...DataTableStyleDefault,
                                     [`& .${gridClasses.cell}`]: { py: 1, },
-                                    // '[data-field="테마명"]': { fontSize: '9px' },
-
                                     '& .MuiDataGrid-row.Mui-selected': {
                                         backgroundColor: blue['A200'], // 원하는 배경색으로 변경
                                     },
