@@ -141,6 +141,15 @@ export const B_columns = [
             )
         }
     }, {
+        field: 'w33', headerName: 'w33', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            const color = williamsColor(params.value)
+            return (
+                <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
+            )
+        }
+    }, {
         field: 'DMI_4', headerName: 'D4', width: 55,
         align: 'right', headerAlign: 'center',
     }, {
