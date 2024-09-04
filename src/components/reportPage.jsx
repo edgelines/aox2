@@ -101,11 +101,6 @@ export default function TestPage({ swiperRef }) {
             // var res = await axios.get(`http://localhost:2440/stockData/get/${item.종목코드}`);
             var res = await axios.get(`${STOCK}/get/${item.종목코드}/${selectedChartType}`);
             setStockChart({
-                // price: res.data.price,
-                // volume: res.data.volume,
-                // MA: res.data.MA,
-                // treasury: res.data.treasury,
-                // treasuryPrice: res.data.treasuryPrice,
                 willR: res.data.willR,
                 net: res.data.net,
                 volumeRatio: res.data.volumeRatio,
@@ -126,7 +121,21 @@ export default function TestPage({ swiperRef }) {
 
     const tableCellStyle = { color: '#efe9e9ed', fontSize: '11px' }
 
-
+    const getSelectedChartType = async () => {
+        if (typeof stock.종목코드 !== "undefined") {
+            var res = await axios.get(`${STOCK}/get/${stock.종목코드}/${selectedChartType}`);
+            setStockChart({
+                willR: res.data.willR,
+                net: res.data.net,
+                volumeRatio: res.data.volumeRatio,
+                DMI: res.data.DMI,
+                series: res.data.series
+            })
+        }
+    }
+    useEffect(() => {
+        getSelectedChartType()
+    }, [stock, selectedChartType])
     return (
         <Grid container spacing={1}>
             {/* <Grid item container xs={12}>
