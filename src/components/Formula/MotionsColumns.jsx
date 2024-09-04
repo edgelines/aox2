@@ -120,7 +120,57 @@ export const A_columns = [
     }
 ]
 
-export const B_columns = [
+export const B1_columns = [
+    ...base_columns,
+    {
+        field: 'w6', headerName: 'w6', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            const color = williamsColor(params.value)
+            return (
+                <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
+            )
+        }
+    }, {
+        field: 'w14', headerName: 'w14', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            const color = williamsColor(params.value)
+            return (
+                <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
+            )
+        }
+    }, {
+        field: 'w33', headerName: 'w33', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            const color = williamsColor(params.value)
+            return (
+                <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
+            )
+        }
+    }, {
+        field: 'CCI_4', headerName: 'C4', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            const color = params.value > 130 ? '#FCAB2F' : null
+            return (
+                <span style={{ color: color }}> {params.value.toFixed(1)}</span>
+            )
+        }
+    }, {
+        field: 'CCI_2_Sig', headerName: 'C4S', width: 40,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'CCI_11', headerName: 'C11', width: 40,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'CCI_4_Sig', headerName: 'C11S', width: 40,
+        align: 'right', headerAlign: 'center',
+    }
+]
+
+export const B2_columns = [
     ...base_columns,
     {
         field: 'w6', headerName: 'w6', width: 55,
@@ -161,6 +211,30 @@ export const B_columns = [
     }, {
         field: 'DMI_17', headerName: 'D17', width: 55,
         align: 'right', headerAlign: 'center',
+    }, {
+        field: 'high_5_low', headerName: '5L', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            return (
+                <span> {params.value === false ? '' : '★'}</span>
+            )
+        }
+    }, {
+        field: 'high_5_middle', headerName: '5M', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            return (
+                <span> {params.value === false ? '' : '★'}</span>
+            )
+        }
+    }, {
+        field: 'high_6_low', headerName: '6L', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            return (
+                <span> {params.value === false ? '' : '★'}</span>
+            )
+        }
     }
 ]
 

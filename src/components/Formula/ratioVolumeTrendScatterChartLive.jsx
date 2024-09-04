@@ -7,7 +7,7 @@ import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, S
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
-import { customTheme, A_columns, B_columns } from './MotionsColumns';
+import { customTheme, A_columns, B1_columns, B2_columns } from './MotionsColumns';
 import { CountTable } from '../Motions/CountTable'
 import { legend } from '../Motions/legend';
 import { blue } from '@mui/material/colors';
@@ -292,7 +292,8 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                             onChange={handleFormulaType}
                         >
                             <StyledToggleButton fontSize={10} value="A">A-Type</StyledToggleButton>
-                            <StyledToggleButton fontSize={10} value="B">B-Type</StyledToggleButton>
+                            <StyledToggleButton fontSize={10} value="B">B1-Type</StyledToggleButton>
+                            <StyledToggleButton fontSize={10} value="B2">B2-Type</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Stack>
 
@@ -335,13 +336,8 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                     <ThemeProvider theme={customTheme}>
                         <DataGrid
                             rows={tableData}
-                            columns={formulaType === 'A' ? A_columns : B_columns}
+                            columns={formulaType === 'A' ? A_columns : formulaType === 'B' ? B1_columns : B2_columns}
                             rowHeight={20}
-                            // initialState={{
-                            //     sorting: {
-                            //         sortModel: formulaType === 'A' ? [{ field: 'w33', sort: 'desc' }] : [{ field: 'D4', sort: 'desc' }],
-                            //     },
-                            // }}
                             onCellClick={(params, event) => {
                                 getInfo(params.row);
                             }}
