@@ -140,8 +140,8 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
             width: 0.5,
             value: -100,
             label: {
-                align: 'right',
-                text: '-100', y: 0,
+                align: 'left', y: 0, x: -5,
+                text: '-100',
                 style: { fontSize: '10px' }
             },
         }, {
@@ -149,8 +149,8 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
             width: 0.5,
             value: -90,
             label: {
-                align: 'right',
-                text: '-90', y: 0,
+                align: 'left', y: 0, x: -5,
+                text: '-90',
                 style: { fontSize: '10px' }
             },
         }, {
@@ -159,8 +159,8 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
             value: -80,
             dashStyle: 'shortdash',
             label: {
-                align: 'right',
-                text: '-80', y: 0,
+                align: 'left', y: 0, x: -5,
+                text: '-80',
                 style: { fontSize: '10px' }
             },
         }, {
@@ -169,8 +169,8 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
             value: -50,
             dashStyle: 'shortdash',
             label: {
-                align: 'right',
-                text: '-50', y: 0,
+                align: 'left', y: 0, x: -5,
+                text: '-50',
                 style: { fontSize: '10px' }
             },
         }, {
@@ -178,8 +178,8 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
             width: 1,
             value: -20,
             label: {
-                align: 'right',
-                text: '-20', y: 0,
+                align: 'left', align: 'left', y: 0, x: -5,
+                text: '-20',
                 style: { fontSize: '10px' }
             },
         }],
@@ -201,9 +201,8 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
             width: 1,
             value: 80,
             label: {
-                align: 'right',
+                align: 'left', y: 0, x: -5,
                 text: '80',
-                y: 0,
                 style: { fontSize: '10px' }
             },
         }, {
@@ -211,8 +210,8 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
             width: 0.5,
             value: 50,
             label: {
-                align: 'right',
-                text: '50', y: 0,
+                align: 'left', y: 0, x: -5,
+                text: '50',
                 style: { fontSize: '10px' }
             },
         }, {
@@ -221,8 +220,8 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
             value: 20,
             dashStyle: 'shortdash',
             label: {
-                align: 'right',
-                text: '20', y: 0,
+                align: 'left', y: 0, x: -5,
+                text: '20',
                 style: { fontSize: '10px' }
             },
         }, {
@@ -231,8 +230,8 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
             value: 10,
             dashStyle: 'shortdash',
             label: {
-                align: 'right',
-                text: '10', y: 0,
+                align: 'left', y: 0, x: -5,
+                text: '10',
                 style: { fontSize: '10px' }
             },
         }, {
@@ -240,8 +239,8 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
             width: 0.5,
             value: 5,
             label: {
-                align: 'right',
-                text: '5', y: 0,
+                align: 'left', y: 0, x: -5,
+                text: '5',
                 style: { fontSize: '10px' }
             },
         }],
@@ -264,7 +263,7 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
             dashStyle: 'shortdash',
             label: {
                 align: 'left',
-                text: '-90',
+                text: 'w-90',
                 x: -10, y: 0,
                 style: { fontSize: '10px' }
             },
@@ -275,7 +274,7 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
             dashStyle: 'shortdash',
             label: {
                 align: 'left',
-                text: '-80',
+                text: 'w-80',
                 x: -10, y: 0,
                 style: { fontSize: '10px' }
             },
