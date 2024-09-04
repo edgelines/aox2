@@ -295,25 +295,6 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
         }
     ]
 
-    const tooltip = (dateFormat) => {
-        return [Highcharts.dateFormat(dateFormat, this.x)].concat(
-            this.points ?
-                this.points.map(function (point) {
-                    if (point.series.options.isCandle) {
-                        return `종가 : ${numberWithCommas(point.point.close)}`;
-                    } else if (point.series.options.isPercent) {
-                        return `${point.series.name} : ${parseInt(point.y)} %`;
-                    } else if (point.series.options.isIndicator) {
-                        return `${point.series.name} : ${parseInt(point.y)}`;
-                    } else {
-                        return ''
-                    }
-
-                }) : []
-        );
-    }
-
-
     useEffect(() => {
         setChartOptions({
             series: series,

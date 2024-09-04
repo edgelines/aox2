@@ -151,7 +151,7 @@ export default function FormulaPage({ swiperRef }) {
     }
     useEffect(() => {
         getSelectedChartType()
-    }, [selectedChartType])
+    }, [stock, selectedChartType])
 
 
     return (
