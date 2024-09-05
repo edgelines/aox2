@@ -152,12 +152,12 @@ export const B1_columns = [
     }, {
         field: 'CCI_4', headerName: 'C4', width: 40,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = params.value > 130 ? '#FCAB2F' : null
-            return (
-                <span style={{ color: color }}> {params.value}</span>
-            )
-        }
+        // renderCell: (params) => {
+        //     const color = params.value > 130 ? '#FCAB2F' : null
+        //     return (
+        //         <span style={{ color: color }}> {params.value}</span>
+        //     )
+        // }
     }, {
         field: 'CCI_2_Sig', headerName: 'C4S', width: 40,
         align: 'right', headerAlign: 'center',
