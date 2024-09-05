@@ -150,6 +150,18 @@ export const B1_columns = [
             )
         }
     }, {
+        field: 'DMI_4', headerName: 'D4', width: 55,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'DMI_7', headerName: 'D7', width: 55,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'DMI_9', headerName: 'D9', width: 55,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'DMI_17', headerName: 'D17', width: 55,
+        align: 'right', headerAlign: 'center',
+    }, {
         field: 'CCI_4', headerName: 'C4', width: 40,
         align: 'right', headerAlign: 'center',
         // renderCell: (params) => {
