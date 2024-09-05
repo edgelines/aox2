@@ -7,7 +7,7 @@ COPY package.json package-lock.json ./
 RUN npm install
 
 COPY . .
-RUN npm run build
+# RUN npm run build
 
 # Step 2: Serve the React app with a lightweight web server
 FROM nginx:alpine
