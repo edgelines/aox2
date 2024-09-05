@@ -155,7 +155,7 @@ export const B1_columns = [
         renderCell: (params) => {
             const color = params.value > 130 ? '#FCAB2F' : null
             return (
-                <span style={{ color: color }}> {params.value.toFixed(1)}</span>
+                <span style={{ color: color }}> {params.value}</span>
             )
         }
     }, {

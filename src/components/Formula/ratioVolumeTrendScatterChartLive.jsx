@@ -180,7 +180,6 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
 
         const table = handleTableData(baseData)
         setTableData(table);
-
         const result = { data: filteredData }
         return result;
     }
