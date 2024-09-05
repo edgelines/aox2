@@ -1,7 +1,7 @@
 # Step 1: Build the React app
 FROM node:18-alpine AS build
 
-WORKDIR /app
+WORKDIR /
 
 COPY package.json package-lock.json ./
 RUN npm install
