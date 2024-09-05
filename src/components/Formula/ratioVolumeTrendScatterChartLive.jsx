@@ -291,8 +291,8 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                             onChange={handleFormulaType}
                         >
                             <StyledToggleButton fontSize={10} value="A">A-Type</StyledToggleButton>
-                            <StyledToggleButton fontSize={10} value="B">B1-Type</StyledToggleButton>
-                            <StyledToggleButton fontSize={10} value="B2">B2-Type</StyledToggleButton>
+                            <StyledToggleButton fontSize={10} value="B2">B1-Type</StyledToggleButton>
+                            <StyledToggleButton fontSize={10} value="B">B2-Type</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Stack>
 
