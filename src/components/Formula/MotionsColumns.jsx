@@ -224,29 +224,29 @@ export const B2_columns = [
         field: 'DMI_17', headerName: 'D17', width: 55,
         align: 'right', headerAlign: 'center',
     }, {
-        field: 'high_5_low', headerName: '5L', width: 55,
+        field: 'mid_wma_5', headerName: '5중가', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            return (
-                <span> {params.value === false ? '' : '★'}</span>
-            )
-        }
+        // renderCell: (params) => {
+        //     return (
+        //         <span> {params.value === false ? '' : '★'}</span>
+        //     )
+        // }
     }, {
-        field: 'high_5_middle', headerName: '5M', width: 55,
+        field: 'mid_wma_6', headerName: '6중가', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            return (
-                <span> {params.value === false ? '' : '★'}</span>
-            )
-        }
+        // renderCell: (params) => {
+        //     return (
+        //         <span> {params.value === false ? '' : '★'}</span>
+        //     )
+        // }
     }, {
-        field: 'high_6_low', headerName: '6L', width: 55,
+        field: 'high_gmean_6', headerName: '6고기', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            return (
-                <span> {params.value === false ? '' : '★'}</span>
-            )
-        }
+        // renderCell: (params) => {
+        //     return (
+        //         <span> {params.value === false ? '' : '★'}</span>
+        //     )
+        // }
     }
 ]
 

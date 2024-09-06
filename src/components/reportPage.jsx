@@ -6,7 +6,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { customTheme } from './Motions/MotionsColumns';
 import { DataTableStyleDefault } from './LeadSectors/tableColumns';
 import { blue } from '@mui/material/colors';
-import { API, API_WS, STOCK } from './util/config.jsx';
+import { API, STOCK } from './util/config.jsx';
 import StockChart_MA from './util/stockChart_MA';
 // import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 // import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -189,7 +189,7 @@ export default function TestPage({ swiperRef }) {
             <Grid item container xs={5.5}>
                 <Grid item container>
                     <StockChart_MA
-                        height={500}
+                        height={580}
                         stockName={stock.종목명} price={stock.현재가} net={stockChart.net} volumeRatio={stockChart.volumeRatio}
                         willR={stockChart.willR} DMI={stockChart.DMI}
                         series={stockChart.series}
@@ -197,7 +197,7 @@ export default function TestPage({ swiperRef }) {
                     // selectedSubChartType={selectedSubChartType} handleSelectedSubChartType={handleSelectedSubChartType}
                     />
                 </Grid>
-                <TableContainer sx={{ height: 500 }}
+                <TableContainer sx={{ height: 300, mt: 1 }}
                     onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                     onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                 >
