@@ -228,27 +228,45 @@ export const B2_columns = [
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
             const color = params.value > 0 ? '#FCAB2F' : 'deepskyblue'
-            return (
-                <span style={{ color: color }}> {params.value.toFixed(1)}</span>
-            )
+            if (typeof params.value === 'number') {
+                return (
+                    <span style={{ color: color }}> {params.value}</span>
+                )
+            } else {
+                return (
+                    <span> </span>
+                )
+            }
         }
     }, {
         field: 'mid_wma_6', headerName: '6중가', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
             const color = params.value > 0 ? '#FCAB2F' : 'deepskyblue'
-            return (
-                <span style={{ color: color }}> {params.value.toFixed(1)}</span>
-            )
+            if (typeof params.value === 'number') {
+                return (
+                    <span style={{ color: color }}> {params.value}</span>
+                )
+            } else {
+                return (
+                    <span> </span>
+                )
+            }
         }
     }, {
         field: 'high_gmean_6', headerName: '6고기', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
             const color = params.value > 0 ? '#FCAB2F' : 'deepskyblue'
-            return (
-                <span style={{ color: color }}> {params.value.toFixed(1)}</span>
-            )
+            if (typeof params.value === 'number') {
+                return (
+                    <span style={{ color: color }}> {params.value}</span>
+                )
+            } else {
+                return (
+                    <span> </span>
+                )
+            }
         }
     }
 ]

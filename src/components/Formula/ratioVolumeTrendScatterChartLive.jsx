@@ -240,6 +240,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
 
                     : <></>}
             </Box>
+
             {/* Top Scatter Chart & Industry, Themes Table */}
             <Grid container>
                 <Grid item xs={10}>
@@ -291,8 +292,8 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                             onChange={handleFormulaType}
                         >
                             <StyledToggleButton fontSize={10} value="A">A-Type</StyledToggleButton>
-                            <StyledToggleButton fontSize={10} value="B2">B1-Type</StyledToggleButton>
-                            <StyledToggleButton fontSize={10} value="B">B2-Type</StyledToggleButton>
+                            <StyledToggleButton fontSize={10} value="B">B1-Type</StyledToggleButton>
+                            <StyledToggleButton fontSize={10} value="B2">B2-Type</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Stack>
 
@@ -335,7 +336,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                     <ThemeProvider theme={customTheme}>
                         <DataGrid
                             rows={tableData}
-                            columns={formulaType === 'A' ? A_columns : formulaType === 'B' ? B2_columns : B1_columns}
+                            columns={formulaType === 'A' ? A_columns : formulaType === 'B' ? B1_columns : B2_columns}
                             rowHeight={20}
                             onCellClick={(params, event) => {
                                 getInfo(params.row);
