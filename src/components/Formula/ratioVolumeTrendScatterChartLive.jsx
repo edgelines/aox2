@@ -7,12 +7,12 @@ import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, S
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
-import { customTheme, A_columns, B1_columns, B2_columns } from './MotionsColumns';
+import { customTheme, A_columns, B1_columns, B2_columns } from './Columns';
 import { CountTable } from '../Motions/CountTable'
 import { legend } from '../Motions/legend';
 import { blue } from '@mui/material/colors';
 import SettingsIcon from '@mui/icons-material/Settings';
-import CloseIcon from '@mui/icons-material/Close';
+// import CloseIcon from '@mui/icons-material/Close';
 // import { API } from '../util/config.jsx';
 
 const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getInfo, classification, formulaType, handleFormulaType }) => {
