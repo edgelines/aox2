@@ -400,6 +400,17 @@ const TypeMessage = (_type) => {
                 <Typography sx={{ fontSize: '12px' }} >D17 30 이하</Typography>
             </>)
 
+        case 'Envelope':
+            return (<>
+                <Typography sx={{ fontSize: '12px' }} >당일 등락률 10% 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
+                <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
+                <Typography sx={{ fontSize: '12px' }} >종가나 고가가 5저가가중, 5중간값가중, 6저가가중, 6중간값가중 돌파</Typography>
+                <Typography sx={{ fontSize: '12px' }} >종가나 고가가 각 Envelope 돌파</Typography>
+            </>)
+
         default:
             return (<>
                 <Typography sx={{ fontSize: '12px' }} >고가 또는 종가가 5중가 6중기*3% 이내</Typography>
