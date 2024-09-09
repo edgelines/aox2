@@ -193,6 +193,51 @@ export const B2_columns = [
     }
 ]
 
+export const Envelope_columns = [
+    ...base_columns,
+    {
+        field: 'Env19_10', headerName: '19,10.7', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderCrossTRIMA
+    }, {
+        field: 'Env19_9', headerName: '19,9.7', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderCrossTRIMA
+    }, {
+        field: 'Env19_8', headerName: '19,8.7', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderCrossTRIMA
+    }, {
+        field: 'Env14_8', headerName: '14,8', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderCrossTRIMA
+    }, {
+        field: 'Env14_7', headerName: '14,7', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderCrossTRIMA
+    }, {
+        field: 'Env9_5', headerName: '9,5', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderCrossTRIMA
+    }, {
+        field: 'Env9_4', headerName: '9,4', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderCrossTRIMA
+    }, {
+        field: 'DMI_7', headerName: 'D7', width: 55,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'DMI_9', headerName: 'D9', width: 55,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'DMI_17', headerName: 'D17', width: 55,
+        align: 'right', headerAlign: 'center',
+    }
+]
+
+
+
+
 
 
 export const customTheme = createTheme({

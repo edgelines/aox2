@@ -297,7 +297,7 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
     useEffect(() => {
         setChartOptions({
             series: series,
-            yAxis: selectedChartType == 'B' ? yAis_B : yAxis_A,
+            yAxis: selectedChartType == 'A' ? yAxis_A : yAis_B,
             // tooltip: {
             //     formatter: selectedChartType === 'A' ? tooltip('%y.%m.%d') : selectedChartType === 'B' ? tooltip('%y.%m.%d') : tooltip('%y.%m.%d %H:%M')
             // }
@@ -324,6 +324,7 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
                         <StyledToggleButton fontSize={10} value="60">60분봉</StyledToggleButton>
                         <StyledToggleButton fontSize={10} value="A">A-Type</StyledToggleButton>
                         <StyledToggleButton fontSize={10} value="B">B-Type</StyledToggleButton>
+                        <StyledToggleButton fontSize={10} value="Envelope">Envelope</StyledToggleButton>
                     </ToggleButtonGroup>
                 </Stack>
             </Grid>
