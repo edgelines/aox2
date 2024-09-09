@@ -5,6 +5,25 @@ import { williamsColor } from '../Motions/MotionsColumns';
 import { yellow } from '@mui/material/colors';
 // import { renderProgress } from '../sectorSearchPage';
 
+// 5중가, 6중가, 6고기 컬럼 렌더링
+const renderMaCell = (params) => {
+    if (typeof params.value !== 'number') return <span> </span>;
+    const color = params.value > 0 ? '#FCAB2F' : 'deepskyblue';
+    return <span style={{ color }}> {params.value.toFixed(1)} %</span>;
+};
+
+// 시가삼각가중 돌파 여부
+const renderCrossTRIMA = (params) => {
+    if (typeof params.value !== 'boolean') return <span> </span>;
+    return <span> {params.value === false ? '' : '★'}</span>
+}
+
+// Williams Rander Cell
+const renderWilliamsCell = (params) => {
+    if (typeof params.value !== 'number') return <span> </span>;
+    const color = williamsColor(params.value);
+    return <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
+}
 
 export const base_columns = [{
     field: '업종명', headerName: '업종명', width: 80,
@@ -17,9 +36,6 @@ export const base_columns = [{
 }, {
     field: '테마명', headerName: '테마명', width: 120,
     align: 'left', headerAlign: 'left',
-    // }, {
-    //     field: '테마갯수', headerName: '테마#', width: 50,
-    //     align: 'right', headerAlign: 'left',
 }, {
     field: '종목명', headerName: '종목명', width: 75,
     align: 'left', headerAlign: 'left',
@@ -55,30 +71,15 @@ export const A_columns = [
     {
         field: 'w9', headerName: 'w9', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = williamsColor(params.value)
-            return (
-                <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
-            )
-        }
+        renderCell: renderWilliamsCell
     }, {
         field: 'w14', headerName: 'w14', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = williamsColor(params.value)
-            return (
-                <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
-            )
-        }
+        renderCell: renderWilliamsCell
     }, {
         field: 'w33', headerName: 'w33', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = williamsColor(params.value)
-            return (
-                <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
-            )
-        }
+        renderCell: renderWilliamsCell
     }, {
         field: 'DMI_7', headerName: 'D7', width: 55,
         align: 'right', headerAlign: 'center',
@@ -88,35 +89,19 @@ export const A_columns = [
     }, {
         field: 'TRIMA_14', headerName: 'T14', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            return (
-                <span> {params.value === false ? '' : '★'}</span>
-            )
-        }
+        renderCell: renderCrossTRIMA
     }, {
         field: 'TRIMA_16', headerName: 'T16', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            return (
-                <span> {params.value === false ? '' : '★'}</span>
-            )
-        }
+        renderCell: renderCrossTRIMA
     }, {
         field: 'TRIMA_18', headerName: 'T18', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            return (
-                <span> {params.value === false ? '' : '★'}</span>
-            )
-        }
+        renderCell: renderCrossTRIMA
     }, {
         field: 'TRIMA_20', headerName: 'T20', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            return (
-                <span> {params.value === false ? '' : '★'}</span>
-            )
-        }
+        renderCell: renderCrossTRIMA
     }
 ]
 
@@ -125,30 +110,15 @@ export const B1_columns = [
     {
         field: 'w6', headerName: 'w6', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = williamsColor(params.value)
-            return (
-                <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
-            )
-        }
+        renderCell: renderWilliamsCell
     }, {
         field: 'w14', headerName: 'w14', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = williamsColor(params.value)
-            return (
-                <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
-            )
-        }
+        renderCell: renderWilliamsCell
     }, {
         field: 'w33', headerName: 'w33', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = williamsColor(params.value)
-            return (
-                <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
-            )
-        }
+        renderCell: renderWilliamsCell
     }, {
         field: 'DMI_4', headerName: 'D4', width: 55,
         align: 'right', headerAlign: 'center',
@@ -187,30 +157,15 @@ export const B2_columns = [
     {
         field: 'w6', headerName: 'w6', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = williamsColor(params.value)
-            return (
-                <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
-            )
-        }
+        renderCell: renderWilliamsCell
     }, {
         field: 'w14', headerName: 'w14', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = williamsColor(params.value)
-            return (
-                <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
-            )
-        }
+        renderCell: renderWilliamsCell
     }, {
         field: 'w33', headerName: 'w33', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = williamsColor(params.value)
-            return (
-                <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
-            )
-        }
+        renderCell: renderWilliamsCell
     }, {
         field: 'DMI_4', headerName: 'D4', width: 55,
         align: 'right', headerAlign: 'center',
@@ -226,50 +181,18 @@ export const B2_columns = [
     }, {
         field: 'mid_wma_5', headerName: '5중가', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = params.value > 0 ? '#FCAB2F' : 'deepskyblue'
-            if (typeof params.value === 'number') {
-                return (
-                    <span style={{ color: color }}> {params.value}</span>
-                )
-            } else {
-                return (
-                    <span> </span>
-                )
-            }
-        }
+        renderCell: renderMaCell
     }, {
         field: 'mid_wma_6', headerName: '6중가', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = params.value > 0 ? '#FCAB2F' : 'deepskyblue'
-            if (typeof params.value === 'number') {
-                return (
-                    <span style={{ color: color }}> {params.value}</span>
-                )
-            } else {
-                return (
-                    <span> </span>
-                )
-            }
-        }
+        renderCell: renderMaCell
     }, {
         field: 'high_gmean_6', headerName: '6고기', width: 55,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = params.value > 0 ? '#FCAB2F' : 'deepskyblue'
-            if (typeof params.value === 'number') {
-                return (
-                    <span style={{ color: color }}> {params.value}</span>
-                )
-            } else {
-                return (
-                    <span> </span>
-                )
-            }
-        }
+        renderCell: renderMaCell
     }
 ]
+
 
 
 export const customTheme = createTheme({
