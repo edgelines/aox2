@@ -377,6 +377,7 @@ const TypeMessage = (_type) => {
                 <Typography sx={{ fontSize: '12px' }} >고가 또는 종가가 5중가 6중기*3% 이내</Typography>
                 <Typography sx={{ fontSize: '12px' }} >당일 등락률 -3% 이상</Typography>
                 <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >5일평균거래량 2만주 제외</Typography>
                 <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
                 <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
@@ -392,6 +393,7 @@ const TypeMessage = (_type) => {
                 <Typography sx={{ fontSize: '12px' }} >고가 또는 종가가 5중가 6중기*3% 이내</Typography>
                 <Typography sx={{ fontSize: '12px' }} >당일 등락률 -3% 이상</Typography>
                 <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >5일평균거래량 2만주 제외</Typography>
                 <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
                 <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
@@ -403,13 +405,28 @@ const TypeMessage = (_type) => {
 
         case 'Envelope':
             return (<>
-                <Typography sx={{ fontSize: '12px' }} >당일 등락률 10% 이하</Typography>
+
                 <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
+                <Typography sx={{ fontSize: '12px' }} >5일평균거래량 2만주 제외</Typography>
                 <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
                 <Typography sx={{ fontSize: '12px' }} >종가나 고가가 5저가가중, 5중간값가중, 6저가가중, 6중간값가중 돌파</Typography>
                 <Typography sx={{ fontSize: '12px' }} >종가나 고가가 각 Envelope 돌파</Typography>
+            </>)
+
+        case 'Short':
+            return (<>
+                <Typography sx={{ fontSize: '12px' }} >당일 등락률 10% 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >5일평균거래량 2만주 제외</Typography>
+                <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
+                <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
+                <Typography sx={{ fontSize: '12px' }} >14, 9, 5 종가지수 역배열 상태</Typography>
+                <Typography sx={{ fontSize: '12px' }} >1. 1일선(종가지수)이 2일선(종가지수)을 상승돌파</Typography>
+                <Typography sx={{ fontSize: '12px' }} >2. 1일선(종가지수)이 3일선(종가지수)을 상승돌파</Typography>
+                <Typography sx={{ fontSize: '12px' }} >3. 고가나 종가가 3일선보다 위에 있지만 5일선보다 낮고, 종가가 2일선보다 위에 있음</Typography>
             </>)
 
         default:
@@ -417,6 +434,7 @@ const TypeMessage = (_type) => {
                 <Typography sx={{ fontSize: '12px' }} >고가 또는 종가가 5중가 6중기*3% 이내</Typography>
                 <Typography sx={{ fontSize: '12px' }} >당일 등락률 -3% 이상</Typography>
                 <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >5일평균거래량 2만주 제외</Typography>
                 <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
                 <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
