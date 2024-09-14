@@ -190,6 +190,7 @@ export default function TestPage({ swiperRef }) {
                 <Grid item container>
                     <StockChart_MA
                         height={580}
+                        boxTransform={`translate(10px, 235px)`}
                         stockName={stock.종목명} price={stock.현재가} net={stockChart.net} volumeRatio={stockChart.volumeRatio}
                         willR={stockChart.willR} DMI={stockChart.DMI}
                         series={stockChart.series}
