@@ -5,7 +5,6 @@ import LeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import RightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import TextNews from './ScheduleSub/textNews';
-// import IPO from './ScheduleSub/ipo';
 import Weather from './ScheduleSub/weather';
 import COEX from './ScheduleSub/coex';
 import FlixPatrol from './ScheduleSub/flixPatrol';
@@ -14,13 +13,11 @@ import FundarmentalPage1 from './Fundarmental/fundarmentalPage1';
 import FundarmentalPage2 from './Fundarmental/fundarmentalPage2';
 import FundarmentalPage3 from './Fundarmental/fundarmentalPage3';
 import Fundarmental from './fundarmental';
-import SectorSearchPage from './sectorSearchPage.jsx';
 import HTS from './hts';
 import IpoPulse from './ipoPulse';
 import WeightAvgPage3 from './ELW/weightAvgPage3.jsx';
-// import Pbr from './Index/PBR';
 import { numberWithCommas } from './util/util';
-import { API, API_WS } from './util/config';
+import { API } from './util/config';
 import useInterval from './util/useInterval';
 
 export default function SchedulePage({ swiperRef }) {
@@ -52,7 +49,6 @@ export default function SchedulePage({ swiperRef }) {
         <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('Fundarmental2')}>모기지/금리/<br />비금속/예탁금</Button>,
         <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('Fundarmental3')}>채권/CPI/PPI/재고</Button>,
         <Divider sx={{ borderColor: 'white', mt: 1.5, mb: 1.5 }} />,
-        <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('SectorSearchPage')}>업종검색</Button>,
         <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('HTS')}>추정매매동향</Button>,
         <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('IpoPulse')}>신규상장</Button>,
         <Button variant={'text'} sx={btnStyle} onClick={() => setSectorPage('WeightAvgPage3')}>환율/PBR/VIX</Button>,
@@ -132,7 +128,6 @@ export default function SchedulePage({ swiperRef }) {
                     {sectorPage === 'Fundarmental3' && <FundarmentalPage3 swiperRef={swiperRef} />}
                     {sectorPage === 'IpoPulse' && <IpoPulse swiperRef={swiperRef} />}
                     {sectorPage === 'HTS' && <HTS swiperRef={swiperRef} />}
-                    {sectorPage === 'SectorSearchPage' && <SectorSearchPage swiperRef={swiperRef} />}
                     {sectorPage === 'WeightAvgPage3' && <WeightAvgPage3 swiperRef={swiperRef} />}
                 </Grid>
             </Grid>

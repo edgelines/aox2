@@ -152,46 +152,46 @@ export const B1_columns = [
     }
 ]
 
-export const B2_columns = [
-    ...base_columns,
-    {
-        field: 'w6', headerName: 'w6', width: 55,
-        align: 'right', headerAlign: 'center',
-        renderCell: renderWilliamsCell
-    }, {
-        field: 'w14', headerName: 'w14', width: 55,
-        align: 'right', headerAlign: 'center',
-        renderCell: renderWilliamsCell
-    }, {
-        field: 'w33', headerName: 'w33', width: 55,
-        align: 'right', headerAlign: 'center',
-        renderCell: renderWilliamsCell
-    }, {
-        field: 'DMI_4', headerName: 'D4', width: 55,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: 'DMI_7', headerName: 'D7', width: 55,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: 'DMI_9', headerName: 'D9', width: 55,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: 'DMI_17', headerName: 'D17', width: 55,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: 'mid_wma_5', headerName: '5중가', width: 55,
-        align: 'right', headerAlign: 'center',
-        renderCell: renderMaCell
-    }, {
-        field: 'mid_wma_6', headerName: '6중가', width: 55,
-        align: 'right', headerAlign: 'center',
-        renderCell: renderMaCell
-    }, {
-        field: 'high_gmean_6', headerName: '6고기', width: 55,
-        align: 'right', headerAlign: 'center',
-        renderCell: renderMaCell
-    }
-]
+// export const B2_columns = [
+//     ...base_columns,
+//     {
+//         field: 'w6', headerName: 'w6', width: 55,
+//         align: 'right', headerAlign: 'center',
+//         renderCell: renderWilliamsCell
+//     }, {
+//         field: 'w14', headerName: 'w14', width: 55,
+//         align: 'right', headerAlign: 'center',
+//         renderCell: renderWilliamsCell
+//     }, {
+//         field: 'w33', headerName: 'w33', width: 55,
+//         align: 'right', headerAlign: 'center',
+//         renderCell: renderWilliamsCell
+//     }, {
+//         field: 'DMI_4', headerName: 'D4', width: 55,
+//         align: 'right', headerAlign: 'center',
+//     }, {
+//         field: 'DMI_7', headerName: 'D7', width: 55,
+//         align: 'right', headerAlign: 'center',
+//     }, {
+//         field: 'DMI_9', headerName: 'D9', width: 55,
+//         align: 'right', headerAlign: 'center',
+//     }, {
+//         field: 'DMI_17', headerName: 'D17', width: 55,
+//         align: 'right', headerAlign: 'center',
+//     }, {
+//         field: 'mid_wma_5', headerName: '5중가', width: 55,
+//         align: 'right', headerAlign: 'center',
+//         renderCell: renderMaCell
+//     }, {
+//         field: 'mid_wma_6', headerName: '6중가', width: 55,
+//         align: 'right', headerAlign: 'center',
+//         renderCell: renderMaCell
+//     }, {
+//         field: 'high_gmean_6', headerName: '6고기', width: 55,
+//         align: 'right', headerAlign: 'center',
+//         renderCell: renderMaCell
+//     }
+// ]
 
 export const Envelope_columns = [
     ...base_columns,

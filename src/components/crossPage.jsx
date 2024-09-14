@@ -7,7 +7,7 @@ import { DataTableStyleDefault, StyledToggleButton } from './util/util';
 import SearchFinancialInfo from './SearchFinancial/info';
 // import TreeMap from './SearchFinancial/treeMap';
 import { ContentsComponent } from './SearchFinancial/selectedPage';
-import { stockTable_columns, customTheme, trendColumns, ranksThemesColumns, ranksWillrColumns } from './SearchFinancial/tableColumns';
+import { customTheme, trendColumns, ranksThemesColumns, ranksWillrColumns } from './SearchFinancial/tableColumns';
 import { blue } from '@mui/material/colors';
 // import CrossChartPage from './SearchFinancial/crossChartPage';
 import { API, STOCK } from './util/config';
@@ -26,15 +26,7 @@ export default function SearchFinancial({ swiperRef }) {
     const [selectedChartType, setSelectedChartType] = useState('A') // Chart Type
 
     const handlePage = (event, value) => { if (value !== null) { setPage(value); setEventDrop(''); } }
-    // const handleTimeframe = (event, value) => { if (value !== null) { setTimeframe(value); } }
-    // const handleFavorite = async () => {
-    //     setStock({ ...stock, Favorite: !stock.Favorite })
-    //     await axios.get(`${API}/info/Favorite/${stock.종목코드}`);
-    // }
-    // const handleInvest = async () => {
-    //     setStock({ ...stock, Invest: !stock.Invest })
-    //     await axios.get(`${API}/stockInvest/${stock.종목코드}`);
-    // }
+
     const handleFavorite = async () => {
         setStock(prevStock => ({
             ...prevStock,
@@ -121,54 +113,6 @@ export default function SearchFinancial({ swiperRef }) {
             series: res.data.series
         })
     }
-
-    // useEffect(() => {
-    //     const websocket = new WebSocket(`${API_WS}/stockChart`);
-
-    //     websocket.onopen = () => {
-    //         console.log('Connected to the server');
-    //     };
-
-    //     websocket.onmessage = (event) => {
-
-    //         const res = JSON.parse(event.data)
-    //         console.log(res);
-    //         setStockChart({
-    //             price: res.price,
-    //             volume: res.volume,
-    //             treasury: [],
-    //             treasuryPrice: [],
-    //             treasury: res.treasury,
-    //             treasuryPrice: res.treasuryPrice,
-    //             willR: res.willR,
-    //             net: res.net
-    //         })
-    //     };
-
-    //     websocket.onerror = (error) => {
-    //         console.log('WebSocket error: ', error);
-    //     };
-
-    //     setStockWS(websocket); // 웹소켓 인스턴스를 상태에 저장
-    //     // console.log(websocket);
-
-    //     // 컴포넌트 언마운트 시 웹소켓 연결 종료
-    //     return () => {
-    //         websocket.close();
-    //     };
-    // }, []);
-
-    // useEffect(() => {
-    //     // field 상태가 변경될 때 데이터 전송
-    //     const sendData = (stockCode) => {
-    //         if (stockWS && stockWS.readyState === WebSocket.OPEN && stockCode) {
-    //             const data = { code: stockCode };
-    //             stockWS.send(JSON.stringify(data));
-    //         }
-    //     };
-    //     sendData(stockCode);
-    // }, [stockWS, stockCode]); // field 또는 ws 상태가 변경될 때마다 실행
-
     const getIndustryStockData = async (params) => {
         let field = params.field;
         let industry = params.row.업종명;
@@ -188,7 +132,7 @@ export default function SearchFinancial({ swiperRef }) {
             setStockTableData(res.data);
         }
     }
-    useEffect(() => { fetchData() }, [page])
+    useEffect(() => { fetchData() }, [])
 
     const getSelectedChartType = async () => {
         if (typeof stock.종목코드 !== "undefined") {
@@ -210,6 +154,7 @@ export default function SearchFinancial({ swiperRef }) {
         <Grid container>
             {/* 좌 : Table, TreeMap, ChrossChart */}
             <Grid item xs={page === 'Industry' ? 12 : 8}>
+
                 {/* Selected BTN */}
                 <Grid item container sx={{ mt: 0.5 }}>
                     <ToggleButtonGroup
@@ -222,11 +167,8 @@ export default function SearchFinancial({ swiperRef }) {
                     >
                         <StyledToggleButton fontSize={'10px'} value="Cross">Cross</StyledToggleButton>
                         <StyledToggleButton fontSize={'10px'} value="Favorite">Favorite</StyledToggleButton>
-                        <StyledToggleButton fontSize={'10px'} value="Tree">Tree</StyledToggleButton>
-                        <StyledToggleButton fontSize={'10px'} value="Table">Table</StyledToggleButton>
+                        <StyledToggleButton fontSize={'10px'} value="Tree">Tree</StyledToggleButton>ㄴ
                         <StyledToggleButton fontSize={'10px'} value="Industry">Industry</StyledToggleButton>
-                        <StyledToggleButton fontSize={'10px'} value="Trend">Trend</StyledToggleButton>
-                        <StyledToggleButton fontSize={'10px'} value="Treasury">Treasury</StyledToggleButton>
                         <FormControl variant="standard" sx={{ minWidth: 100 }}>
                             <InputLabel sx={{ fontSize: '12px', color: '#efe9e9ed', pl: 3 }}>Event</InputLabel>
                             <Select
@@ -251,8 +193,8 @@ export default function SearchFinancial({ swiperRef }) {
 
                 <ContentsComponent
                     swiperRef={swiperRef} page={page} tableData={tableData} eventDrop={eventDrop}
-                    getIndustryStockData={getIndustryStockData} onIndustryClick={onIndustryClick} getStockCode={getStockCode} getStockChartData={getStockChartData} />
-                {page === 'Tree' || page === 'Table' ?
+                    onIndustryClick={onIndustryClick} getStockCode={getStockCode} getStockChartData={getStockChartData} />
+                {page === 'Tree' ?
                     <>
                         <Grid item container sx={{ minHeight: 30 }}>
                             <Grid item xs={4}>
@@ -318,6 +260,7 @@ export default function SearchFinancial({ swiperRef }) {
                 }
 
             </Grid>
+
             {/* 우 : 종목정보 */}
             {page !== 'Industry' ?
                 <Grid item xs={4}>

@@ -12,15 +12,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
-// import PropTypes from 'prop-types';
-// import { VariableSizeList } from 'react-window';
-import StockChart from './SectorsPage/stockChart';
+// import StockChart from './SectorsPage/stockChart';
 import SectorChart from './SectorsPage/sectorChart';
 import TreeMap from './SectorsPage/treeMap';
 import ColumnChart from './SectorsPage/columnChart';
 import { API, STOCK } from './util/config';
 import { SectorsName15 } from './util/util';
-import useInterval from './util/useInterval';
+
 
 export default function SectorsRank({ swiperRef }) {
 

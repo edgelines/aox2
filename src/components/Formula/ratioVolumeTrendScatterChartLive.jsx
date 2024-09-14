@@ -292,8 +292,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                             onChange={handleFormulaType}
                         >
                             <StyledToggleButton fontSize={10} value="A">A-Type</StyledToggleButton>
-                            <StyledToggleButton fontSize={10} value="B">B1-Type</StyledToggleButton>
-                            <StyledToggleButton fontSize={10} value="B2">B2-Type</StyledToggleButton>
+                            <StyledToggleButton fontSize={10} value="B">B-Type</StyledToggleButton>
                             <StyledToggleButton fontSize={10} value="Envelope">Envelope</StyledToggleButton>
                             <StyledToggleButton fontSize={10} value="Short">Short</StyledToggleButton>
                         </ToggleButtonGroup>
@@ -338,7 +337,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                     <ThemeProvider theme={customTheme}>
                         <DataGrid
                             rows={tableData}
-                            columns={formulaType === 'A' ? A_columns : formulaType === 'B' ? B1_columns : formulaType === 'B2' ? B2_columns : formulaType === 'Short' ? Short_columns : Envelope_columns}
+                            columns={formulaType === 'A' ? A_columns : formulaType === 'B' ? B1_columns : formulaType === 'Short' ? Short_columns : Envelope_columns}
                             rowHeight={20}
                             onCellClick={(params, event) => {
                                 getInfo(params.row);
