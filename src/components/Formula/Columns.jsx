@@ -231,7 +231,7 @@ export const Short_columns = [
         align: 'right', headerAlign: 'center',
         renderCell: renderMaCell
     }, {
-        field: '단기검색조건9', headerName: '1>16', width: 55,
+        field: '단기검색조건9', headerName: '1>7', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: renderCrossTRIMA
     }, {
