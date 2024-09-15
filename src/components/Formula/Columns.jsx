@@ -5,11 +5,12 @@ import { williamsColor } from '../Motions/MotionsColumns';
 import { yellow } from '@mui/material/colors';
 // import { renderProgress } from '../sectorSearchPage';
 
-// 5중가, 6중가, 6고기 컬럼 렌더링
+// 종가지수 캔들모양
 const renderMaCell = (params) => {
     if (typeof params.value !== 'number') return <span> </span>;
     const color = params.value > 0 ? '#FCAB2F' : 'deepskyblue';
-    return <span style={{ color }}> {params.value.toFixed(1)} %</span>;
+    const shape = params.value == 1 ? '◼️' : params.value == 2 ? '◼️' : params.value == -1 ? '◼️' : params.value == -2 ? 'ㅗ' : '';
+    return <span style={{ color, fontWeight: 'bold' }}> {shape}</span>;
 };
 
 // 시가삼각가중 돌파 여부
@@ -152,46 +153,6 @@ export const B1_columns = [
     }
 ]
 
-// export const B2_columns = [
-//     ...base_columns,
-//     {
-//         field: 'w6', headerName: 'w6', width: 55,
-//         align: 'right', headerAlign: 'center',
-//         renderCell: renderWilliamsCell
-//     }, {
-//         field: 'w14', headerName: 'w14', width: 55,
-//         align: 'right', headerAlign: 'center',
-//         renderCell: renderWilliamsCell
-//     }, {
-//         field: 'w33', headerName: 'w33', width: 55,
-//         align: 'right', headerAlign: 'center',
-//         renderCell: renderWilliamsCell
-//     }, {
-//         field: 'DMI_4', headerName: 'D4', width: 55,
-//         align: 'right', headerAlign: 'center',
-//     }, {
-//         field: 'DMI_7', headerName: 'D7', width: 55,
-//         align: 'right', headerAlign: 'center',
-//     }, {
-//         field: 'DMI_9', headerName: 'D9', width: 55,
-//         align: 'right', headerAlign: 'center',
-//     }, {
-//         field: 'DMI_17', headerName: 'D17', width: 55,
-//         align: 'right', headerAlign: 'center',
-//     }, {
-//         field: 'mid_wma_5', headerName: '5중가', width: 55,
-//         align: 'right', headerAlign: 'center',
-//         renderCell: renderMaCell
-//     }, {
-//         field: 'mid_wma_6', headerName: '6중가', width: 55,
-//         align: 'right', headerAlign: 'center',
-//         renderCell: renderMaCell
-//     }, {
-//         field: 'high_gmean_6', headerName: '6고기', width: 55,
-//         align: 'right', headerAlign: 'center',
-//         renderCell: renderMaCell
-//     }
-// ]
 
 export const Envelope_columns = [
     ...base_columns,
@@ -246,17 +207,42 @@ export const Short_columns = [
         align: 'right', headerAlign: 'center',
         renderCell: renderCrossTRIMA
     }, {
-        field: '단기검색조건3', headerName: '1->3<5', width: 55,
+        field: '단기검색조건3', headerName: '2>3', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: renderCrossTRIMA
     }, {
+        field: '단기검색조건4', headerName: '2<3', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderCrossTRIMA
+    }, {
+        field: '단기검색조건5', headerName: '4종지', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderMaCell
+    }, {
+        field: '단기검색조건6', headerName: '5종지', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderMaCell
+    }, {
+        field: '단기검색조건7', headerName: '6종지', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderMaCell
+    }, {
+        field: '단기검색조건8', headerName: '7종지', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderMaCell
+    }, {
+        field: '단기검색조건9', headerName: '1>16', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderCrossTRIMA
+    }, {
+        field: '단기검색조건10', headerName: '1<112', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderCrossTRIMA
+    }, {
+        field: 'DMI_4', headerName: 'D4', width: 55,
+        align: 'right', headerAlign: 'center',
+    }, {
         field: 'DMI_7', headerName: 'D7', width: 55,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: 'DMI_9', headerName: 'D9', width: 55,
-        align: 'right', headerAlign: 'center',
-    }, {
-        field: 'DMI_17', headerName: 'D17', width: 55,
         align: 'right', headerAlign: 'center',
     }
 ]
