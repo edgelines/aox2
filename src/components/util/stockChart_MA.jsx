@@ -293,11 +293,34 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
             },
         }
     ]
+    const yAis_Short = [
+        {
+            enabled: true,
+            height: '80%',
+            labels: {
+                x: 30,
+                style: { fontSize: '11px' }, formatter: function () {
+                    return (this.value).toLocaleString('ko-KR');
+                },
+            },
+        }, {
+            top: '80%',
+            height: '20%',
+            offset: 0,
+            labels: {
+                align: 'right',
+                x: -3,
+                style: { fontSize: '0px' },
+            },
+            title: { text: 'DMI' },
+            gridLineWidth: 0,
+        }
+    ]
 
     useEffect(() => {
         setChartOptions({
             series: series,
-            yAxis: selectedChartType == 'A' ? yAxis_A : yAis_B,
+            yAxis: selectedChartType == 'A' ? yAxis_A : selectedChartType == 'Short' ? yAis_Short : yAis_B,
             // tooltip: {
             //     formatter: selectedChartType === 'A' ? tooltip('%y.%m.%d') : selectedChartType === 'B' ? tooltip('%y.%m.%d') : tooltip('%y.%m.%d %H:%M')
             // }
@@ -325,6 +348,7 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
                         <StyledToggleButton fontSize={10} value="A">A-Type</StyledToggleButton>
                         <StyledToggleButton fontSize={10} value="B">B-Type</StyledToggleButton>
                         <StyledToggleButton fontSize={10} value="Envelope">Envelope</StyledToggleButton>
+                        <StyledToggleButton fontSize={10} value="Short">Short</StyledToggleButton>
                     </ToggleButtonGroup>
                 </Stack>
             </Grid>

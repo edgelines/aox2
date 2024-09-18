@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Grid, Stack, ToggleButtonGroup, IconButton, Table, TableBody, TableContainer, Typography } from '@mui/material';
+import { Grid, Stack, IconButton, Table, TableBody, TableContainer, Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 // import { StyledToggleButton } from '../util/util';
@@ -12,9 +12,9 @@ import StockChart_MA from '../util/stockChart_MA';
 import StockChart_Sub from '../util/StockChart_Sub.jsx';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import { yellow } from '@mui/material/colors';
-import { STOCK } from '../util/config.jsx';
-// import { StyledToggleButton } from './util/util.jsx';
-// import { formatDateString } from './util/formatDate.jsx'
+import { STOCK, API_KAKAO } from '../util/config.jsx';
+// import SendToMobileIcon from '@mui/icons-material/SendToMobile';
+import { RiKakaoTalkFill } from "react-icons/ri";
 
 
 export default function StockInfoPage({ stock, stockChart, handleFavorite, handleInvest, handleInvestCancel, swiperRef, selectedChartType, handleSelectedChartType }) {
@@ -29,8 +29,11 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
     const getSubChartData = async () => {
         const res = await axios.get(`${STOCK}/sub/${stock.종목코드}`);
         // const res = await axios.get(`http://localhost:2440/stockData/sub/${stock.종목코드}`);
-        // console.log(res.data);
         setSubChartData(res.data);
+    }
+
+    const handleSendChatRoom = async () => {
+        await axios.get(`${API_KAKAO}/${stock.종목코드}`);
     }
 
     useEffect(() => {
@@ -45,7 +48,7 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
             {/* Top Stock Name */}
             <Grid item container sx={{ minHeight: 36, maxHeight: 36 }}>
                 {stock.종목명 ?
-                    <StockInfo data={stock} handleFavorite={handleFavorite} handleInvest={handleInvest} handleInvestCancel={handleInvestCancel} />
+                    <StockInfo data={stock} handleFavorite={handleFavorite} handleInvest={handleInvest} handleInvestCancel={handleInvestCancel} handleSendChatRoom={handleSendChatRoom} />
                     : <></>
                 }
             </Grid>
@@ -156,7 +159,7 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
 }
 
 
-export const StockInfo = ({ data, handleFavorite, handleInvest, handleInvestCancel }) => {
+export const StockInfo = ({ data, handleFavorite, handleInvest, handleInvestCancel, handleSendChatRoom }) => {
     const theme = createTheme({
         palette: {
             primary: {
@@ -175,6 +178,11 @@ export const StockInfo = ({ data, handleFavorite, handleInvest, handleInvestCanc
                         {data.Favorite ?
                             <FavoriteIcon /> : <FavoriteBorderIcon />
                         }
+                    </IconButton>
+                </Grid>
+                <Grid item xs={0.5}>
+                    <IconButton size="small" color='error' onClick={() => handleSendChatRoom()}>
+                        <RiKakaoTalkFill />
                     </IconButton>
                 </Grid>
                 <Grid item xs={0.6}>
@@ -197,8 +205,9 @@ export const StockInfo = ({ data, handleFavorite, handleInvest, handleInvestCanc
                     </IconButton>
                 </Grid>
 
+
                 <Grid item xs={3}><StyledTypography_StockInfo textAlign='center' sx={{ color: data.시장 === 'K' ? '#FCAB2F' : 'greenyellow' }}>{data.종목명}</StyledTypography_StockInfo></Grid>
-                <Grid item xs={2}><StyledTypography_StockInfo textAlign='center' >{parseInt((parseInt(data.시가총액) / 100000000).toFixed(0)).toLocaleString('kr')} 억</StyledTypography_StockInfo></Grid>
+                <Grid item xs={1.5}><StyledTypography_StockInfo textAlign='center' >{parseInt((parseInt(data.시가총액) / 100000000).toFixed(0)).toLocaleString('kr')} 억</StyledTypography_StockInfo></Grid>
                 <Grid item xs={3}><StyledTypography_StockInfo textAlign='center' >{data.업종명}</StyledTypography_StockInfo></Grid>
                 <Grid item xs={2}><StyledTypography_StockInfo textAlign='center' >{data.시장 === 'K' ? 'Kospi' : 'Kosdaq'}</StyledTypography_StockInfo></Grid>
             </Grid>
