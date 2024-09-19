@@ -155,10 +155,6 @@ export const B1_columns = [
 
 
 export const Envelope_columns = [
-    {
-        field: '순위', headerName: '#', width: 55,
-        align: 'right', headerAlign: 'center',
-    },
     ...base_columns,
     {
         field: 'Env19_10', headerName: '19,10.7', width: 55,
@@ -189,13 +185,13 @@ export const Envelope_columns = [
         align: 'right', headerAlign: 'center',
         renderCell: renderCrossTRIMA
     }, {
-        field: 'DMI_7', headerName: 'D7', width: 55,
+        field: 'DMI_7', headerName: 'D7', width: 40,
         align: 'right', headerAlign: 'center',
     }, {
-        field: 'DMI_9', headerName: 'D9', width: 55,
+        field: 'DMI_9', headerName: 'D9', width: 40,
         align: 'right', headerAlign: 'center',
     }, {
-        field: 'DMI_17', headerName: 'D17', width: 55,
+        field: 'DMI_17', headerName: 'D17', width: 40,
         align: 'right', headerAlign: 'center',
     }
 ]
@@ -203,54 +199,54 @@ export const Envelope_columns = [
 export const Short_columns = [
     ...base_columns,
     {
-        field: '단기검색조건1', headerName: '1->2', width: 55,
+        field: '단기검색조건1', headerName: '1->2', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: renderCrossTRIMA
     }, {
-        field: '단기검색조건2', headerName: '1->3', width: 55,
+        field: '단기검색조건2', headerName: '1->3', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: renderCrossTRIMA
     }, {
-        field: '단기검색조건3', headerName: '2>3', width: 55,
+        field: '단기검색조건3', headerName: '2>3', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: renderCrossTRIMA
     }, {
-        field: '단기검색조건4', headerName: '2<3', width: 55,
+        field: '단기검색조건4', headerName: '2<3', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: renderCrossTRIMA
     }, {
-        field: '단기검색조건5', headerName: '4종지', width: 55,
+        field: '단기검색조건5', headerName: '4종지', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: renderMaCell
     }, {
-        field: '단기검색조건6', headerName: '5종지', width: 55,
+        field: '단기검색조건6', headerName: '5종지', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: renderMaCell
     }, {
-        field: '단기검색조건7', headerName: '6종지', width: 55,
+        field: '단기검색조건7', headerName: '6종지', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: renderMaCell
     }, {
-        field: '단기검색조건8', headerName: '7종지', width: 55,
+        field: '단기검색조건8', headerName: '7종지', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: renderMaCell
     }, {
-        field: '단기검색조건11', headerName: '9종지', width: 55,
+        field: '단기검색조건11', headerName: '9종지', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: renderMaCell
     }, {
-        field: '단기검색조건9', headerName: '1>7', width: 55,
+        field: '단기검색조건9', headerName: '1>7', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: renderCrossTRIMA
     }, {
-        field: '단기검색조건10', headerName: '1<112', width: 55,
+        field: '단기검색조건10', headerName: '1<112', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: renderCrossTRIMA
     }, {
-        field: 'DMI_4', headerName: 'D4', width: 55,
+        field: 'DMI_4', headerName: 'D4', width: 40,
         align: 'right', headerAlign: 'center',
     }, {
-        field: 'DMI_7', headerName: 'D7', width: 55,
+        field: 'DMI_7', headerName: 'D7', width: 40,
         align: 'right', headerAlign: 'center',
     }
 ]
