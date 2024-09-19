@@ -35,7 +35,7 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
 
     const handleSendChatRoom = async () => {
         await axios.get(`${API_KAKAO}/${stock.종목코드}`);
-        setSendKakao(prev => (!prev))
+        setSendKakao(true);
     }
 
     useEffect(() => {
