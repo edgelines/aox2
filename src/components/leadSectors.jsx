@@ -33,7 +33,7 @@ export default function LeadSectorsPage({ swiperRef }) {
     const [SectorsChartDataSelected, setSectorsChartDataSelected] = useState([]);
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
     const [tableInfo, setTableInfo] = useState({ industry: null, kospi: null, kosdaq: null })
-    const [checkStats, setCheckStats] = useState({ b1_kospi200: [] });
+    // const [checkStats, setCheckStats] = useState({ b1_kospi200: [] });
     const [selectedChartType, setSelectedChartType] = useState('A') // Chart Type
 
     // hanlder
@@ -163,7 +163,7 @@ export default function LeadSectorsPage({ swiperRef }) {
             setIndustryInfo(res.industryInfo);
             setTableInfo(res.tableInfo);
             setThemesCounterIndustry(res.themesToIndustry)
-            setCheckStats(res.check);
+            // setCheckStats(res.check);
             setSavetime(res.savetime);
         };
 
@@ -266,7 +266,7 @@ export default function LeadSectorsPage({ swiperRef }) {
             </Box>
 
             {/* 6중간가중 & 6저가기하 */}
-            <Box sx={{ position: 'absolute', transform: 'translate(170px, 865px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
+            {/* <Box sx={{ position: 'absolute', transform: 'translate(170px, 865px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
                 {Array.isArray(checkStats.b1_kospi200) && checkStats.b1_kospi200.length > 0 ?
                     <>
                         <Typography sx={{ fontSize: '13px' }} > 코스피200 : {checkStats.now_kospi200.length} / {checkStats.b1_kospi200.length} ({parseInt(checkStats.now_kospi200.length / checkStats.b1_kospi200.length * 100)}%)</Typography>
@@ -274,7 +274,7 @@ export default function LeadSectorsPage({ swiperRef }) {
                         <Typography sx={{ fontSize: '13px' }} > 코스닥 : {checkStats.now_kosdaq.length} / {checkStats.b1_kosdaq.length} ({parseInt(checkStats.now_kosdaq.length / checkStats.b1_kosdaq.length * 100)}%)</Typography>
                     </>
                     : <></>}
-            </Box>
+            </Box> */}
 
             {/* 업종 */}
             <Grid item xs={1}>

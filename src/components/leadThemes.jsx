@@ -30,7 +30,7 @@ export default function LeadThemesPage({ swiperRef }) {
     const [stockTableData, setStockTableData] = useState([]);
     const [SectorsChartDataSelected, setSectorsChartDataSelected] = useState([]);
     const [stockChart, setStockChart] = useState({ price: [], volume: [] });
-    const [checkStats, setCheckStats] = useState({ b1_kospi200: [] });
+    // const [checkStats, setCheckStats] = useState({ b1_kospi200: [] });
 
     // hanlder
     const handleFavorite = async () => {
@@ -116,7 +116,7 @@ export default function LeadThemesPage({ swiperRef }) {
             const res = JSON.parse(event.data);
             setChartData(res.chart);
             setIndustryTableData(res.industry);
-            setCheckStats(res.check);
+            // setCheckStats(res.check);
             setSavetime(res.savetime);
             // setThemesTableData(res.themes);
             // setIndustryInfo(res.industryInfo);
@@ -173,7 +173,7 @@ export default function LeadThemesPage({ swiperRef }) {
                 <Typography sx={{ fontSize: '12px', color: 'tomato' }} >X : 오늘기준</Typography>
             </Box>
 
-            <Box sx={{ position: 'absolute', transform: 'translate(7px, 855px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
+            {/* <Box sx={{ position: 'absolute', transform: 'translate(7px, 855px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
                 {Array.isArray(checkStats.b1_kospi200) && checkStats.b1_kospi200.length > 0 ?
                     <>
                         <Typography sx={{ fontSize: '13px' }} > 코스피200 : {checkStats.now_kospi200.length} / {checkStats.b1_kospi200.length} ({parseInt(checkStats.now_kospi200.length / checkStats.b1_kospi200.length * 100)}%)</Typography>
@@ -181,7 +181,7 @@ export default function LeadThemesPage({ swiperRef }) {
                         <Typography sx={{ fontSize: '13px' }} > 코스닥 : {checkStats.now_kosdaq.length} / {checkStats.b1_kosdaq.length} ({parseInt(checkStats.now_kosdaq.length / checkStats.b1_kosdaq.length * 100)}%)</Typography>
                     </>
                     : <></>}
-            </Box>
+            </Box> */}
 
             {/* Main Chart */}
             <Grid item xs={5.2}>

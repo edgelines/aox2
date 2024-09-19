@@ -17,7 +17,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
     const [chartTable1, setChartTable1] = useState([]);
     const [chartTable2, setChartTable2] = useState([]);
 
-    const [checkStats, setCheckStats] = useState({ b1_kospi200: [] });
+    // const [checkStats, setCheckStats] = useState({ b1_kospi200: [] });
 
     const setDate = () => {
         var now = new Date();
@@ -45,7 +45,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
             const res = JSON.parse(event.data);
             setChartData1(res.chart1);
             setChartData2(res.chart2);
-            setCheckStats(res.check);
+            // setCheckStats(res.check);
             setSavetime(res.savetime);
             setChartTable1(res.table1)
             setChartTable2(res.table2)
@@ -100,7 +100,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
                 <Typography sx={{ fontSize: '12px', color: 'tomato' }} >X : 오늘기준</Typography>
             </Box>
 
-            <Box sx={{ position: 'absolute', transform: 'translate(7px, 865px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
+            {/* <Box sx={{ position: 'absolute', transform: 'translate(7px, 865px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
                 {Array.isArray(checkStats.b1_kospi200) && checkStats.b1_kospi200.length > 0 ?
                     <>
                         <Typography sx={{ fontSize: '13px' }} > 코스피200 : {checkStats.now_kospi200.length} / {checkStats.b1_kospi200.length} ({parseInt(checkStats.now_kospi200.length / checkStats.b1_kospi200.length * 100)}%)</Typography>
@@ -108,7 +108,7 @@ export default function LeadThemesTopPage({ swiperRef }) {
                         <Typography sx={{ fontSize: '13px' }} > 코스닥 : {checkStats.now_kosdaq.length} / {checkStats.b1_kosdaq.length} ({parseInt(checkStats.now_kosdaq.length / checkStats.b1_kosdaq.length * 100)}%)</Typography>
                     </>
                     : <></>}
-            </Box>
+            </Box> */}
 
             {/* filtered table */}
             <Box sx={{ position: 'absolute', transform: 'translate(450px, 540px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '14px', textAlign: 'left' }}>
