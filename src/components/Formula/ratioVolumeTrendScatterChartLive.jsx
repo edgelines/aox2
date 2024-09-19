@@ -422,10 +422,18 @@ const TypeMessage = (_type) => {
                 <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
                 <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
-                <Typography sx={{ fontSize: '12px' }} >14, 9, 5 종가지수 역배열 상태</Typography>
-                <Typography sx={{ fontSize: '12px' }} >1. 1일선(종가지수)이 2일선(종가지수)을 상승돌파</Typography>
-                <Typography sx={{ fontSize: '12px' }} >2. 1일선(종가지수)이 3일선(종가지수)을 상승돌파</Typography>
-                <Typography sx={{ fontSize: '12px' }} >3. 고가나 종가가 3일선보다 위에 있지만 5일선보다 낮고, 종가가 2일선보다 위에 있음</Typography>
+                <Typography sx={{ fontSize: '12px' }} >14, 9, 7 종가지수 역배열 상태</Typography>
+                <Typography sx={{ fontSize: '12px' }} >1-2 : 1일선(종가지수)이 2일선(종가지수)보다 높다</Typography>
+                <Typography sx={{ fontSize: '12px' }} >1-3 : 1일선(종가지수)이 3일선(종가지수)보다 높다</Typography>
+                <Typography sx={{ fontSize: '12px' }} >2-3 : 2일선(종가지수)이 3일선(종가지수)보다 높다</Typography>
+                <Typography sx={{ fontSize: '12px' }} >2=3 : 2일선(종가지수)이 3일선(종가지수)보다 낮다</Typography>
+                <Typography sx={{ fontSize: '12px' }} >4종지 : 종가와 고가가 4종가지수보다 높을경우 ㅁ, 고가는 4종가지수보다 높지만 종가는 낮을경우 ㅗ </Typography>
+                <Typography sx={{ fontSize: '12px' }} >5종지 : 종가와 고가가 5종가지수보다 높을경우 ㅁ, 고가는 5종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
+                <Typography sx={{ fontSize: '12px' }} >6종지 : 종가와 고가가 6종가지수보다 높을경우 ㅁ, 고가는 6종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
+                <Typography sx={{ fontSize: '12px' }} >7종지 : 종가와 고가가 7종가지수보다 높을경우 ㅁ, 고가는 7종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
+                <Typography sx={{ fontSize: '12px' }} >1-7 : 종가가 7시가삼각보다 높을 경우</Typography>
+                <Typography sx={{ fontSize: '12px' }} >1-9 : 종가가 9종가지수보다 낮을 경우</Typography>
+                <Typography sx={{ fontSize: '12px' }} >1-112 : 종가가 112저가지수보다 낮을경우</Typography>
             </>)
 
         default:

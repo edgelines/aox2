@@ -1,23 +1,23 @@
 import './App.css';
 import React, { useState, useEffect, useRef } from "react";
-// Components
-import SchedulePage from './components/schedulePage.jsx';
-import DetailPage from './components/ELW/detailPage.jsx'
-import MainPage from './components/mainPage.jsx'
-import ModelingPage from './components/modelingPage.jsx';
-import WeightAvgPage1 from './components/ELW/weightAvgPage1.jsx';
-import WeightAvgPage2 from './components/ELW/weightAvgPage2.jsx';
-import CrossPage from './components/crossPage';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Keyboard, Mousewheel, Pagination } from "swiper/modules";
+// Components
+import SchedulePage from './components/schedulePage.jsx';
+import CrossPage from './components/crossPage';
+import FormulaPage from './components/formulaPage.jsx';
+import DetailPage from './components/ELW/detailPage.jsx'
+import MainPage from './components/mainPage.jsx'
+import ModelingPage from './components/modelingPage.jsx';
+import WeightAvgPage1 from './components/ELW/weightAvgPage1.jsx';
+import WeightAvgPage2 from './components/ELW/weightAvgPage2.jsx';
 import LeadSectors from './components/leadSectors';
 import LeadThemesTop2 from './components/leadThemesTop2';
 import StockSearchPage from './components/stockSearchPage';
 import MotionPage from './components/motionPage.jsx'
-import FormulaPage from './components/formulaPage.jsx';
 import ReportPage from './components/reportPage';
 
 function App() {
