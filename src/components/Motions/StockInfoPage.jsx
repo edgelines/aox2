@@ -21,6 +21,7 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
     const baseStyle = { fontSize: '10px', p: 0.1, textAlign: 'right' }
     const [subChartData, setSubChartData] = useState();
     const [selectedSubChartType, setSelectedSubChartType] = useState(false);
+    const [sendKakao, setSendKakao] = useState(false);
 
     const handleSelectedSubChartType = () => {
         setSelectedSubChartType(prevStock => (!prevStock));
@@ -34,6 +35,7 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
 
     const handleSendChatRoom = async () => {
         await axios.get(`${API_KAKAO}/${stock.종목코드}`);
+        setSendKakao(prev => (!prev))
     }
 
     useEffect(() => {
@@ -48,7 +50,8 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
             {/* Top Stock Name */}
             <Grid item container sx={{ minHeight: 36, maxHeight: 36 }}>
                 {stock.종목명 ?
-                    <StockInfo data={stock} handleFavorite={handleFavorite} handleInvest={handleInvest} handleInvestCancel={handleInvestCancel} handleSendChatRoom={handleSendChatRoom} />
+                    <StockInfo data={stock} handleFavorite={handleFavorite} handleInvest={handleInvest} handleInvestCancel={handleInvestCancel}
+                        handleSendChatRoom={handleSendChatRoom} sendKakao={sendKakao} />
                     : <></>
                 }
             </Grid>
@@ -159,7 +162,7 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
 }
 
 
-export const StockInfo = ({ data, handleFavorite, handleInvest, handleInvestCancel, handleSendChatRoom }) => {
+export const StockInfo = ({ data, handleFavorite, handleInvest, handleInvestCancel, handleSendChatRoom, sendKakao }) => {
     const theme = createTheme({
         palette: {
             primary: {
@@ -181,7 +184,7 @@ export const StockInfo = ({ data, handleFavorite, handleInvest, handleInvestCanc
                     </IconButton>
                 </Grid>
                 <Grid item xs={0.5}>
-                    <IconButton size="small" color='error' onClick={() => handleSendChatRoom()}>
+                    <IconButton size="small" color={sendKakao ? 'primary' : 'error'} onClick={() => handleSendChatRoom()}>
                         <RiKakaoTalkFill />
                     </IconButton>
                 </Grid>
