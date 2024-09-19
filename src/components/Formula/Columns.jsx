@@ -9,7 +9,7 @@ import { yellow } from '@mui/material/colors';
 const renderMaCell = (params) => {
     if (typeof params.value !== 'number') return <span> </span>;
     const color = params.value > 0 ? '#FCAB2F' : 'deepskyblue';
-    const shape = params.value == 1 ? '■' : params.value == 2 ? '■' : params.value == -1 ? '■' : params.value == -2 ? 'ㅗ' : '';
+    const shape = params.value == 2 ? '■' : params.value == 1 ? 'ㅗ' : params.value == -2 ? '■' : params.value == -1 ? 'ㅗ' : '';
     return <span style={{ color, fontWeight: 'bold' }}> {shape}</span>;
 };
 
