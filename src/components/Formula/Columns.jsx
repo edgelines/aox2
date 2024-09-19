@@ -9,7 +9,7 @@ import { yellow } from '@mui/material/colors';
 const renderMaCell = (params) => {
     if (typeof params.value !== 'number') return <span> </span>;
     const color = params.value > 0 ? '#FCAB2F' : 'deepskyblue';
-    const shape = params.value == 1 ? '◼️' : params.value == 2 ? '◼️' : params.value == -1 ? '◼️' : params.value == -2 ? 'ㅗ' : '';
+    const shape = params.value == 1 ? '■' : params.value == 2 ? '■' : params.value == -1 ? '■' : params.value == -2 ? 'ㅗ' : '';
     return <span style={{ color, fontWeight: 'bold' }}> {shape}</span>;
 };
 
@@ -228,6 +228,10 @@ export const Short_columns = [
         renderCell: renderMaCell
     }, {
         field: '단기검색조건8', headerName: '7종지', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderMaCell
+    }, {
+        field: '단기검색조건11', headerName: '9종지', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: renderMaCell
     }, {

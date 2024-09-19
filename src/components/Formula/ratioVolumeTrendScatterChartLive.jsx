@@ -431,8 +431,8 @@ const TypeMessage = (_type) => {
                 <Typography sx={{ fontSize: '12px' }} >5종지 : 종가와 고가가 5종가지수보다 높을경우 ㅁ, 고가는 5종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
                 <Typography sx={{ fontSize: '12px' }} >6종지 : 종가와 고가가 6종가지수보다 높을경우 ㅁ, 고가는 6종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
                 <Typography sx={{ fontSize: '12px' }} >7종지 : 종가와 고가가 7종가지수보다 높을경우 ㅁ, 고가는 7종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
-                <Typography sx={{ fontSize: '12px' }} >1-7 : 종가가 7시가삼각보다 높을 경우</Typography>
-                <Typography sx={{ fontSize: '12px' }} >1-9 : 종가가 9종가지수보다 낮을 경우</Typography>
+                <Typography sx={{ fontSize: '12px' }} >9종지 : 종가와 고가가 9종가지수보다 높을경우 ㅁ, 고가는 7종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
+                <Typography sx={{ fontSize: '12px' }} >1-7 : 종가나 고가가 7시가삼각을 돌파</Typography>
                 <Typography sx={{ fontSize: '12px' }} >1-112 : 종가가 112저가지수보다 낮을경우</Typography>
             </>)
 
