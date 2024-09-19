@@ -155,6 +155,10 @@ export const B1_columns = [
 
 
 export const Envelope_columns = [
+    {
+        field: '순위', headerName: '#', width: 55,
+        align: 'right', headerAlign: 'center',
+    },
     ...base_columns,
     {
         field: 'Env19_10', headerName: '19,10.7', width: 55,
