@@ -139,12 +139,12 @@ export const customTheme = createTheme({
             styleOverrides: {
                 root: {
                     '& .MuiDataGrid-row': {
-                        fontSize: '10px', // 전체 폰트 크기를 원하는 값으로 설정합니다.
+                        fontSize: '11px', // 전체 폰트 크기를 원하는 값으로 설정합니다.
                         color: '#efe9e9ed'
                     },
                 },
                 columnHeaderWrapper: {
-                    minHeight: '10px', // 헤더 높이를 원하는 값으로 설정합니다.
+                    minHeight: '11px', // 헤더 높이를 원하는 값으로 설정합니다.
                     color: '#efe9e9ed'
                     // lineHeight: '20px',
                 },

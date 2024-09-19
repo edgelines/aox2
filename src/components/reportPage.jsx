@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, Skeleton, Select, MenuItem, FormControl, ToggleButtonGroup, Box, IconButton, Stack, Typography, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
+import { Grid, IconButton, Stack, Typography, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { customTheme } from './Motions/MotionsColumns';
@@ -8,22 +8,12 @@ import { DataTableStyleDefault } from './LeadSectors/tableColumns';
 import { blue } from '@mui/material/colors';
 import { API, STOCK } from './util/config.jsx';
 import StockChart_MA from './util/stockChart_MA';
-// import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-// import { StyledToggleButton } from './util/util.jsx';
 import LeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import RightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { monthColumns, dayColumns } from './Report/columns.jsx';
-import TestChart from './Test/TestChart.jsx'
-
 
 export default function TestPage({ swiperRef }) {
-
-
     // state
-    // const [_date, set_Date] = useState({ year: null, month: null });
     const [date, setDate] = useState(() => {
         const today = new Date();
         return { year: today.getFullYear(), month: today.getMonth() + 1 };
@@ -67,7 +57,7 @@ export default function TestPage({ swiperRef }) {
                 return prevDate;
             }
             const today = new Date();
-            if (newYear > today.getFullYear() || newMonth > today.getMonth() + 2) {
+            if (newYear > today.getFullYear() || newMonth > today.getMonth() + 1) {
                 return prevDate
             }
             return { year: newYear, month: newMonth };
@@ -143,7 +133,7 @@ export default function TestPage({ swiperRef }) {
             </Grid> */}
 
             {/* Month Stats Data */}
-            <Grid item container xs={3}>
+            <Grid item container xs={2.5}>
 
                 {/* Calendar */}
                 <Grid item xs={12} >
@@ -186,7 +176,7 @@ export default function TestPage({ swiperRef }) {
             </Grid>
 
             {/* Chart, Day Stats Data */}
-            <Grid item container xs={5.5}>
+            <Grid item container xs={6}>
                 <Grid item container>
                     <StockChart_MA
                         height={580}

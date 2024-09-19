@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { formatDate } from '../util/formatDate.jsx';
 
 export const monthColumns = [{
-    field: '날짜', headerName: '날짜', width: 100,
+    field: '날짜', headerName: '날짜', width: 80,
     align: 'center', headerAlign: 'center',
     valueFormatter: (params) => {
         return `${formatDate(params.value)}`;
@@ -16,10 +16,10 @@ export const monthColumns = [{
         return `${수익} / ${전체} ( ${parseInt(수익 / 전체 * 100)} % )`;
     }
 }, {
-    field: '수익률', headerName: '수익률', width: 100,
+    field: '수익률', headerName: '수익률', width: 80,
     align: 'right', headerAlign: 'center',
 }, {
-    field: '투자일수', headerName: '투자일수', width: 100,
+    field: '투자일수', headerName: '투자일수', width: 80,
     align: 'right', headerAlign: 'center',
 
 }]
