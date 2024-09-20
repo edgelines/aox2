@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, IconButton, Stack, Typography, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
+import { Grid, IconButton, Stack, Typography, TableContainer } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { customTheme } from './Motions/MotionsColumns';
@@ -11,6 +11,7 @@ import StockChart_MA from './util/stockChart_MA';
 import LeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import RightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { monthColumns, dayColumns } from './Report/columns.jsx';
+import Chart from './Report/Chart.jsx';
 
 export default function TestPage({ swiperRef }) {
     // state
@@ -21,7 +22,11 @@ export default function TestPage({ swiperRef }) {
 
     const [monthData, setMonthData] = useState([]);
     const [dayData, setDayData] = useState([]);
-    const [statistics, setStatistics] = useState({});
+    const [boxplotCci, setBoxplotCci] = useState({ categories: [], data: [] });
+    const [boxplotDmi, setBoxplotDmi] = useState({ categories: [], data: [] });
+    const [boxplotWillr, setBoxplotWillr] = useState({ categories: [], data: [] });
+    const [boxplotVolume, setBoxplotVolume] = useState({ categories: [], data: [] });
+    const [boxplotRank, setBoxplotRank] = useState({ categories: [], data: [] });
     const [stock, setStock] = useState({ 종목명: null })
     const [stockChart, setStockChart] = useState({});
     const [selectedChartType, setSelectedChartType] = useState('A') // Chart Type
@@ -35,7 +40,11 @@ export default function TestPage({ swiperRef }) {
         const res = await axios.post(`${API}/report/getMonthData`, postData);
         // const res = await axios.post('http://localhost:2440/api/report/getMonthData', postData);
         setMonthData(res.data.data);
-        setStatistics(res.data.statistics);
+        setBoxplotCci(res.data.boxplot_cci);
+        setBoxplotDmi(res.data.boxplot_dim);
+        setBoxplotWillr(res.data.boxplot_willr);
+        setBoxplotVolume(res.data.boxplot_volume);
+        setBoxplotRank(res.data.boxplot_rank);
     }
 
     // handler
@@ -108,8 +117,6 @@ export default function TestPage({ swiperRef }) {
             get_data(date);
         }
     }, [date]);
-
-    const tableCellStyle = { color: '#efe9e9ed', fontSize: '11px' }
 
     const getSelectedChartType = async () => {
         if (typeof stock.종목코드 !== "undefined") {
@@ -219,45 +226,25 @@ export default function TestPage({ swiperRef }) {
 
             {/* Statistics */}
 
-            <Grid item container xs={3.5}>
-                <TableContainer>
-                    <Table size='small'>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell sx={tableCellStyle} >보조지표</TableCell>
-                                <TableCell sx={tableCellStyle} >min</TableCell>
-                                <TableCell sx={tableCellStyle} >max</TableCell>
-                                <TableCell sx={tableCellStyle} >avg</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {Object.keys(statistics).map(item => {
-                                const columns = ['w9', 'w14', 'w33', 'd7', 'd17']
-                                const columns2 = ['T14', 'T16', 'T18', 'T20']
-                                if (columns.includes(item)) {
-                                    return (
-                                        <TableRow key={item}>
-                                            <TableCell sx={tableCellStyle}>{item}</TableCell>
-                                            <TableCell sx={tableCellStyle}>{statistics[item]['min']}</TableCell>
-                                            <TableCell sx={tableCellStyle}>{statistics[item]['max']}</TableCell>
-                                            <TableCell sx={tableCellStyle}>{statistics[item]['avg']}</TableCell>
-                                        </TableRow>
-                                    )
-                                } else if (columns2.includes(item)) {
-                                    return (
-                                        <TableRow key={item}>
-                                            <TableCell sx={tableCellStyle}>{item}</TableCell>
-                                            <TableCell sx={tableCellStyle}>{statistics[item]} / {statistics['종목갯수']}</TableCell>
-                                        </TableRow>
-                                    )
-                                }
-                            })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+            <Grid item xs={3.5}>
+                <Grid item xs={12}>
+                    <Chart data={boxplotCci} />
+                </Grid>
+                <Grid item xs={12}>
+                    <Chart data={boxplotDmi} />
+                </Grid>
+                <Grid item xs={12}>
+                    <Chart data={boxplotWillr} />
+                </Grid>
+                <Grid item container xs={12}>
+                    <Grid item xs={6}>
+                        <Chart data={boxplotVolume} />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Chart data={boxplotRank} />
+                    </Grid>
+                </Grid>
             </Grid>
-
-
         </Grid>
 
     )
