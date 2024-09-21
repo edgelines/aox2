@@ -99,6 +99,22 @@ export const dayColumns = [{
         }
     }
 }, {
+    field: 'D4', headerName: 'D4', width: 50,
+    align: 'right', headerAlign: 'center',
+    valueGetter: (params) => {
+        return params.row.매입보조지표.DMI_4 ? params.row.매입보조지표.DMI_4 : '-';
+    }
+}, {
+    field: 'N_D4', headerName: 'N_D4', width: 50,
+    align: 'right', headerAlign: 'center',
+    valueGetter: (params) => {
+        if (params.row.수익률 > 3) {
+            return params.row.고가보조지표.DMI_4
+        } else {
+            return '-'
+        }
+    }
+}, {
     field: 'D7', headerName: 'D7', width: 50,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
@@ -148,12 +164,12 @@ export const dayColumns = [{
     valueGetter: (params) => {
         return params.row.매입보조지표.cross_TRIMA_18 ? '★' : ''
     }
-}, {
-    field: 'T20', headerName: 'T20', width: 50,
-    align: 'right', headerAlign: 'center',
-    valueGetter: (params) => {
-        return params.row.매입보조지표.cross_TRIMA_20 ? '★' : ''
-    }
+    // }, {
+    //     field: 'T20', headerName: 'T20', width: 50,
+    //     align: 'right', headerAlign: 'center',
+    //     valueGetter: (params) => {
+    //         return params.row.매입보조지표.cross_TRIMA_20 ? '★' : ''
+    //     }
 
 
 
