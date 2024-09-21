@@ -341,10 +341,10 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
                         value={selectedChartType}
                         onChange={handleSelectedChartType}
                     >
-                        <StyledToggleButton fontSize={10} value="5" >5분봉</StyledToggleButton>
+                        {/* <StyledToggleButton fontSize={10} value="5" >5분봉</StyledToggleButton>
                         <StyledToggleButton fontSize={10} value="10">10분봉</StyledToggleButton>
                         <StyledToggleButton fontSize={10} value="30">30분봉</StyledToggleButton>
-                        <StyledToggleButton fontSize={10} value="60">60분봉</StyledToggleButton>
+                        <StyledToggleButton fontSize={10} value="60">60분봉</StyledToggleButton> */}
                         <StyledToggleButton fontSize={10} value="A">A-Type</StyledToggleButton>
                         <StyledToggleButton fontSize={10} value="B">B-Type</StyledToggleButton>
                         <StyledToggleButton fontSize={10} value="Envelope">Envelope</StyledToggleButton>
