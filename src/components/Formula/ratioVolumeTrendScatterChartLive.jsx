@@ -439,6 +439,52 @@ const TypeMessage = (_type) => {
                 <Typography sx={{ fontSize: '12px' }} >1-112 : 종가가 112저가지수보다 낮을경우</Typography>
             </>)
 
+        case 'WhiteBox_17':
+            return (<>
+                <Typography sx={{ fontSize: '12px' }} >당일 등락률 10% 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >5일평균거래량 2만주 제외</Typography>
+                <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
+                <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
+                <Typography sx={{ fontSize: '12px' }} >A-Type, B-Type, Envelope, Short 종목들 중에서 Report Page WhiteBox의 17% 이상 상승한 조건</Typography>
+                <Typography sx={{ fontSize: '12px' }} >WillR6 or WillR9 or (WillR14 and WillR14-7 Sig) or (WillR33 and WillR33-7 Sig) WhiteBox 구간 </Typography>
+                <Typography sx={{ fontSize: '12px' }} >DMI3, DMI4, DMI7, DMI9, DMI17 WhiteBox 구간 </Typography>
+                <Typography sx={{ fontSize: '12px' }} >CCI4 or CCI4-2 Sig WhiteBox 최상단 최하단 구간 </Typography>
+                <Typography sx={{ fontSize: '12px' }} >CCI11이 CCI-11-4 보다 큰 것</Typography>
+                <Typography sx={{ fontSize: '12px' }} >CCI4가  전날 CCI-4 보다 큰 것</Typography>
+            </>)
+        case 'WhiteBox_10':
+            return (<>
+                <Typography sx={{ fontSize: '12px' }} >당일 등락률 10% 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >5일평균거래량 2만주 제외</Typography>
+                <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
+                <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
+                <Typography sx={{ fontSize: '12px' }} >A-Type, B-Type, Envelope, Short 종목들 중에서 Report Page WhiteBox의 10% 이상 상승한 조건</Typography>
+                <Typography sx={{ fontSize: '12px' }} >WillR6 or WillR9 or (WillR14 and WillR14-7 Sig) or (WillR33 and WillR33-7 Sig) WhiteBox 구간 </Typography>
+                <Typography sx={{ fontSize: '12px' }} >DMI3, DMI4, DMI7, DMI9, DMI17 WhiteBox 구간 </Typography>
+                <Typography sx={{ fontSize: '12px' }} >CCI4 or CCI4-2 Sig WhiteBox 최상단 최하단 구간 </Typography>
+                <Typography sx={{ fontSize: '12px' }} >CCI11이 CCI-11-4 보다 큰 것</Typography>
+                <Typography sx={{ fontSize: '12px' }} >CCI4가  전날 CCI-4 보다 큰 것</Typography>
+            </>)
+        case 'WhiteBox_3':
+            return (<>
+                <Typography sx={{ fontSize: '12px' }} >당일 등락률 10% 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >5일평균거래량 2만주 제외</Typography>
+                <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
+                <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
+                <Typography sx={{ fontSize: '12px' }} >A-Type, B-Type, Envelope, Short 종목들 중에서 Report Page WhiteBox의 3% 이상 상승한 조건</Typography>
+                <Typography sx={{ fontSize: '12px' }} >WillR6 or WillR9 or (WillR14 and WillR14-7 Sig) or (WillR33 and WillR33-7 Sig) WhiteBox 구간 </Typography>
+                <Typography sx={{ fontSize: '12px' }} >DMI3, DMI4, DMI7, DMI9, DMI17 WhiteBox 구간 </Typography>
+                <Typography sx={{ fontSize: '12px' }} >CCI4 or CCI4-2 Sig WhiteBox 최상단 최하단 구간 </Typography>
+                <Typography sx={{ fontSize: '12px' }} >CCI11이 CCI-11-4 보다 큰 것</Typography>
+                <Typography sx={{ fontSize: '12px' }} >CCI4가  전날 CCI-4 보다 큰 것</Typography>
+            </>)
+
         default:
             return (<>
                 <Typography sx={{ fontSize: '12px' }} >고가 또는 종가가 5중가 6중기*3% 이내</Typography>
