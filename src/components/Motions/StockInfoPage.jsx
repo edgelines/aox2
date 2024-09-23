@@ -112,6 +112,20 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
                                                 </Stack>
                                             </Grid>
 
+                                            <Grid container sx={{ mt: 2 }}>
+                                                <Table sx={{ mt: 1, borderBottom: '1px solid #fff' }}>
+                                                    <TableBody>
+                                                        {Array.isArray(stock.주요주주) ? stock.주요주주.map(item => (
+                                                            <tr key={item.주요주주}>
+                                                                <td sx={{ color: '#efe9e9ed', ...baseStyle }} >{item.주요주주}</td>
+                                                                <td sx={{ color: '#efe9e9ed', ...baseStyle }} >{item['보유주식수(보통)'].toLocaleString('KR')} 주</td>
+                                                                <td sx={{ color: '#efe9e9ed', ...baseStyle }} >{parseInt(item['보유지분(%)'])} %</td>
+                                                            </tr>
+                                                        )) : <></>}
+                                                    </TableBody>
+                                                </Table>
+                                            </Grid>
+
 
                                         </TableContainer>
 
