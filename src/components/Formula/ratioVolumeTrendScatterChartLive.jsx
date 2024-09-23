@@ -373,6 +373,26 @@ export default MotionsChart;
 
 const TypeMessage = (_type) => {
     const __type = _type['type']
+
+
+    const whiteBox = (num) => (
+        <>
+            <Typography sx={{ fontSize: '12px' }} >- 당일 등락률 10% 이하</Typography>
+            <Typography sx={{ fontSize: '12px' }} >- 1주당 20만원 이하</Typography>
+            <Typography sx={{ fontSize: '12px' }} >- 5일평균거래량 2만주 제외</Typography>
+            <Typography sx={{ fontSize: '12px' }} >- 전일대비거래량 1000% 이하</Typography>
+            <Typography sx={{ fontSize: '12px' }} >- 시총 500억 ~ 30조</Typography>
+            <Typography sx={{ fontSize: '12px' }} >- 스팩, 리츠, 우선주 제외</Typography>
+            <Typography sx={{ fontSize: '12px' }} >- A-Type, B-Type, Envelope, Short 종목들 중에서 Report Page WhiteBox의 {num}% 이상 상승한 조건</Typography>
+            <Typography sx={{ fontSize: '12px' }} >- WillR6 or WillR9 or (WillR14 and WillR14-7 Sig) or (WillR33 and WillR33-7 Sig) WhiteBox 구간 </Typography>
+            <Typography sx={{ fontSize: '12px' }} >- DMI3, DMI4, DMI7, DMI9, DMI17 WhiteBox 구간 </Typography>
+            <Typography sx={{ fontSize: '12px' }} >- CCI4 (파란선상단 ~ 파란선하단) and CCI4-2 Sig (파란선상단 ~ -120) 구간 </Typography>
+            <Typography sx={{ fontSize: '12px' }} >- CCI11 (40 ~ 파란선하단) and CCI11-4 Sig (30 ~ 파란선하단) 구간 </Typography>
+            <Typography sx={{ fontSize: '12px' }} >- CCI11이 CCI-11-4 보다 큰 것</Typography>
+            <Typography sx={{ fontSize: '12px' }} >- 업종순위 14위 미만</Typography>
+        </>
+    )
+
     switch (__type) {
         case 'B':
             return (<>
@@ -390,24 +410,8 @@ const TypeMessage = (_type) => {
                 <Typography sx={{ fontSize: '12px' }} >현재가가 5중간값가중, 6중간값가중, 6고가기하 로부터 얼마나 떨어져 있는지.</Typography>
             </>)
 
-        case 'B2':
-            return (<>
-                <Typography sx={{ fontSize: '12px' }} >고가 또는 종가가 5중가 6중기*3% 이내</Typography>
-                <Typography sx={{ fontSize: '12px' }} >당일 등락률 -3% 이상</Typography>
-                <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >5일평균거래량 2만주 제외</Typography>
-                <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
-                <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
-                <Typography sx={{ fontSize: '12px' }} >D4 10 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >D7 10 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >D9 15 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >D17 30 이하</Typography>
-            </>)
-
         case 'Envelope':
             return (<>
-
                 <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
@@ -441,48 +445,16 @@ const TypeMessage = (_type) => {
 
         case 'WhiteBox_17':
             return (<>
-                <Typography sx={{ fontSize: '12px' }} >당일 등락률 10% 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >5일평균거래량 2만주 제외</Typography>
-                <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
-                <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
-                <Typography sx={{ fontSize: '12px' }} >A-Type, B-Type, Envelope, Short 종목들 중에서 Report Page WhiteBox의 17% 이상 상승한 조건</Typography>
-                <Typography sx={{ fontSize: '12px' }} >WillR6 or WillR9 or (WillR14 and WillR14-7 Sig) or (WillR33 and WillR33-7 Sig) WhiteBox 구간 </Typography>
-                <Typography sx={{ fontSize: '12px' }} >DMI3, DMI4, DMI7, DMI9, DMI17 WhiteBox 구간 </Typography>
-                <Typography sx={{ fontSize: '12px' }} >CCI4 or CCI4-2 Sig WhiteBox 최상단 최하단 구간 </Typography>
-                <Typography sx={{ fontSize: '12px' }} >CCI11이 CCI-11-4 보다 큰 것</Typography>
-                <Typography sx={{ fontSize: '12px' }} >CCI4가  전날 CCI-4 보다 큰 것</Typography>
+                {whiteBox(17)}
+
             </>)
         case 'WhiteBox_10':
             return (<>
-                <Typography sx={{ fontSize: '12px' }} >당일 등락률 10% 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >5일평균거래량 2만주 제외</Typography>
-                <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
-                <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
-                <Typography sx={{ fontSize: '12px' }} >A-Type, B-Type, Envelope, Short 종목들 중에서 Report Page WhiteBox의 10% 이상 상승한 조건</Typography>
-                <Typography sx={{ fontSize: '12px' }} >WillR6 or WillR9 or (WillR14 and WillR14-7 Sig) or (WillR33 and WillR33-7 Sig) WhiteBox 구간 </Typography>
-                <Typography sx={{ fontSize: '12px' }} >DMI3, DMI4, DMI7, DMI9, DMI17 WhiteBox 구간 </Typography>
-                <Typography sx={{ fontSize: '12px' }} >CCI4 or CCI4-2 Sig WhiteBox 최상단 최하단 구간 </Typography>
-                <Typography sx={{ fontSize: '12px' }} >CCI11이 CCI-11-4 보다 큰 것</Typography>
-                <Typography sx={{ fontSize: '12px' }} >CCI4가  전날 CCI-4 보다 큰 것</Typography>
+                {whiteBox(10)}
             </>)
         case 'WhiteBox_3':
             return (<>
-                <Typography sx={{ fontSize: '12px' }} >당일 등락률 10% 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >1주당 20만원 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >5일평균거래량 2만주 제외</Typography>
-                <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
-                <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
-                <Typography sx={{ fontSize: '12px' }} >A-Type, B-Type, Envelope, Short 종목들 중에서 Report Page WhiteBox의 3% 이상 상승한 조건</Typography>
-                <Typography sx={{ fontSize: '12px' }} >WillR6 or WillR9 or (WillR14 and WillR14-7 Sig) or (WillR33 and WillR33-7 Sig) WhiteBox 구간 </Typography>
-                <Typography sx={{ fontSize: '12px' }} >DMI3, DMI4, DMI7, DMI9, DMI17 WhiteBox 구간 </Typography>
-                <Typography sx={{ fontSize: '12px' }} >CCI4 or CCI4-2 Sig WhiteBox 최상단 최하단 구간 </Typography>
-                <Typography sx={{ fontSize: '12px' }} >CCI11이 CCI-11-4 보다 큰 것</Typography>
-                <Typography sx={{ fontSize: '12px' }} >CCI4가  전날 CCI-4 보다 큰 것</Typography>
+                {whiteBox(3)}
             </>)
 
         default:

@@ -165,23 +165,23 @@ export const Envelope_columns = [
         align: 'right', headerAlign: 'center',
         renderCell: renderCrossTRIMA
     }, {
-        field: 'Env19_8', headerName: '19,8.7', width: 55,
+        field: 'Env19_8', headerName: '19,8.7', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: renderCrossTRIMA
     }, {
-        field: 'Env14_8', headerName: '14,8', width: 55,
+        field: 'Env14_8', headerName: '14,8', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: renderCrossTRIMA
     }, {
-        field: 'Env14_7', headerName: '14,7', width: 55,
+        field: 'Env14_7', headerName: '14,7', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: renderCrossTRIMA
     }, {
-        field: 'Env9_5', headerName: '9,5', width: 55,
+        field: 'Env9_5', headerName: '9,5', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: renderCrossTRIMA
     }, {
-        field: 'Env9_4', headerName: '9,4', width: 55,
+        field: 'Env9_4', headerName: '9,4', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: renderCrossTRIMA
     }, {
@@ -193,6 +193,18 @@ export const Envelope_columns = [
     }, {
         field: 'DMI_17', headerName: 'D17', width: 40,
         align: 'right', headerAlign: 'center',
+    }, {
+        field: 'w9', headerName: 'w9', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderWilliamsCell
+    }, {
+        field: 'w14', headerName: 'w14', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderWilliamsCell
+    }, {
+        field: 'w33', headerName: 'w33', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderWilliamsCell
     }
 ]
 
