@@ -1,5 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { formatDate } from '../util/formatDate.jsx';
+import { IconButton } from '@mui/material';
+import axios from 'axios';
+import { API } from '../util/config.jsx';
+import PaidIcon from '@mui/icons-material/Paid';
+
+const handleInvest = async (row) => {
+    // console.log(row.종목코드, row.Type)
+    try {
+        await axios.get(`${API}/stockInvest/${row.종목코드}?chart_type=${row.Type}`);
+    } catch (err) {
+        console.error('API 호출 실패 : ', err)
+    }
+}
 
 export const monthColumns = [{
     field: '날짜', headerName: '날짜', width: 80,
@@ -25,24 +38,41 @@ export const monthColumns = [{
 }]
 
 export const dayColumns = [{
-    field: 'Type', headerName: 'Type', width: 50,
+    field: 'Type', headerName: 'Type', width: 40,
     align: 'center', headerAlign: 'center',
 }, {
-    field: '종목명', headerName: '종목명', width: 90,
+    field: '', headerName: '추매', width: 30,
     align: 'center', headerAlign: 'center',
+    renderCell: (params) => {
+        return (
+            <>
+                {/* <Button variant="contained" size="small" color="primary" onClick={() => {
+                    handleInvest(params.row)
+                }}>
+                    +
+                </Button> */}
+
+                <IconButton size="small" color="error" onClick={() => handleInvest(params.row)} >
+
+                    <PaidIcon />
+
+                </IconButton>
+
+            </>
+        )
+    }
+}, {
+    field: '종목명', headerName: '종목명', width: 50,
+    align: 'left', headerAlign: 'center',
     renderCell: (params) => {
         const color = params.row.수익률 > 10 ? 'tomato' : params.row.수익률 > 0 ? '#FCAB2F' : 'deepskyblue'
         return (
             <span style={{ color: color }}> {params.value}</span>
+
         )
     }
 }, {
-    // field: '매입가', headerName: '매입가', width: 70,
-    // align: 'right', headerAlign: 'center',
-    // valueFormatter: (params) => {
-    //     return `${params.value.toLocaleString('kr')}`;
-    // }
-    field: '수익률', headerName: '수익률', width: 50,
+    field: '수익률', headerName: '수익률', width: 40,
     align: 'right', headerAlign: 'center',
     renderCell: (params) => {
         const color = params.value > 10 ? 'tomato' : params.value > 0 ? '#FCAB2F' : 'deepskyblue'
@@ -147,30 +177,21 @@ export const dayColumns = [{
         }
     }
 }, {
-    field: 'T14', headerName: 'T14', width: 50,
+    field: 'T14', headerName: 'T14', width: 40,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
         return params.row.매입보조지표.cross_TRIMA_14 ? '★' : ''
     }
 }, {
-    field: 'T16', headerName: 'T16', width: 50,
+    field: 'T16', headerName: 'T16', width: 40,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
         return params.row.매입보조지표.cross_TRIMA_16 ? '★' : ''
     }
 }, {
-    field: 'T18', headerName: 'T18', width: 50,
+    field: 'T18', headerName: 'T18', width: 40,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
         return params.row.매입보조지표.cross_TRIMA_18 ? '★' : ''
     }
-    // }, {
-    //     field: 'T20', headerName: 'T20', width: 50,
-    //     align: 'right', headerAlign: 'center',
-    //     valueGetter: (params) => {
-    //         return params.row.매입보조지표.cross_TRIMA_20 ? '★' : ''
-    //     }
-
-
-
 }]
