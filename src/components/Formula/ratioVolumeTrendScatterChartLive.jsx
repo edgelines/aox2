@@ -295,12 +295,12 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                             <StyledToggleButton fontSize={10} value="B">B-Type</StyledToggleButton>
                             <StyledToggleButton fontSize={10} value="Envelope">Envelope</StyledToggleButton>
                             <StyledToggleButton fontSize={10} value="Short">Short</StyledToggleButton>
-                            <StyledToggleButton fontSize={10} value="WhiteBox_17">WhiteBox 17</StyledToggleButton>
-                            <StyledToggleButton fontSize={10} value="WhiteBox_10">WhiteBox 10</StyledToggleButton>
-                            <StyledToggleButton fontSize={10} value="WhiteBox_3">WhiteBox 3</StyledToggleButton>
-                            <StyledToggleButton fontSize={10} value="WhiteBox_17_C">WhiteBox 17 C</StyledToggleButton>
-                            <StyledToggleButton fontSize={10} value="WhiteBox_10_C">WhiteBox 10 C</StyledToggleButton>
-                            <StyledToggleButton fontSize={10} value="WhiteBox_3_C">WhiteBox 3 C</StyledToggleButton>
+                            <StyledToggleButton fontSize={10} value="WhiteBox_17">WB 17</StyledToggleButton>
+                            <StyledToggleButton fontSize={10} value="WhiteBox_10">WB 10</StyledToggleButton>
+                            <StyledToggleButton fontSize={10} value="WhiteBox_3">WB 3</StyledToggleButton>
+                            <StyledToggleButton fontSize={10} value="WhiteBox_17_C">WB 17 C</StyledToggleButton>
+                            <StyledToggleButton fontSize={10} value="WhiteBox_10_C">WB 10 C</StyledToggleButton>
+                            <StyledToggleButton fontSize={10} value="WhiteBox_3_C">WB 3 C</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Stack>
 
