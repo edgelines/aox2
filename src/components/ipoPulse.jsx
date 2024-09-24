@@ -120,29 +120,27 @@ export default function IpoPulsePage({ swiperRef }) {
     const getStockCode = async (params) => {
         // 시가총액, 상장주식수, PER, EPS, PBR, BPS
         const res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
-        // console.log(res.data);
-        setStock({
-            종목명: params.종목명, 종목코드: params.종목코드, 업종명: params.업종명, 현재가: res.data.현재가,
-            시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,
-            최고가52주: res.data.최고가52주, 최저가52주: res.data.최저가52주, 기업개요: res.data.기업개요, 분기실적: res.data.분기실적, 연간실적: res.data.연간실적,
-            주요제품매출구성: res.data.주요제품매출구성, 주요주주: res.data.주요주주, 이벤트: res.data.이벤트, 보호예수: res.data.보호예수
-        })
+        if (res.status === 200) {
+            setStock({
+                종목명: params.종목명, 종목코드: params.종목코드, 업종명: params.업종명, 현재가: res.data.현재가,
+                시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,
+                최고가52주: res.data.최고가52주, 최저가52주: res.data.최저가52주, 기업개요: res.data.기업개요, 분기실적: res.data.분기실적, 연간실적: res.data.연간실적,
+                주요제품매출구성: res.data.주요제품매출구성, 주요주주: res.data.주요주주, 이벤트: res.data.이벤트, 보호예수: res.data.보호예수
+            })
+        }
     }
 
     const getStockChartData = async (code) => {
         const res = await axios.get(`${STOCK}/get/${code}/${selectedChartType}`);
-        setStockChart({
-            // price: res.data.price,
-            // volume: res.data.volume,
-            // MA: res.data.MA,
-            // treasury: res.data.treasury,
-            // treasuryPrice: res.data.treasuryPrice,
-            willR: res.data.willR,
-            net: res.data.net,
-            volumeRatio: res.data.volumeRatio,
-            DMI: res.data.DMI,
-            series: res.data.series
-        })
+        if (res.status === 200) {
+            setStockChart({
+                willR: res.data.willR,
+                net: res.data.net,
+                volumeRatio: res.data.volumeRatio,
+                DMI: res.data.DMI,
+                series: res.data.series
+            })
+        }
     }
     const fetchChartData = async () => {
         const res = await axios.get(`${API}/ipoPulse/chart`);
@@ -150,8 +148,7 @@ export default function IpoPulsePage({ swiperRef }) {
     }
     const fetchData = async (postData) => {
         const res = await axios.post(`${API}/ipoPulse/data`, postData);
-        // console.table(postData);
-        // console.table(res.data.table);
+
         setTableData(res.data.table);
         setIndustryTable(res.data.industry);
         setTotalCount(res.data.total);
@@ -174,13 +171,15 @@ export default function IpoPulsePage({ swiperRef }) {
     const getSelectedChartType = async () => {
         if (typeof stock.종목코드 !== "undefined") {
             var res = await axios.get(`${STOCK}/get/${stock.종목코드}/${selectedChartType}`);
-            setStockChart({
-                willR: res.data.willR,
-                net: res.data.net,
-                volumeRatio: res.data.volumeRatio,
-                DMI: res.data.DMI,
-                series: res.data.series
-            })
+            if (res.status === 200) {
+                setStockChart({
+                    willR: res.data.willR,
+                    net: res.data.net,
+                    volumeRatio: res.data.volumeRatio,
+                    DMI: res.data.DMI,
+                    series: res.data.series
+                })
+            }
         }
     }
     useEffect(() => {
