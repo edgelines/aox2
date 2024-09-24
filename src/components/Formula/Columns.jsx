@@ -67,6 +67,47 @@ export const base_columns = [{
     }
 }]
 
+export const base_columns2 = [{
+    field: '업종명', headerName: '업종명', width: 80,
+    align: 'left', headerAlign: 'left',
+    renderCell: (params) => {
+        return (
+            <span style={{ backgroundColor: params.row.color, color: '#404040' }}>{params.value}</span>
+        )
+    }
+}, {
+    field: 'WhiteBox_id', headerName: 'F_id', width: 120,
+    align: 'left', headerAlign: 'left',
+}, {
+    field: '종목명', headerName: '종목명', width: 75,
+    align: 'left', headerAlign: 'left',
+    renderCell: (params) => {
+        const filter_A = params.row.filter_A
+        const invest = params.row.Invest
+        const bgColor = filter_A ? '#FCAB2F' : invest ? yellow[500] : null
+        const color = filter_A ? '#404040' : invest ? '#404040' : null
+
+        return (
+            <span style={{ backgroundColor: bgColor, color: color }}>{params.value}</span>
+        )
+    }
+}, {
+    field: 'y', headerName: 'R %', width: 50,
+    align: 'right', headerAlign: 'center',
+    renderCell: (params) => {
+        const color = params.value > 10 ? 'tomato' : params.value > 0 ? '#FCAB2F' : 'deepskyblue'
+        return (
+            <span style={{ color: color }}> {params.value.toFixed(1)}</span>
+        )
+    }
+}, {
+    field: '전일대비거래량', headerName: 'V %', width: 55,
+    align: 'right', headerAlign: 'center',
+    valueFormatter: (params) => {
+        return `${params.value.toLocaleString('kr')} %`;
+    }
+}]
+
 export const A_columns = [
     ...base_columns,
     {
@@ -156,6 +197,60 @@ export const B1_columns = [
 
 export const Envelope_columns = [
     ...base_columns,
+    {
+        field: 'Env19_10', headerName: '19,10.7', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderCrossTRIMA
+    }, {
+        field: 'Env19_9', headerName: '19,9.7', width: 55,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderCrossTRIMA
+    }, {
+        field: 'Env19_8', headerName: '19,8.7', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderCrossTRIMA
+    }, {
+        field: 'Env14_8', headerName: '14,8', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderCrossTRIMA
+    }, {
+        field: 'Env14_7', headerName: '14,7', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderCrossTRIMA
+    }, {
+        field: 'Env9_5', headerName: '9,5', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderCrossTRIMA
+    }, {
+        field: 'Env9_4', headerName: '9,4', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderCrossTRIMA
+    }, {
+        field: 'DMI_7', headerName: 'D7', width: 40,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'DMI_9', headerName: 'D9', width: 40,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'DMI_17', headerName: 'D17', width: 40,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'w9', headerName: 'w9', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderWilliamsCell
+    }, {
+        field: 'w14', headerName: 'w14', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderWilliamsCell
+    }, {
+        field: 'w33', headerName: 'w33', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderWilliamsCell
+    }
+]
+
+export const WhiteBox_columns = [
+    ...base_columns2,
     {
         field: 'Env19_10', headerName: '19,10.7', width: 55,
         align: 'right', headerAlign: 'center',

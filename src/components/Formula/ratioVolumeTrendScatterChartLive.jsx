@@ -7,7 +7,7 @@ import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, S
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
-import { customTheme, A_columns, B1_columns, Envelope_columns, Short_columns } from './Columns';
+import { customTheme, A_columns, B1_columns, Envelope_columns, Short_columns, WhiteBox_columns } from './Columns';
 import { CountTable } from '../Motions/CountTable'
 import { legend } from '../Motions/legend';
 import { blue } from '@mui/material/colors';
@@ -344,7 +344,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                     <ThemeProvider theme={customTheme}>
                         <DataGrid
                             rows={tableData}
-                            columns={formulaType === 'A' ? A_columns : formulaType === 'B' ? B1_columns : formulaType === 'Short' ? Short_columns : Envelope_columns}
+                            columns={formulaType === 'A' ? A_columns : formulaType === 'B' ? B1_columns : formulaType === 'Short' ? Short_columns : formulaType === 'WhiteBox_17' | 'WhiteBox_10' | 'WhiteBox_3' ? WhiteBox_columns : Envelope_columns}
                             rowHeight={20}
                             onCellClick={(params, event) => {
                                 getInfo(params.row);
