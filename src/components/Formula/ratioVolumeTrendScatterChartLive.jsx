@@ -344,7 +344,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                     <ThemeProvider theme={customTheme}>
                         <DataGrid
                             rows={tableData}
-                            columns={formulaType === 'A' ? A_columns : formulaType === 'B' ? B1_columns : formulaType === 'Short' ? Short_columns : formulaType === 'WhiteBox_17' | 'WhiteBox_10' | 'WhiteBox_3' ? WhiteBox_columns : Envelope_columns}
+                            columns={formulaType === 'A' ? A_columns : formulaType === 'B' ? B1_columns : formulaType === 'Short' ? Short_columns : ['WhiteBox_17', 'WhiteBox_10', 'WhiteBox_3'].includes(formulaType) ? WhiteBox_columns : Envelope_columns}
                             rowHeight={20}
                             onCellClick={(params, event) => {
                                 getInfo(params.row);
