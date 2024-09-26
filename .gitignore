@@ -1,7 +1,9 @@
 /node_modules
 /dist
 /temp
+/SSL
 .env
 Todo.md
 App_test.jsx
 .DS_Store
+.pem
