@@ -12,7 +12,7 @@ import { blue } from '@mui/material/colors';
 // import CrossChartPage from './SearchFinancial/crossChartPage';
 import { API, STOCK } from './util/config';
 
-export default function SearchFinancial({ swiperRef }) {
+export default function SearchFinancial({ swiperRef, baseStockName }) {
     // const [page, setPage] = useState('Tree');
     const [page, setPage] = useState('Cross');
     const [eventDrop, setEventDrop] = useState('');
@@ -151,6 +151,10 @@ export default function SearchFinancial({ swiperRef }) {
         getSelectedChartType()
     }, [selectedChartType])
 
+    const getInfo = async (params) => {
+        getStockCode(params)
+        getStockChartData(params.종목코드)
+    }
     return (
         <Grid container>
             {/* 좌 : Table, TreeMap, ChrossChart */}
@@ -270,6 +274,7 @@ export default function SearchFinancial({ swiperRef }) {
                         handleInvest={handleInvest}
                         handleInvestCancel={handleInvestCancel}
                         selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
+                        baseStockName={baseStockName} getInfo={getInfo}
                     />
                 </Grid>
                 : <></>

@@ -1,5 +1,7 @@
 import './App.css';
 import React, { useState, useEffect, useRef } from "react";
+import axios from 'axios';
+import { API } from './components/util/config';
 // Components
 import SchedulePage from './components/schedulePage.jsx';
 import DetailPage from './components/ELW/detailPage.jsx'
@@ -15,7 +17,6 @@ import "swiper/css/navigation";
 import { Keyboard, Mousewheel, Pagination } from "swiper/modules";
 import LeadSectors from './components/leadSectors';
 import LeadThemesTop2 from './components/leadThemesTop2';
-import StockSearchPage from './components/stockSearchPage';
 import MotionPage from './components/motionPage.jsx';
 import FormulaPage from './components/formulaPage.jsx';
 import ReportPage from './components/reportPage';
@@ -28,6 +29,13 @@ function App() {
         const paginationEl = swiper.pagination.el;
         paginationEl.style.color = '#efe9e9ed';
     };
+    const [baseStockName, setBaseStockName] = useState([]);
+    const fetchData = async () => {
+        const res = await axios.get(`${API}/industry/stockName`);
+        setBaseStockName(res.data);
+    }
+
+    useEffect(() => { fetchData(); }, [])
     return (
         <div className="App">
             <Swiper
@@ -43,12 +51,12 @@ function App() {
             >
                 <SwiperSlide style={swiperSlideStyle} >
                     {/* <SchedulePage swiperRef={swiperRef} /> */}
-                    {/* <CrossPage swiperRef={swiperRef} /> */}
-                    {/* <MotionPage swiperRef={swiperRef} num={'2'} /> */}
-                    <FormulaPage swiperRef={swiperRef} />
-                    {/* <ReportPage swiperRef={swiperRef} /> */}
+                    {/* <CrossPage swiperRef={swiperRef} baseStockName={baseStockName} /> */}
+                    {/* <MotionPage swiperRef={swiperRef} num={'2'} baseStockName={baseStockName} /> */}
+                    <FormulaPage swiperRef={swiperRef} baseStockName={baseStockName} />
+                    {/* <ReportPage swiperRef={swiperRef} baseStockName={baseStockName} /> */}
                     {/* <StockSearchPage swiperRef={swiperRef} /> */}
-                    {/* <LeadSectors swiperRef={swiperRef} /> */}
+                    {/* <LeadSectors swiperRef={swiperRef} baseStockName={baseStockName} /> */}
                     {/* <LeadThemesTop2 swiperRef={swiperRef} /> */}
                 </SwiperSlide>
 

@@ -1,7 +1,7 @@
 // import * as React from 'react';
 import React, { useEffect, useState, useMemo } from 'react';
 import { createTheme } from '@mui/material/styles';
-import { renderProgress } from '../sectorSearchPage';
+import { renderProgress } from '../temp/sectorSearchPage';
 import { Box } from '@mui/material';
 
 // DataTable Style Default

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Typography, Grid, Stack, ToggleButtonGroup, TableBody } from '@mui/material';
+import { Box, Typography, Grid, Stack, ToggleButtonGroup, TableBody, Autocomplete, TextField } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Highcharts from 'highcharts/highstock'
 import HighchartsReact from 'highcharts-react-official'
@@ -15,8 +16,8 @@ Highcharts.setOptions({
 });
 
 
-const StockChart = ({ stockName, willR, height, price, net, boxTransform, volumeRatio, DMI, series, selectedChartType, handleSelectedChartType, selectedSubChartType, handleSelectedSubChartType }) => {
-
+const StockChart = ({ stockName, willR, height, price, net, boxTransform, volumeRatio, DMI, series, selectedChartType, handleSelectedChartType, selectedSubChartType, handleSelectedSubChartType, baseStockName, getInfo }) => {
+    const [value, setValue] = useState(null);
     const [chartOptions, setChartOptions] = useState({
         chart: { animation: false, height: height ? height : 360, },
         credits: { enabled: false }, title: { text: null },
@@ -327,6 +328,7 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
         })
     }, [series]);
 
+
     const typographyStyle = { color: 'black', fontWeight: 600, textAlign: 'left', fontSize: '15px' }
 
     return (
@@ -353,8 +355,30 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
                 </Stack>
             </Grid>
 
+            <Grid item >
+                <StyledAutocomplete
+                    disableClearable
+                    getOptionLabel={(option) => option.종목명} // 옵션을 어떻게 표시할지 결정합니다. 객체의 속성에 따라 조정해야 합니다.
+                    options={baseStockName}
+                    // sx={{ width: 300 }}
+                    value={value}
+                    onChange={async (event, newValue) => {
+                        setValue(newValue);
+                        getInfo(newValue);
+                    }}
+                    renderInput={(params) =>
+                        <TextField
+                            {...params}
+                            label="종목명 검색"
+                            variant="filled"
+                            sx={{ fontSize: '10px' }}
+                        />}
+                />
+
+            </Grid>
+
             {/* 보조지표 */}
-            <Grid item>
+            <Grid item >
                 <StyledToggleButton
                     value='check'
                     selected={selectedSubChartType}
@@ -424,7 +448,29 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
 
 export default StockChart;
 
-
+const StyledAutocomplete = styled(Autocomplete)(({ theme }) => ({
+    '& .MuiAutocomplete-inputRoot': {
+        color: '#efe9e9ed',
+        fontSize: '12px',
+        '&.Mui-focused .MuiAutocomplete-input': {
+            color: '#efe9e9ed',
+        },
+    },
+    '& .MuiAutocomplete-option': {
+        color: '#efe9e9ed',
+    },
+    '& .MuiAutocomplete-option.Mui-focused': {
+        backgroundColor: '#d8d8d8',
+    },
+    '& .MuiAutocomplete-option.Mui-selected': {
+        backgroundColor: '#404040',
+        color: '#efe9e9ed',
+    },
+    '& .MuiInputLabel-root': {
+        color: '#efe9e9ed',
+        fontSize: '11px',
+    },
+}));
 // const 종가단순 = {
 //     type: 'sma', animation: false, yAxis: 0, linkedTo: 'candlestick', marker: { enabled: false, states: { hover: { enabled: false } } },
 // }

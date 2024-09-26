@@ -8,7 +8,7 @@ import Legend from './Motions/legend.jsx';
 import WilliamsLegend from './Motions/williamsLegend.jsx';
 
 
-export default function FormulaPage({ swiperRef }) {
+export default function FormulaPage({ swiperRef, baseStockName }) {
 
     // config
     const chartHeight = 850
@@ -190,6 +190,7 @@ export default function FormulaPage({ swiperRef }) {
             <Grid item xs={5}>
                 <StockInfoPage stock={stock} stockChart={stockChart} handleFavorite={handleFavorite} handleInvest={handleInvest} handleInvestCancel={handleInvestCancel} swiperRef={swiperRef}
                     selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
+                    baseStockName={baseStockName} getInfo={getInfo}
                 />
 
             </Grid>

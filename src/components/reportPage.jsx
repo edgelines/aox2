@@ -13,7 +13,7 @@ import RightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { monthColumns, dayColumns } from './Report/columns.jsx';
 import Chart from './Report/Chart.jsx';
 
-export default function TestPage({ swiperRef }) {
+export default function TestPage({ swiperRef, baseStockName }) {
     // state
     const [date, setDate] = useState(() => {
         const today = new Date();
@@ -145,7 +145,7 @@ export default function TestPage({ swiperRef }) {
             </Grid> */}
 
             {/* Month Stats Data */}
-            <Grid item container xs={2.5}>
+            <Grid item container xs={2}>
 
                 {/* Calendar */}
                 <Grid item xs={12} >
@@ -188,7 +188,7 @@ export default function TestPage({ swiperRef }) {
             </Grid>
 
             {/* Chart, Day Stats Data */}
-            <Grid item container xs={6}>
+            <Grid item container xs={6.5}>
                 <Grid item container>
                     <StockChart_MA
                         height={580}
@@ -197,6 +197,7 @@ export default function TestPage({ swiperRef }) {
                         willR={stockChart.willR} DMI={stockChart.DMI}
                         series={stockChart.series}
                         selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
+                        baseStockName={baseStockName} getInfo={getInfo}
                     // selectedSubChartType={selectedSubChartType} handleSelectedSubChartType={handleSelectedSubChartType}
                     />
                 </Grid>

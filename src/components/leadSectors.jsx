@@ -14,7 +14,7 @@ import { API, API_WS, STOCK } from './util/config';
 
 
 
-export default function LeadSectorsPage({ swiperRef }) {
+export default function LeadSectorsPage({ swiperRef, baseStockName }) {
     // const [message, setMessage] = useState('');
     // const [field, setField] = useState(''); // 상태 추가
     // const [ws, setWs] = useState(null); // 웹소켓 인스턴스를 상태로 관리
@@ -49,30 +49,6 @@ export default function LeadSectorsPage({ swiperRef }) {
         }
     }
 
-    // const handleInvest = async () => {
-    //     setStock(prevStock => ({
-    //         ...prevStock,
-    //         InvestCount: prevStock.InvestCount + 1
-    //     }));
-    //     try {
-    //         await axios.get(`${API}/stockInvest/${stock.종목코드}`);
-    //     } catch (err) {
-    //         console.error('API 호출 실패 : ', err)
-    //     }
-    // }
-
-    // const handleInvestCancel = async () => {
-    //     setStock(prevStock => ({
-    //         ...prevStock,
-    //         Invest: !prevStock.Invest,
-    //         InvestCount: 0
-    //     }));
-    //     try {
-    //         await axios.get(`${API}/del/${stock.종목코드}`);
-    //     } catch (err) {
-    //         console.error('API 호출 실패 : ', err)
-    //     }
-    // }
     const handleSelectedChartType = async (event, value) => {
         if (value !== null) { setSelectedChartType(value) }
     }
@@ -265,17 +241,6 @@ export default function LeadSectorsPage({ swiperRef }) {
                 </Grid>
             </Box>
 
-            {/* 6중간가중 & 6저가기하 */}
-            {/* <Box sx={{ position: 'absolute', transform: 'translate(170px, 865px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
-                {Array.isArray(checkStats.b1_kospi200) && checkStats.b1_kospi200.length > 0 ?
-                    <>
-                        <Typography sx={{ fontSize: '13px' }} > 코스피200 : {checkStats.now_kospi200.length} / {checkStats.b1_kospi200.length} ({parseInt(checkStats.now_kospi200.length / checkStats.b1_kospi200.length * 100)}%)</Typography>
-                        <Typography sx={{ fontSize: '13px' }} > 코스피 : {checkStats.now_kospi.length} / {checkStats.b1_kospi.length} ({parseInt(checkStats.now_kospi.length / checkStats.b1_kospi.length * 100)}%)</Typography>
-                        <Typography sx={{ fontSize: '13px' }} > 코스닥 : {checkStats.now_kosdaq.length} / {checkStats.b1_kosdaq.length} ({parseInt(checkStats.now_kosdaq.length / checkStats.b1_kosdaq.length * 100)}%)</Typography>
-                    </>
-                    : <></>}
-            </Box> */}
-
             {/* 업종 */}
             <Grid item xs={1}>
                 <Grid item container sx={{ height: "74svh", width: "100%" }}
@@ -414,6 +379,7 @@ export default function LeadSectorsPage({ swiperRef }) {
                         willR={stockChart.willR} DMI={stockChart.DMI}
                         series={stockChart.series}
                         selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
+                        baseStockName={baseStockName} getInfo={getInfo}
                     />
                 </Grid>
 

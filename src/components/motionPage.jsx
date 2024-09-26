@@ -11,7 +11,7 @@ import Legend from './Motions/legend.jsx';
 import WilliamsLegend from './Motions/williamsLegend.jsx';
 
 
-export default function MotionPage({ swiperRef, num }) {
+export default function MotionPage({ swiperRef, num, baseStockName }) {
 
     // config
     const chartHeight = 900
@@ -292,6 +292,7 @@ export default function MotionPage({ swiperRef, num }) {
                 <StockInfoPage stock={stock} stockChart={stockChart} swiperRef={swiperRef}
                     handleFavorite={handleFavorite} handleInvest={handleInvest} handleInvestCancel={handleInvestCancel}
                     selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
+                    baseStockName={baseStockName} getInfo={getInfo}
                 />
 
             </Grid>

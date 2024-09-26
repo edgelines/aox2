@@ -17,7 +17,7 @@ import { STOCK, API_KAKAO } from '../util/config.jsx';
 import { RiKakaoTalkFill } from "react-icons/ri";
 
 
-export default function StockInfoPage({ stock, stockChart, handleFavorite, handleInvest, handleInvestCancel, swiperRef, selectedChartType, handleSelectedChartType }) {
+export default function StockInfoPage({ stock, stockChart, handleFavorite, handleInvest, handleInvestCancel, swiperRef, selectedChartType, handleSelectedChartType, baseStockName, getInfo }) {
     const baseStyle = { fontSize: '10px', p: 0.1, textAlign: 'right' }
     const [subChartData, setSubChartData] = useState();
     const [selectedSubChartType, setSelectedSubChartType] = useState(false);
@@ -44,6 +44,10 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
         }
     }, [selectedSubChartType, stock])
 
+    useEffect(() => {
+        setSendKakao(false);
+    }, [stock])
+
 
     return (
         <Grid container>
@@ -65,6 +69,7 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
                     series={stockChart.series}
                     selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
                     selectedSubChartType={selectedSubChartType} handleSelectedSubChartType={handleSelectedSubChartType}
+                    baseStockName={baseStockName} getInfo={getInfo}
                 />
             </Grid>
 

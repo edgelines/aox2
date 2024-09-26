@@ -13,11 +13,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 // import StockChart from './SectorsPage/stockChart';
-import SectorChart from './SectorsPage/sectorChart';
-import TreeMap from './SectorsPage/treeMap';
-import ColumnChart from './SectorsPage/columnChart';
-import { API, STOCK } from './util/config';
-import { SectorsName15 } from './util/util';
+import SectorChart from '../SectorsPage/sectorChart';
+import TreeMap from '../SectorsPage/treeMap';
+import ColumnChart from '../SectorsPage/columnChart';
+import { API, STOCK } from '../util/config';
+import { SectorsName15 } from '../util/util';
 
 
 export default function SectorsRank({ swiperRef }) {

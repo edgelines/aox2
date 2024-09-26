@@ -16,18 +16,23 @@ import WeightAvgPage1 from './components/ELW/weightAvgPage1.jsx';
 import WeightAvgPage2 from './components/ELW/weightAvgPage2.jsx';
 import LeadSectors from './components/leadSectors';
 import LeadThemesTop2 from './components/leadThemesTop2';
-import StockSearchPage from './components/stockSearchPage';
 import MotionPage from './components/motionPage.jsx'
 import ReportPage from './components/reportPage';
 
 function App() {
-
+    const [baseStockName, setBaseStockName] = useState([]);
     const swiperRef = useRef(null);
     // Swiper Slider Bottom Page Number Style
     const handleSlideChange = (swiper) => {
         const paginationEl = swiper.pagination.el;
         paginationEl.style.color = '#efe9e9ed';
     };
+    const fetchData = async () => {
+        const res = await axios.get(`${API}/industry/stockName`);
+        setBaseStockName(res.data);
+    }
+
+    useEffect(() => { fetchData(); }, [])
 
     return (
         <div className="App">
@@ -48,23 +53,23 @@ function App() {
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <CrossPage swiperRef={swiperRef} />
+                    <CrossPage swiperRef={swiperRef} baseStockName={baseStockName} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <ReportPage swiperRef={swiperRef} />
+                    <ReportPage swiperRef={swiperRef} baseStockName={baseStockName} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <FormulaPage swiperRef={swiperRef} />
+                    <FormulaPage swiperRef={swiperRef} baseStockName={baseStockName} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <MotionPage swiperRef={swiperRef} num={'3'} />
+                    <MotionPage swiperRef={swiperRef} num={'3'} baseStockName={baseStockName} />
                 </SwiperSlide>
 
                 <SwiperSlide style={swiperSlideStyle} >
-                    <MotionPage swiperRef={swiperRef} num={'2'} />
+                    <MotionPage swiperRef={swiperRef} num={'2'} baseStockName={baseStockName} />
                 </SwiperSlide>
 
 
@@ -93,10 +98,6 @@ function App() {
                 </SwiperSlide>
                 <SwiperSlide style={swiperSlideStyle} >
                     <WeightAvgPage2 swiperRef={swiperRef} />
-                </SwiperSlide>
-
-                <SwiperSlide style={swiperSlideStyle} >
-                    <StockSearchPage swiperRef={swiperRef} />
                 </SwiperSlide>
 
             </Swiper>

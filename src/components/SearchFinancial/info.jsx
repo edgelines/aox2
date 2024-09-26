@@ -11,7 +11,7 @@ import { yellow } from '@mui/material/colors';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import StockChart_MA from '../util/stockChart_MA';
 
-export default function SearchFinancialInfo({ swiperRef, stock, stockChart, handleFavorite, handleInvest, handleInvestCancel, selectedChartType, handleSelectedChartType }) {
+export default function SearchFinancialInfo({ stock, stockChart, handleFavorite, handleInvest, handleInvestCancel, selectedChartType, handleSelectedChartType, baseStockName, getInfo }) {
     const [page, setPage] = useState('재무');
 
     // Handler
@@ -52,6 +52,7 @@ export default function SearchFinancialInfo({ swiperRef, stock, stockChart, hand
                     willR={stockChart.willR} DMI={stockChart.DMI}
                     series={stockChart.series}
                     selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
+                    baseStockName={baseStockName} getInfo={getInfo}
                 />
             </Grid>
 

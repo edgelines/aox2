@@ -29,17 +29,17 @@ export const monthColumns = [{
         return `${수익} / ${전체} ( ${parseInt(수익 / 전체 * 100)} % )`;
     }
 }, {
-    field: '수익률', headerName: '수익률', width: 80,
+    field: '수익률', headerName: '수익률', width: 50,
     align: 'right', headerAlign: 'center',
 }, {
-    field: '투자일수', headerName: '투자일수', width: 80,
+    field: '투자일수', headerName: '투자일수', width: 65,
     align: 'right', headerAlign: 'center',
 
 }]
 
 export const dayColumns = [{
-    field: 'Type', headerName: 'Type', width: 40,
-    align: 'center', headerAlign: 'center',
+    field: 'Type', headerName: 'Type', width: 95,
+    align: 'left', headerAlign: 'center',
 }, {
     field: '', headerName: '추매', width: 30,
     align: 'center', headerAlign: 'center',
