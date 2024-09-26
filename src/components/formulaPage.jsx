@@ -6,6 +6,7 @@ import StockInfoPage from './Motions/StockInfoPage.jsx';
 import { API, API_WS, STOCK } from './util/config.jsx';
 import Legend from './Motions/legend.jsx';
 import WilliamsLegend from './Motions/williamsLegend.jsx';
+import DmiLegend from './Formula/DmiLegend.jsx';
 
 
 export default function FormulaPage({ swiperRef, baseStockName }) {
@@ -158,8 +159,11 @@ export default function FormulaPage({ swiperRef, baseStockName }) {
             <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(292px, 12px)`, zIndex: 10 }}>
                 <Legend />
             </Box>
-            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(850px, 260px)`, zIndex: 10 }}>
+            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(795px, 250px)`, zIndex: 10 }}>
                 <WilliamsLegend />
+            </Box>
+            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(855px, 250px)`, zIndex: 10 }}>
+                <DmiLegend />
             </Box>
 
             {/* </Box> */}
