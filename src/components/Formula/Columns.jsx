@@ -31,13 +31,13 @@ export const dmiColor = (value) => {
     if (value <= 3) {
         color = '#7F7F7F'
     } else if (value <= 10) {
-        color = '#2C629A'
+        color = 'dodgerblue'
     } else if (value <= 20) {
         color = '#658956'
     } else if (value <= 30) {
         color = '#ADC719'
     } else if (value <= 40) {
-        color = '#C6A21A'
+        color = 'orange'
     } else if (value <= 50) {
         color = '#CA7824'
     } else if (value <= 60) {

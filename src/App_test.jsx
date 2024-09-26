@@ -53,8 +53,8 @@ function App() {
                     {/* <SchedulePage swiperRef={swiperRef} /> */}
                     {/* <CrossPage swiperRef={swiperRef} baseStockName={baseStockName} /> */}
                     {/* <MotionPage swiperRef={swiperRef} num={'2'} baseStockName={baseStockName} /> */}
-                    <FormulaPage swiperRef={swiperRef} baseStockName={baseStockName} />
-                    {/* <ReportPage swiperRef={swiperRef} baseStockName={baseStockName} /> */}
+                    {/* <FormulaPage swiperRef={swiperRef} baseStockName={baseStockName} /> */}
+                    <ReportPage swiperRef={swiperRef} baseStockName={baseStockName} />
                     {/* <StockSearchPage swiperRef={swiperRef} /> */}
                     {/* <LeadSectors swiperRef={swiperRef} baseStockName={baseStockName} /> */}
                     {/* <LeadThemesTop2 swiperRef={swiperRef} /> */}
