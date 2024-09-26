@@ -298,9 +298,7 @@ const MotionsChart = ({ dataset, timeLine, height, swiperRef, datasetCount, getI
                             <StyledToggleButton fontSize={11} value="WhiteBox_17">WB 17</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="WhiteBox_10">WB 10</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="WhiteBox_3">WB 3</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="WhiteBox_17_C">WB 17 C</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="WhiteBox_10_C">WB 10 C</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="WhiteBox_3_C">WB 3 C</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="WAS_WhiteBox">WAS WB</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="Favorite">Favorite</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Stack>
