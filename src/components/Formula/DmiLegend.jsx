@@ -3,14 +3,14 @@ import { Stack } from '@mui/material';
 import { dmiColor } from './Columns.jsx'
 
 export const legend = {
-    '~ 3': dmiColor(3),
-    '~ 10': dmiColor(10),
-    '~ 20': dmiColor(20),
-    '~ 30': dmiColor(30),
-    '~ 40': dmiColor(40),
-    '~ 50': dmiColor(50),
+    '70 ~': dmiColor(70),
     '~ 60': dmiColor(60),
-    '70 ~': dmiColor(70)
+    '~ 50': dmiColor(50),
+    '~ 40': dmiColor(40),
+    '~ 30': dmiColor(30),
+    '~ 20': dmiColor(20),
+    '~ 10': dmiColor(10),
+    '~ 3': dmiColor(3),
 };
 
 export default function Legend() {

@@ -134,7 +134,7 @@ export default function SectorsChartPage({
         setFilteredStockTable(result);
     }
     const getBubbleData = async () => {
-        const res = await axios.get(`${API}/BubbleDataCategory`);
+        const res = await axios.get(`${API}/aox/BubbleDataCategory`);
         setKospi200BubbleCategoryGruop(res.data);
     }
     const postReq = async () => {

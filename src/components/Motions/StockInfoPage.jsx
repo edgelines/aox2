@@ -84,40 +84,11 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
 
                                 {
                                     Array.isArray(stock.주요제품매출구성) ?
-                                        <TableContainer sx={{ height: 220 }}
+                                        <TableContainer sx={{ height: 200 }}
                                             onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                                             onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                                         >
-
-                                            <Table sx={{ mt: 1, borderBottom: '1px solid #fff' }}>
-                                                <TableBody>
-                                                    {stock.주요제품매출구성.map(item => (
-                                                        <tr key={item.제품명}>
-                                                            <td sx={{ color: '#efe9e9ed', ...baseStyle }} >{item.제품명}</td>
-                                                            <td sx={{ color: '#efe9e9ed', ...baseStyle }} >{parseInt(item.구성비)} %</td>
-                                                        </tr>
-                                                    ))}
-                                                </TableBody>
-                                            </Table>
-
-                                            <Grid container sx={{ mt: 1, borderBottom: '1px solid #fff' }}>
-                                                <Stack direction='column' spacing={1} >
-                                                    {Array.isArray(stock.기업개요) ? stock.기업개요.map(item => (
-                                                        <StyledTypography_StockInfo key={item} fontSize="12px">{item}</StyledTypography_StockInfo>
-                                                    )) : <></>}
-                                                </Stack>
-                                            </Grid>
-
-
-                                            <Grid container sx={{ mt: 1 }}>
-                                                <Stack direction='row' spacing={1} useFlexGap flexWrap="wrap" >
-                                                    {Array.isArray(stock.테마명) ? stock.테마명.map(item => (
-                                                        <StyledTypography_StockInfo key={item} fontSize="12px">{item}</StyledTypography_StockInfo>
-                                                    )) : <></>}
-                                                </Stack>
-                                            </Grid>
-
-                                            <Grid container sx={{ mt: 2 }}>
+                                            <Grid container>
                                                 <Table sx={{ mt: 1, borderBottom: '1px solid #fff' }}>
                                                     <TableBody>
                                                         {Array.isArray(stock.주요주주) ? stock.주요주주.map(item => (
@@ -131,6 +102,32 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
                                                 </Table>
                                             </Grid>
 
+                                            <Grid container sx={{ mt: 1, mb: 1, borderBottom: '1px solid #fff' }}>
+                                                <Stack direction='row' spacing={1} useFlexGap flexWrap="wrap" >
+                                                    {Array.isArray(stock.테마명) ? stock.테마명.map(item => (
+                                                        <StyledTypography_StockInfo key={item} fontSize="12px">{item}</StyledTypography_StockInfo>
+                                                    )) : <></>}
+                                                </Stack>
+                                            </Grid>
+
+                                            <Table sx={{ mt: 1, borderBottom: '1px solid #fff' }}>
+                                                <TableBody>
+                                                    {stock.주요제품매출구성.map(item => (
+                                                        <tr key={item.제품명}>
+                                                            <td sx={{ color: '#efe9e9ed', ...baseStyle }} >{item.제품명}</td>
+                                                            <td sx={{ color: '#efe9e9ed', ...baseStyle }} >{parseInt(item.구성비)} %</td>
+                                                        </tr>
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+
+                                            <Grid container sx={{ mt: 1 }}>
+                                                <Stack direction='column' spacing={1} >
+                                                    {Array.isArray(stock.기업개요) ? stock.기업개요.map(item => (
+                                                        <StyledTypography_StockInfo key={item} fontSize="12px">{item}</StyledTypography_StockInfo>
+                                                    )) : <></>}
+                                                </Stack>
+                                            </Grid>
 
                                         </TableContainer>
 

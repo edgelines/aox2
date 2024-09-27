@@ -8,7 +8,7 @@ export default function Kospi200CurrentValue({ hiddenTitle, valueFont, valueTitl
     const [marketValue, setMarketValue] = useState(null);
 
     const fetchData = async () => {
-        const response = await axios.get(`${API}/MarketDetail`);
+        const response = await axios.get(`${API}/aox/MarketDetail`);
         const 전일대비 = response.data[0].전일대비;
         const 지수 = response.data[0].지수.toFixed(2) + ' ( ' + 전일대비 + '% )'
         setNet(전일대비);

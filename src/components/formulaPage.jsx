@@ -159,10 +159,10 @@ export default function FormulaPage({ swiperRef, baseStockName }) {
             <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(292px, 12px)`, zIndex: 10 }}>
                 <Legend />
             </Box>
-            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(795px, 250px)`, zIndex: 10 }}>
+            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(780px, 57px)`, zIndex: 10 }}>
                 <WilliamsLegend />
             </Box>
-            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(855px, 250px)`, zIndex: 10 }}>
+            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(725px, 57px)`, zIndex: 10 }}>
                 <DmiLegend />
             </Box>
 

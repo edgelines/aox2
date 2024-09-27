@@ -168,10 +168,10 @@ export default function WeightAvgPage3({ swiperRef }) {
         }];
         setVixMA(vix_ma);
 
-        await axios.get(`${API}/exchange`).then(res => {
-            var value = res.data[0].환율
-            var net = res.data[0].증감
-            var comparison = res.data[0].변동
+        await axios.get(`${API}/indices/exchange`).then(res => {
+            var value = res.data.환율
+            var net = res.data.증감
+            var comparison = res.data.변동
             setExchange({ value: value, comparison: comparison, net: net })
         });
 
