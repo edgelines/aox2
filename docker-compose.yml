@@ -19,6 +19,7 @@ services:
     depends_on:
       # - react-app
       - fastapi
+      - fail2ban
     networks:
       - app-network
   # react-app:
