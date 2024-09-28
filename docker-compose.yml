@@ -54,7 +54,9 @@ services:
       - NET_RAW
     volumes:
       - "./data:/data"
-      - "/var/log:/var/log:ro"
+      - "./jail2ban/sshd.conf:/etc/fail2ban/jail.d/sshd.conf"
+      - "./log:/var/log:ro"
+      - "./log/nginx/error.log:/var/log/nginx/error.log:ro"
     env_file:
       - "./fail2ban.env"
     restart: always
