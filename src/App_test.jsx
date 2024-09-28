@@ -52,8 +52,8 @@ function App() {
                 <SwiperSlide style={swiperSlideStyle} >
                     {/* <SchedulePage swiperRef={swiperRef} /> */}
                     {/* <CrossPage swiperRef={swiperRef} baseStockName={baseStockName} /> */}
-                    <ReportPage swiperRef={swiperRef} baseStockName={baseStockName} />
-                    {/* <FormulaPage swiperRef={swiperRef} baseStockName={baseStockName} /> */}
+                    {/* <ReportPage swiperRef={swiperRef} baseStockName={baseStockName} /> */}
+                    <FormulaPage swiperRef={swiperRef} baseStockName={baseStockName} />
                     {/* <MotionPage swiperRef={swiperRef} num={'2'} baseStockName={baseStockName} /> */}
                     {/* <LeadSectors swiperRef={swiperRef} baseStockName={baseStockName} /> */}
                     {/* <LeadThemesTop2 swiperRef={swiperRef} /> */}

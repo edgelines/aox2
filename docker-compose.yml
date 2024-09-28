@@ -17,26 +17,22 @@ services:
       - D:\aox2\SSL\cert.pem:/etc/nginx/ssl/cert.pem:ro 
       - D:\aox2\SSL\privKey.pem:/etc/nginx/ssl/privKey.pem:ro 
     depends_on:
-      - react-app
+      # - react-app
       - fastapi
     networks:
       - app-network
-  react-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: react-app
-    volumes:
-      - ./dist:/usr/share/nginx/html
-    expose:
-      - "3000" #개발 서버용
-    networks:
-      - app-network
-    # ports:
-    #   - "80:80"
-    #   - "2226:80"
-    #   - "443:443"
-  
+  # react-app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: react-app
+  #   volumes:
+  #     - ./dist:/usr/share/nginx/html
+  #   expose:
+  #     - "3000" #개발 서버용
+  #   networks:
+  #     - app-network
+    
   fastapi:
     build:
       context: D:\Checkmate2  # FastAPI Dockerfile의 경로
@@ -49,23 +45,19 @@ services:
     networks:
       - app-network
 
-  # fail2ban:
-  #   image: crazymax/fail2ban:latest
-  #   container_name: fail2ban
-  #   network_mode: "host"
-  #   cap_add:
-  #     - NET_ADMIN
-  #     - NET_RAW
-  #   volumes:
-  #     - "./data:/data"
-  #     - "/var/log:/var/log:ro"
-  #   env_file:
-  #     - "./fail2ban.env"
-  #   restart: always
-
-
-
-
+  fail2ban:
+    image: crazymax/fail2ban:latest
+    container_name: fail2ban
+    network_mode: "host"
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    volumes:
+      - "./data:/data"
+      - "/var/log:/var/log:ro"
+    env_file:
+      - "./fail2ban.env"
+    restart: always
 
 
 networks:
