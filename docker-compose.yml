@@ -20,8 +20,9 @@ services:
       - fastapi
       - fail2ban
     networks:
-      - nginx-network
-      - fastapi-network
+      - app-network
+      # - fastapi-network
+      # - nginx-network
       # - fail2ban-network
     
   fastapi:
@@ -34,12 +35,13 @@ services:
     expose:
       - "8000"
     networks:
-      - fastapi-network
+      # - fastapi-network
+      - app-network
 
   fail2ban:
     image: crazymax/fail2ban:latest
     container_name: fail2ban
-    # network_mode: "host"
+    network_mode: "host"
     cap_add:
       - NET_ADMIN
       - NET_RAW
@@ -52,23 +54,23 @@ services:
       - "./log/nginx/error.log:/var/log/nginx/error.log:ro"
     env_file:
       - "./fail2ban.env"
-    networks:
-      - fail2ban-network
+    # networks:
+    #   - fail2ban-network
     restart: always
 
 
-networks:
-  nginx-network:
-    driver: bridge
-  fastapi-network:
-    driver: bridge
-  fail2ban-network:
-    driver: bridge
-
-
 # networks:
-#   app-network:
+#   nginx-network:
 #     driver: bridge
+#   fastapi-network:
+#     driver: bridge
+#   fail2ban-network:
+#     driver: bridge
+
+
+networks:
+  app-network:
+    driver: bridge
   # react-app:
   #   build:
   #     context: .
