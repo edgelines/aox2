@@ -469,8 +469,8 @@ const TypeMessage = (_type) => {
                 <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
                 <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
                 <Typography sx={{ fontSize: '12px' }} >1. 14시삼 또는 16시삼 돌파</Typography>
-                <Typography sx={{ fontSize: '12px' }} >2. W9 -60이하 and Dmi7 15 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >2. W9 -60이하 and Dmi17 30 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >2. W9 -40이하 and Dmi7 15 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >2. W9 -40이하 and Dmi17 30 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >2. W14 -60이하 and Dmi7 15 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >2. W14 -60이하 and Dmi17 30 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >2. W33 -60이하 and Dmi7 15 이하</Typography>
