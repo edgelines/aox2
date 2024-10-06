@@ -84,14 +84,14 @@ export const dayColumns = [{
     field: 'w9', headerName: 'w9', width: 50,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
-        return params.row.매입보조지표.WillR9
+        return params.row.매입보조지표.WillR['9']
     }
 }, {
     field: 'N_w9', headerName: 'N_w9', width: 50,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
         if (params.row.수익률 > 3) {
-            return params.row.고가보조지표.WillR9
+            return params.row.고가보조지표.WillR['9']
         } else {
             return '-'
         }
@@ -100,14 +100,14 @@ export const dayColumns = [{
     field: 'w14', headerName: 'w14', width: 50,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
-        return params.row.매입보조지표.WillR14
+        return params.row.매입보조지표.WillR['14']
     }
 }, {
     field: 'N_w14', headerName: 'N_w14', width: 50,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
         if (params.row.수익률 > 3) {
-            return params.row.고가보조지표.WillR14
+            return params.row.고가보조지표.WillR['14']
         } else {
             return '-'
         }
@@ -116,14 +116,14 @@ export const dayColumns = [{
     field: 'w33', headerName: 'w33', width: 50,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
-        return params.row.매입보조지표.WillR33
+        return params.row.매입보조지표.WillR['33']
     }
 }, {
     field: 'N_w33', headerName: 'N_w33', width: 50,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
         if (params.row.수익률 > 3) {
-            return params.row.고가보조지표.WillR33
+            return params.row.고가보조지표.WillR['33']
         } else {
             return '-'
         }
@@ -132,14 +132,14 @@ export const dayColumns = [{
     field: 'D4', headerName: 'D4', width: 50,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
-        return params.row.매입보조지표.DMI_4 ? params.row.매입보조지표.DMI_4 : '-';
+        return params.row.매입보조지표.DMI['4'] ? params.row.매입보조지표.DMI['4'] : '-';
     }
 }, {
     field: 'N_D4', headerName: 'N_D4', width: 50,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
         if (params.row.수익률 > 3) {
-            return params.row.고가보조지표.DMI_4
+            return params.row.고가보조지표.DMI['4']
         } else {
             return '-'
         }
@@ -148,14 +148,14 @@ export const dayColumns = [{
     field: 'D7', headerName: 'D7', width: 50,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
-        return params.row.매입보조지표.DMI_7
+        return params.row.매입보조지표.DMI['7']
     }
 }, {
     field: 'N_D7', headerName: 'N_D7', width: 50,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
         if (params.row.수익률 > 3) {
-            return params.row.고가보조지표.DMI_7
+            return params.row.고가보조지표.DMI['7']
         } else {
             return '-'
         }
@@ -164,14 +164,14 @@ export const dayColumns = [{
     field: 'D17', headerName: 'D17', width: 50,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
-        return params.row.매입보조지표.DMI_17
+        return params.row.매입보조지표.DMI['17']
     }
 }, {
     field: 'N_D17', headerName: 'N_D17', width: 50,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
         if (params.row.수익률 > 3) {
-            return params.row.고가보조지표.DMI_17
+            return params.row.고가보조지표.DMI['17']
         } else {
             return '-'
         }
@@ -180,18 +180,18 @@ export const dayColumns = [{
     field: 'T14', headerName: 'T14', width: 40,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
-        return params.row.매입보조지표.cross_TRIMA_14 ? '★' : ''
+        return params.row.매입보조지표.CROSS['14시가삼각'] ? '★' : ''
     }
 }, {
     field: 'T16', headerName: 'T16', width: 40,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
-        return params.row.매입보조지표.cross_TRIMA_16 ? '★' : ''
+        return params.row.매입보조지표.CROSS['16시가삼각'] ? '★' : ''
     }
 }, {
     field: 'T18', headerName: 'T18', width: 40,
     align: 'right', headerAlign: 'center',
     valueGetter: (params) => {
-        return params.row.매입보조지표.cross_TRIMA_18 ? '★' : ''
+        return params.row.매입보조지표.CROSS['18시가삼각'] ? '★' : ''
     }
 }]

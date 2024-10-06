@@ -409,7 +409,6 @@ const TypeMessage = (_type) => {
                 <Typography sx={{ fontSize: '12px' }} >D7 10 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >D9 15 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >D17 30 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >현재가가 5중간값가중, 6중간값가중, 6고가기하 로부터 얼마나 떨어져 있는지.</Typography>
             </>)
 
         case 'Envelope':
