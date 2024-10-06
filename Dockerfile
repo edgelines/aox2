@@ -12,10 +12,10 @@ COPY . .
 # Step 2: Serve the React app with a lightweight web server
 FROM nginx:alpine
 
-# Install ModSecurity dependencies
-RUN apk add --no-cache modsecurity-modules libmodsecurity libmodsecurity-rules \
-    && mkdir -p /etc/nginx/modsecurity \
-    && cp /etc/modsecurity/modsecurity.conf-recommended /etc/nginx/modsecurity/modsecurity.conf
+# # Install ModSecurity dependencies
+# RUN apk add --no-cache modsecurity-modules libmodsecurity libmodsecurity-rules \
+#     && mkdir -p /etc/nginx/modsecurity \
+#     && cp /etc/modsecurity/modsecurity.conf-recommended /etc/nginx/modsecurity/modsecurity.conf
 
 # # Enable ModSecurity in Nginx
 # RUN echo 'include /etc/nginx/modsecurity/modsecurity.conf;' >> /etc/nginx/nginx.conf
