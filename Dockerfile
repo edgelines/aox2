@@ -21,8 +21,8 @@ RUN apk add --no-cache modsecurity-modules libmodsecurity libmodsecurity-rules \
 # RUN echo 'include /etc/nginx/modsecurity/modsecurity.conf;' >> /etc/nginx/nginx.conf
 
 # Copy custom nginx config (if needed)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-# COPY nginx/nginx.conf /etc/nginx/nginx.conf
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
 # Expose port 80
 EXPOSE 80 443
