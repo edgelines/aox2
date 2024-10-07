@@ -171,6 +171,7 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                         height={chartHeight}
                         xAxisText={'CCI 112 대신'}
                         yAxisText={'Williams R 6 (종가)'}
+                        xAxisPlotLines={true}
                     />
                 </Grid>
 

@@ -12,7 +12,7 @@ import HighchartsReact from 'highcharts-react-official';
 // import { blue } from '@mui/material/colors';
 // import SettingsIcon from '@mui/icons-material/Settings';
 
-const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText }) => {
+const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, xAxisPlotLines }) => {
     const chartComponent = useRef(null);
     const [chartOptions, setChartOptions] = useState({
         chart: {
@@ -32,12 +32,6 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText }) =>
             gridLineWidth: 0.2,
             tickLength: 0,
             tickAmount: 10,
-            // plotLines: [
-            //     { value: 40, width: 1, color: 'gold', dashStyle: 'dash', zIndex: 2 }, {
-            //         value: 90, width: 1, color: 'orange', dashStyle: 'dash', zIndex: 2
-            //     }, {
-            //         value: 150, width: 1, color: 'tomato', dashStyle: 'dash', zIndex: 2
-            //     }],
             // max: 1000,
             // min: 0
             // min: 50
@@ -124,6 +118,29 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText }) =>
             }
         }
     }, [timeLine])
+
+    useEffect(() => {
+        let chart
+        if (chartComponent.current && dataset.length > 0) {
+            chart = chartComponent.current.chart;
+            if (xAxisPlotLines) {
+                chart.update({
+                    xAxis: {
+                        plotLines: [
+                            {
+                                value: -130, width: 1, color: 'gold', dashStyle: 'dash', zIndex: 2
+                            }, {
+                                value: -100, width: 1, color: 'orange', dashStyle: 'dash', zIndex: 2
+                            }, {
+                                value: 0, width: 1, color: 'orange', dashStyle: 'dash', zIndex: 2
+                            }, {
+                                value: 100, width: 1, color: 'tomato', dashStyle: 'dash', zIndex: 2
+                            }],
+                    },
+                });
+            }
+        }
+    }, [xAxisPlotLines])
 
     if (!dataset) return <div>Loading...</div>;
 
