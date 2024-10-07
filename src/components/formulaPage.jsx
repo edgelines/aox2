@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Grid, Box, Typography } from '@mui/material';
-import RatioVolumeTrendScatterChartLive from './Formula/ratioVolumeTrendScatterChartLive.jsx'
+// import RatioVolumeTrendScatterChartLive from './Formula/ratioVolumeTrendScatterChartLive.jsx'
 import StockInfoPage from './Motions/StockInfoPage.jsx';
 import { API, API_WS, STOCK } from './util/config.jsx';
+import ChartsTableDataPage from './Formula/ChartsTablePage.jsx';
 import Legend from './Motions/legend.jsx';
-import WilliamsLegend from './Motions/williamsLegend.jsx';
-import DmiLegend from './Formula/DmiLegend.jsx';
-
 
 export default function FormulaPage({ swiperRef, baseStockName }) {
 
@@ -17,6 +15,8 @@ export default function FormulaPage({ swiperRef, baseStockName }) {
     // state
     const [datasetCount, setDatasetCount] = useState(null);
     const [dataset, setDataset] = useState({ time: [], data: [] });
+    const [dataset2, setDataset2] = useState({ time: [], data: [] });
+    const [tableData, setTableData] = useState([]);
     const [classification, setClassification] = useState(null);
     const [timeLine, setTimeLine] = useState(null);
 
@@ -109,14 +109,15 @@ export default function FormulaPage({ swiperRef, baseStockName }) {
 
     useEffect(() => {
         const ws = new WebSocket(`${API_WS}/Formula/${formulaType}`);
-        // const ws = new WebSocket(`ws://localhost:2440/ws/Formula/${formulaType}`);
         ws.onopen = () => {
             console.log('Formula Page WebSocket Connected');
         };
 
         ws.onmessage = (event) => {
             const res = JSON.parse(event.data);
-            setDataset(res.series);
+            setDataset(res.series1);
+            setDataset2(res.series2);
+            setTableData(res.table_data);
             setDatasetCount(res.count);
             setTimeLine(res.savetime);
             setClassification(res.classification);
@@ -155,18 +156,10 @@ export default function FormulaPage({ swiperRef, baseStockName }) {
 
     return (
         <Grid container spacing={1}>
-
+            {/* </Box> */}
             <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(292px, 12px)`, zIndex: 10 }}>
                 <Legend />
             </Box>
-            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(780px, 57px)`, zIndex: 10 }}>
-                <WilliamsLegend />
-            </Box>
-            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(725px, 57px)`, zIndex: 10 }}>
-                <DmiLegend />
-            </Box>
-
-            {/* </Box> */}
             {
                 dataset[0] && dataset[0].data.length == 0 ?
                     <Box
@@ -181,9 +174,10 @@ export default function FormulaPage({ swiperRef, baseStockName }) {
             {/* Chart & Table */}
             <Grid item xs={7}>
                 {/* Chart Component */}
-                <RatioVolumeTrendScatterChartLive
-                    dataset={dataset} timeLine={timeLine} height={chartHeight} swiperRef={swiperRef}
+                <ChartsTableDataPage
+                    dataset={dataset} dataset2={dataset2} timeLine={timeLine} height={chartHeight} swiperRef={swiperRef}
                     datasetCount={datasetCount} classification={classification} tableSortColumn={'w33'}
+                    tableData={tableData}
                     getInfo={getInfo}
                     formulaType={formulaType} handleFormulaType={handleFormulaType}
                 />
