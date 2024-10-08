@@ -242,17 +242,17 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                             onChange={handleFormulaType}
                         >
                             <StyledToggleButton fontSize={11} value="A">A-Type</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="B">B-Type</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="B">DMI-Type</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="Envelope">Envelope</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="Short">Short</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="WhiteBox_17">WB 17</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="WhiteBox_10">WB 10</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="WhiteBox_3">WB 3</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="WAS_WhiteBox">WAS WB</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="TRIX_1">TRIX 1</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="TRIX_2">TRIX 2</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="TRIX_3">TRIX 3</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="TRIX_4">TRIX 4</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="TRIX_1">TRIX -100 이하</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="TRIX_2">TRIX ~ 0</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="TRIX_3">TRIX ~ 100</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="TRIX_4">TRIX 100 이상</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="Favorite">Favorite</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Stack>
@@ -351,7 +351,7 @@ const TypeMessage = (_type) => {
 
     const whiteBox = (num) => (
         <>
-            <Typography sx={{ ...textStyle, mb: 2 }} >A-Type, B-Type, Envelope, Short 종목들 중에서 Report Page WhiteBox의 {num}% 이상 상승한 조건</Typography>
+            <Typography sx={{ ...textStyle, mb: 2 }} >A-Type, B-Type, Envelope, Short 종목들 중에서 Report Page 전체기간 통계로 WhiteBox의 {num}% 이상 상승한 조건</Typography>
             {commonMessages}
             <Typography sx={textStyle} >- WillR.6 or WillR.9 or (Will.R14 and WillR.14-7 Sig) or (WillR.33 and WillR.33-7 Sig) WhiteBox 구간 </Typography>
             <Typography sx={textStyle} >- DMI.3, DMI.4, DMI.7, DMI.9, DMI.17 WhiteBox 구간 </Typography>
