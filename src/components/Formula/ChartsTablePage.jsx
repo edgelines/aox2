@@ -335,12 +335,14 @@ const TypeMessage = (_type) => {
             <Typography sx={{ fontSize: '12px' }} >- 전일대비거래량 1000% 이하</Typography>
             <Typography sx={{ fontSize: '12px' }} >- 시총 500억 ~ 30조</Typography>
             <Typography sx={{ fontSize: '12px' }} >- 스팩, 리츠, 우선주 제외</Typography>
+            <Typography sx={{ fontSize: '12px' }} >- CCI.112 : -135 ~ 150, DMI.4 : 40 이하 제외</Typography>
+            <Typography sx={{ fontSize: '12px' }} >- WillR.6 : -20 이하 제외, WillR.14 : -30이하 제외</Typography>
             <Typography sx={{ fontSize: '12px' }} >- A-Type, B-Type, Envelope, Short 종목들 중에서 Report Page WhiteBox의 {num}% 이상 상승한 조건</Typography>
-            <Typography sx={{ fontSize: '12px' }} >- WillR6 or WillR9 or (WillR14 and WillR14-7 Sig) or (WillR33 and WillR33-7 Sig) WhiteBox 구간 </Typography>
-            <Typography sx={{ fontSize: '12px' }} >- DMI3, DMI4, DMI7, DMI9, DMI17 WhiteBox 구간 </Typography>
-            <Typography sx={{ fontSize: '12px' }} >- CCI4 (파란선상단 ~ 파란선하단) and CCI4-2 Sig (파란선상단 ~ -120) 구간 </Typography>
-            <Typography sx={{ fontSize: '12px' }} >- CCI11 (40 ~ 파란선하단) and CCI11-4 Sig (30 ~ 파란선하단) 구간 </Typography>
-            <Typography sx={{ fontSize: '12px' }} >- CCI11이 CCI-11-4 보다 큰 것</Typography>
+            <Typography sx={{ fontSize: '12px' }} >- WillR.6 or WillR.9 or (Will.R14 and WillR.14-7 Sig) or (WillR.33 and WillR.33-7 Sig) WhiteBox 구간 </Typography>
+            <Typography sx={{ fontSize: '12px' }} >- DMI.3, DMI.4, DMI.7, DMI.9, DMI.17 WhiteBox 구간 </Typography>
+            <Typography sx={{ fontSize: '12px' }} >- CCI.4 (파란선상단 ~ 파란선하단) and CCI.4-2 Sig (파란선상단 ~ -120) 구간 </Typography>
+            <Typography sx={{ fontSize: '12px' }} >- CCI.11 (40 ~ 파란선하단) and CCI.11-4 Sig (30 ~ 파란선하단) 구간 </Typography>
+            <Typography sx={{ fontSize: '12px' }} >- CCI.11이 CCI-11-4 보다 큰 것</Typography>
             <Typography sx={{ fontSize: '12px' }} >- 업종순위 14위 미만</Typography>
         </>
     )
@@ -355,10 +357,12 @@ const TypeMessage = (_type) => {
                 <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
                 <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
-                <Typography sx={{ fontSize: '12px' }} >D4 10 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >D7 10 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >D9 15 이하</Typography>
-                <Typography sx={{ fontSize: '12px' }} >D17 30 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- CCI.112 : -135 ~ 150, DMI.4 : 40 이하 제외</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- WillR.6 : -20 이하 제외, WillR.14 : -30이하 제외</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- DMI.4 : 10 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- DMI.7 : 10 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- DMI.9 : 15 이하</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- DMI.17 : 30 이하</Typography>
             </>)
 
         case 'Envelope':
@@ -368,8 +372,10 @@ const TypeMessage = (_type) => {
                 <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
                 <Typography sx={{ fontSize: '12px' }} >5일평균거래량 2만주 제외</Typography>
                 <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
-                <Typography sx={{ fontSize: '12px' }} >종가나 고가가 5저가가중, 5중간값가중, 6저가가중, 6중간값가중 돌파</Typography>
-                <Typography sx={{ fontSize: '12px' }} >종가나 고가가 각 Envelope 돌파</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- CCI.112 : -135 ~ 150, DMI.4 : 40 이하 제외</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- WillR.6 : -20 이하 제외, WillR.14 : -30이하 제외</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- 종가나 고가가 5저가가중, 5중간값가중, 6저가가중, 6중간값가중 돌파</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- 종가나 고가가 각 Envelope 돌파</Typography>
             </>)
 
         case 'Short':
@@ -380,18 +386,20 @@ const TypeMessage = (_type) => {
                 <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
                 <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
-                <Typography sx={{ fontSize: '12px' }} >14, 9, 7 종가지수 역배열 상태</Typography>
-                <Typography sx={{ fontSize: '12px' }} >1-2 : 1일선(종가지수)이 2일선(종가지수)보다 높다</Typography>
-                <Typography sx={{ fontSize: '12px' }} >1-3 : 1일선(종가지수)이 3일선(종가지수)보다 높다</Typography>
-                <Typography sx={{ fontSize: '12px' }} >2-3 : 2일선(종가지수)이 3일선(종가지수)보다 높다</Typography>
-                <Typography sx={{ fontSize: '12px' }} >2=3 : 2일선(종가지수)이 3일선(종가지수)보다 낮다</Typography>
-                <Typography sx={{ fontSize: '12px' }} >4종지 : 종가와 고가가 4종가지수보다 높을경우 ㅁ, 고가는 4종가지수보다 높지만 종가는 낮을경우 ㅗ </Typography>
-                <Typography sx={{ fontSize: '12px' }} >5종지 : 종가와 고가가 5종가지수보다 높을경우 ㅁ, 고가는 5종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
-                <Typography sx={{ fontSize: '12px' }} >6종지 : 종가와 고가가 6종가지수보다 높을경우 ㅁ, 고가는 6종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
-                <Typography sx={{ fontSize: '12px' }} >7종지 : 종가와 고가가 7종가지수보다 높을경우 ㅁ, 고가는 7종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
-                <Typography sx={{ fontSize: '12px' }} >9종지 : 종가와 고가가 9종가지수보다 높을경우 ㅁ, 고가는 7종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
-                <Typography sx={{ fontSize: '12px' }} >1-7 : 종가나 고가가 7시가삼각을 돌파</Typography>
-                <Typography sx={{ fontSize: '12px' }} >1-112 : 종가가 112저가지수보다 낮을경우</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- CCI.112 : -135 ~ 150, DMI.4 : 40 이하 제외</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- WillR.6 : -20 이하 제외, WillR.14 : -30이하 제외</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- 14, 9, 7 종가지수 역배열 상태</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- 1-2 : 1일선(종가지수)이 2일선(종가지수)보다 높다</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- 1-3 : 1일선(종가지수)이 3일선(종가지수)보다 높다</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- 2-3 : 2일선(종가지수)이 3일선(종가지수)보다 높다</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- 2=3 : 2일선(종가지수)이 3일선(종가지수)보다 낮다</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- 4종지 : 종가와 고가가 4종가지수보다 높을경우 ㅁ, 고가는 4종가지수보다 높지만 종가는 낮을경우 ㅗ </Typography>
+                <Typography sx={{ fontSize: '12px' }} >- 5종지 : 종가와 고가가 5종가지수보다 높을경우 ㅁ, 고가는 5종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- 6종지 : 종가와 고가가 6종가지수보다 높을경우 ㅁ, 고가는 6종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- 7종지 : 종가와 고가가 7종가지수보다 높을경우 ㅁ, 고가는 7종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- 9종지 : 종가와 고가가 9종가지수보다 높을경우 ㅁ, 고가는 7종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- 1-7 : 종가나 고가가 7시가삼각을 돌파</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- 1-112 : 종가가 112저가지수보다 낮을경우</Typography>
             </>)
 
         case 'WhiteBox_17':
@@ -417,6 +425,8 @@ const TypeMessage = (_type) => {
                 <Typography sx={{ fontSize: '12px' }} >전일대비거래량 1000% 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >시총 500억 ~ 30조</Typography>
                 <Typography sx={{ fontSize: '12px' }} >스팩, 리츠, 우선주 제외</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- CCI.112 : -135 ~ 150, DMI.4 : 40 이하 제외</Typography>
+                <Typography sx={{ fontSize: '12px' }} >- WillR.6 : -20 이하 제외, WillR.14 : -30이하 제외</Typography>
                 <Typography sx={{ fontSize: '12px' }} >1. 14시삼 또는 16시삼 돌파</Typography>
                 <Typography sx={{ fontSize: '12px' }} >2. W9 -40이하 and Dmi7 15 이하</Typography>
                 <Typography sx={{ fontSize: '12px' }} >2. W9 -40이하 and Dmi17 30 이하</Typography>
