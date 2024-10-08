@@ -4,7 +4,7 @@ import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, S
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
-import { customTheme, A_columns, B1_columns, Envelope_columns, Short_columns, WhiteBox_columns } from './Columns';
+import { customTheme, A_columns, B1_columns, Envelope_columns, Short_columns, WhiteBox_columns, TRIX_columns } from './Columns';
 import { CountTable } from '../Motions/CountTable'
 import { legend } from '../Motions/legend';
 import { blue } from '@mui/material/colors';
@@ -249,6 +249,10 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                             <StyledToggleButton fontSize={11} value="WhiteBox_10">WB 10</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="WhiteBox_3">WB 3</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="WAS_WhiteBox">WAS WB</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="TRIX_1">TRIX 1</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="TRIX_2">TRIX 2</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="TRIX_3">TRIX 3</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="TRIX_4">TRIX 4</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="Favorite">Favorite</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Stack>
@@ -292,7 +296,13 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                     <ThemeProvider theme={customTheme}>
                         <DataGrid
                             rows={tableData}
-                            columns={formulaType === 'A' ? A_columns : formulaType === 'B' ? B1_columns : formulaType === 'Short' ? Short_columns : ['WhiteBox_17', 'WhiteBox_10', 'WhiteBox_3'].includes(formulaType) ? WhiteBox_columns : Envelope_columns}
+                            columns={
+                                formulaType === 'A' ? A_columns :
+                                    formulaType === 'B' ? B1_columns :
+                                        formulaType === 'Short' ? Short_columns :
+                                            ['WhiteBox_17', 'WhiteBox_10', 'WhiteBox_3'].includes(formulaType) ? WhiteBox_columns :
+                                                ['TRIX_1', 'TRIX_2', 'TRIX_3', 'TRIX_4'].includes(formulaType) ? TRIX_columns :
+                                                    Envelope_columns}
                             rowHeight={20}
                             onCellClick={(params, event) => {
                                 getInfo(params.row);

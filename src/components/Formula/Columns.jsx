@@ -428,6 +428,62 @@ export const Short_columns = [
         renderCell: (params) => renderDmiCell(params, '7')
     }
 ]
+export const TRIX_columns = [
+    ...base_columns,
+    // {
+    //     field: '단기검색조건1', headerName: '1->2', width: 40,
+    //     align: 'right', headerAlign: 'center',
+    //     renderCell: (params) => renderShortCell(params, '조건1')
+    // }, {
+    //     field: '단기검색조건2', headerName: '1->3', width: 40,
+    //     align: 'right', headerAlign: 'center',
+    //     renderCell: (params) => renderShortCell(params, '조건2')
+    // }, {
+    //     field: '단기검색조건3', headerName: '2>3', width: 40,
+    //     align: 'right', headerAlign: 'center',
+    //     renderCell: (params) => renderShortCell(params, '조건3')
+    // }, {
+    //     field: '단기검색조건4', headerName: '2<3', width: 50,
+    //     align: 'right', headerAlign: 'center',
+    //     renderCell: (params) => renderShortCell(params, '조건4')
+    // }, {
+    //     field: '단기검색조건5', headerName: '4종지', width: 50,
+    //     align: 'right', headerAlign: 'center',
+    //     renderCell: (params) => renderMaCell(params, 'Short', '조건5')
+    // }, {
+    //     field: '단기검색조건6', headerName: '5종지', width: 50,
+    //     align: 'right', headerAlign: 'center',
+    //     renderCell: (params) => renderMaCell(params, 'Short', '조건6')
+    // }, {
+    //     field: '단기검색조건7', headerName: '6종지', width: 50,
+    //     align: 'right', headerAlign: 'center',
+    //     renderCell: (params) => renderMaCell(params, 'Short', '조건7')
+    // }, {
+    //     field: '단기검색조건8', headerName: '7종지', width: 50,
+    //     align: 'right', headerAlign: 'center',
+    //     renderCell: (params) => renderMaCell(params, 'Short', '조건8')
+    // }, {
+    //     field: '단기검색조건11', headerName: '9종지', width: 50,
+    //     align: 'right', headerAlign: 'center',
+    //     renderCell: (params) => renderMaCell(params, 'Short', '조건11')
+    // }, {
+    //     field: '단기검색조건9', headerName: '1>7', width: 40,
+    //     align: 'right', headerAlign: 'center',
+    //     renderCell: (params) => renderShortCell(params, '조건9')
+    // }, {
+    //     field: '단기검색조건10', headerName: '1<112', width: 40,
+    //     align: 'right', headerAlign: 'center',
+    //     renderCell: (params) => renderShortCell(params, '조건10')
+    // }, {
+    //     field: 'DMI_4', headerName: 'D4', width: 40,
+    //     align: 'right', headerAlign: 'center',
+    //     renderCell: (params) => renderDmiCell(params, '4')
+    // }, {
+    //     field: 'DMI_7', headerName: 'D7', width: 40,
+    //     align: 'right', headerAlign: 'center',
+    //     renderCell: (params) => renderDmiCell(params, '7')
+    // }
+]
 
 export const customTheme = createTheme({
     components: {
