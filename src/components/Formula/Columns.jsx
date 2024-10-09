@@ -1,86 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-// import { Box } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
-import { williamsColor } from '../Motions/MotionsColumns';
 import { yellow } from '@mui/material/colors';
-// import { renderProgress } from '../sectorSearchPage';
-
-// 종가지수 캔들모양
-export const renderMaCell = (params, col, key) => {
-    if (!params.row[col] || typeof params.row[col][key] === 'undefined') {
-        return <span> </span>; // CROSS가 없거나 key가 없을 경우 빈 span 반환
-    }
-    const _value = params.row[col][key]
-
-    if (typeof _value !== 'number') return <span> </span>;
-    const color = _value > 0 ? '#FCAB2F' : 'deepskyblue';
-    const shape = _value == 2 ? '■' : _value == 1 ? 'ㅗ' : _value == -2 ? '■' : _value == -1 ? 'ㅗ' : '';
-    return <span style={{ color, fontWeight: 'bold' }}> {shape}</span>;
-};
-
-// 시가삼각가중 돌파 여부
-const renderCrossTRIMA = (params, key) => {
-    if (!params.row.CROSS || typeof params.row.CROSS[key] === 'undefined') {
-        return <span> </span>; // CROSS가 없거나 key가 없을 경우 빈 span 반환
-    }
-
-    const _value = params.row.CROSS[key]
-    if (typeof _value !== 'boolean') return <span> </span>;
-    return <span> {_value === false ? '' : '★'}</span>
-}
-
-
-// Williams Rander Cell
-const renderWilliamsCell = (params, key) => {
-    const _value = params.row.WillR[key]
-    if (typeof _value !== 'number') return <span> </span>;
-    const color = williamsColor(_value);
-    return <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{_value}</span>
-}
-
-export const dmiColor = (value) => {
-    let color = null;
-    if (value <= 3) {
-        color = '#7F7F7F'
-    } else if (value <= 10) {
-        color = 'dodgerblue'
-    } else if (value <= 20) {
-        color = '#658956'
-    } else if (value <= 30) {
-        color = '#ADC719'
-    } else if (value <= 40) {
-        color = 'orange'
-    } else if (value <= 50) {
-        color = '#CA7824'
-    } else if (value <= 60) {
-        color = '#C7503D'
-    } else {
-        color = '#F60ECA'
-    }
-    return color;
-}
-
-export const renderDmiCell = (params, key) => {
-    const _value = params.row.DMI[key]
-    const color = dmiColor(_value);
-    if (typeof _value !== 'number') return <span> </span>;
-    return <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{_value}</span>
-}
-
-export const renderCciCell = (params, key) => {
-    const _value = params.row.CCI[key]
-    if (typeof _value !== 'number') return <span> </span>;
-    return _value
-}
-
-export const renderShortCell = (params, key) => {
-    if (!params.row.Short || typeof params.row.Short[key] === 'undefined') {
-        return <span> </span>; // CROSS가 없거나 key가 없을 경우 빈 span 반환
-    }
-    const _value = params.row.Short[key]
-    if (typeof _value !== 'boolean') return <span> </span>;
-    return <span> {_value === false ? '' : '★'}</span>
-}
+import { renderCrossTRIMA, renderMaCell, renderWilliamsCell, renderTrixCell, renderCciCell, renderCciCell_Keys, renderDmiCell, renderShortCell } from './RenderCell';
 
 export const base_columns = [{
     field: '업종명', headerName: '업종명', width: 80,
@@ -430,59 +351,55 @@ export const Short_columns = [
 ]
 export const TRIX_columns = [
     ...base_columns,
-    // {
-    //     field: '단기검색조건1', headerName: '1->2', width: 40,
-    //     align: 'right', headerAlign: 'center',
-    //     renderCell: (params) => renderShortCell(params, '조건1')
-    // }, {
-    //     field: '단기검색조건2', headerName: '1->3', width: 40,
-    //     align: 'right', headerAlign: 'center',
-    //     renderCell: (params) => renderShortCell(params, '조건2')
-    // }, {
-    //     field: '단기검색조건3', headerName: '2>3', width: 40,
-    //     align: 'right', headerAlign: 'center',
-    //     renderCell: (params) => renderShortCell(params, '조건3')
-    // }, {
-    //     field: '단기검색조건4', headerName: '2<3', width: 50,
-    //     align: 'right', headerAlign: 'center',
-    //     renderCell: (params) => renderShortCell(params, '조건4')
-    // }, {
-    //     field: '단기검색조건5', headerName: '4종지', width: 50,
-    //     align: 'right', headerAlign: 'center',
-    //     renderCell: (params) => renderMaCell(params, 'Short', '조건5')
-    // }, {
-    //     field: '단기검색조건6', headerName: '5종지', width: 50,
-    //     align: 'right', headerAlign: 'center',
-    //     renderCell: (params) => renderMaCell(params, 'Short', '조건6')
-    // }, {
-    //     field: '단기검색조건7', headerName: '6종지', width: 50,
-    //     align: 'right', headerAlign: 'center',
-    //     renderCell: (params) => renderMaCell(params, 'Short', '조건7')
-    // }, {
-    //     field: '단기검색조건8', headerName: '7종지', width: 50,
-    //     align: 'right', headerAlign: 'center',
-    //     renderCell: (params) => renderMaCell(params, 'Short', '조건8')
-    // }, {
-    //     field: '단기검색조건11', headerName: '9종지', width: 50,
-    //     align: 'right', headerAlign: 'center',
-    //     renderCell: (params) => renderMaCell(params, 'Short', '조건11')
-    // }, {
-    //     field: '단기검색조건9', headerName: '1>7', width: 40,
-    //     align: 'right', headerAlign: 'center',
-    //     renderCell: (params) => renderShortCell(params, '조건9')
-    // }, {
-    //     field: '단기검색조건10', headerName: '1<112', width: 40,
-    //     align: 'right', headerAlign: 'center',
-    //     renderCell: (params) => renderShortCell(params, '조건10')
-    // }, {
-    //     field: 'DMI_4', headerName: 'D4', width: 40,
-    //     align: 'right', headerAlign: 'center',
-    //     renderCell: (params) => renderDmiCell(params, '4')
-    // }, {
-    //     field: 'DMI_7', headerName: 'D7', width: 40,
-    //     align: 'right', headerAlign: 'center',
-    //     renderCell: (params) => renderDmiCell(params, '7')
-    // }
+    {
+        field: '15', headerName: 'T.15', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderTrixCell(params, '15', 'Sig_15_5')
+    }, {
+        field: '17', headerName: 'T.17', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderTrixCell(params, '17', 'Sig_17_5')
+    }, {
+        field: '19', headerName: 'T.19', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderTrixCell(params, '19', 'Sig_19_5')
+    }, {
+        field: '22', headerName: 'T.22', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderTrixCell(params, '22', 'Sig_22_6')
+    }, {
+        field: '24', headerName: 'T.24', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderTrixCell(params, '24', 'Sig_24_9')
+    }, {
+        field: '26', headerName: 'T.26', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderTrixCell(params, '26', 'Sig_26_9')
+    }, {
+        field: '112', headerName: 'C.112', width: 60,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderCciCell_Keys(params, '112')
+    }, {
+        field: 'Sig_112_18', headerName: 'C.S.18', width: 60,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderCciCell_Keys(params, 'Sig_112_18')
+    }, {
+        field: 'W.6', headerName: 'W.6', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '6')
+    }, {
+        field: 'W.14', headerName: 'W.14', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '14')
+    }, {
+        field: 'DMI_4', headerName: 'D4', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '4')
+    }, {
+        field: 'DMI_7', headerName: 'D7', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '7')
+    }
 ]
 
 export const customTheme = createTheme({

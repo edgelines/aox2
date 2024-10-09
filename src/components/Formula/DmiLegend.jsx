@@ -1,6 +1,6 @@
 import React, { useEffect, } from 'react';
 import { Stack } from '@mui/material';
-import { dmiColor } from './Columns.jsx'
+import { dmiColor } from './RenderCell.jsx'
 
 export const legend = {
     '70 ~': dmiColor(70),

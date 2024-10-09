@@ -107,6 +107,7 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
     //     const result = { data: filteredData }
     //     return result;
     // }
+    console.log(tableData);
 
     const handleClick = (name, category) => {
         if (name === '업종') {
@@ -207,7 +208,7 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                                             {/* Classification Sum */}
                                             <tr style={{ fontSize: '11.5px' }} >
                                                 <td style={{ color: '#efe9e9ed' }}>
-                                                    -
+                                                    전체
                                                 </td>
                                                 <td style={{ textAlign: 'right', width: 17 }}>
                                                     {

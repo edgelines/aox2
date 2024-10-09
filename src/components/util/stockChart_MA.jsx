@@ -329,7 +329,7 @@ const StockChart = ({ stockName, willR, height, price, net, boxTransform, volume
     }, [series]);
 
 
-    const typographyStyle = { color: 'black', fontWeight: 600, textAlign: 'left', fontSize: '15px' }
+    const typographyStyle = { color: 'black', fontWeight: 600, textAlign: 'left', fontSize: '14px' }
 
     return (
         <Grid container direction='row' sx={{ alignItems: 'center', justifyContent: "space-between" }}>
