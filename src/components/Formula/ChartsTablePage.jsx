@@ -345,7 +345,7 @@ const TypeMessage = (_type) => {
             <Typography sx={textStyle} >- 전일대비거래량 1000% 이하</Typography>
             <Typography sx={textStyle} >- 스팩, 리츠, 우선주 제외</Typography>
             <Typography sx={textStyle} >- CCI.112 : -135 ~ 150, DMI.4 : 40 이하 제외</Typography>
-            <Typography sx={textStyle} >- WillR.6 : -20 이하 제외, WillR.14 : -30이하 제외</Typography>
+            <Typography sx={textStyle} >- WillR.6 : -20 이상 제외, WillR.14 : -30이상 제외</Typography>
         </>
     )
 
@@ -354,7 +354,7 @@ const TypeMessage = (_type) => {
             <Typography sx={{ ...textStyle, mb: 2 }} >A-Type, B-Type, Envelope, Short 종목들 중에서 Report Page 전체기간 통계로 WhiteBox의 {num}% 이상 상승한 조건</Typography>
             {commonMessages}
             <Typography sx={textStyle} >- WillR.6 or WillR.9 or (Will.R14 and WillR.14-7 Sig) or (WillR.33 and WillR.33-7 Sig) WhiteBox 구간 </Typography>
-            <Typography sx={textStyle} >- DMI.3, DMI.4, DMI.7, DMI.9, DMI.17 WhiteBox 구간 </Typography>
+            <Typography sx={textStyle} >- DMI.3, DMI.4, DMI.7, DMI.9, DMI.17 (미래) WhiteBox 구간 </Typography>
             <Typography sx={textStyle} >- CCI.4 (파란선상단 ~ 파란선하단) and CCI.4-2 Sig (파란선상단 ~ -120) 구간 </Typography>
             <Typography sx={textStyle} >- CCI.11 (40 ~ 파란선하단) and CCI.11-4 Sig (30 ~ 파란선하단) 구간 </Typography>
             <Typography sx={textStyle} >- CCI.11이 CCI-11-4 보다 큰 것</Typography>
@@ -367,7 +367,7 @@ const TypeMessage = (_type) => {
             <>
                 <Typography sx={textStyle} >- TRIX 15가 전일 대비 상승 </Typography>
                 <Typography sx={textStyle} >- TRIX 15가 TRIX 15-5 Sig보다 크다 </Typography>
-                <Typography sx={textStyle} >- DMI.4는 40 이상 제외</Typography>
+                <Typography sx={textStyle} >- DMI.4 (미래)는 40 이상 제외</Typography>
                 <Typography sx={textStyle} >- CCI.112는 -133 미만 제외 </Typography>
                 <Typography sx={textStyle} >- CCI.11는 0보다 작아야 한다</Typography>
                 <Typography sx={textStyle} >- CCI.33은 CCI.33-7 Sig보다 작아야 한다</Typography>
@@ -413,10 +413,10 @@ const TypeMessage = (_type) => {
             return (<>
                 {commonMessages}
                 <Typography sx={textStyle} >- 고가 또는 종가가 5중가 6중기*3% 이내</Typography>
-                <Typography sx={textStyle} >- DMI.4 : 10 이하</Typography>
-                <Typography sx={textStyle} >- DMI.7 : 10 이하</Typography>
-                <Typography sx={textStyle} >- DMI.9 : 15 이하</Typography>
-                <Typography sx={textStyle} >- DMI.17 : 30 이하</Typography>
+                <Typography sx={textStyle} >- DMI.4 (미래) : 10 이하</Typography>
+                <Typography sx={textStyle} >- DMI.7 (미래) : 10 이하</Typography>
+                <Typography sx={textStyle} >- DMI.9 (미래) : 15 이하</Typography>
+                <Typography sx={textStyle} >- DMI.17 (미래) : 30 이하</Typography>
                 <Typography sx={textStyle} >- WillR.14 가 WillR.14-7 Sig보다 낮아야 한다.</Typography>
             </>)
 
@@ -491,7 +491,7 @@ const TypeMessage = (_type) => {
                 {commonMessages}
                 <Typography sx={textStyle} >- 고가 또는 종가가 5중가 6중기*3% 이내</Typography>
                 <Typography sx={textStyle} >1. WillR.9 : -40이하 and WillR.14 : -60이하 and WillR.33 : -60이하 </Typography>
-                <Typography sx={textStyle} >1. DMI.7 : 15 이하 and DMI.17 : 30 이하</Typography>
+                <Typography sx={textStyle} >1. DMI.7 (미래) : 15 이하 and DMI.17 (미래) : 30 이하</Typography>
                 <Typography sx={textStyle} >2. 14시삼 또는 16시삼 돌파</Typography>
             </>)
     }
