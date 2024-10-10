@@ -368,7 +368,6 @@ const TypeMessage = (_type) => {
                 <Typography sx={textStyle} >- TRIX 15가 전일 대비 상승 </Typography>
                 <Typography sx={textStyle} >- TRIX 15가 TRIX 15-5 Sig보다 크다 </Typography>
                 <Typography sx={textStyle} >- DMI.4 (미래)는 40 이상 제외</Typography>
-                <Typography sx={textStyle} >- CCI.112는 -133 미만 제외 </Typography>
                 <Typography sx={textStyle} >- CCI.11는 0보다 작아야 한다</Typography>
                 <Typography sx={textStyle} >- CCI.33은 CCI.33-7 Sig보다 작아야 한다</Typography>
             </>
