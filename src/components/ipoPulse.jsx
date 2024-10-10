@@ -134,11 +134,8 @@ export default function IpoPulsePage({ swiperRef }) {
         const res = await axios.get(`${STOCK}/get/${code}/${selectedChartType}`);
         if (res.status === 200) {
             setStockChart({
-                willR: res.data.willR,
-                net: res.data.net,
-                volumeRatio: res.data.volumeRatio,
-                DMI: res.data.DMI,
-                series: res.data.series
+                series: res.data.series,
+                info: res.data.info
             })
         }
     }
@@ -173,11 +170,8 @@ export default function IpoPulsePage({ swiperRef }) {
             var res = await axios.get(`${STOCK}/get/${stock.종목코드}/${selectedChartType}`);
             if (res.status === 200) {
                 setStockChart({
-                    willR: res.data.willR,
-                    net: res.data.net,
-                    volumeRatio: res.data.volumeRatio,
-                    DMI: res.data.DMI,
-                    series: res.data.series
+                    series: res.data.series,
+                    info: res.data.info
                 })
             }
         }
@@ -580,10 +574,8 @@ export default function IpoPulsePage({ swiperRef }) {
                             Array.isArray(stockChart.series) ?
                                 // <Grid item container sx={{ width: '98%' }}>
                                 <StockChart_MA height={280} boxTransform={'translate(10px, 140px)'}
-                                    // stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} MA={stockChart.MA}
-                                    stockName={stock.종목명} price={stock.현재가} net={stockChart.net} volumeRatio={stockChart.volumeRatio}
-                                    willR={stockChart.willR} DMI={stockChart.DMI}
-                                    series={stockChart.series}
+                                    stockName={stock.종목명} price={stock.현재가}
+                                    info={stockChart.info} series={stockChart.series}
                                     selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
                                     selectedSubChartType={selectedSubChartType} handleSelectedSubChartType={handleSelectedSubChartType}
                                 />

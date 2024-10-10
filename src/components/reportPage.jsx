@@ -109,11 +109,8 @@ export default function TestPage({ swiperRef, baseStockName }) {
             var res = await axios.get(`${STOCK}/get/${item.종목코드}/${selectedChartType}`);
             if (res.status === 200) {
                 setStockChart({
-                    willR: res.data.willR,
-                    net: res.data.net,
-                    volumeRatio: res.data.volumeRatio,
-                    DMI: res.data.DMI,
-                    series: res.data.series
+                    series: res.data.series,
+                    info: res.data.info
                 })
             }
         } else {
@@ -133,11 +130,8 @@ export default function TestPage({ swiperRef, baseStockName }) {
             var res = await axios.get(`${STOCK}/get/${stock.종목코드}/${selectedChartType}`);
             if (res.status === 200) {
                 setStockChart({
-                    willR: res.data.willR,
-                    net: res.data.net,
-                    volumeRatio: res.data.volumeRatio,
-                    DMI: res.data.DMI,
-                    series: res.data.series
+                    series: res.data.series,
+                    info: res.data.info
                 })
             }
         }
@@ -225,12 +219,11 @@ export default function TestPage({ swiperRef, baseStockName }) {
                     <StockChart_MA
                         height={580}
                         boxTransform={`translate(10px, 235px)`}
-                        stockName={stock.종목명} price={stock.현재가} net={stockChart.net} volumeRatio={stockChart.volumeRatio}
-                        willR={stockChart.willR} DMI={stockChart.DMI}
-                        series={stockChart.series}
+                        stockName={stock.종목명} price={stock.현재가}
+                        info={stockChart.info} series={stockChart.series}
                         selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
                         baseStockName={baseStockName} getInfo={getInfo}
-                    // selectedSubChartType={selectedSubChartType} handleSelectedSubChartType={handleSelectedSubChartType}
+
                     />
                 </Grid>
                 <TableContainer sx={{ height: 300, mt: 1 }}

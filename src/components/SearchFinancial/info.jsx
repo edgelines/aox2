@@ -48,9 +48,8 @@ export default function SearchFinancialInfo({ stock, stockChart, handleFavorite,
 
             <Grid item container sx={{ mt: 1 }}>
                 <StockChart_MA height={470} boxTransform={`translate(10px, 53px)`}
-                    stockName={stock.종목명} price={stock.현재가} net={stockChart.net} volumeRatio={stockChart.volumeRatio}
-                    willR={stockChart.willR} DMI={stockChart.DMI}
-                    series={stockChart.series}
+                    stockName={stock.종목명} price={stock.현재가}
+                    info={stockChart.info} series={stockChart.series}
                     selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
                     baseStockName={baseStockName} getInfo={getInfo}
                 />

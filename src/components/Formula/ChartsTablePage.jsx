@@ -107,7 +107,6 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
     //     const result = { data: filteredData }
     //     return result;
     // }
-    console.log(tableData);
 
     const handleClick = (name, category) => {
         if (name === '업종') {
@@ -363,6 +362,52 @@ const TypeMessage = (_type) => {
         </>
     )
 
+    const trix = (num) => {
+        const trixCommon = (
+            <>
+                <Typography sx={textStyle} >- TRIX 15가 전일 대비 상승 </Typography>
+                <Typography sx={textStyle} >- TRIX 15가 TRIX 15-5 Sig보다 크다 </Typography>
+                <Typography sx={textStyle} >- DMI.4는 40 미만 제외</Typography>
+                <Typography sx={textStyle} >- CCI.112는 -133 미만 제외 </Typography>
+                <Typography sx={textStyle} >- CCI.11는 0보다 작아야 한다</Typography>
+                <Typography sx={textStyle} >- CCI.33은 CCI.33-7 Sig보다 작아야 한다</Typography>
+            </>
+        )
+
+        switch (num) {
+            case '1':
+                return (
+                    <>
+                        <Typography sx={{ ...textStyle, mb: 2 }} >CCI-112 : -100 미만</Typography>
+                        {commonMessages}
+                        {trixCommon}
+                    </>)
+            case '2':
+                return (
+                    <>
+                        <Typography sx={{ ...textStyle, mb: 2 }} >CCI-112 : -100 ~ 0 미만</Typography>
+                        {commonMessages}
+                        {trixCommon}
+                    </>)
+            case '3':
+                return (
+                    <>
+                        <Typography sx={{ ...textStyle, mb: 2 }} >CCI-112 : 0 ~ 100 미만</Typography>
+                        {commonMessages}
+                        {trixCommon}
+                    </>
+                )
+            default:
+                return (
+                    <>
+                        <Typography sx={{ ...textStyle, mb: 2 }} >CCI-112 : 100 이상</Typography>
+                        {commonMessages}
+                        {trixCommon}
+                    </>
+                )
+        }
+    }
+
     switch (__type) {
         case 'B':
             return (<>
@@ -422,6 +467,23 @@ const TypeMessage = (_type) => {
         case 'Favorite':
             return (<>
                 <Typography sx={textStyle} >관심종목</Typography>
+            </>)
+
+        case 'TRIX_1':
+            return (<>
+                {trix('1')}
+            </>)
+        case 'TRIX_2':
+            return (<>
+                {trix('2')}
+            </>)
+        case 'TRIX_3':
+            return (<>
+                {trix('3')}
+            </>)
+        case 'TRIX_4':
+            return (<>
+                {trix('4')}
             </>)
 
         default:

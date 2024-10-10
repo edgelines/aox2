@@ -104,11 +104,8 @@ export default function SearchFinancial({ swiperRef, baseStockName }) {
         const res = await axios.get(`${STOCK}/get/${code}/${selectedChartType}`);
         if (res.status === 200) {
             setStockChart({
-                willR: res.data.willR,
-                net: res.data.net,
-                volumeRatio: res.data.volumeRatio,
-                DMI: res.data.DMI,
-                series: res.data.series
+                series: res.data.series,
+                info: res.data.info
             })
         }
     }
@@ -138,11 +135,8 @@ export default function SearchFinancial({ swiperRef, baseStockName }) {
             var res = await axios.get(`${STOCK}/get/${stock.종목코드}/${selectedChartType}`);
             if (res.status === 200) {
                 setStockChart({
-                    willR: res.data.willR,
-                    net: res.data.net,
-                    volumeRatio: res.data.volumeRatio,
-                    DMI: res.data.DMI,
-                    series: res.data.series
+                    series: res.data.series,
+                    info: res.data.info
                 })
             }
         }

@@ -64,9 +64,8 @@ export default function StockInfoPage({ stock, stockChart, handleFavorite, handl
             <Grid item container sx={{ mt: 1 }}>
                 <StockChart_MA height={640} boxTransform={`translate(10px, 53px)`}
                     // stockItemData={stockChart.price ? stockChart.price : []} volumeData={stockChart.volume ? stockChart.volume : []} MA={stockChart.MA}
-                    stockName={stock.종목명} price={stock.현재가} net={stockChart.net} volumeRatio={stockChart.volumeRatio}
-                    willR={stockChart.willR} DMI={stockChart.DMI}
-                    series={stockChart.series}
+                    stockName={stock.종목명} price={stock.현재가}
+                    info={stockChart.info} series={stockChart.series}
                     selectedChartType={selectedChartType} handleSelectedChartType={handleSelectedChartType}
                     selectedSubChartType={selectedSubChartType} handleSelectedSubChartType={handleSelectedSubChartType}
                     baseStockName={baseStockName} getInfo={getInfo}
