@@ -374,6 +374,7 @@ const TypeMessage = (_type) => {
                 <Typography sx={textStyle} >- 스팩, 리츠, 우선주 제외</Typography>
                 <Typography sx={textStyle} >- CCI.112 : -135 ~ 150</Typography>
                 <Typography sx={textStyle} >- WillR.6 : -20 이하, WillR.14 : -30 이하</Typography>
+                <Typography sx={textStyle} >- 고가 또는 종가가 5중가 6중기*3% 이내</Typography>
 
 
                 <Typography sx={textStyle} >- WillR.14-7 Sig 가 -50보다 작다</Typography>
