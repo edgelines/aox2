@@ -14,8 +14,8 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import Charts from './Charts';
 
 const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, swiperRef, datasetCount, getInfo, classification, formulaType, handleFormulaType }) => {
-    const chartHeight = 570;
-    const tableHeight = 320;
+    const chartHeight = 500;
+    const tableHeight = 390;
     // const chartComponent = useRef(null);
     // const [tableData, setTableData] = useState([]);
     const [selectedIndustry, setSelectedIndustry] = useState([]);
@@ -138,10 +138,10 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
     return (
         <div>
             {/* Box */}
-            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(980px, 370px)`, zIndex: 10 }}>
+            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(980px, 288px)`, zIndex: 10 }}>
                 <DmiLegend />
             </Box>
-            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(1035px, 370px)`, zIndex: 10 }}>
+            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(1035px, 288px)`, zIndex: 10 }}>
                 <WilliamsLegend />
             </Box>
             {/* Classification */}
@@ -181,14 +181,14 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                         datasetCount ?
                             <>
                                 <Grid item xs={12} sx={{ mt: 1 }}>
-                                    <CountTable name='업종' data={datasetCount.업종} swiperRef={swiperRef} height={height / 5}
+                                    <CountTable name='업종' data={datasetCount.업종} swiperRef={swiperRef} height={height / 7}
                                         handleClick={handleClick} handleReset={handleReset}
                                         selectedIndustry={selectedIndustry} selectedThemes={selectedThemes}
                                     />
 
                                 </Grid>
                                 <Grid item xs={12} >
-                                    <CountTable name='테마' data={datasetCount.테마} swiperRef={swiperRef} height={height / 5}
+                                    <CountTable name='테마' data={datasetCount.테마} swiperRef={swiperRef} height={height / 7}
                                         handleClick={handleClick} handleReset={handleReset}
                                         selectedIndustry={selectedIndustry} selectedThemes={selectedThemes}
                                     />
