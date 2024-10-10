@@ -249,10 +249,11 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                             <StyledToggleButton fontSize={11} value="WhiteBox_10">WB 10</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="WhiteBox_3">WB 3</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="WAS_WhiteBox">WAS WB</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="TRIX_1">TRIX -100 이하</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="TRIX_2">TRIX ~ 0</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="TRIX_1">TRIX</StyledToggleButton>
+                            {/* <StyledToggleButton fontSize={11} value="TRIX_1">TRIX -100 이하</StyledToggleButton> */}
+                            {/* <StyledToggleButton fontSize={11} value="TRIX_2">TRIX ~ 0</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="TRIX_3">TRIX ~ 100</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="TRIX_4">TRIX 100 이상</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="TRIX_4">TRIX 100 이상</StyledToggleButton> */}
                             <StyledToggleButton fontSize={11} value="Favorite">Favorite</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Stack>
@@ -374,15 +375,21 @@ const TypeMessage = (_type) => {
                 <Typography sx={textStyle} >- CCI.112 : -135 ~ 150</Typography>
                 <Typography sx={textStyle} >- WillR.6 : -20 이하, WillR.14 : -30 이하</Typography>
 
-                <Typography sx={textStyle} >- TRIX 15가 전일 대비 상승 </Typography>
-                <Typography sx={textStyle} >- TRIX 15가 TRIX 15-5 Sig보다 크다 </Typography>
 
+                <Typography sx={textStyle} >- WillR.14-7 Sig 가 -50보다 작다</Typography>
+                <Typography sx={textStyle} >- DMI.7 (미래)은 전날값보다 작다</Typography>
+                <Typography sx={textStyle} >- DMI.7 (미래)은 15 이하</Typography>
+                <Typography sx={textStyle} >- DMI 2와 3 (대신) 은 역배열</Typography>
+                <Typography sx={textStyle} >- DMI 2 (대신)은 16 이하 </Typography>
                 <Typography sx={textStyle} >- CCI.4는 CCI.4-2 Sig보다 크다</Typography>
                 <Typography sx={textStyle} >- CCI.11은 CCI.11-4 Sig보다 크다</Typography>
-                <Typography sx={textStyle} >- DMI.2,3(대신)은 역배열이다</Typography>
-                <Typography sx={textStyle} >- DMI.2(대신)는 DMI.5(대신) 보다 작다</Typography>
-                <Typography sx={textStyle} >- DMI.7(미래)은 DMI.15(미래) 보다 작다</Typography>
-                <Typography sx={textStyle} >- DMI.7(미래)은 전날값보다 작다</Typography>
+                <Typography sx={textStyle} >- CCI.4는 CCI.11보다 크다</Typography>
+
+                <Typography sx={textStyle} >- OR 조건</Typography>
+
+                <Typography sx={textStyle} >- TRIX 15가 전일 대비 상승, 또는 TRIX 15가 TRIX 15-5 Sig보다 크다 </Typography>
+                <Typography sx={textStyle} >- CCI.33은 전날보다 상승하고, CCI.33-7 Sig보다 크다 </Typography>
+                <Typography sx={textStyle} >- CCI.112은 전날보다 상승하고, CCI.112-18 Sig보다 크다 </Typography>
             </>
         )
 
@@ -390,7 +397,7 @@ const TypeMessage = (_type) => {
             case '1':
                 return (
                     <>
-                        <Typography sx={{ ...textStyle, mb: 2 }} >CCI-112 : -100 미만</Typography>
+                        {/* <Typography sx={{ ...textStyle, mb: 2 }} >CCI-112 : -100 미만</Typography> */}
                         {trixCommon}
                     </>)
             case '2':
