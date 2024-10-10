@@ -344,8 +344,8 @@ const TypeMessage = (_type) => {
             <Typography sx={textStyle} >- 1주당 20만원 이하</Typography>
             <Typography sx={textStyle} >- 전일대비거래량 1000% 이하</Typography>
             <Typography sx={textStyle} >- 스팩, 리츠, 우선주 제외</Typography>
-            <Typography sx={textStyle} >- CCI.112 : -135 ~ 150, DMI.4 : 40 이하 제외</Typography>
-            <Typography sx={textStyle} >- WillR.6 : -20 이상 제외, WillR.14 : -30이상 제외</Typography>
+            <Typography sx={textStyle} >- CCI.112 : -135 ~ 150, DMI.4 : 40 이하</Typography>
+            <Typography sx={textStyle} >- WillR.6 : -20 이하, WillR.14 : -30 이하</Typography>
         </>
     )
 
