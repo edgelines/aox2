@@ -365,11 +365,24 @@ const TypeMessage = (_type) => {
     const trix = (num) => {
         const trixCommon = (
             <>
+                <Typography sx={textStyle} >- 5일평균거래량 2만주 제외</Typography>
+                <Typography sx={textStyle} >- 시총 500억 ~ 30조</Typography>
+                <Typography sx={textStyle} >- 당일 등락률 -3% 이상</Typography>
+                <Typography sx={textStyle} >- 1주당 20만원 이하</Typography>
+                <Typography sx={textStyle} >- 전일대비거래량 1000% 이하</Typography>
+                <Typography sx={textStyle} >- 스팩, 리츠, 우선주 제외</Typography>
+                <Typography sx={textStyle} >- CCI.112 : -135 ~ 150</Typography>
+                <Typography sx={textStyle} >- WillR.6 : -20 이하, WillR.14 : -30 이하</Typography>
+
                 <Typography sx={textStyle} >- TRIX 15가 전일 대비 상승 </Typography>
                 <Typography sx={textStyle} >- TRIX 15가 TRIX 15-5 Sig보다 크다 </Typography>
-                <Typography sx={textStyle} >- DMI.4 (미래)는 40 이상 제외</Typography>
-                <Typography sx={textStyle} >- CCI.11는 0보다 작아야 한다</Typography>
-                <Typography sx={textStyle} >- CCI.33은 CCI.33-7 Sig보다 작아야 한다</Typography>
+
+                <Typography sx={textStyle} >- CCI.4는 CCI.4-2 Sig보다 크다</Typography>
+                <Typography sx={textStyle} >- CCI.11은 CCI.11-4 Sig보다 크다</Typography>
+                <Typography sx={textStyle} >- DMI.2,3(대신)은 역배열이다</Typography>
+                <Typography sx={textStyle} >- DMI.2(대신)는 DMI.5(대신) 보다 작다</Typography>
+                <Typography sx={textStyle} >- DMI.7(미래)은 DMI.15(미래) 보다 작다</Typography>
+                <Typography sx={textStyle} >- DMI.7(미래)은 전날값보다 작다</Typography>
             </>
         )
 
@@ -378,21 +391,18 @@ const TypeMessage = (_type) => {
                 return (
                     <>
                         <Typography sx={{ ...textStyle, mb: 2 }} >CCI-112 : -100 미만</Typography>
-                        {commonMessages}
                         {trixCommon}
                     </>)
             case '2':
                 return (
                     <>
                         <Typography sx={{ ...textStyle, mb: 2 }} >CCI-112 : -100 ~ 0 미만</Typography>
-                        {commonMessages}
                         {trixCommon}
                     </>)
             case '3':
                 return (
                     <>
                         <Typography sx={{ ...textStyle, mb: 2 }} >CCI-112 : 0 ~ 100 미만</Typography>
-                        {commonMessages}
                         {trixCommon}
                     </>
                 )
@@ -400,7 +410,6 @@ const TypeMessage = (_type) => {
                 return (
                     <>
                         <Typography sx={{ ...textStyle, mb: 2 }} >CCI-112 : 100 이상</Typography>
-                        {commonMessages}
                         {trixCommon}
                     </>
                 )
