@@ -402,6 +402,118 @@ export const TRIX_columns = [
     }
 ]
 
+export const Rainbow_columns = [
+    {
+        field: '업종명', headerName: '업종명', width: 80,
+        align: 'left', headerAlign: 'left',
+        renderCell: (params) => {
+            return (
+                <span style={{ backgroundColor: params.row.color, color: '#404040' }}>{params.value}</span>
+            )
+        }
+    }, {
+        field: '15', headerName: 'T.15', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderTrixCell(params, '15', 'Sig_15_5')
+    }, {
+        field: '17', headerName: 'T.17', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderTrixCell(params, '17', 'Sig_17_5')
+    }, {
+        field: '19', headerName: 'T.19', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderTrixCell(params, '19', 'Sig_19_5')
+    }, {
+        field: '22', headerName: 'T.22', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderTrixCell(params, '22', 'Sig_22_6')
+    }, {
+        field: '24', headerName: 'T.24', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderTrixCell(params, '24', 'Sig_24_9')
+    }, {
+        field: '26', headerName: 'T.26', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderTrixCell(params, '26', 'Sig_26_9')
+    }, {
+        field: '종목명', headerName: '종목명', width: 75,
+        align: 'left', headerAlign: 'left',
+        renderCell: (params) => {
+            const filter_A = params.row.filter_A
+            const invest = params.row.Invest
+            const bgColor = filter_A ? '#FCAB2F' : invest ? yellow[500] : null
+            const color = filter_A ? '#404040' : invest ? '#404040' : null
+
+            return (
+                <span style={{ backgroundColor: bgColor, color: color }}>{params.value}</span>
+            )
+        }
+    }, {
+        field: '등락률', headerName: 'R %', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => {
+            const color = params.value > 10 ? 'tomato' : params.value > 0 ? '#FCAB2F' : 'deepskyblue'
+            return (
+                <span style={{ color: color }}> {params.value.toFixed(1)}</span>
+            )
+        }
+    }, {
+        field: '전일대비거래량', headerName: 'V %', width: 55,
+        align: 'right', headerAlign: 'center',
+        valueFormatter: (params) => {
+            return `${params.value.toLocaleString('kr')} %`;
+        }
+    }, {
+        field: 'w26', headerName: 'W.26', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '26')
+    }, {
+        field: 'w18', headerName: 'W.18', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '18')
+    }, {
+        field: 'w14', headerName: 'W.14', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '14')
+    }, {
+        field: 'w6', headerName: 'W.6', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '6')
+    }, {
+        field: 'DMI_4', headerName: 'D.4', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '4')
+    }, {
+        field: 'DMI_7', headerName: 'D.7', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '7')
+    }, {
+        field: 'DMI_9', headerName: 'D.9', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '9')
+    }, {
+        field: 'DMI_17', headerName: 'D.17', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '17')
+    }, {
+        field: 'CCI_4', headerName: 'C.4', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderCciCell(params, '4')
+    }, {
+        field: 'CCI_2_Sig', headerName: 'C.4S', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderCciCell(params, 'Sig_4_2')
+    }, {
+        field: 'CCI_11', headerName: 'C.11', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderCciCell(params, '11')
+    }, {
+        field: 'CCI_4_Sig', headerName: 'C.11S', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderCciCell(params, 'Sig_11_4')
+    }
+]
+
 export const customTheme = createTheme({
     components: {
         MuiDataGrid: {

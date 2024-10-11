@@ -4,7 +4,7 @@ import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, S
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
-import { customTheme, A_columns, B1_columns, Envelope_columns, Short_columns, WhiteBox_columns, TRIX_columns } from './Columns';
+import { customTheme, A_columns, B1_columns, Envelope_columns, Short_columns, WhiteBox_columns, TRIX_columns, Rainbow_columns } from './Columns';
 import { CountTable } from '../Motions/CountTable'
 import { legend } from '../Motions/legend';
 import { blue } from '@mui/material/colors';
@@ -250,6 +250,8 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                             <StyledToggleButton fontSize={11} value="WhiteBox_3">WB 3</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="WAS_WhiteBox">WAS WB</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="TRIX_1">TRIX</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="RAINBOW_1">Rainbow A</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="RAINBOW_2">Rainbow B</StyledToggleButton>
                             {/* <StyledToggleButton fontSize={11} value="TRIX_1">TRIX -100 이하</StyledToggleButton> */}
                             {/* <StyledToggleButton fontSize={11} value="TRIX_2">TRIX ~ 0</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="TRIX_3">TRIX ~ 100</StyledToggleButton>
@@ -303,7 +305,8 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                                         formulaType === 'Short' ? Short_columns :
                                             ['WhiteBox_17', 'WhiteBox_10', 'WhiteBox_3'].includes(formulaType) ? WhiteBox_columns :
                                                 ['TRIX_1', 'TRIX_2', 'TRIX_3', 'TRIX_4'].includes(formulaType) ? TRIX_columns :
-                                                    Envelope_columns}
+                                                    ['RAINBOW_1', 'RAINBOW_2'].includes(formulaType) ? Rainbow_columns :
+                                                        Envelope_columns}
                             rowHeight={20}
                             onCellClick={(params, event) => {
                                 getInfo(params.row);
