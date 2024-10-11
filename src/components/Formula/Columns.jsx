@@ -427,14 +427,14 @@ export const Rainbow_columns = [
         field: '22', headerName: 'T.22', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderTrixCell(params, '22', 'Sig_22_6')
-    }, {
-        field: '24', headerName: 'T.24', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderTrixCell(params, '24', 'Sig_24_9')
-    }, {
-        field: '26', headerName: 'T.26', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderTrixCell(params, '26', 'Sig_26_9')
+        // }, {
+        //     field: '24', headerName: 'T.24', width: 40,
+        //     align: 'right', headerAlign: 'center',
+        //     renderCell: (params) => renderTrixCell(params, '24', 'Sig_24_9')
+        // }, {
+        //     field: '26', headerName: 'T.26', width: 40,
+        //     align: 'right', headerAlign: 'center',
+        //     renderCell: (params) => renderTrixCell(params, '26', 'Sig_26_9')
     }, {
         field: '종목명', headerName: '종목명', width: 75,
         align: 'left', headerAlign: 'left',
