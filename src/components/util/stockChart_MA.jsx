@@ -418,7 +418,7 @@ const StockChart = ({ stockName, height, price, boxTransform, info, series, sele
                                         <td style={{ ...typographyStyle, width: 70 }}>C.112</td>
                                         <td style={{ ...typographyStyle, width: 70, textAlign: 'right' }}>
                                             {info.CCI['112']} (
-                                            <span style={{ color: info.CCI['112'] - info.CCI['x_112'] > 0 ? 'red' : 'blue' }}> {info.CCI['112'] - info.CCI['x_112']} </span>
+                                            <span style={{ color: info.CCI['112'] - info.CCI['x_112'] > 0 ? 'red' : 'blue' }}> {(info.CCI['112'] - info.CCI['x_112']).toFixed(1)} </span>
                                             )
                                         </td>
                                     </tr>
@@ -432,7 +432,7 @@ const StockChart = ({ stockName, height, price, boxTransform, info, series, sele
                                         <td style={{ ...typographyStyle, }}>C.112-18</td>
                                         <td style={{ ...typographyStyle, textAlign: 'right' }}>
                                             {info.CCI['Sig_112_18']} (
-                                            <span style={{ color: info.CCI['112'] - info.CCI['x_112'] > 0 ? 'red' : 'blue' }}> {info.CCI['Sig_112_18'] - info.CCI['x_Sig_112_18']} </span>
+                                            <span style={{ color: info.CCI['112'] - info.CCI['x_112'] > 0 ? 'red' : 'blue' }}> {(info.CCI['Sig_112_18'] - info.CCI['x_Sig_112_18']).toFixed(1)} </span>
                                             )
                                         </td>
                                     </tr>
