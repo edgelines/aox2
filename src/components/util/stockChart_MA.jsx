@@ -415,8 +415,8 @@ const StockChart = ({ stockName, height, price, boxTransform, info, series, sele
                                         <td style={{ ...typographyStyle, width: 40 }}>D.22</td>
                                         <td style={{ ...typographyStyle, width: 30, textAlign: 'right' }}>{info.DMI.dmi_22}</td>
                                         <td style={{ width: 30 }}></td>
-                                        <td style={{ ...typographyStyle, width: 70 }}>C.112</td>
-                                        <td style={{ ...typographyStyle, width: 70, textAlign: 'right' }}>
+                                        <td style={{ ...typographyStyle, width: 65 }}>C.112</td>
+                                        <td style={{ ...typographyStyle, width: 90, textAlign: 'right' }}>
                                             {info.CCI['112']} (
                                             <span style={{ color: info.CCI['112'] - info.CCI['x_112'] > 0 ? 'red' : 'blue' }}> {(info.CCI['112'] - info.CCI['x_112']).toFixed(1)} </span>
                                             )
