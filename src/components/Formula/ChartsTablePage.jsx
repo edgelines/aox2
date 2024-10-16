@@ -249,13 +249,8 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                             <StyledToggleButton fontSize={11} value="WhiteBox_10">WB 10</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="WhiteBox_3">WB 3</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="WAS_WhiteBox">WAS WB</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="TRIX_1">TRIX</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="RAINBOW_1">Rainbow A</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="RAINBOW_2">Rainbow B</StyledToggleButton>
-                            {/* <StyledToggleButton fontSize={11} value="TRIX_1">TRIX -100 이하</StyledToggleButton> */}
-                            {/* <StyledToggleButton fontSize={11} value="TRIX_2">TRIX ~ 0</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="TRIX_3">TRIX ~ 100</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="TRIX_4">TRIX 100 이상</StyledToggleButton> */}
                             <StyledToggleButton fontSize={11} value="Favorite">Favorite</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Stack>
@@ -366,67 +361,6 @@ const TypeMessage = (_type) => {
         </>
     )
 
-    const trix = (num) => {
-        const trixCommon = (
-            <>
-                <Typography sx={textStyle} >- 5일평균거래량 2만주 제외</Typography>
-                <Typography sx={textStyle} >- 시총 500억 ~ 30조</Typography>
-                <Typography sx={textStyle} >- 당일 등락률 -3% 이상</Typography>
-                <Typography sx={textStyle} >- 1주당 20만원 이하</Typography>
-                <Typography sx={textStyle} >- 전일대비거래량 1000% 이하</Typography>
-                <Typography sx={textStyle} >- 스팩, 리츠, 우선주 제외</Typography>
-                <Typography sx={textStyle} >- CCI.112 : -135 ~ 150</Typography>
-                <Typography sx={textStyle} >- WillR.6 : -20 이하, WillR.14 : -30 이하</Typography>
-                <Typography sx={textStyle} >- 고가 또는 종가가 5중가 6중기*3% 이내</Typography>
-
-
-                <Typography sx={textStyle} >- WillR.14-7 Sig 가 -50보다 작다</Typography>
-                <Typography sx={textStyle} >- DMI.7 (미래)은 전날값보다 작다</Typography>
-                <Typography sx={textStyle} >- DMI.7 (미래)은 15 이하</Typography>
-                <Typography sx={textStyle} >- DMI 2와 3 (대신) 은 역배열</Typography>
-                <Typography sx={textStyle} >- DMI 2 (대신)은 16 이하 </Typography>
-                <Typography sx={textStyle} >- CCI.4는 CCI.4-2 Sig보다 크다</Typography>
-                <Typography sx={textStyle} >- CCI.11은 CCI.11-4 Sig보다 크다</Typography>
-                <Typography sx={textStyle} >- CCI.4는 CCI.11보다 크다</Typography>
-
-                <Typography sx={textStyle} >- OR 조건</Typography>
-
-                <Typography sx={textStyle} >- TRIX 15가 전일 대비 상승, 또는 TRIX 15가 TRIX 15-5 Sig보다 크다 </Typography>
-                <Typography sx={textStyle} >- CCI.33은 전날보다 상승하고, CCI.33-7 Sig보다 크다 </Typography>
-                <Typography sx={textStyle} >- CCI.112은 전날보다 상승하고, CCI.112-18 Sig보다 크다 </Typography>
-            </>
-        )
-
-        switch (num) {
-            case '1':
-                return (
-                    <>
-                        {/* <Typography sx={{ ...textStyle, mb: 2 }} >CCI-112 : -100 미만</Typography> */}
-                        {trixCommon}
-                    </>)
-            case '2':
-                return (
-                    <>
-                        <Typography sx={{ ...textStyle, mb: 2 }} >CCI-112 : -100 ~ 0 미만</Typography>
-                        {trixCommon}
-                    </>)
-            case '3':
-                return (
-                    <>
-                        <Typography sx={{ ...textStyle, mb: 2 }} >CCI-112 : 0 ~ 100 미만</Typography>
-                        {trixCommon}
-                    </>
-                )
-            default:
-                return (
-                    <>
-                        <Typography sx={{ ...textStyle, mb: 2 }} >CCI-112 : 100 이상</Typography>
-                        {trixCommon}
-                    </>
-                )
-        }
-    }
-
     switch (__type) {
         case 'B':
             return (<>
@@ -488,22 +422,6 @@ const TypeMessage = (_type) => {
                 <Typography sx={textStyle} >관심종목</Typography>
             </>)
 
-        case 'TRIX_1':
-            return (<>
-                {trix('1')}
-            </>)
-        case 'TRIX_2':
-            return (<>
-                {trix('2')}
-            </>)
-        case 'TRIX_3':
-            return (<>
-                {trix('3')}
-            </>)
-        case 'TRIX_4':
-            return (<>
-                {trix('4')}
-            </>)
 
         default:
             return (<>
