@@ -180,17 +180,17 @@ export const B1_columns = [
 ]
 
 export const Envelope_columns = [
-    ...base_columns,
+    ...base_columns.filter(col => col.field !== '테마명'),
     {
-        field: 'Env19_10', headerName: '19,10.7', width: 55,
+        field: 'Env19_10', headerName: '19,10', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderCrossTRIMA(params, 'Env19_10')
     }, {
-        field: 'Env19_9', headerName: '19,9.7', width: 55,
+        field: 'Env19_9', headerName: '19,9', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderCrossTRIMA(params, 'Env19_9')
     }, {
-        field: 'Env19_8', headerName: '19,8.7', width: 50,
+        field: 'Env19_8', headerName: '19,8', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderCrossTRIMA(params, 'Env19_8')
     }, {
@@ -202,13 +202,29 @@ export const Envelope_columns = [
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderCrossTRIMA(params, 'Env14_7')
     }, {
-        field: 'Env9_5', headerName: '9,5', width: 50,
+        field: 'Env9_5', headerName: '9,5', width: 45,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderCrossTRIMA(params, 'Env9_5')
     }, {
-        field: 'Env9_4', headerName: '9,4', width: 50,
+        field: 'Env9_4', headerName: '9,4', width: 45,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderCrossTRIMA(params, 'Env9_4')
+    }, {
+        field: 'w6', headerName: 'W.6', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '6')
+    }, {
+        field: 'w18', headerName: 'W.18', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '18')
+    }, {
+        field: 'w26', headerName: 'W.26', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '26')
+    }, {
+        field: 'DMI_4', headerName: 'D.4', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '4')
     }, {
         field: 'DMI_7', headerName: 'D.7', width: 40,
         align: 'right', headerAlign: 'center',
@@ -218,21 +234,17 @@ export const Envelope_columns = [
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '9')
     }, {
+        field: 'DMI_11', headerName: 'D.11', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '11')
+    }, {
         field: 'DMI_17', headerName: 'D.17', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '17')
     }, {
-        field: 'w9', headerName: 'W.9', width: 40,
+        field: 'DMI_50', headerName: 'D.50', width: 40,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderWilliamsCell(params, '9')
-    }, {
-        field: 'w14', headerName: 'W.14', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderWilliamsCell(params, '14')
-    }, {
-        field: 'w33', headerName: 'W.33', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderWilliamsCell(params, '33')
+        renderCell: (params) => renderDmiCell(params, '단순_50')
     }
 ]
 
