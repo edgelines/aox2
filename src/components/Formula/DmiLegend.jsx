@@ -20,7 +20,7 @@ export default function Legend() {
             D Color
             {Object.keys(legend).map((item) => (
                 <tr style={{ fontSize: '11px' }} key={item}>
-                    <td style={{ color: legend[item] }}>
+                    <td style={{ color: legend[item], width: 42, textAlign: 'right' }}>
                         {item}
                     </td>
                 </tr>

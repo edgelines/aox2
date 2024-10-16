@@ -137,18 +137,6 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
 
     return (
         <div>
-            {/* Box */}
-            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(980px, 288px)`, zIndex: 10 }}>
-                <DmiLegend />
-            </Box>
-            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(1035px, 288px)`, zIndex: 10 }}>
-                <WilliamsLegend />
-            </Box>
-            {/* Classification */}
-            {/* <Box sx={{ position: 'absolute', transform: 'translate(830px, 50px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', textAlign: 'left' }}>
-                
-            </Box> */}
-
             {/* Top Scatter Chart & Industry, Themes Table */}
             <Grid container sx={{ mt: 2 }}>
                 <Grid item xs={5}>
@@ -193,30 +181,38 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                                         selectedIndustry={selectedIndustry} selectedThemes={selectedThemes}
                                     />
                                 </Grid>
-                                <Grid item xs={12} >
-                                    {classification ?
-                                        <>
-                                            {Object.keys(classification).map(item => (
-                                                <tr style={{ fontSize: '11.5px' }} key={item}>
-                                                    <td style={{ color: legend[item] }}>
-                                                        {item}
+                                <Grid item xs={12} container>
+                                    <Grid item xs={4}>
+                                        {classification ?
+                                            <>
+                                                {Object.keys(classification).map(item => (
+                                                    <tr style={{ fontSize: '11.5px' }} key={item}>
+                                                        <td style={{ color: legend[item] }}>
+                                                            {item}
+                                                        </td>
+                                                        <td style={{ textAlign: 'right', width: 17 }}>{classification[item]}</td>
+                                                    </tr>
+                                                ))}
+                                                {/* Classification Sum */}
+                                                <tr style={{ fontSize: '11.5px' }} >
+                                                    <td style={{ color: '#efe9e9ed' }}>
+                                                        전체
                                                     </td>
-                                                    <td style={{ textAlign: 'right', width: 17 }}>{classification[item]}</td>
+                                                    <td style={{ textAlign: 'right', width: 17 }}>
+                                                        {
+                                                            Object.values(classification).reduce((sum, value) => sum + value, 0)
+                                                        }
+                                                    </td>
                                                 </tr>
-                                            ))}
-                                            {/* Classification Sum */}
-                                            <tr style={{ fontSize: '11.5px' }} >
-                                                <td style={{ color: '#efe9e9ed' }}>
-                                                    전체
-                                                </td>
-                                                <td style={{ textAlign: 'right', width: 17 }}>
-                                                    {
-                                                        Object.values(classification).reduce((sum, value) => sum + value, 0)
-                                                    }
-                                                </td>
-                                            </tr>
-                                        </>
-                                        : <></>}
+                                            </>
+                                            : <></>}
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <DmiLegend />
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <WilliamsLegend />
+                                    </Grid>
                                 </Grid>
                             </>
                             : <>Loading</>
