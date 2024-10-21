@@ -204,7 +204,7 @@ export default function MotionPage({ swiperRef, num, baseStockName }) {
 
     return (
         <Grid container spacing={1}>
-            <Box sx={{ position: 'absolute', transform: 'translate(105px, 10px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '16px', textAlign: 'right' }}>
+            <Box sx={{ position: 'absolute', transform: 'translate(20px, 10px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '16px', textAlign: 'right' }}>
                 {num === '3' ? 'Triple 3+' : num === '2' ? 'Double 2' : 'Single 1'}
             </Box>
             <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(350px, 15px)`, zIndex: 10 }}>
@@ -217,64 +217,15 @@ export default function MotionPage({ swiperRef, num, baseStockName }) {
 
             {/* Chart & Table */}
             <Grid item xs={7}>
-                <Grid item container>
-
-                    {/* Select */}
-                    <Grid item container xs={12}>
-                        <Grid item xs={2}>
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'left' }}>
-                                <ToggleButtonGroup
-                                    // orientation="vertical"
-                                    color='info'
-                                    exclusive
-                                    size="small"
-                                    value={replaySwitch}
-                                    onChange={handleSwitchChange}
-                                >
-                                    <StyledToggleButton value="live">LIVE</StyledToggleButton>
-                                    <StyledToggleButton value="replay">REPLAY</StyledToggleButton>
-                                </ToggleButtonGroup>
-                            </Box>
-                        </Grid>
-                        {replaySwitch === 'replay' ?
-                            <Box sx={{ display: 'flex', alignItems: 'left' }}>
-                                <FormControl variant="standard" sx={{ minWidth: 100 }}>
-                                    <Select
-                                        onChange={handleEventChange}
-                                        value={date} sx={{ color: '#efe9e9ed', fontSize: '12px' }}>
-                                        {datelist && datelist.length > 0 ?
-                                            datelist.map(item => (
-                                                <MenuItem value={item}>{formatDateString(item)}</MenuItem>
-                                            )) : <></>
-                                        }
-                                    </Select>
-                                </FormControl>
-                            </Box>
-                            : <></>}
-
-                    </Grid>
-
-
+                <Grid item container sx={{ mt: 3 }}>
                     {/* Chart Component */}
-                    <Grid item>
-                        {replaySwitch === 'live' && <RatioVolumeTrendScatterChartLive
-                            dataset={dataset} timeLine={timeLine} height={chartHeight} swiperRef={swiperRef}
-                            datasetCount={datasetCount} classification={classification}
-                            getInfo={getInfo}
-                        />}
 
+                    <RatioVolumeTrendScatterChartLive
+                        dataset={dataset} timeLine={timeLine} height={chartHeight} swiperRef={swiperRef}
+                        datasetCount={datasetCount} classification={classification}
+                        getInfo={getInfo}
+                    />
 
-                        {
-                            replaySwitch === 'replay' && !loadingRatio ?
-                                <RatioVolumeTrendScatterChart
-                                    dataset={dataset} timeLine={timeLine} height={chartHeight} title={num === '3' ? 'Triple 3+' : num === '2' ? 'Double 2' : 'Single 1'} swiperRef={swiperRef}
-                                    datasetCount={datasetCount}
-                                    getInfo={getInfo}
-                                />
-                                : <Skeleton animation="wave" height={chartHeight} />
-                        }
-
-                    </Grid>
 
                 </Grid>
 

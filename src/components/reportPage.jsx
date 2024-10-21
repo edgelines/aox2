@@ -22,7 +22,7 @@ export default function TestPage({ swiperRef, baseStockName }) {
 
     // Month Data
     const [monthData, setMonthData] = useState([]);
-    const [whiteMonthData, setWhiteMonthData] = useState([]);
+    // const [whiteMonthData, setWhiteMonthData] = useState([]);
 
     // Day Data 
     const [dayData, setDayData] = useState([]);
@@ -51,7 +51,7 @@ export default function TestPage({ swiperRef, baseStockName }) {
         setBoxplotWillr(res.data.boxplot_willr);
         setBoxplotVolume(res.data.boxplot_volume);
         setBoxplotRank(res.data.boxplot_rank);
-        setWhiteMonthData(res.data.white_box);
+        // setWhiteMonthData(res.data.white_box);
 
     }
 
@@ -161,7 +161,7 @@ export default function TestPage({ swiperRef, baseStockName }) {
                     </Stack>
                 </Grid>
                 <Grid item container >
-                    <TableContainer sx={{ height: 450 }}
+                    <TableContainer sx={{ height: 800 }}
                         onMouseEnter={() => swiperRef.current.mousewheel.disable()}
                         onMouseLeave={() => swiperRef.current.mousewheel.enable()}
                     >
@@ -174,31 +174,6 @@ export default function TestPage({ swiperRef, baseStockName }) {
                                 onCellClick={(params, event) => {
                                     getCellClick(params.row);
                                 }}
-                                sx={{
-                                    color: 'white', border: 'none',
-                                    ...DataTableStyleDefault,
-                                    [`& .${gridClasses.cell}`]: { py: 1, },
-                                    '& .MuiDataGrid-row.Mui-selected': {
-                                        backgroundColor: blue['A200'], // 원하는 배경색으로 변경
-                                    },
-                                }}
-                            />
-                        </ThemeProvider>
-                    </TableContainer>
-                    <Typography>White Box</Typography>
-                    <TableContainer sx={{ height: 450 }}
-                        onMouseEnter={() => swiperRef.current.mousewheel.disable()}
-                        onMouseLeave={() => swiperRef.current.mousewheel.enable()}
-                    >
-                        <ThemeProvider theme={customTheme}>
-                            <DataGrid
-                                rows={whiteMonthData}
-                                columns={monthColumns}
-                                rowHeight={20}
-                                hideFooter
-                                // onCellClick={(params, event) => {
-                                //     getCellClick(params.row);
-                                // }}
                                 sx={{
                                     color: 'white', border: 'none',
                                     ...DataTableStyleDefault,
