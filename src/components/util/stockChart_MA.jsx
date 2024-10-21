@@ -326,7 +326,6 @@ const StockChart = ({ stockName, height, price, boxTransform, info, series, sele
             //     formatter: selectedChartType === 'A' ? tooltip('%y.%m.%d') : selectedChartType === 'B' ? tooltip('%y.%m.%d') : tooltip('%y.%m.%d %H:%M')
             // }
         })
-        console.log(info);
     }, [series]);
 
 

@@ -361,58 +361,6 @@ export const Short_columns = [
         renderCell: (params) => renderDmiCell(params, '7')
     }
 ]
-export const TRIX_columns = [
-    ...base_columns,
-    {
-        field: '15', headerName: 'T.15', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderTrixCell(params, '15', 'Sig_15_5')
-    }, {
-        field: '17', headerName: 'T.17', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderTrixCell(params, '17', 'Sig_17_5')
-    }, {
-        field: '19', headerName: 'T.19', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderTrixCell(params, '19', 'Sig_19_5')
-    }, {
-        field: '22', headerName: 'T.22', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderTrixCell(params, '22', 'Sig_22_6')
-    }, {
-        field: '24', headerName: 'T.24', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderTrixCell(params, '24', 'Sig_24_9')
-    }, {
-        field: '26', headerName: 'T.26', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderTrixCell(params, '26', 'Sig_26_9')
-    }, {
-        field: '112', headerName: 'C.112', width: 60,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderCciCell_Keys(params, '112')
-    }, {
-        field: 'Sig_112_18', headerName: 'C.S.18', width: 60,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderCciCell_Keys(params, 'Sig_112_18')
-    }, {
-        field: 'W.6', headerName: 'W.6', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderWilliamsCell(params, '6')
-    }, {
-        field: 'W.14', headerName: 'W.14', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderWilliamsCell(params, '14')
-    }, {
-        field: 'DMI_4', headerName: 'D4', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderDmiCell(params, '4')
-    }, {
-        field: 'DMI_7', headerName: 'D7', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderDmiCell(params, '7')
-    }
-]
 
 export const Rainbow_columns = [
     {
@@ -423,30 +371,6 @@ export const Rainbow_columns = [
                 <span style={{ backgroundColor: params.row.color, color: '#404040' }}>{params.value}</span>
             )
         }
-    }, {
-        field: '15', headerName: 'T.15', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderTrixCell(params, '15', 'Sig_15_5')
-    }, {
-        field: '17', headerName: 'T.17', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderTrixCell(params, '17', 'Sig_17_5')
-    }, {
-        field: '19', headerName: 'T.19', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderTrixCell(params, '19', 'Sig_19_5')
-    }, {
-        field: '22', headerName: 'T.22', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderTrixCell(params, '22', 'Sig_22_6')
-        // }, {
-        //     field: '24', headerName: 'T.24', width: 40,
-        //     align: 'right', headerAlign: 'center',
-        //     renderCell: (params) => renderTrixCell(params, '24', 'Sig_24_9')
-        // }, {
-        //     field: '26', headerName: 'T.26', width: 40,
-        //     align: 'right', headerAlign: 'center',
-        //     renderCell: (params) => renderTrixCell(params, '26', 'Sig_26_9')
     }, {
         field: '종목명', headerName: '종목명', width: 75,
         align: 'left', headerAlign: 'left',

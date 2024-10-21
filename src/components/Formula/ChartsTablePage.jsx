@@ -4,7 +4,7 @@ import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, S
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
-import { customTheme, A_columns, B1_columns, Envelope_columns, Short_columns, WhiteBox_columns, TRIX_columns, Rainbow_columns } from './Columns';
+import { customTheme, A_columns, B1_columns, Envelope_columns, Short_columns, WhiteBox_columns, Rainbow_columns } from './Columns';
 import { CountTable } from '../Motions/CountTable'
 import { legend } from '../Motions/legend';
 import { blue } from '@mui/material/colors';
@@ -243,10 +243,10 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                             <StyledToggleButton fontSize={11} value="Short">Short</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="WhiteBox_17">WB 17</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="WhiteBox_10">WB 10</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="WhiteBox_3">WB 3</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="WAS_WhiteBox">WAS WB</StyledToggleButton>
+                            {/* <StyledToggleButton fontSize={11} value="WhiteBox_3">WB 3</StyledToggleButton> */}
+                            {/* <StyledToggleButton fontSize={11} value="WAS_WhiteBox">WAS WB</StyledToggleButton> */}
                             <StyledToggleButton fontSize={11} value="RAINBOW_1">Rainbow A</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="RAINBOW_2">Rainbow B</StyledToggleButton>
+                            {/* <StyledToggleButton fontSize={11} value="RAINBOW_2">Rainbow B</StyledToggleButton> */}
                             <StyledToggleButton fontSize={11} value="Favorite">Favorite</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Stack>
@@ -294,10 +294,9 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                                 formulaType === 'A' ? A_columns :
                                     formulaType === 'B' ? B1_columns :
                                         formulaType === 'Short' ? Short_columns :
-                                            ['WhiteBox_17', 'WhiteBox_10', 'WhiteBox_3'].includes(formulaType) ? WhiteBox_columns :
-                                                ['TRIX_1', 'TRIX_2', 'TRIX_3', 'TRIX_4'].includes(formulaType) ? TRIX_columns :
-                                                    ['RAINBOW_1', 'RAINBOW_2'].includes(formulaType) ? Rainbow_columns :
-                                                        Envelope_columns}
+                                            ['WhiteBox_17', 'WhiteBox_10'].includes(formulaType) ? WhiteBox_columns :
+                                                ['RAINBOW_1'].includes(formulaType) ? Rainbow_columns :
+                                                    Envelope_columns}
                             rowHeight={20}
                             onCellClick={(params, event) => {
                                 getInfo(params.row);
@@ -402,16 +401,16 @@ const TypeMessage = (_type) => {
             return (<>
                 {whiteBox(10)}
             </>)
-        case 'WhiteBox_3':
-            return (<>
-                {whiteBox(3)}
-            </>)
+        // case 'WhiteBox_3':
+        //     return (<>
+        //         {whiteBox(3)}
+        //     </>)
 
-        case 'WAS_WhiteBox':
-            return (<>
-                <Typography sx={{ ...textStyle, mb: 2 }} >WB 17, WB 10, WB 3 에서 빠진 종목들</Typography>
-                {commonMessages}
-            </>)
+        // case 'WAS_WhiteBox':
+        //     return (<>
+        //         <Typography sx={{ ...textStyle, mb: 2 }} >WB 17, WB 10, WB 3 에서 빠진 종목들</Typography>
+        //         {commonMessages}
+        //     </>)
 
         case 'Favorite':
             return (<>
