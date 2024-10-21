@@ -28,13 +28,14 @@ export const renderMaCell = (params, col, key) => {
  * Williams 셀 렌더링
  * @param {*} params : mui grid params row
  * @param {*} key : Williams value
+ * @param {*} columnsName : 기본값은 'WillR'
  * @returns 
  */
-export const renderWilliamsCell = (params, key) => {
-    if (!params.row.WillR || typeof params.row.WillR[key] === 'undefined') {
+export const renderWilliamsCell = (params, key, columnsName = 'WillR') => {
+    if (!params.row[columnsName] || typeof params.row[columnsName][key] === 'undefined') {
         return <span> </span>; // CROSS가 없거나 key가 없을 경우 빈 span 반환
     }
-    const _value = params.row.WillR[key]
+    const _value = params.row[columnsName][key]
     if (typeof _value !== 'number') return <span> </span>;
     const color = williamsColor(_value);
     return <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{_value}</span>
@@ -171,3 +172,20 @@ export const renderCrossTRIMA = (params, key) => {
     if (typeof _value !== 'boolean') return <span> </span>;
     return <span> {_value === false ? '' : '★'}</span>
 }
+
+/**
+ * 당일 Envelope 골든/데드/ Env 밑에 있는지 확인 여부
+ * @param {*} params : mui grid params row
+ * @param {*} key : Envelope 여부
+ * @returns boolean
+ */
+export const renderCrossEnvelope = (params) => {
+    if (!params.row.CROSS || typeof params.row.Envelope === 'undefined') {
+        return <span> </span>; // CROSS가 없거나 key가 없을 경우 빈 span 반환
+    }
+
+    const _value = params.row.Envelope
+    if (typeof _value !== 'boolean') return <span> </span>;
+    return <span> {_value === false ? '' : '★'}</span>
+}
+

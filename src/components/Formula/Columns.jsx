@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createTheme } from '@mui/material/styles';
 import { yellow } from '@mui/material/colors';
-import { renderCrossTRIMA, renderMaCell, renderWilliamsCell, renderTrixCell, renderCciCell, renderCciCell_Keys, renderDmiCell, renderShortCell } from './RenderCell';
+import { renderCrossTRIMA, renderMaCell, renderWilliamsCell, renderCrossEnvelope, renderCciCell, renderCciCell_Keys, renderDmiCell, renderShortCell } from './RenderCell';
 
 export const base_columns = [{
     field: '업종명', headerName: '업종명', width: 80,
@@ -447,6 +447,70 @@ export const Rainbow_columns = [
         field: 'CCI_4_Sig', headerName: 'C.11S', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderCciCell(params, 'Sig_11_4')
+    }
+]
+
+export const Option_columns = [
+    ...base_columns.filter(col => col.field !== '테마명'),
+    {
+        field: 'f_id', headerName: 'ID', width: 50,
+        align: 'left', headerAlign: 'left',
+    }, {
+        field: 'Env', headerName: 'Env', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderCrossEnvelope
+    }, {
+        field: 'w6', headerName: 'W.6', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '6')
+    }, {
+        field: 'w14', headerName: 'W.14', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '14')
+    }, {
+        field: 'w26', headerName: 'W.26', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '26')
+    }, {
+        field: 'DMI_4', headerName: 'D.4', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '4')
+    }, {
+        field: 'DMI_7', headerName: 'D.7', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '7')
+    }, {
+        field: 'DMI_9', headerName: 'D.9', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '9')
+    }, {
+        field: 'DMI_11', headerName: 'D.11', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '11')
+    }, {
+        field: 'DMI_17', headerName: 'D.17', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '17')
+    }, {
+        field: 'DMI_14', headerName: 'D.14단', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_14')
+    }, {
+        field: 'DMI_50', headerName: 'D.50', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_50')
+    }, {
+        field: 'DMI_60', headerName: 'D.60', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_60')
+    }, {
+        field: '주W.11', headerName: 'W.11w', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '11', '주봉_WillR')
+    }, {
+        field: '주W.18', headerName: 'W.18w', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '18', '주봉_WillR')
     }
 ]
 
