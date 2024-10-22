@@ -205,7 +205,7 @@ export default function MotionPage({ swiperRef, num, baseStockName }) {
     return (
         <Grid container spacing={1}>
             <Box sx={{ position: 'absolute', transform: 'translate(20px, 10px)', zIndex: 0, backgroundColor: 'rgba(0, 0, 0, 0.2)', fontSize: '16px', textAlign: 'right' }}>
-                {num === '3' ? 'Triple 3+' : num === '2' ? 'Double 2' : 'Single 1'}
+                Double 2 +
             </Box>
             <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(350px, 15px)`, zIndex: 10 }}>
                 <Legend />
