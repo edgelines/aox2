@@ -4,7 +4,7 @@ import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, S
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
-import { customTheme, A_columns, B1_columns, Envelope_columns, Short_columns, WhiteBox_columns, Rainbow_columns, Option_columns } from './Columns';
+import { customTheme, A_columns, B1_columns, Envelope_columns, Short_columns, WhiteBox_columns, Rainbow_columns, Option_columns, Envelope1_columns } from './Columns';
 import { CountTable } from '../Motions/CountTable'
 import { legend } from '../Motions/legend';
 import { blue } from '@mui/material/colors';
@@ -249,6 +249,7 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                             {/* <StyledToggleButton fontSize={11} value="RAINBOW_2">Rainbow B</StyledToggleButton> */}
                             <StyledToggleButton fontSize={11} value="Favorite">Favorite</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="Option1">Option1</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="Envelope_1">Envelope1</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Stack>
 
@@ -298,7 +299,8 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                                             ['WhiteBox_17', 'WhiteBox_10'].includes(formulaType) ? WhiteBox_columns :
                                                 ['RAINBOW_1'].includes(formulaType) ? Rainbow_columns :
                                                     formulaType === 'Option1' ? Option_columns :
-                                                        Envelope_columns}
+                                                        formulaType === 'Envelope_1' ? Envelope1_columns :
+                                                            Envelope_columns}
                             rowHeight={20}
                             onCellClick={(params, event) => {
                                 getInfo(params.row);

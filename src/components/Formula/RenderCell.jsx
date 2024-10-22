@@ -179,12 +179,11 @@ export const renderCrossTRIMA = (params, key) => {
  * @param {*} key : Envelope 여부
  * @returns boolean
  */
-export const renderCrossEnvelope = (params) => {
-    if (!params.row.CROSS || typeof params.row.Envelope === 'undefined') {
+export const renderCrossEnvelope = (params, key) => {
+    if (!params.row.Envelope || typeof params.row.Envelope[key] === 'undefined') {
         return <span> </span>; // CROSS가 없거나 key가 없을 경우 빈 span 반환
     }
-
-    const _value = params.row.Envelope
+    const _value = params.row.Envelope[key]
     if (typeof _value !== 'boolean') return <span> </span>;
     return <span> {_value === false ? '' : '★'}</span>
 }
