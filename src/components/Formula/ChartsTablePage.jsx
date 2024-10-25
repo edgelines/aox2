@@ -146,8 +146,8 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                         // timeLine={timeLine}
                         getInfo={getInfo}
                         height={chartHeight}
-                        xAxisText={'Williams R 14'}
-                        yAxisText={'DMI 7'}
+                        xAxisText={'Williams R 26'}
+                        yAxisText={'DMI 9, 17 Avg'}
                     />
                 </Grid>
                 <Grid item xs={5}>
@@ -157,8 +157,8 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                         timeLine={timeLine}
                         getInfo={getInfo}
                         height={chartHeight}
-                        xAxisText={'CCI 112 대신'}
-                        yAxisText={'Williams R 6 (종가)'}
+                        xAxisText={'DMI 8 가중 - DMI 8 단순'}
+                        yAxisText={'DMI 9 가중 - DMI 9 단순'}
                         xAxisPlotLines={true}
                     />
                 </Grid>
