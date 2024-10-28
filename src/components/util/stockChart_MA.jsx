@@ -414,12 +414,6 @@ const StockChart = ({ stockName, height, price, boxTransform, info, series, sele
                                         <td style={{ ...typographyStyle, width: 40 }}>D.22</td>
                                         <td style={{ ...typographyStyle, width: 30, textAlign: 'right' }}>{info.DMI.dmi_22}</td>
                                         <td style={{ width: 30 }}></td>
-                                        <td style={{ ...typographyStyle, width: 65 }}>C.112</td>
-                                        <td style={{ ...typographyStyle, width: 90, textAlign: 'right' }}>
-                                            {info.CCI['112']} (
-                                            <span style={{ color: info.CCI['112'] - info.CCI['x_112'] > 0 ? 'red' : 'blue' }}> {(info.CCI['112'] - info.CCI['x_112']).toFixed(1)} </span>
-                                            )
-                                        </td>
                                     </tr>
                                     <tr>
                                         <td style={{ ...typographyStyle, color: 'forestgreen', width: 40 }}>W.14</td>
@@ -428,12 +422,6 @@ const StockChart = ({ stockName, height, price, boxTransform, info, series, sele
                                         <td style={{ ...typographyStyle, width: 40 }}>D.17</td>
                                         <td style={{ ...typographyStyle, width: 30, textAlign: 'right' }}>{info.DMI.dmi_17}</td>
                                         <td style={{ width: 30 }}></td>
-                                        <td style={{ ...typographyStyle, }}>C.112-18</td>
-                                        <td style={{ ...typographyStyle, textAlign: 'right' }}>
-                                            {info.CCI['Sig_112_18']} (
-                                            <span style={{ color: info.CCI['112'] - info.CCI['x_112'] > 0 ? 'red' : 'blue' }}> {(info.CCI['Sig_112_18'] - info.CCI['x_Sig_112_18']).toFixed(1)} </span>
-                                            )
-                                        </td>
                                     </tr>
                                     <tr>
                                         <td style={{ ...typographyStyle, color: 'tomato', width: 40 }}>W.9</td>
