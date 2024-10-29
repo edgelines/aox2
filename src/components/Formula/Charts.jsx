@@ -58,7 +58,11 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, xAxi
                 return `
                     ${this.point.종목명}<br/>
                     ${xAxisText} : ${this.point.x}<br/>
+                    ${this.point.x1 ? `${x1_name} : ${this.point.x1}` : ''}<br/>
+                    ${this.point.x2 ? `${x2_name} : ${this.point.x2}` : ''}<br/>
                     ${yAxisText} : ${this.point.y}<br/>
+                    ${this.point.y1_name ? `${y1_name} : ${this.point.y1}` : ''}<br/>
+                    ${this.point.y2_name ? `${y2_name} : ${this.point.y2}` : ''}<br/>
                     `;
             },
         },

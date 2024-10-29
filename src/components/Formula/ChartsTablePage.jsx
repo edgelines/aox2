@@ -336,6 +336,8 @@ const TypeMessage = (_type) => {
     const textStyle = { fontSize: '12px' }
     const commonMessages = (
         <>
+            <Typography sx={textStyle} >DMI에서 소문자 d는 가중, D는 단순</Typography>
+            <Typography sx={textStyle} >--------------------------------</Typography>
             <Typography sx={textStyle} >- 5일평균거래량 2만주 제외</Typography>
             <Typography sx={textStyle} >- 시총 500억 ~ 30조</Typography>
             <Typography sx={textStyle} >- 당일 등락률 -3% 이상</Typography>

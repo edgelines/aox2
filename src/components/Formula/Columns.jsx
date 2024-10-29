@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createTheme } from '@mui/material/styles';
 import { yellow } from '@mui/material/colors';
-import { renderCrossTRIMA, renderMaCell, renderWilliamsCell, renderCrossEnvelope, renderCciCell, renderCciCell_Keys, renderDmiCell, renderShortCell } from './RenderCell';
+import { renderCrossTRIMA, renderMaCell, renderWilliamsCell, renderCrossEnvelope, renderCciCell, renderDmiCell, renderShortCell } from './RenderCell';
 
 export const base_columns = [{
     field: '업종명', headerName: '업종명', width: 80,
@@ -100,15 +100,15 @@ export const A_columns = [
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderWilliamsCell(params, '33')
     }, {
-        field: 'DMI_4', headerName: 'D.4', width: 55,
+        field: 'DMI_4', headerName: 'd.4', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '4')
     }, {
-        field: 'DMI_7', headerName: 'D.7', width: 55,
+        field: 'DMI_7', headerName: 'd.7', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '7')
     }, {
-        field: 'DMI_17', headerName: 'D.17', width: 55,
+        field: 'DMI_17', headerName: 'd.17', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '17')
     }, {
@@ -145,19 +145,19 @@ export const B1_columns = [
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderWilliamsCell(params, '33')
     }, {
-        field: 'DMI_4', headerName: 'D.4', width: 55,
+        field: 'DMI_4', headerName: 'd.4', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '4')
     }, {
-        field: 'DMI_7', headerName: 'D.7', width: 55,
+        field: 'DMI_7', headerName: 'd.7', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '7')
     }, {
-        field: 'DMI_9', headerName: 'D.9', width: 55,
+        field: 'DMI_9', headerName: 'd.9', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '9')
     }, {
-        field: 'DMI_17', headerName: 'D.17', width: 55,
+        field: 'DMI_17', headerName: 'd.17', width: 55,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '17')
     }, {
@@ -210,41 +210,37 @@ export const Envelope_columns = [
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderCrossTRIMA(params, 'Env9_4')
     }, {
-        field: 'w6', headerName: 'W.6', width: 40,
+        field: 'w9', headerName: 'W.9', width: 40,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderWilliamsCell(params, '6')
+        renderCell: (params) => renderWilliamsCell(params, '9')
     }, {
-        field: 'w18', headerName: 'W.18', width: 40,
+        field: 'w14', headerName: 'W.14', width: 40,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderWilliamsCell(params, '18')
+        renderCell: (params) => renderWilliamsCell(params, '14')
     }, {
-        field: 'w26', headerName: 'W.26', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderWilliamsCell(params, '26')
-    }, {
-        field: 'DMI_4', headerName: 'D.4', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderDmiCell(params, '4')
-    }, {
-        field: 'DMI_7', headerName: 'D.7', width: 40,
+        field: 'DMI_7', headerName: 'd.7', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '7')
     }, {
         field: 'DMI_9', headerName: 'D.9', width: 40,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderDmiCell(params, '9')
+        renderCell: (params) => renderDmiCell(params, '단순_9')
     }, {
-        field: 'DMI_11', headerName: 'D.11', width: 40,
+        field: 'DMI_11', headerName: 'd.11', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '11')
     }, {
+        field: 'DMI_14', headerName: 'D.14', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '14')
+    }, {
         field: 'DMI_17', headerName: 'D.17', width: 40,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderDmiCell(params, '17')
+        renderCell: (params) => renderDmiCell(params, '단순_17')
     }, {
-        field: 'DMI_50', headerName: 'D.50', width: 40,
+        field: 'DMI_22', headerName: 'd.22', width: 40,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderDmiCell(params, '단순_50')
+        renderCell: (params) => renderDmiCell(params, '22')
     }
 ]
 
@@ -279,15 +275,15 @@ export const WhiteBox_columns = [
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderCrossTRIMA(params, 'Env9_4')
     }, {
-        field: 'DMI_7', headerName: 'D.7', width: 40,
+        field: 'DMI_7', headerName: 'd.7', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '7')
     }, {
-        field: 'DMI_9', headerName: 'D.9', width: 40,
+        field: 'DMI_9', headerName: 'd.9', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '9')
     }, {
-        field: 'DMI_17', headerName: 'D.17', width: 40,
+        field: 'DMI_17', headerName: 'd.17', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '17')
     }, {
@@ -352,11 +348,11 @@ export const Short_columns = [
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderShortCell(params, '조건10')
     }, {
-        field: 'DMI_4', headerName: 'D4', width: 40,
+        field: 'DMI_4', headerName: 'd4', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '4')
     }, {
-        field: 'DMI_7', headerName: 'D7', width: 40,
+        field: 'DMI_7', headerName: 'd7', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '7')
     }
@@ -416,19 +412,19 @@ export const Rainbow_columns = [
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderWilliamsCell(params, '6')
     }, {
-        field: 'DMI_4', headerName: 'D.4', width: 40,
+        field: 'DMI_4', headerName: 'd.4', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '4')
     }, {
-        field: 'DMI_7', headerName: 'D.7', width: 40,
+        field: 'DMI_7', headerName: 'd.7', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '7')
     }, {
-        field: 'DMI_9', headerName: 'D.9', width: 40,
+        field: 'DMI_9', headerName: 'd.9', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '9')
     }, {
-        field: 'DMI_17', headerName: 'D.17', width: 40,
+        field: 'DMI_17', headerName: 'd.17', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '17')
     }, {
@@ -472,27 +468,27 @@ export const Option_columns = [
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderWilliamsCell(params, '26')
     }, {
-        field: 'DMI_4', headerName: 'D.4', width: 40,
+        field: 'DMI_4', headerName: 'd.4', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '4')
     }, {
-        field: 'DMI_7', headerName: 'D.7', width: 40,
+        field: 'DMI_7', headerName: 'd.7', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '7')
     }, {
-        field: 'DMI_9', headerName: 'D.9', width: 40,
+        field: 'DMI_9', headerName: 'd.9', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '9')
     }, {
-        field: 'DMI_11', headerName: 'D.11', width: 40,
+        field: 'DMI_11', headerName: 'd.11', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '11')
     }, {
-        field: 'DMI_17', headerName: 'D.17', width: 40,
+        field: 'DMI_17', headerName: 'd.17', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '17')
     }, {
-        field: 'DMI_14', headerName: 'D.14단', width: 40,
+        field: 'DMI_14', headerName: 'D.14', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '단순_14')
     }, {
@@ -536,27 +532,27 @@ export const Envelope1_columns = [
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderWilliamsCell(params, '26')
     }, {
-        field: 'DMI_4', headerName: 'D.4', width: 40,
+        field: 'DMI_4', headerName: 'd.4', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '4')
     }, {
-        field: 'DMI_7', headerName: 'D.7', width: 40,
+        field: 'DMI_7', headerName: 'd.7', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '7')
     }, {
-        field: 'DMI_9', headerName: 'D.9', width: 40,
+        field: 'DMI_9', headerName: 'd.9', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '9')
     }, {
-        field: 'DMI_11', headerName: 'D.11', width: 40,
+        field: 'DMI_11', headerName: 'd.11', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '11')
     }, {
-        field: 'DMI_17', headerName: 'D.17', width: 40,
+        field: 'DMI_17', headerName: 'd.17', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '17')
     }, {
-        field: 'DMI_14', headerName: 'D.14단', width: 40,
+        field: 'DMI_14', headerName: 'D.14', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '단순_14')
     }, {
