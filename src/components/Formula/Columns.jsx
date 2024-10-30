@@ -234,7 +234,11 @@ export const Envelope_columns = [
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '14')
     }, {
-        field: 'DMI_17', headerName: 'D.17', width: 40,
+        field: 'DMI_17', headerName: 'd.17', width: 40,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '17')
+    }, {
+        field: 'DMI_17_단', headerName: 'D.17', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '단순_17')
     }, {
