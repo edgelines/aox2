@@ -239,7 +239,7 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                         >
                             <StyledToggleButton fontSize={11} value="A">A-Type</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="B">DMI-Type</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="Envelope">Envelope</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="Envelope">Env-G</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="Short">Short</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="WhiteBox_17">WB 17</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="WhiteBox_10">WB 10</StyledToggleButton>
