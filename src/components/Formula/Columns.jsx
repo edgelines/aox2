@@ -4,7 +4,7 @@ import { yellow } from '@mui/material/colors';
 import { renderCrossTRIMA, renderMaCell, renderWilliamsCell, renderCrossEnvelope, renderCciCell, renderDmiCell, renderShortCell } from './RenderCell';
 
 export const base_columns = [{
-    field: '업종명', headerName: '업종명', width: 80,
+    field: '업종명', headerName: '업종명', width: 85,
     align: 'left', headerAlign: 'left',
     renderCell: (params) => {
         return (
@@ -12,10 +12,10 @@ export const base_columns = [{
         )
     }
 }, {
-    field: '테마명', headerName: '테마명', width: 120,
+    field: '테마명', headerName: '테마명', width: 125,
     align: 'left', headerAlign: 'left',
 }, {
-    field: '종목명', headerName: '종목명', width: 75,
+    field: '종목명', headerName: '종목명', width: 85,
     align: 'left', headerAlign: 'left',
     renderCell: (params) => {
         const filter_A = params.row.filter_A
@@ -133,49 +133,73 @@ export const A_columns = [
 export const B1_columns = [
     ...base_columns,
     {
-        field: 'w6', headerName: 'W.6', width: 55,
+        field: 'w9', headerName: 'W.9', width: 50,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderWilliamsCell(params, '6')
+        renderCell: (params) => renderWilliamsCell(params, '9')
     }, {
-        field: 'w14', headerName: 'W.14', width: 55,
+        field: 'w14', headerName: 'W.14', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderWilliamsCell(params, '14')
     }, {
-        field: 'w33', headerName: 'W.33', width: 55,
+        field: 'w26', headerName: 'W.26', width: 50,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderWilliamsCell(params, '33')
+        renderCell: (params) => renderWilliamsCell(params, '26')
     }, {
-        field: 'DMI_4', headerName: 'd.4', width: 55,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderDmiCell(params, '4')
-    }, {
-        field: 'DMI_7', headerName: 'd.7', width: 55,
+        field: 'DMI_7', headerName: 'd.7', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '7')
     }, {
-        field: 'DMI_9', headerName: 'd.9', width: 55,
+        field: 'DMI_7_단', headerName: 'D.7', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_7')
+    }, {
+        field: 'DMI_8_단', headerName: 'D.8', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_8')
+    }, {
+        field: 'DMI_9', headerName: 'd.9', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '9')
     }, {
-        field: 'DMI_17', headerName: 'd.17', width: 55,
+        field: 'DMI_9_단', headerName: 'D.9', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_9')
+    }, {
+        field: 'DMI_14_단', headerName: 'D.14', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_14')
+    }, {
+        field: 'DMI_17', headerName: 'd.17', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '17')
     }, {
-        field: 'CCI_4', headerName: 'C.4', width: 40,
+        field: 'DMI_17_단', headerName: 'D.17', width: 50,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderCciCell(params, '4')
+        renderCell: (params) => renderDmiCell(params, '단순_17')
     }, {
-        field: 'CCI_2_Sig', headerName: 'C.4S', width: 40,
+        field: 'DMI_22', headerName: 'd.22', width: 50,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderCciCell(params, 'Sig_4_2')
+        renderCell: (params) => renderDmiCell(params, '22')
     }, {
-        field: 'CCI_11', headerName: 'C.11', width: 40,
+        field: 'DMI_33_단', headerName: 'D.33', width: 50,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderCciCell(params, '11')
-    }, {
-        field: 'CCI_4_Sig', headerName: 'C.11S', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderCciCell(params, 'Sig_11_4')
+        renderCell: (params) => renderDmiCell(params, '단순_33')
+        // }, {
+        //     field: 'CCI_4', headerName: 'C.4', width: 40,
+        //     align: 'right', headerAlign: 'center',
+        //     renderCell: (params) => renderCciCell(params, '4')
+        // }, {
+        //     field: 'CCI_2_Sig', headerName: 'C.4S', width: 40,
+        //     align: 'right', headerAlign: 'center',
+        //     renderCell: (params) => renderCciCell(params, 'Sig_4_2')
+        // }, {
+        //     field: 'CCI_11', headerName: 'C.11', width: 40,
+        //     align: 'right', headerAlign: 'center',
+        //     renderCell: (params) => renderCciCell(params, '11')
+        // }, {
+        //     field: 'CCI_4_Sig', headerName: 'C.11S', width: 40,
+        //     align: 'right', headerAlign: 'center',
+        //     renderCell: (params) => renderCciCell(params, 'Sig_11_4')
     }
 ]
 
@@ -306,24 +330,24 @@ export const WhiteBox_columns = [
 ]
 
 export const Short_columns = [
-    ...base_columns,
+    ...base_columns.filter(col => col.field !== '테마명'),
     {
-        field: '단기검색조건1', headerName: '1->2', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderShortCell(params, '조건1')
-    }, {
-        field: '단기검색조건2', headerName: '1->3', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderShortCell(params, '조건2')
-    }, {
-        field: '단기검색조건3', headerName: '2>3', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderShortCell(params, '조건3')
-    }, {
-        field: '단기검색조건4', headerName: '2<3', width: 50,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderShortCell(params, '조건4')
-    }, {
+        //     field: '단기검색조건1', headerName: '1->2', width: 40,
+        //     align: 'right', headerAlign: 'center',
+        //     renderCell: (params) => renderShortCell(params, '조건1')
+        // }, {
+        //     field: '단기검색조건2', headerName: '1->3', width: 40,
+        //     align: 'right', headerAlign: 'center',
+        //     renderCell: (params) => renderShortCell(params, '조건2')
+        // }, {
+        //     field: '단기검색조건3', headerName: '2>3', width: 40,
+        //     align: 'right', headerAlign: 'center',
+        //     renderCell: (params) => renderShortCell(params, '조건3')
+        // }, {
+        //     field: '단기검색조건4', headerName: '2<3', width: 50,
+        //     align: 'right', headerAlign: 'center',
+        //     renderCell: (params) => renderShortCell(params, '조건4')
+        // }, {
         field: '단기검색조건5', headerName: '4종지', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderMaCell(params, 'Short', '조건5')
@@ -344,21 +368,57 @@ export const Short_columns = [
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderMaCell(params, 'Short', '조건11')
     }, {
-        field: '단기검색조건9', headerName: '1>7', width: 40,
+        //     field: '단기검색조건9', headerName: '1>7', width: 40,
+        //     align: 'right', headerAlign: 'center',
+        //     renderCell: (params) => renderShortCell(params, '조건9')
+        // }, {
+        //     field: '단기검색조건10', headerName: '1<112', width: 40,
+        //     align: 'right', headerAlign: 'center',
+        //     renderCell: (params) => renderShortCell(params, '조건10')
+        // }, {
+        field: 'w9', headerName: 'W.9', width: 50,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderShortCell(params, '조건9')
+        renderCell: (params) => renderWilliamsCell(params, '9')
     }, {
-        field: '단기검색조건10', headerName: '1<112', width: 40,
+        field: 'w14', headerName: 'W.14', width: 50,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderShortCell(params, '조건10')
+        renderCell: (params) => renderWilliamsCell(params, '14')
     }, {
-        field: 'DMI_4', headerName: 'd4', width: 40,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderDmiCell(params, '4')
-    }, {
-        field: 'DMI_7', headerName: 'd7', width: 40,
+        field: 'DMI_7', headerName: 'd.7', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '7')
+    }, {
+        field: 'DMI_7_단', headerName: 'D.7', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_7')
+    }, {
+        field: 'DMI_8_단', headerName: 'D.8', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_8')
+    }, {
+        field: 'DMI_9', headerName: 'd.9', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '9')
+    }, {
+        field: 'DMI_9_단', headerName: 'D.9', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_9')
+    }, {
+        field: 'DMI_14_단', headerName: 'D.14', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_14')
+    }, {
+        field: 'DMI_17', headerName: 'd.17', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '17')
+    }, {
+        field: 'DMI_17_단', headerName: 'D.17', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_17')
+    }, {
+        field: 'DMI_22', headerName: 'd.22', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '22')
     }
 ]
 
