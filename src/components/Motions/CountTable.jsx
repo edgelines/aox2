@@ -23,14 +23,15 @@ export const CountTable = ({ name, data, swiperRef, height, handleClick, handleR
                             data && data.length > 0 ?
                                 data.map(item => {
                                     const category = name === '업종' ? item.업종명 : item.테마명
-                                    const isSelectedIndustry = selectedIndustry.includes(category)
-                                    const isSelectedThemes = selectedThemes.includes(category)
+                                    // const isSelectedIndustry = selectedIndustry.includes(category)
+                                    // const isSelectedThemes = selectedThemes.includes(category)
                                     return (
                                         <tr style={{ fontSize: '11px', p: 2 }} key={`${category}_${item.갯수}`}>
                                             <td style={{ width: '10px' }}>
                                                 {name == '업종' ? item.순위 : ''}
                                             </td>
-                                            <td style={{ width: '120px', color: isSelectedIndustry || isSelectedThemes ? 'tomato' : '#efe9e9ed' }} onClick={() => handleClick(name, category)}>
+                                            <td style={{ width: '120px' }} >
+                                                {/* <td style={{ width: '120px', color: isSelectedIndustry || isSelectedThemes ? 'tomato' : '#efe9e9ed' }} onClick={() => handleClick(name, category)}> */}
                                                 {name == '업종' ? item.업종명.slice(0, 8) : item.테마명}
                                             </td>
                                             <td style={{ width: '40px', textAlign: 'left' }}>{item.갯수}</td>

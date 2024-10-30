@@ -1,6 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { williamsColor } from '../Motions/MotionsColumns';
 
+export const williamsColor = (value) => {
+    let color = null;
+    if (value >= -20) {
+        color = 'tomato';
+    } else if (value >= -35) {
+        color = 'orange';
+    } else if (value >= -50) {
+        color = 'gold';
+    } else if (value >= -65) {
+        color = 'yellow';
+    } else if (value >= -80) {
+        color = '#98da77';
+    } else {
+        color = 'dodgerblue';
+    }
+    return color;
+}
 
 /**
  * 종가지수 캔들모양 셀 렌더링

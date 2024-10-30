@@ -3,28 +3,29 @@ import axios from 'axios';
 import { Grid, Box } from '@mui/material';
 // import { Grid, Skeleton, Select, MenuItem, FormControl, ToggleButtonGroup, Box } from '@mui/material';
 // import RatioVolumeTrendScatterChart from './Motions/ratioVolumeTrendScatterChart.jsx'
-import RatioVolumeTrendScatterChartLive from './Motions/ratioVolumeTrendScatterChartLive.jsx'
+import ChartTablePage from './Motions/ChartTablePage.jsx'
 import StockInfoPage from './Motions/StockInfoPage.jsx';
 import { API, API_WS, STOCK } from './util/config.jsx';
 // import { StyledToggleButton } from './util/util.jsx';
 // import { formatDateString } from './util/formatDate.jsx';
 import Legend from './Motions/legend.jsx';
-import WilliamsLegend from './Motions/williamsLegend.jsx';
-
+// import WilliamsLegend from './Motions/williamsLegend.jsx';
 
 export default function MotionPage({ swiperRef, num, baseStockName }) {
 
     // config
-    const chartHeight = 900
+    const chartHeight = 500
 
     // state
     const ws = useRef(null); // WebSocket 참조 하는 상태 생성
-    const [replaySwitch, setReplaySwitch] = useState(null);
+    const [replaySwitch, setReplaySwitch] = useState('live');
     const [datasetCount, setDatasetCount] = useState(null);
     const [dataset, setDataset] = useState({ time: [], data: [] });
+    const [dataset2, setDataset2] = useState({ time: [], data: [] });
+    const [tableData, setTableData] = useState([]);
     const [classification, setClassification] = useState(null);
-    const [datelist, setDateList] = useState(null);
-    const [date, setDate] = useState(null);
+    // const [datelist, setDateList] = useState(null);
+    // const [date, setDate] = useState(null);
     const [timeLine, setTimeLine] = useState(null);
     // const [loadingRatio, setLoadingRatio] = useState(false);
 
@@ -140,25 +141,25 @@ export default function MotionPage({ swiperRef, num, baseStockName }) {
 
     }
 
-    const getDataRatio = async (num, date, setLoading, setDataset, setDatasetCount) => {
-        setLoading(true);
-        try {
-            // const res = await axios.get(`http://localhost:2440/api/stockMotion/getRatioVolumeTrendScatterChart/${num}/${date}`);
-            const res = await axios.get(`${API}/stockMotion/getRatioVolumeTrendScatterChart/${num}/${date}`);
+    // const getDataRatio = async (num, date, setLoading, setDataset, setDatasetCount) => {
+    //     setLoading(true);
+    //     try {
+    //         // const res = await axios.get(`http://localhost:2440/api/stockMotion/getRatioVolumeTrendScatterChart/${num}/${date}`);
+    //         const res = await axios.get(`${API}/stockMotion/getRatioVolumeTrendScatterChart/${num}/${date}`);
 
-            setDataset(res.data.Data);
-            setTimeLine(res.data.시간);
-            const count = await axios.get(`${API}/stockMotion/getRatioVolumeTrendScatterCount/${num}/${date}`);
-            setDatasetCount(count.data.Data);
-            // if (num === 3) {
+    //         setDataset(res.data.Data);
+    //         setTimeLine(res.data.시간);
+    //         const count = await axios.get(`${API}/stockMotion/getRatioVolumeTrendScatterCount/${num}/${date}`);
+    //         setDatasetCount(count.data.Data);
+    //         // if (num === 3) {
 
-            // }
-        } catch (error) {
-            console.log("Error fetching data : ", error);
-        } finally {
-            setLoading(false)
-        }
-    }
+    //         // }
+    //     } catch (error) {
+    //         console.log("Error fetching data : ", error);
+    //     } finally {
+    //         setLoading(false)
+    //     }
+    // }
 
     // const handleEventChange = (event) => { if (event !== null) { setDate(event.target.value); } }
     // const handleSwitchChange = async (event, value) => {
@@ -168,14 +169,8 @@ export default function MotionPage({ swiperRef, num, baseStockName }) {
     // };
 
 
-
-    const fetchData = async () => {
-        const res = await axios.get(`${API}/stockMotion/getBusinessDay`);
-        setDateList(res.data);
-        // console.log(dayjs(res.data[0]))
-    };
-
-    useEffect(() => { fetchData(); setReplaySwitch('live') }, []);
+    // useEffect(() => { setReplaySwitch('live') }, []);
+    // useEffect(() => { fetchData(); setReplaySwitch('live') }, []);
 
     useEffect(() => {
         if (replaySwitch === 'live') {
@@ -187,7 +182,9 @@ export default function MotionPage({ swiperRef, num, baseStockName }) {
 
             ws.current.onmessage = (event) => {
                 const res = JSON.parse(event.data);
-                setDataset(res.series);
+                setDataset(res.series1);
+                setDataset2(res.series2);
+                setTableData(res.table_data);
                 setDatasetCount(res.count);
                 setTimeLine(res.savetime);
                 setClassification(res.classification)
@@ -205,7 +202,7 @@ export default function MotionPage({ swiperRef, num, baseStockName }) {
             if (ws.current) {
                 ws.current.close();
             }
-            setDate(datelist[0]);
+            // setDate(datelist[0]);
         }
         // 컴포넌트가 언마운트되거나 replaySwitch가 변경될 때 WebSocket 연결 해제
         return () => {
@@ -217,11 +214,11 @@ export default function MotionPage({ swiperRef, num, baseStockName }) {
 
     }, [replaySwitch]);
 
-    useEffect(() => {
-        if (date !== null) {
-            getDataRatio(num, date, setDataset, setDatasetCount);
-        }
-    }, [date])
+    // useEffect(() => {
+    //     if (date !== null) {
+    //         getDataRatio(num, date, setDataset, setDatasetCount);
+    //     }
+    // }, [date])
 
     const getSelectedChartType = async () => {
         if (typeof stock.종목코드 !== "undefined") {
@@ -246,21 +243,24 @@ export default function MotionPage({ swiperRef, num, baseStockName }) {
             <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(350px, 15px)`, zIndex: 10 }}>
                 <Legend />
             </Box>
-            <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(1010px, 330px)`, zIndex: 10 }}>
+            {/* <Box sx={{ backgroundColor: 'rgba(0, 0, 0, 0.13)', position: 'absolute', transform: `translate(1010px, 330px)`, zIndex: 10 }}>
                 <WilliamsLegend />
-            </Box>
-
+            </Box> */}
 
             {/* Chart & Table */}
             <Grid item xs={7}>
                 <Grid item container sx={{ mt: 3 }}>
                     {/* Chart Component */}
 
-                    <RatioVolumeTrendScatterChartLive
-                        dataset={dataset} timeLine={timeLine} height={chartHeight} swiperRef={swiperRef}
+                    <ChartTablePage
+                        dataset={dataset} timeLine={timeLine}
+                        dataset2={dataset2} tableData={tableData}
+                        height={chartHeight} swiperRef={swiperRef}
                         datasetCount={datasetCount} classification={classification}
                         getInfo={getInfo}
                     />
+
+
 
 
                 </Grid>

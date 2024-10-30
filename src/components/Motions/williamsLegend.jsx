@@ -1,6 +1,6 @@
 import React, { useEffect, } from 'react';
 import { Stack } from '@mui/material';
-import { williamsColor } from './MotionsColumns.jsx'
+import { williamsColor } from '../Formula/RenderCell'
 
 export const legend = {
     '~ -20': williamsColor(-20),

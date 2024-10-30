@@ -1,27 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-// import { Box } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import { yellow } from '@mui/material/colors';
-// import { renderProgress } from '../sectorSearchPage';
+import { renderWilliamsCell, renderCciCell } from '../Formula/RenderCell';
 
-
-export const williamsColor = (value) => {
-    let color = null;
-    if (value >= -20) {
-        color = 'tomato';
-    } else if (value >= -35) {
-        color = 'orange';
-    } else if (value >= -50) {
-        color = 'gold';
-    } else if (value >= -65) {
-        color = 'yellow';
-    } else if (value >= -80) {
-        color = '#98da77';
-    } else {
-        color = 'dodgerblue';
-    }
-    return color;
-}
 
 
 export const columns = [
@@ -53,7 +34,7 @@ export const columns = [
             )
         }
     }, {
-        field: 'y', headerName: 'R %', width: 50,
+        field: '등락률', headerName: 'R %', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
             const color = params.value > 10 ? 'tomato' : '#FCAB2F'
@@ -68,68 +49,44 @@ export const columns = [
             return `${params.value.toLocaleString('kr')} %`;
         }
     }, {
-        field: 'w9', headerName: 'w9', width: 40,
+        field: 'w9', headerName: 'W.9', width: 50,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = williamsColor(params.value)
-            return (
-                <span style={{ backgroundColor: color, width: 40, color: '#404040' }}>{params.value}</span>
-            )
-        }
+        renderCell: (params) => renderWilliamsCell(params, '9')
     }, {
         field: 'w14', headerName: 'w14', width: 40,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = williamsColor(params.value)
-            return (
-                <span style={{ backgroundColor: color, width: 40, color: '#404040' }}>{params.value}</span>
-            )
-        }
+        renderCell: (params) => renderWilliamsCell(params, '14')
     }, {
         field: 'w33', headerName: 'w33', width: 40,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => {
-            const color = williamsColor(params.value)
-            return (
-                <span style={{ backgroundColor: color, width: 40, color: '#404040' }}>{params.value}</span>
-            )
-        }
+        renderCell: (params) => renderWilliamsCell(params, '33')
     }, {
         field: 'CCI_4', headerName: 'C4', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
-            const color = params.value > 130 ? '#FCAB2F' : null
-            return (
-                <span style={{ color: color }}> {params.value.toFixed(1)}</span>
-            )
+            if (!params.row.CCI || typeof params.row.CCI['4'] === 'undefined') {
+                return <span> </span>; // CROSS가 없거나 key가 없을 경우 빈 span 반환
+            }
+            const _value = params.row.CCI['4']
+            const color = _value > 130 ? '#FCAB2F' : null
+            if (typeof _value !== 'number') return <span> </span>;
+            return <span style={{ color: color }}> {_value}</span>
+
         }
     }, {
         field: 'CCI_2_Sig', headerName: 'C4S', width: 40,
         align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderCciCell(params, 'Sig_4_2')
     }, {
         field: 'CCI_11', headerName: 'C11', width: 40,
         align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderCciCell(params, '11')
     }, {
         field: 'CCI_4_Sig', headerName: 'C11S', width: 40,
         align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderCciCell(params, 'Sig_11_4')
     }
 ]
-// field: '체결강도', headerName: '체결강도', width: 70,
-// align: 'right', headerAlign: 'center',
-// renderCell: (params) => {
-//     const color = params.value > 100 ? '#e89191' : 'dodgerblue'
-//     const progress = renderProgress({ value: params.value, valueON: true, color: color, val2: 0.07 })
-//     return (
-//         <Box sx={{ position: 'relative', mt: -2 }}>
-//             <Box sx={{ position: 'absolute', zIndex: 1, marginLeft: -2 }}>
-//                 {params.value.toLocaleString('kr')}
-//             </Box>
-//             <Box sx={{ position: 'absolute', zIndex: 0, width: 80, mt: -0.6, marginLeft: -5.5 }}>
-//                 {progress}
-//             </Box>
-//         </Box>
-//     )
-// }
 
 export const customTheme = createTheme({
     components: {

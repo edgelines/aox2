@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createTheme } from '@mui/material/styles';
 import { yellow } from '@mui/material/colors';
-import { renderCrossTRIMA, renderMaCell, renderWilliamsCell, renderCrossEnvelope, renderCciCell, renderDmiCell, renderShortCell } from './RenderCell';
+import { renderCrossTRIMA, renderMaCell, renderWilliamsCell, renderCrossEnvelope, renderCciCell, renderDmiCell } from './RenderCell';
 
 export const base_columns = [{
     field: '업종명', headerName: '업종명', width: 85,
