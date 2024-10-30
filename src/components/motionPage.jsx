@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Grid, Skeleton, Select, MenuItem, FormControl, ToggleButtonGroup, Box } from '@mui/material';
-import RatioVolumeTrendScatterChart from './Motions/ratioVolumeTrendScatterChart.jsx'
+import { Grid, Box } from '@mui/material';
+// import { Grid, Skeleton, Select, MenuItem, FormControl, ToggleButtonGroup, Box } from '@mui/material';
+// import RatioVolumeTrendScatterChart from './Motions/ratioVolumeTrendScatterChart.jsx'
 import RatioVolumeTrendScatterChartLive from './Motions/ratioVolumeTrendScatterChartLive.jsx'
 import StockInfoPage from './Motions/StockInfoPage.jsx';
 import { API, API_WS, STOCK } from './util/config.jsx';
-import { StyledToggleButton } from './util/util.jsx';
-import { formatDateString } from './util/formatDate.jsx';
+// import { StyledToggleButton } from './util/util.jsx';
+// import { formatDateString } from './util/formatDate.jsx';
 import Legend from './Motions/legend.jsx';
 import WilliamsLegend from './Motions/williamsLegend.jsx';
 
@@ -25,7 +26,7 @@ export default function MotionPage({ swiperRef, num, baseStockName }) {
     const [datelist, setDateList] = useState(null);
     const [date, setDate] = useState(null);
     const [timeLine, setTimeLine] = useState(null);
-    const [loadingRatio, setLoadingRatio] = useState(false);
+    // const [loadingRatio, setLoadingRatio] = useState(false);
 
     const [stock, setStock] = useState({ 종목명: null }); // 종목 정보
     const [stockChart, setStockChart] = useState({ price: [], volume: [] }); // 종목 차트
@@ -96,10 +97,45 @@ export default function MotionPage({ swiperRef, num, baseStockName }) {
                     series: res.data.series,
                     info: res.data.info
                 })
+            } else {
+                setStockChart({
+                    series: [],
+                    info: {
+                        net: 0,
+                        volumeRatio: 0,
+                        willR: {
+                            w9: 0,
+                            w14: 0,
+                            w33: 0
+                        },
+                        DMI: {
+                            dmi_7: 0,
+                            dmi_17: 0,
+                            dmi_22: 0
+                        }
+                    }
+                });
+
             }
         } else {
             setStock({ 종목명: null });
-            setStockChart({ price: [], volume: [] });
+            setStockChart({
+                series: [],
+                info: {
+                    net: 0,
+                    volumeRatio: 0,
+                    willR: {
+                        w9: 0,
+                        w14: 0,
+                        w33: 0
+                    },
+                    DMI: {
+                        dmi_7: 0,
+                        dmi_17: 0,
+                        dmi_22: 0
+                    }
+                }
+            });
         }
 
     }
@@ -124,12 +160,12 @@ export default function MotionPage({ swiperRef, num, baseStockName }) {
         }
     }
 
-    const handleEventChange = (event) => { if (event !== null) { setDate(event.target.value); } }
-    const handleSwitchChange = async (event, value) => {
-        if (value !== null) {
-            setReplaySwitch(value);
-        }
-    };
+    // const handleEventChange = (event) => { if (event !== null) { setDate(event.target.value); } }
+    // const handleSwitchChange = async (event, value) => {
+    //     if (value !== null) {
+    //         setReplaySwitch(value);
+    //     }
+    // };
 
 
 
@@ -183,7 +219,7 @@ export default function MotionPage({ swiperRef, num, baseStockName }) {
 
     useEffect(() => {
         if (date !== null) {
-            getDataRatio(num, date, setLoadingRatio, setDataset, setDatasetCount);
+            getDataRatio(num, date, setDataset, setDatasetCount);
         }
     }, [date])
 

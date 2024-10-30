@@ -96,10 +96,45 @@ export default function FormulaPage({ swiperRef, baseStockName }) {
                     series: res.data.series,
                     info: res.data.info
                 })
+            } else {
+                setStock({ 종목명: null });
+                setStockChart({
+                    series: [],
+                    info: {
+                        net: 0,
+                        volumeRatio: 0,
+                        willR: {
+                            w9: 0,
+                            w14: 0,
+                            w33: 0
+                        },
+                        DMI: {
+                            dmi_7: 0,
+                            dmi_17: 0,
+                            dmi_22: 0
+                        }
+                    }
+                });
             }
         } else {
             setStock({ 종목명: null });
-            setStockChart({ price: [], volume: [] });
+            setStockChart({
+                series: [],
+                info: {
+                    net: 0,
+                    volumeRatio: 0,
+                    willR: {
+                        w9: 0,
+                        w14: 0,
+                        w33: 0
+                    },
+                    DMI: {
+                        dmi_7: 0,
+                        dmi_17: 0,
+                        dmi_22: 0
+                    }
+                }
+            });
         }
 
     }

@@ -55,14 +55,25 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, xAxi
             split: true, shared: true, crosshairs: true,
             backgroundColor: 'rgba(255, 255, 255, 0.5)',
             formatter: function () {
+                if (this.point.x1) {
+                    return `
+                        ${this.point.종목명}<br/>
+                        ${xAxisText} : ${this.point.x}<br/>
+                        - ${this.point.x1 ? `${this.point.x1_name} : ${this.point.x1}` : ''}<br/>
+                        - ${this.point.x2 ? `${this.point.x2_name} : ${this.point.x2}` : ''}<br/>
+                        ${yAxisText} : ${this.point.y}<br/>
+                        - ${this.point.y1_name ? `${this.point.y1_name} : ${this.point.y1}` : ''}<br/>
+                        - ${this.point.y2_name ? `${this.point.y2_name} : ${this.point.y2}` : ''}<br/>
+                    `;
+                }
+
+
                 return `
-                    ${this.point.종목명}<br/>
-                    ${xAxisText} : ${this.point.x}<br/>
-                    ${this.point.x1 ? `${x1_name} : ${this.point.x1}` : ''}<br/>
-                    ${this.point.x2 ? `${x2_name} : ${this.point.x2}` : ''}<br/>
-                    ${yAxisText} : ${this.point.y}<br/>
-                    ${this.point.y1_name ? `${y1_name} : ${this.point.y1}` : ''}<br/>
-                    ${this.point.y2_name ? `${y2_name} : ${this.point.y2}` : ''}<br/>
+                        ${this.point.종목명}<br/>
+                        ${xAxisText} : ${this.point.x}<br/>
+                        ${yAxisText} : ${this.point.y}<br/>
+                        - ${this.point.y1_name ? `${this.point.y1_name} : ${this.point.y1}` : ''}<br/>
+                        - ${this.point.y2_name ? `${this.point.y2_name} : ${this.point.y2}` : ''}<br/>
                     `;
             },
         },
