@@ -638,6 +638,69 @@ export const Envelope1_columns = [
     }
 ]
 
+export const DMI_columns = [
+    ...base_columns.filter(col => col.field !== '테마명'),
+    {
+        field: 'f_id', headerName: 'id', width: 90,
+        align: 'right', headerAlign: 'center',
+    }, {
+        field: 'w9', headerName: 'W.9', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '9')
+    }, {
+        field: 'w14', headerName: 'W.14', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '14')
+    }, {
+        field: 'w26', headerName: 'W.26', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '26')
+    }, {
+        field: 'DMI_7', headerName: 'd.7', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '7')
+    }, {
+        field: 'DMI_7_단', headerName: 'D.7', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_7')
+    }, {
+        field: 'DMI_8_단', headerName: 'D.8', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_8')
+    }, {
+        field: 'DMI_9', headerName: 'd.9', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '9')
+    }, {
+        field: 'DMI_9_단', headerName: 'D.9', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_9')
+    }, {
+        field: 'DMI_14_단', headerName: 'D.14', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_14')
+    }, {
+        field: 'DMI_17', headerName: 'd.17', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '17')
+    }, {
+        field: 'DMI_17_단', headerName: 'D.17', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_17')
+    }, {
+        field: 'DMI_22', headerName: 'd.22', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '22')
+    }, {
+        field: 'DMI_33_단', headerName: 'D.33', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_33')
+    }
+]
+
+
+
+
 export const customTheme = createTheme({
     components: {
         MuiDataGrid: {
