@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createTheme } from '@mui/material/styles';
 import { yellow } from '@mui/material/colors';
-import { renderCrossTRIMA, renderMaCell, renderWilliamsCell, renderDmiCell } from './RenderCell';
+import { renderCrossTRIMA, renderMaCell, renderWilliamsCell, renderDmiCell, renderEnvelopePercent } from './RenderCell';
 
 export const base_columns = [{
     field: '업종명', headerName: '업종명', width: 85,
@@ -426,7 +426,66 @@ export const DMI_columns = [
     }
 ]
 
-
+export const under_envelope_columns = [
+    ...base_columns.filter(col => col.field !== '테마명'),
+    {
+        field: 'env', headerName: 'Env%', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: renderEnvelopePercent
+    }, {
+        field: 'w9', headerName: 'W.9', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '9')
+    }, {
+        field: 'w14', headerName: 'W.14', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '14')
+    }, {
+        field: 'w26', headerName: 'W.26', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '26')
+    }, {
+        field: 'DMI_7_단', headerName: 'D.7', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_7')
+    }, {
+        field: 'DMI_9_단', headerName: 'D.9', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_9')
+    }, {
+        field: 'DMI_14_단', headerName: 'D.14', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_14')
+    }, {
+        field: 'DMI_17', headerName: 'd.17', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '17')
+    }, {
+        field: 'DMI_17_단', headerName: 'D.17', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_17')
+    }, {
+        field: 'DMI_22', headerName: 'd.22', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '22')
+    }, {
+        field: 'DMI_44_단', headerName: 'D.44', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_44')
+    }, {
+        field: 'DMI_64_단', headerName: 'D.64', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_64')
+    }, {
+        field: 'DMI_100', headerName: 'd.100', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '100')
+    }, {
+        field: 'DMI_100_단', headerName: 'D.100', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_100')
+    }
+]
 
 
 export const customTheme = createTheme({

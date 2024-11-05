@@ -4,7 +4,7 @@ import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, S
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
-import { customTheme, A_columns, B1_columns, Envelope_columns, Short_columns, DMI_columns } from './Columns';
+import { customTheme, A_columns, B1_columns, Envelope_columns, Short_columns, DMI_columns, under_envelope_columns } from './Columns';
 import { CountTable } from '../Motions/CountTable'
 import { legend } from '../Motions/legend';
 import { blue } from '@mui/material/colors';
@@ -74,12 +74,12 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
 
     // handler
 
-    const handleTableData = (dataset) => {
-        const tmp = dataset.map((item, index) => ({
-            ...item, id: index
-        }));
-        return tmp
-    }
+    // const handleTableData = (dataset) => {
+    //     const tmp = dataset.map((item, index) => ({
+    //         ...item, id: index
+    //     }));
+    //     return tmp
+    // }
 
     // const getData = (dataset, selectedIndustry, selectedThemes) => {
     //     // 업종이나 테마를 선택했을때 데이터 필터
@@ -246,6 +246,7 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                             <StyledToggleButton fontSize={11} value="DMI_17_series">D17</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="DMI_9_series">D9</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="DMI_22_series">D22</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="under_envelope">지하암반수</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Stack>
 
@@ -297,7 +298,8 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                                         'DMI_22_series'].includes(formulaType) ? DMI_columns :
                                         formulaType === 'B' ? B1_columns :
                                             formulaType === 'Short' ? Short_columns :
-                                                Envelope_columns}
+                                                formulaType === 'under_envelope' ? under_envelope_columns :
+                                                    Envelope_columns}
                             rowHeight={20}
                             onCellClick={(params, event) => {
                                 getInfo(params.row);

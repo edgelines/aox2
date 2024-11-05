@@ -82,10 +82,10 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, xAxi
                 showInLegend: false,
                 animation: false,
                 marker: {
-                    radius: 3,
+                    radius: 3.5,
                     symbol: 'circle'
                 },
-                jitter: { x: 0.3 },
+                // jitter: { x: 0.3 },
             },
             series: {
                 animation: {

@@ -204,3 +204,17 @@ export const renderCrossEnvelope = (params, key) => {
     return <span> {_value === false ? '' : '★'}</span>
 }
 
+/**
+ * 당일 Envelope 골든/데드/ Env 밑에 있는지 확인 여부
+ * @param {*} params : mui grid params row
+ * @returns boolean
+ */
+export const renderEnvelopePercent = (params) => {
+    if (!params.row.Envelope || typeof params.row.Envelope.compare_envelop_close_return_inx.key === 'undefined') {
+        return <span> </span>; // CROSS가 없거나 key가 없을 경우 빈 span 반환
+    }
+    const _value = params.row.Envelope.compare_envelop_close_return_inx.key
+    // if (typeof _value !== 'boolean') return <span> </span>;
+    return <span> {_value}</span>
+}
+
