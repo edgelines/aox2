@@ -1,12 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
-import { Grid, Box, Table, TableHead, TableBody, TableRow, TableCell, Skeleton, Popover, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Grid, Box, Table, Skeleton } from '@mui/material';
 import MonthChart from './monthChart';
 import MarketCurrentValue from '../Index/marketCurrentValue'
 import MonthTableComponent from './weightAvgTable'
 import { numberWithCommas } from '../util/util';
 import WeightAvgCheck from './weightAvgCheck';
-import { API, API_WS } from '../util/config';
+import { API_WS } from '../util/config';
 
 export default function WeightAvgPage1({ swiperRef }) {
     const 매매동향당일누적스타일 = { borderRight: '1px solid #757575' }
@@ -38,9 +37,6 @@ export default function WeightAvgPage1({ swiperRef }) {
             setCallPutRatio_Maturity(res.CallPutRatio_Maturity);
             setWeightedAvgCheck(res.WeightedAvgCheck);
             setMarketDetail(res.MarketDetail);
-
-
-            // setMessages(prevMessages => [...prevMessages, event.data]);
         };
 
         ws.onerror = (error) => {
