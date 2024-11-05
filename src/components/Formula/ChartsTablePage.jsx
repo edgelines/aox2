@@ -246,7 +246,7 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                             <StyledToggleButton fontSize={11} value="DMI_17_series">D17</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="DMI_9_series">D9</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="DMI_22_series">D22</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="under_envelope">지하암반수</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="under_envelope">지하1</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Stack>
 
