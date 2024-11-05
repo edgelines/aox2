@@ -4,7 +4,7 @@ import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, S
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
-import { customTheme, A_columns, B1_columns, Envelope_columns, Short_columns, WhiteBox_columns, Rainbow_columns, Option_columns, Envelope1_columns, DMI_columns } from './Columns';
+import { customTheme, A_columns, B1_columns, Envelope_columns, Short_columns, DMI_columns } from './Columns';
 import { CountTable } from '../Motions/CountTable'
 import { legend } from '../Motions/legend';
 import { blue } from '@mui/material/colors';
@@ -241,16 +241,6 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                             <StyledToggleButton fontSize={11} value="B">DMI-Type</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="Envelope">Env-G</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="Short">Short</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="WhiteBox_17">WB 17</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="WhiteBox_10">WB 10</StyledToggleButton>
-                            {/* <StyledToggleButton fontSize={11} value="WhiteBox_3">WB 3</StyledToggleButton> */}
-                            {/* <StyledToggleButton fontSize={11} value="WAS_WhiteBox">WAS WB</StyledToggleButton> */}
-                            <StyledToggleButton fontSize={11} value="RAINBOW_1">Rainbow A</StyledToggleButton>
-                            {/* <StyledToggleButton fontSize={11} value="RAINBOW_2">Rainbow B</StyledToggleButton> */}
-                            <StyledToggleButton fontSize={11} value="Favorite">Favorite</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="Option1">Option1</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="Envelope_1">Envelope</StyledToggleButton>
-
                             <StyledToggleButton fontSize={11} value="DMI_단순_17_DMI_22">D17 단순</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="DMI_14_series">D14</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="DMI_17_series">D17</StyledToggleButton>
@@ -307,11 +297,7 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                                         'DMI_22_series'].includes(formulaType) ? DMI_columns :
                                         formulaType === 'B' ? B1_columns :
                                             formulaType === 'Short' ? Short_columns :
-                                                ['WhiteBox_17', 'WhiteBox_10'].includes(formulaType) ? WhiteBox_columns :
-                                                    ['RAINBOW_1'].includes(formulaType) ? Rainbow_columns :
-                                                        formulaType === 'Option1' ? Option_columns :
-                                                            formulaType === 'Envelope_1' ? Envelope1_columns :
-                                                                Envelope_columns}
+                                                Envelope_columns}
                             rowHeight={20}
                             onCellClick={(params, event) => {
                                 getInfo(params.row);
@@ -360,18 +346,7 @@ const TypeMessage = (_type) => {
         </>
     )
 
-    const whiteBox = (num) => (
-        <>
-            <Typography sx={{ ...textStyle, mb: 2 }} >A-Type, B-Type, Envelope, Short 종목들 중에서 Report Page 전체기간 통계로 WhiteBox의 {num}% 이상 상승한 조건</Typography>
-            {commonMessages}
-            <Typography sx={textStyle} >- WillR.6 or WillR.9 or (Will.R14 and WillR.14-7 Sig) or (WillR.33 and WillR.33-7 Sig) WhiteBox 구간 </Typography>
-            <Typography sx={textStyle} >- DMI.3, DMI.4, DMI.7, DMI.9, DMI.17 (미래) WhiteBox 구간 </Typography>
-            <Typography sx={textStyle} >- CCI.4 (파란선상단 ~ 파란선하단) and CCI.4-2 Sig (파란선상단 ~ -120) 구간 </Typography>
-            <Typography sx={textStyle} >- CCI.11 (40 ~ 파란선하단) and CCI.11-4 Sig (30 ~ 파란선하단) 구간 </Typography>
-            <Typography sx={textStyle} >- CCI.11이 CCI-11-4 보다 큰 것</Typography>
-            <Typography sx={textStyle} >- 업종순위 14위 미만</Typography>
-        </>
-    )
+
 
     switch (__type) {
         case 'B':
@@ -408,26 +383,6 @@ const TypeMessage = (_type) => {
                 <Typography sx={textStyle} >- 1-7 : 종가나 고가가 7시가삼각을 돌파</Typography>
                 <Typography sx={textStyle} >- 1-112 : 종가가 112저가지수보다 낮을경우</Typography>
             </>)
-
-        case 'WhiteBox_17':
-            return (<>
-                {whiteBox(17)}
-
-            </>)
-        case 'WhiteBox_10':
-            return (<>
-                {whiteBox(10)}
-            </>)
-        // case 'WhiteBox_3':
-        //     return (<>
-        //         {whiteBox(3)}
-        //     </>)
-
-        // case 'WAS_WhiteBox':
-        //     return (<>
-        //         <Typography sx={{ ...textStyle, mb: 2 }} >WB 17, WB 10, WB 3 에서 빠진 종목들</Typography>
-        //         {commonMessages}
-        //     </>)
 
         case 'Favorite':
             return (<>
