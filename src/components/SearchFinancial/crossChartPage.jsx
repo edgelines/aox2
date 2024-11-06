@@ -267,7 +267,7 @@ export default function CrossChartPage({ swiperRef, tableData, getStockCode, get
                             sx={{ pl: 1.3 }}
                         >
                             <StyledToggleButton fontSize={'10px'} value="themes">Themes</StyledToggleButton>
-                            <StyledToggleButton fontSize={'10px'} value="trima">Trima</StyledToggleButton>
+                            {/* <StyledToggleButton fontSize={'10px'} value="trima">Trima</StyledToggleButton> */}
                             <StyledToggleButton fontSize={'10px'} value="willR">WiilR</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Grid>

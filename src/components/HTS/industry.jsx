@@ -73,7 +73,7 @@ export function Industry({ swiperRef, market, time, date, apiReset }) {
     const getStockCode = async (params) => {
         // 시가총액, 상장주식수, PER, EPS, PBR, BPS
         const res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
-        // console.log(res.data);
+        console.log(res.data);
         setStock({
             종목명: params.종목명, 종목코드: params.종목코드, 업종명: params.업종명, 현재가: res.data.현재가,
             시가총액: res.data.시가총액, 상장주식수: res.data.상장주식수, PER: res.data.PER, EPS: res.data.EPS, PBR: res.data.PBR, BPS: res.data.BPS, 시장: res.data.시장,

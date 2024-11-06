@@ -129,7 +129,7 @@ const Favorite = ({ swiperRef, onIndustryClick, getStockCode, getStockChartData 
 const EventPage = ({ swiperRef, eventDrop, getStockCode, getStockChartData }) => {
     const [data, setData] = useState([]);
     const [past, setPast] = useState(false);
-    const [tableColumnsName, setTableColumnsName] = useState('trima')
+    const [tableColumnsName, setTableColumnsName] = useState('themes')
     const handleTableColumnsChange = (event, value) => { if (value !== null) { setTableColumnsName(value); } }
     const fetchData = async (eventDrop) => {
         const postData = { past: past, event: eventDrop, tableColumnsName: tableColumnsName }
@@ -172,7 +172,7 @@ const EventPage = ({ swiperRef, eventDrop, getStockCode, getStockChartData }) =>
                             sx={{ pl: 1.3 }}
                         >
                             <StyledToggleButton fontSize={'10px'} value="themes">Themes</StyledToggleButton>
-                            <StyledToggleButton fontSize={'10px'} value="trima">Trima</StyledToggleButton>
+                            {/* <StyledToggleButton fontSize={'10px'} value="trima">Trima</StyledToggleButton> */}
                             <StyledToggleButton fontSize={'10px'} value="willR">WiilR</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Grid>

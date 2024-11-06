@@ -50,7 +50,7 @@ export function EstimatedTrading({ swiperRef, market, time, date, apiReset }) {
 
     const getStockCode = async (params) => {
         // 시가총액, 상장주식수, PER, EPS, PBR, BPS
-        const res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
+        var res = await axios.get(`${API}/info/stockEtcInfo/${params.종목코드}`);
         // console.log(res.data);
         setStock({
             종목명: params.종목명, 종목코드: params.종목코드, 업종명: params.업종명, 현재가: res.data.현재가,
@@ -58,12 +58,18 @@ export function EstimatedTrading({ swiperRef, market, time, date, apiReset }) {
             최고가52주: res.data.최고가52주, 최저가52주: res.data.최저가52주, 기업개요: res.data.기업개요, 분기실적: res.data.분기실적, 연간실적: res.data.연간실적,
             주요제품매출구성: res.data.주요제품매출구성, 주요주주: res.data.주요주주, 이벤트: res.data.이벤트, 보호예수: res.data.보호예수
         })
+
+        var res = await axios.get(`${STOCK}/${params.종목코드}`);
+        // console.log(res.data);
+        setStockChart({ price: res.data.stock, volume: res.data.volume })
+
+
     }
 
-    const getStockChartData = async (code) => {
-        const res = await axios.get(`${STOCK}/get/${code}`);
-        setStockChart({ price: res.data.price, volume: res.data.volume })
-    }
+    // const getStockChartData = async (code) => {
+    //     const res = await axios.get(`${STOCK}/get/${code}`);
+    //     setStockChart({ price: res.data.price, volume: res.data.volume })
+    // }
 
     const fetchData = async (market, date, time, paramsType, paramsName) => {
         try {
@@ -173,9 +179,9 @@ export function EstimatedTrading({ swiperRef, market, time, date, apiReset }) {
     // }, [])
 
     // ChartData
-    useEffect(() => {
-        if (stock.종목코드 != null) { getStockChartData(stock.종목코드); }
-    }, [stock])
+    // useEffect(() => {
+    //     if (stock.종목코드 != null) { getStockChartData(stock.종목코드); }
+    // }, [stock])
 
 
 
