@@ -12,7 +12,7 @@ import HighchartsReact from 'highcharts-react-official';
 // import { blue } from '@mui/material/colors';
 // import SettingsIcon from '@mui/icons-material/Settings';
 
-const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, xAxisPlotLines }) => {
+const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, xAxisPlotLines, isSingle }) => {
     const chartComponent = useRef(null);
     const [chartOptions, setChartOptions] = useState({
         chart: {
@@ -47,7 +47,7 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, xAxi
             },
             // plotLines: [{ value: 0, width: 1, color: '#fff' },],
             gridLineWidth: 0.2,
-            tickAmount: 12,
+            tickAmount: isSingle ? 22 : 12,
             // max: 30,
             // min: -3
         },
@@ -67,6 +67,14 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, xAxi
                     `;
                 }
 
+                else if (isSingle) {
+                    return `
+                        ${this.point.종목명}<br/>
+                        ${xAxisText} : ${this.point.x}<br/>
+                        ${this.point.y_name}<br/>
+                    `;
+                }
+
 
                 return `
                         ${this.point.종목명}<br/>
@@ -82,7 +90,7 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, xAxi
                 showInLegend: false,
                 animation: false,
                 marker: {
-                    radius: 3.5,
+                    radius: isSingle ? 3.6 : 3.2,
                     symbol: 'circle'
                 },
                 // jitter: { x: 0.3 },
@@ -133,6 +141,24 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, xAxi
             }
         }
     }, [timeLine])
+
+    useEffect(() => {
+        let chart
+
+        const y_categories = ['Bottom', '27.7', '26.7', '25.7', '24.7', '23.7', '22.7', '21.7', '20.7', '19.7', '18.7', '17.7', '16.7', '15.7', '14.7', '13.7', '12.7', '11.7', '10.7', '9.7', '8.7']
+        if (isSingle) {
+            chart = chartComponent.current.chart;
+
+            chart.update({
+                yAxis: {
+                    categories: y_categories
+                },
+            });
+
+        }
+
+
+    }, [])
 
     useEffect(() => {
         let chart

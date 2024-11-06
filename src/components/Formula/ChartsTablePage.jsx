@@ -139,29 +139,49 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
         <div>
             {/* Top Scatter Chart & Industry, Themes Table */}
             <Grid container sx={{ mt: 2 }}>
-                <Grid item xs={5}>
-                    {/* Chart */}
-                    <Charts
-                        dataset={dataset}
-                        // timeLine={timeLine}
-                        getInfo={getInfo}
-                        height={chartHeight}
-                        xAxisText={'Williams R 26'}
-                        yAxisText={'DMI 9, 17 Avg'}
-                    />
-                </Grid>
-                <Grid item xs={5}>
-                    {/* Chart */}
-                    <Charts
-                        dataset={dataset2}
-                        timeLine={timeLine}
-                        getInfo={getInfo}
-                        height={chartHeight}
-                        xAxisText={'DMI 8 가중 - DMI 8 단순'}
-                        yAxisText={'DMI 9 가중 - DMI 9 단순'}
-                        xAxisPlotLines={true}
-                    />
-                </Grid>
+                {
+                    formulaType === 'under_envelope' ?
+
+                        <Grid item xs={10}>
+                            <Charts
+                                dataset={dataset}
+                                timeLine={timeLine}
+                                getInfo={getInfo}
+                                height={chartHeight}
+                                xAxisText={'DMI 17 가중,단순 avg'}
+                                yAxisText={'Envelope 19'}
+                                isSingle={true}
+                            />
+                        </Grid>
+
+                        :
+                        <>
+                            <Grid item xs={5}>
+                                {/* Chart */}
+                                <Charts
+                                    dataset={dataset}
+                                    // timeLine={timeLine}
+                                    getInfo={getInfo}
+                                    height={chartHeight}
+                                    xAxisText={'Williams R 26'}
+                                    yAxisText={'DMI 9, 17 Avg'}
+                                />
+                            </Grid>
+                            <Grid item xs={5}>
+                                {/* Chart */}
+                                <Charts
+                                    dataset={dataset2}
+                                    timeLine={timeLine}
+                                    getInfo={getInfo}
+                                    height={chartHeight}
+                                    xAxisText={'DMI 8 가중 - DMI 8 단순'}
+                                    yAxisText={'DMI 9 가중 - DMI 9 단순'}
+                                    xAxisPlotLines={true}
+                                />
+                            </Grid>
+                        </>
+                }
+
 
                 <Grid item container xs={2}>
 
