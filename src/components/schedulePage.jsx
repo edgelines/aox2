@@ -15,7 +15,7 @@ import FundarmentalPage3 from './Fundarmental/fundarmentalPage3';
 import Fundarmental from './fundarmental';
 import HTS from './hts';
 import IpoPulse from './ipoPulse';
-import WeightAvgPage3 from './ELW/weightAvgPage3.jsx';
+import WeightAvgPage3 from './temp/weightAvgPage3.jsx';
 import { numberWithCommas } from './util/util';
 import { API } from './util/config';
 import useInterval from './util/useInterval';

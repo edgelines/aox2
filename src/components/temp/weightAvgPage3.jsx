@@ -2,11 +2,11 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Grid, Box, ToggleButtonGroup, Skeleton } from '@mui/material';
 // import { styled } from '@mui/material/styles';
-import MonthChart from './monthChart';
+import MonthChart from '../ELW/monthChart';
 import MarketCurrentValue from '../Index/marketCurrentValue'
-import MonthTable from './weightAvgTable'
+import MonthTable from '../ELW/weightAvgTable'
 import IndexChart from '../util/IndexChart'
-import WeightAvgCheck from './weightAvgCheck';
+import WeightAvgCheck from '../ELW/weightAvgCheck';
 // import Chart from '../Fundarmental/fundarmentalChart'
 import { StyledToggleButton, update_5M, update_1day } from '../util/util';
 import { API } from '../util/config';

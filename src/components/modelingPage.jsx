@@ -215,8 +215,7 @@ export default function ModelingPage({ }) {
             if (formats.includes('MA112')) {
                 data = [...data, ...IndexMA.MA112]
             }
-
-            setChartData(data)
+            setChartData(data);
         } catch (err) {
             console.error('fetchData_2 오류', err)
         }

@@ -1,16 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-// import { StyledToggleButton } from '../util/util';
-// import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, Stack, Modal } from '@mui/material';
-// import { DataGrid, gridClasses } from '@mui/x-data-grid';
-// import { ThemeProvider } from '@mui/material/styles';
-// import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
-// import { customTheme, A_columns, B1_columns, Envelope_columns, Short_columns, WhiteBox_columns } from './Columns';
-// import { CountTable } from '../Motions/CountTable'
-// import { legend } from '../Motions/legend';
-// import { blue } from '@mui/material/colors';
-// import SettingsIcon from '@mui/icons-material/Settings';
+
 
 const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, xAxisPlotLines, isSingle }) => {
     const chartComponent = useRef(null);
@@ -151,7 +142,23 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, xAxi
 
             chart.update({
                 yAxis: {
-                    categories: y_categories
+                    categories: y_categories,
+                    // xAxis: {
+                    //     plotLines: [
+                    //         {
+                    //             value: 10, width: 1, color: 'gold', dashStyle: 'dash', zIndex: 2
+                    //         }],
+                    // },
+
+                    plotLines: [
+                        {
+                            value: 14, width: 1, color: 'red', dashStyle: 'dash', zIndex: 2
+                        }, {
+                            value: 12, width: 1, color: 'dodgerblue', dashStyle: 'dash', zIndex: 2
+                        }, {
+                            value: 9, width: 1, color: 'white', dashStyle: 'dash', zIndex: 2
+                        }],
+
                 },
             });
 
@@ -160,28 +167,28 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, xAxi
 
     }, [])
 
-    useEffect(() => {
-        let chart
-        if (chartComponent.current && dataset.length > 0) {
-            chart = chartComponent.current.chart;
-            if (xAxisPlotLines) {
-                chart.update({
-                    xAxis: {
-                        plotLines: [
-                            {
-                                value: -130, width: 1, color: 'gold', dashStyle: 'dash', zIndex: 2
-                            }, {
-                                value: -100, width: 1, color: 'orange', dashStyle: 'dash', zIndex: 2
-                            }, {
-                                value: 0, width: 1, color: 'orange', dashStyle: 'dash', zIndex: 2
-                            }, {
-                                value: 100, width: 1, color: 'tomato', dashStyle: 'dash', zIndex: 2
-                            }],
-                    },
-                });
-            }
-        }
-    }, [xAxisPlotLines])
+    // useEffect(() => {
+    //     let chart
+    //     if (chartComponent.current && dataset.length > 0) {
+    //         chart = chartComponent.current.chart;
+    //         if (xAxisPlotLines) {
+    //             chart.update({
+    //                 xAxis: {
+    //                     plotLines: [
+    //                         {
+    //                             value: -130, width: 1, color: 'gold', dashStyle: 'dash', zIndex: 2
+    //                         }, {
+    //                             value: -100, width: 1, color: 'orange', dashStyle: 'dash', zIndex: 2
+    //                         }, {
+    //                             value: 0, width: 1, color: 'orange', dashStyle: 'dash', zIndex: 2
+    //                         }, {
+    //                             value: 100, width: 1, color: 'tomato', dashStyle: 'dash', zIndex: 2
+    //                         }],
+    //                 },
+    //             });
+    //         }
+    //     }
+    // }, [xAxisPlotLines])
 
     if (!dataset) return <div>Loading...</div>;
 

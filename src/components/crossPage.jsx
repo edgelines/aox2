@@ -14,7 +14,8 @@ import { API, STOCK } from './util/config';
 
 export default function SearchFinancial({ swiperRef, baseStockName }) {
     // const [page, setPage] = useState('Tree');
-    const [page, setPage] = useState('Cross');
+    const [page, setPage] = useState('Industry');
+    // const [page, setPage] = useState('Cross');
     const [eventDrop, setEventDrop] = useState('');
     // const [timeframe, setTimeframe] = useState('day');
     const [filter, setFilter] = useState({ field: null, industry: null })

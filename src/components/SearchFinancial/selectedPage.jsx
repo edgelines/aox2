@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Skeleton, Grid, Stack, Typography, ToggleButtonGroup, Table } from '@mui/material';
+import { Grid, Stack, ToggleButtonGroup } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault, StyledToggleButton } from '../util/util';
 import { StyledTypography_StockInfo } from '../util/htsUtil';
 import { customTheme } from './util';
 import CrossChartPage from './crossChartPage';
 import TreeMap from './treeMap';
 import FavoritePage from './favoritePage';
-import CoreChart from '../util/CoreChart';
+// import CoreChart from '../util/CoreChart';
 import { API } from '../util/config';
 import { trendColumns, eventColumns, ranksThemesColumns, ranksWillrColumns, dateThemesColumns, dateWillrColumns } from './tableColumns';
 import SectorsChartPage from '../sectorsChartPage.jsx';
