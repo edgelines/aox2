@@ -61,7 +61,9 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, xAxi
                 else if (isSingle) {
                     return `
                         ${this.point.종목명}<br/>
-                        ${xAxisText} : ${this.point.x}<br/>
+                        DMI 가중 17 : ${this.point.DMI_17}<br/>
+                        DMI 단순 17 : ${this.point.DMI_단순_17}<br/>
+                        DMI 평균 : ${this.point.x}<br/>
                         ${this.point.y_name}<br/>
                     `;
                 }
