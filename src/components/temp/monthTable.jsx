@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Box, Table } from '@mui/material';
+import { Grid, Table } from '@mui/material';
 import Kospi200CurrentValue from '../Index/kospi200CurrentValue';
-import axios from 'axios';
+
 
 export default function MonthTable({ ELW_monthTable, valueFont, valueTitle, ELW_CallPutRatio_Maturity }) {
     const month = ELW_monthTable.month ? ELW_monthTable.month : ['', '', '']
     const tr1 = ELW_monthTable.meanData1;
     const tr2 = ELW_monthTable.meanData2;
     const tr3 = ELW_monthTable.meanData3;
-    const Maturity1 = dataFilter(ELW_CallPutRatio_Maturity.filter(item => item.월구분 === '1'))
-    const Maturity2 = dataFilter(ELW_CallPutRatio_Maturity.filter(item => item.월구분 === '2'))
-    const Maturity3 = dataFilter(ELW_CallPutRatio_Maturity.filter(item => item.월구분 === '3'))
-    const dataFilter = (data) => {
-        var tmp6 = [], tmp7 = []
-        data.forEach((value) => {
-            tmp6.push(parseFloat(Math.abs(value.콜_거래대금)));
-            tmp7.push(parseFloat(Math.abs(value.풋_거래대금)));
-        })
-        var title = data[0].잔존만기;
-        var sum1 = tmp6.reduce(function add(sum, currValue) { return sum + currValue; }, 0);
-        var sum2 = tmp7.reduce(function add(sum, currValue) { return sum + currValue; }, 0);
-        return { title: title, 콜비율: (sum1 / (sum1 + sum2)).toFixed(2), 풋비율: (sum2 / (sum1 + sum2)).toFixed(2) }
-    }
+    // const Maturity1 = dataFilter(ELW_CallPutRatio_Maturity.filter(item => item.월구분 === '1'))
+    // const Maturity2 = dataFilter(ELW_CallPutRatio_Maturity.filter(item => item.월구분 === '2'))
+    // const Maturity3 = dataFilter(ELW_CallPutRatio_Maturity.filter(item => item.월구분 === '3'))
+    // const dataFilter = (data) => {
+    //     var tmp6 = [], tmp7 = []
+    //     data.forEach((value) => {
+    //         tmp6.push(parseFloat(Math.abs(value.콜_거래대금)));
+    //         tmp7.push(parseFloat(Math.abs(value.풋_거래대금)));
+    //     })
+    //     var title = data[0].잔존만기;
+    //     var sum1 = tmp6.reduce(function add(sum, currValue) { return sum + currValue; }, 0);
+    //     var sum2 = tmp7.reduce(function add(sum, currValue) { return sum + currValue; }, 0);
+    //     return { title: title, 콜비율: (sum1 / (sum1 + sum2)).toFixed(2), 풋비율: (sum2 / (sum1 + sum2)).toFixed(2) }
+    // }
     // const [net, setNet] = useState(null);
     // const [marketValue, setMarketValue] = useState(null);
     // const 전일대비 = MarketDetail[0].전일대비

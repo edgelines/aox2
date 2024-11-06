@@ -3,35 +3,35 @@ import { Grid } from '@mui/material';
 import axios from 'axios';
 import { API } from '../util/config';
 
-export default function Kospi200CurrentValue({ hiddenTitle, valueFont, valueTitle }) {
-    const [net, setNet] = useState(null);
-    const [marketValue, setMarketValue] = useState(null);
+export default function Kospi200CurrentValue({ hiddenTitle, valueFont, valueTitle, net, marketValue }) {
+    // const [net, setNet] = useState(null);
+    // const [marketValue, setMarketValue] = useState(null);
 
-    const fetchData = async () => {
-        const response = await axios.get(`${API}/aox/MarketDetail`);
-        const 전일대비 = response.data[0].전일대비;
-        const 지수 = response.data[0].지수.toFixed(2) + ' ( ' + 전일대비 + '% )'
-        setNet(전일대비);
-        setMarketValue(지수)
-    }
-    useEffect(() => {
-        fetchData();
-    }, [])
+    // const fetchData = async () => {
+    //     const response = await axios.get(`${API}/aox/MarketDetail`);
+    //     const 전일대비 = response.data[0].전일대비;
+    //     const 지수 = response.data[0].지수.toFixed(2) + ' ( ' + 전일대비 + '% )'
+    //     setNet(전일대비);
+    //     setMarketValue(지수)
+    // }
+    // useEffect(() => {
+    //     fetchData();
+    // }, [])
 
-    // 2분 주기 업데이트
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            const now = new Date();
-            const hour = now.getHours();
-            const dayOfWeek = now.getDay();
+    // // 2분 주기 업데이트
+    // useEffect(() => {
+    //     const intervalId = setInterval(() => {
+    //         const now = new Date();
+    //         const hour = now.getHours();
+    //         const dayOfWeek = now.getDay();
 
-            if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 8 && hour < 16) {
-                fetchData()
-            }
+    //         if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 8 && hour < 16) {
+    //             fetchData()
+    //         }
 
-        }, 1000 * 60 * 2);
-        return () => clearInterval(intervalId);
-    }, [])
+    //     }, 1000 * 60 * 2);
+    //     return () => clearInterval(intervalId);
+    // }, [])
 
     return (
         <Grid container spacing={1} >

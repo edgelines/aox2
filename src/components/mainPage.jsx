@@ -24,6 +24,7 @@ export default function MainPage({ }) {
     const [MarketDetail, setMarketDetail] = useState([]);
     const [WeightedAvgCheck, setWeightedAvgCheck] = useState([]);
     const [Exchange, setExchange] = useState([]);
+    const [kospi200Current, setKospi200Current] = useState({ net: 0, marketValue: 0 });
 
 
     const [bubbleData, setBubbleData] = useState({});
@@ -123,6 +124,10 @@ export default function MainPage({ }) {
             const uniq = "?" + new Date().getTime();
             setGisuDayImg(`/img/gisu_kospi200.jpg${uniq}`);
             setKospi200Img(`https://t1.daumcdn.net/media/finance/chart/kr/daumstock-mini/d/K2G01P.png${uniq}`);
+            setKospi200Current({
+                net: res.MarketDetail[0]['전일대비'],
+                marketValue: res.MarketDetail[0]['지수'].toFixed(2) + ' ( ' + res.MarketDetail[0]['전일대비'] + '% )'
+            })
 
         };
 
@@ -236,7 +241,7 @@ export default function MainPage({ }) {
                 <CoreChart data={market.series} height={350} name={'market'} categories={market.categories} lengendX={1} LengendY={0} />
 
                 <Box sx={{ position: 'absolute', transform: 'translate(11vw, 290px)', }}  >
-                    <Kospi200CurrentValue hiddenTitle={true} valueFont={'2.7rem'} />
+                    <Kospi200CurrentValue hiddenTitle={true} valueFont={'2.7rem'} net={kospi200Current.net} marketValue={kospi200Current.marketValue} />
                 </Box>
 
                 <CoreChart data={trendData.series} height={410} name={'trendData'} categories={trendData.categories} type={'column'} yAxis0Abs={trendData.yAxis0Abs} yAxis1Abs={trendData.yAxis1Abs} yAxis2Abs={trendData.yAxis2Abs} />
