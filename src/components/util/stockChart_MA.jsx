@@ -350,7 +350,7 @@ const StockChart = ({ stockName, height, price, boxTransform, info, series, sele
                         <StyledToggleButton fontSize={10} value="A">A-Type</StyledToggleButton>
                         <StyledToggleButton fontSize={10} value="B">B-Type</StyledToggleButton>
                         <StyledToggleButton fontSize={10} value="Envelope">Envelope</StyledToggleButton>
-                        <StyledToggleButton fontSize={10} value="Short">Short</StyledToggleButton>
+                        {/* <StyledToggleButton fontSize={10} value="Short">Short</StyledToggleButton> */}
                     </ToggleButtonGroup>
                 </Stack>
             </Grid>
