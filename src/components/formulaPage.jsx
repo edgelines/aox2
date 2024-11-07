@@ -153,7 +153,6 @@ export default function FormulaPage({ swiperRef, baseStockName }) {
             setDatasetCount(res.count);
             setTimeLine(res.savetime);
             setClassification(res.classification);
-            console.log(res.table_data);
         };
 
         ws.onerror = (error) => {

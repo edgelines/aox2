@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 
-import { Grid, Stack, Typography, Input, InputAdornment, Checkbox, FormControlLabel, Skeleton, Table, TableBody, TableRow, TableCell, TableContainer, } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { Grid, Stack, Skeleton, Table, TableBody, TableRow, TableCell, TableContainer, } from '@mui/material';
+// import { grey } from '@mui/material/colors';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { StyledButton, DataTableStyleDefault } from '../util/util';
+import { DataTableStyleDefault } from '../util/util';
 import { StyledTypography_StockInfo, Financial } from '../util/htsUtil';
 import StockChart_MA from '../util/stockChart_MA';
-import { renderProgress, StyledInput } from '../util/ipoUtil';
+import { renderProgress } from '../util/ipoUtil';
 import { API, STOCK } from '../util/config';
 
 export default function IpoPulseTable({ swiperRef, filter, checkBox, selectedIndustries, handleCheckBox, handleRangeValue, onSelectedBtn, handleReset, handleSelectedIndustries, onTotalCount }) {

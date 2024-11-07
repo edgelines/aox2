@@ -3,7 +3,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
 
-const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, xAxisPlotLines, isSingle }) => {
+const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, isSingle, isUnderEnvelope }) => {
     const chartComponent = useRef(null);
     const [chartOptions, setChartOptions] = useState({
         chart: {
@@ -138,19 +138,14 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, xAxi
     useEffect(() => {
         let chart
 
-        const y_categories = ['Bottom', '27.7', '26.7', '25.7', '24.7', '23.7', '22.7', '21.7', '20.7', '19.7', '18.7', '17.7', '16.7', '15.7', '14.7', '13.7', '12.7', '11.7', '10.7', '9.7', '8.7']
+        const y_categories_1 = ['Bottom', '27.7', '26.7', '25.7', '24.7', '23.7', '22.7', '21.7', '20.7', '19.7', '18.7', '17.7', '16.7', '15.7', '14.7', '13.7', '12.7', '11.7', '10.7', '9.7', '8.7']
+        const y_categories_2 = ['9, 8.0', '9, 7.0', '9, 6.0', '9, 5.0', '14, 8.0', '14, 7.0', '19, 10.7', '19, 9.7', '19, 8.7', '19, 7.7', '19, 6.7']
         if (isSingle) {
             chart = chartComponent.current.chart;
 
             chart.update({
                 yAxis: {
-                    categories: y_categories,
-                    // xAxis: {
-                    //     plotLines: [
-                    //         {
-                    //             value: 10, width: 1, color: 'gold', dashStyle: 'dash', zIndex: 2
-                    //         }],
-                    // },
+                    categories: isUnderEnvelope == 'under_envelope' ? y_categories_1 : y_categories_2,
 
                     plotLines: [
                         {
@@ -167,7 +162,7 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, xAxi
         }
 
 
-    }, [])
+    }, [isUnderEnvelope])
 
     // useEffect(() => {
     //     let chart

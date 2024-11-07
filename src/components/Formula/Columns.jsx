@@ -431,7 +431,72 @@ export const under_envelope_columns = [
     {
         field: 'env', headerName: 'Env%', width: 50,
         align: 'right', headerAlign: 'center',
-        renderCell: renderEnvelopePercent
+        renderCell: (params) => renderEnvelopePercent(params, 'compare_envelop_close_return_inx')
+    }, {
+        field: 'w9', headerName: 'W.9', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '9')
+    }, {
+        field: 'w14', headerName: 'W.14', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '14')
+    }, {
+        field: 'w26', headerName: 'W.26', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '26')
+    }, {
+        field: 'DMI_7_단', headerName: 'D.7', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_7')
+    }, {
+        field: 'DMI_9_단', headerName: 'D.9', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_9')
+    }, {
+        field: 'DMI_14_단', headerName: 'D.14', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_14')
+    }, {
+        field: 'DMI_17', headerName: 'd.17', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '17')
+    }, {
+        field: 'DMI_17_단', headerName: 'D.17', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_17')
+    }, {
+        field: 'DMI_21_단', headerName: 'D.21', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_21')
+    }, {
+        field: 'DMI_22', headerName: 'd.22', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '22')
+    }, {
+        field: 'DMI_38_단', headerName: 'D.38', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_38')
+    }, {
+        field: 'DMI_40_단', headerName: 'D.40', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_40')
+    }, {
+        field: 'DMI_44_단', headerName: 'D.44', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_44')
+    }, {
+        field: 'DMI_64_단', headerName: 'D.64', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_64')
+    }
+]
+
+export const under_envelope_2_columns = [
+    ...base_columns.filter(col => col.field !== '테마명'),
+    {
+        field: 'env', headerName: 'Env%', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderEnvelopePercent(params, 'compare_envelop_close_return_inx_2')
     }, {
         field: 'w9', headerName: 'W.9', width: 50,
         align: 'right', headerAlign: 'center',

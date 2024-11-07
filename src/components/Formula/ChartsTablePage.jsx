@@ -4,7 +4,7 @@ import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, S
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
-import { customTheme, A_columns, B1_columns, Envelope_columns, Short_columns, DMI_columns, under_envelope_columns } from './Columns';
+import { customTheme, A_columns, B1_columns, Envelope_columns, Short_columns, DMI_columns, under_envelope_columns, under_envelope_2_columns } from './Columns';
 import { CountTable } from '../Motions/CountTable'
 import { legend } from '../Motions/legend';
 import { blue } from '@mui/material/colors';
@@ -16,8 +16,6 @@ import Charts from './Charts';
 const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, swiperRef, datasetCount, getInfo, classification, formulaType, handleFormulaType }) => {
     const chartHeight = 500;
     const tableHeight = 390;
-    // const chartComponent = useRef(null);
-    // const [tableData, setTableData] = useState([]);
     const [selectedIndustry, setSelectedIndustry] = useState([]);
     const [selectedThemes, setSelectedThemes] = useState([]);
     const [open, setOpen] = useState(false);
@@ -140,7 +138,7 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
             {/* Top Scatter Chart & Industry, Themes Table */}
             <Grid container sx={{ mt: 2 }}>
                 {
-                    formulaType === 'under_envelope' ?
+                    ['under_envelope', 'under_envelope_2'].includes(formulaType) ?
 
                         <Grid item xs={10}>
                             <Charts
@@ -151,6 +149,7 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                                 xAxisText={'DMI 17 가중,단순 avg'}
                                 yAxisText={'Envelope 19'}
                                 isSingle={true}
+                                isUnderEnvelope={formulaType}
                             />
                         </Grid>
 
@@ -267,6 +266,7 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                             <StyledToggleButton fontSize={11} value="DMI_9_series">D9</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="DMI_22_series">D22</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="under_envelope">지하1</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="under_envelope_2">지하2</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Stack>
 
@@ -319,7 +319,8 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                                         formulaType === 'B' ? B1_columns :
                                             formulaType === 'Short' ? Short_columns :
                                                 formulaType === 'under_envelope' ? under_envelope_columns :
-                                                    Envelope_columns}
+                                                    formulaType === 'under_envelope_2' ? under_envelope_2_columns :
+                                                        Envelope_columns}
                             rowHeight={20}
                             onCellClick={(params, event) => {
                                 getInfo(params.row);

@@ -5,12 +5,12 @@ import { Grid, Stack, Typography, Input, InputAdornment, Checkbox, FormControlLa
 import { grey } from '@mui/material/colors';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { StyledButton, DataTableStyleDefault } from './util/util';
-import { StyledTypography_StockInfo, Financial } from './util/htsUtil';
-import StockChart_MA from './util/stockChart_MA';
-import { renderProgress, StyledInput } from './util/ipoUtil';
-import { API, STOCK } from './util/config';
-import ThumbnailChart from './IpoPulse/thumbnailChart';
+import { StyledButton, DataTableStyleDefault } from '../util/util';
+import { StyledTypography_StockInfo, Financial } from '../util/htsUtil';
+import StockChart_MA from '../util/stockChart_MA';
+import { renderProgress } from '../util/ipoUtil';
+import { API, STOCK } from '../util/config';
+import ThumbnailChart from './thumbnailChart';
 
 export default function IpoPulsePage({ swiperRef }) {
 

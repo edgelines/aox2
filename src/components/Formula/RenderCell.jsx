@@ -209,12 +209,13 @@ export const renderCrossEnvelope = (params, key) => {
  * @param {*} params : mui grid params row
  * @returns boolean
  */
-export const renderEnvelopePercent = (params) => {
-    if (!params.row.Envelope || typeof params.row.Envelope.compare_envelop_close_return_inx.key === 'undefined') {
+export const renderEnvelopePercent = (params, name) => {
+    if (!params.row.Envelope || typeof params.row.Envelope[name] === 'undefined') {
         return <span> </span>; // CROSS가 없거나 key가 없을 경우 빈 span 반환
     }
-    const _value = params.row.Envelope.compare_envelop_close_return_inx.key
-    // if (typeof _value !== 'boolean') return <span> </span>;
-    return <span> {_value}</span>
+    const _value = params.row.Envelope[name]['key']
+    console.log(name, _value)
+    if (typeof _value !== 'number') return <span>{String(_value)}</span>;
+    return <span> {String(_value)}</span>
 }
 
