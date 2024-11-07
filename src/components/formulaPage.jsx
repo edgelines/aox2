@@ -183,9 +183,10 @@ export default function FormulaPage({ swiperRef, baseStockName }) {
         }
     }
     useEffect(() => {
-        getSelectedChartType()
-    }, [stock, selectedChartType])
-
+        if (stock.종목코드) {
+            getSelectedChartType()
+        }
+    }, [selectedChartType])
 
     return (
         <Grid container spacing={1}>

@@ -203,7 +203,9 @@ export default function LeadSectorsPage({ swiperRef, baseStockName }) {
         }
     }
     useEffect(() => {
-        getSelectedChartType()
+        if (stock.종목코드) {
+            getSelectedChartType()
+        }
     }, [selectedChartType])
 
 

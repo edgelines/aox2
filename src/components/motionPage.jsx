@@ -232,7 +232,9 @@ export default function MotionPage({ swiperRef, num, baseStockName }) {
         }
     }
     useEffect(() => {
-        getSelectedChartType()
+        if (stock.종목코드) {
+            getSelectedChartType()
+        }
     }, [selectedChartType])
 
     return (

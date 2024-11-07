@@ -162,7 +162,9 @@ export default function SearchFinancial({ swiperRef, baseStockName }) {
         }
     }
     useEffect(() => {
-        getSelectedChartType()
+        if (stock.종목코드) {
+            getSelectedChartType()
+        }
     }, [selectedChartType])
 
     const getInfo = async (params) => {

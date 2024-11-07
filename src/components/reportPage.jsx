@@ -172,8 +172,10 @@ export default function TestPage({ swiperRef, baseStockName }) {
         }
     }
     useEffect(() => {
-        getSelectedChartType()
-    }, [stock, selectedChartType])
+        if (stock.종목코드) {
+            getSelectedChartType()
+        }
+    }, [selectedChartType])
     return (
         <Grid container spacing={1}>
             {/* <Grid item container xs={12}>
