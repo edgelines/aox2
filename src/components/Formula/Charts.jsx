@@ -140,22 +140,26 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, isSi
 
         const y_categories_1 = ['Bottom', '27.7', '26.7', '25.7', '24.7', '23.7', '22.7', '21.7', '20.7', '19.7', '18.7', '17.7', '16.7', '15.7', '14.7', '13.7', '12.7', '11.7', '10.7', '9.7', '8.7']
         const y_categories_2 = ['9, 8.0', '9, 7.0', '9, 6.0', '9, 5.0', '14, 8.0', '14, 7.0', '19, 10.7', '19, 9.7', '19, 8.7', '19, 7.7', '19, 6.7']
+
+        const under_envelope_plot_lines = [
+            { value: 14, width: 1, color: 'red', dashStyle: 'dash', zIndex: 2 },
+            { value: 12, width: 1, color: 'dodgerblue', dashStyle: 'dash', zIndex: 2 },
+            { value: 9, width: 1, color: 'white', dashStyle: 'dash', zIndex: 2 }
+        ]
+
+        const under_envelope_2_plot_lines = [
+            { value: 6, width: 1, color: 'dodgerblue', dashStyle: 'dash', zIndex: 2 },
+            { value: 4, width: 1, color: 'red', dashStyle: 'dash', zIndex: 2 },
+            { value: 2, width: 1, color: 'white', dashStyle: 'dash', zIndex: 2 }
+        ]
+
         if (isSingle) {
             chart = chartComponent.current.chart;
 
             chart.update({
                 yAxis: {
                     categories: isUnderEnvelope == 'under_envelope' ? y_categories_1 : y_categories_2,
-
-                    plotLines: [
-                        {
-                            value: 14, width: 1, color: 'red', dashStyle: 'dash', zIndex: 2
-                        }, {
-                            value: 12, width: 1, color: 'dodgerblue', dashStyle: 'dash', zIndex: 2
-                        }, {
-                            value: 9, width: 1, color: 'white', dashStyle: 'dash', zIndex: 2
-                        }],
-
+                    plotLines: isUnderEnvelope == 'under_envelope' ? under_envelope_plot_lines : under_envelope_2_plot_lines,
                 },
             });
 
