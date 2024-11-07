@@ -4,7 +4,7 @@ import { Grid, Box, TableContainer, IconButton, ToggleButtonGroup, Typography, S
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ThemeProvider } from '@mui/material/styles';
 import { DataTableStyleDefault } from '../LeadSectors/tableColumns';
-import { customTheme, A_columns, B1_columns, Envelope_columns, Short_columns, DMI_columns, under_envelope_columns, under_envelope_2_columns } from './Columns';
+import { customTheme, A_columns, B1_columns, Short_columns, DMI_columns, under_envelope_columns, under_envelope_2_columns } from './Columns';
 import { CountTable } from '../Motions/CountTable'
 import { legend } from '../Motions/legend';
 import { blue } from '@mui/material/colors';
@@ -258,15 +258,14 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                         >
                             <StyledToggleButton fontSize={11} value="A">A-Type</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="B">DMI-Type</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="Envelope">Env-G</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="Short">Short</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="DMI_단순_17_DMI_22">D17 단순</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="DMI_14_series">D14</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="DMI_17_series">D17</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="DMI_9_series">D9</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="DMI_22_series">D22</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="under_envelope">지하1</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="under_envelope_2">지하2</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="under_envelope">E-Bottom</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="under_envelope_2">E-Reverse</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Stack>
 
@@ -320,7 +319,7 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                                             formulaType === 'Short' ? Short_columns :
                                                 formulaType === 'under_envelope' ? under_envelope_columns :
                                                     formulaType === 'under_envelope_2' ? under_envelope_2_columns :
-                                                        Envelope_columns}
+                                                        DMI_columns}
                             rowHeight={20}
                             onCellClick={(params, event) => {
                                 getInfo(params.row);
@@ -381,13 +380,6 @@ const TypeMessage = (_type) => {
                 <Typography sx={textStyle} >- DMI.9 (미래) : 15 이하</Typography>
                 <Typography sx={textStyle} >- DMI.17 (미래) : 30 이하</Typography>
                 <Typography sx={textStyle} >- WillR.14 가 WillR.14-7 Sig보다 낮아야 한다.</Typography>
-            </>)
-
-        case 'Envelope':
-            return (<>
-                {commonMessages}
-                <Typography sx={textStyle} >- 종가나 고가가 5저가가중, 5중간값가중, 6저가가중, 6중간값가중 돌파</Typography>
-                <Typography sx={textStyle} >- 종가나 고가가 각 Envelope 돌파</Typography>
             </>)
 
         case 'Short':
