@@ -135,11 +135,12 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
 
     const getColumnsForFormulaType = (type) => {
         const DMI_SERIES = ['DMI_단순_17_DMI_22', 'DMI_14_series', 'DMI_17_series', 'DMI_9_series', 'DMI_22_series'];
+        const Short_Series = ['Short', 'Short_2']
 
         if (type === 'A') return A_columns;
         if (DMI_SERIES.includes(type)) return DMI_columns;
         if (type === 'B') return B1_columns;
-        if (type === 'Short') return Short_columns;
+        if (Short_Series.includes(type)) return Short_columns;
         if (type === 'under_envelope') return under_envelope_columns;
         if (type === 'under_envelope_2') return under_envelope_2_columns;
 
@@ -191,31 +192,56 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                                 </Grid>
                             </>
 
-                            :
-                            <>
-                                <Grid item xs={5}>
-                                    {/* Chart */}
-                                    <Charts
-                                        dataset={dataset}
-                                        getInfo={getInfo}
-                                        height={chartHeight}
-                                        xAxisText={'Williams R 26'}
-                                        yAxisText={'DMI 9, 17 Avg'}
-                                    />
-                                </Grid>
-                                <Grid item xs={5}>
-                                    {/* Chart */}
-                                    <Charts
-                                        dataset={dataset2}
-                                        timeLine={timeLine}
-                                        getInfo={getInfo}
-                                        height={chartHeight}
-                                        xAxisText={'DMI 8 가중 - DMI 8 단순'}
-                                        yAxisText={'DMI 9 가중 - DMI 9 단순'}
-                                        xAxisPlotLines={true}
-                                    />
-                                </Grid>
-                            </>
+                            : formulaType === 'Short_2' ?
+                                <>
+                                    <Grid item xs={5}>
+                                        {/* Chart */}
+                                        <Charts
+                                            dataset={dataset}
+                                            getInfo={getInfo}
+                                            height={chartHeight}
+                                            xAxisText={'W9,3 - W14,5 Sig Avg'}
+                                            yAxisText={'W9 - W18 Avg'}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={5}>
+                                        {/* Chart */}
+                                        <Charts
+                                            dataset={dataset2}
+                                            timeLine={timeLine}
+                                            getInfo={getInfo}
+                                            height={chartHeight}
+                                            xAxisText={'주봉 D14'}
+                                            yAxisText={'주봉 D22'}
+                                        />
+                                    </Grid>
+                                </>
+
+                                :
+                                <>
+                                    <Grid item xs={5}>
+                                        {/* Chart */}
+                                        <Charts
+                                            dataset={dataset}
+                                            getInfo={getInfo}
+                                            height={chartHeight}
+                                            xAxisText={'Williams R 26'}
+                                            yAxisText={'DMI 9, 17 Avg'}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={5}>
+                                        {/* Chart */}
+                                        <Charts
+                                            dataset={dataset2}
+                                            timeLine={timeLine}
+                                            getInfo={getInfo}
+                                            height={chartHeight}
+                                            xAxisText={'DMI 8 가중 - DMI 8 단순'}
+                                            yAxisText={'DMI 9 가중 - DMI 9 단순'}
+                                            xAxisPlotLines={true}
+                                        />
+                                    </Grid>
+                                </>
                 }
 
 
@@ -304,6 +330,7 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                             <StyledToggleButton fontSize={11} value="Favorite">Favorite</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="under_envelope">E-Bottom</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="under_envelope_2">E-Reverse</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="Short_2">주봉D22/D14</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Stack>
 
@@ -347,18 +374,7 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                         <DataGrid
                             rows={tableData}
                             columns={getColumnsForFormulaType(formulaType)}
-                            // columns={
-                            //     formulaType === 'A' ? A_columns :
-                            //         ['DMI_단순_17_DMI_22',
-                            //             'DMI_14_series',
-                            //             'DMI_17_series',
-                            //             'DMI_9_series',
-                            //             'DMI_22_series'].includes(formulaType) ? DMI_columns :
-                            //             formulaType === 'B' ? B1_columns :
-                            //                 formulaType === 'Short' ? Short_columns :
-                            //                     formulaType === 'under_envelope' ? under_envelope_columns :
-                            //                         formulaType === 'under_envelope_2' ? under_envelope_2_columns :
-                            //                             DMI_columns}
+
                             rowHeight={20}
                             sortingMode="server"
                             onCellClick={(params, event) => {
@@ -425,18 +441,21 @@ const TypeMessage = (_type) => {
         case 'Short':
             return (<>
                 {commonMessages}
-                <Typography sx={textStyle} >- 14, 9, 7 종가지수 역배열 상태</Typography>
-                <Typography sx={textStyle} >- 1-2 : 1일선(종가지수)이 2일선(종가지수)보다 높다</Typography>
-                <Typography sx={textStyle} >- 1-3 : 1일선(종가지수)이 3일선(종가지수)보다 높다</Typography>
-                <Typography sx={textStyle} >- 2-3 : 2일선(종가지수)이 3일선(종가지수)보다 높다</Typography>
-                <Typography sx={textStyle} >- 2=3 : 2일선(종가지수)이 3일선(종가지수)보다 낮다</Typography>
-                <Typography sx={textStyle} >- 4종지 : 종가와 고가가 4종가지수보다 높을경우 ㅁ, 고가는 4종가지수보다 높지만 종가는 낮을경우 ㅗ </Typography>
-                <Typography sx={textStyle} >- 5종지 : 종가와 고가가 5종가지수보다 높을경우 ㅁ, 고가는 5종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
-                <Typography sx={textStyle} >- 6종지 : 종가와 고가가 6종가지수보다 높을경우 ㅁ, 고가는 6종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
-                <Typography sx={textStyle} >- 7종지 : 종가와 고가가 7종가지수보다 높을경우 ㅁ, 고가는 7종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
-                <Typography sx={textStyle} >- 9종지 : 종가와 고가가 9종가지수보다 높을경우 ㅁ, 고가는 7종가지수보다 높지만 종가는 낮을경우 ㅗ</Typography>
-                <Typography sx={textStyle} >- 1-7 : 종가나 고가가 7시가삼각을 돌파</Typography>
-                <Typography sx={textStyle} >- 1-112 : 종가가 112저가지수보다 낮을경우</Typography>
+                <Typography sx={textStyle} >- 전일대비거래량 1500% 이하 변경</Typography>
+                <Typography sx={textStyle} >- 18고가삼각,18(고저종)삼각 ,18저가삼각,15저가삼각,13저가삼각,7종가삼각 역배열 상태</Typography>
+                <Typography sx={textStyle} >- DMI4 : 55이하 </Typography>
+                <Typography sx={textStyle} >- Williams 6 : -20 이하, W14: -30이하 </Typography>
+                <Typography sx={textStyle} >- 현재 주가는 5(저가, 가중) 보다 높아야함 </Typography>
+                <Typography sx={textStyle} >- 현재 주가는 112 저가지수 보다 낮아야함 </Typography>
+                <Typography sx={textStyle} >- 현재 주가는 20 고가 삼각보다 낮아야함 </Typography>
+                <Typography sx={textStyle} >- 18고가삼각선이 112 저가 지수 보다 낮아야함 </Typography>
+                <Typography sx={textStyle} >- 6종삼 : 종가와 고가가 7종가삼각보다 높을경우 ㅁ, 고가는 7종가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
+                <Typography sx={textStyle} >- 13저삼 : 종가와 고가가 13저가삼각보다 높을경우 ㅁ, 고가는 13저가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
+                <Typography sx={textStyle} >- 15저삼 : 종가와 고가가 15저가삼각보다 높을경우 ㅁ, 고가는 15저가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
+                <Typography sx={textStyle} >- 18저삼 : 종가와 고가가 18저가삼각보다 높을경우 ㅁ, 고가는 18저가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
+                <Typography sx={textStyle} >- 18종삼 : 종가와 고가가 18(고저종)삼각보다 높을경우 ㅁ, 고가는 18(고저종)삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
+                <Typography sx={textStyle} >- 18고삼 : 종가와 고가가 18고가삼각보다 높을경우 ㅁ, 고가는 18고가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
+
             </>)
 
         case 'Favorite':
