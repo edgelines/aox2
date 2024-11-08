@@ -165,93 +165,69 @@ export const B1_columns = [
 export const Short_columns = [
     ...base_columns.filter(col => col.field !== '테마명'),
     {
-        //     field: '단기검색조건1', headerName: '1->2', width: 40,
-        //     align: 'right', headerAlign: 'center',
-        //     renderCell: (params) => renderShortCell(params, '조건1')
-        // }, {
-        //     field: '단기검색조건2', headerName: '1->3', width: 40,
-        //     align: 'right', headerAlign: 'center',
-        //     renderCell: (params) => renderShortCell(params, '조건2')
-        // }, {
-        //     field: '단기검색조건3', headerName: '2>3', width: 40,
-        //     align: 'right', headerAlign: 'center',
-        //     renderCell: (params) => renderShortCell(params, '조건3')
-        // }, {
-        //     field: '단기검색조건4', headerName: '2<3', width: 50,
-        //     align: 'right', headerAlign: 'center',
-        //     renderCell: (params) => renderShortCell(params, '조건4')
-        // }, {
-        field: '단기검색조건5', headerName: '4종지', width: 50,
+        field: '7종삼', headerName: '7종삼', width: 50,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderMaCell(params, 'Short', '조건5')
+        renderCell: (params) => renderMaCell(params, 'Short', '7종가삼각')
     }, {
-        field: '단기검색조건6', headerName: '5종지', width: 50,
+        field: '13저삼', headerName: '13저삼', width: 50,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderMaCell(params, 'Short', '조건6')
+        renderCell: (params) => renderMaCell(params, 'Short', '13저가삼각')
     }, {
-        field: '단기검색조건7', headerName: '6종지', width: 50,
+        field: '15저삼', headerName: '15저삼', width: 50,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderMaCell(params, 'Short', '조건7')
+        renderCell: (params) => renderMaCell(params, 'Short', '15저가삼각')
     }, {
-        field: '단기검색조건8', headerName: '7종지', width: 50,
+        field: '18저삼', headerName: '18저삼', width: 50,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderMaCell(params, 'Short', '조건8')
+        renderCell: (params) => renderMaCell(params, 'Short', '18저가삼각')
     }, {
-        field: '단기검색조건11', headerName: '9종지', width: 50,
+        field: '18중삼', headerName: '18중삼', width: 50,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderMaCell(params, 'Short', '조건11')
+        renderCell: (params) => renderMaCell(params, 'Short', '18중간삼각')
     }, {
-        //     field: '단기검색조건9', headerName: '1>7', width: 40,
-        //     align: 'right', headerAlign: 'center',
-        //     renderCell: (params) => renderShortCell(params, '조건9')
-        // }, {
-        //     field: '단기검색조건10', headerName: '1<112', width: 40,
-        //     align: 'right', headerAlign: 'center',
-        //     renderCell: (params) => renderShortCell(params, '조건10')
-        // }, {
-        field: 'w9', headerName: 'W.9', width: 50,
+        field: '18고삼', headerName: '18고삼', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderMaCell(params, 'Short', '18고가삼각')
+    }, {
+        field: 'w6', headerName: 'W.6', width: 45,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderWilliamsCell(params, '6')
+    }, {
+        field: 'w9', headerName: 'W.9', width: 45,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderWilliamsCell(params, '9')
     }, {
-        field: 'w14', headerName: 'W.14', width: 50,
+        field: 'w14', headerName: 'W.14', width: 45,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderWilliamsCell(params, '14')
     }, {
-        field: 'DMI_7', headerName: 'd.7', width: 50,
+        field: 'DMI_1', headerName: 'd.1', width: 45,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderDmiCell(params, '7')
+        renderCell: (params) => renderDmiCell(params, '1')
     }, {
-        field: 'DMI_7_단', headerName: 'D.7', width: 50,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderDmiCell(params, '단순_7')
-    }, {
-        field: 'DMI_8_단', headerName: 'D.8', width: 50,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderDmiCell(params, '단순_8')
-    }, {
-        field: 'DMI_9', headerName: 'd.9', width: 50,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderDmiCell(params, '9')
-    }, {
-        field: 'DMI_9_단', headerName: 'D.9', width: 50,
+        field: 'DMI_9_단', headerName: 'D.9', width: 45,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '단순_9')
-    }, {
-        field: 'DMI_14_단', headerName: 'D.14', width: 50,
-        align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderDmiCell(params, '단순_14')
     }, {
         field: 'DMI_17', headerName: 'd.17', width: 50,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => renderDmiCell(params, '17')
     }, {
-        field: 'DMI_17_단', headerName: 'D.17', width: 50,
+        field: 'DMI_18_단', headerName: 'D.18', width: 50,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderDmiCell(params, '단순_17')
+        renderCell: (params) => renderDmiCell(params, '단순_18')
     }, {
-        field: 'DMI_22', headerName: 'd.22', width: 50,
+        field: 'DMI_21_단', headerName: 'D.21', width: 50,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderDmiCell(params, '22')
+        renderCell: (params) => renderDmiCell(params, '단순_21')
+    }, {
+        field: 'DMI_33', headerName: 'd.33', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '33')
+    }, {
+        field: 'DMI_40_단', headerName: 'D.40', width: 50,
+        align: 'right', headerAlign: 'center',
+        renderCell: (params) => renderDmiCell(params, '단순_40')
     }
 ]
 

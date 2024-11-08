@@ -13,7 +13,7 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, isSi
         subtitle: { align: 'right', style: { color: '#efe9e9ed', fontSize: '12.5px', backgroundColor: 'rgba(0, 0, 0, 0.2)', }, floating: true, x: 0, y: 15 },
         navigation: { buttonOptions: { enabled: false } },
         xAxis: {
-            title: { text: xAxisText, style: { color: '#efe9e9ed' } },
+            title: { text: '', style: { color: '#efe9e9ed' } },
             labels: {
                 style: { color: '#404040', fontSize: '11px' }, formatter: function () {
                     var color = this.value > 0 ? '#FCAB2F' : this.value < 0 ? '#00F3FF' : '#efe9e9ed';
@@ -28,7 +28,7 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, isSi
             // min: 50
         },
         yAxis: {
-            title: { text: yAxisText, style: { color: '#efe9e9ed' } },
+            title: { text: '', style: { color: '#efe9e9ed' } },
             labels: {
                 style: { color: '#efe9e9ed', fontSize: '11px' },
                 formatter: function () {
@@ -110,6 +110,8 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, isSi
 
             setChartOptions({
                 series: dataset,
+                yAxis: { title: { text: yAxisText } },
+                xAxis: { title: { text: xAxisText } },
             })
         }
 
@@ -164,7 +166,6 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, isSi
             });
 
         }
-
 
     }, [isUnderEnvelope])
 

@@ -133,6 +133,19 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
         }
     }
 
+    const getColumnsForFormulaType = (type) => {
+        const DMI_SERIES = ['DMI_단순_17_DMI_22', 'DMI_14_series', 'DMI_17_series', 'DMI_9_series', 'DMI_22_series'];
+
+        if (type === 'A') return A_columns;
+        if (DMI_SERIES.includes(type)) return DMI_columns;
+        if (type === 'B') return B1_columns;
+        if (type === 'Short') return Short_columns;
+        if (type === 'under_envelope') return under_envelope_columns;
+        if (type === 'under_envelope_2') return under_envelope_2_columns;
+
+        return DMI_columns; // 기본값
+    };
+
     return (
         <div>
             {/* Top Scatter Chart & Industry, Themes Table */}
@@ -153,32 +166,56 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                             />
                         </Grid>
 
-                        :
-                        <>
-                            <Grid item xs={5}>
-                                {/* Chart */}
-                                <Charts
-                                    dataset={dataset}
-                                    // timeLine={timeLine}
-                                    getInfo={getInfo}
-                                    height={chartHeight}
-                                    xAxisText={'Williams R 26'}
-                                    yAxisText={'DMI 9, 17 Avg'}
-                                />
-                            </Grid>
-                            <Grid item xs={5}>
-                                {/* Chart */}
-                                <Charts
-                                    dataset={dataset2}
-                                    timeLine={timeLine}
-                                    getInfo={getInfo}
-                                    height={chartHeight}
-                                    xAxisText={'DMI 8 가중 - DMI 8 단순'}
-                                    yAxisText={'DMI 9 가중 - DMI 9 단순'}
-                                    xAxisPlotLines={true}
-                                />
-                            </Grid>
-                        </>
+                        : formulaType === 'Short' ?
+                            <>
+                                <Grid item xs={5}>
+                                    {/* Chart */}
+                                    <Charts
+                                        dataset={dataset}
+                                        getInfo={getInfo}
+                                        height={chartHeight}
+                                        xAxisText={'W9,3 - W14,5 Sig Avg'}
+                                        yAxisText={'W9 - W18 Avg'}
+                                    />
+                                </Grid>
+                                <Grid item xs={5}>
+                                    {/* Chart */}
+                                    <Charts
+                                        dataset={dataset2}
+                                        timeLine={timeLine}
+                                        getInfo={getInfo}
+                                        height={chartHeight}
+                                        xAxisText={'W6,3 - W14,5 Sig Avg'}
+                                        yAxisText={'W26'}
+                                    />
+                                </Grid>
+                            </>
+
+                            :
+                            <>
+                                <Grid item xs={5}>
+                                    {/* Chart */}
+                                    <Charts
+                                        dataset={dataset}
+                                        getInfo={getInfo}
+                                        height={chartHeight}
+                                        xAxisText={'Williams R 26'}
+                                        yAxisText={'DMI 9, 17 Avg'}
+                                    />
+                                </Grid>
+                                <Grid item xs={5}>
+                                    {/* Chart */}
+                                    <Charts
+                                        dataset={dataset2}
+                                        timeLine={timeLine}
+                                        getInfo={getInfo}
+                                        height={chartHeight}
+                                        xAxisText={'DMI 8 가중 - DMI 8 단순'}
+                                        yAxisText={'DMI 9 가중 - DMI 9 단순'}
+                                        xAxisPlotLines={true}
+                                    />
+                                </Grid>
+                            </>
                 }
 
 
@@ -264,6 +301,7 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                             <StyledToggleButton fontSize={11} value="DMI_17_series">D17</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="DMI_9_series">D9</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="DMI_22_series">D22</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="Favorite">Favorite</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="under_envelope">E-Bottom</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="under_envelope_2">E-Reverse</StyledToggleButton>
                         </ToggleButtonGroup>
@@ -308,19 +346,21 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                     <ThemeProvider theme={customTheme}>
                         <DataGrid
                             rows={tableData}
-                            columns={
-                                formulaType === 'A' ? A_columns :
-                                    ['DMI_단순_17_DMI_22',
-                                        'DMI_14_series',
-                                        'DMI_17_series',
-                                        'DMI_9_series',
-                                        'DMI_22_series'].includes(formulaType) ? DMI_columns :
-                                        formulaType === 'B' ? B1_columns :
-                                            formulaType === 'Short' ? Short_columns :
-                                                formulaType === 'under_envelope' ? under_envelope_columns :
-                                                    formulaType === 'under_envelope_2' ? under_envelope_2_columns :
-                                                        DMI_columns}
+                            columns={getColumnsForFormulaType(formulaType)}
+                            // columns={
+                            //     formulaType === 'A' ? A_columns :
+                            //         ['DMI_단순_17_DMI_22',
+                            //             'DMI_14_series',
+                            //             'DMI_17_series',
+                            //             'DMI_9_series',
+                            //             'DMI_22_series'].includes(formulaType) ? DMI_columns :
+                            //             formulaType === 'B' ? B1_columns :
+                            //                 formulaType === 'Short' ? Short_columns :
+                            //                     formulaType === 'under_envelope' ? under_envelope_columns :
+                            //                         formulaType === 'under_envelope_2' ? under_envelope_2_columns :
+                            //                             DMI_columns}
                             rowHeight={20}
+                            sortingMode="server"
                             onCellClick={(params, event) => {
                                 getInfo(params.row);
                             }}
