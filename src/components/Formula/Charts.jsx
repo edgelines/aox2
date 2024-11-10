@@ -3,7 +3,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
 
-const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, isSingle, isUnderEnvelope }) => {
+const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, isSingle, isUnderEnvelope, isAxisPlotLinesName }) => {
     const chartComponent = useRef(null);
     const [chartOptions, setChartOptions] = useState({
         chart: {
@@ -168,6 +168,37 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, isSi
         }
 
     }, [isUnderEnvelope])
+
+    useEffect(() => {
+        let chart
+
+        const xAxisPlotLines = {
+            'W9,3': [
+                { value: -60, width: 1, color: 'white', dashStyle: 'dash', zIndex: 2 },
+                { value: -75, width: 1, color: 'white', dashStyle: 'dash', zIndex: 2 },
+            ],
+        }
+        const yAxisPlotLines = {
+            'W9,3': [
+                { value: -60, width: 1, color: 'white', dashStyle: 'dash', zIndex: 2 },
+                { value: -75, width: 1, color: 'white', dashStyle: 'dash', zIndex: 2 },
+            ],
+            '주봉DMI': [
+                { value: 12.8, width: 1, color: 'white', dashStyle: 'dash', zIndex: 2 },
+            ]
+        }
+
+
+        if (chartComponent.current && dataset.length > 0) {
+            chart = chartComponent.current.chart;
+            if (isAxisPlotLinesName) {
+                chart.update({
+                    xAxis: { plotLines: xAxisPlotLines[isAxisPlotLinesName] },
+                    yAxis: { plotLines: yAxisPlotLines[isAxisPlotLinesName] }
+                });
+            }
+        }
+    }, [isAxisPlotLinesName])
 
     // useEffect(() => {
     //     let chart
