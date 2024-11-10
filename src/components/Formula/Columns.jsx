@@ -149,9 +149,9 @@ export const B1_columns = [
 export const Short_columns = [
     ...base_columns.filter(col => col.field !== '테마명'),
     {
-        field: 'Short_7종가삼각', headerName: '7종삼', width: 50,
+        field: 'Short_8종가삼각', headerName: '8종삼', width: 50,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderMaCell(params, 'Short', '7종가삼각')
+        renderCell: (params) => renderMaCell(params, 'Short', '8종가삼각')
     }, {
         field: 'Short_13저가삼각', headerName: '13저삼', width: 50,
         align: 'right', headerAlign: 'center',

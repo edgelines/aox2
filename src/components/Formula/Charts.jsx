@@ -200,28 +200,6 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, isSi
         }
     }, [isAxisPlotLinesName])
 
-    // useEffect(() => {
-    //     let chart
-    //     if (chartComponent.current && dataset.length > 0) {
-    //         chart = chartComponent.current.chart;
-    //         if (xAxisPlotLines) {
-    //             chart.update({
-    //                 xAxis: {
-    //                     plotLines: [
-    //                         {
-    //                             value: -130, width: 1, color: 'gold', dashStyle: 'dash', zIndex: 2
-    //                         }, {
-    //                             value: -100, width: 1, color: 'orange', dashStyle: 'dash', zIndex: 2
-    //                         }, {
-    //                             value: 0, width: 1, color: 'orange', dashStyle: 'dash', zIndex: 2
-    //                         }, {
-    //                             value: 100, width: 1, color: 'tomato', dashStyle: 'dash', zIndex: 2
-    //                         }],
-    //                 },
-    //             });
-    //         }
-    //     }
-    // }, [xAxisPlotLines])
 
     if (!dataset) return <div>Loading...</div>;
 
