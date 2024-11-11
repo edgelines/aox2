@@ -462,26 +462,26 @@ const TypeMessage = (_type) => {
                 <Typography sx={textStyle} >- 18고삼 : 종가와 고가가 18고가삼각보다 높을경우 ㅁ, 고가는 18고가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
             </>)
 
-        case 'Short_2':
-            return (<>
-                {commonMessages}
-                <Typography sx={textStyle} >- 전일대비거래량 1500% 이하 변경</Typography>
-                <Typography sx={textStyle} >- 18고가삼각,18(고저종)삼각 ,18저가삼각,15저가삼각,13저가삼각 역배열 상태</Typography>
-                <Typography sx={textStyle} >- DMI4 : 55이하 </Typography>
-                <Typography sx={textStyle} >- Williams 6 : -20 이하, W14: -30이하 </Typography>
-                <Typography sx={textStyle} >- 현재 주가는 5(저가, 가중) 보다 높아야함 </Typography>
-                <Typography sx={textStyle} >- 현재 주가는 112 저가지수 보다 낮아야함 </Typography>
-                <Typography sx={textStyle} >- 현재 주가는 20 고가 삼각보다 낮아야함 </Typography>
-                <Typography sx={textStyle} >- 18고가삼각선이 112 저가 지수 보다 낮아야함 </Typography>
-                <Typography sx={textStyle} >- 주봉 DMI 22 단순이 13보다 작다 </Typography>
-                <Typography sx={textStyle} >- 주봉 DMI 14 단순이 10보다 작다 </Typography>
-                <Typography sx={textStyle} >- 6종삼 : 종가와 고가가 7종가삼각보다 높을경우 ㅁ, 고가는 7종가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
-                <Typography sx={textStyle} >- 13저삼 : 종가와 고가가 13저가삼각보다 높을경우 ㅁ, 고가는 13저가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
-                <Typography sx={textStyle} >- 15저삼 : 종가와 고가가 15저가삼각보다 높을경우 ㅁ, 고가는 15저가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
-                <Typography sx={textStyle} >- 18저삼 : 종가와 고가가 18저가삼각보다 높을경우 ㅁ, 고가는 18저가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
-                <Typography sx={textStyle} >- 18종삼 : 종가와 고가가 18(고저종)삼각보다 높을경우 ㅁ, 고가는 18(고저종)삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
-                <Typography sx={textStyle} >- 18고삼 : 종가와 고가가 18고가삼각보다 높을경우 ㅁ, 고가는 18고가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
-            </>)
+        // case 'Short_2':
+        //     return (<>
+        //         {commonMessages}
+        //         <Typography sx={textStyle} >- 전일대비거래량 1500% 이하 변경</Typography>
+        //         <Typography sx={textStyle} >- 18고가삼각,18(고저종)삼각 ,18저가삼각,15저가삼각,13저가삼각 역배열 상태</Typography>
+        //         <Typography sx={textStyle} >- DMI4 : 55이하 </Typography>
+        //         <Typography sx={textStyle} >- Williams 6 : -20 이하, W14: -30이하 </Typography>
+        //         <Typography sx={textStyle} >- 현재 주가는 5(저가, 가중) 보다 높아야함 </Typography>
+        //         <Typography sx={textStyle} >- 현재 주가는 112 저가지수 보다 낮아야함 </Typography>
+        //         <Typography sx={textStyle} >- 현재 주가는 20 고가 삼각보다 낮아야함 </Typography>
+        //         <Typography sx={textStyle} >- 18고가삼각선이 112 저가 지수 보다 낮아야함 </Typography>
+        //         <Typography sx={textStyle} >- 주봉 DMI 22 단순이 13보다 작다 </Typography>
+        //         <Typography sx={textStyle} >- 주봉 DMI 14 단순이 10보다 작다 </Typography>
+        //         <Typography sx={textStyle} >- 6종삼 : 종가와 고가가 7종가삼각보다 높을경우 ㅁ, 고가는 7종가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
+        //         <Typography sx={textStyle} >- 13저삼 : 종가와 고가가 13저가삼각보다 높을경우 ㅁ, 고가는 13저가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
+        //         <Typography sx={textStyle} >- 15저삼 : 종가와 고가가 15저가삼각보다 높을경우 ㅁ, 고가는 15저가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
+        //         <Typography sx={textStyle} >- 18저삼 : 종가와 고가가 18저가삼각보다 높을경우 ㅁ, 고가는 18저가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
+        //         <Typography sx={textStyle} >- 18종삼 : 종가와 고가가 18(고저종)삼각보다 높을경우 ㅁ, 고가는 18(고저종)삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
+        //         <Typography sx={textStyle} >- 18고삼 : 종가와 고가가 18고가삼각보다 높을경우 ㅁ, 고가는 18고가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
+        //     </>)
 
         case 'Favorite':
             return (<>

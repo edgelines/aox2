@@ -91,6 +91,7 @@ export default function FormulaPage({ swiperRef, baseStockName }) {
             }
             // 종목차트
             var res = await axios.get(`${STOCK}/get/${item.종목코드}/${selectedChartType}`);
+            print(res);
             if (res.status === 200) {
                 setStockChart({
                     series: res.data.series,

@@ -160,7 +160,7 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, isSi
 
             chart.update({
                 yAxis: {
-                    categories: isUnderEnvelope == 'under_envelope' ? y_categories_1 : y_categories_2,
+                    categories: isUnderEnvelope == 'under_envelope_2' ? y_categories_2 : y_categories_1,
                     plotLines: isUnderEnvelope == 'under_envelope' ? under_envelope_plot_lines : under_envelope_2_plot_lines,
                 },
             });
