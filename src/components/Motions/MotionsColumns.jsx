@@ -49,42 +49,42 @@ export const columns = [
             return `${params.value.toLocaleString('kr')} %`;
         }
     }, {
-        field: 'w9', headerName: 'W.9', width: 50,
+        field: 'WillR_9', headerName: 'W.9', width: 50,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderWilliamsCell(params, '9')
+        renderCell: renderWilliamsCell
     }, {
-        field: 'w14', headerName: 'w14', width: 40,
+        field: 'WillR_14', headerName: 'W.14', width: 40,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderWilliamsCell(params, '14')
+        renderCell: renderWilliamsCell
     }, {
-        field: 'w33', headerName: 'w33', width: 40,
+        field: 'WillR_33', headerName: 'W.33', width: 40,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderWilliamsCell(params, '33')
+        renderCell: renderWilliamsCell
     }, {
         field: 'CCI_4', headerName: 'C4', width: 40,
         align: 'right', headerAlign: 'center',
         renderCell: (params) => {
-            if (!params.row.CCI || typeof params.row.CCI['4'] === 'undefined') {
+            if (!params.value || typeof params.value === 'undefined') {
                 return <span> </span>; // CROSS가 없거나 key가 없을 경우 빈 span 반환
             }
-            const _value = params.row.CCI['4']
+            const _value = params.value
             const color = _value > 130 ? '#FCAB2F' : null
             if (typeof _value !== 'number') return <span> </span>;
             return <span style={{ color: color }}> {_value}</span>
 
         }
     }, {
-        field: 'CCI_2_Sig', headerName: 'C4S', width: 40,
+        field: 'CCI_Sig_4_2', headerName: 'C4S', width: 40,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderCciCell(params, 'Sig_4_2')
+        renderCell: renderCciCell
     }, {
         field: 'CCI_11', headerName: 'C11', width: 40,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderCciCell(params, '11')
+        renderCell: renderCciCell
     }, {
-        field: 'CCI_4_Sig', headerName: 'C11S', width: 40,
+        field: 'CCI_Sig_11_4', headerName: 'C11S', width: 40,
         align: 'right', headerAlign: 'center',
-        renderCell: (params) => renderCciCell(params, 'Sig_11_4')
+        renderCell: renderCciCell
     }
 ]
 

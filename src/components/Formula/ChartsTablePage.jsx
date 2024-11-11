@@ -136,12 +136,14 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
     const getColumnsForFormulaType = (type) => {
         const DMI_SERIES = ['DMI_단순_17_DMI_22', 'DMI_14_series', 'DMI_17_series', 'DMI_9_series', 'DMI_22_series'];
         const Short_Series = ['Short', 'Short_2']
+        const Envelope_Series = ['under_envelope', 'under_envelope_upper_11_7']
 
         if (type === 'A') return A_columns;
         if (DMI_SERIES.includes(type)) return DMI_columns;
         if (type === 'B') return B1_columns;
         if (Short_Series.includes(type)) return Short_columns;
-        if (type === 'under_envelope') return under_envelope_columns;
+        // if (type === 'under_envelope') return under_envelope_columns;
+        if (Envelope_Series.includes(type)) return under_envelope_columns;
         if (type === 'under_envelope_2') return under_envelope_2_columns;
 
         return DMI_columns; // 기본값
@@ -152,7 +154,7 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
             {/* Top Scatter Chart & Industry, Themes Table */}
             <Grid container sx={{ mt: 2 }}>
                 {
-                    ['under_envelope', 'under_envelope_2'].includes(formulaType) ?
+                    ['under_envelope', 'under_envelope_2', 'under_envelope_upper_11_7'].includes(formulaType) ?
 
                         <Grid item xs={10}>
                             <Charts
@@ -194,58 +196,56 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                                 </Grid>
                             </>
 
-                            : formulaType === 'Short_2' ?
-                                <>
-                                    <Grid item xs={5}>
-                                        {/* Chart */}
-                                        <Charts
-                                            dataset={dataset}
-                                            getInfo={getInfo}
-                                            height={chartHeight}
-                                            xAxisText={'W9,3 - W14,5 Sig Avg'}
-                                            yAxisText={'W9 - W18 Avg'}
-                                            isAxisPlotLinesName={'W9,3'}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={5}>
-                                        {/* Chart */}
-                                        <Charts
-                                            dataset={dataset2}
-                                            timeLine={timeLine}
-                                            getInfo={getInfo}
-                                            height={chartHeight}
-                                            xAxisText={'주봉 D14'}
-                                            yAxisText={'주봉 D22'}
-                                            isAxisPlotLinesName={'주봉DMI'}
-                                        />
-                                    </Grid>
-                                </>
+                            // : formulaType === 'Short_2' ?
+                            //     <>
+                            //         <Grid item xs={5}>
+                            //             <Charts
+                            //                 dataset={dataset}
+                            //                 getInfo={getInfo}
+                            //                 height={chartHeight}
+                            //                 xAxisText={'W9,3 - W14,5 Sig Avg'}
+                            //                 yAxisText={'W9 - W18 Avg'}
+                            //                 isAxisPlotLinesName={'W9,3'}
+                            //             />
+                            //         </Grid>
+                            //         <Grid item xs={5}>
+                            //             <Charts
+                            //                 dataset={dataset2}
+                            //                 timeLine={timeLine}
+                            //                 getInfo={getInfo}
+                            //                 height={chartHeight}
+                            //                 xAxisText={'주봉 D14'}
+                            //                 yAxisText={'주봉 D22'}
+                            //                 isAxisPlotLinesName={'주봉DMI'}
+                            //             />
+                            //         </Grid>
+                            //     </>
 
-                                :
-                                <>
-                                    <Grid item xs={5}>
-                                        {/* Chart */}
-                                        <Charts
-                                            dataset={dataset}
-                                            getInfo={getInfo}
-                                            height={chartHeight}
-                                            xAxisText={'Williams R 26'}
-                                            yAxisText={'DMI 9, 17 Avg'}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={5}>
-                                        {/* Chart */}
-                                        <Charts
-                                            dataset={dataset2}
-                                            timeLine={timeLine}
-                                            getInfo={getInfo}
-                                            height={chartHeight}
-                                            xAxisText={'DMI 8 가중 - DMI 8 단순'}
-                                            yAxisText={'DMI 9 가중 - DMI 9 단순'}
-                                            xAxisPlotLines={true}
-                                        />
-                                    </Grid>
-                                </>
+                            :
+                            <>
+                                <Grid item xs={5}>
+                                    {/* Chart */}
+                                    <Charts
+                                        dataset={dataset}
+                                        getInfo={getInfo}
+                                        height={chartHeight}
+                                        xAxisText={'Williams R 26'}
+                                        yAxisText={'DMI 9, 17 Avg'}
+                                    />
+                                </Grid>
+                                <Grid item xs={5}>
+                                    {/* Chart */}
+                                    <Charts
+                                        dataset={dataset2}
+                                        timeLine={timeLine}
+                                        getInfo={getInfo}
+                                        height={chartHeight}
+                                        xAxisText={'DMI 8 가중 - DMI 8 단순'}
+                                        yAxisText={'DMI 9 가중 - DMI 9 단순'}
+                                        xAxisPlotLines={true}
+                                    />
+                                </Grid>
+                            </>
                 }
 
 
@@ -326,15 +326,16 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                             <StyledToggleButton fontSize={11} value="A">A-Type</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="B">DMI-Type</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="Short">Short</StyledToggleButton>
+                            {/* <StyledToggleButton fontSize={11} value="Short_2">주봉D22/D14</StyledToggleButton> */}
                             <StyledToggleButton fontSize={11} value="DMI_단순_17_DMI_22">D17 단순</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="DMI_14_series">D14</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="DMI_17_series">D17</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="DMI_9_series">D9</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="DMI_22_series">D22</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="Favorite">Favorite</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="under_envelope">E-Bottom</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="under_envelope_2">E-Reverse</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="Short_2">주봉D22/D14</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="under_envelope_upper_11_7">E-11.7이상</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="Favorite">Favorite</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Stack>
 

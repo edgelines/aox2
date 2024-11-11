@@ -23,19 +23,14 @@ export const williamsColor = (value) => {
  * value가 2 이면 ■, 1이면 ㅗ, -2이면 ■, -1이면 ㅗ
  * 고점==종가, 고점>종가, 저점==종가, 저점<종가 표기
  * @param {*} params : mui grid params row
- * @param {*} col : row의 key값
- * @param {*} key : col의 key값
  * @returns 
  */
-export const renderMaCell = (params, col, key) => {
-    if (!params.row[col] || typeof params.row[col][key] === 'undefined') {
+export const renderMaCell = (params) => {
+    if (!params.value || typeof params.value === 'undefined') {
         return <span> </span>; // CROSS가 없거나 key가 없을 경우 빈 span 반환
     }
-    const _value = params.row[col][key]
-
-    if (typeof _value !== 'number') return <span> </span>;
-    const color = _value > 0 ? '#FCAB2F' : 'deepskyblue';
-    const shape = _value == 2 ? '■' : _value == 1 ? 'ㅗ' : _value == -2 ? '■' : _value == -1 ? 'ㅗ' : '';
+    const color = params.value > 0 ? '#FCAB2F' : 'deepskyblue';
+    const shape = params.value == 2 ? '■' : params.value == 1 ? 'ㅗ' : params.value == -2 ? '■' : params.value == -1 ? 'ㅗ' : '';
     return <span style={{ color, fontWeight: 'bold' }}> {shape}</span>;
 };
 
@@ -43,18 +38,24 @@ export const renderMaCell = (params, col, key) => {
 /**
  * Williams 셀 렌더링
  * @param {*} params : mui grid params row
- * @param {*} key : Williams value
- * @param {*} columnsName : 기본값은 'WillR'
  * @returns 
  */
-export const renderWilliamsCell = (params, key, columnsName = 'WillR') => {
-    if (!params.row[columnsName] || typeof params.row[columnsName][key] === 'undefined') {
+export const renderWilliamsCell = (params) => {
+    // export const renderWilliamsCell = (params, key, columnsName = 'WillR') => {
+    if (!params.value || typeof params.value === 'undefined') {
         return <span> </span>; // CROSS가 없거나 key가 없을 경우 빈 span 반환
     }
-    const _value = params.row[columnsName][key]
-    if (typeof _value !== 'number') return <span> </span>;
-    const color = williamsColor(_value);
-    return <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{_value}</span>
+    if (typeof params.value !== 'number') return <span> </span>;
+    const color = williamsColor(params.value);
+    return <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
+    // if (!params.row[columnsName] || typeof params.row[columnsName][key] === 'undefined') {
+    //     return <span> </span>; // CROSS가 없거나 key가 없을 경우 빈 span 반환
+    // }
+    // console.log(params.value);
+    // const _value = params.row[columnsName][key]
+    // if (typeof _value !== 'number') return <span> </span>;
+    // const color = williamsColor(_value);
+    // return <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{_value}</span>
 }
 
 
@@ -85,7 +86,6 @@ export const renderTrixCell = (params, key1, key2) => {
 /**
  * CCI 전일값 비교
  * @param {*} params : mui grid params row
- * @param {*} key : CCI value
  * @returns 
  */
 export const renderCciCell_Keys = (params, key) => {
@@ -105,16 +105,14 @@ export const renderCciCell_Keys = (params, key) => {
 /**
  * CCI 셀 렌더링
  * @param {*} params : mui grid params row
- * @param {*} key : CCI value
  * @returns 
  */
 export const renderCciCell = (params, key) => {
-    if (!params.row.CCI || typeof params.row.CCI[key] === 'undefined') {
+    if (!params.value || typeof params.value === 'undefined') {
         return <span> </span>; // CROSS가 없거나 key가 없을 경우 빈 span 반환
     }
-    const _value = params.row.CCI[key]
-    if (typeof _value !== 'number') return <span> </span>;
-    return _value
+    if (typeof params.value !== 'number') return <span> </span>;
+    return params.value
 }
 
 /**
@@ -147,14 +145,12 @@ export const dmiColor = (value) => {
 /**
  * DMI 셀 렌더링
  * @param {*} params : mui grid params row
- * @param {*} key : DMI value
  * @returns 
  */
-export const renderDmiCell = (params, key) => {
-    const _value = params.row.DMI[key]
-    const color = dmiColor(_value);
-    if (typeof _value !== 'number') return <span> </span>;
-    return <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{_value}</span>
+export const renderDmiCell = (params) => {
+    if (typeof params.value !== 'number') return <span> </span>;
+    const color = dmiColor(params.value);
+    return <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
 }
 
 /**
@@ -176,17 +172,15 @@ export const renderShortCell = (params, key) => {
 /**
  * 시가삼각가중 돌파 여부
  * @param {*} params : mui grid params row
- * @param {*} key : 시가삼각가중 돌파 여부
  * @returns 
  */
-export const renderCrossTRIMA = (params, key) => {
-    if (!params.row.CROSS || typeof params.row.CROSS[key] === 'undefined') {
+export const renderCrossTRIMA = (params) => {
+    if (!params.value || typeof params.value === 'undefined') {
         return <span> </span>; // CROSS가 없거나 key가 없을 경우 빈 span 반환
     }
 
-    const _value = params.row.CROSS[key]
-    if (typeof _value !== 'boolean') return <span> </span>;
-    return <span> {_value === false ? '' : '★'}</span>
+    if (typeof params.value !== 'boolean') return <span> </span>;
+    return <span> {params.value === false ? '' : '★'}</span>
 }
 
 /**
@@ -214,7 +208,6 @@ export const renderEnvelopePercent = (params, name) => {
         return <span> </span>; // CROSS가 없거나 key가 없을 경우 빈 span 반환
     }
     const _value = params.row.Envelope[name]['key']
-    console.log(name, _value)
     if (typeof _value !== 'number') return <span>{String(_value)}</span>;
     return <span> {String(_value)}</span>
 }
