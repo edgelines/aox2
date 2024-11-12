@@ -414,6 +414,17 @@ export default ChartsTableDataPage;
 const TypeMessage = (_type) => {
     const __type = _type['type']
     const textStyle = { fontSize: '12px' }
+    const baseMessages = (
+        <>
+            <Typography sx={textStyle} >DMI에서 소문자 d는 가중, D는 단순</Typography>
+            <Typography sx={textStyle} >--------------------------------</Typography>
+            <Typography sx={textStyle} >- 5일평균거래량 3만주 제외</Typography>
+            <Typography sx={textStyle} >- 시총 500억 ~ 30조</Typography>
+            <Typography sx={textStyle} >- 1주당 20만원 이하</Typography>
+            <Typography sx={textStyle} >- 전일대비거래량 1500% 이하</Typography>
+            <Typography sx={textStyle} >- 스팩, 리츠, 우선주 제외</Typography>
+        </>
+    )
     const commonMessages = (
         <>
             <Typography sx={textStyle} >DMI에서 소문자 d는 가중, D는 단순</Typography>
@@ -467,7 +478,7 @@ const TypeMessage = (_type) => {
 
         case 'under_envelope':
             return (<>
-                {commonMessages}
+                {baseMessages}
                 <Typography sx={textStyle} >- Symbol : 삼각형-등락률이 0 이상일때, 역삼각형-등락률이 0이하일때</Typography>
                 <Typography sx={textStyle} >- Color : Red-5분전 대비 상승했을 경우, 역삼각형-5분전 대비 하락했을 경우</Typography>
                 <Typography sx={textStyle} >- Env 19 : 종가, 단순이평 </Typography>
@@ -479,18 +490,19 @@ const TypeMessage = (_type) => {
 
         case 'under_envelope_2':
             return (<>
-                {commonMessages}
+                {baseMessages}
                 <Typography sx={textStyle} >- Symbol : 삼각형-등락률이 0 이상일때, 역삼각형-등락률이 0이하일때</Typography>
                 <Typography sx={textStyle} >- Color : Red-5분전 대비 상승했을 경우, 역삼각형-5분전 대비 하락했을 경우</Typography>
                 <Typography sx={textStyle} >- Env 19, 14, 9 : 종가, 단순이평 </Typography>
-                <Typography sx={textStyle} >- 역배열 Env 19-10.7, 14-8, 9-5, 9-6  </Typography>
-                <Typography sx={textStyle} >- Env19, 6.7 이상 제외 </Typography>
-                <Typography sx={textStyle} >- Env9, 9.8 이하 제외 </Typography>
+                <Typography sx={textStyle} >- 역배열 Env 19-8.7, Env 14-7, Env 9-5  </Typography>
+                <Typography sx={textStyle} >- Env14, 9 이하 제외 </Typography>
+                <Typography sx={textStyle} >- 종가가 18종가지수보다 작다 </Typography>
+                <Typography sx={textStyle} >- 종가는 2일전 가격보다 높다 </Typography>
             </>)
 
         case 'under_envelope_upper_11_7':
             return (<>
-                {commonMessages}
+                {baseMessages}
                 <Typography sx={textStyle} >- Symbol : 삼각형-등락률이 0 이상일때, 역삼각형-등락률이 0이하일때</Typography>
                 <Typography sx={textStyle} >- Color : Red-5분전 대비 상승했을 경우, 역삼각형-5분전 대비 하락했을 경우</Typography>
                 <Typography sx={textStyle} >- Env 19 : 종가, 단순이평 </Typography>
