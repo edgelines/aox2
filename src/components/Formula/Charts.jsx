@@ -141,7 +141,7 @@ const Charts = ({ dataset, timeLine, height, getInfo, xAxisText, yAxisText, isSi
         let chart
 
         const y_categories_1 = ['Bottom', '27.7', '26.7', '25.7', '24.7', '23.7', '22.7', '21.7', '20.7', '19.7', '18.7', '17.7', '16.7', '15.7', '14.7', '13.7', '12.7', '11.7', '10.7', '9.7', '8.7']
-        const y_categories_2 = ['9, 8.0', '9, 7.0', '9, 6.0', '9, 5.0', '14, 8.0', '14, 7.0', '19, 10.7', '19, 9.7', '19, 8.7', '19, 7.7', '19, 6.7']
+        const y_categories_2 = ['빈공간', '빈공간', '14, 8.0', '14, 7.0', '19, 10.7', '19, 9.7', '19, 8.7', '19, 7.7', '19, 6.7']
 
         const under_envelope_plot_lines = [
             { value: 14, width: 1, color: 'red', dashStyle: 'dash', zIndex: 2 },
