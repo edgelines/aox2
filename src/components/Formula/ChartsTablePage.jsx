@@ -334,7 +334,7 @@ const ChartsTableDataPage = ({ dataset, dataset2, tableData, timeLine, height, s
                             <StyledToggleButton fontSize={11} value="DMI_22_series">D22</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="under_envelope">E-Bottom</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="under_envelope_2">E-Reverse</StyledToggleButton>
-                            <StyledToggleButton fontSize={11} value="under_envelope_upper_11_7">E-11.7이상</StyledToggleButton>
+                            <StyledToggleButton fontSize={11} value="under_envelope_upper_11_7">E-Suckup</StyledToggleButton>
                             <StyledToggleButton fontSize={11} value="Favorite">Favorite</StyledToggleButton>
                         </ToggleButtonGroup>
                     </Stack>
