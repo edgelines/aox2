@@ -42,9 +42,9 @@ export const renderMaCell = (params) => {
  */
 export const renderWilliamsCell = (params) => {
     // export const renderWilliamsCell = (params, key, columnsName = 'WillR') => {
-    if (!params.value || typeof params.value === 'undefined') {
-        return <span> </span>; // CROSS가 없거나 key가 없을 경우 빈 span 반환
-    }
+    // if (!params.value || typeof params.value === 'undefined') {
+    //     return <span> </span>; // CROSS가 없거나 key가 없을 경우 빈 span 반환
+    // }
     if (typeof params.value !== 'number') return <span> </span>;
     const color = williamsColor(params.value);
     return <span style={{ backgroundColor: color, width: 55, color: '#404040' }}>{params.value}</span>
