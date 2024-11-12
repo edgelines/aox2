@@ -506,6 +506,7 @@ const TypeMessage = (_type) => {
                 <Typography sx={textStyle} >- Symbol : 삼각형-등락률이 0 이상일때, 역삼각형-등락률이 0이하일때</Typography>
                 <Typography sx={textStyle} >- Color : Red-5분전 대비 상승했을 경우, 역삼각형-5분전 대비 하락했을 경우</Typography>
                 <Typography sx={textStyle} >- Env 19 : 종가, 단순이평 </Typography>
+                <Typography sx={textStyle} >- 주봉 DMI 22 단순이 13보다 작다 </Typography>
                 <Typography sx={textStyle} >- 당일 Env19, 11.7 이하 였다가 그 위로 상승한 종목들</Typography>
             </>)
 
