@@ -448,18 +448,53 @@ const TypeMessage = (_type) => {
                 {commonMessages}
                 <Typography sx={textStyle} >- 전일대비거래량 1500% 이하 변경</Typography>
                 <Typography sx={textStyle} >- 18고가삼각,18(고저종)삼각 ,18저가삼각,15저가삼각,13저가삼각 역배열 상태</Typography>
-                <Typography sx={textStyle} >- DMI4 : 55이하 </Typography>
-                <Typography sx={textStyle} >- Williams 6 : -20 이하, W14: -30이하 </Typography>
-                <Typography sx={textStyle} >- 현재 주가는 5(저가, 가중) 보다 높아야함 </Typography>
                 <Typography sx={textStyle} >- 현재 주가는 112 저가지수 보다 낮아야함 </Typography>
-                <Typography sx={textStyle} >- 현재 주가는 20 고가 삼각보다 낮아야함 </Typography>
                 <Typography sx={textStyle} >- 18고가삼각선이 112 저가 지수 보다 낮아야함 </Typography>
+                <Typography sx={textStyle} >- Env 10, 13, 16, 19 : 종가, 가중이평 </Typography>
+                <Typography sx={textStyle} >- 역배열 : Env 10, 13, 16, 19 </Typography>
+                <Typography sx={textStyle} >- 역배열 : 27, 18 종가지수 </Typography>
+                <Typography sx={textStyle} >- 종가가 3종가지수보다 크다 </Typography>
+                <Typography sx={textStyle} >- 고가가 5종가지수보다 크다 </Typography>
+                <Typography sx={textStyle} >- 종가가 (36종가지수+45종가지수)/2 크다 </Typography>
+
                 <Typography sx={textStyle} >- 6종삼 : 종가와 고가가 7종가삼각보다 높을경우 ㅁ, 고가는 7종가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
                 <Typography sx={textStyle} >- 13저삼 : 종가와 고가가 13저가삼각보다 높을경우 ㅁ, 고가는 13저가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
                 <Typography sx={textStyle} >- 15저삼 : 종가와 고가가 15저가삼각보다 높을경우 ㅁ, 고가는 15저가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
                 <Typography sx={textStyle} >- 18저삼 : 종가와 고가가 18저가삼각보다 높을경우 ㅁ, 고가는 18저가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
                 <Typography sx={textStyle} >- 18종삼 : 종가와 고가가 18(고저종)삼각보다 높을경우 ㅁ, 고가는 18(고저종)삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
                 <Typography sx={textStyle} >- 18고삼 : 종가와 고가가 18고가삼각보다 높을경우 ㅁ, 고가는 18고가삼각보다 높지만 종가는 낮을경우 ㅗ</Typography>
+            </>)
+
+        case 'under_envelope':
+            return (<>
+                {commonMessages}
+                <Typography sx={textStyle} >- Symbol : 삼각형-등락률이 0 이상일때, 역삼각형-등락률이 0이하일때</Typography>
+                <Typography sx={textStyle} >- Color : Red-5분전 대비 상승했을 경우, 역삼각형-5분전 대비 하락했을 경우</Typography>
+                <Typography sx={textStyle} >- Env 19 : 종가, 단순이평 </Typography>
+                <Typography sx={textStyle} >- 종가가 Env 선 위에 있을 경우 위치한 엔벨로프 표기</Typography>
+                <Typography sx={textStyle} >- 주봉 DMI 22 단순이 13보다 작다 </Typography>
+                <Typography sx={textStyle} >- Env19, 27.7 이하 Bottom </Typography>
+                <Typography sx={textStyle} >- Env19, 8.7 이상 제외 </Typography>
+            </>)
+
+        case 'under_envelope_2':
+            return (<>
+                {commonMessages}
+                <Typography sx={textStyle} >- Symbol : 삼각형-등락률이 0 이상일때, 역삼각형-등락률이 0이하일때</Typography>
+                <Typography sx={textStyle} >- Color : Red-5분전 대비 상승했을 경우, 역삼각형-5분전 대비 하락했을 경우</Typography>
+                <Typography sx={textStyle} >- Env 19, 14, 9 : 종가, 단순이평 </Typography>
+                <Typography sx={textStyle} >- 역배열 Env 19-10.7, 14-8, 9-5, 9-6  </Typography>
+                <Typography sx={textStyle} >- Env19, 6.7 이상 제외 </Typography>
+                <Typography sx={textStyle} >- Env9, 9.8 이하 제외 </Typography>
+            </>)
+
+        case 'under_envelope_upper_11_7':
+            return (<>
+                {commonMessages}
+                <Typography sx={textStyle} >- Symbol : 삼각형-등락률이 0 이상일때, 역삼각형-등락률이 0이하일때</Typography>
+                <Typography sx={textStyle} >- Color : Red-5분전 대비 상승했을 경우, 역삼각형-5분전 대비 하락했을 경우</Typography>
+                <Typography sx={textStyle} >- Env 19 : 종가, 단순이평 </Typography>
+                <Typography sx={textStyle} >- 당일 Env19, 11.7 이하 였다가 그 위로 상승한 종목들</Typography>
             </>)
 
         // case 'Short_2':
