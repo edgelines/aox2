@@ -508,6 +508,8 @@ const TypeMessage = (_type) => {
                 <Typography sx={textStyle} >- Env 19 : 종가, 단순이평 </Typography>
                 <Typography sx={textStyle} >- 주봉 DMI 22 단순이 25보다 작다 </Typography>
                 <Typography sx={textStyle} >- 당일 Env19, 11.7 이하 였다가 그 위로 상승한 종목들</Typography>
+                <Typography sx={textStyle} >- 많이 하락한 놈들일수록 파란색 더 짙게</Typography>
+                <Typography sx={textStyle} >- 많이 상승한 놈들일수록 빨간색 더 짙게</Typography>
             </>)
 
         // case 'Short_2':
