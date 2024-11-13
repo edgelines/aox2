@@ -495,7 +495,7 @@ const TypeMessage = (_type) => {
                 <Typography sx={textStyle} >- Color : Red-5분전 대비 상승했을 경우, 역삼각형-5분전 대비 하락했을 경우</Typography>
                 <Typography sx={textStyle} >- Env 19, 14, 9 : 종가, 단순이평 </Typography>
                 <Typography sx={textStyle} >- 역배열 Env 19-8.7, Env 14-7, Env 9-5  </Typography>
-                <Typography sx={textStyle} >- Env9, 6 이하 제외 </Typography>
+                <Typography sx={textStyle} >- Env9, 7.0 보다 높아야 한다 </Typography>
                 <Typography sx={textStyle} >- 종가가 18종가지수보다 작다 </Typography>
                 <Typography sx={textStyle} >- 종가는 2일전 가격보다 높다 </Typography>
             </>)
