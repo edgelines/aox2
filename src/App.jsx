@@ -18,10 +18,14 @@ import LeadSectors from './components/leadSectors';
 import LeadThemesTop2 from './components/leadThemesTop2';
 import MotionPage from './components/motionPage.jsx'
 import ReportPage from './components/reportPage';
+import { Grid } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import MobilePage from './components/mobilePage.jsx';
 
 function App() {
     const [baseStockName, setBaseStockName] = useState([]);
     const swiperRef = useRef(null);
+    const isMobile = useMediaQuery('(max-width:600px)');
     // Swiper Slider Bottom Page Number Style
     const handleSlideChange = (swiper) => {
         const paginationEl = swiper.pagination.el;
@@ -36,71 +40,79 @@ function App() {
 
     return (
         <div className="App">
-            <Swiper
-                onSwiper={(swiper) => { swiperRef.current = swiper; }}
-                pagination={{ type: "fraction", clickable: false, }}
-                mousewheel={true}
-                allowTouchMove={false}
-                modules={[Keyboard, Mousewheel, Pagination]}
-                keyboard={{ enabled: true, }}
-                className="mySwiper"
-                onSlideChange={handleSlideChange}
-                style={{ height: "100vh" }}
-            >
+            {isMobile ? (
+                // Mobile
+                <Grid sx={{
+                    backgroundColor: "#404040",
+                    color: '#efe9e9ed',
+                    paddingLeft: '0.2vh', paddingRight: '0.2vh',
+                    paddingTop: '0.2vh'
+                }}>
+                    <MobilePage />
+                </Grid>
+            ) : (
+                // Desktop
+                <Swiper
+                    onSwiper={(swiper) => { swiperRef.current = swiper; }}
+                    pagination={{ type: "fraction", clickable: false, }}
+                    mousewheel={true}
+                    allowTouchMove={false}
+                    modules={[Keyboard, Mousewheel, Pagination]}
+                    keyboard={{ enabled: true, }}
+                    className="mySwiper"
+                    onSlideChange={handleSlideChange}
+                    style={{ height: "100vh" }}
+                >
 
-                <SwiperSlide style={swiperSlideStyle} >
-                    <SchedulePage swiperRef={swiperRef} />
-                </SwiperSlide>
+                    <SwiperSlide style={swiperSlideStyle} >
+                        <SchedulePage swiperRef={swiperRef} />
+                    </SwiperSlide>
 
-                <SwiperSlide style={swiperSlideStyle} >
-                    <CrossPage swiperRef={swiperRef} baseStockName={baseStockName} />
-                </SwiperSlide>
+                    <SwiperSlide style={swiperSlideStyle} >
+                        <CrossPage swiperRef={swiperRef} baseStockName={baseStockName} />
+                    </SwiperSlide>
 
-                <SwiperSlide style={swiperSlideStyle} >
-                    <ReportPage swiperRef={swiperRef} baseStockName={baseStockName} />
-                </SwiperSlide>
+                    <SwiperSlide style={swiperSlideStyle} >
+                        <ReportPage swiperRef={swiperRef} baseStockName={baseStockName} />
+                    </SwiperSlide>
 
-                <SwiperSlide style={swiperSlideStyle} >
-                    <FormulaPage swiperRef={swiperRef} baseStockName={baseStockName} />
-                </SwiperSlide>
+                    <SwiperSlide style={swiperSlideStyle} >
+                        <FormulaPage swiperRef={swiperRef} baseStockName={baseStockName} />
+                    </SwiperSlide>
 
-                <SwiperSlide style={swiperSlideStyle} >
-                    <MotionPage swiperRef={swiperRef} num={'3'} baseStockName={baseStockName} />
-                </SwiperSlide>
+                    <SwiperSlide style={swiperSlideStyle} >
+                        <MotionPage swiperRef={swiperRef} num={'3'} baseStockName={baseStockName} />
+                    </SwiperSlide>
 
-                {/* <SwiperSlide style={swiperSlideStyle} >
-                    <MotionPage swiperRef={swiperRef} num={'2'} baseStockName={baseStockName} />
-                </SwiperSlide> */}
+                    <SwiperSlide style={swiperSlideStyle} >
+                        <LeadSectors swiperRef={swiperRef} />
+                    </SwiperSlide>
 
+                    <SwiperSlide style={swiperSlideStyle} >
+                        <LeadThemesTop2 swiperRef={swiperRef} />
+                    </SwiperSlide>
 
-                <SwiperSlide style={swiperSlideStyle} >
-                    <LeadSectors swiperRef={swiperRef} />
-                </SwiperSlide>
+                    <SwiperSlide style={swiperSlideStyle} >
+                        <MainPage />
+                    </SwiperSlide>
 
-                <SwiperSlide style={swiperSlideStyle} >
-                    <LeadThemesTop2 swiperRef={swiperRef} />
-                </SwiperSlide>
+                    <SwiperSlide style={swiperSlideStyle} >
+                        <DetailPage />
+                    </SwiperSlide>
 
-                <SwiperSlide style={swiperSlideStyle} >
-                    <MainPage />
-                </SwiperSlide>
+                    <SwiperSlide style={swiperSlideStyle} >
+                        <ModelingPage />
+                    </SwiperSlide>
 
-                <SwiperSlide style={swiperSlideStyle} >
-                    <DetailPage />
-                </SwiperSlide>
+                    <SwiperSlide style={swiperSlideStyle} >
+                        <WeightAvgPage1 swiperRef={swiperRef} />
+                    </SwiperSlide>
+                    <SwiperSlide style={swiperSlideStyle} >
+                        <WeightAvgPage2 swiperRef={swiperRef} />
+                    </SwiperSlide>
 
-                <SwiperSlide style={swiperSlideStyle} >
-                    <ModelingPage />
-                </SwiperSlide>
-
-                <SwiperSlide style={swiperSlideStyle} >
-                    <WeightAvgPage1 swiperRef={swiperRef} />
-                </SwiperSlide>
-                <SwiperSlide style={swiperSlideStyle} >
-                    <WeightAvgPage2 swiperRef={swiperRef} />
-                </SwiperSlide>
-
-            </Swiper>
+                </Swiper>
+            )}
         </div >
     );
 }

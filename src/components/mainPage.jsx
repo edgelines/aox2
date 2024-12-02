@@ -12,20 +12,20 @@ import HighchartsReact from 'highcharts-react-official'
 import HighchartsMore from 'highcharts/highcharts-more'
 import SolidGauge from "highcharts/modules/solid-gauge";
 import { parseInt } from 'lodash';
-import { API, API_WS } from './util/config';
+import { API, API_WS, useIsMobile } from './util/config';
 
 HighchartsMore(Highcharts)
 SolidGauge(Highcharts)
 
 
 export default function MainPage({ }) {
+    const isMobile = useIsMobile();
 
     const [Vix, setVix] = useState([]);
     const [MarketDetail, setMarketDetail] = useState([]);
     const [WeightedAvgCheck, setWeightedAvgCheck] = useState([]);
     const [Exchange, setExchange] = useState([]);
     const [kospi200Current, setKospi200Current] = useState({ net: 0, marketValue: 0 });
-
 
     const [bubbleData, setBubbleData] = useState({});
     const [groupData, setGroupData] = useState({})
@@ -207,29 +207,32 @@ export default function MainPage({ }) {
                 </Box>
             </Modal>
 
-            <Grid item xs={3.9} >
+            <Grid item xs={isMobile ? 12 : 3.9} >
                 <CoreChart data={bubbleData.series} height={330} name={'Kospi200GroupBubble'} categories={bubbleData.categories} type={'bubble'} lengendX={40} />
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'left' }}>
-                    <ToggleButtonGroup
-                        // orientation="vertical"
-                        color='info'
-                        exclusive
-                        size="small"
-                        value={bubbleDataPage}
-                        onChange={handleBubbleDataPage}
-                    >
-                        <StyledToggleButton value="groupData">Line 일봉</StyledToggleButton>
-                        <StyledToggleButton value="BubbleCategory">Bubble 카테고리</StyledToggleButton>
-                        <StyledToggleButton value="BubbleCapital">Bubble 시가총액</StyledToggleButton>
-                        <StyledToggleButton value="groupDataMin">Line 분봉</StyledToggleButton>
-                    </ToggleButtonGroup>
-                </Box>
+                {
+                    isMobile ? <></> :
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'left' }}>
+                            <ToggleButtonGroup
+                                // orientation="vertical"
+                                color='info'
+                                exclusive
+                                size="small"
+                                value={bubbleDataPage}
+                                onChange={handleBubbleDataPage}
+                            >
+                                <StyledToggleButton value="groupData">Line 일봉</StyledToggleButton>
+                                <StyledToggleButton value="BubbleCategory">Bubble 카테고리</StyledToggleButton>
+                                <StyledToggleButton value="BubbleCapital">Bubble 시가총액</StyledToggleButton>
+                                <StyledToggleButton value="groupDataMin">Line 분봉</StyledToggleButton>
+                            </ToggleButtonGroup>
+                        </Box>
+                }
 
                 <ContentsComponent page={bubbleDataPage} Kospi200Bubble={Kospi200Bubble} groupData={groupData} groupDataMin={groupDataMin} />
 
             </Grid>
 
-            <Grid item xs={4.6} >
+            <Grid item xs={isMobile ? 12 : 4.6} >
                 <div className="row">
                     <img src={gisuDayImg} onClick={handleOpen} />
                 </div>
@@ -247,7 +250,7 @@ export default function MainPage({ }) {
                 <CoreChart data={trendData.series} height={410} name={'trendData'} categories={trendData.categories} type={'column'} yAxis0Abs={trendData.yAxis0Abs} yAxis1Abs={trendData.yAxis1Abs} yAxis2Abs={trendData.yAxis2Abs} />
             </Grid>
 
-            <Grid item xs={3.5} >
+            <Grid item xs={isMobile ? 12 : 3.5} >
                 <Grid container spacing={1} sx={{ mt: 1 }}>
                     <Grid item xs={7} sx={{ alignSelf: 'end' }}>
                         <Box sx={{ fontSize: '0.9rem', textAlign: 'start', paddingLeft: '2vh' }}>
@@ -285,7 +288,7 @@ export default function MainPage({ }) {
                     }
                 </Grid>
 
-                <Grid container spacing={1} sx={{ mt: -5, height: '11.5vh' }}>
+                <Grid container spacing={1} sx={{ mt: -5, height: isMobile ? '13.5vh' : '11.5vh' }}>
                     <Grid item xs={4}>
                         {marketAct.kospi200 ?
                             <MarketActChart data={marketAct.kospi200} height={130} name={marketAct.name[0]} />
@@ -396,10 +399,6 @@ export default function MainPage({ }) {
                                                 <td style={{ color: '#FCAB2F' }}>{numberWithCommas(value.개인_누적)}</td>
                                                 : <td style={{ color: '#00F3FF' }}>{numberWithCommas(value.개인_누적)}</td>
                                             }
-                                            {/* {value.프로그램 > 0 ?
-                                                <td style={{ color: '#FCAB2F' }}>{value.프로그램.toLocaleString('ko-KR')}</td>
-                                                : <td style={{ color: '#00F3FF' }}>{value.프로그램.toLocaleString('ko-KR')}</td>
-                                            } */}
                                         </tr>
                                     )
                                     )}
@@ -407,23 +406,25 @@ export default function MainPage({ }) {
                             </Table>
                             : <Skeleton variant="rounded" height={300} animation="wave" />
                         }
-                        <Box sx={{ textAlign: 'right' }}>단위 : 콜/풋옵션 백만원, 그외 억원</Box>
+                        <Box sx={{ textAlign: 'right', fontSize: isMobile ? '12px' : '1rem' }}>단위 : 콜/풋옵션 백만원, 그외 억원</Box>
                     </Grid>
 
-                    <Grid item xs={12}>
-                        <Grid container>
-                            <Grid item xs={12} sx={{ mt: -2 }}>
-                                <BarChart data={foreigner} height={165} name={'외국인'} />
+                    {
+                        isMobile ? <></> :
+                            <Grid item xs={12}>
+                                <Grid container>
+                                    <Grid item xs={12} sx={{ mt: -2 }}>
+                                        <BarChart data={foreigner} height={165} name={'외국인'} />
+                                    </Grid>
+                                    <Grid item xs={12} sx={{ mt: -2 }}>
+                                        <BarChart data={institutional} height={165} name={'기관'} />
+                                    </Grid>
+                                    <Grid item xs={12} sx={{ mt: -2 }}>
+                                        <BarChart data={individual} height={165} name={'개인'} />
+                                    </Grid>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={12} sx={{ mt: -2 }}>
-                                <BarChart data={institutional} height={165} name={'기관'} />
-                            </Grid>
-                            <Grid item xs={12} sx={{ mt: -2 }}>
-                                <BarChart data={individual} height={165} name={'개인'} />
-                            </Grid>
-
-                        </Grid>
-                    </Grid>
+                    }
 
 
                 </Grid>
