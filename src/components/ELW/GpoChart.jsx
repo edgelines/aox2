@@ -134,7 +134,7 @@ export default function GpoChart({ data1, data2, data3, height, kospi200, credit
         }
         // US
         for (let i = 13; i > -1; i--) {
-            const days = ['54', '47', '42', '41', '39', '21', '10', '5', '만기']
+            const days = ['54', '47', '42', '40', '21', '10', '5', '만기']
             days.forEach((item) => {
                 const 만기월_key = `지난달${i}_만기월`;
                 const value_key = `지난달${i}_${item}`;  // 47을 예로 들었지만, 다른 값들에 대해서도 확장할 수 있습니다
@@ -144,8 +144,8 @@ export default function GpoChart({ data1, data2, data3, height, kospi200, credit
                     case '54': yValue = labelU42; break;
                     case '47': yValue = labelU48; break;
                     case '42': yValue = labelU42; break;
-                    case '41': yValue = labelU48; break;
-                    case '39': yValue = labelU39; break;
+                    // case '41': yValue = labelU48; break;
+                    case '40': yValue = labelU39; break;
                     case '21': yValue = labelU16; break;
                     case '10': yValue = labelU16; break;
                     case '5': yValue = labelU6; break;
