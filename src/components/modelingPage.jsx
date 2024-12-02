@@ -4,10 +4,10 @@ import { Grid, Box, Typography, Skeleton, ToggleButtonGroup } from '@mui/materia
 import IndexChart from './util/IndexChart';
 import { StyledButton, StyledToggleButton } from './util/util';
 import MarketCurrentValue from './Index/marketCurrentValue.jsx'
-import { API, API_WS, markerConfig } from './util/config';
+import { API, API_WS, markerConfig, useIsMobile } from './util/config';
 
 export default function ModelingPage({ }) {
-
+    const isMobile = useIsMobile();
     const [Vix, setVix] = useState([]);
     const [Exchange, setExchange] = useState([]);
     const [MarketDetail, setMarketDetail] = useState([]);
@@ -317,126 +317,129 @@ export default function ModelingPage({ }) {
     return (
         <Grid container spacing={1}>
             {/* Chart */}
-            <Grid item xs={5}>
+            <Grid item xs={isMobile ? 12 : 5}>
                 <IndexChart data={indexChartConfig} height={940} name={'Modeling'} rangeSelector={1} creditsPositionX={1} />
             </Grid>
 
             {/* Config, Indicators, Infomation */}
-            <Grid item xs={1.5} container sx={{ height: '940px' }}>
-                <Grid item xs={12} container direction="column" justifyContent="flex-end" textAlign='start' >
-                    <Grid container>
-                        <MarketCurrentValue MarketDetail={MarketDetail} valueFont={'15px'} valueTitle={'15px'} />
-                        <Grid item sx={{ fontWeight: 600, fontSize: '15px' }}>
-                            {Vix.value ?
-                                <Grid container sx={{ mb: 0.4 }}>
-                                    {Vix.net > 0 ?
-                                        <>
-                                            <span>Vix : </span>
-                                            <span style={{ color: 'tomato' }}> {Vix.value} ( + {Vix.net} )</span>
-                                        </>
-                                        :
-                                        <>
-                                            <span>Vix : </span>
-                                            <span style={{ color: 'deepskyblue' }}> {Vix.value} ( {Vix.net} )</span>
-                                        </>
+            {
+                isMobile ? <></> :
+                    <Grid item xs={1.5} container sx={{ height: '940px' }}>
+                        <Grid item xs={12} container direction="column" justifyContent="flex-end" textAlign='start' >
+                            <Grid container>
+                                <MarketCurrentValue MarketDetail={MarketDetail} valueFont={'15px'} valueTitle={'15px'} />
+                                <Grid item sx={{ fontWeight: 600, fontSize: '15px' }}>
+                                    {Vix.value ?
+                                        <Grid container sx={{ mb: 0.4 }}>
+                                            {Vix.net > 0 ?
+                                                <>
+                                                    <span>Vix : </span>
+                                                    <span style={{ color: 'tomato' }}> {Vix.value} ( + {Vix.net} )</span>
+                                                </>
+                                                :
+                                                <>
+                                                    <span>Vix : </span>
+                                                    <span style={{ color: 'deepskyblue' }}> {Vix.value} ( {Vix.net} )</span>
+                                                </>
 
+                                            }
+                                        </Grid>
+                                        : <Skeleton variant="rounded" height={20} animation="wave" />}
+
+                                    {Exchange.value ?
+                                        <Grid container>
+                                            <span>KRX/USD : </span>
+                                            {Exchange.comparison === '상승' ?
+                                                <span style={{ color: 'tomato' }}> {Exchange.value} 원 ( + {Exchange.net} )</span> : Exchange.comparison === '하락' ?
+                                                    <span style={{ color: 'deepskyblue' }}> {Exchange.value} 원 ( - {Exchange.net} )</span> : <span style={{ color: 'deepskyblue' }}> {Exchange.value} 원 ( {Exchange.net} )</span>}
+                                        </Grid>
+                                        : <Skeleton variant="rounded" height={20} animation="wave" />}
+                                </Grid>
+                            </Grid>
+
+                            <Grid container sx={{ mb: '50px' }}></Grid>
+                            <ToggleButtonGroup
+                                color='info'
+                                exclusive
+                                size="small"
+                                value={indexName}
+                                onChange={handlePage}
+                            >
+                                <StyledToggleButton fontSize={'12px'} value="Kospi200">Kospi200</StyledToggleButton>
+                                <StyledToggleButton fontSize={'12px'} value="Kospi">Kospi</StyledToggleButton>
+                                <StyledToggleButton fontSize={'12px'} value="Kosdaq">Kosdaq</StyledToggleButton>
+                            </ToggleButtonGroup>
+
+                            <ToggleButtonGroup
+                                value={formats}
+                                onChange={handleFormat}
+                            >
+                                <StyledToggleButton fontSize={'12px'} aria-label="MA50" value="MA50">MA50</StyledToggleButton>
+                                <StyledToggleButton fontSize={'12px'} aria-label="MA112" value="MA112">MA112</StyledToggleButton>
+                            </ToggleButtonGroup>
+
+                            <Grid container sx={{ mb: '50px' }}></Grid>
+                            {indicators.slice(0, 3).map(indicator => (
+                                <Grid container spacing={1} key={indicator.name}>
+                                    <Grid item xs={5}>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'left', height: '100%', color: indicator.color, fontSize: '0.8rem' }}>
+                                            {indicator.value}
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <StyledButton onClick={() => handleValueChange(indicator.name, "UP")}>UP</StyledButton>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <StyledButton onClick={() => handleValueChange(indicator.name, "DOWN")}>Down</StyledButton>
+                                    </Grid>
+                                </Grid>
+                            ))}
+
+                            {ADR_list.map(item => (
+                                <Grid container key={item.name}>
+                                    {item.value && item.value.length > 0 ?
+                                        <Typography sx={{ fontSize: '15px', color: item.color, mt: 1 }}>
+                                            {item.name} : {item.value} %
+                                        </Typography>
+                                        : <Box>Loading</Box>
                                     }
                                 </Grid>
-                                : <Skeleton variant="rounded" height={20} animation="wave" />}
+                            ))}
 
-                            {Exchange.value ?
-                                <Grid container>
-                                    <span>KRX/USD : </span>
-                                    {Exchange.comparison === '상승' ?
-                                        <span style={{ color: 'tomato' }}> {Exchange.value} 원 ( + {Exchange.net} )</span> : Exchange.comparison === '하락' ?
-                                            <span style={{ color: 'deepskyblue' }}> {Exchange.value} 원 ( - {Exchange.net} )</span> : <span style={{ color: 'deepskyblue' }}> {Exchange.value} 원 ( {Exchange.net} )</span>}
+                            <Grid container sx={{ mb: '50px' }}></Grid>
+
+                            {indicators.slice(3).map(indicator => (
+                                <Grid container spacing={1} key={indicator.name}>
+                                    <Grid item xs={5.5}>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'left', height: '100%', color: indicator.color, fontSize: '0.8rem' }}>
+                                            {indicator.value}
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <StyledButton onClick={() => handleValueChange(indicator.name, "UP")}>UP</StyledButton>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <StyledButton onClick={() => handleValueChange(indicator.name, "DOWN")}>Down</StyledButton>
+                                    </Grid>
                                 </Grid>
-                                : <Skeleton variant="rounded" height={20} animation="wave" />}
+                            ))}
+
+                            {WillR_list.map(item => (
+                                <Grid container key={item.name}>
+                                    {item.value && item.value.length > 0 ?
+                                        <Typography key={item.name} sx={{ fontSize: '15px', color: item.color, mt: 1 }}>
+                                            {item.name} : {item.value} %
+                                        </Typography>
+                                        : <Box>Loading</Box>
+                                    }
+                                </Grid>
+                            ))}
+
+                            <Grid container sx={{ mb: '60px' }}></Grid>
                         </Grid>
+
                     </Grid>
-
-                    <Grid container sx={{ mb: '50px' }}></Grid>
-                    <ToggleButtonGroup
-                        color='info'
-                        exclusive
-                        size="small"
-                        value={indexName}
-                        onChange={handlePage}
-                    >
-                        <StyledToggleButton fontSize={'12px'} value="Kospi200">Kospi200</StyledToggleButton>
-                        <StyledToggleButton fontSize={'12px'} value="Kospi">Kospi</StyledToggleButton>
-                        <StyledToggleButton fontSize={'12px'} value="Kosdaq">Kosdaq</StyledToggleButton>
-                    </ToggleButtonGroup>
-
-                    <ToggleButtonGroup
-                        value={formats}
-                        onChange={handleFormat}
-                    >
-                        <StyledToggleButton fontSize={'12px'} aria-label="MA50" value="MA50">MA50</StyledToggleButton>
-                        <StyledToggleButton fontSize={'12px'} aria-label="MA112" value="MA112">MA112</StyledToggleButton>
-                    </ToggleButtonGroup>
-
-                    <Grid container sx={{ mb: '50px' }}></Grid>
-                    {indicators.slice(0, 3).map(indicator => (
-                        <Grid container spacing={1} key={indicator.name}>
-                            <Grid item xs={5}>
-                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'left', height: '100%', color: indicator.color, fontSize: '0.8rem' }}>
-                                    {indicator.value}
-                                </Box>
-                            </Grid>
-                            <Grid item xs={3}>
-                                <StyledButton onClick={() => handleValueChange(indicator.name, "UP")}>UP</StyledButton>
-                            </Grid>
-                            <Grid item xs={3}>
-                                <StyledButton onClick={() => handleValueChange(indicator.name, "DOWN")}>Down</StyledButton>
-                            </Grid>
-                        </Grid>
-                    ))}
-
-                    {ADR_list.map(item => (
-                        <Grid container key={item.name}>
-                            {item.value && item.value.length > 0 ?
-                                <Typography sx={{ fontSize: '15px', color: item.color, mt: 1 }}>
-                                    {item.name} : {item.value} %
-                                </Typography>
-                                : <Box>Loading</Box>
-                            }
-                        </Grid>
-                    ))}
-
-                    <Grid container sx={{ mb: '50px' }}></Grid>
-
-                    {indicators.slice(3).map(indicator => (
-                        <Grid container spacing={1} key={indicator.name}>
-                            <Grid item xs={5.5}>
-                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'left', height: '100%', color: indicator.color, fontSize: '0.8rem' }}>
-                                    {indicator.value}
-                                </Box>
-                            </Grid>
-                            <Grid item xs={3}>
-                                <StyledButton onClick={() => handleValueChange(indicator.name, "UP")}>UP</StyledButton>
-                            </Grid>
-                            <Grid item xs={3}>
-                                <StyledButton onClick={() => handleValueChange(indicator.name, "DOWN")}>Down</StyledButton>
-                            </Grid>
-                        </Grid>
-                    ))}
-
-                    {WillR_list.map(item => (
-                        <Grid container key={item.name}>
-                            {item.value && item.value.length > 0 ?
-                                <Typography key={item.name} sx={{ fontSize: '15px', color: item.color, mt: 1 }}>
-                                    {item.name} : {item.value} %
-                                </Typography>
-                                : <Box>Loading</Box>
-                            }
-                        </Grid>
-                    ))}
-
-                    <Grid container sx={{ mb: '60px' }}></Grid>
-                </Grid>
-
-            </Grid>
+            }
 
             {/* Btn */}
             {/* <Grid item xs={0.5}>
@@ -457,7 +460,7 @@ export default function ModelingPage({ }) {
 
             </Grid> */}
             {/* Index */}
-            <Grid item xs={5.5}>
+            <Grid item xs={isMobile ? 12 : 5.5}>
                 <IndexChart data={chartData} height={940} name={'IndexMA'} rangeSelector={2} xAxisType={'datetime'} creditsPositionX={1} />
             </Grid>
         </Grid>

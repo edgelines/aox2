@@ -5,11 +5,11 @@ import CoreChart from '../util/CoreChart.jsx';
 import GpoChart from './GpoChart.jsx';
 import ELW_BarChart from './BarChart.jsx';
 import MarketCurrentValue from '../Index/marketCurrentValue.jsx';
-import { API, API_WS } from '../util/config.jsx';
+import { API, API_WS, useIsMobile } from '../util/config.jsx';
 
 export default function DetailPage({ swiperRef }) {
     // const vixData = [{ name: 'Vix', color: 'tomato', pointWidth: 8, data: [parseFloat(Vix.value)], animation: false }];
-
+    const isMobile = useIsMobile();
     const [CTP1, setCTP1] = useState({ title: null, 콜5일: null, 콜: null, 풋5일: null, 풋: null, 행사가: null, 비율: null, 콜범주: null, 풋범주: null });
     const [CTP2, setCTP2] = useState({ title: null, 콜5일: null, 콜: null, 풋5일: null, 풋: null, 행사가: null, 비율: null, 콜범주: null, 풋범주: null });
     const [CTP3, setCTP3] = useState({ title: null, 콜5일: null, 콜: null, 풋5일: null, 풋: null, 행사가: null, 비율: null, 콜범주: null, 풋범주: null });
@@ -87,33 +87,37 @@ export default function DetailPage({ swiperRef }) {
 
     return (
         <Grid container spacing={1} >
-            <Grid item xs={12} >
-                <Grid container spacing={1} >
-                    <Grid item xs={0.6} >
-                        <CoreChart data={vixData} height={480} name={'VixColumn'} categories={['']} type={'column'} hidenLegend={true} />
-                    </Grid>
-                    {ELW_data.map((data, index) => (
-                        <React.Fragment key={index}>
-                            <Grid item xs={3.8}>
-                                <ELW_BarChart data={data} height={480} />
-                                <Box sx={{ fontSize: '1.05rem', fontWeight: 600, position: 'absolute', transform: 'translate(2.8vw, -18.5vh)', textAlign: 'left', backgroundColor: 'rgba(0, 0, 0, 0.2)', p: 1 }}>
-                                    {
-                                        WeightedAvg && WeightedAvg.length > index ?
-                                            <>
-                                                <Box>C: {data.콜비율} / P: {data.풋비율}</Box>
-                                                <Box sx={{ color: '#FCAB2F' }}>C (가중): {WeightedAvg[index].콜.toFixed(2)}</Box>
-                                                <Box sx={{ color: 'greenyellow' }}>X (가중) : {WeightedAvg[index].전체.toFixed(2)}</Box>
-                                                <Box sx={{ color: 'tomato' }}>1/2 (단순) : {((WeightedAvg[index].콜 + WeightedAvg[index].풋) / 2).toFixed(2)}</Box>
-                                                <Box sx={{ color: '#00F3FF' }}>P (가중): {WeightedAvg[index].풋.toFixed(2)}</Box>
-                                            </>
-                                            : ''
-                                    }
-                                </Box>
+            {
+                isMobile ? <></> :
+                    <Grid item xs={12} >
+                        <Grid container spacing={1} >
+                            <Grid item xs={0.6} >
+                                <CoreChart data={vixData} height={480} name={'VixColumn'} categories={['']} type={'column'} hidenLegend={true} />
                             </Grid>
-                        </React.Fragment>
-                    ))}
-                </Grid>
-            </Grid>
+                            {ELW_data.map((data, index) => (
+                                <React.Fragment key={index}>
+                                    <Grid item xs={3.8}>
+                                        <ELW_BarChart data={data} height={480} />
+                                        <Box sx={{ fontSize: '1.05rem', fontWeight: 600, position: 'absolute', transform: 'translate(2.8vw, -18.5vh)', textAlign: 'left', backgroundColor: 'rgba(0, 0, 0, 0.2)', p: 1 }}>
+                                            {
+                                                WeightedAvg && WeightedAvg.length > index ?
+                                                    <>
+                                                        <Box>C: {data.콜비율} / P: {data.풋비율}</Box>
+                                                        <Box sx={{ color: '#FCAB2F' }}>C (가중): {WeightedAvg[index].콜.toFixed(2)}</Box>
+                                                        <Box sx={{ color: 'greenyellow' }}>X (가중) : {WeightedAvg[index].전체.toFixed(2)}</Box>
+                                                        <Box sx={{ color: 'tomato' }}>1/2 (단순) : {((WeightedAvg[index].콜 + WeightedAvg[index].풋) / 2).toFixed(2)}</Box>
+                                                        <Box sx={{ color: '#00F3FF' }}>P (가중): {WeightedAvg[index].풋.toFixed(2)}</Box>
+                                                    </>
+                                                    : ''
+                                            }
+                                        </Box>
+                                    </Grid>
+                                </React.Fragment>
+                            ))}
+                        </Grid>
+                    </Grid>
+            }
+
             <Grid item xs={12}>
                 <Box sx={{ position: 'absolute', transform: 'translate(9vw, 0vh)', zIndex: 5 }}>
                     <FormControlLabel
@@ -122,9 +126,12 @@ export default function DetailPage({ swiperRef }) {
                     />
                 </Box>
 
-                <Box sx={{ position: 'absolute', transform: 'translate(77vw, 17vh)', zIndex: 5, justifyItems: 'right', backgroundColor: 'rgba(0, 0, 0, 0.5)', p: 1 }}>
-                    <MarketCurrentValue MarketDetail={MarketDetail} />
-                </Box>
+                {
+                    isMobile ? <></> :
+                        <Box sx={{ position: 'absolute', transform: 'translate(77vw, 17vh)', zIndex: 5, justifyItems: 'right', backgroundColor: 'rgba(0, 0, 0, 0.5)', p: 1 }}>
+                            <MarketCurrentValue MarketDetail={MarketDetail} />
+                        </Box>
+                }
 
                 <GpoChart data1={exNow_KR} data2={exNow_US} data3={selectedUS} kospi200={kospi200} height={450} yMinValue={kospi200MinValue} />
 

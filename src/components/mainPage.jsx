@@ -243,9 +243,12 @@ export default function MainPage({ }) {
 
                 <CoreChart data={market.series} height={350} name={'market'} categories={market.categories} lengendX={1} LengendY={0} />
 
-                <Box sx={{ position: 'absolute', transform: 'translate(11vw, 290px)', }}  >
-                    <Kospi200CurrentValue hiddenTitle={true} valueFont={'2.7rem'} net={kospi200Current.net} marketValue={kospi200Current.marketValue} />
-                </Box>
+                {
+                    isMobile ? <></> :
+                        <Box sx={{ position: 'absolute', transform: 'translate(11vw, 290px)', }}  >
+                            <Kospi200CurrentValue hiddenTitle={true} valueFont={'2.7rem'} net={kospi200Current.net} marketValue={kospi200Current.marketValue} />
+                        </Box>
+                }
 
                 <CoreChart data={trendData.series} height={410} name={'trendData'} categories={trendData.categories} type={'column'} yAxis0Abs={trendData.yAxis0Abs} yAxis1Abs={trendData.yAxis1Abs} yAxis2Abs={trendData.yAxis2Abs} />
             </Grid>

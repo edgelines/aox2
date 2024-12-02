@@ -54,6 +54,10 @@ function App() {
                     paddingTop: '0.2vh'
                 }}>
                     <MobilePage />
+                    <DetailPage />
+                    <ModelingPage />
+                    <WeightAvgPage1 swiperRef={swiperRef} />
+                    <WeightAvgPage2 swiperRef={swiperRef} />
                 </Grid>
             ) : (
                 // Desktop
@@ -73,12 +77,12 @@ function App() {
                         {/* <SchedulePage swiperRef={swiperRef} /> */}
                         {/* <CrossPage swiperRef={swiperRef} baseStockName={baseStockName} /> */}
                         {/* <ReportPage swiperRef={swiperRef} baseStockName={baseStockName} /> */}
-                        <FormulaPage swiperRef={swiperRef} baseStockName={baseStockName} />
+                        {/* <FormulaPage swiperRef={swiperRef} baseStockName={baseStockName} /> */}
                         {/* <MotionPage swiperRef={swiperRef} num={'3'} baseStockName={baseStockName} /> */}
                         {/* <LeadSectors swiperRef={swiperRef} baseStockName={baseStockName} /> */}
                         {/* <LeadThemesTop2 swiperRef={swiperRef} /> */}
                         {/* <MainPage /> */}
-                        {/* <DetailPage /> */}
+                        <DetailPage />
                         {/* <ModelingPage /> */}
                         {/* <WeightAvgPage1 swiperRef={swiperRef} /> */}
                         {/* <WeightAvgPage2 swiperRef={swiperRef} /> */}
