@@ -53,7 +53,7 @@ function App() {
                     paddingLeft: '0.2vh', paddingRight: '0.2vh',
                     paddingTop: '0.2vh'
                 }}>
-                    <MobilePage />
+                    <MainPage />
                     <DetailPage />
                     <ModelingPage />
                     <WeightAvgPage1 swiperRef={swiperRef} />
