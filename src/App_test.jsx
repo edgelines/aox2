@@ -25,7 +25,6 @@ import ReportPage from './components/reportPage';
 import TestPage from './components/testPage';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
-import MobilePage from './components/mobilePage.jsx';
 
 function App() {
 

@@ -20,7 +20,6 @@ import MotionPage from './components/motionPage.jsx'
 import ReportPage from './components/reportPage';
 import { Grid } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import MobilePage from './components/mobilePage.jsx';
 
 function App() {
     const [baseStockName, setBaseStockName] = useState([]);
