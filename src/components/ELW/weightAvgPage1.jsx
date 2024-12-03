@@ -75,7 +75,10 @@ export default function WeightAvgPage1({ swiperRef }) {
 
     return (
         <Grid container spacing={1} >
-            <Box sx={{ fontSize: '3rem', position: 'absolute', transform: 'translate(97vw, 1vh)' }} >1</Box>
+            {
+                isMobile ? <></> :
+                    <Box sx={{ fontSize: '3rem', position: 'absolute', transform: 'translate(97vw, 1vh)' }} >1</Box>
+            }
             <Grid item xs={isMobile ? 12 : 6}>
                 <Box sx={{ fontSize: '1.5rem', fontWeight: 'bold' }} >
                     <span style={{ color: 'greenyellow' }}> WA1</span>
@@ -154,7 +157,7 @@ export default function WeightAvgPage1({ swiperRef }) {
                         </>
                 }
 
-                <MonthChart data={month1Data.series} height={840} categories={month1Data.categories} min={month1Data.min} />
+                <MonthChart data={month1Data.series} height={isMobile ? 500 : 840} categories={month1Data.categories} min={month1Data.min} />
 
                 {
                     isMobile ? <></> :
@@ -192,7 +195,7 @@ export default function WeightAvgPage1({ swiperRef }) {
 
                         </>
                 }
-                <MonthChart data={month2Data.series} height={840} categories={month2Data.categories} min={month2Data.min} />
+                <MonthChart data={month2Data.series} height={isMobile ? 500 : 840} categories={month2Data.categories} min={month2Data.min} />
 
 
                 {

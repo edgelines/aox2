@@ -1,9 +1,11 @@
 import React from 'react';
 import { Grid, Table, TableHead, TableBody, TableRow, TableCell, Skeleton } from '@mui/material';
+import { useIsMobile } from '../util/config';
 
 
-export default function MonthTable({ swiperRef, ELW_monthTable, fontSize, ELW_CallPutRatio_Maturity }) {
-    const fontSizeStyle = { fontSize: fontSize || '0.875rem' }
+export default function MonthTable({ ELW_monthTable, fontSize, ELW_CallPutRatio_Maturity }) {
+    const isMobile = useIsMobile();
+    const fontSizeStyle = { fontSize: fontSize || isMobile ? '10px' : '0.875rem' }
     const tableStyle = { color: '#efe9e9ed', ...fontSizeStyle }
     const tableBodyStyle = { ...tableStyle, borderBottom: 'none' }
     const tableBodyStyle2 = { borderBottom: 'none', ...fontSizeStyle }

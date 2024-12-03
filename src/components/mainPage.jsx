@@ -233,9 +233,13 @@ export default function MainPage({ }) {
             </Grid>
 
             <Grid item xs={isMobile ? 12 : 4.6} >
-                <div className="row">
-                    <img src={gisuDayImg} onClick={handleOpen} />
-                </div>
+                <Grid container>
+                    <img
+                        src={gisuDayImg}
+                        onClick={handleOpen}
+                        style={{ width: '100%' }}
+                    />
+                </Grid>
 
                 <Box sx={{ position: 'absolute', transform: 'translate(31.5vw, 5vh)', zIndex: 5, justifyItems: 'right', p: 1 }}>
                     <WeightAvgCheck ElwWeightedAvgCheck={WeightedAvgCheck} />
@@ -291,7 +295,7 @@ export default function MainPage({ }) {
                     }
                 </Grid>
 
-                <Grid container spacing={1} sx={{ mt: -5, height: isMobile ? '13.5vh' : '11.5vh' }}>
+                <Grid container spacing={1} sx={{ mt: -5, height: isMobile ? '13.5svh' : '11.5vh' }}>
                     <Grid item xs={4}>
                         {marketAct.kospi200 ?
                             <MarketActChart data={marketAct.kospi200} height={130} name={marketAct.name[0]} />

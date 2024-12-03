@@ -50,8 +50,24 @@ function App() {
                 <Grid sx={{
                     backgroundColor: "#404040",
                     color: '#efe9e9ed',
-                    paddingLeft: '0.2vh', paddingRight: '0.2vh',
-                    paddingTop: '0.2vh'
+                    padding: '0.2rem',
+                    width: '100%',
+                    boxSizing: 'border-box',
+                    overflowX: 'hidden',
+                    '& .MuiGrid-root': {  // 모든 하위 Grid에 적용
+                        margin: 0,
+                        width: '100%',
+                        padding: '0 !important',
+                    },
+                    '& .MuiTableCell-root': {  // 모든 테이블 셀에 적용
+                        padding: '2px',
+                        whiteSpace: 'nowrap',
+                    },
+                    '& .MuiTable-root': {  // 모든 테이블에 적용
+                        width: '100%',
+                        tableLayout: 'fixed',
+                    }
+
                 }}>
                     <MainPage />
                     <DetailPage />

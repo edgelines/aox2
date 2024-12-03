@@ -318,7 +318,7 @@ export default function ModelingPage({ }) {
         <Grid container spacing={1}>
             {/* Chart */}
             <Grid item xs={isMobile ? 12 : 5}>
-                <IndexChart data={indexChartConfig} height={940} name={'Modeling'} rangeSelector={1} creditsPositionX={1} />
+                <IndexChart data={indexChartConfig} height={isMobile ? 500 : 940} name={'Modeling'} rangeSelector={1} creditsPositionX={1} />
             </Grid>
 
             {/* Config, Indicators, Infomation */}
@@ -461,7 +461,7 @@ export default function ModelingPage({ }) {
             </Grid> */}
             {/* Index */}
             <Grid item xs={isMobile ? 12 : 5.5}>
-                <IndexChart data={chartData} height={940} name={'IndexMA'} rangeSelector={2} xAxisType={'datetime'} creditsPositionX={1} />
+                <IndexChart data={chartData} height={isMobile ? 500 : 940} name={'IndexMA'} rangeSelector={2} xAxisType={'datetime'} creditsPositionX={1} />
             </Grid>
         </Grid>
     )

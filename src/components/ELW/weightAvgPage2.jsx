@@ -58,7 +58,11 @@ export default function WeightAvgPage2({ swiperRef }) {
 
     return (
         <Grid container spacing={1} >
-            <Box sx={{ fontSize: '3rem', position: 'absolute', transform: 'translate(97vw, 1vh)' }} >2</Box>
+            {
+                isMobile ? <></> :
+                    <Box sx={{ fontSize: '3rem', position: 'absolute', transform: 'translate(97vw, 1vh)' }} >2</Box>
+            }
+
             {
                 isMobile ? <></> :
                     <Grid item xs={6}>
@@ -90,23 +94,30 @@ export default function WeightAvgPage2({ swiperRef }) {
                             </Box>
                         </>
                 }
-                <MonthChart data={month2Data.series} height={840} categories={month2Data.categories} min={month2Data.min} />
+                <MonthChart data={month2Data.series} height={isMobile ? 500 : 840} categories={month2Data.categories} min={month2Data.min} />
 
-                <Box sx={{ position: 'absolute', transform: 'translate(2.6vw, -240px)', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
-                    <MonthTableComponent ELW_monthTable={MonthTable} ELW_CallPutRatio_Maturity={CallPutRatio_Maturity} />
-                </Box>
+                {
+                    isMobile ? <>
+                        <MonthTableComponent ELW_monthTable={MonthTable} ELW_CallPutRatio_Maturity={CallPutRatio_Maturity} />
+                    </> :
+                        <>
+                            <Box sx={{ position: 'absolute', transform: 'translate(2.6vw, -240px)', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+                                <MonthTableComponent ELW_monthTable={MonthTable} ELW_CallPutRatio_Maturity={CallPutRatio_Maturity} />
+                            </Box>
+                            <Grid container justifyContent="flex-end" alignItems="center">
+                                {month1Value && month1Value.length > 0 ?
+                                    month1Value.map((value, index) => {
+                                        return <>
+                                            <Grid item xs={1.04} key={value} sx={{ color: 'pink', fontWeight: 'bold', fontSize: '1rem' }}>
+                                                {value}
+                                            </Grid>
+                                        </>
+                                    }) : <Skeleton variant="rectangular" animation="wave" />
+                                }
+                            </Grid>
+                        </>
+                }
 
-                <Grid container justifyContent="flex-end" alignItems="center">
-                    {month1Value && month1Value.length > 0 ?
-                        month1Value.map((value, index) => {
-                            return <>
-                                <Grid item xs={1.04} key={value} sx={{ color: 'pink', fontWeight: 'bold', fontSize: '1rem' }}>
-                                    {value}
-                                </Grid>
-                            </>
-                        }) : <Skeleton variant="rectangular" animation="wave" />
-                    }
-                </Grid>
             </Grid>
         </Grid>
     )
