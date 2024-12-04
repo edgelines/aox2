@@ -97,8 +97,8 @@ function App() {
                         {/* <LeadSectors swiperRef={swiperRef} baseStockName={baseStockName} /> */}
                         {/* <LeadThemesTop2 swiperRef={swiperRef} /> */}
                         {/* <MainPage /> */}
-                        <DetailPage />
-                        {/* <ModelingPage /> */}
+                        {/* <DetailPage /> */}
+                        <ModelingPage />
                         {/* <WeightAvgPage1 swiperRef={swiperRef} /> */}
                         {/* <WeightAvgPage2 swiperRef={swiperRef} /> */}
                     </SwiperSlide>

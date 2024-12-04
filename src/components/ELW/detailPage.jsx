@@ -119,18 +119,19 @@ export default function DetailPage({ swiperRef }) {
             }
 
             <Grid item xs={12}>
-                <Box sx={{ position: 'absolute', transform: 'translate(9vw, 0vh)', zIndex: 5 }}>
-                    <FormControlLabel
-                        control={<Switch checked={OnUS} onChange={handleOnUS} />}
-                        label="US On"
-                    />
-                </Box>
-
                 {
                     isMobile ? <></> :
-                        <Box sx={{ position: 'absolute', transform: 'translate(77vw, 17vh)', zIndex: 5, justifyItems: 'right', backgroundColor: 'rgba(0, 0, 0, 0.5)', p: 1 }}>
-                            <MarketCurrentValue MarketDetail={MarketDetail} />
-                        </Box>
+                        <>
+                            <Box sx={{ position: 'absolute', transform: 'translate(9vw, 0vh)', zIndex: 5 }}>
+                                <FormControlLabel
+                                    control={<Switch checked={OnUS} onChange={handleOnUS} />}
+                                    label="US On"
+                                />
+                            </Box>
+                            <Box sx={{ position: 'absolute', transform: 'translate(77vw, 17vh)', zIndex: 5, justifyItems: 'right', backgroundColor: 'rgba(0, 0, 0, 0.5)', p: 1 }}>
+                                <MarketCurrentValue MarketDetail={MarketDetail} />
+                            </Box>
+                        </>
                 }
 
                 <GpoChart data1={exNow_KR} data2={exNow_US} data3={selectedUS} kospi200={kospi200} height={450} yMinValue={kospi200MinValue} />

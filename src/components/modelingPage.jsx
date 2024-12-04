@@ -4,6 +4,8 @@ import { Grid, Box, Typography, Skeleton, ToggleButtonGroup } from '@mui/materia
 import IndexChart from './util/IndexChart';
 import { StyledButton, StyledToggleButton } from './util/util';
 import MarketCurrentValue from './Index/marketCurrentValue.jsx'
+import IndicesChart from './Modeling/IndicesChart';
+import MA_Chart from './Modeling/MA_Chart';
 import { API, API_WS, markerConfig, useIsMobile } from './util/config';
 
 export default function ModelingPage({ }) {
@@ -11,6 +13,10 @@ export default function ModelingPage({ }) {
     const [Vix, setVix] = useState([]);
     const [Exchange, setExchange] = useState([]);
     const [MarketDetail, setMarketDetail] = useState([]);
+
+    // Charts State
+    const [gisu, setGisu] = useState([]);
+    const [MA_Upper_Percent, setMA_Upper_Percent] = useState([]);
 
     const [lastValue, setLastValue] = useState({ ADR1: '', ADR2: '', ADR3: '', WillR1: '', WillR2: '', WillR3: '', WillR4: '', WillR5: '' })
     const [adrNum1, setAdrNum1] = useState(7);
@@ -25,7 +31,7 @@ export default function ModelingPage({ }) {
 
     const [indexChartConfig, setIndexChartConfig] = useState({});
     const [formats, setFormats] = useState(() => ['MA50']);
-    const [chartData, setChartData] = useState([]);
+    // const [chartData, setChartData] = useState([]);
 
     const [indexName, setIndexName] = useState('Kospi200')
     const handlePage = (event, value) => { if (value !== null) { setIndexName(value); } }
@@ -138,91 +144,91 @@ export default function ModelingPage({ }) {
         fetchData(adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5, indexName);
     }, [indexName, adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5])
 
-    const createEMAConfig = ({ color, dashStyle = 'solid', name, lineWidth = 1, period, visible = true }) => ({
-        type: 'ema',
-        animation: false,
-        yAxis: 1,
-        linkedTo: 'candlestick',
-        marker: { enabled: false, states: { hover: { enabled: false } } },
-        showInLegend: true,
-        visible,
-        color,
-        dashStyle,
-        name,
-        lineWidth,
-        params: { index: 2, period }, // 시가, 고가, 저가, 종가의 배열 순서를 찾음
-    });
+    // const createEMAConfig = ({ color, dashStyle = 'solid', name, lineWidth = 1, period, visible = true }) => ({
+    //     type: 'ema',
+    //     animation: false,
+    //     yAxis: 1,
+    //     linkedTo: 'candlestick',
+    //     marker: { enabled: false, states: { hover: { enabled: false } } },
+    //     showInLegend: true,
+    //     visible,
+    //     color,
+    //     dashStyle,
+    //     name,
+    //     lineWidth,
+    //     params: { index: 2, period }, // 시가, 고가, 저가, 종가의 배열 순서를 찾음
+    // });
 
-    const getData = async (props) => {
-        const res = await axios.get(`${API}/indices/${props}`);
-        return [
-            {
-                name: props, id: 'candlestick', isCandle: true,
-                data: res.data, type: 'candlestick', yAxis: 1, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false, isCandle: true,
-            },
-            createEMAConfig({ color: '#efe9e9ed', dashStyle: 'shortdash', name: '3 저지', period: 3 }),
-            createEMAConfig({ color: 'coral', dashStyle: 'shortdash', name: '9', period: 9, visible: false }),
-            createEMAConfig({ color: 'dodgerblue', name: '18', period: 18 }),
-            createEMAConfig({ color: 'skyblue', dashStyle: 'shortdash', name: '27', period: 27, visible: false }),
-            createEMAConfig({ color: 'mediumseagreen', dashStyle: 'shortdash', name: '36', period: 36 }),
-            createEMAConfig({ color: 'red', dashStyle: 'shortdash', name: '66', period: 66 }),
-            createEMAConfig({ color: "orange", name: '112', lineWidth: 2, period: 112 }),
-            createEMAConfig({ color: "forestgreen", name: '224', lineWidth: 2, period: 224 }),
-            createEMAConfig({ color: "pink", name: '336', lineWidth: 2, period: 336 }),
-            createEMAConfig({ color: "magenta", name: '448', lineWidth: 2, period: 448 }),
-            createEMAConfig({ color: "skyblue", name: '560', lineWidth: 2, period: 560 }),
-        ]
+    // const getData = async (props) => {
+    //     const res = await axios.get(`${API}/indices/${props}`);
+    //     return [
+    //         {
+    //             name: props, id: 'candlestick', isCandle: true,
+    //             data: res.data, type: 'candlestick', yAxis: 1, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false, isCandle: true,
+    //         },
+    //         createEMAConfig({ color: '#efe9e9ed', dashStyle: 'shortdash', name: '3 저지', period: 3 }),
+    //         createEMAConfig({ color: 'coral', dashStyle: 'shortdash', name: '9', period: 9, visible: false }),
+    //         createEMAConfig({ color: 'dodgerblue', name: '18', period: 18 }),
+    //         createEMAConfig({ color: 'skyblue', dashStyle: 'shortdash', name: '27', period: 27, visible: false }),
+    //         createEMAConfig({ color: 'mediumseagreen', dashStyle: 'shortdash', name: '36', period: 36 }),
+    //         createEMAConfig({ color: 'red', dashStyle: 'shortdash', name: '66', period: 66 }),
+    //         createEMAConfig({ color: "orange", name: '112', lineWidth: 2, period: 112 }),
+    //         createEMAConfig({ color: "forestgreen", name: '224', lineWidth: 2, period: 224 }),
+    //         createEMAConfig({ color: "pink", name: '336', lineWidth: 2, period: 336 }),
+    //         createEMAConfig({ color: "magenta", name: '448', lineWidth: 2, period: 448 }),
+    //         createEMAConfig({ color: "skyblue", name: '560', lineWidth: 2, period: 560 }),
+    //     ]
 
-    }
+    // }
 
-    const getIndexMA = async () => {
-        const res = await axios.get(`${API}/indices/IndexMA`);
+    // const getIndexMA = async () => {
+    //     const res = await axios.get(`${API}/indices/IndexMA`);
 
-        const MA50 = [{
-            name: '코스피 MA50 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-            data: res.data.Kospi_MA50, type: 'spline', color: 'tomato', yAxis: 0, zIndex: 3, lineWidth: 1
-        }, {
-            name: '코스닥 MA50 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-            data: res.data.Kosdaq_MA50, type: 'spline', color: 'dodgerblue', yAxis: 0, zIndex: 3, lineWidth: 1
-        }, {
-            name: '코스피200 MA50 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-            data: res.data.Kospi200_MA50, type: 'spline', color: 'gold', yAxis: 0, zIndex: 3, lineWidth: 1
-        }]
-        const MA112 = [{
-            name: '코스피 MA112 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-            data: res.data.Kospi_MA112, type: 'spline', color: 'magenta', yAxis: 0, zIndex: 3, dashStyle: 'ShortDash', lineWidth: 1
-        }, {
-            name: '코스닥 MA112 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-            data: res.data.Kosdaq_MA112, type: 'spline', color: 'greenyellow', yAxis: 0, zIndex: 3, dashStyle: 'ShortDash', lineWidth: 1
-        }, {
-            name: '코스피200 MA112 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-            data: res.data.Kospi200_MA112, type: 'spline', color: '#efe9e9ed', yAxis: 0, zIndex: 3, dashStyle: 'ShortDash', lineWidth: 1
-        }]
-        return { MA50: MA50, MA112: MA112 }
-        // setIndexMA({ MA50: MA50, MA112: MA112 })
-    }
+    //     const MA50 = [{
+    //         name: '코스피 MA50 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
+    //         data: res.data.Kospi_MA50, type: 'spline', color: 'tomato', yAxis: 0, zIndex: 3, lineWidth: 1
+    //     }, {
+    //         name: '코스닥 MA50 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
+    //         data: res.data.Kosdaq_MA50, type: 'spline', color: 'dodgerblue', yAxis: 0, zIndex: 3, lineWidth: 1
+    //     }, {
+    //         name: '코스피200 MA50 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
+    //         data: res.data.Kospi200_MA50, type: 'spline', color: 'gold', yAxis: 0, zIndex: 3, lineWidth: 1
+    //     }]
+    //     const MA112 = [{
+    //         name: '코스피 MA112 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
+    //         data: res.data.Kospi_MA112, type: 'spline', color: 'magenta', yAxis: 0, zIndex: 3, dashStyle: 'ShortDash', lineWidth: 1
+    //     }, {
+    //         name: '코스닥 MA112 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
+    //         data: res.data.Kosdaq_MA112, type: 'spline', color: 'greenyellow', yAxis: 0, zIndex: 3, dashStyle: 'ShortDash', lineWidth: 1
+    //     }, {
+    //         name: '코스피200 MA112 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
+    //         data: res.data.Kospi200_MA112, type: 'spline', color: '#efe9e9ed', yAxis: 0, zIndex: 3, dashStyle: 'ShortDash', lineWidth: 1
+    //     }]
+    //     return { MA50: MA50, MA112: MA112 }
+    //     // setIndexMA({ MA50: MA50, MA112: MA112 })
+    // }
 
 
-    const fetchData_MA50_MA112 = async () => {
-        try {
-            let data = await getData(indexName);
-            let IndexMA = await getIndexMA();
-            // formats에 따른 데이터 변형 로직
-            if (formats.includes('MA50')) {
-                data = [...data, ...IndexMA.MA50]
-            }
+    // const fetchData_MA50_MA112 = async () => {
+    //     try {
+    //         let data = await getData(indexName);
+    //         let IndexMA = await getIndexMA();
+    //         // formats에 따른 데이터 변형 로직
+    //         if (formats.includes('MA50')) {
+    //             data = [...data, ...IndexMA.MA50]
+    //         }
 
-            if (formats.includes('MA112')) {
-                data = [...data, ...IndexMA.MA112]
-            }
-            setChartData(data);
-        } catch (err) {
-            console.error('fetchData_2 오류', err)
-        }
-    }
-    useEffect(() => {
-        fetchData_MA50_MA112();
-    }, [indexName, formats])
+    //         if (formats.includes('MA112')) {
+    //             data = [...data, ...IndexMA.MA112]
+    //         }
+    //         setChartData(data);
+    //     } catch (err) {
+    //         console.error('fetchData_2 오류', err)
+    //     }
+    // }
+    // useEffect(() => {
+    //     fetchData_MA50_MA112();
+    // }, [indexName, formats])
     // 60초 주기 업데이트
     useEffect(() => {
         const now = new Date();
@@ -245,7 +251,7 @@ export default function ModelingPage({ }) {
                 const dayOfWeek = now.getDay();
                 if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
                     fetchData(adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5, indexName);
-                    fetchData_MA50_MA112();
+                    // fetchData_MA50_MA112();
                 } else if (hour >= 16) {
                     // 3시 30분 이후라면 인터벌 종료
                     clearInterval(intervalId);
@@ -263,7 +269,7 @@ export default function ModelingPage({ }) {
     }, [])
 
     useEffect(() => {
-        const ws = new WebSocket(`${API_WS}/modelingPage`);
+        const ws = new WebSocket(`${API_WS}/modelingPage/${indexName}/${formats}`);
 
         ws.onopen = () => {
             console.log('modelingPage WebSocket Connected');
@@ -274,6 +280,8 @@ export default function ModelingPage({ }) {
             setVix(res.Vix);
             setExchange(res.Exchange);
             setMarketDetail(res.MarketDetail);
+            setGisu(res.Gisu);
+            setMA_Upper_Percent(res.MA_Upper_Percent);
         };
 
         ws.onerror = (error) => {
@@ -288,7 +296,7 @@ export default function ModelingPage({ }) {
         return () => {
             ws.close();
         };
-    }, []); // 빈 배열을 전달하여 컴포넌트 마운트 시 한 번만 실행되도록 함
+    }, [indexName, formats]); // 빈 배열을 전달하여 컴포넌트 마운트 시 한 번만 실행되도록 함
 
 
     const indicators = [
@@ -441,27 +449,11 @@ export default function ModelingPage({ }) {
                     </Grid>
             }
 
-            {/* Btn */}
-            {/* <Grid item xs={0.5}>
-                <Box>
-                    <ToggleButtonGroup
-                        value={mainData}
-                        exclusive
-                        onChange={handleMainData}
-                        orientation="vertical"
-                        aria-label="text alignment"
-                    >
-                        <StyledToggleButton aria-label="Kospi200" value="Kospi200">코스피200</StyledToggleButton>
-                        <StyledToggleButton aria-label="Kospi" value="Kospi">코스피</StyledToggleButton>
-                        <StyledToggleButton aria-label="Kosdaq" value="Kosdaq">코스닥</StyledToggleButton>
-                        <StyledToggleButton aria-label="Invers" value="Invers">인버스</StyledToggleButton>
-                    </ToggleButtonGroup>
-                </Box>
 
-            </Grid> */}
             {/* Index */}
             <Grid item xs={isMobile ? 12 : 5.5}>
-                <IndexChart data={chartData} height={isMobile ? 500 : 940} name={'IndexMA'} rangeSelector={2} xAxisType={'datetime'} creditsPositionX={1} />
+                <IndicesChart data={gisu} height={isMobile ? 500 : 940} rangeSelector={2} />
+                {/* <MA_Chart data={MA_Upper_Percent} height={isMobile ? 500 : 470} rangeSelector={2} /> */}
             </Grid>
         </Grid>
     )

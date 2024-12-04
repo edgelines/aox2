@@ -5,7 +5,7 @@ import { useIsMobile } from '../util/config';
 
 export default function MonthTable({ ELW_monthTable, fontSize, ELW_CallPutRatio_Maturity }) {
     const isMobile = useIsMobile();
-    const fontSizeStyle = { fontSize: fontSize || isMobile ? '10px' : '0.875rem' }
+    const fontSizeStyle = { fontSize: fontSize || isMobile ? '12px' : '0.875rem' }
     const tableStyle = { color: '#efe9e9ed', ...fontSizeStyle }
     const tableBodyStyle = { ...tableStyle, borderBottom: 'none' }
     const tableBodyStyle2 = { borderBottom: 'none', ...fontSizeStyle }
@@ -53,7 +53,7 @@ export default function MonthTable({ ELW_monthTable, fontSize, ELW_CallPutRatio_
                                         const color1 = 차이1 > 0 ? 'tomato' : 'deepskyblue';
                                         const color2 = 차이2 > 0 ? 'tomato' : 'deepskyblue';
                                         const color3 = 차이3 > 0 ? 'tomato' : 'deepskyblue';
-                                        const name = ['WA2 - Top7 5일', 'WA3 - Top7 3일', 'WA1 - Top10 2일']
+                                        const name = isMobile ? ['WA2', 'WA3', 'WA1'] : ['WA2 - Top7 5일', 'WA3 - Top7 3일', 'WA1 - Top10 2일']
                                         return <TableRow key={index}>
                                             <TableCell sx={tableBodyStyle} align='center'>{name[index]}</TableCell>
                                             <TableCell sx={tableBodyStyle} align='center'>{ELW_monthTable[3][wa].toFixed(2)}</TableCell>
