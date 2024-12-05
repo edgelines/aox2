@@ -147,11 +147,17 @@ export default function IndecesChart({ data, height }) {
     });
 
     useEffect(() => {
-        setChartOptions(prevOptions => ({
-            ...prevOptions,
-            rangeSelector: { selected: 2 },
-        }));
-    }, []);
+        // 차트가 마운트된 후 한 번만 실행
+        if (chartComponent.current?.chart) {
+            const chart = chartComponent.current.chart;
+
+            // 약간의 지연을 주어 차트가 완전히 로드된 후 실행
+            setTimeout(() => {
+                // 7개월 버튼 클릭 효과
+                chart.rangeSelector.clickButton(2, true);
+            }, 1000);
+        }
+    }, []); // 빈 의존성 배열로 마운트 시 한 번만 실행
 
     // 차트 데이터 업데이트
     useEffect(() => {
