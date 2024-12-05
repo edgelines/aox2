@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Highcharts from 'highcharts/highstock'
 import HighchartsReact from 'highcharts-react-official'
@@ -35,6 +35,7 @@ export default function IndecesChart({ data, height }) {
                 y: 40
             },
             tickInterval: 7,
+            lineColor: '#efe9e9ed', gridLineWidth: 0, tickWidth: 1, tickColor: '#cfcfcf', tickPosition: 'inside',
         },
         yAxis: [{
             height: '70%',
@@ -53,12 +54,13 @@ export default function IndecesChart({ data, height }) {
             height: '30%',
             title: { enabled: false },
             labels: {
-                align: "left",
-                x: -20, y: 4.5,
-                style: { color: "#efe9e9ed", fontSize: "12px" },
-                formatter: function () {
-                    return this.value.toLocaleString("ko-KR") + '%';
-                },
+                enabled: false,
+                //     align: "left",
+                //     x: -20, y: 4.5,
+                //     style: { color: "#efe9e9ed", fontSize: "12px" },
+                //     formatter: function () {
+                //         return this.value.toLocaleString("ko-KR") + '%';
+                //     },
             },
             gridLineWidth: 0.2,
             plotLines: [{
@@ -66,24 +68,53 @@ export default function IndecesChart({ data, height }) {
                 width: 1,
                 value: 80,
                 dashStyle: 'shortdash',//라인 스타일 지정 옵션
+                label: {
+                    text: '80%',
+                    align: 'right',
+                    x: 30,
+                    y: 3,
+                    style: { color: "#efe9e9ed", fontSize: "12px" },
+                },
                 // zIndex: 5,
             }, {
                 color: '#efe9e9ed',
                 width: 1,
                 value: 50,
                 dashStyle: 'shortdash',//라인 스타일 지정 옵션
+                label: {
+                    text: '50%',
+                    align: 'right',
+                    x: 30,
+                    y: 3,
+                    style: { color: "#efe9e9ed", fontSize: "12px" },
+                },
+
                 // zIndex: 5,
             }, {
                 color: 'skyblue',
                 width: 1,
                 value: 15,
                 dashStyle: 'shortdash',//라인 스타일 지정 옵션
+                label: {
+                    text: '15%',
+                    align: 'right',
+                    x: 30,
+                    y: 3,
+                    style: { color: "#efe9e9ed", fontSize: "12px" },
+                },
                 // zIndex: 5,
             }, {
                 color: 'dodgerblue',
                 width: 1,
                 value: 10,
                 dashStyle: 'shortdash',//라인 스타일 지정 옵션
+                label: {
+                    text: '10%',
+                    align: 'right',
+                    x: 30,
+                    y: 3,
+                    style: { color: "#efe9e9ed", fontSize: "12px" },
+                },
                 // zIndex: 5,
             }],
             crosshair: { width: 2, },
@@ -94,7 +125,6 @@ export default function IndecesChart({ data, height }) {
             crosshairs: true,
             hideDelay: 2,
             formatter: function () {
-
                 // 요일 한글 변환
                 const weekDays = {
                     'Sunday': '일요일',
@@ -110,6 +140,11 @@ export default function IndecesChart({ data, height }) {
                 const korDay = weekDays[engDay];
 
                 let tooltip = `<b>${date}, ${korDay}</b><br/>`;
+
+                // flag 시리즈인 경우 다르게 처리
+                if (this.point && this.point.text) {
+                    return tooltip += `<b>${this.point.text}</b>`;
+                }
 
                 // 각 시리즈의 데이터를 순회하며 툴팁 내용 구성
                 this.points.forEach(function (point) {
@@ -130,7 +165,6 @@ export default function IndecesChart({ data, height }) {
             backgroundColor: "#404040",
             style: { color: "#e8e3e3" },
         },
-        legend: { enabled: false },
         boost: { useGPUTranslations: true, enabled: true },
         navigator: {
             height: 15,
@@ -143,7 +177,19 @@ export default function IndecesChart({ data, height }) {
         },
         navigation: { buttonOptions: { enabled: false } },
         legend: { enabled: true, align: 'left', verticalAlign: 'top', borderWidth: 0, symbolRadius: 0, symbolWidth: 10, symbolHeight: 10, itemDistance: 17, itemStyle: { color: '#efe9e9ed', fontSize: '12px', fontWeight: '400' }, itemHiddenStyle: { color: "#000000" }, itemHoverStyle: { color: "gold" } },
-        series: []
+        series: [],
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 600
+                },
+                chartOptions: {
+                    legend: {
+                        enabled: false,
+                    }
+                }
+            }]
+        }
     });
 
     useEffect(() => {
@@ -155,7 +201,7 @@ export default function IndecesChart({ data, height }) {
             setTimeout(() => {
                 // 7개월 버튼 클릭 효과
                 chart.rangeSelector.clickButton(2, true);
-            }, 1000);
+            }, 2000);
         }
     }, []); // 빈 의존성 배열로 마운트 시 한 번만 실행
 
@@ -164,7 +210,6 @@ export default function IndecesChart({ data, height }) {
         if (!chartComponent.current?.chart) return;
 
         const chart = chartComponent.current.chart;
-
         try {
             // 모든 시리즈 업데이트 (캔들스틱 + 이동평균선들)
             data.forEach(seriesData => {

@@ -91,6 +91,18 @@ export default function Chart({ data = [], height, name, hidenLegend, rangeSelec
         },
         plotOptions: { series: { animation: false, } },
         boost: { enabled: true, useGPUTranslations: true },
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 600
+                },
+                chartOptions: {
+                    legend: {
+                        enabled: false,
+                    }
+                }
+            }]
+        }
     })
 
     useEffect(() => { setChartData(data) }, [data]);
@@ -115,69 +127,8 @@ export default function Chart({ data = [], height, name, hidenLegend, rangeSelec
                 }],
                 crosshair: { width: 2, }
             }],
-            IndexMA: [{
-                title: { enabled: false },
-                labels: {
-                    align: 'right', x: -5, y: 4.5,
-                    style: {
-                        color: '#efe9e9ed',
-                        fontSize: '12px'
-                    }, formatter: function () {
-                        return `${this.value}%`;
-                    },
-                },
-                opposite: false,
-                gridLineWidth: 0.2,
-                plotLines: [{
-                    color: 'red',
-                    width: 1,
-                    value: 80,
-                    dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                    // zIndex: 5,
-                }, {
-                    color: '#efe9e9ed',
-                    width: 1,
-                    value: 50,
-                    dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                    // zIndex: 5,
-                }, {
-                    color: 'skyblue',
-                    width: 1,
-                    value: 15,
-                    dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                    // zIndex: 5,
-                }, {
-                    color: 'dodgerblue',
-                    width: 1,
-                    value: 10,
-                    dashStyle: 'shortdash',//라인 스타일 지정 옵션
-                    // zIndex: 5,
-                }],
-                crosshair: { width: 2, }
-            }, {
-                title: { enabled: false },
-                labels: {
-                    align: 'left',
-                    x: 6, y: 4.5,
-                    style: {
-                        color: '#efe9e9ed',
-                        fontSize: '12px'
-                    }, formatter: function () {
-                        return (this.value).toLocaleString('ko-KR');
-                    },
-                },
-                gridLineWidth: 0.2
-            }, {
-                visible: false,
-            }],
-            // ElwPutCallRatioData: [{
-            //     title: { enabled: false }, labels: {
-            //         align: 'right', x: -5, y: 4.5, style: { color: '#efe9e9ed', fontSize: '12px' },
-            //         formatter: function () { return this.value; },
-            //     }, opposite: false, gridLineWidth: 0.2,
-            //     plotLines: [{ className: 'market_labels', color: '#efe9e9ed', width: 1, value: 0.6, dashStyle: 'shortdash', label: { text: '0.6', align: 'left', x: -22, y: 4, style: { color: '#efe9e9ed', } } }],
-            //     crosshair: { width: 2, }
-            // }],
+
+
             moneyIndex: [{
                 title: { enabled: false },
                 labels: {

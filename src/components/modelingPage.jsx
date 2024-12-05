@@ -1,12 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Grid, Box, Typography, Skeleton, ToggleButtonGroup } from '@mui/material';
 import IndexChart from './util/IndexChart';
 import { StyledButton, StyledToggleButton } from './util/util';
 import MarketCurrentValue from './Index/marketCurrentValue.jsx'
 import IndicesChart from './Modeling/IndicesChart';
-import MA_Chart from './Modeling/MA_Chart';
-import { API, API_WS, markerConfig, useIsMobile } from './util/config';
+import { API_WS, useIsMobile } from './util/config';
 
 export default function ModelingPage({ }) {
     const isMobile = useIsMobile();
@@ -16,8 +14,9 @@ export default function ModelingPage({ }) {
 
     // Charts State
     const [gisu, setGisu] = useState([]);
-    const [MA_Upper_Percent, setMA_Upper_Percent] = useState([]);
+    const [indexChartConfig, setIndexChartConfig] = useState({});
 
+    // Indicator Params State
     const [lastValue, setLastValue] = useState({ ADR1: '', ADR2: '', ADR3: '', WillR1: '', WillR2: '', WillR3: '', WillR4: '', WillR5: '' })
     const [adrNum1, setAdrNum1] = useState(7);
     const [adrNum2, setAdrNum2] = useState(14);
@@ -29,10 +28,7 @@ export default function ModelingPage({ }) {
     const [williamsNum4, setWilliamsNum4] = useState(24);
     const [williamsNum5, setWilliamsNum5] = useState(44);
 
-    const [indexChartConfig, setIndexChartConfig] = useState({});
     const [formats, setFormats] = useState(() => ['MA50']);
-    // const [chartData, setChartData] = useState([]);
-
     const [indexName, setIndexName] = useState('Kospi200')
     const handlePage = (event, value) => { if (value !== null) { setIndexName(value); } }
     const handleFormat = (event, newFormats) => { if (newFormats !== null) { setFormats(newFormats); } };
@@ -66,212 +62,25 @@ export default function ModelingPage({ }) {
         WillR4: 'dodgerblue',
         WillR5: 'white',
     };
-    const getIndexData = async (name) => { return await axios.get(`${API}/modeling/${name}`); }
-    const getADR = async (num, Name, indexName) => {
-        const res = await axios.get(`${API}/modeling/adr?num=${num}&dbName=Market${indexName}`);
-        const lastValue = res.data[res.data.length - 1][1];
-        setLastValue(prevLastValue => ({
-            ...prevLastValue,
-            [Name]: lastValue.toFixed(1),
-        }));
-        return {
-            name: Name,
-            isADR: true,
-            id: Name,
-            data: res.data,
-            type: 'spline',
-            color: colorMap[Name],
-            yAxis: 2,
-            zIndex: 3,
-            dashStyle: 'ShortDash',
-            lineWidth: 1
-        };
-    }
-    const getWillR = async (num, Name, indexName) => {
-        const res = await axios.get(`${API}/modeling/willr?num=${num}&dbName=${indexName}`);
-        const lastValue = res.data[res.data.length - 1][1];
-        setLastValue(prevLastValue => ({
-            ...prevLastValue,
-            [Name]: lastValue.toFixed(1),
-        }));
-        return {
-            name: Name,
-            isADR: true,
-            id: Name,
-            data: res.data,
-            type: 'spline',
-            color: colorMap[Name],
-            yAxis: 1,
-            zIndex: 3,
-            dashStyle: 'ShortDash',
-            lineWidth: Name === 'WillR5' ? 1.5 : 1,
-            marker: markerConfig, showInLegend: true,
-        };
-    }
-    // Fetch Data
-    const fetchData = async (adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5, indexName) => {
-        const indexData = [];
-        indexData.push(getIndexData(indexName))
-        const res = await Promise.all(indexData);
 
-        // Promise 객체를 사용하여 모든 데이터 수집을 기다림
-        const promises = [];
-        promises.push(getADR(adrNum1, 'ADR1', indexName));
-        promises.push(getADR(adrNum2, 'ADR2', indexName));
-        promises.push(getADR(adrNum3, 'ADR3', indexName));
-        promises.push(getWillR(williamsNum1, 'WillR1', indexName));
-        promises.push(getWillR(williamsNum2, 'WillR2', indexName));
-        promises.push(getWillR(williamsNum3, 'WillR3', indexName));
-        promises.push(getWillR(williamsNum4, 'WillR4', indexName));
-        promises.push(getWillR(williamsNum5, 'WillR5', indexName));
-
-        const updatedData = await Promise.all(promises);
-        // Kospi200 데이터와 업데이트된 ADR 데이터를 병합
-
-        let newIndexChartConfig = [
-            {
-                name: indexName, id: 'candlestick',
-                type: 'candlestick', yAxis: 0, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false,
-                data: res[0].data, isCandle: true
-            },
-            ...updatedData,
-        ];
-
-        setIndexChartConfig(newIndexChartConfig);
-    };
 
     useEffect(() => {
-        fetchData(adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5, indexName);
-    }, [indexName, adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5])
-
-    // const createEMAConfig = ({ color, dashStyle = 'solid', name, lineWidth = 1, period, visible = true }) => ({
-    //     type: 'ema',
-    //     animation: false,
-    //     yAxis: 1,
-    //     linkedTo: 'candlestick',
-    //     marker: { enabled: false, states: { hover: { enabled: false } } },
-    //     showInLegend: true,
-    //     visible,
-    //     color,
-    //     dashStyle,
-    //     name,
-    //     lineWidth,
-    //     params: { index: 2, period }, // 시가, 고가, 저가, 종가의 배열 순서를 찾음
-    // });
-
-    // const getData = async (props) => {
-    //     const res = await axios.get(`${API}/indices/${props}`);
-    //     return [
-    //         {
-    //             name: props, id: 'candlestick', isCandle: true,
-    //             data: res.data, type: 'candlestick', yAxis: 1, lineColor: 'dodgerblue', color: 'dodgerblue', upLineColor: 'orangered', upColor: 'orangered', zIndex: 2, animation: false, isCandle: true,
-    //         },
-    //         createEMAConfig({ color: '#efe9e9ed', dashStyle: 'shortdash', name: '3 저지', period: 3 }),
-    //         createEMAConfig({ color: 'coral', dashStyle: 'shortdash', name: '9', period: 9, visible: false }),
-    //         createEMAConfig({ color: 'dodgerblue', name: '18', period: 18 }),
-    //         createEMAConfig({ color: 'skyblue', dashStyle: 'shortdash', name: '27', period: 27, visible: false }),
-    //         createEMAConfig({ color: 'mediumseagreen', dashStyle: 'shortdash', name: '36', period: 36 }),
-    //         createEMAConfig({ color: 'red', dashStyle: 'shortdash', name: '66', period: 66 }),
-    //         createEMAConfig({ color: "orange", name: '112', lineWidth: 2, period: 112 }),
-    //         createEMAConfig({ color: "forestgreen", name: '224', lineWidth: 2, period: 224 }),
-    //         createEMAConfig({ color: "pink", name: '336', lineWidth: 2, period: 336 }),
-    //         createEMAConfig({ color: "magenta", name: '448', lineWidth: 2, period: 448 }),
-    //         createEMAConfig({ color: "skyblue", name: '560', lineWidth: 2, period: 560 }),
-    //     ]
-
-    // }
-
-    // const getIndexMA = async () => {
-    //     const res = await axios.get(`${API}/indices/IndexMA`);
-
-    //     const MA50 = [{
-    //         name: '코스피 MA50 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-    //         data: res.data.Kospi_MA50, type: 'spline', color: 'tomato', yAxis: 0, zIndex: 3, lineWidth: 1
-    //     }, {
-    //         name: '코스닥 MA50 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-    //         data: res.data.Kosdaq_MA50, type: 'spline', color: 'dodgerblue', yAxis: 0, zIndex: 3, lineWidth: 1
-    //     }, {
-    //         name: '코스피200 MA50 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-    //         data: res.data.Kospi200_MA50, type: 'spline', color: 'gold', yAxis: 0, zIndex: 3, lineWidth: 1
-    //     }]
-    //     const MA112 = [{
-    //         name: '코스피 MA112 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-    //         data: res.data.Kospi_MA112, type: 'spline', color: 'magenta', yAxis: 0, zIndex: 3, dashStyle: 'ShortDash', lineWidth: 1
-    //     }, {
-    //         name: '코스닥 MA112 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-    //         data: res.data.Kosdaq_MA112, type: 'spline', color: 'greenyellow', yAxis: 0, zIndex: 3, dashStyle: 'ShortDash', lineWidth: 1
-    //     }, {
-    //         name: '코스피200 MA112 %', isPercent: true, marker: { enabled: false, states: { hover: { enabled: false } } },
-    //         data: res.data.Kospi200_MA112, type: 'spline', color: '#efe9e9ed', yAxis: 0, zIndex: 3, dashStyle: 'ShortDash', lineWidth: 1
-    //     }]
-    //     return { MA50: MA50, MA112: MA112 }
-    //     // setIndexMA({ MA50: MA50, MA112: MA112 })
-    // }
-
-
-    // const fetchData_MA50_MA112 = async () => {
-    //     try {
-    //         let data = await getData(indexName);
-    //         let IndexMA = await getIndexMA();
-    //         // formats에 따른 데이터 변형 로직
-    //         if (formats.includes('MA50')) {
-    //             data = [...data, ...IndexMA.MA50]
-    //         }
-
-    //         if (formats.includes('MA112')) {
-    //             data = [...data, ...IndexMA.MA112]
-    //         }
-    //         setChartData(data);
-    //     } catch (err) {
-    //         console.error('fetchData_2 오류', err)
-    //     }
-    // }
-    // useEffect(() => {
-    //     fetchData_MA50_MA112();
-    // }, [indexName, formats])
-    // 60초 주기 업데이트
-    useEffect(() => {
-        const now = new Date();
-        const hour = now.getHours();
-        const minutes = now.getMinutes();
-        const seconds = now.getSeconds();
-        // 현재 시간이 9시 이전이라면, 9시까지 남은 시간 계산
-        let delay;
-        if (hour < 9) {
-            delay = ((9 - hour - 1) * 60 + (60 - minutes)) * 60 + (60 - seconds);
-        } else {
-            // 이미 9시 정각 이후라면, 다음 분 시작까지 대기
-            delay = 60 - seconds;
+        const indicatorParams = {
+            ADR1_num: adrNum1,
+            ADR2_num: adrNum2,
+            ADR3_num: adrNum3,
+            WillR1_num: williamsNum1,
+            WillR2_num: williamsNum2,
+            WillR3_num: williamsNum3,
+            WillR4_num: williamsNum4,
+            WillR5_num: williamsNum5,
         }
-
-        const startUpdates = () => {
-            const intervalId = setInterval(() => {
-                const now = new Date();
-                const hour = now.getHours();
-                const dayOfWeek = now.getDay();
-                if (dayOfWeek !== 0 && dayOfWeek !== 6 && hour >= 9 && hour < 16) {
-                    fetchData(adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5, indexName);
-                    // fetchData_MA50_MA112();
-                } else if (hour >= 16) {
-                    // 3시 30분 이후라면 인터벌 종료
-                    clearInterval(intervalId);
-                }
-            }, 1000 * 60 * 5);
-            return intervalId;
-        };
-        // 첫 업데이트 시작
-        const timeoutId = setTimeout(() => {
-            // fetchData();
-            startUpdates();
-        }, delay * 1000);
-
-        return () => clearTimeout(timeoutId);
-    }, [])
-
-    useEffect(() => {
         const ws = new WebSocket(`${API_WS}/modelingPage/${indexName}/${formats}`);
 
         ws.onopen = () => {
+            ws.send(JSON.stringify({
+                indicatorParams: indicatorParams
+            }));
             console.log('modelingPage WebSocket Connected');
         };
 
@@ -281,7 +90,15 @@ export default function ModelingPage({ }) {
             setExchange(res.Exchange);
             setMarketDetail(res.MarketDetail);
             setGisu(res.Gisu);
-            setMA_Upper_Percent(res.MA_Upper_Percent);
+            setIndexChartConfig(res.ADR_WillR);
+            // setLastValue(res.LastValue);
+            // lastValue 업데이트 전에 데이터 검증
+            if (res.LastValue && typeof res.LastValue === 'object') {
+                setLastValue(prevState => ({
+                    ...prevState,
+                    ...res.LastValue
+                }));
+            }
         };
 
         ws.onerror = (error) => {
@@ -296,10 +113,10 @@ export default function ModelingPage({ }) {
         return () => {
             ws.close();
         };
-    }, [indexName, formats]); // 빈 배열을 전달하여 컴포넌트 마운트 시 한 번만 실행되도록 함
+    }, [indexName, formats, adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5]); // 빈 배열을 전달하여 컴포넌트 마운트 시 한 번만 실행되도록 함
 
 
-    const indicators = [
+    const indicators = useMemo(() => [
         { name: `ADR1`, value: `ADR ( ${adrNum1} )`, color: colorMap.ADR1 },
         { name: `ADR2`, value: `ADR ( ${adrNum2} )`, color: colorMap.ADR2 },
         { name: `ADR3`, value: `ADR ( ${adrNum3} )`, color: colorMap.ADR3 },
@@ -308,19 +125,19 @@ export default function ModelingPage({ }) {
         { name: `WillamsR3`, value: `W-R-3 ( ${williamsNum3} )`, color: colorMap.WillR3 },
         { name: `WillamsR4`, value: `W-R-4 ( ${williamsNum4} )`, color: colorMap.WillR4 },
         { name: `WillamsR5`, value: `W-R-5 ( ${williamsNum5} )`, color: colorMap.WillR5 }
-    ]
-    const ADR_list = [
+    ], [adrNum1, adrNum2, adrNum3, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5])
+    const ADR_list = useMemo(() => [
         { name: `ADR ( ${adrNum1} )`, value: lastValue.ADR1, color: colorMap.ADR1 },
         { name: `ADR ( ${adrNum2} )`, value: lastValue.ADR2, color: colorMap.ADR2 },
         { name: `ADR ( ${adrNum3} )`, value: lastValue.ADR3, color: colorMap.ADR3 },
-    ]
-    const WillR_list = [
+    ], [lastValue, adrNum1, adrNum2, adrNum3])
+    const WillR_list = useMemo(() => [
         { name: `W-R-1 ( ${williamsNum1} )`, value: lastValue.WillR1, color: colorMap.WillR1 },
         { name: `W-R-2 ( ${williamsNum2} )`, value: lastValue.WillR2, color: colorMap.WillR2 },
         { name: `W-R-3 ( ${williamsNum3} )`, value: lastValue.WillR3, color: colorMap.WillR3 },
         { name: `W-R-4 ( ${williamsNum4} )`, value: lastValue.WillR4, color: colorMap.WillR4 },
         { name: `W-R-5 ( ${williamsNum5} )`, value: lastValue.WillR5, color: colorMap.WillR5 },
-    ]
+    ], [lastValue, williamsNum1, williamsNum2, williamsNum3, williamsNum4, williamsNum5])
 
     return (
         <Grid container spacing={1}>
@@ -403,14 +220,20 @@ export default function ModelingPage({ }) {
                                 </Grid>
                             ))}
 
-                            {ADR_list.map(item => (
-                                <Grid container key={item.name}>
-                                    {item.value && item.value.length > 0 ?
-                                        <Typography sx={{ fontSize: '15px', color: item.color, mt: 1 }}>
-                                            {item.name} : {item.value} %
+                            {ADR_list.map((item, index) => (
+                                <Grid container key={index}>
+                                    {item.value !== undefined && (
+                                        <Typography
+                                            sx={{
+                                                fontSize: '15px',
+                                                color: item.color,
+                                                mt: 1,
+                                                width: '100%'  // 너비 100%로 설정
+                                            }}
+                                        >
+                                            {`${item.name} : ${item.value} %`}
                                         </Typography>
-                                        : <Box>Loading</Box>
-                                    }
+                                    )}
                                 </Grid>
                             ))}
 
@@ -432,14 +255,20 @@ export default function ModelingPage({ }) {
                                 </Grid>
                             ))}
 
-                            {WillR_list.map(item => (
-                                <Grid container key={item.name}>
-                                    {item.value && item.value.length > 0 ?
-                                        <Typography key={item.name} sx={{ fontSize: '15px', color: item.color, mt: 1 }}>
-                                            {item.name} : {item.value} %
+                            {WillR_list.map((item, index) => (
+                                <Grid container key={index}>
+                                    {item.value !== undefined && (
+                                        <Typography
+                                            sx={{
+                                                fontSize: '15px',
+                                                color: item.color,
+                                                mt: 1,
+                                                width: '100%'  // 너비 100%로 설정
+                                            }}
+                                        >
+                                            {`${item.name} : ${item.value} %`}
                                         </Typography>
-                                        : <Box>Loading</Box>
-                                    }
+                                    )}
                                 </Grid>
                             ))}
 
@@ -453,7 +282,6 @@ export default function ModelingPage({ }) {
             {/* Index */}
             <Grid item xs={isMobile ? 12 : 5.5}>
                 <IndicesChart data={gisu} height={isMobile ? 500 : 940} rangeSelector={2} />
-                {/* <MA_Chart data={MA_Upper_Percent} height={isMobile ? 500 : 470} rangeSelector={2} /> */}
             </Grid>
         </Grid>
     )
