@@ -305,14 +305,14 @@ export default function GpoChart({ data1, data2, data3, height, kospi200, credit
             // 시리즈 데이터 업데이트
             chart.series.forEach((series, index) => {
                 let newData = null;
-                if (index === 0) newData = filterDataForMobile(data1?.data0);
-                else if (index === 1) newData = filterDataForMobile(kospi200);
-                else if (index >= 2 && index <= 14) newData = filterDataForMobile(data1?.[`data${index - 2}`]);
-                else if (index >= 15 && index <= 27) newData = filterDataForMobile(data3?.[`data${index - 15}`]);
-                // if (index === 0) newData = data1?.data0;
-                // else if (index === 1) newData = kospi200;
-                // else if (index >= 2 && index <= 14) newData = data1?.[`data${index - 2}`];
-                // else if (index >= 15 && index <= 27) newData = data3?.[`data${index - 15}`];
+                // if (index === 0) newData = filterDataForMobile(data1?.data0);
+                // else if (index === 1) newData = filterDataForMobile(kospi200);
+                // else if (index >= 2 && index <= 14) newData = filterDataForMobile(data1?.[`data${index - 2}`]);
+                // else if (index >= 15 && index <= 27) newData = filterDataForMobile(data3?.[`data${index - 15}`]);
+                if (index === 0) newData = data1?.data0;
+                else if (index === 1) newData = kospi200;
+                else if (index >= 2 && index <= 14) newData = data1?.[`data${index - 2}`];
+                else if (index >= 15 && index <= 27) newData = data3?.[`data${index - 15}`];
 
                 if (newData) {
                     series.setData(newData, false);
