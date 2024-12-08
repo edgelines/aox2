@@ -295,7 +295,7 @@ export default function MainPage({ }) {
                     }
                 </Grid>
 
-                <Grid container spacing={1} sx={{ mt: -5, height: isMobile ? '13.5svh' : '11.5vh' }}>
+                <Grid container spacing={1} sx={{ mt: isMobile ? -10 : -5, height: isMobile ? '10svh' : '11.5vh', mb: isMobile ? 1 : 0 }}>
                     <Grid item xs={4}>
                         {marketAct.kospi200 ?
                             <MarketActChart data={marketAct.kospi200} height={130} name={marketAct.name[0]} />
